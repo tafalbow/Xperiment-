@@ -1,0 +1,1147 @@
+/* ============================================================
+   GLOBAL TRADE TYCOON - CORPORATE EMPIRE STYLESHEET
+   Desain Dark Glassmorphism Futuristik dengan Papan Komoditas Depan,
+   Wizard Keputusan Langkah demi Langkah, Mode 1-10 Pemain, dan Klasemen.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-dark: #080d1a;
+    --bg-panel: rgba(16, 26, 50, 0.88);
+    --bg-card: rgba(23, 37, 71, 0.78);
+    --border-glow: rgba(58, 134, 255, 0.35);
+    --border-light: rgba(255, 255, 255, 0.12);
+    
+    --accent-blue: #3a86ff;
+    --accent-cyan: #00f5d4;
+    --accent-gold: #ffd166;
+    --accent-green: #06d6a0;
+    --accent-red: #ff3366;
+    --accent-purple: #8338ec;
+    
+    --text-main: #f8f9fa;
+    --text-muted: #94a3b8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at 50% 20%, #101d3f 0%, var(--bg-dark) 80%);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Master Wrapper */
+.tycoon-app-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    padding: 10px;
+    gap: 8px;
+}
+
+/* Top Command Header */
+.tycoon-header {
+    background: var(--bg-panel);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border-glow);
+    border-radius: 18px;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-logo-icon {
+    font-size: 1.7rem;
+    animation: rotateGlobe 25s linear infinite;
+}
+
+@keyframes rotateGlobe {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.brand-name {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: linear-gradient(45deg, #00f5d4, #3a86ff, #ffd166);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.company-badge {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Player Turn Indicator Banner in Header */
+.player-turn-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(8, 13, 26, 0.75);
+    border: 1.5px solid var(--accent-cyan);
+    border-radius: 14px;
+    padding: 4px 12px;
+    box-shadow: 0 0 15px rgba(0, 245, 212, 0.2);
+}
+
+.p-avatar-tag {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    color: #050b18;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.p-company-title {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.p-round-sub {
+    font-size: 0.7rem;
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+/* Key Economic Metrics in Header */
+.header-metrics-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.metric-pill {
+    background: rgba(8, 13, 26, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 4px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-value {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+.metric-value.cyan-val { color: var(--accent-cyan); }
+
+.level-current-tag {
+    background: linear-gradient(135deg, rgba(131, 56, 236, 0.3), rgba(58, 134, 255, 0.3));
+    border: 1px solid var(--accent-purple);
+    border-radius: 12px;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.level-tag-icon { font-size: 1.1rem; }
+.level-tag-num {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-end-turn {
+    background: linear-gradient(135deg, #ff9f1c, #e63946);
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    padding: 7px 14px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(230, 57, 70, 0.35);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-end-turn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+.btn-ctrl {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    color: var(--text-main);
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-ctrl:hover {
+    background: rgba(58, 134, 255, 0.25);
+    border-color: var(--accent-blue);
+}
+
+/* Nav Tabs Bar */
+.tycoon-nav-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.nav-tab-btn {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 7px 14px;
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.nav-tab-btn:hover {
+    color: var(--text-main);
+    background: rgba(58, 134, 255, 0.15);
+    border-color: var(--accent-blue);
+}
+
+.nav-tab-btn.active {
+    background: linear-gradient(135deg, rgba(58, 134, 255, 0.4), rgba(0, 245, 212, 0.2));
+    border-color: var(--accent-cyan);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 245, 212, 0.2);
+}
+
+/* Main Content Workspace */
+.tycoon-main-viewport {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    min-height: 0;
+    position: relative;
+}
+
+/* Tab Views */
+.tab-view-panel {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-glow);
+    border-radius: 18px;
+    padding: 14px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.tab-view-panel.active {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ============================================================
+   TAB 1: UPFRONT DASHBOARD (PAPAN DAGANG UTAMA)
+   ============================================================ */
+.upfront-action-banner {
+    background: linear-gradient(135deg, rgba(58, 134, 255, 0.2), rgba(0, 245, 212, 0.15));
+    border: 1.5px solid var(--accent-cyan);
+    border-radius: 16px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn-hero-wizard {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    color: #050b18;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 24px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 245, 212, 0.35);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-hero-wizard:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+.upfront-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.2fr 0.9fr;
+    gap: 12px;
+    flex: 1;
+}
+
+.dashboard-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.dashboard-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--border-light);
+    padding-bottom: 6px;
+}
+
+.d-header-title {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.badge-pill {
+    background: rgba(58, 134, 255, 0.2);
+    border: 1px solid var(--accent-blue);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 8px;
+}
+
+.warehouse-items-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.warehouse-item-row {
+    background: rgba(8, 13, 26, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.w-item-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.w-item-icon { font-size: 1.4rem; }
+.w-item-name { font-size: 0.88rem; font-weight: 700; }
+.w-item-stock { font-size: 0.75rem; color: var(--accent-gold); }
+
+.opportunities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.opportunity-card {
+    background: rgba(8, 13, 26, 0.65);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: transform 0.12s ease;
+}
+
+.opportunity-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-cyan);
+}
+
+.opp-route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.opp-margin-badge {
+    background: rgba(6, 214, 160, 0.2);
+    border: 1px solid var(--accent-green);
+    color: var(--accent-green);
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.level-mission-box {
+    background: rgba(8, 13, 26, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.82rem;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-gold));
+    border-radius: 4px;
+}
+
+.economics-mini-box {
+    background: rgba(8, 13, 26, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+
+/* ============================================================
+   TAB 2: WORLD MAP & LOGISTICS CANVAS
+   ============================================================ */
+.map-view-layout {
+    display: grid;
+    grid-template-columns: 1fr 310px;
+    gap: 12px;
+    height: 100%;
+}
+
+.canvas-map-container {
+    background: #050b18;
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-scale-badge {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    background: rgba(8, 13, 26, 0.85);
+    border: 1px solid var(--accent-cyan);
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+#worldTradeCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.map-sidebar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.sidebar-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-card-title {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px dashed var(--border-light);
+    padding-bottom: 5px;
+}
+
+.active-routes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* ============================================================
+   TAB 3: COMMODITY EXCHANGE & MARKET
+   ============================================================ */
+.commodities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.commodity-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.commodity-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-blue);
+}
+
+.comm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comm-title-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comm-icon { font-size: 1.5rem; }
+.comm-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.comm-cat-badge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.cat-raw { background: rgba(6, 214, 160, 0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
+.cat-intermediate { background: rgba(58, 134, 255, 0.2); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
+.cat-finished { background: rgba(255, 209, 102, 0.2); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+
+.comm-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(8, 13, 26, 0.5);
+    padding: 6px 10px;
+    border-radius: 10px;
+}
+
+.comm-price-val {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+.comm-change-pill {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.comm-change-pill.up { color: var(--accent-green); }
+.comm-change-pill.down { color: var(--accent-red); }
+
+.comm-actions-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.btn-trade-action {
+    background: var(--accent-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 8px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.12s ease;
+}
+
+.btn-trade-action.sell-btn { background: #e63946; }
+.btn-trade-action:hover { filter: brightness(1.15); }
+
+/* ============================================================
+   TAB 4: FACTORIES & SMELTER PROCESSING
+   ============================================================ */
+.factories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+}
+
+.factory-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.factory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.factory-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
+
+.recipe-box {
+    background: rgba(8, 13, 26, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.btn-produce {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    color: #050b18;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-produce:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 245, 212, 0.35);
+}
+
+/* ============================================================
+   TAB 5: COUNTRY IMPACT DASHBOARD
+   ============================================================ */
+.impact-intro-banner {
+    background: linear-gradient(135deg, rgba(6, 214, 160, 0.15), rgba(58, 134, 255, 0.15));
+    border: 1px solid var(--accent-green);
+    border-radius: 16px;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.countries-impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+}
+
+.country-impact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.country-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 8px;
+}
+
+.c-flag-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.c-stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.84rem;
+}
+
+.c-stat-label { color: var(--text-muted); }
+.c-stat-val {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+}
+
+.esg-meter-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(8, 13, 26, 0.8);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 2px;
+}
+
+.esg-meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff3366, #ffd166, #06d6a0);
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+/* ============================================================
+   TAB 6: MULTIPLAYER LEADERBOARD TABLE
+   ============================================================ */
+.leaderboard-table-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    overflow-x: auto;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+}
+
+.leaderboard-table th {
+    background: rgba(8, 13, 26, 0.8);
+    padding: 12px 16px;
+    color: var(--accent-cyan);
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.leaderboard-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.leaderboard-table tr:hover {
+    background: rgba(58, 134, 255, 0.1);
+}
+
+/* ============================================================
+   TAB 7: 17-LEVEL PROGRESSION ROADMAP
+   ============================================================ */
+.level-roadmap-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.level-roadmap-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    transition: all 0.15s ease;
+}
+
+.level-roadmap-item.completed {
+    border-color: var(--accent-green);
+    background: rgba(6, 214, 160, 0.08);
+}
+
+.level-roadmap-item.current {
+    border-color: var(--accent-gold);
+    background: rgba(255, 209, 102, 0.12);
+    box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+}
+
+.level-roadmap-item.locked {
+    opacity: 0.5;
+    filter: grayscale(0.6);
+}
+
+.level-num-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(8, 13, 26, 0.8);
+    border: 2px solid var(--border-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.completed .level-num-circle { border-color: var(--accent-green); color: var(--accent-green); }
+.current .level-num-circle { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+.level-info-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.level-item-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.level-item-desc {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+}
+
+.level-targets-row {
+    display: flex;
+    gap: 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+/* Bottom News Ticker */
+.news-ticker-bar {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    overflow: hidden;
+}
+
+.news-label {
+    background: #e63946;
+    color: #ffffff;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    flex-shrink: 0;
+}
+
+.news-marquee-text {
+    white-space: nowrap;
+    animation: marqueeScroll 28s linear infinite;
+    color: var(--text-muted);
+}
+
+@keyframes marqueeScroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* ============================================================
+   MODALS (SETUP MULTIPLAYER & STEP-BY-STEP WIZARD)
+   ============================================================ */
+.tycoon-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    padding: 16px;
+}
+
+.tycoon-modal-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.tycoon-modal-card {
+    background: #0f172a;
+    border: 2px solid var(--accent-blue);
+    border-radius: 24px;
+    padding: 24px 28px;
+    max-width: 620px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.tycoon-modal-title {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+/* Setup Modal Inputs */
+.player-count-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 6px;
+}
+
+.btn-pcount {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-pcount.selected {
+    background: var(--accent-cyan);
+    color: #050b18;
+    border-color: var(--accent-cyan);
+}
+
+.player-inputs-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 240px;
+    overflow-y: auto;
+    text-align: left;
+    margin: 8px 0;
+}
+
+.p-input-row {
+    background: rgba(8, 13, 26, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.p-color-picker {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.p-name-field {
+    flex: 1;
+    background: #1c2541;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.85rem;
+}
+
+/* Wizard Modal Step-by-Step UI */
+.wizard-modal-card {
+    max-width: 680px;
+    text-align: left;
+}
+
+.wizard-steps-indicator {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.w-step {
+    background: rgba(8, 13, 26, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.w-step.active {
+    background: rgba(0, 245, 212, 0.2);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+
+.w-step.done {
+    background: rgba(6, 214, 160, 0.2);
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+}
+
+.wizard-title {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: 8px;
+}
+
+.wizard-body-content {
+    background: rgba(8, 13, 26, 0.65);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 16px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wizard-nav-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .upfront-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .map-view-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    .canvas-map-container {
+        height: 320px;
+    }
+}

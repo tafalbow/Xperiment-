@@ -1,0 +1,888 @@
+/**
+ * ============================================================
+ * COCOK TANAM CUAN - BASIS DATA PERTANIAN LENGKAP 38 PROVINSI INDONESIA
+ * Pusat Data Komoditas Pangan Strategis, Koordinat GIS 38 Provinsi,
+ * Zona Agroklimat BMKG, Karakteristik Pertanahan, dan Model Inflasi.
+ * ============================================================
+ */
+
+// 1. DAFTAR 10 KOMODITAS PANGAN & PERKEBUNAN STRATEGIS NASIONAL
+const AGRI_COMMODITIES = {
+    PADI_BERAS: {
+        id: 'PADI_BERAS',
+        name: 'Padi Sawah / Beras',
+        latinName: 'Oryza sativa',
+        icon: '🌾',
+        category: 'pangan_pokok',
+        growthDurationMonths: 4,
+        avgYieldTonPerHa: 5.8,
+        costPerKg: 5200,
+        basePriceKg: 13500,
+        monthlyPriceIndex: [1.12, 1.08, 0.92, 0.88, 0.95, 0.98, 1.02, 1.05, 1.06, 1.09, 1.14, 1.18],
+        waterRequirement: 'Tinggi (Irigasi Tergenang Teratur)',
+        soilPref: ['ALUVIAL', 'LATOSOL', 'ANDOSOL'],
+        optimalPH: { min: 5.5, max: 7.0 },
+        nationalStatus: 'Komoditas Strategis Utama Pengendali Inflasi Pangan (Bobot IHK Tinggi)',
+        exportPotential: 'Pasar Ekspor Beras Khusus (Organik / Jasmine) ke Singapura, Malaysia, & Arab Saudi.'
+    },
+    CABAI_RAWIT_MERAH: {
+        id: 'CABAI_RAWIT_MERAH',
+        name: 'Cabai Rawit Merah & Keriting',
+        latinName: 'Capsicum frutescens / annuum',
+        icon: '🌶️',
+        category: 'hortikultura',
+        growthDurationMonths: 3,
+        avgYieldTonPerHa: 9.2,
+        costPerKg: 18000,
+        basePriceKg: 45000,
+        monthlyPriceIndex: [1.35, 1.20, 0.85, 0.80, 0.88, 0.95, 1.05, 1.10, 1.15, 1.25, 1.45, 1.60],
+        waterRequirement: 'Sedang (Sensitif Terhadap Genangan Air / Layu Bakteri)',
+        soilPref: ['ANDOSOL', 'LATOSOL', 'ALUVIAL'],
+        optimalPH: { min: 6.0, max: 6.8 },
+        nationalStatus: 'Pemicu Utama Volatile Foods Inflasi Nasional (Peringatan Dini DEN)',
+        exportPotential: 'Ekspor Pasta Cabai Olahan & Cabai Kering ke Jepang dan Uni Emirat Arab.'
+    },
+    BAWANG_MERAH: {
+        id: 'BAWANG_MERAH',
+        name: 'Bawang Merah Lokal Super',
+        latinName: 'Allium cepa var. ascalonicum',
+        icon: '🧅',
+        category: 'hortikultura',
+        growthDurationMonths: 2,
+        avgYieldTonPerHa: 11.5,
+        costPerKg: 14000,
+        basePriceKg: 32000,
+        monthlyPriceIndex: [1.25, 1.15, 0.90, 0.85, 0.92, 0.98, 1.05, 1.10, 1.12, 1.18, 1.30, 1.40],
+        waterRequirement: 'Sedang - Rendah (Drainase Sangat Baik)',
+        soilPref: ['ALUVIAL', 'REGOSOL', 'ANDOSOL'],
+        optimalPH: { min: 6.0, max: 7.0 },
+        nationalStatus: 'Komoditas Sensitif Inflasi Musiman (Sentra: Brebes, Nganjuk, Bima, Enrekang)',
+        exportPotential: 'Ekspor Bawang Merah Segar ke Thailand, Singapura, dan Vietnam.'
+    },
+    JAGUNG_PIPIL: {
+        id: 'JAGUNG_PIPIL',
+        name: 'Jagung Hibrida (Pakan & Pangan)',
+        latinName: 'Zea mays',
+        icon: '🌽',
+        category: 'palawija',
+        growthDurationMonths: 3.5,
+        avgYieldTonPerHa: 7.2,
+        costPerKg: 2800,
+        basePriceKg: 6200,
+        monthlyPriceIndex: [1.08, 1.04, 0.92, 0.90, 0.96, 1.00, 1.02, 1.05, 1.06, 1.08, 1.10, 1.12],
+        waterRequirement: 'Sedang (Tahan Kekeringan Relatif)',
+        soilPref: ['LATOSOL', 'ALUVIAL', 'REGOSOL'],
+        optimalPH: { min: 5.6, max: 7.2 },
+        nationalStatus: 'Pilar Ketahanan Energi Bioetanol & Pakan Ternak Unggas Nasional',
+        exportPotential: 'Ekspor Jagung Pipil Kering ke Filipina, Malaysia, dan Korea Selatan.'
+    },
+    KEDELAI_LOKAL: {
+        id: 'KEDELAI_LOKAL',
+        name: 'Kedelai Bebas GMO (Tahu & Tempe)',
+        latinName: 'Glycine max',
+        icon: '🌱',
+        category: 'palawija',
+        growthDurationMonths: 3,
+        avgYieldTonPerHa: 2.1,
+        costPerKg: 6500,
+        basePriceKg: 12800,
+        monthlyPriceIndex: [1.05, 1.02, 0.98, 0.95, 0.96, 1.00, 1.02, 1.04, 1.06, 1.08, 1.10, 1.12],
+        waterRequirement: 'Sedang (Sensitif Saat Fase Berbunga)',
+        soilPref: ['ALUVIAL', 'LATOSOL', 'ANDOSOL'],
+        optimalPH: { min: 6.0, max: 6.8 },
+        nationalStatus: 'Program Substitusi Impor Pangan Berprotein Nabati Rakyat',
+        exportPotential: 'Ekspor Tempe Beku & Olahan Kedelai Organik ke Jepang dan Uni Eropa.'
+    },
+    KELAPA_SAWIT: {
+        id: 'KELAPA_SAWIT',
+        name: 'Kelapa Sawit (TBS / CPO)',
+        latinName: 'Elaeis guineensis',
+        icon: '🌴',
+        category: 'perkebunan_energi',
+        growthDurationMonths: 6,
+        avgYieldTonPerHa: 22.0,
+        costPerKg: 1100,
+        basePriceKg: 2850,
+        monthlyPriceIndex: [1.02, 1.05, 1.08, 1.04, 0.98, 0.95, 0.96, 1.00, 1.03, 1.06, 1.08, 1.10],
+        waterRequirement: 'Tinggi (Curah Hujan Merata Sepanjang Tahun)',
+        soilPref: ['LATOSOL', 'GAMBUT', 'ALUVIAL'],
+        optimalPH: { min: 5.0, max: 6.5 },
+        nationalStatus: 'Penopang Utama Program Mandatori Biodiesel B35/B40 DEN & Devisa Ekspor',
+        exportPotential: 'Komoditas Ekspor Nomor 1 Indonesia (Ekspor CPO & Biofuel ke India, China, UE).'
+    },
+    KOPI_SPESIALTI: {
+        id: 'KOPI_SPESIALTI',
+        name: 'Kopi Spesialti (Arabika & Robusta)',
+        latinName: 'Coffea arabica / canephora',
+        icon: '☕',
+        category: 'perkebunan_bernilai_tinggi',
+        growthDurationMonths: 6,
+        avgYieldTonPerHa: 1.6,
+        costPerKg: 35000,
+        basePriceKg: 95000,
+        monthlyPriceIndex: [1.05, 1.08, 1.10, 1.00, 0.92, 0.90, 0.94, 0.98, 1.02, 1.06, 1.12, 1.15],
+        waterRequirement: 'Sedang (Memerlukan Musim Kering untuk Pembungaan)',
+        soilPref: ['ANDOSOL', 'LATOSOL'],
+        optimalPH: { min: 5.5, max: 6.5 },
+        nationalStatus: 'Komoditas Unggulan Ekonomi Kreatif & Kesejahteraan Petani Dataran Tinggi',
+        exportPotential: 'Ekspor Biji Kopi Spesialti Premium ke Amerika Serikat, Jerman, & Jepang.'
+    },
+    KAKAO_COKELAT: {
+        id: 'KAKAO_COKELAT',
+        name: 'Kakao / Biji Cokelat Fermentasi',
+        latinName: 'Theobroma cacao',
+        icon: '🍫',
+        category: 'perkebunan_bernilai_tinggi',
+        growthDurationMonths: 5,
+        avgYieldTonPerHa: 1.4,
+        costPerKg: 28000,
+        basePriceKg: 78000,
+        monthlyPriceIndex: [1.02, 1.04, 1.08, 1.05, 0.96, 0.92, 0.94, 0.98, 1.02, 1.06, 1.10, 1.14],
+        waterRequirement: 'Tinggi (Memerlukan Naungan Pohon Pelindung)',
+        soilPref: ['LATOSOL', 'ALUVIAL'],
+        optimalPH: { min: 6.0, max: 7.0 },
+        nationalStatus: 'Bahan Baku Industri Olahan Cokelat Nasional & Ekspor',
+        exportPotential: 'Ekspor Biji Kakao Fermentasi & Cocoa Butter ke Swiss, Belanda, & AS.'
+    },
+    TEBU_GULA: {
+        id: 'TEBU_GULA',
+        name: 'Tebu (Gula Kristal & Bioetanol)',
+        latinName: 'Saccharum officinarum',
+        icon: '🎋',
+        category: 'pangan_energi',
+        growthDurationMonths: 11,
+        avgYieldTonPerHa: 75.0,
+        costPerKg: 750,
+        basePriceKg: 16500,
+        monthlyPriceIndex: [1.08, 1.06, 1.04, 1.00, 0.95, 0.92, 0.94, 0.96, 1.00, 1.04, 1.08, 1.12],
+        waterRequirement: 'Tinggi saat fase pertumbuhan, Kering saat fase pemasakan rendemen',
+        soilPref: ['ALUVIAL', 'REGOSOL', 'LATOSOL'],
+        optimalPH: { min: 6.0, max: 7.5 },
+        nationalStatus: 'Ketahanan Gula Konsumsi Nasional & Sumber Bioetanol E5/E10 DEN',
+        exportPotential: 'Swasembada dalam negeri & ekspor bioetanol industri.'
+    },
+    BAWANG_PUTIH: {
+        id: 'BAWANG_PUTIH',
+        name: 'Bawang Putih Dataran Tinggi',
+        latinName: 'Allium sativum',
+        icon: '🧄',
+        category: 'hortikultura',
+        growthDurationMonths: 3.5,
+        avgYieldTonPerHa: 8.5,
+        costPerKg: 16000,
+        basePriceKg: 38000,
+        monthlyPriceIndex: [1.10, 1.08, 1.02, 0.95, 0.92, 0.94, 0.98, 1.02, 1.06, 1.12, 1.15, 1.18],
+        waterRequirement: 'Sedang (Hanya Cocok di Ketinggian > 800 mdpl)',
+        soilPref: ['ANDOSOL', 'LATOSOL'],
+        optimalPH: { min: 6.2, max: 7.0 },
+        nationalStatus: 'Komoditas Prioritas Substitusi Impor Pangan Nasional (Sentra: Sembalun, Temanggung)',
+        exportPotential: 'Pasar konsumsi domestik bebas impor.'
+    }
+};
+
+// 2. BASIS DATA 38 PROVINSI LENGKAP REPUBLIK INDONESIA (GIS KOORDINAT & AGROKLIMAT)
+const PROVINCES_INDONESIA = {
+    // --- PULAU SUMATERA (10 Provinsi) ---
+    ACEH: {
+        id: 'ACEH',
+        name: 'Aceh',
+        capital: 'Banda Aceh',
+        island: 'SUMATERA',
+        lat: 4.6951,
+        lng: 96.7494,
+        keyRegency: 'Kab. Aceh Tengah & Bireuen',
+        bestCrops: ['KOPI_SPESIALTI', 'PADI_BERAS', 'KELAPA_SAWIT'],
+        soil: 'ANDOSOL',
+        rainfallMm: '2400 mm/thn',
+        season: 'Musim Hujan Rendengan',
+        elNino: 'Rendah (Aman)'
+    },
+    SUMUT: {
+        id: 'SUMUT',
+        name: 'Sumatera Utara',
+        capital: 'Medan',
+        island: 'SUMATERA',
+        lat: 2.1154,
+        lng: 99.5451,
+        keyRegency: 'Kab. Karo, Simalungun & Dairi',
+        bestCrops: ['CABAI_RAWIT_MERAH', 'KOPI_SPESIALTI', 'PADI_BERAS', 'KELAPA_SAWIT'],
+        soil: 'ANDOSOL',
+        rainfallMm: '2600 mm/thn',
+        season: 'Optimal Tanam Hortikultura',
+        elNino: 'Rendah'
+    },
+    SUMBAR: {
+        id: 'SUMBAR',
+        name: 'Sumatera Barat',
+        capital: 'Padang',
+        island: 'SUMATERA',
+        lat: -0.7399,
+        lng: 100.8000,
+        keyRegency: 'Kab. Solok, Tanah Datar & Agam',
+        bestCrops: ['PADI_BERAS', 'BAWANG_MERAH', 'CABAI_RAWIT_MERAH'],
+        soil: 'ANDOSOL',
+        rainfallMm: '2900 mm/thn',
+        season: 'Musim Basah Subur',
+        elNino: 'Rendah'
+    },
+    RIAU: {
+        id: 'RIAU',
+        name: 'Riau',
+        capital: 'Pekanbaru',
+        island: 'SUMATERA',
+        lat: 0.5071,
+        lng: 101.4478,
+        keyRegency: 'Kab. Kampar, Siak & Rokan Hulu',
+        bestCrops: ['KELAPA_SAWIT', 'PADI_BERAS'],
+        soil: 'GAMBUT',
+        rainfallMm: '2500 mm/thn',
+        season: 'Musim Tanam Sawit Optimal',
+        elNino: 'Sedang (Waspada Gambut)'
+    },
+    KEPRI: {
+        id: 'KEPRI',
+        name: 'Kepulauan Riau',
+        capital: 'Tanjung Pinang',
+        island: 'SUMATERA',
+        lat: 3.9457,
+        lng: 108.1429,
+        keyRegency: 'Kab. Karimun & Bintan',
+        bestCrops: ['CABAI_RAWIT_MERAH', 'PADI_BERAS'],
+        soil: 'LATOSOL',
+        rainfallMm: '2300 mm/thn',
+        season: 'Musim Tropis Maritim',
+        elNino: 'Rendah'
+    },
+    JAMBI: {
+        id: 'JAMBI',
+        name: 'Jambi',
+        capital: 'Jambi',
+        island: 'SUMATERA',
+        lat: -1.6101,
+        lng: 103.6131,
+        keyRegency: 'Kab. Kerinci & Muaro Jambi',
+        bestCrops: ['KOPI_SPESIALTI', 'CABAI_RAWIT_MERAH', 'KELAPA_SAWIT'],
+        soil: 'ANDOSOL',
+        rainfallMm: '2400 mm/thn',
+        season: 'Optimal Tanam Kopi Arabika',
+        elNino: 'Rendah'
+    },
+    SUMSEL: {
+        id: 'SUMSEL',
+        name: 'Sumatera Selatan',
+        capital: 'Palembang',
+        island: 'SUMATERA',
+        lat: -3.3194,
+        lng: 104.9144,
+        keyRegency: 'Kab. Ogan Komering Ilir & Banyuasin',
+        bestCrops: ['PADI_BERAS', 'KELAPA_SAWIT', 'KEDELAI_LOKAL'],
+        soil: 'ALUVIAL',
+        rainfallMm: '2600 mm/thn',
+        season: 'Lumbung Padi Pasang Surut',
+        elNino: 'Sedang'
+    },
+    BABEL: {
+        id: 'BABEL',
+        name: 'Kep. Bangka Belitung',
+        capital: 'Pangkal Pinang',
+        island: 'SUMATERA',
+        lat: -2.7411,
+        lng: 106.4406,
+        keyRegency: 'Kab. Bangka Tengah & Belitung',
+        bestCrops: ['CABAI_RAWIT_MERAH', 'KELAPA_SAWIT'],
+        soil: 'LATOSOL',
+        rainfallMm: '2400 mm/thn',
+        season: 'Musim Tanam Lahan Pesisir',
+        elNino: 'Rendah'
+    },
+    BENGKULU: {
+        id: 'BENGKULU',
+        name: 'Bengkulu',
+        capital: 'Bengkulu',
+        island: 'SUMATERA',
+        lat: -3.5778,
+        lng: 102.3464,
+        keyRegency: 'Kab. Rejang Lebong & Kepahiang',
+        bestCrops: ['CABAI_RAWIT_MERAH', 'KOPI_SPESIALTI'],
+        soil: 'ANDOSOL',
+        rainfallMm: '3100 mm/thn',
+        season: 'Sentra Sayur Dataran Tinggi',
+        elNino: 'Rendah'
+    },
+    LAMPUNG: {
+        id: 'LAMPUNG',
+        name: 'Lampung',
+        capital: 'Bandar Lampung',
+        island: 'SUMATERA',
+        lat: -4.5586,
+        lng: 105.4068,
+        keyRegency: 'Kab. Lampung Tengah & Lampung Timur',
+        bestCrops: ['JAGUNG_PIPIL', 'PADI_BERAS', 'TEBU_GULA', 'KOPI_SPESIALTI'],
+        soil: 'LATOSOL',
+        rainfallMm: '2200 mm/thn',
+        season: 'Sentra Jagung Terbesar Sumatera',
+        elNino: 'Sedang - Tinggi'
+    },
+
+    // --- PULAU JAWA & BALI (6 Provinsi) ---
+    DKI_JAKARTA: {
+        id: 'DKI_JAKARTA',
+        name: 'DKI Jakarta',
+        capital: 'Jakarta',
+        island: 'JAWA_BALI',
+        lat: -6.2088,
+        lng: 106.8456,
+        keyRegency: 'Jakarta Barat / Urban Farming',
+        bestCrops: ['CABAI_RAWIT_MERAH', 'BAWANG_MERAH'],
+        soil: 'ALUVIAL',
+        rainfallMm: '1800 mm/thn',
+        season: 'Sentra Konsumsi Pangan Utama',
+        elNino: 'Rendah'
+    },
+    BANTEN: {
+        id: 'BANTEN',
+        name: 'Banten',
+        capital: 'Serang',
+        island: 'JAWA_BALI',
+        lat: -6.4058,
+        lng: 106.0640,
+        keyRegency: 'Kab. Pandeglang & Lebak',
+        bestCrops: ['PADI_BERAS', 'JAGUNG_PIPIL'],
+        soil: 'LATOSOL',
+        rainfallMm: '2200 mm/thn',
+        season: 'Musim Rendengan Optimal',
+        elNino: 'Sedang'
+    },
+    JABAR: {
+        id: 'JABAR',
+        name: 'Jawa Barat',
+        capital: 'Bandung',
+        island: 'JAWA_BALI',
+        lat: -6.9175,
+        lng: 107.6191,
+        keyRegency: 'Kab. Karawang, Subang, Garut & Cianjur',
+        bestCrops: ['PADI_BERAS', 'CABAI_RAWIT_MERAH', 'KEDELAI_LOKAL'],
+        soil: 'ALUVIAL',
+        rainfallMm: '2400 mm/thn',
+        season: 'Lumbung Beras & Sayuran Nasional',
+        elNino: 'Sedang'
+    },
+    JATENG: {
+        id: 'JATENG',
+        name: 'Jawa Tengah',
+        capital: 'Semarang',
+        island: 'JAWA_BALI',
+        lat: -7.1510,
+        lng: 110.1403,
+        keyRegency: 'Kab. Brebes, Temanggung, Demak & Sragen',
+        bestCrops: ['BAWANG_MERAH', 'CABAI_RAWIT_MERAH', 'PADI_BERAS', 'BAWANG_PUTIH'],
+        soil: 'ALUVIAL',
+        rainfallMm: '2100 mm/thn',
+        season: 'Ibukota Bawang Merah & Beras',
+        elNino: 'Tinggi (Waspada Waduk)'
+    },
+    DIY: {
+        id: 'DIY',
+        name: 'D.I. Yogyakarta',
+        capital: 'Yogyakarta',
+        island: 'JAWA_BALI',
+        lat: -7.7956,
+        lng: 110.3695,
+        keyRegency: 'Kab. Bantul, Sleman & Kulon Progo',
+        bestCrops: ['PADI_BERAS', 'BAWANG_MERAH', 'KEDELAI_LOKAL'],
+        soil: 'ANDOSOL',
+        rainfallMm: '2000 mm/thn',
+        season: 'Pertanian Presisi Berkelanjutan',
+        elNino: 'Sedang'
+    },
+    JATIM: {
+        id: 'JATIM',
+        name: 'Jawa Timur',
+        capital: 'Surabaya',
+        island: 'JAWA_BALI',
+        lat: -7.5361,
+        lng: 112.2384,
+        keyRegency: 'Kab. Nganjuk, Lamongan, Tuban, Malang & Kediri',
+        bestCrops: ['PADI_BERAS', 'JAGUNG_PIPIL', 'BAWANG_MERAH', 'TEBU_GULA', 'CABAI_RAWIT_MERAH'],
+        soil: 'ALUVIAL',
+        rainfallMm: '1900 mm/thn',
+        season: 'Lumbung Pangan & Tebu Terbesar',
+        elNino: 'Tinggi (Manajemen Air Pompa Surya)'
+    },
+    BALI: {
+        id: 'BALI',
+        name: 'Bali',
+        capital: 'Denpasar',
+        island: 'JAWA_BALI',
+        lat: -8.4095,
+        lng: 115.1889,
+        keyRegency: 'Kab. Tabanan & Bangli (Subak)',
+        bestCrops: ['PADI_BERAS', 'KOPI_SPESIALTI', 'KAKAO_COKELAT'],
+        soil: 'ANDOSOL',
+        rainfallMm: '2100 mm/thn',
+        season: 'Sistem Irigasi Subak Lestari',
+        elNino: 'Sedang'
+    },
+
+    // --- NUSA TENGGARA (2 Provinsi) ---
+    NTB: {
+        id: 'NTB',
+        name: 'Nusa Tenggara Barat',
+        capital: 'Mataram',
+        island: 'NUSA_TENGGARA',
+        lat: -8.6529,
+        lng: 117.3616,
+        keyRegency: 'Kab. Bima, Sumbawa & Lombok Timur (Sembalun)',
+        bestCrops: ['BAWANG_MERAH', 'JAGUNG_PIPIL', 'BAWANG_PUTIH', 'PADI_BERAS'],
+        soil: 'ALUVIAL',
+        rainfallMm: '1400 mm/thn',
+        season: 'Sentra Bawang & Jagung Lahan Kering',
+        elNino: 'Sangat Tinggi (Wajib Irigasi Tetes)'
+    },
+    NTT: {
+        id: 'NTT',
+        name: 'Nusa Tenggara Timur',
+        capital: 'Kupang',
+        island: 'NUSA_TENGGARA',
+        lat: -8.6574,
+        lng: 121.0794,
+        keyRegency: 'Kab. Manggarai, Ngada & Timor Tengah Selatan',
+        bestCrops: ['KOPI_SPESIALTI', 'JAGUNG_PIPIL', 'KAKAO_COKELAT'],
+        soil: 'ANDOSOL',
+        rainfallMm: '1200 mm/thn',
+        season: 'Optimal Kopi Arabika Flores & Jagung',
+        elNino: 'Sangat Tinggi'
+    },
+
+    // --- KALIMANTAN (5 Provinsi) ---
+    KALBAR: {
+        id: 'KALBAR',
+        name: 'Kalimantan Barat',
+        capital: 'Pontianak',
+        island: 'KALIMANTAN',
+        lat: -0.2787,
+        lng: 111.4753,
+        keyRegency: 'Kab. Sambas, Kubu Raya & Ketapang',
+        bestCrops: ['PADI_BERAS', 'KELAPA_SAWIT', 'JAGUNG_PIPIL'],
+        soil: 'LATOSOL',
+        rainfallMm: '2900 mm/thn',
+        season: 'Pertanian Lahan Basah Tropis',
+        elNino: 'Sedang'
+    },
+    KALTENG: {
+        id: 'KALTENG',
+        name: 'Kalimantan Tengah',
+        capital: 'Palangka Raya',
+        island: 'KALIMANTAN',
+        lat: -1.6815,
+        lng: 113.3824,
+        keyRegency: 'Kab. Kapuas & Pulang Pisau (Food Estate)',
+        bestCrops: ['PADI_BERAS', 'JAGUNG_PIPIL', 'KELAPA_SAWIT'],
+        soil: 'GAMBUT',
+        rainfallMm: '2700 mm/thn',
+        season: 'Kawasan Food Estate Pasang Surut',
+        elNino: 'Sedang - Tinggi'
+    },
+    KALSEL: {
+        id: 'KALSEL',
+        name: 'Kalimantan Selatan',
+        capital: 'Banjarmasin / Banjarbaru',
+        island: 'KALIMANTAN',
+        lat: -3.0926,
+        lng: 115.2838,
+        keyRegency: 'Kab. Barito Kuala, Banjar & Tanah Laut',
+        bestCrops: ['PADI_BERAS', 'JAGUNG_PIPIL', 'KELAPA_SAWIT'],
+        soil: 'ALUVIAL',
+        rainfallMm: '2400 mm/thn',
+        season: 'Lumbung Padi Pulau Kalimantan',
+        elNino: 'Sedang'
+    },
+    KALTIM: {
+        id: 'KALTIM',
+        name: 'Kalimantan Timur',
+        capital: 'Samarinda (IKN Nusantara)',
+        island: 'KALIMANTAN',
+        lat: 0.5387,
+        lng: 116.4194,
+        keyRegency: 'Kab. Kutai Kartanegara & Penajam Paser Utara',
+        bestCrops: ['PADI_BERAS', 'JAGUNG_PIPIL', 'CABAI_RAWIT_MERAH'],
+        soil: 'LATOSOL',
+        rainfallMm: '2500 mm/thn',
+        season: 'Penyangga Pangan Utama IKN',
+        elNino: 'Sedang'
+    },
+    KALTARA: {
+        id: 'KALTARA',
+        name: 'Kalimantan Utara',
+        capital: 'Tanjung Selor',
+        island: 'KALIMANTAN',
+        lat: 3.0731,
+        lng: 116.0414,
+        keyRegency: 'Kab. Bulungan & Nunukan',
+        bestCrops: ['PADI_BERAS', 'KELAPA_SAWIT'],
+        soil: 'LATOSOL',
+        rainfallMm: '2800 mm/thn',
+        season: 'Musim Subur Lahan Perbatasan',
+        elNino: 'Rendah'
+    },
+
+    // --- SULAWESI (6 Provinsi) ---
+    SULUT: {
+        id: 'SULUT',
+        name: 'Sulawesi Utara',
+        capital: 'Manado',
+        island: 'SULAWESI',
+        lat: 0.6247,
+        lng: 123.9750,
+        keyRegency: 'Kab. Minahasa & Bolaang Mongondow',
+        bestCrops: ['JAGUNG_PIPIL', 'PADI_BERAS', 'CABAI_RAWIT_MERAH'],
+        soil: 'ANDOSOL',
+        rainfallMm: '2600 mm/thn',
+        season: 'Sentra Jagung & Cabai Rica',
+        elNino: 'Sedang'
+    },
+    GORONTALO: {
+        id: 'GORONTALO',
+        name: 'Gorontalo',
+        capital: 'Gorontalo',
+        island: 'SULAWESI',
+        lat: 0.6999,
+        lng: 122.4467,
+        keyRegency: 'Kab. Gorontalo, Pohuwato & Boalemo',
+        bestCrops: ['JAGUNG_PIPIL', 'PADI_BERAS', 'TEBU_GULA'],
+        soil: 'LATOSOL',
+        rainfallMm: '1700 mm/thn',
+        season: 'Provinsi Jagung Ekspor Nasional',
+        elNino: 'Tinggi'
+    },
+    SULTENG: {
+        id: 'SULTENG',
+        name: 'Sulawesi Tengah',
+        capital: 'Palu',
+        island: 'SULAWESI',
+        lat: -1.4300,
+        lng: 121.4456,
+        keyRegency: 'Kab. Parigi Moutong, Sigi & Poso',
+        bestCrops: ['PADI_BERAS', 'KAKAO_COKELAT', 'JAGUNG_PIPIL'],
+        soil: 'ALUVIAL',
+        rainfallMm: '2000 mm/thn',
+        season: 'Lumbung Padi Sulawesi Tengah',
+        elNino: 'Sedang'
+    },
+    SULBAR: {
+        id: 'SULBAR',
+        name: 'Sulawesi Barat',
+        capital: 'Mamuju',
+        island: 'SULAWESI',
+        lat: -2.8441,
+        lng: 119.2321,
+        keyRegency: 'Kab. Polewali Mandar & Mamuju',
+        bestCrops: ['KAKAO_COKELAT', 'PADI_BERAS', 'KELAPA_SAWIT'],
+        soil: 'LATOSOL',
+        rainfallMm: '2500 mm/thn',
+        season: 'Sentra Utama Kakao Cokelat',
+        elNino: 'Sedang'
+    },
+    SULSEL: {
+        id: 'SULSEL',
+        name: 'Sulawesi Selatan',
+        capital: 'Makassar',
+        island: 'SULAWESI',
+        lat: -3.6687,
+        lng: 119.9741,
+        keyRegency: 'Kab. Sidrap, Pinrang, Bone, Wajo & Enrekang',
+        bestCrops: ['PADI_BERAS', 'JAGUNG_PIPIL', 'CABAI_RAWIT_MERAH', 'BAWANG_MERAH'],
+        soil: 'ALUVIAL',
+        rainfallMm: '2300 mm/thn',
+        season: 'Lumbung Beras Terbesar Indonesia Timur',
+        elNino: 'Sedang'
+    },
+    SULTRA: {
+        id: 'SULTRA',
+        name: 'Sulawesi Tenggara',
+        capital: 'Kendari',
+        island: 'SULAWESI',
+        lat: -4.1449,
+        lng: 122.1746,
+        keyRegency: 'Kab. Kolaka, Konawe & Konawe Selatan',
+        bestCrops: ['KAKAO_COKELAT', 'PADI_BERAS', 'KELAPA_SAWIT'],
+        soil: 'LATOSOL',
+        rainfallMm: '2200 mm/thn',
+        season: 'Musim Subur Perkebunan & Sawah',
+        elNino: 'Sedang'
+    },
+
+    // --- MALUKU & PAPUA (8 Provinsi) ---
+    MALUKU: {
+        id: 'MALUKU',
+        name: 'Maluku',
+        capital: 'Ambon',
+        island: 'MALUKU_PAPUA',
+        lat: -3.2385,
+        lng: 130.1453,
+        keyRegency: 'Kab. Maluku Tengah, Buru & Seram Bagian Barat',
+        bestCrops: ['PADI_BERAS', 'KAKAO_COKELAT', 'KOPI_SPESIALTI'],
+        soil: 'LATOSOL',
+        rainfallMm: '3100 mm/thn',
+        season: 'Sentra Padi Pulau Buru & Rempah',
+        elNino: 'Rendah'
+    },
+    MALUT: {
+        id: 'MALUT',
+        name: 'Maluku Utara',
+        capital: 'Sofifi / Ternate',
+        island: 'MALUKU_PAPUA',
+        lat: 1.5709,
+        lng: 127.8088,
+        keyRegency: 'Kab. Halmahera Timur & Halmahera Barat',
+        bestCrops: ['KAKAO_COKELAT', 'PADI_BERAS', 'KELAPA_SAWIT'],
+        soil: 'LATOSOL',
+        rainfallMm: '2800 mm/thn',
+        season: 'Kepulauan Rempah Bersejarah',
+        elNino: 'Rendah'
+    },
+    PAPUA_BARAT: {
+        id: 'PAPUA_BARAT',
+        name: 'Papua Barat',
+        capital: 'Manokwari',
+        island: 'MALUKU_PAPUA',
+        lat: -1.3361,
+        lng: 133.1747,
+        keyRegency: 'Kab. Manokwari & Teluk Bintuni',
+        bestCrops: ['KAKAO_COKELAT', 'PADI_BERAS', 'KELAPA_SAWIT'],
+        soil: 'LATOSOL',
+        rainfallMm: '3200 mm/thn',
+        season: 'Musim Tropis Hutan Hujan',
+        elNino: 'Rendah'
+    },
+    PAPUA_BARAT_DAYA: {
+        id: 'PAPUA_BARAT_DAYA',
+        name: 'Papua Barat Daya',
+        capital: 'Sorong',
+        island: 'MALUKU_PAPUA',
+        lat: -0.8762,
+        lng: 131.2558,
+        keyRegency: 'Kab. Sorong & Raja Ampat',
+        bestCrops: ['KELAPA_SAWIT', 'KAKAO_COKELAT'],
+        soil: 'LATOSOL',
+        rainfallMm: '3000 mm/thn',
+        season: 'Pesisir Tropis Basah',
+        elNino: 'Rendah'
+    },
+    PAPUA: {
+        id: 'PAPUA',
+        name: 'Papua',
+        capital: 'Jayapura',
+        island: 'MALUKU_PAPUA',
+        lat: -2.5337,
+        lng: 140.7181,
+        keyRegency: 'Kab. Keerom & Jayapura',
+        bestCrops: ['JAGUNG_PIPIL', 'PADI_BERAS', 'KAKAO_COKELAT'],
+        soil: 'LATOSOL',
+        rainfallMm: '2900 mm/thn',
+        season: 'Sentra Jagung Perbatasan RI-PNG',
+        elNino: 'Rendah'
+    },
+    PAPUA_TENGAH: {
+        id: 'PAPUA_TENGAH',
+        name: 'Papua Tengah',
+        capital: 'Nabire',
+        island: 'MALUKU_PAPUA',
+        lat: -3.3667,
+        lng: 135.4833,
+        keyRegency: 'Kab. Nabire & Mimika',
+        bestCrops: ['KOPI_SPESIALTI', 'PADI_BERAS', 'KAKAO_COKELAT'],
+        soil: 'ANDOSOL',
+        rainfallMm: '3400 mm/thn',
+        season: 'Lembah Dataran Tinggi Subur',
+        elNino: 'Rendah'
+    },
+    PAPUA_PEGUNUNGAN: {
+        id: 'PAPUA_PEGUNUNGAN',
+        name: 'Papua Pegunungan',
+        capital: 'Wamena',
+        island: 'MALUKU_PAPUA',
+        lat: -4.0833,
+        lng: 138.9500,
+        keyRegency: 'Kab. Jayawijaya (Lembah Baliem)',
+        bestCrops: ['KOPI_SPESIALTI', 'BAWANG_MERAH', 'CABAI_RAWIT_MERAH'],
+        soil: 'ANDOSOL',
+        rainfallMm: '2200 mm/thn',
+        season: 'Kopi Arabika Wamena Organik Terbaik',
+        elNino: 'Rendah'
+    },
+    PAPUA_SELATAN: {
+        id: 'PAPUA_SELATAN',
+        name: 'Papua Selatan',
+        capital: 'Merauke',
+        island: 'MALUKU_PAPUA',
+        lat: -8.4991,
+        lng: 140.4011,
+        keyRegency: 'Kab. Merauke & Boven Digoel (Food Estate)',
+        bestCrops: ['PADI_BERAS', 'TEBU_GULA', 'JAGUNG_PIPIL'],
+        soil: 'ALUVIAL',
+        rainfallMm: '1700 mm/thn',
+        season: 'Food Estate 1 Juta Hektar Nasional',
+        elNino: 'Sedang'
+    }
+};
+
+// 3. DATA 6 ZONA REGIONAL AGROKLIMAT
+const AGRI_REGIONS_INDONESIA = {
+    JAWA_BALI: {
+        id: 'JAWA_BALI',
+        name: 'Zona Jawa, Madura & Bali',
+        flag: '🌾',
+        provincesCount: 7,
+        currentSeason: 'Musim Tanam Utama Rendengan (Siklus Beras Terbesar)',
+        elNinoRisk: 'Tinggi (Wajib Manajemen Air Waduk & Pompa Surya)',
+        inflationContribution: 'Penentu 55% Angka Inflasi Pangan Pokok Nasional'
+    },
+    SUMATERA: {
+        id: 'SUMATERA',
+        name: 'Zona Sumatera',
+        flag: '🌴',
+        provincesCount: 10,
+        currentSeason: 'Musim Hujan Basah (Optimal Tanam Padi, Sawit & Kopi)',
+        elNinoRisk: 'Rendah - Sedang',
+        inflationContribution: 'Pemasok Utama Minyak Goreng, Jagung Pakan, dan Beras Sumatera'
+    },
+    NUSA_TENGGARA: {
+        id: 'NUSA_TENGGARA',
+        name: 'Zona Nusa Tenggara (NTB & NTT)',
+        flag: '🧅',
+        provincesCount: 2,
+        currentSeason: 'Peralihan Musim Kering (Optimal Bawang Merah Bima & Jagung)',
+        elNinoRisk: 'Sangat Tinggi (Penerapan Irigasi Tetes Surya DEN)',
+        inflationContribution: 'Pemasok Strategis Bawang Merah & Jagung Indonesia'
+    },
+    SULAWESI: {
+        id: 'SULAWESI',
+        name: 'Zona Sulawesi',
+        flag: '🌽',
+        provincesCount: 6,
+        currentSeason: 'Musim Tanam Optimal (Lumbung Beras & Jagung Timur)',
+        elNinoRisk: 'Sedang',
+        inflationContribution: 'Penstabil Harga Beras & Jagung Kawasan Timur'
+    },
+    KALIMANTAN: {
+        id: 'KALIMANTAN',
+        name: 'Zona Kalimantan',
+        flag: '🌳',
+        provincesCount: 5,
+        currentSeason: 'Musim Hujan Tropis (Potensi Lahan Pasang Surut & Sawit)',
+        elNinoRisk: 'Sedang (Waspada Kebakaran Lahan Gambut)',
+        inflationContribution: 'Penyangga Ketahanan Pangan IKN Nusantara'
+    },
+    MALUKU_PAPUA: {
+        id: 'MALUKU_PAPUA',
+        name: 'Zona Maluku & Papua',
+        flag: '🥔',
+        provincesCount: 8,
+        currentSeason: 'Musim Subur Tropis Basah & Food Estate Merauke',
+        elNinoRisk: 'Rendah',
+        inflationContribution: 'Kemandirian Pangan Kawasan Timur & Food Estate Nasional'
+    }
+};
+
+// 4. BASIS DATA 5 JENIS TANAH INDONESIA & RESEP REMEDIASI MAX-YIELD
+const AGRI_SOIL_SOLUTIONS = {
+    ANDOSOL: {
+        id: 'ANDOSOL',
+        name: 'Tanah Andosol (Vulkanik Dataran Tinggi)',
+        color: '#3d2618',
+        desc: 'Tanah hitam gembur kaya abu vulkanik dari lereng gunung api. Sangat subur namun cenderung mengikat fosfor (P-Fixation) kuat.',
+        defaultPH: 5.8,
+        suitableCrops: ['CABAI_RAWIT_MERAH', 'BAWANG_PUTIH', 'KOPI_SPESIALTI', 'PADI_BERAS'],
+        treatmentSteps: [
+            { title: '1. Netralisasi Fiksasi Fosfor (P)', action: 'Aplikasi pupuk fosfat alam / SP-36 dosis 150 kg/ha bersama mikoriza untuk membebaskan P yang terikat mineral allophane.' },
+            { title: '2. Pengapuran Ringan (Dolomit)', action: 'Taburkan Dolomit (CaMg(CO3)2) 1.0 - 1.5 ton/ha jika pH tanah < 5.5 untuk mencukupi kalsium dan magnesium buah cabai/kopi.' },
+            { title: '3. Pemupukan Organik Matang', action: 'Berikan kompos kotoran kambing/sapi fermentasi 10 ton/ha untuk memperkaya mikrobioma perakaran.' }
+        ],
+        yieldMultiplier: 1.25
+    },
+    ALUVIAL: {
+        id: 'ALUVIAL',
+        name: 'Tanah Aluvial (Endapan Sedimen Sungai / Dataran Rendah)',
+        color: '#5c4d3c',
+        desc: 'Tanah lempung liat berpasir hasil endapan banjir sungai. Tekstur remah kaya mineral, ideal untuk sawah padi, bawang merah, dan palawija.',
+        defaultPH: 6.2,
+        suitableCrops: ['PADI_BERAS', 'BAWANG_MERAH', 'JAGUNG_PIPIL', 'KEDELAI_LOKAL', 'TEBU_GULA'],
+        treatmentSteps: [
+            { title: '1. Pembenahan Struktur Drainase', action: 'Buat parit bedengan sedalam 40 cm agar air tidak tergenang saat hujan lebat guna mencegah busuk umbi bawang.' },
+            { title: '2. Pemupukan NPK Berimbang Presisi', action: 'Gunakan formula NPK 15-15-15 (300 kg/ha) + Urea (150 kg/ha) + KCL (100 kg/ha) untuk memperbesar umbi/bulir padi.' },
+            { title: '3. Rotasi Tanaman Pemutus Hama', action: 'Terapkan pola rotasi: Padi ➔ Bawang Merah ➔ Kedelai untuk mengikat nitrogen alami dari udara.' }
+        ],
+        yieldMultiplier: 1.20
+    },
+    LATOSOL: {
+        id: 'LATOSOL',
+        name: 'Tanah Latosol / Inseptisol (Tanah Merah Berliat)',
+        color: '#8b3a2b',
+        desc: 'Tanah merah kecokelatan yang mengalami pelapukan intensif. Solum dalam, aerasi baik, namun memiliki pH masam (4.5 - 5.3) dan miskin bahan organik.',
+        defaultPH: 4.8,
+        suitableCrops: ['KELAPA_SAWIT', 'JAGUNG_PIPIL', 'KAKAO_COKELAT', 'TEBU_GULA'],
+        treatmentSteps: [
+            { title: '1. Pengapuran Masif (Koreksi pH Masam)', action: 'Wajib tabur Dolomit 2.5 - 3.5 ton/ha 3 minggu sebelum tanam untuk menaikkan pH dari 4.8 menjadi 6.2.' },
+            { title: '2. Aplikasi Biochar & Asam Humat', action: 'Tambahkan Biochar sekam/arang 2 ton/ha dan asam humat untuk meningkatkan Kapasitas Tukar Kation (KTK).' },
+            { title: '3. Penambahan Unsur Kalium & Magnesium', action: 'Gunakan pupuk MOP (KCL) dan Kieserite (MgSO4) untuk memperkuat batang jagung dan pembentukan minyak sawit.' }
+        ],
+        yieldMultiplier: 1.15
+    },
+    GAMBUT: {
+        id: 'GAMBUT',
+        name: 'Tanah Gambut / Organosol (Lahan Basah Rawa)',
+        color: '#1f1610',
+        desc: 'Tanah organik tebal dari sisa tanaman tergenang. Sangat masam (pH 3.5 - 4.5), miskin unsur hara mikro (Cu, Zn, B), dan mudah terbakar jika kering.',
+        defaultPH: 4.0,
+        suitableCrops: ['KELAPA_SAWIT', 'PADI_BERAS'],
+        treatmentSteps: [
+            { title: '1. Tata Air Mikro (Water Management)', action: 'Jaga tinggi muka air tanah konstan pada kedalaman 40 - 60 cm menggunakan sekat kanal (canal blocking).' },
+            { title: '2. Pengapuran & Abu Sekam', action: 'Tabur kapur pertanian / abu janjang sawit 4 - 5 ton/ha untuk menetralisir senyawa asam fenolat beracun.' },
+            { title: '3. Suplemen Unsur Mikro (Cu & Zn)', action: 'Berikan pupuk Cu-Sulfat (15 kg/ha) dan Zn-Sulfat (10 kg/ha) untuk mencegah penyakit pucuk kuning pada tanaman.' }
+        ],
+        yieldMultiplier: 1.10
+    },
+    REGOSOL: {
+        id: 'REGOSOL',
+        name: 'Tanah Regosol / Pasir Pantai (Lahan Kering Porus)',
+        color: '#8c7b64',
+        desc: 'Tanah berbutir kasar dengan daya simpan air sangat rendah. Cepat panas dan mudah tercuci pupuk, namun memiliki aerasi oksigen perakaran sangat tinggi.',
+        defaultPH: 6.5,
+        suitableCrops: ['BAWANG_MERAH', 'CABAI_RAWIT_MERAH', 'JAGUNG_PIPIL'],
+        treatmentSteps: [
+            { title: '1. Aplikasi Mulsa Organik & Plastik UV', action: 'Tutup bedengan dengan mulsa jerami/plastik perak untuk menahan penguapan air tanah di siang hari.' },
+            { title: '2. Teknologi Irigasi Tetes (Drip Fertigation)', action: 'Terapkan penyiraman tetes otomatis bertenaga surya DEN untuk efisiensi air 70% dan pemupukan presisi.' },
+            { title: '3. Pemadatan Struktur dengan Lempung/Kompos', action: 'Campurkan kotoran sapi padat 15 ton/ha untuk membentuk tekstur liat pengikat hara.' }
+        ],
+        yieldMultiplier: 1.18
+    }
+};
+
+// 5. STATUS BMKG
+const BMKG_WEATHER_ALERTS = [
+    {
+        id: 'ALERT_DRY_ELNINO',
+        title: '⚠️ Peringatan Dini Kekeringan El Niño Moderat',
+        level: 'WASPADA',
+        color: '#eab308',
+        affectedRegions: ['JAWA_BALI', 'NUSA_TENGGARA', 'SULAWESI'],
+        recommendation: 'Hindari tanam padi sawah di lahan tanpa irigasi teknis. Beralih ke Jagung Hibrida, Bawang Merah, atau Kedelai tahan kering.'
+    },
+    {
+        id: 'ALERT_WET_LANINA',
+        title: '🌧️ Peringatan Curah Hujan Tinggi & La Niña',
+        level: 'SIAGA BANJIR',
+        color: '#0284c7',
+        affectedRegions: ['SUMATERA', 'KALIMANTAN'],
+        recommendation: 'Perdalam parit drainase bedengan cabai/bawang 50 cm. Semprot fungisida hayati Trichoderma untuk mencegah antraknosa.'
+    },
+    {
+        id: 'ALERT_NORMAL_OPTIMAL',
+        title: '☀️ Kondisi Agroklimat Normal & Optimal',
+        level: 'AMAN / HIJAU',
+        color: '#10b981',
+        affectedRegions: ['SUMATERA', 'JAWA_BALI', 'SULAWESI', 'MALUKU_PAPUA'],
+        recommendation: 'Kondisi cuaca sangat ideal. Jalankan jadwal tanam sesuai kalender untuk mengejar harga panen tertinggi.'
+    }
+];

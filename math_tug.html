@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🪢 Tarik Tambang Matematika SD - Duel 2 Grup 🏆</title>
+    <link rel="stylesheet" href="math_tug.css">
+</head>
+<body>
+    <!-- Background Outdoor Park & Sunny Sky -->
+    <div class="stadium-bg">
+        <div class="park-sun">
+            <span class="sun-face">😊</span>
+        </div>
+        <div class="cloud cloud-a"></div>
+        <div class="cloud cloud-b"></div>
+        <div class="cloud cloud-c"></div>
+        <div class="park-bunting">
+            <span class="flag f-red">🚩</span>
+            <span class="flag f-yellow">⭐</span>
+            <span class="flag f-blue">🚩</span>
+            <span class="flag f-green">🌸</span>
+            <span class="flag f-red">🚩</span>
+            <span class="flag f-yellow">⭐</span>
+            <span class="flag f-blue">🚩</span>
+            <span class="flag f-green">🌸</span>
+            <span class="flag f-red">🚩</span>
+        </div>
+    </div>
+
+    <!-- Countdown Aba-aba Overlay (3, 2, 1, TARIK!) -->
+    <div id="countdownOverlay" class="countdown-backdrop">
+        <div class="countdown-box">
+            <div id="countdownNumber" class="countdown-digit">3</div>
+            <div id="countdownLabel" class="countdown-text">BERSIAP... 🚩</div>
+            <div class="countdown-squad-anim">
+                <span class="squad-emoji left-squad">🐼</span>
+                <span class="squad-rope">〰️〰️🪢〰️〰️</span>
+                <span class="squad-emoji right-squad">🐰</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div class="game-container">
+        
+        <!-- Top Stadium Header -->
+        <header class="top-header">
+            <div class="header-title-box">
+                <span class="header-icon">🪢</span>
+                <div>
+                    <h1 class="header-title">Tarik Tambang Ceria</h1>
+                    <p class="header-subtitle">Taman Bermain Matematika SD 🌻✨</p>
+                </div>
+            </div>
+
+            <!-- Scoreboard Timer & Level in Header -->
+            <div class="header-center-info">
+                <div id="roundTimerDisplay" class="timer-badge">⏱️ 60s</div>
+                <div id="levelBadgeDisplay" class="level-indicator">Kelas 1-2 SD</div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="header-actions">
+                <button id="btnPauseTug" class="header-pause-btn" title="Jeda Pertandingan">
+                    <span>⏸️</span> Jeda
+                </button>
+                <button id="btnMusicTug" class="btn-circle" title="Musik BGM" aria-label="Toggle Music">🎵</button>
+                <button id="btnSoundTug" class="btn-circle" title="Suara SFX" aria-label="Toggle SFX">🔊</button>
+                <a href="index.html" class="header-nav-btn" title="Pindah ke Game Mochi Tetris">
+                    <span>🍡</span> Mochi Tetris
+                </a>
+                <a href="trade_game.html" class="header-nav-btn" title="Pindah ke Game Global Trade Tycoon">
+                    <span>🌐</span> Trade Tycoon
+                </a>
+                <a href="cocok_tanam.html" class="header-nav-btn" title="Pusat Data Cocok Tanam Cuan" style="background:#0f5132; color:#ffffff;">
+                    <span>🌾</span> Cocok Tanam
+                </a>
+            </div>
+        </header>
+
+        <!-- Tug of War Arena (Middle Canvas & Gauge) -->
+        <section class="arena-card">
+            <div class="tug-gauge-container">
+                <div class="tug-gauge-center"></div>
+                <div id="tugGaugePointer" class="tug-gauge-pointer"></div>
+            </div>
+
+            <canvas id="tugCanvas" width="900" height="200"></canvas>
+        </section>
+
+        <!-- Dual Group Split-Screen Battle Panels -->
+        <main class="battle-panels-grid">
+            
+            <!-- GROUP 1: TIM MERAH (PANDA SQUAD) -->
+            <section class="team-panel red-theme">
+                <!-- Team Header -->
+                <div class="panel-team-header">
+                    <div class="team-badge">
+                        <span class="team-mascot">🐼</span>
+                        <span id="redTeamNameDisplay" class="team-name">Tim Merah</span>
+                    </div>
+                    <div class="team-stats">
+                        <span id="redComboDisplay" class="combo-pill">🔥 COMBO x2!</span>
+                        <span id="redScoreDisplay" class="score-counter">⭐ 0</span>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="question-box">
+                    <span id="redCategoryDisplay" class="question-category">Penjumlahan</span>
+                    <div id="redQuestionDisplay" class="question-text">8 + 5 = ?</div>
+                </div>
+
+                <!-- 4 Interactive Choice Buttons -->
+                <div id="redChoicesGrid" class="choices-grid">
+                    <button class="btn-choice"><span class="key-hint">1 / Q</span>13</button>
+                    <button class="btn-choice"><span class="key-hint">2 / W</span>12</button>
+                    <button class="btn-choice"><span class="key-hint">3 / A</span>14</button>
+                    <button class="btn-choice"><span class="key-hint">4 / S</span>15</button>
+                </div>
+
+                <!-- Penalty Lockout Overlay (When Wrong) -->
+                <div id="redPenaltyOverlay" class="penalty-overlay">
+                    <div class="penalty-mascot">😵</div>
+                    <div class="penalty-text">Aduh, Terpeleset!</div>
+                    <div id="redPenaltyTimer" class="penalty-timer">1.2s</div>
+                </div>
+            </section>
+
+            <!-- GROUP 2: TIM BIRU (BUNNY SQUAD) -->
+            <section class="team-panel blue-theme">
+                <!-- Team Header -->
+                <div class="panel-team-header">
+                    <div class="team-badge">
+                        <span class="team-mascot">🐰</span>
+                        <span id="blueTeamNameDisplay" class="team-name">Tim Biru</span>
+                    </div>
+                    <div class="team-stats">
+                        <span id="blueComboDisplay" class="combo-pill">🔥 COMBO x2!</span>
+                        <span id="blueScoreDisplay" class="score-counter">⭐ 0</span>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="question-box">
+                    <span id="blueCategoryDisplay" class="question-category">Penjumlahan</span>
+                    <div id="blueQuestionDisplay" class="question-text">9 + 4 = ?</div>
+                </div>
+
+                <!-- 4 Interactive Choice Buttons -->
+                <div id="blueChoicesGrid" class="choices-grid">
+                    <button class="btn-choice"><span class="key-hint">7 / U</span>13</button>
+                    <button class="btn-choice"><span class="key-hint">8 / I</span>15</button>
+                    <button class="btn-choice"><span class="key-hint">9 / J</span>11</button>
+                    <button class="btn-choice"><span class="key-hint">0 / K</span>14</button>
+                </div>
+
+                <!-- Penalty Lockout Overlay (When Wrong) -->
+                <div id="bluePenaltyOverlay" class="penalty-overlay">
+                    <div class="penalty-mascot">😵</div>
+                    <div class="penalty-text">Aduh, Terpeleset!</div>
+                    <div id="bluePenaltyTimer" class="penalty-timer">1.2s</div>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- ============================================================
+         MODALS (SETUP MATCH, PAUSE, VICTORY)
+         ============================================================ -->
+
+    <!-- Setup Match Modal (Pilih Tingkat SD & Durasi) -->
+    <div id="setupModal" class="modal-backdrop active">
+        <div class="modal-box">
+            <div class="modal-badge-icon">🪢</div>
+            <h2 class="modal-heading">Persiapan Tarik Tambang</h2>
+            <p class="modal-desc">Pilih tingkat kelas SD dan durasi ronde pertandingan:</p>
+
+            <!-- Level Selector -->
+            <div class="setting-group">
+                <label class="setting-label">📚 Tingkat Kesulitan / Jenjang Kelas:</label>
+                <div class="level-buttons-grid">
+                    <button class="btn-level-select selected" data-level="1">
+                        🐣 Kelas 1 - 2 SD
+                        <small>Tambah, Kurang, Pola Angka</small>
+                    </button>
+                    <button class="btn-level-select" data-level="2">
+                        🎒 Kelas 3 - 4 SD
+                        <small>Perkalian, Pembagian, Waktu</small>
+                    </button>
+                    <button class="btn-level-select" data-level="3">
+                        🎓 Kelas 5 - 6 SD
+                        <small>Pecahan, Kurung, Geometri</small>
+                    </button>
+                    <button class="btn-level-select" data-level="4">
+                        🌟 Semua Kelas
+                        <small>Turnamen Campuran Acak</small>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Round Duration Selector -->
+            <div class="setting-group">
+                <label class="setting-label">⏱️ Durasi Ronde Pertandingan:</label>
+                <div class="time-buttons-row">
+                    <button class="btn-time-select" data-time="45">45 Detik</button>
+                    <button class="btn-time-select selected" data-time="60">60 Detik</button>
+                    <button class="btn-time-select" data-time="90">90 Detik</button>
+                    <button class="btn-time-select" data-time="0">Bebas</button>
+                </div>
+            </div>
+
+            <!-- Custom Team Names -->
+            <div class="setting-group">
+                <label class="setting-label">👥 Nama Grup / Tim:</label>
+                <div class="team-names-row">
+                    <input type="text" id="inputRedTeamName" class="input-team-name" value="Tim Merah 🐼" placeholder="Tim Kiri">
+                    <input type="text" id="inputBlueTeamName" class="input-team-name" value="Tim Biru 🐰" placeholder="Tim Kanan">
+                </div>
+            </div>
+
+            <button id="btnStartMatch" class="btn-play-action">Mulai Tanding! 🏆</button>
+        </div>
+    </div>
+
+    <!-- Pause Modal -->
+    <div id="pauseModal" class="modal-backdrop">
+        <div class="modal-box">
+            <div class="modal-badge-icon">⏸️</div>
+            <h2 class="modal-heading">Pertandingan Dijeda</h2>
+            <p class="modal-desc">Kedua tim sedang beristirahat minum sejenak... 🥤</p>
+            <button id="btnResumeTug" class="btn-play-action">Lanjutkan Tanding ▶️</button>
+            <button id="btnRestartPauseTug" class="btn-play-action secondary">Atur Ulang 🔄</button>
+        </div>
+    </div>
+
+    <!-- Victory Celebration Modal -->
+    <div id="victoryModal" class="modal-backdrop">
+        <div class="modal-box">
+            <div id="winnerMascotDisplay" class="modal-badge-icon">🏆 🐼 🏆</div>
+            <h2 id="winnerTitleDisplay" class="modal-heading">SELAMAT!</h2>
+            <p id="winnerSubtitleDisplay" class="modal-desc">Tim Merah memenangkan pertandingan tarik tambang!</p>
+
+            <div class="victory-stats-box">
+                <div class="v-stat-item">
+                    <span class="v-stat-label">🔴 Total Benar (Merah)</span>
+                    <span id="redTotalCorrect" class="v-stat-val">0</span>
+                </div>
+                <div class="v-stat-item">
+                    <span class="v-stat-label">🔵 Total Benar (Biru)</span>
+                    <span id="blueTotalCorrect" class="v-stat-val">0</span>
+                </div>
+            </div>
+
+            <button id="btnPlayAgain" class="btn-play-action">Tanding Lagi! 🌸</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="math_audio.js"></script>
+    <script src="math_questions.js"></script>
+    <script src="math_tug.js"></script>
+</body>
+</html>

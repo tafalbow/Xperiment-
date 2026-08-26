@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🌐 Global Trade Tycoon: Supply Chain Empire (1-10 Pemain) 🚢📦</title>
+    <link rel="stylesheet" href="trade_game.css">
+</head>
+<body>
+    <div class="tycoon-app-wrapper">
+        
+        <!-- Top Command Header -->
+        <header class="tycoon-header">
+            <div class="brand-section">
+                <span class="brand-logo-icon">🌐</span>
+                <div>
+                    <h1 class="brand-name">Global Trade Tycoon</h1>
+                    <p class="company-badge">Simulasi Rantai Pasok & Perdagangan Dunia</p>
+                </div>
+            </div>
+
+            <!-- Active Player Turn Indicator -->
+            <div id="activePlayerTurnBanner" class="player-turn-indicator">
+                <span id="playerTurnBadge" class="p-avatar-tag">P1</span>
+                <div>
+                    <div id="playerTurnName" class="p-company-title">PT Nusantara Logistik</div>
+                    <div id="playerTurnRound" class="p-round-sub">Giliran Bulan 1 (Pemain 1 dari 4)</div>
+                </div>
+            </div>
+
+            <!-- Economic & Date Metrics -->
+            <div class="header-metrics-bar">
+                <div class="metric-pill">
+                    <span class="metric-label">💰 Modal Kas</span>
+                    <span id="headerCapitalVal" class="metric-value">$60,000</span>
+                </div>
+                <div class="metric-pill">
+                    <span class="metric-label">📅 Kalender</span>
+                    <span id="headerDateVal" class="metric-value cyan-val">Thn 1, Bln 1</span>
+                </div>
+                <div class="level-current-tag">
+                    <span class="level-tag-icon">🎖️</span>
+                    <span id="headerLevelVal" class="level-tag-num">Lvl 1: Pedagang Kota</span>
+                </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="header-buttons">
+                <button id="btnEndTurn" class="btn-end-turn" title="Selesaikan Giliran Bulan Ini">
+                    <span>⏩</span> Akhiri Giliran
+                </button>
+                <button id="btnTradeMusic" class="btn-ctrl" title="Musik BGM" aria-label="Toggle Music">🎵</button>
+                <button id="btnTradeSound" class="btn-ctrl" title="Suara SFX" aria-label="Toggle SFX">🔊</button>
+                <a href="index.html" class="btn-ctrl" style="text-decoration:none;" title="Menu Game">
+                    <span>🍡</span> Menu
+                </a>
+                <a href="cocok_tanam.html" class="btn-ctrl" style="text-decoration:none; background:#0f5132; color:#ffffff;" title="Portal Cocok Tanam Cuan">
+                    <span>🌾</span> Cocok Tanam
+                </a>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tycoon-nav-tabs">
+            <button class="nav-tab-btn active" data-tab="tabDashboard">📦 Papan Dagang Utama</button>
+            <button class="nav-tab-btn" data-tab="tabMap">🗺️ Peta Skala & Rute</button>
+            <button class="nav-tab-btn" data-tab="tabMarket">📈 Bursa Komoditas Lengkap</button>
+            <button class="nav-tab-btn" data-tab="tabFactories">🏭 Pabrik & Hilirisasi</button>
+            <button class="nav-tab-btn" data-tab="tabImpact">📊 Dampak Sosial-Ekonomi Negara</button>
+            <button class="nav-tab-btn" data-tab="tabLeaderboard">👥 Klasemen 10 Pemain</button>
+            <button class="nav-tab-btn" data-tab="tabRoadmap">🏆 17 Level Progresi</button>
+        </nav>
+
+        <!-- Main Viewport Area -->
+        <main class="tycoon-main-viewport">
+            
+            <!-- ============================================================
+                 TAB 1: UPFRONT ACTIVE TRADE DASHBOARD (PAPAN DAGANG UTAMA)
+                 ============================================================ -->
+            <section id="tabDashboard" class="tab-view-panel active">
+                
+                <!-- Top Big Action Banner -->
+                <div class="upfront-action-banner">
+                    <div>
+                        <h2 style="font-family:'Chakra Petch'; font-size:1.4rem; color:var(--accent-gold);">
+                            🚀 Siap Menjalankan Rantai Pasok Bulan Ini?
+                        </h2>
+                        <p style="font-size:0.88rem; color:var(--text-muted); margin-top:3px;">
+                            Gunakan Panduan Keputusan 4 Langkah untuk membeli komoditas berkeunggulan murah dan mengirimkannya ke pasar tujuan bernilai tertinggi!
+                        </p>
+                    </div>
+                    <button id="btnStartWizard" class="btn-hero-wizard">
+                        <span>🧭</span> Mulai Wizard Keputusan Dagang
+                    </button>
+                </div>
+
+                <!-- Dashboard 3 Columns Layout -->
+                <div class="upfront-dashboard-grid">
+                    
+                    <!-- Kolom 1: Gudang Komoditas yang Dimiliki Saat Ini -->
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <span class="d-header-title"><span>📦</span> Gudang & Stok Komoditas Anda</span>
+                            <span id="warehouseTotalItems" class="badge-pill">3 Jenis Barang</span>
+                        </div>
+                        <div id="upfrontWarehouseList" class="warehouse-items-grid">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Kolom 2: Rekomendasi Peluang Dagang Terpanas -->
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <span class="d-header-title"><span>🔥</span> Peluang Dagang Terpanas (Marjin Tertinggi)</span>
+                            <span class="badge-pill" style="background:rgba(6,214,160,0.2); color:var(--accent-green);">Rekomendasi AI</span>
+                        </div>
+                        <div id="upfrontOpportunitiesList" class="opportunities-list">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Kolom 3: Target Misi & Landasan Ilmu Ekonomi Level Ini -->
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                            <span class="d-header-title"><span>🎯</span> Target Misi Level Ini</span>
+                            <span id="upfrontLevelTag" class="badge-pill" style="background:rgba(255,209,102,0.2); color:var(--accent-gold);">Level 1</span>
+                        </div>
+                        <div id="upfrontLevelTargetBox" class="level-mission-box">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                        <div class="dashboard-card-header" style="margin-top:8px;">
+                            <span class="d-header-title"><span>🎓</span> Teori Ekonomi yang Berlaku</span>
+                        </div>
+                        <div id="upfrontEconomicsBox" class="economics-mini-box">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 TAB 2: WORLD MAP & LOGISTICS CANVAS
+                 ============================================================ -->
+            <section id="tabMap" class="tab-view-panel">
+                <div class="map-view-layout">
+                    <div class="canvas-map-container">
+                        <div id="mapScaleTitleDisplay" class="map-scale-badge">📍 Peta Kota Metropolis (Surabaya / Jakarta)</div>
+                        <canvas id="worldTradeCanvas" width="1000" height="540"></canvas>
+                    </div>
+                    <div class="map-sidebar-info">
+                        <div class="sidebar-card">
+                            <div class="sidebar-card-title"><span>🎓</span> Teori & Prinsip Ekonomi Aktif</div>
+                            <div id="economicsPrincipleDisplay"></div>
+                        </div>
+                        <div class="sidebar-card" style="flex:1;">
+                            <div class="sidebar-card-title"><span>🚚</span> Armada Logistik Bergerak</div>
+                            <div id="activeRoutesList" class="active-routes-list">
+                                <div style="font-size:0.8rem; color:var(--text-muted); text-align:center; padding:12px;">
+                                    Armada kargo Anda akan bergerak di peta sesuai skala level yang sedang aktif.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 TAB 3: COMMODITIES MARKET & TRADING
+                 ============================================================ -->
+            <section id="tabMarket" class="tab-view-panel">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 style="font-family:'Chakra Petch'; font-size:1.3rem; color:var(--accent-cyan);">Bursa Komoditas & Perdagangan Global</h2>
+                    <span style="font-size:0.82rem; color:var(--text-muted);">Harga fluktuatif diperbarui berkala sesuai hukum permintaan & penawaran</span>
+                </div>
+                <div id="commoditiesMarketGrid" class="commodities-grid"></div>
+            </section>
+
+            <!-- ============================================================
+                 TAB 4: FACTORIES & SMELTER PROCESSING
+                 ============================================================ -->
+            <section id="tabFactories" class="tab-view-panel">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 style="font-family:'Chakra Petch'; font-size:1.3rem; color:var(--accent-cyan);">Pabrik Pengolahan & Smelter Hilirisasi</h2>
+                    <span style="font-size:0.82rem; color:var(--text-muted);">Ubah bahan mentah menjadi barang bernilai tambah tinggi untuk melipatgandakan margin laba</span>
+                </div>
+                <div id="factoriesListGrid" class="factories-grid"></div>
+            </section>
+
+            <!-- ============================================================
+                 TAB 5: COUNTRY SOCIO-ECONOMIC IMPACT DASHBOARD
+                 ============================================================ -->
+            <section id="tabImpact" class="tab-view-panel">
+                <div class="impact-intro-banner">
+                    <div>
+                        <h3 style="font-size:1.15rem; color:#ffffff;">📊 Laporan Dampak Nyata Terhadap Wilayah / Negara</h3>
+                        <p style="font-size:0.84rem; color:var(--text-muted); margin-top:2px;">
+                            Aktivitas ekspor, impor, dan pembangunan industri menyumbang PDB, menciptakan lapangan kerja, menyetor pajak, dan menjaga stabilitas harga lokal.
+                        </p>
+                    </div>
+                </div>
+                <div id="countriesImpactGrid" class="countries-impact-grid"></div>
+            </section>
+
+            <!-- ============================================================
+                 TAB 6: MULTIPLAYER LEADERBOARD (KLASEMEN 10 PEMAIN)
+                 ============================================================ -->
+            <section id="tabLeaderboard" class="tab-view-panel">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 style="font-family:'Chakra Petch'; font-size:1.3rem; color:var(--accent-gold);">👥 Klasemen Taipan Rantai Pasok Multipemain</h2>
+                    <span style="font-size:0.82rem; color:var(--text-muted);">Peringkat seluruh perusahaan berdasarkan kekayaan bersih, volume pasokan, dan dampak negara</span>
+                </div>
+                <div class="leaderboard-table-container">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Peringkat</th>
+                                <th>Perusahaan</th>
+                                <th>Level</th>
+                                <th>Kekayaan Bersih</th>
+                                <th>Volume Pasokan</th>
+                                <th>Sumbangan PDB</th>
+                                <th>Skor ESG</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardTableBody">
+                            <!-- Populated dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 TAB 7: 17-LEVEL PROGRESSION ROADMAP
+                 ============================================================ -->
+            <section id="tabRoadmap" class="tab-view-panel">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 style="font-family:'Chakra Petch'; font-size:1.3rem; color:var(--accent-gold);">🏆 Peta Jalan 17 Level Taipan Rantai Pasok</h2>
+                    <span style="font-size:0.82rem; color:var(--text-muted);">Dari pedagang pasar 1 kota sendiri hingga penguasa hegemoni perdagangan dunia</span>
+                </div>
+                <div id="levelRoadmapContainer" class="level-roadmap-container"></div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Live News Marquee Ticker -->
+        <footer class="news-ticker-bar">
+            <span class="news-label">BERITA EKONOMI</span>
+            <div id="newsTickerText" class="news-marquee-text">
+                🌐 Selamat datang di Global Trade Tycoon! Jalankan rantai pasok Anda dan bersainglah dengan perusahaan lain.
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ============================================================
+         MODALS: SETUP MULTIPLAYER, STEP-BY-STEP WIZARD, & LEVEL UP
+         ============================================================ -->
+
+    <!-- MODAL 1: MULTIPLAYER SETUP SCREEN (1–10 PEMAIN) -->
+    <div id="multiplayerSetupModal" class="tycoon-modal-backdrop active">
+        <div class="tycoon-modal-card setup-modal-card">
+            <div style="font-size:2.8rem;">🌐 👥 🚢</div>
+            <h2 class="tycoon-modal-title">Konfigurasi Permainan Rantai Pasok</h2>
+            <p style="font-size:0.88rem; color:var(--text-muted);">
+                Pilih jumlah pemain (1 hingga 10 pemain) dan atur nama perusahaan masing-masing.
+            </p>
+
+            <!-- Jumlah Pemain Slider / Buttons -->
+            <div class="player-count-selector">
+                <label style="font-weight:700; font-size:0.9rem;">Jumlah Pemain / Perusahaan:</label>
+                <div class="player-count-btns">
+                    <button class="btn-pcount" data-count="1">1 Pemain</button>
+                    <button class="btn-pcount selected" data-count="2">2 Pemain</button>
+                    <button class="btn-pcount" data-count="3">3 Pemain</button>
+                    <button class="btn-pcount" data-count="4">4 Pemain</button>
+                    <button class="btn-pcount" data-count="6">6 Pemain</button>
+                    <button class="btn-pcount" data-count="8">8 Pemain</button>
+                    <button class="btn-pcount" data-count="10">10 Pemain (Maks)</button>
+                </div>
+            </div>
+
+            <!-- Player Name Inputs Container -->
+            <div id="playerListInputContainer" class="player-inputs-scroll">
+                <!-- Dynamically generated inputs for 1-10 players -->
+            </div>
+
+            <button id="btnStartGameSetup" class="btn-hero-wizard" style="margin-top:10px; width:100%;">
+                Mulai Kompetisi Rantai Pasok! 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: STEP-BY-STEP DECISION WIZARD (4 LANGKAH PENGAMBILAN KEPUTUSAN) -->
+    <div id="decisionWizardModal" class="tycoon-modal-backdrop">
+        <div class="tycoon-modal-card wizard-modal-card">
+            
+            <!-- Wizard Step Header -->
+            <div class="wizard-header">
+                <div class="wizard-steps-indicator">
+                    <div class="w-step active" data-step="1">1. Pasokan</div>
+                    <div class="w-step" data-step="2">2. Logistik</div>
+                    <div class="w-step" data-step="3">3. Alokasi Pasar</div>
+                    <div class="w-step" data-step="4">4. Eksekusi</div>
+                </div>
+                <h3 id="wizardStepTitle" class="wizard-title">Langkah 1: Pilih Komoditas & Sumber Pasokan</h3>
+            </div>
+
+            <!-- Wizard Step Body (Dynamic) -->
+            <div id="wizardStepBody" class="wizard-body-content">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Wizard Navigation Buttons -->
+            <div class="wizard-nav-footer">
+                <button id="btnWizardPrev" class="btn-ctrl" style="display:none;">⬅️ Kembali</button>
+                <button id="btnWizardNext" class="btn-hero-wizard" style="padding:10px 24px;">Lanjut ke Logistik ➡️</button>
+                <button id="btnWizardCancel" class="btn-ctrl">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: TRADE ACTION MODAL (DIRECT BUY/SELL) -->
+    <div id="tradeActionModal" class="tycoon-modal-backdrop">
+        <div class="tycoon-modal-card">
+            <h3 id="tradeModalTitle" class="tycoon-modal-title">Operasi Perdagangan</h3>
+            <div id="tradeModalBody"></div>
+            <button id="btnTradeModalClose" class="btn-ctrl" style="align-self:center; margin-top:10px;">Tutup</button>
+        </div>
+    </div>
+
+    <!-- MODAL 4: LEVEL UP CELEBRATION -->
+    <div id="levelUpModal" class="tycoon-modal-backdrop">
+        <div class="tycoon-modal-card" style="border-color:var(--accent-gold);">
+            <div style="font-size:3.5rem;">🏆 📈 🌍</div>
+            <h2 id="levelUpTitle" class="tycoon-modal-title">NAIK LEVEL!</h2>
+            <div id="levelUpDesc" style="font-size:0.92rem; color:var(--text-muted); line-height:1.4; text-align:left; background:rgba(8,13,26,0.6); padding:12px; border-radius:12px;"></div>
+            <div id="levelUpImpact" style="background:rgba(6,214,160,0.15); border:1px solid var(--accent-green); border-radius:12px; padding:10px; font-size:0.86rem; color:var(--accent-green);"></div>
+            <button class="btn-hero-wizard" style="align-self:center; margin-top:10px; padding:10px 30px;" onclick="document.getElementById('levelUpModal').classList.remove('active');">Lanjutkan Ekspansi Bisnis! 🚀</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="trade_countries.js"></script>
+    <script src="trade_levels.js"></script>
+    <script src="trade_audio.js"></script>
+    <script src="trade_engine.js"></script>
+</body>
+</html>

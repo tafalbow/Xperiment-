@@ -1,0 +1,926 @@
+/* ============================================================
+   COCOK TANAM CUAN - GOVTECH STYLESHEET
+   Desain Bersih, Minimalis, Kontras Tinggi, dan Responsif Penuh
+   Untuk Petani, Penyuluh, dan Analis Kebijakan DEN / Pemerintah RI.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-emerald: #0f5132;
+    --primary-light: #198754;
+    --primary-soft: #d1fae5;
+    
+    --accent-gold: #d97706;
+    --accent-gold-soft: #fef3c7;
+    
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f1f5f9;
+    
+    --border-light: #e2e8f0;
+    --border-focus: #10b981;
+    
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --text-white: #ffffff;
+    
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   HEADER & NAVBAR LEMBAGA RESMI
+   ============================================================ */
+.gov-header {
+    background-color: var(--bg-card);
+    border-bottom: 1.5px solid var(--border-light);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: var(--shadow-sm);
+}
+
+.gov-top-bar {
+    background-color: var(--primary-emerald);
+    color: var(--text-white);
+    padding: 4px 20px;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gov-navbar-main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.brand-identity-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.brand-emblem-icon {
+    font-size: 2rem;
+    background: var(--primary-soft);
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.brand-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary-emerald);
+    letter-spacing: -0.3px;
+}
+
+.brand-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.gov-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.nav-link-btn {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 0.86rem;
+    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-link-btn:hover {
+    background-color: var(--primary-soft);
+    color: var(--primary-emerald);
+}
+
+.btn-hotline-header {
+    background-color: var(--primary-emerald);
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-hotline-header:hover {
+    background-color: var(--primary-light);
+}
+
+/* ============================================================
+   CONTAINER & SECTION COMMONS
+   ============================================================ */
+.main-content-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.section-header-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.section-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--primary-emerald);
+    letter-spacing: -0.3px;
+}
+
+.section-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+/* ============================================================
+   HERO / BANNER ADVISORY
+   ============================================================ */
+.hero-advisory-banner {
+    background: linear-gradient(135deg, #064e3b 0%, #0f5132 100%);
+    color: var(--text-white);
+    border-radius: 20px;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.hero-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.hero-desc {
+    font-size: 0.92rem;
+    color: #a7f3d0;
+    max-width: 680px;
+    margin-top: 6px;
+}
+
+.btn-status-alert {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.86rem;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-status-alert:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* ============================================================
+   DASHBOARD 1: PETA GIS INDONESIA BERESOLUSI TINGGI (38 PROVINSI)
+   ============================================================ */
+.map-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+}
+
+.map-interactive-container {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.map-filter-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-island-pill {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-island-pill:hover {
+    background: var(--primary-soft);
+    color: var(--primary-emerald);
+}
+
+.btn-island-pill.active {
+    background: var(--primary-emerald);
+    color: #ffffff;
+    border-color: var(--primary-emerald);
+}
+
+/* Leaflet GIS Map Canvas */
+.gis-map-canvas {
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    background: #e2e8f0;
+}
+
+/* Custom Leaflet Marker Pins */
+.custom-agri-marker {
+    background: transparent;
+    border: none;
+}
+
+.leaf-marker-pin-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transform: translate(-50%, -100%);
+}
+
+.leaf-marker-bubble {
+    background: #0f5132;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+}
+
+.leaf-marker-bubble:hover {
+    transform: scale(1.1);
+    background: #d97706;
+    border-color: #ffffff;
+}
+
+.leaf-marker-dot {
+    width: 8px;
+    height: 8px;
+    background: #d97706;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    margin-top: 1px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Custom Leaflet Popup */
+.leaflet-popup-content-wrapper {
+    border-radius: 14px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-light);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: 2px;
+}
+
+.leaflet-popup-content {
+    margin: 12px 14px;
+    line-height: 1.4;
+}
+
+.map-instruction-bar {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    background: var(--bg-card-alt);
+    padding: 8px 14px;
+    border-radius: 10px;
+}
+
+.zone-flag { font-size: 1.4rem; }
+.zone-name { font-size: 0.9rem; font-weight: 700; color: var(--text-dark); }
+.zone-status { font-size: 0.75rem; color: var(--primary-emerald); font-weight: 600; }
+
+.region-detail-panel {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================
+   SELEKTOR BULAN & TAHUN (TAHUN BERJALAN S/D YEAR +5)
+   ============================================================ */
+.period-picker-container {
+    background: var(--bg-card-alt);
+    border: 1.5px solid var(--border-light);
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin-top: 4px;
+}
+
+.btn-reset-period {
+    background: rgba(15, 81, 50, 0.1);
+    color: var(--primary-emerald);
+    border: 1px solid rgba(15, 81, 50, 0.2);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s ease;
+}
+
+.btn-reset-period:hover {
+    background: var(--primary-emerald);
+    color: #ffffff;
+}
+
+.period-inputs-row {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 8px;
+}
+
+.period-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.period-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.period-select {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1.5px solid var(--border-light);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    background-color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.period-select:focus {
+    border-color: var(--primary-emerald);
+}
+
+/* ============================================================
+   KARTU REKOMENDASI TANAM BULAN INI & BULAN DEPAN
+   ============================================================ */
+.rec-month-card {
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.this-month-card {
+    background: #f0fdf4;
+    border: 1.5px solid #86efac;
+}
+
+.this-month-card:hover {
+    box-shadow: 0 4px 14px rgba(34, 197, 94, 0.15);
+}
+
+.next-month-card {
+    background: #fffbeb;
+    border: 1.5px solid #fde68a;
+}
+
+.next-month-card:hover {
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.15);
+}
+
+.rec-month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.rec-month-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.badge-this-month {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-next-month {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.rec-cuan-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.rec-crop-hero {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rec-crop-icon-box {
+    font-size: 1.8rem;
+    background: #ffffff;
+    padding: 4px 8px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.rec-crop-name {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.rec-crop-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.rec-crop-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 8px 10px;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+.rec-detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.rec-detail-lbl {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.rec-detail-val {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.btn-rec-action {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+    margin-top: 2px;
+}
+
+.btn-action-this-month {
+    background: #0f5132;
+    color: #ffffff;
+}
+
+.btn-action-this-month:hover {
+    background: #15803d;
+}
+
+.btn-action-next-month {
+    background: #d97706;
+    color: #ffffff;
+}
+
+.btn-action-next-month:hover {
+    background: #b45309;
+}
+
+.regency-item-card {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.crop-mini-tag {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* ============================================================
+   DASHBOARD 2: KALKULATOR TANGGAL TANAM ➔ PANEN & RUPIAH/KG
+   ============================================================ */
+.calc-workbench-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 20px;
+}
+
+.calc-inputs-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: var(--shadow-sm);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.form-select, .form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border-light);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    background-color: var(--bg-card);
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.form-select:focus, .form-input:focus {
+    border-color: var(--primary-emerald);
+}
+
+.calc-results-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: var(--shadow-md);
+}
+
+.calc-kpi-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.kpi-box {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.kpi-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--primary-emerald);
+    margin-top: 2px;
+}
+
+.metric-badge {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    display: inline-block;
+    align-self: flex-start;
+}
+
+.badge-success { background: #d1fae5; color: #065f46; }
+.badge-warning { background: #fef3c7; color: #92400e; }
+.badge-danger { background: #fee2e2; color: #991b1b; }
+
+.calc-advisory-banner {
+    background: #ecfdf5;
+    border: 1.5px solid #a7f3d0;
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 0.88rem;
+    color: #065f46;
+    line-height: 1.45;
+}
+
+/* ============================================================
+   DASHBOARD 3: JADWAL TANAM NASIONAL & ANTI-INFLASI
+   ============================================================ */
+.schedule-table-wrapper {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 18px;
+    overflow-x: auto;
+    box-shadow: var(--shadow-sm);
+}
+
+.gov-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+}
+
+.gov-data-table th {
+    background: var(--bg-card-alt);
+    color: var(--text-dark);
+    padding: 14px 18px;
+    font-weight: 700;
+    border-bottom: 1.5px solid var(--border-light);
+}
+
+.gov-data-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.gov-data-table tr:hover {
+    background-color: rgba(15, 81, 50, 0.02);
+}
+
+/* ============================================================
+   DASHBOARD 4: SOLUSI TANAH & MAX-YIELD
+   ============================================================ */
+.soil-solution-container {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.soil-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px dashed var(--border-light);
+    padding-bottom: 12px;
+}
+
+.soil-ph-badge {
+    background: var(--primary-soft);
+    color: var(--primary-emerald);
+    border-radius: 12px;
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.soil-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.soil-step-card {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.soil-yield-boost-banner {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 1px solid #f59e0b;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 0.88rem;
+    color: #92400e;
+    margin-top: 14px;
+}
+
+/* ============================================================
+   DASHBOARD 5: PUSAT KONSULTASI PENYULUH & DEN
+   ============================================================ */
+.consultation-box-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 20px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-submit-consult {
+    background-color: var(--primary-emerald);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-submit-consult:hover {
+    background-color: var(--primary-light);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.gov-footer {
+    background-color: #064e3b;
+    color: #a7f3d0;
+    padding: 40px 20px 20px;
+    margin-top: auto;
+}
+
+.footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom {
+    max-width: 1280px;
+    margin: 16px auto 0;
+    font-size: 0.78rem;
+    color: #6ee7b7;
+    text-align: center;
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+.gov-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    padding: 16px;
+}
+
+.gov-modal-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.gov-modal-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 24px 28px;
+    max-width: 540px;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+}
+
+/* ============================================================
+   RESPONSIVENESS (SMARTPHONES & TABLETS)
+   ============================================================ */
+@media (max-width: 900px) {
+    .map-dashboard-grid,
+    .calc-workbench-grid,
+    .consultation-box-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-title {
+        font-size: 1.35rem;
+    }
+    
+    .gov-navbar-main {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
