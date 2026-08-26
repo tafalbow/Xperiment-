@@ -1,0 +1,320 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<title>Panduan Master Prompt Website Database Data Sekunder</title>
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+    size: A4;
+    margin: 2.5cm 2.5cm 2.5cm 2.5cm;
+}
+body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+h1 {
+    color: #0f5132;
+    font-size: 22pt;
+    border-bottom: 3px solid #0f5132;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+h2 {
+    color: #15803d;
+    font-size: 15pt;
+    margin-top: 24px;
+    margin-bottom: 10px;
+    border-left: 5px solid #15803d;
+    padding-left: 10px;
+    font-weight: 700;
+}
+h3 {
+    color: #374151;
+    font-size: 12pt;
+    margin-top: 16px;
+    font-weight: 700;
+}
+p, li {
+    font-size: 11pt;
+    line-height: 1.5;
+}
+ul, ol {
+    margin-top: 6px;
+    margin-bottom: 12px;
+}
+.prompt-box {
+    background-color: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 15px 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9.5pt;
+    color: #0f172a;
+    line-height: 1.45;
+}
+.highlight-box {
+    background-color: #ecfdf5;
+    border: 1.5px solid #a7f3d0;
+    border-radius: 8px;
+    padding: 14px;
+    margin: 14px 0;
+    color: #065f46;
+}
+.warning-box {
+    background-color: #fffbeb;
+    border: 1.5px solid #fde68a;
+    border-radius: 8px;
+    padding: 14px;
+    margin: 14px 0;
+    color: #92400e;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+}
+th {
+    background-color: #0f5132;
+    color: #ffffff;
+    padding: 9px 12px;
+    font-weight: bold;
+    text-align: left;
+    font-size: 10.5pt;
+    border: 1px solid #0f5132;
+}
+td {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    font-size: 10pt;
+    vertical-align: top;
+}
+tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 8.5pt;
+    font-weight: bold;
+    border-radius: 4px;
+    background: #e0f2fe;
+    color: #0369a1;
+}
+</style>
+</head>
+<body>
+
+<h1>🌾 PANDUAN &amp; MASTER PROMPT PENGEMBANGAN WEBSITE BASIS DATA (DATA SEKUNDER)</h1>
+<p>
+    <strong>Disusun Oleh:</strong> Senior Software Architect &amp; Lead Data Engineer<br>
+    <strong>Tujuan Dokumen:</strong> Menyediakan struktur prompt ideal agar draf pertama (Draft #1) aplikasi website database data sekunder dapat langsung berhasil dengan akurasi fungsional tinggi, terstruktur, dan siap pakai.
+</p>
+
+<hr/>
+
+<h2>🎯 1. Mengapa Prompt untuk Database Data Sekunder Berbeda?</h2>
+<p>Aplikasi web untuk <strong>Data Sekunder</strong> (seperti data BPS, Kementerian/Lembaga, Bank Indonesia, Bank Dunia, iklim BMKG, energi DEN, dan statistik pertanian) memiliki kebutuhan arsitektur yang sangat berbeda dibandingkan database transaksi e-commerce atau CRUD standar:</p>
+
+<ul>
+    <li><strong>Aspek Provenans &amp; Sitasi (Data Provenance &amp; Lineage):</strong> Setiap angka/indikator harus memiliki jejak sumber resmi, tanggal rilis/pembaruan, dan metodologi survei.</li>
+    <li><strong>Variasi Granularitas Spasial &amp; Temporal:</strong> Data tersusun menurut hierarki wilayah (Nasional &rarr; 38 Provinsi &rarr; Kabupaten Sentra) serta deret waktu (Bulanan, Kuartalan, Tahunan, hingga Proyeksi Multi-Tahun).</li>
+    <li><strong>Kebutuhan Kamus Data (Data Dictionary) &amp; Metadata:</strong> Penjelasan definisi operasional, satuan ukuran (Ton, Ribu Rp/Kg, Persen, BOE), dan rumus agregasi.</li>
+    <li><strong>Fitur Eksplorasi Cepat (Multi-Filter, Live Search, Pivot, Visualisasi Interaktif, &amp; Ekspor Multi-Format):</strong> Pengguna datang untuk menganalisis dan mengunduh data sesuai kebutuhan spesifik mereka.</li>
+</ul>
+
+<div class="highlight-box">
+    <strong>💡 Kunci Keberhasilan Draft Pertama (The 1st Draft Rule):</strong><br>
+    Hindari prompt yang terlalu umum seperti <em>"buatkan website database data sekunder"</em>. AI membutuhkan kejelasan skema metadata, taksonomi kategori, interaktivitas filter, dan arsitektur visualisasi sejak instruksi pertama.
+</div>
+
+<hr/>
+
+<h2>🏛️ 2. Framework 7 Elemen Emas untuk Prompt Database Data Sekunder</h2>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 25%;">Elemen Emas</th>
+            <th style="width: 35%;">Fungsi &amp; Komponen Kunci</th>
+            <th style="width: 40%;">Contoh Instruksi Spesifik</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>1. Persona &amp; Peran Spesifik</strong></td>
+            <td>Menetapkan tingkat keahlian AI sebagai Senior Web Architect dan Data Engineer.</td>
+            <td><em>"Bertindaklah sebagai Senior Full-Stack Web Developer &amp; Data Architect profesional yang ahli dalam perancangan portal statistik publik dan Business Intelligence (BI)."</em></td>
+        </tr>
+        <tr>
+            <td><strong>2. Konteks &amp; Tujuan Bisnis</strong></td>
+            <td>Menjelaskan domain data, pengguna akhir (analis, pimpinan lembaga, publik), dan fungsi utama.</td>
+            <td><em>"Bangun aplikasi portal database satu pintu untuk memantau data sekunder statistik ketahanan pangan, inflasi harga komoditas, dan neraca energi nasional Indonesia..."</em></td>
+        </tr>
+        <tr>
+            <td><strong>3. Taksonomi &amp; Arsitektur Data</strong></td>
+            <td>Menentukan skema metadata, relasi antar-entitas, hierarki wilayah, dan satuan baku.</td>
+            <td><em>"Setiap record data harus memiliki metadata: ID Indikator, Nama Variabel, Sektor, Sumber Lembaga, Tahun Deret Waktu, Cakupan Wilayah (38 Provinsi), Satuan, dan Status Keandalan."</em></td>
+        </tr>
+        <tr>
+            <td><strong>4. Fitur Inti (Core Specifications)</strong></td>
+            <td>Menjabarkan alur fitur: pencarian instan, filter bertingkat, tabel interaktif, chart deret waktu, dan ekspor.</td>
+            <td><em>"Sediakan bilah pencarian fuzzy, filter multi-dropdown bertingkat, Data Grid table dengan sorting &amp; pagination, Line/Bar Chart interaktif, dan tombol Export CSV/Excel/JSON."</em></td>
+        </tr>
+        <tr>
+            <td><strong>5. Desain UI/UX &amp; Kerapian</strong></td>
+            <td>Menentukan tema antarmuka, kontras warna, kepadatan data (data-dense), dan responsivitas.</td>
+            <td><em>"Gunakan gaya GovTech modern minimalis yang bersih, kontras warna WCAG AAA, sidebar filter fleksibel, kartu metrik KPI ringkas, dan 100% responsif mobile/desktop."</em></td>
+        </tr>
+        <tr>
+            <td><strong>6. Standar Teknis &amp; Performa</strong></td>
+            <td>Menentukan format berkas, kemudahan eksekusi mandiri tanpa instalasi berat.</td>
+            <td><em>"Gunakan Vanilla JavaScript modern dan pustaka visualisasi client-side (misal Chart.js / Leaflet.js), modular, cepat, dan simpan state filter pada browser."</em></td>
+        </tr>
+        <tr>
+            <td><strong>7. Penanganan Edge Cases</strong></td>
+            <td>Aturan penanganan data hilang (null/NA), indikator anomali, dan peringatan disparitas.</td>
+            <td><em>"Jika data pada tahun tertentu belum dipublikasikan, tampilkan badge N/A abu-abu dengan catatan metodologi tanpa menyebabkan grafik atau tabel crash."</em></td>
+        </tr>
+    </tbody>
+</table>
+
+<hr/>
+
+<h2>📋 3. MASTER PROMPT SIAP PAKAI (BISA LANGSUNG DIEDIT &amp; DISALIN)</h2>
+<p>Berikut adalah naskah prompt komprehensif berstandar industri yang siap Anda salin ke AI untuk membangun aplikasi database data sekunder:</p>
+
+<div class="prompt-box">
+[IDENTITAS &amp; PERAN]
+Bertindaklah sebagai Senior Full-Stack Software Engineer dan Lead Data Architect profesional. Bantu saya merancang dan membangun aplikasi website portal "Pusat Basis Data Data Sekunder" yang berkinerja tinggi, berestetika bersih (GovTech modern), dan siap pakai.
+
+[KONTEKS &amp; SEKTOR DATA]
+Aplikasi ini berfungsi sebagai repositori sentral untuk mengumpulkan, mengkategorisasikan, menelusuri, menganalisis, dan mengekspor data sekunder nasional di sektor [ISI SEKTOR: Ketahanan Pangan, Agroklimat, dan Neraca Energi Nasional].
+Target pengguna utama meliputi: Analis Kebijakan Pemerintah, Peneliti, Pelaku Usaha, dan Publik.
+
+[SKEMA METADATA DATASET]
+Setiap entitas data sekunder di dalam aplikasi wajib memuat metadata terstandarisasi:
+1. ID Indikator &amp; Kode Variabel Unik
+2. Nama Indikator / Judul Variabel (Bahasa Indonesia yang jelas)
+3. Sektor &amp; Kategori Hierarkis (misal: Pangan Pokok, Hortikultura, Perkebunan, Bioenergi)
+4. Sumber Data Sekunder Resmi (misal: BPS, Kementan, BMKG, Bank Indonesia, Kementerian ESDM, World Bank)
+5. Deret Waktu (Time Series): Data historis [misal: 2020 - 2026] dan proyeksi [misal: 2027 - 2031]
+6. Granularitas Spasial: Nasional, 38 Provinsi Indonesia, serta Kabupaten Sentra Lumbung
+7. Satuan Ukuran Resmi: Ton, Ribu Rupiah/Kg, Persen YoY, Hektar, Mm/Tahun
+8. Frekuensi Rilis (Bulanan / Triwulanan / Tahunan) &amp; Tanggal Pembaruan Terakhir
+9. Kamus Definisi &amp; Catatan Metodologi Pengumpulan Data
+
+[FITUR-FITUR WAJIB DALAM APLIKASI]
+1. HEADER &amp; KONTROL NAVIGASI:
+   - Logo instansi resmi, judul sistem database, indikator status sinkronisasi data live, serta tombol unduh kamus metadata lengkap.
+
+2. PANEL FILTER MULTIDIMENSI (QUERY ENGINE):
+   - Bilah pencarian instan (Live Search) untuk mencari nama indikator atau komoditas.
+   - Filter dropdown bertingkat:
+     * Kategori Sektor &rarr; Pilih Indikator Spesifik
+     * Cakupan Wilayah (Pilihan Seluruh Indonesia atau filter per Provinsi)
+     * Rentang Tahun Awal &rarr; Tahun Akhir (termasuk proyeksi masa depan)
+     * Sumber Lembaga Penerbit
+   - Tombol 'Reset Filter' dan indikator jumlah record yang cocok secara real-time.
+
+3. TABEL DATA INTERAKTIF (DATA GRID VIEWER):
+   - Menampilkan data sekunder dalam format tabular yang bersih dan padat informasi.
+   - Fitur sorting (pengurutan ASC/DESC) pada setiap kolom angka dan teks.
+   - Badge status data: Normal (Hijau), Anomali/Waspada (Kuning/Merah), atau Estimasi (Biru).
+   - Pengaturan jumlah baris per halaman (Paginasi: 10, 25, 50 baris).
+
+4. MODUL ANALITIK &amp; GRAFIK VISUALISASI:
+   - Line Chart deret waktu interaktif untuk membaca tren fluktuasi, inflasi, atau hasil panen.
+   - Bar Chart komparasi nilai indikator antar-provinsi atau antar-komoditas.
+   - Kartu Metrik Ringkasan (Summary KPI Cards): Nilai Rata-rata Nasional, Nilai Tertinggi (Surplus), Nilai Terendah (Defisit), dan Laju Pertumbuhan YoY (%).
+
+5. MODUL PETA SPASIAL / GIS WILAYAH:
+   - Peta visual wilayah (38 Provinsi Indonesia) dengan pewarnaan zona atau marker interaktif yang menampilkan data sekunder provinsi saat diklik.
+
+6. PUSAT EKSPOR &amp; DISEMINASI DATA:
+   - Tombol ekspor instan untuk mengunduh subset data yang sedang difilter ke format:
+     * File CSV (format koma/titik koma standar)
+     * File Excel (.xlsx / tabular format)
+     * Format Ringkasan JSON untuk kebutuhan integrasi API sistem lain.
+
+7. KAMUS DATA &amp; CATATAN METODOLOGI:
+   - Modal pop-up atau tab khusus yang menerangkan definisi konsep setiap variabel, batasan data, rumus perhitungan, dan sitasi dokumen sumber aslinya.
+
+[STANDAR DESAIN UI/UX &amp; ARSITEKTUR KODE]
+- Layout: Desain antarmuka GovTech modern yang bersih, kontras tinggi (WCAG AAA), tata letak kartu yang rapi, dan navigasi intuitif.
+- Responsivitas: Nyaman diakses dan responsif sempurna baik di layar ponsel (mobile-friendly dengan table horizontal scroll) maupun monitor laptop lebar.
+- Arsitektur Berkas: Buat kode yang bersih, modular, dan terdokumentasi rapi (misal memisahkan data JS, stylesheet CSS, dan engine interaktif).
+- Penanganan Data Kosong: Jika ada sel data yang belum dirilis pada periode tertentu, tampilkan teks 'N/A' abu-abu tanpa merusak visualisasi grafik atau tabel.
+
+[OUTPUT YANG DIINGINKAN]
+Berikan kode sumber lengkap dan fungsional (HTML, CSS, JavaScript) yang langsung dapat dijalankan di browser, lengkap dengan kumpulan sampel data sekunder realistis Indonesia yang siap diuji coba.
+</div>
+
+<hr/>
+
+<h2>✅ 4. Checklist Evaluasi Kualitas Hasil Draft Pertama (QA Checklist)</h2>
+<p>Sebelum melanjutkan ke tahap pengembangan berikutnya, lakukan verifikasi terhadap draf pertama menggunakan lembar evaluasi berikut:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 30%;">Aspek Pengujian</th>
+            <th style="width: 55%;">Kriteria Keberhasilan</th>
+            <th style="width: 15%;">Hasil Uji</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>1. Validitas Struktur Metadata</strong></td>
+            <td>Apakah setiap baris data memiliki keterangan sumber resmi, tahun rilis, dan satuan yang jelas?</td>
+            <td>[ &nbsp; ] Lolos</td>
+        </tr>
+        <tr>
+            <td><strong>2. Responsivitas Filter</strong></td>
+            <td>Apakah saat dropdown provinsi atau rentang tahun diubah, isi tabel, grafik, dan kartu KPI langsung diperbarui tanpa error di konsol browser?</td>
+            <td>[ &nbsp; ] Lolos</td>
+        </tr>
+        <tr>
+            <td><strong>3. Interaktivitas Visualisasi</strong></td>
+            <td>Apakah grafik memiliki sumbu X/Y yang proporsional, label satuan, dan tooltip nilai saat kursor diarahkan ke titik data?</td>
+            <td>[ &nbsp; ] Lolos</td>
+        </tr>
+        <tr>
+            <td><strong>4. Fungsionalitas Ekspor File</strong></td>
+            <td>Apakah tombol unduh CSV/Excel menghasilkan berkas yang rapi dan sesuai dengan filter yang sedang aktif?</td>
+            <td>[ &nbsp; ] Lolos</td>
+        </tr>
+        <tr>
+            <td><strong>5. Tampilan di Perangkat Bergerak</strong></td>
+            <td>Apakah tabel data memiliki pembungkus scroll horizontal sehingga tidak terpotong pada layar ponsel?</td>
+            <td>[ &nbsp; ] Lolos</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr/>
+
+<h2>🚀 5. Tips Tambahan untuk Mendapatkan Hasil 10x Lebih Akurat</h2>
+<ol>
+    <li><strong>Sertakan Contoh 3-5 Baris Data Nyata Anda:</strong> Salin contoh baris tabel data Anda ke dalam prompt agar AI langsung memahami nama kolom, format tanggal, dan tipe nilai yang Anda gunakan.</li>
+    <li><strong>Gunakan Pemisah Ribuan Standar Indonesia:</strong> Ingatkan AI untuk menggunakan format mata uang dan angka Indonesia (titik untuk ribuan <code>Rp 15.000</code> dan koma untuk desimal <code>5,8%</code>).</li>
+    <li><strong>Minta Pemisahan Modul Berkas:</strong> Jika proyek cukup besar, minta AI memisahkan data sekunder ke dalam berkas <code>data_sekunder.js</code>, logika ke <code>engine.js</code>, gaya ke <code>style.css</code>, dan tampilan ke <code>index.html</code> agar mudah Anda kelola dan edit di masa mendatang.</li>
+</ol>
+
+<br/>
+<p style="text-align: center; color: #64748b; font-size: 9pt; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+    Dokumen Panduan Standar Arsitektur Portal Basis Data Data Sekunder &bull; Format Microsoft Word Editable &bull; Project DEN 2026
+</p>
+
+</body>
+</html>
