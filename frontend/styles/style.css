@@ -1,0 +1,295 @@
+/* ==============================================================================
+   PUSAT BASIS DATA DATA SEKUNDER: PERGERAKAN EKONOMI INDONESIA
+   Style System: "Barely There UI & Architecture-First Typography"
+   GovTech Minimalist, High Contrast, Tabular-First Design
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-app: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-subtle: #F1F5F9;
+  --border-subtle: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --border-focus: #0F172A;
+  
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-dim: #94A3B8;
+
+  --badge-observed-bg: #ECFDF5;
+  --badge-observed-text: #065F46;
+  --badge-observed-border: #A7F3D0;
+
+  --badge-provisional-bg: #FFFBEB;
+  --badge-provisional-text: #92400E;
+  --badge-provisional-border: #FDE68A;
+
+  --badge-revised-bg: #EEF2FF;
+  --badge-revised-text: #3730A3;
+  --badge-revised-border: #C7D2FE;
+
+  --badge-na-bg: #F1F5F9;
+  --badge-na-text: #475569;
+  --badge-na-border: #CBD5E1;
+
+  --badge-failed-bg: #FEF2F2;
+  --badge-failed-text: #991B1B;
+  --badge-failed-border: #FECACA;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, Menlo, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Utility */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hairline Grid & Card Aesthetics */
+.gov-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  transition: border-color 0.15s ease;
+}
+
+.gov-card:hover {
+  border-color: var(--border-strong);
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.status-observed {
+  background-color: var(--badge-observed-bg);
+  color: var(--badge-observed-text);
+  border-color: var(--badge-observed-border);
+}
+
+.status-provisional {
+  background-color: var(--badge-provisional-bg);
+  color: var(--badge-provisional-text);
+  border-color: var(--badge-provisional-border);
+}
+
+.status-revised {
+  background-color: var(--badge-revised-bg);
+  color: var(--badge-revised-text);
+  border-color: var(--badge-revised-border);
+}
+
+.status-na {
+  background-color: var(--badge-na-bg);
+  color: var(--badge-na-text);
+  border-color: var(--badge-na-border);
+}
+
+.status-failed {
+  background-color: var(--badge-failed-bg);
+  color: var(--badge-failed-text);
+  border-color: var(--badge-failed-border);
+}
+
+/* Custom Table Layout with Vertical & Horizontal Scrolling */
+.gov-table-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 540px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  background: var(--bg-surface);
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.gov-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  font-size: 13px;
+}
+
+.gov-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #F1F5F9;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  user-select: none;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.gov-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.gov-table tr:hover td {
+  background-color: #F8FAFC;
+}
+
+/* Inputs & Form Controls */
+.gov-input, .gov-select {
+  width: 100%;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.gov-input:focus, .gov-select:focus {
+  outline: none;
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 1px var(--text-primary);
+}
+
+/* Buttons */
+.gov-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.gov-btn:hover {
+  background-color: var(--bg-surface-subtle);
+  border-color: var(--border-strong);
+}
+
+.gov-btn-primary {
+  background-color: #0F172A;
+  color: #FFFFFF;
+  border-color: #0F172A;
+}
+
+.gov-btn-primary:hover {
+  background-color: #1E293B;
+  border-color: #1E293B;
+}
+
+.gov-btn-sm {
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+/* Modal Overlay */
+.gov-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.gov-modal-content {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Custom GovTech Leaflet GIS Marker & Map Styling */
+.custom-gov-marker {
+  background: transparent;
+  border: none;
+}
+
+#gis-leaflet-container .leaflet-control-zoom {
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+  border-radius: 4px !important;
+}
+
+#gis-leaflet-container .leaflet-control-zoom a {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  font-family: var(--font-mono) !important;
+  font-weight: bold !important;
+}
+
+#gis-leaflet-container .leaflet-popup-content-wrapper {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 2px !important;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3) !important;
+}
+
+#gis-leaflet-container .leaflet-popup-content {
+  margin: 8px 12px !important;
+  color: #f8fafc !important;
+}
+
+#gis-leaflet-container .leaflet-popup-tip {
+  background: #0f172a !important;
+}

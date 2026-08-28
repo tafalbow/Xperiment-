@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pergerakan Ekonomi Indonesia — Pusat Basis Data Data Sekunder Nasional</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Leaflet GIS Interactive Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- SheetJS XLSX Library for Multi-Tab Excel Generation -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- Custom GovTech Barely-There UI Stylesheet (Cache-Busted) -->
+  <link rel="stylesheet" href="/static/styles/style.css?v=5.8.0">
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased selection:bg-slate-900 selection:text-white">
+
+  <!-- 1. FIX HEADER: Website Name, Last Update Date, Restricted Notice, Email Access Tracking & Tools -->
+  <div id="app-header"></div>
+
+  <!-- Main Application Container -->
+  <main id="app-main" class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-6 py-4 space-y-4">
+
+    <!-- 2. FIX SEARCH BAR: Persistent Full-Width Search & Quick Filter Pills -->
+    <div id="global-search-container" class="w-full"></div>
+
+    <!-- MAIN APP NAVIGATION TABS (GovTech Standard) -->
+    <div class="flex items-center justify-between border-b border-slate-200 pb-1 flex-wrap gap-2">
+      <div class="flex items-center gap-2" role="tablist" aria-label="Navigasi Utama Basis Data">
+        <button 
+          id="tab-btn-analytics" 
+          role="tab" 
+          aria-selected="true"
+          class="px-4 py-1.5 text-xs font-mono font-bold rounded-t border-b-2 border-slate-900 bg-white text-slate-900 shadow-2xs flex items-center gap-2 transition-all cursor-pointer"
+        >
+          <span>📊</span>
+          <span>Dasbor Analitik & Tren</span>
+        </button>
+
+        <button 
+          id="tab-btn-inventory" 
+          role="tab" 
+          aria-selected="false"
+          class="px-4 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 transition-all cursor-pointer"
+        >
+          <span>📅</span>
+          <span>Katalog Variabel & Jadwal Rilis Data</span>
+          <span class="px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 text-[10px] font-bold border border-amber-200">
+            Tgl 8, 17, 28
+          </span>
+        </button>
+      </div>
+
+      <!-- Sync Status Pill -->
+      <div class="flex items-center gap-2 text-[11px] font-mono text-slate-600 bg-slate-100 px-2.5 py-1 rounded border border-slate-200">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Siklus Rilis Data: <strong>Tanggal 8, 17, dan 28 Setiap Bulan</strong></span>
+      </div>
+    </div>
+
+    <!-- TAB 1: DASBOR ANALITIK & TREN (Frontpage 2-Column Wireframe Grid) -->
+    <div id="tab-content-analytics" class="space-y-6">
+      
+      <!-- 2-COLUMN MAIN LAYOUT (Left Sidebar vs Right Main Body) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        
+        <!-- ============================================================== -->
+        <!-- KOLOM KIRI (Sidebar): Filtering, Tab Sumber Data, Contact, Info Ownership -->
+        <!-- ============================================================== -->
+        <aside class="lg:col-span-4 xl:col-span-3.5 space-y-4">
+          <!-- 1. Filtering Section (4 Financial Hierarchy Levels, Sources, Period Range) -->
+          <section id="filter-panel-container" aria-label="Filtering Section"></section>
+
+          <!-- 2. Tab Kompilasi Sumber Data + 3. Contact Person + 4. Info Ownership & Modular Upgrade Space -->
+          <section id="sidebar-extras-container" aria-label="Sidebar Extras"></section>
+        </aside>
+
+        <!-- ============================================================== -->
+        <!-- KOLOM KANAN (Main Body): Chart Area, Ringkasan Metrik, Geo Ekonomi Area -->
+        <!-- ============================================================== -->
+        <div class="lg:col-span-8 xl:col-span-8.5 space-y-5">
+          <!-- 1. Chart Area (Multi-Variable Comparison, Transformations YOY/MOM/AVG, Dual Axis, Callouts, Single-Click Excel Download) -->
+          <section id="chart-module-container" aria-label="Chart Area"></section>
+
+          <!-- 2. RINGKASAN METRIK DESKRIPTIF NASIONAL (4-6 Descriptive KPI Cards) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-1">
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>RINGKASAN METRIK DESKRIPTIF NASIONAL</span>
+              </span>
+              <span class="text-[10.5px] font-mono text-slate-500">Nilai Terakhir & Rata-Rata Historis</span>
+            </div>
+            <section id="kpi-cards-container" aria-label="Ringkasan Metrik Deskriptif Nasional"></section>
+          </div>
+
+          <!-- 3. Geo Ekonomi Area (Contextual Regional Driver & Interactive GIS Map) -->
+          <section id="contextual-map-container" aria-label="Geo Ekonomi Area"></section>
+        </div>
+
+      </div>
+
+      <!-- Area Cadangan untuk Pengembangan Data Selanjutnya (Tabel Observasi Dialihkan ke Unduh Excel di Area Chart) -->
+      <div id="data-grid-container" class="hidden"></div>
+
+    </div>
+
+    <!-- TAB 2: KATALOG DETAIL VARIABEL & JADWAL RILIS DATA (Hidden by Default) -->
+    <div id="tab-content-inventory" class="hidden space-y-6">
+      <section id="variables-inventory-container" aria-label="Katalog Variabel dan Jadwal Rilis Data"></section>
+    </div>
+
+  </main>
+
+  <!-- GovTech System Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-6 px-4 lg:px-8 text-slate-500 font-mono text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <div class="font-bold text-slate-800">PUSAT BASIS DATA DATA SEKUNDER: PERGERAKAN EKONOMI INDONESIA</div>
+        <div class="text-[11px] text-slate-500 mt-0.5">
+          Tata Kelola Data Standar Nasional • Keterlacakan Penuh (Data Provenance) • Kepatuhan Audit Kemenkeu, BPS, dan Bank Indonesia
+        </div>
+      </div>
+      <div class="text-right text-[11px]">
+        <div>Cakupan Geografis: <strong>Indonesia / National</strong></div>
+        <div class="text-amber-800 font-semibold mt-0.5">DEMO DATA — NOT OFFICIAL DATA (PROTOTYPE EVALUATION)</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main ES Module Script (Cache-Busted) -->
+  <script type="module" src="/static/app.js?v=6.2.0"></script>
+</body>
+</html>

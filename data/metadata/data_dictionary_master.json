@@ -1,0 +1,40 @@
+{
+  "standard_metadata_schema_version": "v1.0-GovTech-National",
+  "fields_count": 24,
+  "required_fields": [
+    "indicator_id", "unique_variable_code", "indicator_name", "definition",
+    "sector", "category", "subcategory", "source_data",
+    "publishing_institution", "publication_document_name", "data_period_coverage", "frequency",
+    "geographic_scope", "unit", "methodology", "calculation_formula",
+    "publication_date", "retrieval_date", "last_updated_date", "data_status_policy",
+    "source_url", "reference_page_table", "methodology_notes", "revision_notes"
+  ],
+  "indicators_catalog": [
+    {
+      "indicator_id": "IND-GDP-GROWTH-YOY",
+      "unique_variable_code": "VAR_PDB_PERTUMBUHAN_RIIL_YOY",
+      "indicator_name": "Laju Pertumbuhan PDB Riil",
+      "definition": "Laju perubahan Produk Domestik Bruto (PDB) atas dasar harga konstan dibandingkan dengan periode yang sama pada tahun sebelumnya.",
+      "sector": "Makroekonomi",
+      "category": "Produk Domestik Bruto (PDB)",
+      "subcategory": "Pertumbuhan Ekonomi Nasional",
+      "source_data": "Sistem Neraca Nasional (SNN)",
+      "publishing_institution": "Badan Pusat Statistik (BPS)",
+      "publication_document_name": "Berita Resmi Statistik (BRS) Pertumbuhan Ekonomi Indonesia",
+      "data_period_coverage": "1993 - 2024",
+      "frequency": "Tahunan",
+      "geographic_scope": "Indonesia / National",
+      "unit": "Persen (%)",
+      "methodology": "Sistem Neraca Nasional (SNA 2008) tahun dasar 2010.",
+      "calculation_formula": "Growth YoY (%) = ((PDB Riil t - PDB Riil t-1) / PDB Riil t-1) * 100",
+      "publication_date": "2025-02-05",
+      "retrieval_date": "2025-02-06",
+      "last_updated_date": "2025-02-06",
+      "data_status_policy": "Observed",
+      "source_url": "https://www.bps.go.id/subject/11/produk-domestik-bruto--lapangan-usaha-.html",
+      "reference_page_table": "Tabel 1 & Lampiran Ringkasan Eksekutif BRS",
+      "methodology_notes": "Telah melalui harmonisasi tahun dasar 1993, 2000, dan 2010.",
+      "revision_notes": "Data historis terstandarisasi."
+    }
+  ]
+}

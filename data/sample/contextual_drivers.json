@@ -1,0 +1,29 @@
+{
+  "disclaimer": "DEMO DATA — NOT OFFICIAL DATA. Catatan penjelas pendorong data nasional, bukan data observasi provinsi.",
+  "contextual_drivers": [
+    {
+      "indicator_id": "IND-RICE-PROD-NAT",
+      "period": "2023",
+      "province_name": "Jawa Timur",
+      "province_code": "35",
+      "driver_role": "Sentra Lumbung Padi & Pendorong Produksi",
+      "explanation": "Publikasi BPS KSA 2023 mencatat Jawa Timur sebagai kontributor pendorong terbesar produksi padi nasional dengan efisiensi saluran irigasi teknis di sentra Lamongan dan Ngawi.",
+      "publication_title": "Angka Tetap (ATAP) Produksi Tanaman Pangan Nasional",
+      "page_reference": "Hal 14",
+      "table_reference": "Tabel Kontributor Pangan",
+      "source_institution": "Badan Pusat Statistik"
+    },
+    {
+      "indicator_id": "IND-TRADE-BALANCE",
+      "period": "2022",
+      "province_name": "Kalimantan Timur",
+      "province_code": "64",
+      "driver_role": "Pendorong Utama Ekspor Batubara",
+      "explanation": "Kenaikan tajam nilai ekspor komoditas batubara di muara pelabuhan Balikpapan dan Samarinda menjelaskan surplus perdagangan barang nasional tahun 2022.",
+      "publication_title": "Berita Resmi Statistik Pertumbuhan Ekonomi dan Inflasi Indonesia 2024",
+      "page_reference": "Hal 39",
+      "table_reference": "Tabel Ekspor Energi",
+      "source_institution": "Badan Pusat Statistik"
+    }
+  ]
+}

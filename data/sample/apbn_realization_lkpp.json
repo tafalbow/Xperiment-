@@ -1,0 +1,31 @@
+{
+  "disclaimer": "DEMO DATA — NOT OFFICIAL DATA. Digunakan semata-mata untuk pengujian dan evaluasi arsitektur sistem.",
+  "dataset_name": "Realisasi APBN dan LKPP Audited Tingkat Nasional",
+  "publishing_institution": "Kementerian Keuangan RI & BPK RI",
+  "series": [
+    {
+      "indicator_id": "IND-APBN-REV-TOT",
+      "indicator_name": "Pendapatan Negara dan Hibah",
+      "unit": "Triliun Rupiah",
+      "historical_points": [
+        {"period": "2020", "value": 1647.8, "status": "Observed", "citation": "LKPP TA 2020 Audited Lampiran 1.A"},
+        {"period": "2021", "value": 2011.3, "status": "Observed", "citation": "LKPP TA 2021 Audited Lampiran 1.A"},
+        {"period": "2022", "value": 2635.8, "status": "Observed", "citation": "LKPP TA 2022 Audited Lampiran 1.A"},
+        {"period": "2023", "value": 2784.0, "status": "Observed", "citation": "LKPP TA 2023 Audited Lampiran 1.A"},
+        {"period": "2024", "value": 2802.5, "status": "Provisional", "citation": "Publikasi APBN KiTa Desember 2024"}
+      ]
+    },
+    {
+      "indicator_id": "IND-APBN-EXP-TOT",
+      "indicator_name": "Belanja Negara",
+      "unit": "Triliun Rupiah",
+      "historical_points": [
+        {"period": "2020", "value": 2595.5, "status": "Observed", "citation": "LKPP TA 2020 Audited Lampiran 1.A"},
+        {"period": "2021", "value": 2786.4, "status": "Observed", "citation": "LKPP TA 2021 Audited Lampiran 1.A"},
+        {"period": "2022", "value": 3096.3, "status": "Observed", "citation": "LKPP TA 2022 Audited Lampiran 1.A"},
+        {"period": "2023", "value": 3121.9, "status": "Observed", "citation": "LKPP TA 2023 Audited Lampiran 1.A"},
+        {"period": "2024", "value": 3325.1, "status": "Provisional", "citation": "Publikasi APBN KiTa Desember 2024"}
+      ]
+    }
+  ]
+}
