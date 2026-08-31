@@ -139,13 +139,25 @@ export class DownloadQuotaManager {
 }
 
 export class ExcelExporter {
+  static getShortTimestamp() {
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const dd = pad(now.getDate());
+    const mm = pad(now.getMonth() + 1);
+    const yy = String(now.getFullYear()).slice(-2);
+    const hh = pad(now.getHours());
+    const min = pad(now.getMinutes());
+    const ss = pad(now.getSeconds());
+    return `${dd}${mm}${yy}_${hh}${min}${ss}`;
+  }
+
   /**
    * Export observations from up to 3 active chart series:
    * - Tab 1: "Data Mentah (Matrix)" -> Pure observation matrix without metadata
    * - Tab 2..N: "Var 1", "Var 2", "Var 3" -> Transposed observation & detailed provenance per variable
    * - Final Tab: "Kompilasi Sumber & Waktu Akses" -> Comprehensive statutory sources, timestamps & audit lineage
    */
-  static exportSeriesToExcel(seriesConfigs, activeRangePreset = '24y') {
+  static exportSeriesToExcel(seriesConfigs, activeRangePreset = 'all', tabName = 'Indikator_Ekonomi') {
     if (!window.XLSX) {
       alert('Pustaka Excel (SheetJS) sedang dimuat. Silakan coba kembali dalam beberapa saat.');
       return;
@@ -360,9 +372,10 @@ export class ExcelExporter {
     ];
     window.XLSX.utils.book_append_sheet(wb, wsCompile, 'Kompilasi Sumber & Waktu Akses');
 
-    // 4. Trigger File Download
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    const fileName = `Pergerakan_Ekonomi_Indonesia_${processedSeriesList.length}Var_${timestamp}.xlsx`;
+    // 4. Trigger File Download with Tab Info & Short Timestamp (e.g. Indikator_Ekonomi_1Var_20260831_153520.xlsx)
+    const shortTs = this.getShortTimestamp();
+    const cleanTab = (tabName || 'Indikator_Ekonomi').replace(/[^a-zA-Z0-9_]/g, '_');
+    const fileName = `${cleanTab}_${processedSeriesList.length}Var_${shortTs}.xlsx`;
 
     window.XLSX.writeFile(wb, fileName);
 
@@ -545,9 +558,9 @@ export class ExcelExporter {
     ];
     window.XLSX.utils.book_append_sheet(wb, ws5, 'Keterangan Sumber & Legalitas');
 
-    // 3. Trigger File Download
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    const fileName = `LKPP_Audited_Crosswalk_Buku_Laporan_Keuangan_${timestamp}.xlsx`;
+    // 3. Trigger File Download with Short Timestamp
+    const shortTs = this.getShortTimestamp();
+    const fileName = `LKPP_Audited_Crosswalk_${shortTs}.xlsx`;
 
     window.XLSX.writeFile(wb, fileName);
 

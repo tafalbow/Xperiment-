@@ -16,8 +16,8 @@ export class FilterPanel {
       category: '',
       subcategory: '',
       indicator_id: 'IND-GDP-GROWTH-YOY', // Default national indicator
-      start_year: 2001, // Default 24 points
-      end_year: 2024,
+      start_year: 1990, // Default 37 points (1990 - 2026)
+      end_year: 2026,
       source_id: '',
       status: '',
       limit: 24
@@ -180,28 +180,28 @@ export class FilterPanel {
               Rentang Tahun:
             </label>
             <div class="flex items-center gap-1">
-              <button type="button" id="filter-preset-6y" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2019 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
-                6 Thn
+              <button type="button" id="filter-preset-5y" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2021 && this.state.end_year === 2026 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+                5 Thn
               </button>
-              <button type="button" id="filter-preset-24y" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2001 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
-                24 Thn
+              <button type="button" id="filter-preset-10y" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2016 && this.state.end_year === 2026 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+                10 Thn
               </button>
-              <button type="button" id="filter-preset-all" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 1993 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
-                Semua
+              <button type="button" id="filter-preset-all" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 1990 && this.state.end_year === 2026 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+                1990-2026
               </button>
             </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <input type="number" id="filter-start-year" class="gov-input text-xs font-mono text-center w-full py-0.5" min="1993" max="2025" value="${this.state.start_year}">
+            <input type="number" id="filter-start-year" class="gov-input text-xs font-mono text-center w-full py-0.5" min="1990" max="2026" value="${this.state.start_year}">
             <span class="text-slate-400 text-xs font-mono">s/d</span>
-            <input type="number" id="filter-end-year" class="gov-input text-xs font-mono text-center w-full py-0.5" min="1993" max="2025" value="${this.state.end_year}">
+            <input type="number" id="filter-end-year" class="gov-input text-xs font-mono text-center w-full py-0.5" min="1990" max="2026" value="${this.state.end_year}">
           </div>
         </div>
 
         <!-- Metadata Footnote -->
         <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[9.5px] font-mono text-slate-400">
-          <span>Cakupan: <strong>1993 - 2024+</strong></span>
+          <span>Cakupan: <strong>1990 - 2026 (Angka Sementara 2026)</strong></span>
           <span>Granularitas: <strong>Nasional</strong></span>
         </div>
       </div>
@@ -221,23 +221,23 @@ export class FilterPanel {
     const resetBtn = document.getElementById('btn-reset-filter');
 
     // Preset buttons
-    document.getElementById('filter-preset-6y')?.addEventListener('click', () => {
-      this.state.start_year = 2019;
-      this.state.end_year = 2024;
+    document.getElementById('filter-preset-5y')?.addEventListener('click', () => {
+      this.state.start_year = 2021;
+      this.state.end_year = 2026;
       this.render();
       this.onFilterChange(this.state);
     });
 
-    document.getElementById('filter-preset-24y')?.addEventListener('click', () => {
-      this.state.start_year = 2001;
-      this.state.end_year = 2024;
+    document.getElementById('filter-preset-10y')?.addEventListener('click', () => {
+      this.state.start_year = 2016;
+      this.state.end_year = 2026;
       this.render();
       this.onFilterChange(this.state);
     });
 
     document.getElementById('filter-preset-all')?.addEventListener('click', () => {
-      this.state.start_year = 1993;
-      this.state.end_year = 2024;
+      this.state.start_year = 1990;
+      this.state.end_year = 2026;
       this.render();
       this.onFilterChange(this.state);
     });

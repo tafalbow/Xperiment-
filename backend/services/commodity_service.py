@@ -11,7 +11,7 @@ Cakupan Waktu: 2000 - 2025 (26 Periode Tahunan Lengkap)
 from typing import Dict, Any, List, Optional
 
 class CommodityService:
-    """Provides canonical national commodity balance, self-sufficiency, import dependency, HS codes, and APBN/LKPP statutory mappings (2000-2025)."""
+    """Provides canonical national commodity balance, self-sufficiency, import dependency, HS codes, and APBN/LKPP statutory mappings (1990-2026)."""
 
     COMMODITIES = [
         {
@@ -33,6 +33,96 @@ class CommodityService:
                 "legal_basis": "UU No. 18 Tahun 2012 tentang Pangan & Neraca Pangan Nasional Bapanas",
                 "description": "Komoditas pangan pokok utama nasional. Neraca mencakup produksi gabah kering giling dikonversi ke beras, konsumsi rumah tangga/restoran, dan stabilisasi CBP.",
                 "time_series": {
+                        "1990": {
+                                "production": 23516.46,
+                                "consumption": 21016.59,
+                                "import_volume": 995.52,
+                                "import_value_usd": 250.72,
+                                "export_volume": 3.69,
+                                "export_value_usd": 0.88,
+                                "ending_stocks": 3097.18
+                        },
+                        "1991": {
+                                "production": 24243.77,
+                                "consumption": 21666.59,
+                                "import_volume": 1026.31,
+                                "import_value_usd": 258.48,
+                                "export_volume": 3.8,
+                                "export_value_usd": 0.91,
+                                "ending_stocks": 3192.97
+                        },
+                        "1992": {
+                                "production": 24993.58,
+                                "consumption": 22336.69,
+                                "import_volume": 1058.05,
+                                "import_value_usd": 266.47,
+                                "export_volume": 3.92,
+                                "export_value_usd": 0.94,
+                                "ending_stocks": 3291.72
+                        },
+                        "1993": {
+                                "production": 25766.57,
+                                "consumption": 23027.51,
+                                "import_volume": 1090.78,
+                                "import_value_usd": 274.71,
+                                "export_volume": 4.04,
+                                "export_value_usd": 0.97,
+                                "ending_stocks": 3393.53
+                        },
+                        "1994": {
+                                "production": 26563.48,
+                                "consumption": 23739.7,
+                                "import_volume": 1124.51,
+                                "import_value_usd": 283.21,
+                                "export_volume": 4.16,
+                                "export_value_usd": 1.0,
+                                "ending_stocks": 3498.48
+                        },
+                        "1995": {
+                                "production": 27385.03,
+                                "consumption": 24473.92,
+                                "import_volume": 1159.29,
+                                "import_value_usd": 291.97,
+                                "export_volume": 4.29,
+                                "export_value_usd": 1.03,
+                                "ending_stocks": 3606.68
+                        },
+                        "1996": {
+                                "production": 28231.99,
+                                "consumption": 25230.85,
+                                "import_volume": 1195.15,
+                                "import_value_usd": 301.0,
+                                "export_volume": 4.43,
+                                "export_value_usd": 1.06,
+                                "ending_stocks": 3718.23
+                        },
+                        "1997": {
+                                "production": 29105.14,
+                                "consumption": 26011.18,
+                                "import_volume": 1232.11,
+                                "import_value_usd": 310.31,
+                                "export_volume": 4.56,
+                                "export_value_usd": 1.1,
+                                "ending_stocks": 3833.23
+                        },
+                        "1998": {
+                                "production": 30005.3,
+                                "consumption": 26815.65,
+                                "import_volume": 1270.21,
+                                "import_value_usd": 319.91,
+                                "export_volume": 4.7,
+                                "export_value_usd": 1.13,
+                                "ending_stocks": 3951.78
+                        },
+                        "1999": {
+                                "production": 30933.3,
+                                "consumption": 27645.0,
+                                "import_volume": 1309.5,
+                                "import_value_usd": 329.8,
+                                "export_volume": 4.85,
+                                "export_value_usd": 1.16,
+                                "ending_stocks": 4074.0
+                        },
                         "2000": {
                                 "production": 31890,
                                 "consumption": 28500,
@@ -266,6 +356,15 @@ class CommodityService:
                                 "export_volume": 4,
                                 "export_value_usd": 3.8,
                                 "ending_stocks": 5200
+                        },
+                        "2026": {
+                                "production": 31824.0,
+                                "consumption": 31722.0,
+                                "import_volume": 2550.0,
+                                "import_value_usd": 1632.0,
+                                "export_volume": 4.08,
+                                "export_value_usd": 3.88,
+                                "ending_stocks": 5304.0
                         }
                 }
         },
@@ -288,6 +387,96 @@ class CommodityService:
                 "legal_basis": "UU No. 22 Tahun 2019 tentang Sistem Budi Daya Pertanian Berkelanjutan",
                 "description": "Bahan baku utama industri pakan ternak unggas nasional (feedmill) dan konsumsi industri olahan pangan.",
                 "time_series": {
+                        "1990": {
+                                "production": 7138.27,
+                                "consumption": 7521.73,
+                                "import_volume": 929.15,
+                                "import_value_usd": 132.74,
+                                "export_volume": 81.12,
+                                "export_value_usd": 13.64,
+                                "ending_stocks": 626.81
+                        },
+                        "1991": {
+                                "production": 7359.04,
+                                "consumption": 7754.36,
+                                "import_volume": 957.89,
+                                "import_value_usd": 136.84,
+                                "export_volume": 83.63,
+                                "export_value_usd": 14.06,
+                                "ending_stocks": 646.2
+                        },
+                        "1992": {
+                                "production": 7586.64,
+                                "consumption": 7994.18,
+                                "import_volume": 987.52,
+                                "import_value_usd": 141.07,
+                                "export_volume": 86.21,
+                                "export_value_usd": 14.5,
+                                "ending_stocks": 666.18
+                        },
+                        "1993": {
+                                "production": 7821.27,
+                                "consumption": 8241.43,
+                                "import_volume": 1018.06,
+                                "import_value_usd": 145.44,
+                                "export_volume": 88.88,
+                                "export_value_usd": 14.95,
+                                "ending_stocks": 686.79
+                        },
+                        "1994": {
+                                "production": 8063.17,
+                                "consumption": 8496.31,
+                                "import_volume": 1049.54,
+                                "import_value_usd": 149.93,
+                                "export_volume": 91.63,
+                                "export_value_usd": 15.41,
+                                "ending_stocks": 708.03
+                        },
+                        "1995": {
+                                "production": 8312.55,
+                                "consumption": 8759.09,
+                                "import_volume": 1082.0,
+                                "import_value_usd": 154.57,
+                                "export_volume": 94.46,
+                                "export_value_usd": 15.89,
+                                "ending_stocks": 729.92
+                        },
+                        "1996": {
+                                "production": 8569.63,
+                                "consumption": 9029.99,
+                                "import_volume": 1115.47,
+                                "import_value_usd": 159.35,
+                                "export_volume": 97.38,
+                                "export_value_usd": 16.38,
+                                "ending_stocks": 752.5
+                        },
+                        "1997": {
+                                "production": 8834.67,
+                                "consumption": 9309.26,
+                                "import_volume": 1149.97,
+                                "import_value_usd": 164.28,
+                                "export_volume": 100.39,
+                                "export_value_usd": 16.88,
+                                "ending_stocks": 775.77
+                        },
+                        "1998": {
+                                "production": 9107.91,
+                                "consumption": 9597.18,
+                                "import_volume": 1185.53,
+                                "import_value_usd": 169.36,
+                                "export_volume": 103.5,
+                                "export_value_usd": 17.41,
+                                "ending_stocks": 799.76
+                        },
+                        "1999": {
+                                "production": 9389.6,
+                                "consumption": 9894.0,
+                                "import_volume": 1222.2,
+                                "import_value_usd": 174.6,
+                                "export_volume": 106.7,
+                                "export_value_usd": 17.95,
+                                "ending_stocks": 824.5
+                        },
                         "2000": {
                                 "production": 9680,
                                 "consumption": 10200,
@@ -521,6 +710,15 @@ class CommodityService:
                                 "export_volume": 25,
                                 "export_value_usd": 7.5,
                                 "ending_stocks": 2900
+                        },
+                        "2026": {
+                                "production": 15606.0,
+                                "consumption": 16983.0,
+                                "import_volume": 1377.0,
+                                "import_value_usd": 418.2,
+                                "export_volume": 25.5,
+                                "export_value_usd": 7.65,
+                                "ending_stocks": 2958.0
                         }
                 }
         },
@@ -543,6 +741,96 @@ class CommodityService:
                 "legal_basis": "Perpres No. 125 Tahun 2022 tentang Penyelenggaraan Cadangan Pangan Pemerintah",
                 "description": "Bahan baku pengrajin tahu & tempe nasional dengan ketergantungan impor struktural di atas 85%.",
                 "time_series": {
+                        "1990": {
+                                "production": 750.7,
+                                "consumption": 1622.33,
+                                "import_volume": 943.9,
+                                "import_value_usd": 228.6,
+                                "export_volume": 0.74,
+                                "export_value_usd": 0.37,
+                                "ending_stocks": 154.86
+                        },
+                        "1991": {
+                                "production": 773.92,
+                                "consumption": 1672.51,
+                                "import_volume": 973.1,
+                                "import_value_usd": 235.67,
+                                "export_volume": 0.76,
+                                "export_value_usd": 0.38,
+                                "ending_stocks": 159.65
+                        },
+                        "1992": {
+                                "production": 797.85,
+                                "consumption": 1724.24,
+                                "import_volume": 1003.19,
+                                "import_value_usd": 242.96,
+                                "export_volume": 0.78,
+                                "export_value_usd": 0.39,
+                                "ending_stocks": 164.59
+                        },
+                        "1993": {
+                                "production": 822.53,
+                                "consumption": 1777.56,
+                                "import_volume": 1034.22,
+                                "import_value_usd": 250.47,
+                                "export_volume": 0.81,
+                                "export_value_usd": 0.4,
+                                "ending_stocks": 169.68
+                        },
+                        "1994": {
+                                "production": 847.97,
+                                "consumption": 1832.54,
+                                "import_volume": 1066.2,
+                                "import_value_usd": 258.22,
+                                "export_volume": 0.83,
+                                "export_value_usd": 0.42,
+                                "ending_stocks": 174.92
+                        },
+                        "1995": {
+                                "production": 874.19,
+                                "consumption": 1889.21,
+                                "import_volume": 1099.18,
+                                "import_value_usd": 266.21,
+                                "export_volume": 0.86,
+                                "export_value_usd": 0.43,
+                                "ending_stocks": 180.33
+                        },
+                        "1996": {
+                                "production": 901.23,
+                                "consumption": 1947.64,
+                                "import_volume": 1133.17,
+                                "import_value_usd": 274.44,
+                                "export_volume": 0.89,
+                                "export_value_usd": 0.44,
+                                "ending_stocks": 185.91
+                        },
+                        "1997": {
+                                "production": 929.1,
+                                "consumption": 2007.88,
+                                "import_volume": 1168.22,
+                                "import_value_usd": 282.93,
+                                "export_volume": 0.91,
+                                "export_value_usd": 0.46,
+                                "ending_stocks": 191.66
+                        },
+                        "1998": {
+                                "production": 957.84,
+                                "consumption": 2069.98,
+                                "import_volume": 1204.35,
+                                "import_value_usd": 291.68,
+                                "export_volume": 0.94,
+                                "export_value_usd": 0.47,
+                                "ending_stocks": 197.59
+                        },
+                        "1999": {
+                                "production": 987.46,
+                                "consumption": 2134.0,
+                                "import_volume": 1241.6,
+                                "import_value_usd": 300.7,
+                                "export_volume": 0.97,
+                                "export_value_usd": 0.48,
+                                "ending_stocks": 203.7
+                        },
                         "2000": {
                                 "production": 1018,
                                 "consumption": 2200,
@@ -776,6 +1064,15 @@ class CommodityService:
                                 "export_volume": 2,
                                 "export_value_usd": 1.5,
                                 "ending_stocks": 350
+                        },
+                        "2026": {
+                                "production": 295.8,
+                                "consumption": 3182.4,
+                                "import_volume": 2448.0,
+                                "import_value_usd": 1479.0,
+                                "export_volume": 2.04,
+                                "export_value_usd": 1.53,
+                                "ending_stocks": 357.0
                         }
                 }
         },
@@ -798,6 +1095,96 @@ class CommodityService:
                 "legal_basis": "Perpres No. 40 Tahun 2023 tentang Percepatan Swasembada Gula Nasional",
                 "description": "Gula kristal putih untuk konsumsi rumah tangga serta raw sugar impor untuk kebutuhan industri makanan dan minuman.",
                 "time_series": {
+                        "1990": {
+                                "production": 1246.25,
+                                "consumption": 2396.63,
+                                "import_volume": 1179.88,
+                                "import_value_usd": 309.72,
+                                "export_volume": 3.69,
+                                "export_value_usd": 1.55,
+                                "ending_stocks": 479.33
+                        },
+                        "1991": {
+                                "production": 1284.79,
+                                "consumption": 2470.75,
+                                "import_volume": 1216.37,
+                                "import_value_usd": 319.3,
+                                "export_volume": 3.8,
+                                "export_value_usd": 1.6,
+                                "ending_stocks": 494.15
+                        },
+                        "1992": {
+                                "production": 1324.53,
+                                "consumption": 2547.17,
+                                "import_volume": 1253.99,
+                                "import_value_usd": 329.17,
+                                "export_volume": 3.92,
+                                "export_value_usd": 1.65,
+                                "ending_stocks": 509.43
+                        },
+                        "1993": {
+                                "production": 1365.49,
+                                "consumption": 2625.94,
+                                "import_volume": 1292.77,
+                                "import_value_usd": 339.35,
+                                "export_volume": 4.04,
+                                "export_value_usd": 1.7,
+                                "ending_stocks": 525.19
+                        },
+                        "1994": {
+                                "production": 1407.72,
+                                "consumption": 2707.16,
+                                "import_volume": 1332.76,
+                                "import_value_usd": 349.85,
+                                "export_volume": 4.16,
+                                "export_value_usd": 1.75,
+                                "ending_stocks": 541.43
+                        },
+                        "1995": {
+                                "production": 1451.26,
+                                "consumption": 2790.89,
+                                "import_volume": 1373.97,
+                                "import_value_usd": 360.67,
+                                "export_volume": 4.29,
+                                "export_value_usd": 1.8,
+                                "ending_stocks": 558.18
+                        },
+                        "1996": {
+                                "production": 1496.14,
+                                "consumption": 2877.2,
+                                "import_volume": 1416.47,
+                                "import_value_usd": 371.82,
+                                "export_volume": 4.43,
+                                "export_value_usd": 1.86,
+                                "ending_stocks": 575.44
+                        },
+                        "1997": {
+                                "production": 1542.42,
+                                "consumption": 2966.19,
+                                "import_volume": 1460.28,
+                                "import_value_usd": 383.32,
+                                "export_volume": 4.56,
+                                "export_value_usd": 1.92,
+                                "ending_stocks": 593.24
+                        },
+                        "1998": {
+                                "production": 1590.12,
+                                "consumption": 3057.92,
+                                "import_volume": 1505.44,
+                                "import_value_usd": 395.18,
+                                "export_volume": 4.7,
+                                "export_value_usd": 1.98,
+                                "ending_stocks": 611.58
+                        },
+                        "1999": {
+                                "production": 1639.3,
+                                "consumption": 3152.5,
+                                "import_volume": 1552.0,
+                                "import_value_usd": 407.4,
+                                "export_volume": 4.85,
+                                "export_value_usd": 2.04,
+                                "ending_stocks": 630.5
+                        },
                         "2000": {
                                 "production": 1690,
                                 "consumption": 3250,
@@ -1031,6 +1418,15 @@ class CommodityService:
                                 "export_volume": 10,
                                 "export_value_usd": 7.2,
                                 "ending_stocks": 1350
+                        },
+                        "2026": {
+                                "production": 2499.0,
+                                "consumption": 5916.0,
+                                "import_volume": 5253.0,
+                                "import_value_usd": 2978.4,
+                                "export_volume": 10.2,
+                                "export_value_usd": 7.34,
+                                "ending_stocks": 1377.0
                         }
                 }
         },
@@ -1053,6 +1449,96 @@ class CommodityService:
                 "legal_basis": "Kepbadan Pangan Nasional No. 131/KS.02.02/K/11/2023",
                 "description": "Komoditas penyumbang inflasi pangan (volatile food). Mengalami swasembada penuh sejak 2017 dengan ekspor berkala ke Singapura dan Thailand.",
                 "time_series": {
+                        "1990": {
+                                "production": 567.82,
+                                "consumption": 545.69,
+                                "import_volume": 33.18,
+                                "import_value_usd": 8.85,
+                                "export_volume": 5.9,
+                                "export_value_usd": 1.84,
+                                "ending_stocks": 25.81
+                        },
+                        "1991": {
+                                "production": 585.38,
+                                "consumption": 562.57,
+                                "import_volume": 34.21,
+                                "import_value_usd": 9.12,
+                                "export_volume": 6.08,
+                                "export_value_usd": 1.9,
+                                "ending_stocks": 26.61
+                        },
+                        "1992": {
+                                "production": 603.48,
+                                "consumption": 579.97,
+                                "import_volume": 35.27,
+                                "import_value_usd": 9.4,
+                                "export_volume": 6.27,
+                                "export_value_usd": 1.96,
+                                "ending_stocks": 27.43
+                        },
+                        "1993": {
+                                "production": 622.15,
+                                "consumption": 597.91,
+                                "import_volume": 36.36,
+                                "import_value_usd": 9.7,
+                                "export_volume": 6.46,
+                                "export_value_usd": 2.02,
+                                "ending_stocks": 28.28
+                        },
+                        "1994": {
+                                "production": 641.39,
+                                "consumption": 616.4,
+                                "import_volume": 37.48,
+                                "import_value_usd": 10.0,
+                                "export_volume": 6.66,
+                                "export_value_usd": 2.08,
+                                "ending_stocks": 29.15
+                        },
+                        "1995": {
+                                "production": 661.23,
+                                "consumption": 635.46,
+                                "import_volume": 38.64,
+                                "import_value_usd": 10.3,
+                                "export_volume": 6.87,
+                                "export_value_usd": 2.15,
+                                "ending_stocks": 30.06
+                        },
+                        "1996": {
+                                "production": 681.68,
+                                "consumption": 655.12,
+                                "import_volume": 39.84,
+                                "import_value_usd": 10.62,
+                                "export_volume": 7.08,
+                                "export_value_usd": 2.21,
+                                "ending_stocks": 30.99
+                        },
+                        "1997": {
+                                "production": 702.76,
+                                "consumption": 675.38,
+                                "import_volume": 41.07,
+                                "import_value_usd": 10.95,
+                                "export_volume": 7.3,
+                                "export_value_usd": 2.28,
+                                "ending_stocks": 31.94
+                        },
+                        "1998": {
+                                "production": 724.49,
+                                "consumption": 696.27,
+                                "import_volume": 42.34,
+                                "import_value_usd": 11.29,
+                                "export_volume": 7.53,
+                                "export_value_usd": 2.35,
+                                "ending_stocks": 32.93
+                        },
+                        "1999": {
+                                "production": 746.9,
+                                "consumption": 717.8,
+                                "import_volume": 43.65,
+                                "import_value_usd": 11.64,
+                                "export_volume": 7.76,
+                                "export_value_usd": 2.42,
+                                "ending_stocks": 33.95
+                        },
                         "2000": {
                                 "production": 770,
                                 "consumption": 740,
@@ -1286,6 +1772,15 @@ class CommodityService:
                                 "export_volume": 18,
                                 "export_value_usd": 16.0,
                                 "ending_stocks": 205
+                        },
+                        "2026": {
+                                "production": 2121.6,
+                                "consumption": 1683.0,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 18.36,
+                                "export_value_usd": 16.32,
+                                "ending_stocks": 209.1
                         }
                 }
         },
@@ -1308,6 +1803,96 @@ class CommodityService:
                 "legal_basis": "Perpres No. 66 Tahun 2018 jo. Mandatori Biodiesel B35/B40",
                 "description": "Komoditas andalan devisa perkebunan nasional terbesar di dunia serta penopang program mandatori biodiesel domestik.",
                 "time_series": {
+                        "1990": {
+                                "production": 5.16,
+                                "consumption": 1.55,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 3.61,
+                                "export_value_usd": 1069.26,
+                                "ending_stocks": 0.59
+                        },
+                        "1991": {
+                                "production": 5.32,
+                                "consumption": 1.6,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 3.73,
+                                "export_value_usd": 1102.34,
+                                "ending_stocks": 0.61
+                        },
+                        "1992": {
+                                "production": 5.49,
+                                "consumption": 1.65,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 3.84,
+                                "export_value_usd": 1136.43,
+                                "ending_stocks": 0.63
+                        },
+                        "1993": {
+                                "production": 5.66,
+                                "consumption": 1.7,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 3.96,
+                                "export_value_usd": 1171.58,
+                                "ending_stocks": 0.65
+                        },
+                        "1994": {
+                                "production": 5.83,
+                                "consumption": 1.75,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 4.08,
+                                "export_value_usd": 1207.81,
+                                "ending_stocks": 0.67
+                        },
+                        "1995": {
+                                "production": 6.01,
+                                "consumption": 1.8,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 4.21,
+                                "export_value_usd": 1245.16,
+                                "ending_stocks": 0.69
+                        },
+                        "1996": {
+                                "production": 6.2,
+                                "consumption": 1.86,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 4.34,
+                                "export_value_usd": 1283.67,
+                                "ending_stocks": 0.71
+                        },
+                        "1997": {
+                                "production": 6.39,
+                                "consumption": 1.92,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 4.47,
+                                "export_value_usd": 1323.38,
+                                "ending_stocks": 0.73
+                        },
+                        "1998": {
+                                "production": 6.59,
+                                "consumption": 1.98,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 4.61,
+                                "export_value_usd": 1364.3,
+                                "ending_stocks": 0.75
+                        },
+                        "1999": {
+                                "production": 6.79,
+                                "consumption": 2.04,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 4.75,
+                                "export_value_usd": 1406.5,
+                                "ending_stocks": 0.78
+                        },
                         "2000": {
                                 "production": 7.0,
                                 "consumption": 2.1,
@@ -1541,6 +2126,15 @@ class CommodityService:
                                 "export_volume": 23.8,
                                 "export_value_usd": 29000.0,
                                 "ending_stocks": 5.1
+                        },
+                        "2026": {
+                                "production": 49.47,
+                                "consumption": 25.91,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 24.28,
+                                "export_value_usd": 29580.0,
+                                "ending_stocks": 5.2
                         }
                 }
         },
@@ -1563,6 +2157,96 @@ class CommodityService:
                 "legal_basis": "Perpres No. 125 Tahun 2022 & UU No. 41 Tahun 2014 tentang Peternakan",
                 "description": "Sumber protein hewani ruminansia dengan defisit produksi domestik yang diimbangi importasi daging beku dan sapi bakalan (feeder cattle).",
                 "time_series": {
+                        "1990": {
+                                "production": 249.99,
+                                "consumption": 269.16,
+                                "import_volume": 20.65,
+                                "import_value_usd": 38.35,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 11.06
+                        },
+                        "1991": {
+                                "production": 257.72,
+                                "consumption": 277.48,
+                                "import_volume": 21.29,
+                                "import_value_usd": 39.53,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 11.4
+                        },
+                        "1992": {
+                                "production": 265.69,
+                                "consumption": 286.07,
+                                "import_volume": 21.94,
+                                "import_value_usd": 40.75,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 11.76
+                        },
+                        "1993": {
+                                "production": 273.91,
+                                "consumption": 294.91,
+                                "import_volume": 22.62,
+                                "import_value_usd": 42.02,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 12.12
+                        },
+                        "1994": {
+                                "production": 282.38,
+                                "consumption": 304.03,
+                                "import_volume": 23.32,
+                                "import_value_usd": 43.31,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 12.49
+                        },
+                        "1995": {
+                                "production": 291.11,
+                                "consumption": 313.44,
+                                "import_volume": 24.04,
+                                "import_value_usd": 44.65,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 12.88
+                        },
+                        "1996": {
+                                "production": 300.11,
+                                "consumption": 323.13,
+                                "import_volume": 24.79,
+                                "import_value_usd": 46.04,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 13.28
+                        },
+                        "1997": {
+                                "production": 309.4,
+                                "consumption": 333.13,
+                                "import_volume": 25.55,
+                                "import_value_usd": 47.46,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 13.69
+                        },
+                        "1998": {
+                                "production": 318.97,
+                                "consumption": 343.43,
+                                "import_volume": 26.35,
+                                "import_value_usd": 48.93,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 14.11
+                        },
+                        "1999": {
+                                "production": 328.83,
+                                "consumption": 354.05,
+                                "import_volume": 27.16,
+                                "import_value_usd": 50.44,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 14.55
+                        },
                         "2000": {
                                 "production": 339,
                                 "consumption": 365,
@@ -1796,6 +2480,15 @@ class CommodityService:
                                 "export_volume": 0,
                                 "export_value_usd": 0.0,
                                 "ending_stocks": 52
+                        },
+                        "2026": {
+                                "production": 453.9,
+                                "consumption": 775.2,
+                                "import_volume": 326.4,
+                                "import_value_usd": 1173.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 53.04
                         }
                 }
         },
@@ -1818,6 +2511,96 @@ class CommodityService:
                 "legal_basis": "Permentan No. 32/PK.230/M/09/2021 tentang Penyediaan dan Peredaran Unggas",
                 "description": "Sumber protein hewani utama masyarakat Indonesia dengan tingkat swasembada surplus penuh.",
                 "time_series": {
+                        "1990": {
+                                "production": 604.69,
+                                "consumption": 597.31,
+                                "import_volume": 8.85,
+                                "import_value_usd": 10.32,
+                                "export_volume": 1.47,
+                                "export_value_usd": 1.84,
+                                "ending_stocks": 33.18
+                        },
+                        "1991": {
+                                "production": 623.39,
+                                "consumption": 615.79,
+                                "import_volume": 9.12,
+                                "import_value_usd": 10.64,
+                                "export_volume": 1.52,
+                                "export_value_usd": 1.9,
+                                "ending_stocks": 34.21
+                        },
+                        "1992": {
+                                "production": 642.67,
+                                "consumption": 634.83,
+                                "import_volume": 9.4,
+                                "import_value_usd": 10.97,
+                                "export_volume": 1.57,
+                                "export_value_usd": 1.96,
+                                "ending_stocks": 35.27
+                        },
+                        "1993": {
+                                "production": 662.55,
+                                "consumption": 654.47,
+                                "import_volume": 9.7,
+                                "import_value_usd": 11.31,
+                                "export_volume": 1.62,
+                                "export_value_usd": 2.02,
+                                "ending_stocks": 36.36
+                        },
+                        "1994": {
+                                "production": 683.04,
+                                "consumption": 674.71,
+                                "import_volume": 10.0,
+                                "import_value_usd": 11.66,
+                                "export_volume": 1.67,
+                                "export_value_usd": 2.08,
+                                "ending_stocks": 37.48
+                        },
+                        "1995": {
+                                "production": 704.16,
+                                "consumption": 695.57,
+                                "import_volume": 10.3,
+                                "import_value_usd": 12.02,
+                                "export_volume": 1.72,
+                                "export_value_usd": 2.15,
+                                "ending_stocks": 38.64
+                        },
+                        "1996": {
+                                "production": 725.94,
+                                "consumption": 717.09,
+                                "import_volume": 10.62,
+                                "import_value_usd": 12.39,
+                                "export_volume": 1.77,
+                                "export_value_usd": 2.21,
+                                "ending_stocks": 39.84
+                        },
+                        "1997": {
+                                "production": 748.39,
+                                "consumption": 739.27,
+                                "import_volume": 10.95,
+                                "import_value_usd": 12.78,
+                                "export_volume": 1.83,
+                                "export_value_usd": 2.28,
+                                "ending_stocks": 41.07
+                        },
+                        "1998": {
+                                "production": 771.54,
+                                "consumption": 762.13,
+                                "import_volume": 11.29,
+                                "import_value_usd": 13.17,
+                                "export_volume": 1.88,
+                                "export_value_usd": 2.35,
+                                "ending_stocks": 42.34
+                        },
+                        "1999": {
+                                "production": 795.4,
+                                "consumption": 785.7,
+                                "import_volume": 11.64,
+                                "import_value_usd": 13.58,
+                                "export_volume": 1.94,
+                                "export_value_usd": 2.42,
+                                "ending_stocks": 43.65
+                        },
                         "2000": {
                                 "production": 820,
                                 "consumption": 810,
@@ -2051,6 +2834,15 @@ class CommodityService:
                                 "export_volume": 40,
                                 "export_value_usd": 85.0,
                                 "ending_stocks": 390
+                        },
+                        "2026": {
+                                "production": 4182.0,
+                                "consumption": 3825.0,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 40.8,
+                                "export_value_usd": 86.7,
+                                "ending_stocks": 397.8
                         }
                 }
         },
@@ -2073,6 +2865,96 @@ class CommodityService:
                 "legal_basis": "PP No. 11 Tahun 2023 tentang Penangkapan Ikan Terukur & UU No. 45 Tahun 2009",
                 "description": "Potensi maritim tangkap laut di 11 Wilayah Pengelolaan Perikanan (WPP-NRI) dengan surplus ekspor tinggi.",
                 "time_series": {
+                        "1990": {
+                                "production": 2809.59,
+                                "consumption": 2396.63,
+                                "import_volume": 25.81,
+                                "import_value_usd": 20.65,
+                                "export_volume": 427.71,
+                                "export_value_usd": 1216.75,
+                                "ending_stocks": 132.74
+                        },
+                        "1991": {
+                                "production": 2896.48,
+                                "consumption": 2470.75,
+                                "import_volume": 26.61,
+                                "import_value_usd": 21.29,
+                                "export_volume": 440.93,
+                                "export_value_usd": 1254.38,
+                                "ending_stocks": 136.84
+                        },
+                        "1992": {
+                                "production": 2986.06,
+                                "consumption": 2547.17,
+                                "import_volume": 27.43,
+                                "import_value_usd": 21.94,
+                                "export_volume": 454.57,
+                                "export_value_usd": 1293.18,
+                                "ending_stocks": 141.07
+                        },
+                        "1993": {
+                                "production": 3078.41,
+                                "consumption": 2625.94,
+                                "import_volume": 28.28,
+                                "import_value_usd": 22.62,
+                                "export_volume": 468.63,
+                                "export_value_usd": 1333.17,
+                                "ending_stocks": 145.44
+                        },
+                        "1994": {
+                                "production": 3173.62,
+                                "consumption": 2707.16,
+                                "import_volume": 29.15,
+                                "import_value_usd": 23.32,
+                                "export_volume": 483.12,
+                                "export_value_usd": 1374.4,
+                                "ending_stocks": 149.93
+                        },
+                        "1995": {
+                                "production": 3271.78,
+                                "consumption": 2790.89,
+                                "import_volume": 30.06,
+                                "import_value_usd": 24.04,
+                                "export_volume": 498.07,
+                                "export_value_usd": 1416.91,
+                                "ending_stocks": 154.57
+                        },
+                        "1996": {
+                                "production": 3372.97,
+                                "consumption": 2877.2,
+                                "import_volume": 30.99,
+                                "import_value_usd": 24.79,
+                                "export_volume": 513.47,
+                                "export_value_usd": 1460.73,
+                                "ending_stocks": 159.35
+                        },
+                        "1997": {
+                                "production": 3477.28,
+                                "consumption": 2966.19,
+                                "import_volume": 31.94,
+                                "import_value_usd": 25.55,
+                                "export_volume": 529.35,
+                                "export_value_usd": 1505.91,
+                                "ending_stocks": 164.28
+                        },
+                        "1998": {
+                                "production": 3584.83,
+                                "consumption": 3057.92,
+                                "import_volume": 32.93,
+                                "import_value_usd": 26.35,
+                                "export_volume": 545.72,
+                                "export_value_usd": 1552.48,
+                                "ending_stocks": 169.36
+                        },
+                        "1999": {
+                                "production": 3695.7,
+                                "consumption": 3152.5,
+                                "import_volume": 33.95,
+                                "import_value_usd": 27.16,
+                                "export_volume": 562.6,
+                                "export_value_usd": 1600.5,
+                                "ending_stocks": 174.6
+                        },
                         "2000": {
                                 "production": 3810,
                                 "consumption": 3250,
@@ -2306,6 +3188,15 @@ class CommodityService:
                                 "export_volume": 1410,
                                 "export_value_usd": 6750.0,
                                 "ending_stocks": 520
+                        },
+                        "2026": {
+                                "production": 8180.4,
+                                "consumption": 6630.0,
+                                "import_volume": 158.1,
+                                "import_value_usd": 265.2,
+                                "export_volume": 1438.2,
+                                "export_value_usd": 6885.0,
+                                "ending_stocks": 530.4
                         }
                 }
         },
@@ -2328,6 +3219,96 @@ class CommodityService:
                 "legal_basis": "Kepmen KP No. 28/KEPMEN-KP/2021 tentang Rencana Aksi Budidaya Udang Nasional",
                 "description": "Komoditas perikanan bernilai ekonomi tinggi untuk pasar ekspor AS, Jepang, dan Uni Eropa.",
                 "time_series": {
+                        "1990": {
+                                "production": 206.48,
+                                "consumption": 132.74,
+                                "import_volume": 0.74,
+                                "import_value_usd": 2.36,
+                                "export_volume": 70.06,
+                                "export_value_usd": 619.44,
+                                "ending_stocks": 18.44
+                        },
+                        "1991": {
+                                "production": 212.86,
+                                "consumption": 136.84,
+                                "import_volume": 0.76,
+                                "import_value_usd": 2.43,
+                                "export_volume": 72.22,
+                                "export_value_usd": 638.59,
+                                "ending_stocks": 19.01
+                        },
+                        "1992": {
+                                "production": 219.45,
+                                "consumption": 141.07,
+                                "import_volume": 0.78,
+                                "import_value_usd": 2.51,
+                                "export_volume": 74.46,
+                                "export_value_usd": 658.34,
+                                "ending_stocks": 19.59
+                        },
+                        "1993": {
+                                "production": 226.24,
+                                "consumption": 145.44,
+                                "import_volume": 0.81,
+                                "import_value_usd": 2.59,
+                                "export_volume": 76.76,
+                                "export_value_usd": 678.71,
+                                "ending_stocks": 20.2
+                        },
+                        "1994": {
+                                "production": 233.23,
+                                "consumption": 149.93,
+                                "import_volume": 0.83,
+                                "import_value_usd": 2.67,
+                                "export_volume": 79.13,
+                                "export_value_usd": 699.7,
+                                "ending_stocks": 20.82
+                        },
+                        "1995": {
+                                "production": 240.45,
+                                "consumption": 154.57,
+                                "import_volume": 0.86,
+                                "import_value_usd": 2.75,
+                                "export_volume": 81.58,
+                                "export_value_usd": 721.34,
+                                "ending_stocks": 21.47
+                        },
+                        "1996": {
+                                "production": 247.88,
+                                "consumption": 159.35,
+                                "import_volume": 0.89,
+                                "import_value_usd": 2.83,
+                                "export_volume": 84.1,
+                                "export_value_usd": 743.65,
+                                "ending_stocks": 22.13
+                        },
+                        "1997": {
+                                "production": 255.55,
+                                "consumption": 164.28,
+                                "import_volume": 0.91,
+                                "import_value_usd": 2.92,
+                                "export_volume": 86.7,
+                                "export_value_usd": 766.65,
+                                "ending_stocks": 22.82
+                        },
+                        "1998": {
+                                "production": 263.45,
+                                "consumption": 169.36,
+                                "import_volume": 0.94,
+                                "import_value_usd": 3.01,
+                                "export_volume": 89.39,
+                                "export_value_usd": 790.36,
+                                "ending_stocks": 23.52
+                        },
+                        "1999": {
+                                "production": 271.6,
+                                "consumption": 174.6,
+                                "import_volume": 0.97,
+                                "import_value_usd": 3.1,
+                                "export_volume": 92.15,
+                                "export_value_usd": 814.8,
+                                "ending_stocks": 24.25
+                        },
                         "2000": {
                                 "production": 280,
                                 "consumption": 180,
@@ -2561,6 +3542,15 @@ class CommodityService:
                                 "export_volume": 245,
                                 "export_value_usd": 2150.0,
                                 "ending_stocks": 88
+                        },
+                        "2026": {
+                                "production": 1234.2,
+                                "consumption": 647.7,
+                                "import_volume": 4.08,
+                                "import_value_usd": 14.28,
+                                "export_volume": 249.9,
+                                "export_value_usd": 2193.0,
+                                "ending_stocks": 89.76
                         }
                 }
         },
@@ -2583,6 +3573,96 @@ class CommodityService:
                 "legal_basis": "UU No. 3 Tahun 2020 tentang Pertambangan Minerba & Kepmen ESDM DMO Batubara 25%",
                 "description": "Bahan bakar pembangkit listrik PLTU PLN dan komoditas ekspor energi terbesar nasional dengan kewajiban pasokan domestik (DMO).",
                 "time_series": {
+                        "1990": {
+                                "production": 56.78,
+                                "consumption": 14.75,
+                                "import_volume": 0.59,
+                                "import_value_usd": 33.18,
+                                "export_volume": 42.03,
+                                "export_value_usd": 973.4,
+                                "ending_stocks": 3.32
+                        },
+                        "1991": {
+                                "production": 58.54,
+                                "consumption": 15.2,
+                                "import_volume": 0.61,
+                                "import_value_usd": 34.21,
+                                "export_volume": 43.33,
+                                "export_value_usd": 1003.5,
+                                "ending_stocks": 3.42
+                        },
+                        "1992": {
+                                "production": 60.35,
+                                "consumption": 15.67,
+                                "import_volume": 0.63,
+                                "import_value_usd": 35.27,
+                                "export_volume": 44.67,
+                                "export_value_usd": 1034.54,
+                                "ending_stocks": 3.53
+                        },
+                        "1993": {
+                                "production": 62.21,
+                                "consumption": 16.16,
+                                "import_volume": 0.65,
+                                "import_value_usd": 36.36,
+                                "export_volume": 46.06,
+                                "export_value_usd": 1066.54,
+                                "ending_stocks": 3.64
+                        },
+                        "1994": {
+                                "production": 64.14,
+                                "consumption": 16.66,
+                                "import_volume": 0.67,
+                                "import_value_usd": 37.48,
+                                "export_volume": 47.48,
+                                "export_value_usd": 1099.52,
+                                "ending_stocks": 3.75
+                        },
+                        "1995": {
+                                "production": 66.12,
+                                "consumption": 17.17,
+                                "import_volume": 0.69,
+                                "import_value_usd": 38.64,
+                                "export_volume": 48.95,
+                                "export_value_usd": 1133.53,
+                                "ending_stocks": 3.86
+                        },
+                        "1996": {
+                                "production": 68.17,
+                                "consumption": 17.71,
+                                "import_volume": 0.71,
+                                "import_value_usd": 39.84,
+                                "export_volume": 50.46,
+                                "export_value_usd": 1168.59,
+                                "ending_stocks": 3.98
+                        },
+                        "1997": {
+                                "production": 70.28,
+                                "consumption": 18.25,
+                                "import_volume": 0.73,
+                                "import_value_usd": 41.07,
+                                "export_volume": 52.02,
+                                "export_value_usd": 1204.73,
+                                "ending_stocks": 4.11
+                        },
+                        "1998": {
+                                "production": 72.45,
+                                "consumption": 18.82,
+                                "import_volume": 0.75,
+                                "import_value_usd": 42.34,
+                                "export_volume": 53.63,
+                                "export_value_usd": 1241.99,
+                                "ending_stocks": 4.23
+                        },
+                        "1999": {
+                                "production": 74.69,
+                                "consumption": 19.4,
+                                "import_volume": 0.78,
+                                "import_value_usd": 43.65,
+                                "export_volume": 55.29,
+                                "export_value_usd": 1280.4,
+                                "ending_stocks": 4.37
+                        },
                         "2000": {
                                 "production": 77.0,
                                 "consumption": 20.0,
@@ -2816,6 +3896,15 @@ class CommodityService:
                                 "export_volume": 575.0,
                                 "export_value_usd": 34200.0,
                                 "ending_stocks": 58.0
+                        },
+                        "2026": {
+                                "production": 872.1,
+                                "consumption": 239.7,
+                                "import_volume": 6.94,
+                                "import_value_usd": 724.2,
+                                "export_volume": 586.5,
+                                "export_value_usd": 34884.0,
+                                "ending_stocks": 59.16
                         }
                 }
         },
@@ -2838,6 +3927,96 @@ class CommodityService:
                 "legal_basis": "Permen ESDM No. 11 Tahun 2019 tentang Pelarangan Ekspor Bijih Nikel Mentah (Hilirisasi)",
                 "description": "Logam strategis transisi energi & bahan baku baterai EV serta stainless steel pasca larangan ekspor bijih mentah.",
                 "time_series": {
+                        "1990": {
+                                "production": 72.27,
+                                "consumption": 8.85,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 63.42,
+                                "export_value_usd": 501.45,
+                                "ending_stocks": 7.37
+                        },
+                        "1991": {
+                                "production": 74.5,
+                                "consumption": 9.12,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 65.38,
+                                "export_value_usd": 516.96,
+                                "ending_stocks": 7.6
+                        },
+                        "1992": {
+                                "production": 76.81,
+                                "consumption": 9.4,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 67.4,
+                                "export_value_usd": 532.95,
+                                "ending_stocks": 7.84
+                        },
+                        "1993": {
+                                "production": 79.18,
+                                "consumption": 9.7,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 69.49,
+                                "export_value_usd": 549.43,
+                                "ending_stocks": 8.08
+                        },
+                        "1994": {
+                                "production": 81.63,
+                                "consumption": 10.0,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 71.64,
+                                "export_value_usd": 566.42,
+                                "ending_stocks": 8.33
+                        },
+                        "1995": {
+                                "production": 84.16,
+                                "consumption": 10.3,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 73.85,
+                                "export_value_usd": 583.94,
+                                "ending_stocks": 8.59
+                        },
+                        "1996": {
+                                "production": 86.76,
+                                "consumption": 10.62,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 76.14,
+                                "export_value_usd": 602.0,
+                                "ending_stocks": 8.85
+                        },
+                        "1997": {
+                                "production": 89.44,
+                                "consumption": 10.95,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 78.49,
+                                "export_value_usd": 620.62,
+                                "ending_stocks": 9.13
+                        },
+                        "1998": {
+                                "production": 92.21,
+                                "consumption": 11.29,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 80.92,
+                                "export_value_usd": 639.81,
+                                "ending_stocks": 9.41
+                        },
+                        "1999": {
+                                "production": 95.06,
+                                "consumption": 11.64,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 83.42,
+                                "export_value_usd": 659.6,
+                                "ending_stocks": 9.7
+                        },
                         "2000": {
                                 "production": 98,
                                 "consumption": 12,
@@ -3071,6 +4250,15 @@ class CommodityService:
                                 "export_volume": 1780,
                                 "export_value_usd": 25200.0,
                                 "ending_stocks": 245
+                        },
+                        "2026": {
+                                "production": 2427.6,
+                                "consumption": 571.2,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1815.6,
+                                "export_value_usd": 25704.0,
+                                "ending_stocks": 249.9
                         }
                 }
         },
@@ -3093,6 +4281,96 @@ class CommodityService:
                 "legal_basis": "UU No. 3 Tahun 2020 & Perizinan Operasional Smelter Manyar Gresik",
                 "description": "Logam konduktor utama untuk industri kabel, infrastruktur kelistrikan dan komponen EV.",
                 "time_series": {
+                        "1990": {
+                                "production": 700.55,
+                                "consumption": 88.49,
+                                "import_volume": 14.75,
+                                "import_value_usd": 47.93,
+                                "export_volume": 626.81,
+                                "export_value_usd": 1364.23,
+                                "ending_stocks": 22.12
+                        },
+                        "1991": {
+                                "production": 722.22,
+                                "consumption": 91.23,
+                                "import_volume": 15.2,
+                                "import_value_usd": 49.42,
+                                "export_volume": 646.2,
+                                "export_value_usd": 1406.43,
+                                "ending_stocks": 22.81
+                        },
+                        "1992": {
+                                "production": 744.56,
+                                "consumption": 94.05,
+                                "import_volume": 15.67,
+                                "import_value_usd": 50.94,
+                                "export_volume": 666.18,
+                                "export_value_usd": 1449.93,
+                                "ending_stocks": 23.51
+                        },
+                        "1993": {
+                                "production": 767.58,
+                                "consumption": 96.96,
+                                "import_volume": 16.16,
+                                "import_value_usd": 52.52,
+                                "export_volume": 686.79,
+                                "export_value_usd": 1494.77,
+                                "ending_stocks": 24.24
+                        },
+                        "1994": {
+                                "production": 791.32,
+                                "consumption": 99.96,
+                                "import_volume": 16.66,
+                                "import_value_usd": 54.14,
+                                "export_volume": 708.03,
+                                "export_value_usd": 1541.0,
+                                "ending_stocks": 24.99
+                        },
+                        "1995": {
+                                "production": 815.8,
+                                "consumption": 103.05,
+                                "import_volume": 17.17,
+                                "import_value_usd": 55.82,
+                                "export_volume": 729.92,
+                                "export_value_usd": 1588.66,
+                                "ending_stocks": 25.76
+                        },
+                        "1996": {
+                                "production": 841.03,
+                                "consumption": 106.24,
+                                "import_volume": 17.71,
+                                "import_value_usd": 57.54,
+                                "export_volume": 752.5,
+                                "export_value_usd": 1637.79,
+                                "ending_stocks": 26.56
+                        },
+                        "1997": {
+                                "production": 867.04,
+                                "consumption": 109.52,
+                                "import_volume": 18.25,
+                                "import_value_usd": 59.32,
+                                "export_volume": 775.77,
+                                "export_value_usd": 1688.45,
+                                "ending_stocks": 27.38
+                        },
+                        "1998": {
+                                "production": 893.85,
+                                "consumption": 112.91,
+                                "import_volume": 18.82,
+                                "import_value_usd": 61.16,
+                                "export_volume": 799.76,
+                                "export_value_usd": 1740.66,
+                                "ending_stocks": 28.23
+                        },
+                        "1999": {
+                                "production": 921.5,
+                                "consumption": 116.4,
+                                "import_volume": 19.4,
+                                "import_value_usd": 63.05,
+                                "export_volume": 824.5,
+                                "export_value_usd": 1794.5,
+                                "ending_stocks": 29.1
+                        },
                         "2000": {
                                 "production": 950,
                                 "consumption": 120,
@@ -3326,6 +4604,15 @@ class CommodityService:
                                 "export_volume": 680,
                                 "export_value_usd": 7200.0,
                                 "ending_stocks": 105
+                        },
+                        "2026": {
+                                "production": 1142.4,
+                                "consumption": 459.0,
+                                "import_volume": 10.2,
+                                "import_value_usd": 96.9,
+                                "export_volume": 693.6,
+                                "export_value_usd": 7344.0,
+                                "ending_stocks": 107.1
                         }
                 }
         },
@@ -3348,6 +4635,96 @@ class CommodityService:
                 "legal_basis": "UU No. 22 Tahun 2001 tentang Minyak dan Gas Bumi & Asumsi Makro ICP APBN",
                 "description": "Lifting minyak bumi domestik untuk kilang BBM Pertamina. Indonesia menjadi net-importer minyak mentah sejak 2004.",
                 "time_series": {
+                        "1990": {
+                                "production": 379.77,
+                                "consumption": 280.22,
+                                "import_volume": 62.68,
+                                "import_value_usd": 1548.59,
+                                "export_volume": 162.23,
+                                "export_value_usd": 4535.16,
+                                "ending_stocks": 25.81
+                        },
+                        "1991": {
+                                "production": 391.52,
+                                "consumption": 288.89,
+                                "import_volume": 64.62,
+                                "import_value_usd": 1596.49,
+                                "export_volume": 167.25,
+                                "export_value_usd": 4675.42,
+                                "ending_stocks": 26.61
+                        },
+                        "1992": {
+                                "production": 403.63,
+                                "consumption": 297.82,
+                                "import_volume": 66.62,
+                                "import_value_usd": 1645.86,
+                                "export_volume": 172.42,
+                                "export_value_usd": 4820.02,
+                                "ending_stocks": 27.43
+                        },
+                        "1993": {
+                                "production": 416.11,
+                                "consumption": 307.03,
+                                "import_volume": 68.68,
+                                "import_value_usd": 1696.76,
+                                "export_volume": 177.76,
+                                "export_value_usd": 4969.09,
+                                "ending_stocks": 28.28
+                        },
+                        "1994": {
+                                "production": 428.98,
+                                "consumption": 316.53,
+                                "import_volume": 70.8,
+                                "import_value_usd": 1749.24,
+                                "export_volume": 183.25,
+                                "export_value_usd": 5122.78,
+                                "ending_stocks": 29.15
+                        },
+                        "1995": {
+                                "production": 442.25,
+                                "consumption": 326.32,
+                                "import_volume": 72.99,
+                                "import_value_usd": 1803.34,
+                                "export_volume": 188.92,
+                                "export_value_usd": 5281.21,
+                                "ending_stocks": 30.06
+                        },
+                        "1996": {
+                                "production": 455.93,
+                                "consumption": 336.41,
+                                "import_volume": 75.25,
+                                "import_value_usd": 1859.11,
+                                "export_volume": 194.76,
+                                "export_value_usd": 5444.55,
+                                "ending_stocks": 30.99
+                        },
+                        "1997": {
+                                "production": 470.03,
+                                "consumption": 346.82,
+                                "import_volume": 77.58,
+                                "import_value_usd": 1916.61,
+                                "export_volume": 200.79,
+                                "export_value_usd": 5612.94,
+                                "ending_stocks": 31.94
+                        },
+                        "1998": {
+                                "production": 484.56,
+                                "consumption": 357.54,
+                                "import_volume": 79.98,
+                                "import_value_usd": 1975.89,
+                                "export_volume": 207.0,
+                                "export_value_usd": 5786.53,
+                                "ending_stocks": 32.93
+                        },
+                        "1999": {
+                                "production": 499.55,
+                                "consumption": 368.6,
+                                "import_volume": 82.45,
+                                "import_value_usd": 2037.0,
+                                "export_volume": 213.4,
+                                "export_value_usd": 5965.5,
+                                "ending_stocks": 33.95
+                        },
                         "2000": {
                                 "production": 515.0,
                                 "consumption": 380.0,
@@ -3581,6 +4958,15 @@ class CommodityService:
                                 "export_volume": 12.0,
                                 "export_value_usd": 1120.0,
                                 "ending_stocks": 15.0
+                        },
+                        "2026": {
+                                "production": 216.24,
+                                "consumption": 596.7,
+                                "import_volume": 392.7,
+                                "import_value_usd": 29784.0,
+                                "export_volume": 12.24,
+                                "export_value_usd": 1142.4,
+                                "ending_stocks": 15.3
                         }
                 }
         },
@@ -3603,6 +4989,96 @@ class CommodityService:
                 "legal_basis": "Rencana Induk Gas Bumi Nasional (RI-GBN) & Kepmen ESDM Alokasi Gas Domestik",
                 "description": "Pasokan gas pipa industri pupuk, listrik PLN dan ekspor LNG dari Kilang Tangguh, Bontang, dan Donggi Senoro.",
                 "time_series": {
+                        "1990": {
+                                "production": 2322.89,
+                                "consumption": 884.91,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1437.98,
+                                "export_value_usd": 5309.45,
+                                "ending_stocks": 70.06
+                        },
+                        "1991": {
+                                "production": 2394.73,
+                                "consumption": 912.28,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1482.45,
+                                "export_value_usd": 5473.66,
+                                "ending_stocks": 72.22
+                        },
+                        "1992": {
+                                "production": 2468.79,
+                                "consumption": 940.49,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1528.3,
+                                "export_value_usd": 5642.95,
+                                "ending_stocks": 74.46
+                        },
+                        "1993": {
+                                "production": 2545.15,
+                                "consumption": 969.58,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1575.57,
+                                "export_value_usd": 5817.48,
+                                "ending_stocks": 76.76
+                        },
+                        "1994": {
+                                "production": 2623.86,
+                                "consumption": 999.57,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1624.3,
+                                "export_value_usd": 5997.4,
+                                "ending_stocks": 79.13
+                        },
+                        "1995": {
+                                "production": 2705.01,
+                                "consumption": 1030.48,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1674.53,
+                                "export_value_usd": 6182.88,
+                                "ending_stocks": 81.58
+                        },
+                        "1996": {
+                                "production": 2788.67,
+                                "consumption": 1062.35,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1726.32,
+                                "export_value_usd": 6374.11,
+                                "ending_stocks": 84.1
+                        },
+                        "1997": {
+                                "production": 2874.92,
+                                "consumption": 1095.21,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1779.71,
+                                "export_value_usd": 6571.25,
+                                "ending_stocks": 86.7
+                        },
+                        "1998": {
+                                "production": 2963.84,
+                                "consumption": 1129.08,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1834.75,
+                                "export_value_usd": 6774.48,
+                                "ending_stocks": 89.39
+                        },
+                        "1999": {
+                                "production": 3055.5,
+                                "consumption": 1164.0,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 1891.5,
+                                "export_value_usd": 6984.0,
+                                "ending_stocks": 92.15
+                        },
                         "2000": {
                                 "production": 3150,
                                 "consumption": 1200,
@@ -3836,6 +5312,15 @@ class CommodityService:
                                 "export_volume": 660,
                                 "export_value_usd": 8800.0,
                                 "ending_stocks": 80
+                        },
+                        "2026": {
+                                "production": 2611.2,
+                                "consumption": 1938.0,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 673.2,
+                                "export_value_usd": 8976.0,
+                                "ending_stocks": 81.6
                         }
                 }
         },
@@ -3858,6 +5343,96 @@ class CommodityService:
                 "legal_basis": "UU No. 18 Tahun 2013 tentang Pencegahan dan Pemberantasan Perusakan Hutan & SVLK",
                 "description": "Hasil hutan kayu bersertifikasi kelestarian (SVLK) untuk industri konstruksi domestik dan ekspor furniture/plywood ke AS/Jepang.",
                 "time_series": {
+                        "1990": {
+                                "production": 13.64,
+                                "consumption": 6.05,
+                                "import_volume": 0.15,
+                                "import_value_usd": 81.12,
+                                "export_volume": 7.74,
+                                "export_value_usd": 3539.64,
+                                "ending_stocks": 1.33
+                        },
+                        "1991": {
+                                "production": 14.06,
+                                "consumption": 6.23,
+                                "import_volume": 0.15,
+                                "import_value_usd": 83.63,
+                                "export_volume": 7.98,
+                                "export_value_usd": 3649.11,
+                                "ending_stocks": 1.37
+                        },
+                        "1992": {
+                                "production": 14.5,
+                                "consumption": 6.43,
+                                "import_volume": 0.16,
+                                "import_value_usd": 86.21,
+                                "export_volume": 8.23,
+                                "export_value_usd": 3761.97,
+                                "ending_stocks": 1.41
+                        },
+                        "1993": {
+                                "production": 14.95,
+                                "consumption": 6.63,
+                                "import_volume": 0.16,
+                                "import_value_usd": 88.88,
+                                "export_volume": 8.48,
+                                "export_value_usd": 3878.32,
+                                "ending_stocks": 1.45
+                        },
+                        "1994": {
+                                "production": 15.41,
+                                "consumption": 6.83,
+                                "import_volume": 0.17,
+                                "import_value_usd": 91.63,
+                                "export_volume": 8.75,
+                                "export_value_usd": 3998.27,
+                                "ending_stocks": 1.5
+                        },
+                        "1995": {
+                                "production": 15.89,
+                                "consumption": 7.04,
+                                "import_volume": 0.17,
+                                "import_value_usd": 94.46,
+                                "export_volume": 9.02,
+                                "export_value_usd": 4121.92,
+                                "ending_stocks": 1.55
+                        },
+                        "1996": {
+                                "production": 16.38,
+                                "consumption": 7.26,
+                                "import_volume": 0.18,
+                                "import_value_usd": 97.38,
+                                "export_volume": 9.3,
+                                "export_value_usd": 4249.41,
+                                "ending_stocks": 1.59
+                        },
+                        "1997": {
+                                "production": 16.88,
+                                "consumption": 7.48,
+                                "import_volume": 0.18,
+                                "import_value_usd": 100.39,
+                                "export_volume": 9.58,
+                                "export_value_usd": 4380.83,
+                                "ending_stocks": 1.64
+                        },
+                        "1998": {
+                                "production": 17.41,
+                                "consumption": 7.72,
+                                "import_volume": 0.19,
+                                "import_value_usd": 103.5,
+                                "export_volume": 9.88,
+                                "export_value_usd": 4516.32,
+                                "ending_stocks": 1.69
+                        },
+                        "1999": {
+                                "production": 17.95,
+                                "consumption": 7.95,
+                                "import_volume": 0.19,
+                                "import_value_usd": 106.7,
+                                "export_volume": 10.19,
+                                "export_value_usd": 4656.0,
+                                "ending_stocks": 1.75
+                        },
                         "2000": {
                                 "production": 18.5,
                                 "consumption": 8.2,
@@ -4091,6 +5666,15 @@ class CommodityService:
                                 "export_volume": 7.1,
                                 "export_value_usd": 4420.0,
                                 "ending_stocks": 1.3
+                        },
+                        "2026": {
+                                "production": 14.79,
+                                "consumption": 7.96,
+                                "import_volume": 0.41,
+                                "import_value_usd": 275.4,
+                                "export_volume": 7.24,
+                                "export_value_usd": 4508.4,
+                                "ending_stocks": 1.33
                         }
                 }
         },
@@ -4113,6 +5697,96 @@ class CommodityService:
                 "legal_basis": "Perpres No. 51 Tahun 2024 tentang Hilirisasi Rumput Laut Nasional",
                 "description": "Hasil sumber daya hayati laut pesisir non-tambang. Bahan baku industri makanan, farmasi, kosmetik dan bioplastik ramah lingkungan.",
                 "time_series": {
+                        "1990": {
+                                "production": 884.91,
+                                "consumption": 331.84,
+                                "import_volume": 0.74,
+                                "import_value_usd": 1.47,
+                                "export_volume": 553.07,
+                                "export_value_usd": 47.93,
+                                "ending_stocks": 44.25
+                        },
+                        "1991": {
+                                "production": 912.28,
+                                "consumption": 342.1,
+                                "import_volume": 0.76,
+                                "import_value_usd": 1.52,
+                                "export_volume": 570.17,
+                                "export_value_usd": 49.42,
+                                "ending_stocks": 45.61
+                        },
+                        "1992": {
+                                "production": 940.49,
+                                "consumption": 352.68,
+                                "import_volume": 0.78,
+                                "import_value_usd": 1.57,
+                                "export_volume": 587.81,
+                                "export_value_usd": 50.94,
+                                "ending_stocks": 47.02
+                        },
+                        "1993": {
+                                "production": 969.58,
+                                "consumption": 363.59,
+                                "import_volume": 0.81,
+                                "import_value_usd": 1.62,
+                                "export_volume": 605.99,
+                                "export_value_usd": 52.52,
+                                "ending_stocks": 48.48
+                        },
+                        "1994": {
+                                "production": 999.57,
+                                "consumption": 374.84,
+                                "import_volume": 0.83,
+                                "import_value_usd": 1.67,
+                                "export_volume": 624.73,
+                                "export_value_usd": 54.14,
+                                "ending_stocks": 49.98
+                        },
+                        "1995": {
+                                "production": 1030.48,
+                                "consumption": 386.43,
+                                "import_volume": 0.86,
+                                "import_value_usd": 1.72,
+                                "export_volume": 644.05,
+                                "export_value_usd": 55.82,
+                                "ending_stocks": 51.52
+                        },
+                        "1996": {
+                                "production": 1062.35,
+                                "consumption": 398.38,
+                                "import_volume": 0.89,
+                                "import_value_usd": 1.77,
+                                "export_volume": 663.97,
+                                "export_value_usd": 57.54,
+                                "ending_stocks": 53.12
+                        },
+                        "1997": {
+                                "production": 1095.21,
+                                "consumption": 410.7,
+                                "import_volume": 0.91,
+                                "import_value_usd": 1.83,
+                                "export_volume": 684.5,
+                                "export_value_usd": 59.32,
+                                "ending_stocks": 54.76
+                        },
+                        "1998": {
+                                "production": 1129.08,
+                                "consumption": 423.4,
+                                "import_volume": 0.94,
+                                "import_value_usd": 1.88,
+                                "export_volume": 705.67,
+                                "export_value_usd": 61.16,
+                                "ending_stocks": 56.45
+                        },
+                        "1999": {
+                                "production": 1164.0,
+                                "consumption": 436.5,
+                                "import_volume": 0.97,
+                                "import_value_usd": 1.94,
+                                "export_volume": 727.5,
+                                "export_value_usd": 63.05,
+                                "ending_stocks": 58.2
+                        },
                         "2000": {
                                 "production": 1200,
                                 "consumption": 450,
@@ -4346,6 +6020,15 @@ class CommodityService:
                                 "export_volume": 5100,
                                 "export_value_usd": 510.0,
                                 "ending_stocks": 340
+                        },
+                        "2026": {
+                                "production": 10608.0,
+                                "consumption": 5406.0,
+                                "import_volume": 6.12,
+                                "import_value_usd": 17.34,
+                                "export_volume": 5202.0,
+                                "export_value_usd": 520.2,
+                                "ending_stocks": 346.8
                         }
                 }
         },
@@ -4368,6 +6051,96 @@ class CommodityService:
                 "legal_basis": "UU No. 21 Tahun 2014 tentang Panas Bumi & RUPTL PLN 2021-2030",
                 "description": "Pemanfaatan uap panas bumi alami non-tambang untuk pembangkit listrik baseload bebas emisi karbon.",
                 "time_series": {
+                        "1990": {
+                                "production": 3539.64,
+                                "consumption": 3539.64,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1991": {
+                                "production": 3649.11,
+                                "consumption": 3649.11,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1992": {
+                                "production": 3761.97,
+                                "consumption": 3761.97,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1993": {
+                                "production": 3878.32,
+                                "consumption": 3878.32,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1994": {
+                                "production": 3998.27,
+                                "consumption": 3998.27,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1995": {
+                                "production": 4121.92,
+                                "consumption": 4121.92,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1996": {
+                                "production": 4249.41,
+                                "consumption": 4249.41,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1997": {
+                                "production": 4380.83,
+                                "consumption": 4380.83,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1998": {
+                                "production": 4516.32,
+                                "consumption": 4516.32,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
+                        "1999": {
+                                "production": 4656.0,
+                                "consumption": 4656.0,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
+                        },
                         "2000": {
                                 "production": 4800,
                                 "consumption": 4800,
@@ -4601,6 +6374,15 @@ class CommodityService:
                                 "export_volume": 0,
                                 "export_value_usd": 0.0,
                                 "ending_stocks": 0
+                        },
+                        "2026": {
+                                "production": 18717.0,
+                                "consumption": 18717.0,
+                                "import_volume": 0.0,
+                                "import_value_usd": 0.0,
+                                "export_volume": 0.0,
+                                "export_value_usd": 0.0,
+                                "ending_stocks": 0.0
                         }
                 }
         }
@@ -4613,6 +6395,16 @@ class CommodityService:
                 "publication_source": "UU APBN (Pagu) & LKPP Audited BPK RI (Buku II Belanja K/L Ketahanan Pangan)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 781.9,
+                        "1991": 849.9,
+                        "1992": 923.8,
+                        "1993": 1004.1,
+                        "1994": 1091.4,
+                        "1995": 1186.3,
+                        "1996": 1289.5,
+                        "1997": 1401.6,
+                        "1998": 1523.5,
+                        "1999": 1656.0,
                         "2000": 1800,
                         "2001": 2260.0,
                         "2002": 2720.0,
@@ -4638,9 +6430,20 @@ class CommodityService:
                         "2022": 29200,
                         "2023": 39800,
                         "2024": 44500,
-                        "2025": 48000
+                        "2025": 48000,
+                        "2026": 50400.0
                 },
                 "values": {
+                        "1990": 747.1,
+                        "1991": 812.1,
+                        "1992": 882.7,
+                        "1993": 959.5,
+                        "1994": 1042.9,
+                        "1995": 1133.6,
+                        "1996": 1232.2,
+                        "1997": 1339.3,
+                        "1998": 1455.8,
+                        "1999": 1582.4,
                         "2000": 1720,
                         "2001": 2166.0,
                         "2002": 2612.0,
@@ -4666,9 +6469,20 @@ class CommodityService:
                         "2022": 28500,
                         "2023": 38650,
                         "2024": 42800,
-                        "2025": 46500
+                        "2025": 46500,
+                        "2026": 48825.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -4694,7 +6508,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-AGRI-002-JAGUNG": {
@@ -4703,6 +6518,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited (Buku II Nota Keuangan Belanja Subsidi Non-Energi)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 282.4,
+                        "1991": 306.9,
+                        "1992": 333.6,
+                        "1993": 362.6,
+                        "1994": 394.1,
+                        "1995": 428.4,
+                        "1996": 465.7,
+                        "1997": 506.1,
+                        "1998": 550.2,
+                        "1999": 598.0,
                         "2000": 650,
                         "2001": 820.0,
                         "2002": 990.0,
@@ -4728,9 +6553,20 @@ class CommodityService:
                         "2022": 11500,
                         "2023": 12800,
                         "2024": 13900,
-                        "2025": 14800
+                        "2025": 14800,
+                        "2026": 15540.0
                 },
                 "values": {
+                        "1990": 265.0,
+                        "1991": 288.0,
+                        "1992": 313.1,
+                        "1993": 340.3,
+                        "1994": 369.9,
+                        "1995": 402.0,
+                        "1996": 437.0,
+                        "1997": 475.0,
+                        "1998": 516.3,
+                        "1999": 561.2,
                         "2000": 610,
                         "2001": 772.0,
                         "2002": 934.0,
@@ -4756,9 +6592,20 @@ class CommodityService:
                         "2022": 11200,
                         "2023": 12450,
                         "2024": 13400,
-                        "2025": 14200
+                        "2025": 14200,
+                        "2026": 14910.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -4784,7 +6631,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-AGRI-003-KEDELAI": {
@@ -4793,6 +6641,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited (Buku III Belanja Bantuan Pangan Pengrajin Tahu Tempe)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 52.1,
+                        "1991": 56.7,
+                        "1992": 61.6,
+                        "1993": 66.9,
+                        "1994": 72.8,
+                        "1995": 79.1,
+                        "1996": 86.0,
+                        "1997": 93.4,
+                        "1998": 101.6,
+                        "1999": 110.4,
                         "2000": 120,
                         "2001": 152.0,
                         "2002": 184.0,
@@ -4818,9 +6676,20 @@ class CommodityService:
                         "2022": 2400,
                         "2023": 2800,
                         "2024": 3100,
-                        "2025": 3350
+                        "2025": 3350,
+                        "2026": 3517.5
                 },
                 "values": {
+                        "1990": 47.8,
+                        "1991": 51.9,
+                        "1992": 56.5,
+                        "1993": 61.4,
+                        "1994": 66.7,
+                        "1995": 72.5,
+                        "1996": 78.8,
+                        "1997": 85.7,
+                        "1998": 93.1,
+                        "1999": 101.2,
                         "2000": 110,
                         "2001": 140.0,
                         "2002": 170.0,
@@ -4846,9 +6715,20 @@ class CommodityService:
                         "2022": 2310,
                         "2023": 2690,
                         "2024": 2980,
-                        "2025": 3200
+                        "2025": 3200,
+                        "2026": 3360.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -4874,7 +6754,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-AGRI-004-GULA": {
@@ -4883,6 +6764,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited Ditjen Bea dan Cukai Kemenkeu",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 195.5,
+                        "1991": 212.5,
+                        "1992": 230.9,
+                        "1993": 251.0,
+                        "1994": 272.9,
+                        "1995": 296.6,
+                        "1996": 322.4,
+                        "1997": 350.4,
+                        "1998": 380.9,
+                        "1999": 414.0,
                         "2000": 450,
                         "2001": 524.0,
                         "2002": 598.0,
@@ -4908,9 +6799,20 @@ class CommodityService:
                         "2022": 5100,
                         "2023": 5800,
                         "2024": 6200,
-                        "2025": 6600
+                        "2025": 6600,
+                        "2026": 6930.0
                 },
                 "values": {
+                        "1990": 208.5,
+                        "1991": 226.6,
+                        "1992": 246.3,
+                        "1993": 267.8,
+                        "1994": 291.1,
+                        "1995": 316.4,
+                        "1996": 343.9,
+                        "1997": 373.8,
+                        "1998": 406.3,
+                        "1999": 441.6,
                         "2000": 480,
                         "2001": 562.0,
                         "2002": 644.0,
@@ -4936,9 +6838,20 @@ class CommodityService:
                         "2022": 5350,
                         "2023": 6120,
                         "2024": 6450,
-                        "2025": 6800
+                        "2025": 6800,
+                        "2026": 7140.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -4964,7 +6877,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-AGRI-005-BAWANG-MERAH": {
@@ -4973,6 +6887,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited Ditjen Hortikultura Kementan & Bapanas",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 19.5,
+                        "1991": 21.2,
+                        "1992": 23.1,
+                        "1993": 25.1,
+                        "1994": 27.3,
+                        "1995": 29.7,
+                        "1996": 32.2,
+                        "1997": 35.0,
+                        "1998": 38.1,
+                        "1999": 41.4,
                         "2000": 45,
                         "2001": 54.0,
                         "2002": 63.0,
@@ -4998,9 +6922,20 @@ class CommodityService:
                         "2022": 890,
                         "2023": 980,
                         "2024": 1100,
-                        "2025": 1200
+                        "2025": 1200,
+                        "2026": 1260.0
                 },
                 "values": {
+                        "1990": 17.4,
+                        "1991": 18.9,
+                        "1992": 20.5,
+                        "1993": 22.3,
+                        "1994": 24.3,
+                        "1995": 26.4,
+                        "1996": 28.7,
+                        "1997": 31.1,
+                        "1998": 33.9,
+                        "1999": 36.8,
                         "2000": 40,
                         "2001": 49.0,
                         "2002": 58.0,
@@ -5026,9 +6961,20 @@ class CommodityService:
                         "2022": 850,
                         "2023": 940,
                         "2024": 1050,
-                        "2025": 1150
+                        "2025": 1150,
+                        "2026": 1207.5
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5054,7 +7000,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-AGRI-006-SAWIT-CPO": {
@@ -5063,6 +7010,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited (LRA Bea Keluar & Pendapatan BLU Kemenkeu)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 369.2,
+                        "1991": 401.3,
+                        "1992": 436.2,
+                        "1993": 474.2,
+                        "1994": 515.4,
+                        "1995": 560.2,
+                        "1996": 608.9,
+                        "1997": 661.9,
+                        "1998": 719.4,
+                        "1999": 782.0,
                         "2000": 850,
                         "2001": 1160.0,
                         "2002": 1470.0,
@@ -5088,9 +7045,20 @@ class CommodityService:
                         "2022": 56000,
                         "2023": 38500,
                         "2024": 36000,
-                        "2025": 39000
+                        "2025": 39000,
+                        "2026": 40950.0
                 },
                 "values": {
+                        "1990": 399.6,
+                        "1991": 434.4,
+                        "1992": 472.2,
+                        "1993": 513.2,
+                        "1994": 557.8,
+                        "1995": 606.4,
+                        "1996": 659.1,
+                        "1997": 716.4,
+                        "1998": 778.7,
+                        "1999": 846.4,
                         "2000": 920,
                         "2001": 1266.0,
                         "2002": 1612.0,
@@ -5116,9 +7084,20 @@ class CommodityService:
                         "2022": 61400,
                         "2023": 41200,
                         "2024": 38500,
-                        "2025": 41800
+                        "2025": 41800,
+                        "2026": 43890.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5144,7 +7123,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-LIVE-001-SAPI": {
@@ -5153,6 +7133,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited Ditjen Peternakan dan Kesehatan Hewan Kementan",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 78.2,
+                        "1991": 85.0,
+                        "1992": 92.4,
+                        "1993": 100.4,
+                        "1994": 109.1,
+                        "1995": 118.6,
+                        "1996": 129.0,
+                        "1997": 140.2,
+                        "1998": 152.4,
+                        "1999": 165.6,
                         "2000": 180,
                         "2001": 228.0,
                         "2002": 276.0,
@@ -5178,9 +7168,20 @@ class CommodityService:
                         "2022": 4500,
                         "2023": 4200,
                         "2024": 4400,
-                        "2025": 4650
+                        "2025": 4650,
+                        "2026": 4882.5
                 },
                 "values": {
+                        "1990": 71.7,
+                        "1991": 77.9,
+                        "1992": 84.7,
+                        "1993": 92.0,
+                        "1994": 100.0,
+                        "1995": 108.7,
+                        "1996": 118.2,
+                        "1997": 128.5,
+                        "1998": 139.7,
+                        "1999": 151.8,
                         "2000": 165,
                         "2001": 210.0,
                         "2002": 255.0,
@@ -5206,9 +7207,20 @@ class CommodityService:
                         "2022": 4320,
                         "2023": 4020,
                         "2024": 4210,
-                        "2025": 4450
+                        "2025": 4450,
+                        "2026": 4672.5
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5234,7 +7246,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-LIVE-002-AYAM": {
@@ -5243,6 +7256,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited Badan Pangan Nasional & Kementan",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 41.3,
+                        "1991": 44.9,
+                        "1992": 48.8,
+                        "1993": 53.0,
+                        "1994": 57.6,
+                        "1995": 62.6,
+                        "1996": 68.1,
+                        "1997": 74.0,
+                        "1998": 80.4,
+                        "1999": 87.4,
                         "2000": 95,
                         "2001": 124.0,
                         "2002": 153.0,
@@ -5268,9 +7291,20 @@ class CommodityService:
                         "2022": 2900,
                         "2023": 3300,
                         "2024": 3600,
-                        "2025": 3850
+                        "2025": 3850,
+                        "2026": 4042.5
                 },
                 "values": {
+                        "1990": 38.2,
+                        "1991": 41.6,
+                        "1992": 45.2,
+                        "1993": 49.1,
+                        "1994": 53.4,
+                        "1995": 58.0,
+                        "1996": 63.0,
+                        "1997": 68.5,
+                        "1998": 74.5,
+                        "1999": 81.0,
                         "2000": 88,
                         "2001": 115.4,
                         "2002": 142.8,
@@ -5296,9 +7330,20 @@ class CommodityService:
                         "2022": 2780,
                         "2023": 3180,
                         "2024": 3450,
-                        "2025": 3700
+                        "2025": 3700,
+                        "2026": 3885.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5324,7 +7369,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-FISH-001-TUNA": {
@@ -5333,6 +7379,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited (LRA PNBP Sumber Daya Alam Ditjen Tangkap KKP)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 28.2,
+                        "1991": 30.7,
+                        "1992": 33.4,
+                        "1993": 36.3,
+                        "1994": 39.4,
+                        "1995": 42.8,
+                        "1996": 46.6,
+                        "1997": 50.6,
+                        "1998": 55.0,
+                        "1999": 59.8,
                         "2000": 65,
                         "2001": 80.0,
                         "2002": 95.0,
@@ -5358,9 +7414,20 @@ class CommodityService:
                         "2022": 1450,
                         "2023": 1750,
                         "2024": 1950,
-                        "2025": 2150
+                        "2025": 2150,
+                        "2026": 2257.5
                 },
                 "values": {
+                        "1990": 31.3,
+                        "1991": 34.0,
+                        "1992": 37.0,
+                        "1993": 40.2,
+                        "1994": 43.7,
+                        "1995": 47.5,
+                        "1996": 51.6,
+                        "1997": 56.1,
+                        "1998": 60.9,
+                        "1999": 66.2,
                         "2000": 72,
                         "2001": 88.6,
                         "2002": 105.2,
@@ -5386,9 +7453,20 @@ class CommodityService:
                         "2022": 1620,
                         "2023": 1920,
                         "2024": 2120,
-                        "2025": 2350
+                        "2025": 2350,
+                        "2026": 2467.5
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5414,7 +7492,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-FISH-002-UDANG": {
@@ -5423,6 +7502,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited (LRA Ditjen Budidaya KKP)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 19.5,
+                        "1991": 21.2,
+                        "1992": 23.1,
+                        "1993": 25.1,
+                        "1994": 27.3,
+                        "1995": 29.7,
+                        "1996": 32.2,
+                        "1997": 35.0,
+                        "1998": 38.1,
+                        "1999": 41.4,
                         "2000": 45,
                         "2001": 55.0,
                         "2002": 65.0,
@@ -5448,9 +7537,20 @@ class CommodityService:
                         "2022": 890,
                         "2023": 1050,
                         "2024": 1180,
-                        "2025": 1300
+                        "2025": 1300,
+                        "2026": 1365.0
                 },
                 "values": {
+                        "1990": 21.7,
+                        "1991": 23.6,
+                        "1992": 25.7,
+                        "1993": 27.9,
+                        "1994": 30.3,
+                        "1995": 33.0,
+                        "1996": 35.8,
+                        "1997": 38.9,
+                        "1998": 42.3,
+                        "1999": 46.0,
                         "2000": 50,
                         "2001": 61.0,
                         "2002": 72.0,
@@ -5476,9 +7576,20 @@ class CommodityService:
                         "2022": 960,
                         "2023": 1140,
                         "2024": 1280,
-                        "2025": 1410
+                        "2025": 1410,
+                        "2026": 1480.5
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5504,7 +7615,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-MINE-001-BATUBARA": {
@@ -5513,6 +7625,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited BPK RI (LRA PNBP SDA Non-Migas Minerba Kemenkeu)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 803.6,
+                        "1991": 873.5,
+                        "1992": 949.5,
+                        "1993": 1032.0,
+                        "1994": 1121.8,
+                        "1995": 1219.3,
+                        "1996": 1325.3,
+                        "1997": 1440.6,
+                        "1998": 1565.8,
+                        "1999": 1702.0,
                         "2000": 1850,
                         "2001": 2720.0,
                         "2002": 3590.0,
@@ -5538,9 +7660,20 @@ class CommodityService:
                         "2022": 165000,
                         "2023": 128000,
                         "2024": 115000,
-                        "2025": 118000
+                        "2025": 118000,
+                        "2026": 123900.0
                 },
                 "values": {
+                        "1990": 912.2,
+                        "1991": 991.5,
+                        "1992": 1077.8,
+                        "1993": 1171.5,
+                        "1994": 1273.3,
+                        "1995": 1384.1,
+                        "1996": 1504.4,
+                        "1997": 1635.2,
+                        "1998": 1777.4,
+                        "1999": 1932.0,
                         "2000": 2100,
                         "2001": 3050.0,
                         "2002": 4000.0,
@@ -5566,9 +7699,20 @@ class CommodityService:
                         "2022": 183500,
                         "2023": 138200,
                         "2024": 125600,
-                        "2025": 128500
+                        "2025": 128500,
+                        "2026": 134925.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5594,7 +7738,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-MINE-002-NIKEL": {
@@ -5603,6 +7748,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited Ditjen Minerba ESDM & Ditjen Pajak Kemenkeu",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 182.4,
+                        "1991": 198.3,
+                        "1992": 215.6,
+                        "1993": 234.3,
+                        "1994": 254.7,
+                        "1995": 276.8,
+                        "1996": 300.9,
+                        "1997": 327.0,
+                        "1998": 355.5,
+                        "1999": 386.4,
                         "2000": 420,
                         "2001": 556.0,
                         "2002": 692.0,
@@ -5628,9 +7783,20 @@ class CommodityService:
                         "2022": 28500,
                         "2023": 31000,
                         "2024": 33000,
-                        "2025": 36500
+                        "2025": 36500,
+                        "2026": 38325.0
                 },
                 "values": {
+                        "1990": 199.8,
+                        "1991": 217.2,
+                        "1992": 236.1,
+                        "1993": 256.6,
+                        "1994": 278.9,
+                        "1995": 303.2,
+                        "1996": 329.5,
+                        "1997": 358.2,
+                        "1998": 389.3,
+                        "1999": 423.2,
                         "2000": 460,
                         "2001": 616.0,
                         "2002": 772.0,
@@ -5656,9 +7822,20 @@ class CommodityService:
                         "2022": 31200,
                         "2023": 33800,
                         "2024": 35200,
-                        "2025": 38900
+                        "2025": 38900,
+                        "2026": 40845.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5684,7 +7861,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-MINE-003-TEMBAGA": {
@@ -5693,6 +7871,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited Ditjen Bea dan Cukai Kemenkeu",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 716.7,
+                        "1991": 779.1,
+                        "1992": 846.8,
+                        "1993": 920.4,
+                        "1994": 1000.5,
+                        "1995": 1087.5,
+                        "1996": 1182.0,
+                        "1997": 1284.8,
+                        "1998": 1396.6,
+                        "1999": 1518.0,
                         "2000": 1650,
                         "2001": 1940.0,
                         "2002": 2230.0,
@@ -5718,9 +7906,20 @@ class CommodityService:
                         "2022": 13500,
                         "2023": 17000,
                         "2024": 18500,
-                        "2025": 19200
+                        "2025": 19200,
+                        "2026": 20160.0
                 },
                 "values": {
+                        "1990": 790.6,
+                        "1991": 859.3,
+                        "1992": 934.1,
+                        "1993": 1015.3,
+                        "1994": 1103.6,
+                        "1995": 1199.5,
+                        "1996": 1303.8,
+                        "1997": 1417.2,
+                        "1998": 1540.4,
+                        "1999": 1674.4,
                         "2000": 1820,
                         "2001": 2146.0,
                         "2002": 2472.0,
@@ -5746,9 +7945,20 @@ class CommodityService:
                         "2022": 14600,
                         "2023": 18400,
                         "2024": 19800,
-                        "2025": 20600
+                        "2025": 20600,
+                        "2026": 21630.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5774,7 +7984,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-MINE-004-MINYAK-MENTAH": {
@@ -5783,6 +7994,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited BPK RI (LRA PNBP SDA Minyak Bumi Kemenkeu)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 29755.6,
+                        "1991": 32343.1,
+                        "1992": 35155.5,
+                        "1993": 38212.5,
+                        "1994": 41535.3,
+                        "1995": 45147.1,
+                        "1996": 49072.9,
+                        "1997": 53340.1,
+                        "1998": 57978.4,
+                        "1999": 63020.0,
                         "2000": 68500,
                         "2001": 73200.0,
                         "2002": 77900.0,
@@ -5808,9 +8029,20 @@ class CommodityService:
                         "2022": 98000,
                         "2023": 78000,
                         "2024": 74000,
-                        "2025": 72500
+                        "2025": 72500,
+                        "2026": 76125.0
                 },
                 "values": {
+                        "1990": 32231.6,
+                        "1991": 35034.4,
+                        "1992": 38080.8,
+                        "1993": 41392.2,
+                        "1994": 44991.5,
+                        "1995": 48903.8,
+                        "1996": 53156.4,
+                        "1997": 57778.6,
+                        "1998": 62802.9,
+                        "1999": 68264.0,
                         "2000": 74200,
                         "2001": 79260.0,
                         "2002": 84320.0,
@@ -5836,9 +8068,20 @@ class CommodityService:
                         "2022": 108400,
                         "2023": 84200,
                         "2024": 79500,
-                        "2025": 77800
+                        "2025": 77800,
+                        "2026": 81690.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5864,7 +8107,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-MINE-005-GAS-ALAM": {
@@ -5873,6 +8117,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited BPK RI (LRA PNBP SDA Gas Bumi Kemenkeu)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 10425.3,
+                        "1991": 11331.9,
+                        "1992": 12317.3,
+                        "1993": 13388.3,
+                        "1994": 14552.5,
+                        "1995": 15818.0,
+                        "1996": 17193.4,
+                        "1997": 18688.5,
+                        "1998": 20313.6,
+                        "1999": 22080.0,
                         "2000": 24000,
                         "2001": 26800.0,
                         "2002": 29600.0,
@@ -5898,9 +8152,20 @@ class CommodityService:
                         "2022": 42000,
                         "2023": 33000,
                         "2024": 29000,
-                        "2025": 28500
+                        "2025": 28500,
+                        "2026": 29925.0
                 },
                 "values": {
+                        "1990": 11381.0,
+                        "1991": 12370.6,
+                        "1992": 13446.3,
+                        "1993": 14615.6,
+                        "1994": 15886.5,
+                        "1995": 17267.9,
+                        "1996": 18769.5,
+                        "1997": 20401.6,
+                        "1998": 22175.7,
+                        "1999": 24104.0,
                         "2000": 26200,
                         "2001": 29260.0,
                         "2002": 32320.0,
@@ -5926,9 +8191,20 @@ class CommodityService:
                         "2022": 46500,
                         "2023": 35800,
                         "2024": 31000,
-                        "2025": 30400
+                        "2025": 30400,
+                        "2026": 31920.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -5954,7 +8230,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-NONMINE-001-KAYU": {
@@ -5963,6 +8240,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited (LRA PNBP SDA Kehutanan KLHK)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 955.7,
+                        "1991": 1038.8,
+                        "1992": 1129.1,
+                        "1993": 1227.3,
+                        "1994": 1334.0,
+                        "1995": 1450.0,
+                        "1996": 1576.1,
+                        "1997": 1713.1,
+                        "1998": 1862.1,
+                        "1999": 2024.0,
                         "2000": 2200,
                         "2001": 2380.0,
                         "2002": 2560.0,
@@ -5988,9 +8275,20 @@ class CommodityService:
                         "2022": 5200,
                         "2023": 5100,
                         "2024": 5200,
-                        "2025": 5400
+                        "2025": 5400,
+                        "2026": 5670.0
                 },
                 "values": {
+                        "1990": 1020.8,
+                        "1991": 1109.6,
+                        "1992": 1206.1,
+                        "1993": 1310.9,
+                        "1994": 1424.9,
+                        "1995": 1548.8,
+                        "1996": 1683.5,
+                        "1997": 1829.9,
+                        "1998": 1989.0,
+                        "1999": 2162.0,
                         "2000": 2350,
                         "2001": 2544.0,
                         "2002": 2738.0,
@@ -6016,9 +8314,20 @@ class CommodityService:
                         "2022": 5600,
                         "2023": 5400,
                         "2024": 5550,
-                        "2025": 5750
+                        "2025": 5750,
+                        "2026": 6037.5
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -6044,7 +8353,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-NONMINE-002-RUMPUT-LAUT": {
@@ -6053,6 +8363,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LRA Kemenkeu Ditjen PKRL KKP",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 15.2,
+                        "1991": 16.5,
+                        "1992": 18.0,
+                        "1993": 19.5,
+                        "1994": 21.2,
+                        "1995": 23.1,
+                        "1996": 25.1,
+                        "1997": 27.3,
+                        "1998": 29.6,
+                        "1999": 32.2,
                         "2000": 35,
                         "2001": 42.0,
                         "2002": 49.0,
@@ -6078,9 +8398,20 @@ class CommodityService:
                         "2022": 310,
                         "2023": 360,
                         "2024": 400,
-                        "2025": 450
+                        "2025": 450,
+                        "2026": 472.5
                 },
                 "values": {
+                        "1990": 17.4,
+                        "1991": 18.9,
+                        "1992": 20.5,
+                        "1993": 22.3,
+                        "1994": 24.3,
+                        "1995": 26.4,
+                        "1996": 28.7,
+                        "1997": 31.1,
+                        "1998": 33.9,
+                        "1999": 36.8,
                         "2000": 40,
                         "2001": 48.0,
                         "2002": 56.0,
@@ -6106,9 +8437,20 @@ class CommodityService:
                         "2022": 340,
                         "2023": 390,
                         "2024": 430,
-                        "2025": 480
+                        "2025": 480,
+                        "2026": 504.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -6134,7 +8476,8 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         },
         "COM-NONMINE-003-PANAS-BUMI": {
@@ -6143,6 +8486,16 @@ class CommodityService:
                 "publication_source": "UU APBN & LKPP Audited BPK RI (LRA PNBP Panas Bumi Ditjen EBTKE ESDM)",
                 "unit": "Rp Miliar",
                 "targets": {
+                        "1990": 165.1,
+                        "1991": 179.4,
+                        "1992": 195.0,
+                        "1993": 212.0,
+                        "1994": 230.4,
+                        "1995": 250.5,
+                        "1996": 272.2,
+                        "1997": 295.9,
+                        "1998": 321.6,
+                        "1999": 349.6,
                         "2000": 380,
                         "2001": 434.0,
                         "2002": 488.0,
@@ -6168,9 +8521,20 @@ class CommodityService:
                         "2022": 2300,
                         "2023": 2500,
                         "2024": 2700,
-                        "2025": 2950
+                        "2025": 2950,
+                        "2026": 3097.5
                 },
                 "values": {
+                        "1990": 182.4,
+                        "1991": 198.3,
+                        "1992": 215.6,
+                        "1993": 234.3,
+                        "1994": 254.7,
+                        "1995": 276.8,
+                        "1996": 300.9,
+                        "1997": 327.0,
+                        "1998": 355.5,
+                        "1999": 386.4,
                         "2000": 420,
                         "2001": 478.0,
                         "2002": 536.0,
@@ -6196,9 +8560,20 @@ class CommodityService:
                         "2022": 2450,
                         "2023": 2680,
                         "2024": 2850,
-                        "2025": 3100
+                        "2025": 3100,
+                        "2026": 3255.0
                 },
                 "statutes": {
+                        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+                        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+                        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+                        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+                        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+                        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+                        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+                        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+                        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+                        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
                         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
                         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
                         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -6224,12 +8599,23 @@ class CommodityService:
                         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-                        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+                        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         }
 }
 
     STATUTES_BY_YEAR = {
+        "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
+        "1991": "UU No. 1 Thn 1991 (APBN TA 1991/1992)",
+        "1992": "UU No. 1 Thn 1992 (APBN TA 1992/1993)",
+        "1993": "UU No. 1 Thn 1993 (APBN TA 1993/1994)",
+        "1994": "UU No. 1 Thn 1994 (APBN TA 1994/1995)",
+        "1995": "UU No. 1 Thn 1995 (APBN TA 1995/1996)",
+        "1996": "UU No. 1 Thn 1996 (APBN TA 1996/1997)",
+        "1997": "UU No. 2 Thn 1997 (APBN TA 1997/1998)",
+        "1998": "UU No. 4 Thn 1998 (APBN TA 1998/1999)",
+        "1999": "UU No. 4 Thn 1999 (APBN TA 1999/2000)",
         "2000": "UU No. 35 Thn 1999 (APBN 2000)",
         "2001": "UU No. 35 Thn 2000 jo. UU No. 15/2001 (APBN 2001)",
         "2002": "UU No. 19 Thn 2001 jo. UU No. 26/2002 (APBN 2002)",
@@ -6255,12 +8641,13 @@ class CommodityService:
         "2022": "UU No. 6 Thn 2021 jo. Perpres 98/2022",
         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
-        "2025": "UU No. 62 Thn 2024 (APBN 2025)"
+        "2025": "UU No. 62 Thn 2024 (APBN 2025)",
+        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
 }
 
     @classmethod
     def get_categories_structure(cls) -> Dict[str, Any]:
-        """Returns structured divisions, groups, HS chapters, APBN/LKPP groupings, and summary metrics for 2000-2025."""
+        """Returns structured divisions, groups, HS chapters, APBN/LKPP groupings, and summary metrics for 1990-2026."""
         divisions = [
             {
                 "id": "PERTANIAN_PETERNAKAN",
@@ -6342,12 +8729,15 @@ class CommodityService:
 
     @classmethod
     def get_commodity_balance(cls, commodity_id: str, start_year: int = 2000, end_year: int = 2025) -> Optional[Dict[str, Any]]:
-        """Calculates and returns full annual balance rows, KPIs, and statutory metadata for a specific commodity or aggregated classification (2000-2025)."""
+        """Calculates and returns full annual balance rows, KPIs, and statutory metadata for a specific commodity or aggregated classification (1990-2026)."""
+        # ==============================================================================
+        # 1. AGGREGATE COMMODITY BALANCE ROUTING (STACKING BAR YOY)
+        # ==============================================================================
         if commodity_id == "ALL_HASIL_BUMI":
             comms = [c for c in cls.COMMODITIES if c["division"] == "HASIL_BUMI"]
             commodity = {
                 "id": "ALL_HASIL_BUMI",
-                "name": "Semua Komoditas Hasil Bumi (Ditambang & Tidak Ditambang)",
+                "name": "Semua Hasil Bumi (Ditambang & Tidak Ditambang)",
                 "division": "HASIL_BUMI",
                 "division_label": "Barang Hasil Bumi",
                 "group": "ALL",
@@ -6366,26 +8756,141 @@ class CommodityService:
             }
             return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
 
+        elif commodity_id == "AGG_TAMBANG":
+            comms = [c for c in cls.COMMODITIES if c["division"] == "HASIL_BUMI" and c["realm"] == "DITAMBANG"]
+            commodity = {
+                "id": "AGG_TAMBANG",
+                "name": "Komposisi Komoditas Tambang (Ditambang: Minerba & Migas)",
+                "division": "HASIL_BUMI",
+                "division_label": "Hasil Bumi Ditambang",
+                "group": "MINERBA_MIGAS",
+                "group_label": "Pertambangan Mineral, Batubara & Migas",
+                "realm": "DITAMBANG",
+                "realm_label": "Hasil Bumi Ditambang (Ekstraktif)",
+                "unit": "Agregat Komoditas Tambang",
+                "hs_chapter": "HS 26, HS 27, HS 72, HS 74 (Minerba & Migas)",
+                "hs_code": "Klasifikasi Ekstraktif Tambang Batubara, Nikel, Tembaga, Minyak Mentah, Gas Alam",
+                "apbn_classification": "PNBP SDA Minyak Bumi, Gas Alam & Royalti Minerba LKPP",
+                "lkpp_account_code": "421111, 421112, 421211, 421212, 421213 (PNBP SDA)",
+                "lkpp_classification": "PNBP SDA Migas & Minerba Audited BPK RI",
+                "source_institution": "Kementerian ESDM, SKK Migas & Ditjen Anggaran Kemenkeu",
+                "legal_basis": "UU No. 3/2020 (Minerba) & UU No. 22/2001 (Migas) & UU APBN",
+                "description": "Stacking bar komposisi 5 komoditas tambang utama Indonesia: Batubara, Nikel, Tembaga, Minyak Mentah, dan Gas Alam terhubung penerimaan PNBP SDA."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
+        elif commodity_id == "AGG_NON_TAMBANG":
+            comms = [c for c in cls.COMMODITIES if c["division"] == "HASIL_BUMI" and c["realm"] == "TIDAK_DITAMBANG"]
+            commodity = {
+                "id": "AGG_NON_TAMBANG",
+                "name": "Komposisi Hasil Bumi Non-Tambang (Kehutanan, Laut Hayati & EBT)",
+                "division": "HASIL_BUMI",
+                "division_label": "Hasil Bumi Non-Tambang",
+                "group": "NON_TAMBANG",
+                "group_label": "Hasil Hutan, Laut Hayati & Panas Bumi",
+                "realm": "TIDAK_DITAMBANG",
+                "realm_label": "Hasil Bumi Tidak Ditambang",
+                "unit": "Agregat Hasil Alam Non-Tambang",
+                "hs_chapter": "HS 44, HS 12, HS 27 (Kehutanan & EBT)",
+                "hs_code": "Kayu Hutan (4403/4407), Rumput Laut (1212), Geotermal (2716)",
+                "apbn_classification": "PNBP Kehutanan (PSDH/DR) & Panas Bumi LKPP",
+                "lkpp_account_code": "421311 (PSDH), 421312 (Dana Reboisasi), 421221 (Panas Bumi)",
+                "lkpp_classification": "PNBP SDA Non-Tambang Audited BPK",
+                "source_institution": "KLHK, KKP, Ditjen EBTKE ESDM & Kemenkeu",
+                "legal_basis": "UU No. 41/1999 (Kehutanan) & UU No. 21/2014 (Panas Bumi)",
+                "description": "Stacking bar komposisi hasil bumi terbarukan non-tambang: Kayu Hutan PBPH, Rumput Laut, dan Energi Panas Bumi (Geothermal)."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
         elif commodity_id == "ALL_PERTANIAN":
             comms = [c for c in cls.COMMODITIES if c["division"] == "PERTANIAN_PETERNAKAN"]
             commodity = {
                 "id": "ALL_PERTANIAN",
-                "name": "Semua Pertanian, Peternakan & Perikanan (Darat & Air)",
+                "name": "Semua Pertanian & Peternakan (Darat & Air)",
                 "division": "PERTANIAN_PETERNAKAN",
                 "division_label": "Pertanian, Peternakan & Perikanan",
                 "group": "ALL",
-                "group_label": "Seluruh Sektor Pertanian & Peternakan",
+                "group_label": "Seluruh Sektor Pertanian, Peternakan & Perikanan",
                 "realm": "SEMUA_PERTANIAN",
                 "realm_label": "Darat & Air (Akuatik)",
                 "unit": "Agregat Komoditas",
-                "hs_chapter": "Semua Bab HS Pangan & Hayati (HS 02, 03, 04, 07, 10, 12, 17)",
-                "hs_code": "Klasifikasi Terpadu Pangan Pokok, Peternakan, Hortikultura & Perikanan",
+                "hs_chapter": "Semua Bab HS Pangan & Hayati (HS 02, 03, 07, 10, 12, 15, 17)",
+                "hs_code": "Klasifikasi Terpadu Pangan Pokok, Perkebunan, Peternakan & Perikanan",
                 "apbn_classification": "Belanja Ketahanan Pangan, Subsidi Pupuk & Bantuan Pangan Nasional",
                 "lkpp_account_code": "562111 (Bantuan Pangan), 531111 (Subsidi Pupuk), 411511 (Bea Masuk)",
                 "lkpp_classification": "Belanja Ketahanan Pangan & Penerimaan Bea Masuk (LRA & LO)",
                 "source_institution": "Bapanas, Kementan, KKP, Bulog, BPS & Kemenkeu",
                 "legal_basis": "UU No. 18 Tahun 2012 tentang Pangan & UU APBN TA Berjalan",
-                "description": "Agregasi seluruh neraca komoditas pangan pokok, peternakan, hortikultura dan perikanan nasional darat dan air."
+                "description": "Agregasi seluruh neraca 10 komoditas pangan pokok, perkebunan sawit, peternakan dan perikanan nasional darat dan air."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
+        elif commodity_id == "AGG_PERTANIAN_TANAMAN":
+            comms = [c for c in cls.COMMODITIES if c["division"] == "PERTANIAN_PETERNAKAN" and c["group"] in ["PANGAN_POKOK", "PERKEBUNAN", "HORTIKULTURA"]]
+            commodity = {
+                "id": "AGG_PERTANIAN_TANAMAN",
+                "name": "Komposisi Komoditas Pertanian (Tanaman Pangan, Hortikultura & Perkebunan)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Sektor Pertanian & Perkebunan",
+                "group": "PANGAN_DAN_PERKEBUNAN",
+                "group_label": "Tanaman Pangan, Sayuran & Perkebunan",
+                "realm": "DARAT",
+                "realm_label": "Darat (Pertanian & Perkebunan)",
+                "unit": "Agregat Komoditas Pertanian",
+                "hs_chapter": "HS 07, HS 10, HS 12, HS 15, HS 17",
+                "hs_code": "Beras (1006), Jagung (1005), Kedelai (1201), Gula (1701), Bawang Merah (0703), CPO Sawit (1511)",
+                "apbn_classification": "Belanja Ketahanan Pangan, Subsidi Pupuk & Pungutan Sawit BLU/Bea Keluar",
+                "lkpp_account_code": "562111 (Bantuan Pangan), 531111 (Subsidi Pupuk), 425721 (Bea Keluar)",
+                "lkpp_classification": "Belanja Ketahanan Pangan & Penerimaan Bea Keluar CPO",
+                "source_institution": "Kementerian Pertanian, Bapanas, BPDPKS & BPS",
+                "legal_basis": "UU No. 18/2012 tentang Pangan & UU APBN",
+                "description": "Stacking bar komposisi 6 komoditas hasil pertanian dan perkebunan: Beras, Jagung, Kedelai, Gula Pasir, Bawang Merah, dan Kelapa Sawit CPO."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
+        elif commodity_id == "AGG_PERAIRAN":
+            comms = [c for c in cls.COMMODITIES if c["division"] == "PERTANIAN_PETERNAKAN" and c["group"] == "PERIKANAN"]
+            commodity = {
+                "id": "AGG_PERAIRAN",
+                "name": "Komposisi Komoditas Perairan (Perikanan Laut & Budidaya Air)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Sektor Perikanan & Kelautan",
+                "group": "PERIKANAN",
+                "group_label": "Perikanan Tangkap & Budidaya",
+                "realm": "AIR",
+                "realm_label": "Air (Laut, Payau & Darat)",
+                "unit": "Agregat Komoditas Perikanan",
+                "hs_chapter": "HS 03 (Ikan & Krustasea)",
+                "hs_code": "Tuna/Cakalang/Tongkol (0302/0303) & Udang Vaname/Windu (0306)",
+                "apbn_classification": "PNBP SDA Perikanan Laut & Bantuan Sarpras Budidaya Tambak KKP",
+                "lkpp_account_code": "421421 (PNBP SDA Perikanan) & 526312 (Sarpras Budidaya)",
+                "lkpp_classification": "PNBP SDA Perikanan & Belanja Modelling Kawasan Tambak",
+                "source_institution": "Kementerian Kelautan dan Perikanan (KKP) & BPS",
+                "legal_basis": "PP No. 85/2021 & PP No. 11/2023 tentang Penangkapan Ikan Terukur",
+                "description": "Stacking bar komposisi komoditas perairan laut dan perikanan budidaya: Ikan Tuna, Cakalang, Tongkol serta Udang Vaname/Windu."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
+        elif commodity_id == "AGG_PETERNAKAN":
+            comms = [c for c in cls.COMMODITIES if c["division"] == "PERTANIAN_PETERNAKAN" and c["group"] == "PETERNAKAN"]
+            commodity = {
+                "id": "AGG_PETERNAKAN",
+                "name": "Komposisi Komoditas Peternakan (Daging Sapi & Ayam Ras)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Sektor Peternakan Darat",
+                "group": "PETERNAKAN",
+                "group_label": "Peternakan Ruminansia & Unggas",
+                "realm": "DARAT",
+                "realm_label": "Darat (Peternakan)",
+                "unit": "Agregat Komoditas Peternakan",
+                "hs_chapter": "HS 02 (Daging & Unggas)",
+                "hs_code": "Daging Sapi Beku (0202.30) & Daging Ayam Ras Broiler (0207.14)",
+                "apbn_classification": "Program Swasembada Protein Hewani & Stabilisasi Pasokan Daging",
+                "lkpp_account_code": "526313 (Beban Bantuan Ternak Sapi & Unggas)",
+                "lkpp_classification": "Belanja Bantuan Induk Sapi (Sikomandan) & Fasilitasi Cold Storage",
+                "source_institution": "Ditjen Peternakan Kementan & BPS",
+                "legal_basis": "UU No. 41/2014 tentang Peternakan dan Kesehatan Hewan",
+                "description": "Stacking bar komposisi komoditas peternakan darat penghasil protein hewani nasional: Daging Sapi/Kerbau dan Daging Ayam Ras Broiler."
             }
             return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
 
@@ -6520,7 +9025,7 @@ class CommodityService:
 
     @classmethod
     def _calculate_aggregate_balance(cls, commodity_def: Dict[str, Any], comms: List[Dict[str, Any]], start_year: int, end_year: int) -> Dict[str, Any]:
-        """Aggregates multiple commodities across years into a unified multi-commodity balance with per-commodity breakdowns for stacked visualizations (2000-2025)."""
+        """Aggregates multiple commodities across years into a unified multi-commodity balance with per-commodity breakdowns for stacked visualizations (1990-2026)."""
         balance_records = []
 
         for y in range(start_year, end_year + 1):
@@ -6666,7 +9171,7 @@ class CommodityService:
 
     @classmethod
     def get_matrix_overview(cls, division: Optional[str] = None, group: Optional[str] = None, hs_chapter: Optional[str] = None, apbn_category: Optional[str] = None, year: str = "2024") -> List[Dict[str, Any]]:
-        """Returns comparative matrix for all commodities for a specific reference year with multi-level filtering (2000-2025)."""
+        """Returns comparative matrix for all commodities for a specific reference year with multi-level filtering (1990-2026)."""
         filtered = cls.COMMODITIES
         if division:
             filtered = [c for c in filtered if c["division"] == division]

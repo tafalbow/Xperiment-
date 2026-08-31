@@ -97,15 +97,15 @@ def test_commodity_balance_all_hasil_bumi():
     assert len(rec_2024["breakdown"]) == 8  # 8 commodities in Hasil Bumi
     assert rec_2024["apbn_realization_idr_billion"] > 100000  # Total PNBP SDA in Rp Miliar
 
-def test_commodity_balance_2000_2025_full_range():
-    """Verify 26-year full time-series span from 2000 to 2025."""
-    response = client.get("/api/commodities/balance?commodity_id=ALL_HASIL_BUMI&start_year=2000&end_year=2025")
+def test_commodity_balance_1990_2026_full_range():
+    """Verify 37-year full time-series span from 1990 to 2026."""
+    response = client.get("/api/commodities/balance?commodity_id=ALL_HASIL_BUMI&start_year=1990&end_year=2026")
     assert response.status_code == 200
     data = response.json()
-    assert len(data["records"]) == 26
-    assert data["records"][0]["period"] == "2000"
-    assert data["records"][-1]["period"] == "2025"
-    assert "UU No. 62 Thn 2024" in data["records"][-1]["apbn_statute_law"]
+    assert len(data["records"]) == 37
+    assert data["records"][0]["period"] == "1990"
+    assert data["records"][-1]["period"] == "2026"
+    assert "RAPBN TA 2026" in data["records"][-1]["apbn_statute_law"]
 
 def test_commodity_balance_all_pertanian():
     """Verify aggregated multi-commodity balance for ALL_PERTANIAN with breakdowns."""
@@ -117,6 +117,40 @@ def test_commodity_balance_all_pertanian():
     rec_2024 = next(r for r in data["records"] if r["period"] == "2024")
     assert "breakdown" in rec_2024
     assert len(rec_2024["breakdown"]) == 10  # 10 commodities in Pertanian & Peternakan
+
+def test_commodity_balance_sub_aggregates():
+    """Verify sub-sector aggregate balances: Tambang, Pertanian, Perairan, Peternakan."""
+    # 1. Tambang (5 commodities: Batubara, Nikel, Tembaga, Minyak, Gas)
+    res_tambang = client.get("/api/commodities/balance?commodity_id=AGG_TAMBANG&start_year=1990&end_year=2026")
+    assert res_tambang.status_code == 200
+    d_tambang = res_tambang.json()
+    assert d_tambang["commodity"]["id"] == "AGG_TAMBANG"
+    assert len(d_tambang["records"]) == 37
+    assert len(d_tambang["records"][-1]["breakdown"]) == 5
+
+    # 2. Pertanian Tanaman (6 commodities: Beras, Jagung, Kedelai, Gula, Bawang, Sawit)
+    res_tanaman = client.get("/api/commodities/balance?commodity_id=AGG_PERTANIAN_TANAMAN&start_year=1990&end_year=2026")
+    assert res_tanaman.status_code == 200
+    d_tanaman = res_tanaman.json()
+    assert d_tanaman["commodity"]["id"] == "AGG_PERTANIAN_TANAMAN"
+    assert len(d_tanaman["records"]) == 37
+    assert len(d_tanaman["records"][-1]["breakdown"]) == 6
+
+    # 3. Perairan (2 commodities: Tuna & Udang)
+    res_air = client.get("/api/commodities/balance?commodity_id=AGG_PERAIRAN&start_year=1990&end_year=2026")
+    assert res_air.status_code == 200
+    d_air = res_air.json()
+    assert d_air["commodity"]["id"] == "AGG_PERAIRAN"
+    assert len(d_air["records"]) == 37
+    assert len(d_air["records"][-1]["breakdown"]) == 2
+
+    # 4. Peternakan (2 commodities: Sapi & Ayam)
+    res_ternak = client.get("/api/commodities/balance?commodity_id=AGG_PETERNAKAN&start_year=1990&end_year=2026")
+    assert res_ternak.status_code == 200
+    d_ternak = res_ternak.json()
+    assert d_ternak["commodity"]["id"] == "AGG_PETERNAKAN"
+    assert len(d_ternak["records"]) == 37
+    assert len(d_ternak["records"][-1]["breakdown"]) == 2
 
 def test_commodity_matrix_filtering():
     """Verify multi-level filtering by division, group, HS chapter, and APBN classification."""

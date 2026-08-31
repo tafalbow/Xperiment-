@@ -20,9 +20,9 @@ export class ChartModule {
       this.onActiveSeriesChange = options.onActiveSeriesChange || (() => {});
     }
 
-    this.activeRangePreset = '24y'; // '6y' | '24y' | 'all'
-    this.startYear = 2001;
-    this.endYear = 2024;
+    this.activeRangePreset = 'all'; // '5y' | '10y' | 'all'
+    this.startYear = 1990;
+    this.endYear = 2026;
 
     this.availableIndicators = [];
     this.contextualDrivers = [];
@@ -205,8 +205,8 @@ export class ChartModule {
       try {
         const fullRes = await ApiClient.fetchObservations({
           indicator_id: this.seriesConfigs[0].indicatorId,
-          start_year: 1993,
-          end_year: 2024,
+          start_year: 1990,
+          end_year: 2026,
           limit: 500,
           sort_by: 'period',
           sort_order: 'ASC'
@@ -233,8 +233,8 @@ export class ChartModule {
         try {
           const res = await ApiClient.fetchObservations({
             indicator_id: s.indicatorId,
-            start_year: 1993,
-            end_year: 2024,
+            start_year: 1990,
+            end_year: 2026,
             limit: 500,
             sort_by: 'period',
             sort_order: 'ASC'
@@ -293,8 +293,8 @@ export class ChartModule {
       try {
         const res = await ApiClient.fetchObservations({
           indicator_id: newSeries.indicatorId,
-          start_year: 1993,
-          end_year: 2024,
+          start_year: 1990,
+          end_year: 2026,
           limit: 500,
           sort_by: 'period',
           sort_order: 'ASC'
@@ -339,8 +339,8 @@ export class ChartModule {
     try {
       const res = await ApiClient.fetchObservations({
         indicator_id: newIndicatorId,
-        start_year: 1993,
-        end_year: 2024,
+        start_year: 1990,
+        end_year: 2026,
         limit: 500,
         sort_by: 'period',
         sort_order: 'ASC'
@@ -380,9 +380,9 @@ export class ChartModule {
             <div class="flex items-center gap-1.5">
               <span class="text-slate-400 font-mono text-[9.5px] uppercase">Rentang:</span>
               <div class="inline-flex rounded-sm border border-slate-200 p-0.5 bg-slate-50 text-[10.5px] font-mono">
-                <button id="btn-range-6y" class="px-2 py-0.5 ${this.activeRangePreset === '6y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">6 Thn</button>
-                <button id="btn-range-24y" class="px-2 py-0.5 ${this.activeRangePreset === '24y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">24 Thn (Max)</button>
-                <button id="btn-range-all" class="px-2 py-0.5 ${this.activeRangePreset === 'all' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">Semua (1993+)</button>
+                <button id="btn-range-5y" class="px-2 py-0.5 ${this.activeRangePreset === '5y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">5 Thn</button>
+                <button id="btn-range-10y" class="px-2 py-0.5 ${this.activeRangePreset === '10y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">10 Thn</button>
+                <button id="btn-range-all" class="px-2 py-0.5 ${this.activeRangePreset === 'all' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">1990-2026</button>
               </div>
             </div>
 
@@ -735,8 +735,8 @@ export class ChartModule {
   }
 
   attachEvents() {
-    const btn6y = document.getElementById('btn-range-6y');
-    const btn24y = document.getElementById('btn-range-24y');
+    const btn5y = document.getElementById('btn-range-5y');
+    const btn10y = document.getElementById('btn-range-10y');
     const btnAll = document.getElementById('btn-range-all');
     const canvas = document.getElementById('gov-analytics-canvas');
     const wrapper = document.getElementById('chart-wrapper');
@@ -751,20 +751,20 @@ export class ChartModule {
       this.onRangeShortcutChange(sYear, eYear);
     };
 
-    btn6y?.addEventListener('click', () => updatePresetButtons('6y', 2019, 2024));
-    btn24y?.addEventListener('click', () => updatePresetButtons('24y', 2001, 2024));
-    btnAll?.addEventListener('click', () => updatePresetButtons('all', 1993, 2024));
+    btn5y?.addEventListener('click', () => updatePresetButtons('5y', 2021, 2026));
+    btn10y?.addEventListener('click', () => updatePresetButtons('10y', 2016, 2026));
+    btnAll?.addEventListener('click', () => updatePresetButtons('all', 1990, 2026));
 
     document.getElementById('btn-chart-download-excel')?.addEventListener('click', () => {
       const raw = localStorage.getItem('registered_researcher_access');
       if (!raw) {
         // Prompt login/registration modal first
         openEmailRegistrationModal(() => {
-          ExcelExporter.exportSeriesToExcel(this.seriesConfigs, this.activeRangePreset);
+          ExcelExporter.exportSeriesToExcel(this.seriesConfigs, this.activeRangePreset, 'Indikator_Ekonomi');
         }, 'Silakan daftarkan / konfirmasi email Anda terlebih dahulu sebelum mengunduh file data Excel (.xlsx). Setelah tersimpan, file akan langsung otomatis diunduh.');
       } else {
         // Already registered, download directly
-        ExcelExporter.exportSeriesToExcel(this.seriesConfigs, this.activeRangePreset);
+        ExcelExporter.exportSeriesToExcel(this.seriesConfigs, this.activeRangePreset, 'Indikator_Ekonomi');
       }
     });
 

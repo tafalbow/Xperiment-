@@ -33,8 +33,8 @@ class App {
       category: '',
       subcategory: '',
       indicator_id: 'IND-GDP-GROWTH-YOY',
-      start_year: 2001, // Default 24 titik tahunan (2001 - 2024)
-      end_year: 2024,
+      start_year: 1990, // Default 37 titik tahunan (1990 - 2026)
+      end_year: 2026,
       source_id: '',
       status: '',
       search_keyword: '',
