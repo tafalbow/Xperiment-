@@ -41,14 +41,25 @@ export class SidebarExtras {
             </p>
           </div>
 
-          <button 
-            type="button" 
-            id="btn-sidebar-open-inventory" 
-            class="w-full py-2 px-3 rounded bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs font-mono flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
-          >
-            <span>📑</span>
-            <span>Buka Katalog Sumber Data ➔</span>
-          </button>
+          <div class="pt-1 space-y-1.5">
+            <button 
+              type="button" 
+              id="btn-sidebar-open-inventory" 
+              class="w-full py-1.5 px-3 rounded bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs font-mono flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
+            >
+              <span>📑</span>
+              <span>Katalog Sumber Data ➔</span>
+            </button>
+
+            <button 
+              type="button" 
+              id="btn-sidebar-open-commodities" 
+              class="w-full py-1.5 px-3 rounded bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs font-mono flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer border border-emerald-900"
+            >
+              <span>🌾</span>
+              <span>Neraca Komoditas & Hasil Bumi ➔</span>
+            </button>
+          </div>
         </div>
 
         <!-- 2. CONTACT PERSON & SERVICE DESK -->
@@ -120,6 +131,10 @@ export class SidebarExtras {
   attachEvents() {
     document.getElementById('btn-sidebar-open-inventory')?.addEventListener('click', () => {
       this.onSwitchToInventory();
+    });
+
+    document.getElementById('btn-sidebar-open-commodities')?.addEventListener('click', () => {
+      window.__govApp?.switchMainTab('commodities');
     });
   }
 }

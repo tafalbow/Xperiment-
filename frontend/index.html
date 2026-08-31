@@ -15,6 +15,9 @@
   <!-- SheetJS XLSX Library for Multi-Tab Excel Generation -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
+  <!-- Chart.js 4.4.1 for Standard GovTech Bar/Line Data Visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
   <!-- Custom GovTech Barely-There UI Stylesheet (Cache-Busted) -->
   <link rel="stylesheet" href="/static/styles/style.css?v=5.8.0">
 </head>
@@ -31,33 +34,50 @@
 
     <!-- MAIN APP NAVIGATION TABS (GovTech Standard) -->
     <div class="flex items-center justify-between border-b border-slate-200 pb-1 flex-wrap gap-2">
-      <div class="flex items-center gap-2" role="tablist" aria-label="Navigasi Utama Basis Data">
+      <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-thin" role="tablist" aria-label="Navigasi Utama Basis Data">
         <button 
           id="tab-btn-analytics" 
           role="tab" 
           aria-selected="true"
-          class="px-4 py-1 text-xs font-mono font-bold rounded-t border-b-2 border-slate-900 bg-white text-slate-900 shadow-2xs flex items-center gap-2 transition-all cursor-pointer"
+          class="px-3.5 py-1.5 text-xs font-mono font-bold rounded-t border-b-2 border-slate-900 bg-white text-slate-900 shadow-2xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
         >
           <span>📊</span>
-          <span>Dasbor Analitik & Tren</span>
+          <span>Indikator Ekonomi</span>
+        </button>
+
+        <button 
+          id="tab-btn-agri" 
+          role="tab" 
+          aria-selected="false"
+          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
+        >
+          <span>🌾</span>
+          <span>Pertanian & Peternakan</span>
+        </button>
+
+        <button 
+          id="tab-btn-mine" 
+          role="tab" 
+          aria-selected="false"
+          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
+        >
+          <span>⛏️</span>
+          <span>Hasil Bumi</span>
         </button>
 
         <button 
           id="tab-btn-inventory" 
           role="tab" 
           aria-selected="false"
-          class="px-4 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 transition-all cursor-pointer"
+          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
         >
           <span>📅</span>
-          <span>Katalog Variabel & Jadwal Rilis Data</span>
-          <span class="px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 text-[10px] font-bold border border-amber-200">
-            Tgl 8, 17, 28
-          </span>
+          <span>Katalog Sumber Data</span>
         </button>
       </div>
 
       <!-- Sync Status Pill -->
-      <div class="flex items-center gap-2 text-[10.5px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+      <div class="hidden xl:flex items-center gap-2 text-[10.5px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 shrink-0">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         <span>Siklus Rilis Data: <strong>Tanggal 8, 17, dan 28 Setiap Bulan</strong></span>
       </div>
@@ -111,6 +131,11 @@
       <section id="variables-inventory-container" aria-label="Katalog Variabel & Jadwal Rilis Data"></section>
     </div>
 
+    <!-- TAB 3: NERACA KOMODITAS, PANGAN & HASIL BUMI -->
+    <div id="tab-content-commodities" class="hidden space-y-4">
+      <!-- Injected by CommodityTrackerComponent -->
+    </div>
+
   </main>
 
   <!-- GovTech Minimalist Footer (Updated to #CDCDCD Gray) -->
@@ -128,6 +153,6 @@
   </footer>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=6.9.0"></script>
+  <script type="module" src="/static/app.js?v=8.0.0"></script>
 </body>
 </html>

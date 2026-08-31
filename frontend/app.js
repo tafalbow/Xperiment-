@@ -13,6 +13,7 @@ import { ChartModule } from './components/chart_module.js';
 import { DataGrid } from './components/data_grid.js';
 import { ContextualMap } from './components/contextual_map.js';
 import { VariablesInventory } from './components/variables_inventory.js';
+import { CommodityTrackerComponent } from './components/commodity_tracker.js';
 import { ModalManager } from './components/modals.js';
 
 class App {
@@ -24,7 +25,8 @@ class App {
     this.dataGrid = null;
     this.contextualMap = null;
     this.variablesInventory = null;
-    this.activeMainTab = 'analytics'; // 'analytics' or 'inventory'
+    this.commodityTracker = null;
+    this.activeMainTab = 'analytics'; // 'analytics' | 'inventory' | 'commodities'
 
     this.currentQueryState = {
       sector: '',
@@ -171,49 +173,102 @@ class App {
 
   setupMainTabs() {
     const btnAnalytics = document.getElementById('tab-btn-analytics');
+    const btnAgri = document.getElementById('tab-btn-agri');
+    const btnMine = document.getElementById('tab-btn-mine');
     const btnInventory = document.getElementById('tab-btn-inventory');
-    const contentAnalytics = document.getElementById('tab-content-analytics');
-    const contentInventory = document.getElementById('tab-content-inventory');
+
+    // Frontpage direct access buttons
+    const btnFpAgri = document.getElementById('btn-frontpage-agri');
+    const btnFpMine = document.getElementById('btn-frontpage-mine');
 
     btnAnalytics?.addEventListener('click', () => {
       this.switchMainTab('analytics');
     });
 
+    btnAgri?.addEventListener('click', () => {
+      this.switchMainTab('commodities', 'PERTANIAN_PETERNAKAN');
+    });
+
+    btnMine?.addEventListener('click', () => {
+      this.switchMainTab('commodities', 'HASIL_BUMI');
+    });
+
     btnInventory?.addEventListener('click', () => {
       this.switchMainTab('inventory');
     });
+
+    btnFpAgri?.addEventListener('click', () => {
+      this.switchMainTab('commodities', 'PERTANIAN_PETERNAKAN');
+    });
+
+    btnFpMine?.addEventListener('click', () => {
+      this.switchMainTab('commodities', 'HASIL_BUMI');
+    });
   }
 
-  switchMainTab(tabName) {
+  async switchMainTab(tabName, division = null) {
     this.activeMainTab = tabName;
     const btnAnalytics = document.getElementById('tab-btn-analytics');
+    const btnAgri = document.getElementById('tab-btn-agri');
+    const btnMine = document.getElementById('tab-btn-mine');
     const btnInventory = document.getElementById('tab-btn-inventory');
+
     const contentAnalytics = document.getElementById('tab-content-analytics');
     const contentInventory = document.getElementById('tab-content-inventory');
+    const contentCommodities = document.getElementById('tab-content-commodities');
+
+    const resetBtn = (btn) => {
+      btn?.classList.remove('border-slate-900', 'bg-white', 'text-slate-900', 'font-bold', 'shadow-2xs');
+      btn?.classList.add('border-transparent', 'text-slate-600', 'font-medium');
+      btn?.setAttribute('aria-selected', 'false');
+    };
+
+    const activateBtn = (btn) => {
+      btn?.classList.add('border-slate-900', 'bg-white', 'text-slate-900', 'font-bold', 'shadow-2xs');
+      btn?.classList.remove('border-transparent', 'text-slate-600', 'font-medium');
+      btn?.setAttribute('aria-selected', 'true');
+    };
+
+    // Hide all contents and reset buttons
+    contentAnalytics?.classList.add('hidden');
+    contentInventory?.classList.add('hidden');
+    contentCommodities?.classList.add('hidden');
+
+    resetBtn(btnAnalytics);
+    resetBtn(btnAgri);
+    resetBtn(btnMine);
+    resetBtn(btnInventory);
 
     if (tabName === 'analytics') {
       contentAnalytics?.classList.remove('hidden');
-      contentInventory?.classList.add('hidden');
-
-      btnAnalytics?.classList.add('border-slate-900', 'bg-white', 'text-slate-900', 'font-bold', 'shadow-2xs');
-      btnAnalytics?.classList.remove('border-transparent', 'text-slate-600', 'font-medium');
-
-      btnInventory?.classList.remove('border-slate-900', 'bg-white', 'text-slate-900', 'font-bold', 'shadow-2xs');
-      btnInventory?.classList.add('border-transparent', 'text-slate-600', 'font-medium');
+      activateBtn(btnAnalytics);
 
       // Re-trigger chart canvas draw after becoming visible
       if (this.chartModule) {
         requestAnimationFrame(() => this.chartModule.drawChart());
       }
-    } else {
-      contentAnalytics?.classList.add('hidden');
+    } else if (tabName === 'inventory') {
       contentInventory?.classList.remove('hidden');
+      activateBtn(btnInventory);
+    } else if (tabName === 'commodities') {
+      contentCommodities?.classList.remove('hidden');
 
-      btnInventory?.classList.add('border-slate-900', 'bg-white', 'text-slate-900', 'font-bold', 'shadow-2xs');
-      btnInventory?.classList.remove('border-transparent', 'text-slate-600', 'font-medium');
+      const targetDiv = division || (this.commodityTracker ? this.commodityTracker.activeDivision : 'PERTANIAN_PETERNAKAN');
+      if (targetDiv === 'PERTANIAN_PETERNAKAN') {
+        activateBtn(btnAgri);
+      } else {
+        activateBtn(btnMine);
+      }
 
-      btnAnalytics?.classList.remove('border-slate-900', 'bg-white', 'text-slate-900', 'font-bold', 'shadow-2xs');
-      btnAnalytics?.classList.add('border-transparent', 'text-slate-600', 'font-medium');
+      // Initialize or switch division in commodity tracker
+      if (!this.commodityTracker) {
+        this.commodityTracker = new CommodityTrackerComponent('tab-content-commodities');
+        await this.commodityTracker.init();
+      }
+      if (division) {
+        await this.commodityTracker.setDivision(division);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 

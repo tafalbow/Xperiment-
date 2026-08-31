@@ -23,6 +23,7 @@ from backend.services.metadata_service import MetadataService
 from backend.services.crosswalk_service import CrosswalkService
 from backend.services.audit_service import AuditService
 from backend.services.sync_schedule_service import SyncScheduleService
+from backend.services.commodity_service import CommodityService
 from backend.ingestion.pipeline import IngestionPipeline
 
 app = FastAPI(
@@ -246,7 +247,57 @@ def get_download_logs(limit: int = Query(50, ge=1, le=200)):
     return AuditService.get_download_logs(limit)
 
 # ------------------------------------------------------------------------------
-# 10. INGESTION PIPELINE TRIGGER & SANDBOX
+# 10. COMMODITY TRACKING & BALANCE (PERTANIAN, PETERNAKAN, PERIKANAN, HASIL BUMI)
+# ------------------------------------------------------------------------------
+@app.get("/api/commodities/categories", tags=["Commodity Tracking"])
+def get_commodity_categories():
+    """
+    Returns structured divisions, groups, HS chapters, APBN/LKPP categories, and summary metrics for all commodities.
+    """
+    return CommodityService.get_categories_structure()
+
+@app.get("/api/commodities/balance", tags=["Commodity Tracking"])
+def get_commodity_balance(
+    commodity_id: str = Query("COM-AGRI-001-BERAS", description="Unique Commodity ID"),
+    start_year: int = Query(2018, ge=2010, le=2030),
+    end_year: int = Query(2024, ge=2010, le=2030)
+):
+    """
+    Returns detailed time-series balance (Production, Consumption, Import, Export, SSR, IDR), KPIs, and HS/APBN mapping.
+    """
+    balance = CommodityService.get_commodity_balance(commodity_id, start_year, end_year)
+    if not balance:
+        raise HTTPException(status_code=404, detail=f"Commodity with ID '{commodity_id}' not found.")
+    return balance
+
+@app.get("/api/commodities/matrix", tags=["Commodity Tracking"])
+def get_commodity_matrix(
+    division: Optional[str] = Query(None, description="PERTANIAN_PETERNAKAN or HASIL_BUMI"),
+    group: Optional[str] = Query(None, description="Group ID filter"),
+    hs_chapter: Optional[str] = Query(None, description="HS Chapter filter e.g. 'HS 10'"),
+    apbn_category: Optional[str] = Query(None, description="LKPP/APBN classification category"),
+    year: str = Query("2024", description="Reference year (2018-2024)")
+):
+    """
+    Returns comparative matrix of all commodities for benchmarking with HS codes and APBN classifications.
+    """
+    return CommodityService.get_matrix_overview(division, group, hs_chapter, apbn_category, year)
+
+@app.get("/api/commodities/spatial-distribution", tags=["Commodity Tracking & GeoMap"])
+def get_commodity_spatial_distribution(
+    commodity_id: str = Query("COM-MINE-001-BATUBARA", description="Unique Commodity ID"),
+    variable: str = Query("PRODUKSI_TERBANYAK", description="Variable: PRODUKSI_TERBANYAK, PNBP_APBN, TITIK_EKSPOR, SMELTER_HILIR")
+):
+    """
+    Returns spatial GeoMap points, top regional producers, PNBP APBN contribution by region, and export terminals.
+    """
+    spatial = CommodityService.get_spatial_distribution(commodity_id, variable)
+    if not spatial:
+        raise HTTPException(status_code=404, detail=f"Spatial data for commodity '{commodity_id}' not found.")
+    return spatial
+
+# ------------------------------------------------------------------------------
+# 11. INGESTION PIPELINE TRIGGER & SANDBOX
 # ------------------------------------------------------------------------------
 @app.post("/api/ingestion/run", tags=["Data Ingestion"])
 def run_connector_ingestion(

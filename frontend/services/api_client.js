@@ -146,5 +146,36 @@ export const ApiClient = {
     } catch (e) {
       console.warn('Silent download audit log notice:', e);
     }
+  },
+
+  async fetchCommodityCategories() {
+    const res = await fetch(`${API_BASE}/api/commodities/categories`);
+    if (!res.ok) throw new Error('Gagal memuat kategori komoditas nasional.');
+    return await res.json();
+  },
+
+  async fetchCommodityBalance(commodityId = 'COM-AGRI-001-BERAS', startYear = 2018, endYear = 2024) {
+    const res = await fetch(`${API_BASE}/api/commodities/balance?commodity_id=${encodeURIComponent(commodityId)}&start_year=${startYear}&end_year=${endYear}`);
+    if (!res.ok) throw new Error('Gagal memuat data neraca komoditas.');
+    return await res.json();
+  },
+
+  async fetchCommodityMatrix(params = {}) {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && v !== '') {
+        query.append(k, v);
+      }
+    });
+    const res = await fetch(`${API_BASE}/api/commodities/matrix?${query.toString()}`);
+    if (!res.ok) throw new Error('Gagal memuat matriks perbandingan komoditas.');
+    return await res.json();
+  },
+
+  async fetchCommoditySpatialDistribution(commodityId = 'COM-MINE-001-BATUBARA', variable = 'PRODUKSI_TERBANYAK') {
+    const res = await fetch(`${API_BASE}/api/commodities/spatial-distribution?commodity_id=${encodeURIComponent(commodityId)}&variable=${encodeURIComponent(variable)}`);
+    if (!res.ok) throw new Error('Gagal memuat data sebaran spasial GeoMap komoditas.');
+    return await res.json();
   }
 };
+
