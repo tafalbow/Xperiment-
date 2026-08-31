@@ -86,29 +86,25 @@
     <!-- TAB 1: DASBOR ANALITIK & TREN (Frontpage 2-Column Wireframe Grid) -->
     <div id="tab-content-analytics" class="space-y-4">
       
-      <!-- 2-COLUMN MAIN LAYOUT (Left Sidebar vs Right Main Body) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-start">
+      <!-- ROW 1: 2-COLUMN BALANCED MAIN LAYOUT (Aligned Left Sidebar vs Right Chart & KPI) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
         
-        <!-- ============================================================== -->
-        <!-- KOLOM KIRI (Sidebar): Filtering, Tab Sumber Data, Contact, Info Ownership -->
-        <!-- ============================================================== -->
-        <aside class="lg:col-span-4 xl:col-span-3.5 space-y-3">
+        <!-- KOLOM KIRI (Sidebar): Filtering, Tab Sumber Data & Contact Person (Bottom aligned with KPI Metrics) -->
+        <aside class="lg:col-span-4 xl:col-span-3.5 flex flex-col justify-between space-y-3 h-full">
           <!-- 1. Filtering Section (4 Financial Hierarchy Levels, Sources, Period Range) -->
           <section id="filter-panel-container" aria-label="Filtering Section"></section>
 
-          <!-- 2. Tab Kompilasi Sumber Data + 3. Contact Person + 4. Info Ownership & Modular Upgrade Space -->
-          <section id="sidebar-extras-container" aria-label="Sidebar Extras"></section>
+          <!-- 2. Tab Kompilasi Sumber Data + 3. Contact Person & Helpdesk (Pinned to Bottom) -->
+          <section id="sidebar-extras-container" class="mt-auto" aria-label="Sidebar Extras"></section>
         </aside>
 
-        <!-- ============================================================== -->
-        <!-- KOLOM KANAN (Main Body): Chart Area, Ringkasan Metrik, Geo Ekonomi Area -->
-        <!-- ============================================================== -->
-        <div class="lg:col-span-8 xl:col-span-8.5 space-y-4">
-          <!-- 1. Chart Area (Multi-Variable Comparison, Transformations YOY/MOM/AVG, Dual Axis, Callouts, Single-Click Excel Download) -->
+        <!-- KOLOM KANAN (Main Analytics): Chart Area & Ringkasan Metrik Deskriptif (KPI Reference Baseline) -->
+        <div class="lg:col-span-8 xl:col-span-8.5 flex flex-col justify-between space-y-3 h-full">
+          <!-- 1. Chart Area (Multi-Variable Comparison, Transformations YOY/MOM/AVG, Dual Axis, Callouts, Excel Download) -->
           <section id="chart-module-container" aria-label="Chart Area"></section>
 
-          <!-- 2. RINGKASAN METRIK DESKRIPTIF NASIONAL (4-6 Descriptive KPI Cards) -->
-          <div class="space-y-2">
+          <!-- 2. RINGKASAN METRIK DESKRIPTIF NASIONAL (Bottom Reference Baseline for Contact Person) -->
+          <div class="space-y-1.5 mt-auto">
             <div class="flex items-center justify-between border-b border-slate-200 pb-1">
               <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                 <span>📊</span>
@@ -118,12 +114,13 @@
             </div>
             <section id="kpi-cards-container" aria-label="Ringkasan Metrik Deskriptif Nasional"></section>
           </div>
-
-          <!-- 3. Geo Ekonomi Area (Contextual Regional Driver & Interactive GIS Map) -->
-          <section id="contextual-map-container" aria-label="Geo Ekonomi Area"></section>
         </div>
 
       </div>
+
+      <!-- ROW 2: GEO EKONOMI AREA (Contextual Regional Driver & Interactive GIS Map) -->
+      <section id="contextual-map-container" class="pt-1" aria-label="Geo Ekonomi Area"></section>
+
     </div>
 
     <!-- TAB 2: KATALOG INVENTORI VARIABEL & JADWAL RILIS -->
@@ -135,6 +132,90 @@
     <div id="tab-content-commodities" class="hidden space-y-4">
       <!-- Injected by CommodityTrackerComponent -->
     </div>
+
+    <!-- ============================================================== -->
+    <!-- PERSISTENT BOTTOM: INFO OWNERSHIP, TATA KELOLA & TATA KERJA -->
+    <!-- (Fixed across all tab pages) -->
+    <!-- ============================================================== -->
+    <section class="mt-8 border-t border-slate-300 pt-6 pb-2" aria-label="Info Ownership, Tata Kelola & Tata Kerja">
+      <div class="gov-card p-5 bg-white border border-slate-300 shadow-xs rounded-lg space-y-4">
+        <!-- Section Header -->
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
+              <span>🏛️</span>
+              <span>INFO OWNERSHIP, TATA KELOLA & TATA KERJA REPOSITORI</span>
+            </span>
+            <span class="text-[10px] font-mono bg-slate-100 text-slate-700 border border-slate-300 px-2 py-0.5 rounded font-bold">
+              STANDAR STATUTORI NASIONAL
+            </span>
+          </div>
+          <span class="text-[10.5px] font-mono text-slate-500 bg-slate-50 px-2.5 py-1 rounded border border-slate-200">
+            Hak Cipta Pemerintah Republik Indonesia
+          </span>
+        </div>
+
+        <!-- 3-Column Structured Information -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+          
+          <!-- Column 1: Ownership & Legal Authority -->
+          <div class="bg-slate-50 p-3.5 rounded border border-slate-200 space-y-2 flex flex-col justify-between">
+            <div class="space-y-1.5">
+              <div class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+                <span>📑</span>
+                <span>Hak Cipta & Kepemilikan Data</span>
+              </div>
+              <p class="text-[11px] text-slate-600 font-sans leading-relaxed">
+                Hak Cipta Repositori <strong>Pusat Basis Data Data Sekunder: Pergerakan Ekonomi Indonesia</strong> dimiliki sepenuhnya oleh <strong>Pemerintah Republik Indonesia</strong>.
+              </p>
+            </div>
+            <div class="pt-2 border-t border-slate-200 text-[10.5px] text-slate-500">
+              Pengawasan: <strong>Kementerian Keuangan RI • BPS • Bank Indonesia</strong>
+            </div>
+          </div>
+
+          <!-- Column 2: Governance & Usage Policy -->
+          <div class="bg-slate-50 p-3.5 rounded border border-slate-200 space-y-2 flex flex-col justify-between">
+            <div class="space-y-1.5">
+              <div class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+                <span>⚖️</span>
+                <span>Batasan Akses & Hak Penggunaan</span>
+              </div>
+              <p class="text-[11px] text-slate-600 font-sans leading-relaxed">
+                Penggunaan data dibatasi (<em>restricted</em>) untuk peruntukan analisis kebijakan publik, perumusan regulasi, dan riset resmi terdaftar. Wajib mencantumkan repositori ini sebagai sumber sitasi resmi.
+              </p>
+            </div>
+            <div class="p-1.5 rounded bg-amber-50 border border-amber-200 text-amber-900 text-[10px]">
+              ⚠️ Dilarang menyalin atau mengkomersialkan data tanpa izin tertulis.
+            </div>
+          </div>
+
+          <!-- Column 3: Operational Framework & Helpdesk -->
+          <div class="bg-slate-50 p-3.5 rounded border border-slate-200 space-y-2 flex flex-col justify-between">
+            <div class="space-y-1.5">
+              <div class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+                <span>⚙️</span>
+                <span>Tata Kerja & Jadwal Sinkronisasi</span>
+              </div>
+              <ul class="text-[11px] text-slate-600 font-sans space-y-1 leading-relaxed">
+                <li class="flex items-start gap-1.5">
+                  <span class="text-emerald-700 font-bold">•</span>
+                  <span><strong>Siklus Rilis:</strong> Pembaruan berkala tgl 8, 17, dan 28 setiap bulan.</span>
+                </li>
+                <li class="flex items-start gap-1.5">
+                  <span class="text-emerald-700 font-bold">•</span>
+                  <span><strong>Validasi:</strong> 100% Data Riil Audited BPK & BRS BPS Resmi.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="pt-2 border-t border-slate-200 text-[10.5px] text-slate-700">
+              Helpdesk: <a href="mailto:lubis.tania@dewanekonomi.go.id" class="text-sky-700 hover:underline font-bold">lubis.tania@dewanekonomi.go.id</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
 
   </main>
 
@@ -153,6 +234,6 @@
   </footer>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=8.9.2"></script>
+  <script type="module" src="/static/app.js?v=8.9.6"></script>
 </body>
 </html>

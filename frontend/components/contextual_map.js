@@ -22,8 +22,9 @@ export class ContextualMap {
     this.mapInstance = null;
     this.markersLayer = null;
     this.activeCircle = null;
+    this.markersMap = new Map();
 
-    this.render();
+    this.render(true);
   }
 
   setSeriesList(seriesConfigs, activeIndex = 0) {
@@ -40,7 +41,7 @@ export class ContextualMap {
     if (!activeSeries || !activeSeries.indicatorId) {
       this.drivers = [];
       this.selectedDriver = null;
-      this.render();
+      this.render(true);
       return;
     }
 
@@ -48,7 +49,7 @@ export class ContextualMap {
       const drivers = await ApiClient.fetchContextualDrivers(activeSeries.indicatorId);
       this.drivers = drivers || [];
       this.selectedDriver = this.drivers.length > 0 ? this.drivers[0] : null;
-      this.render();
+      this.render(true);
     } catch (err) {
       console.error('Error fetching drivers for series:', err);
     }
@@ -57,7 +58,7 @@ export class ContextualMap {
   setDrivers(driversList) {
     this.drivers = driversList || [];
     this.selectedDriver = this.drivers.length > 0 ? this.drivers[0] : null;
-    this.render();
+    this.render(true);
   }
 
   syncWithHoverPoint(year, seriesIndex = null) {
@@ -74,10 +75,12 @@ export class ContextualMap {
 
   applyYearFocus(year) {
     this.focusedYear = year;
-    if (!year) {
-      this.render(false);
-      return;
+    const yearBadge = document.getElementById('gis-active-period-badge');
+    if (yearBadge) {
+      yearBadge.textContent = year ? `TA ${year}` : 'Semua Periode';
     }
+
+    if (!year) return;
 
     // Check if there is a specific driver matching this year
     const matched = this.drivers.find(
@@ -85,11 +88,86 @@ export class ContextualMap {
     );
 
     if (matched) {
-      this.selectedDriver = matched;
-      this.render(false);
-      this.focusMapOnDriver(matched);
-    } else {
-      this.render(false);
+      this.selectDriver(matched);
+    }
+  }
+
+  selectDriver(driver) {
+    if (!driver) return;
+    this.selectedDriver = driver;
+
+    // 1. Update the numbered list UI without re-creating the map DOM
+    this.updateDriverListUI();
+
+    // 2. Focus and fly map to driver coordinates instantly
+    this.focusMapOnDriver(driver);
+  }
+
+  renderDriverNumberedListHtml(selected) {
+    if (!this.drivers || this.drivers.length === 0) return '';
+    return this.drivers.map((d, idx) => {
+      const isSelected = selected && selected.id === d.id;
+      return `
+        <div 
+          class="btn-select-driver cursor-pointer p-3 rounded-md border transition-all ${isSelected ? 'bg-sky-50/90 border-sky-500 ring-2 ring-sky-300 shadow-xs' : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-slate-300'}"
+          data-driver-id="${d.id}"
+          data-idx="${idx}"
+          role="button"
+          tabindex="0"
+          title="Klik untuk memindahkan fokus peta ke ${d.geo_target_name || d.province_name}"
+        >
+          <div class="flex items-start justify-between gap-2.5">
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-sky-600 text-white shadow-2xs' : 'bg-slate-200 text-slate-700'}">
+                ${idx + 1}
+              </span>
+              <div class="space-y-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="font-bold text-xs ${isSelected ? 'text-sky-950 font-mono underline decoration-sky-400 decoration-2 underline-offset-2' : 'text-slate-900 font-mono hover:text-sky-700'}">
+                    ${d.geo_target_name || d.province_name}
+                  </span>
+                  <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded font-semibold ${isSelected ? 'bg-sky-200 text-sky-900' : 'bg-slate-200 text-slate-700'}">
+                    ${d.province_name.toUpperCase()} (${d.geo_level || 'Provinsi'})
+                  </span>
+                </div>
+                <div class="text-[11px] leading-snug ${isSelected ? 'text-sky-900 font-bold' : 'text-slate-700 font-semibold'}">
+                  ${d.driver_role}
+                </div>
+              </div>
+            </div>
+            <div class="shrink-0 text-right">
+              <span class="text-[10.5px] font-mono font-bold px-1.5 py-0.5 rounded ${isSelected ? 'bg-sky-600 text-white shadow-2xs' : 'bg-white text-slate-800 border border-slate-300'}">
+                TA ${d.period}
+              </span>
+            </div>
+          </div>
+
+          ${isSelected ? `
+            <!-- Detailed Narrative & Provenance (Expanded for Selected Driver) -->
+            <div class="mt-2.5 pt-2 border-t border-sky-200/80 space-y-2">
+              <blockquote class="text-[11px] text-slate-800 bg-white p-2 rounded border-l-3 border-sky-500 font-sans italic leading-relaxed shadow-2xs">
+                "${d.explanation}"
+              </blockquote>
+              <div class="space-y-0.5 text-[9.5px] text-slate-500 font-mono pt-0.5">
+                <div class="truncate" title="${d.publication_title}">
+                  <strong>Publikasi:</strong> ${d.publication_title}
+                </div>
+                <div>
+                  <strong>Sumber:</strong> ${d.source_name || 'Lembaga Pemerintah'} (${d.page_reference || 'Ref Resmi'})
+                </div>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  updateDriverListUI() {
+    const listContainer = document.getElementById('driver-numbered-list');
+    if (listContainer) {
+      listContainer.innerHTML = this.renderDriverNumberedListHtml(this.selectedDriver);
+      this.attachDriverClickEvents();
     }
   }
 
@@ -165,160 +243,84 @@ export class ContextualMap {
 
           <div class="text-[10px] font-mono text-slate-500 flex items-center gap-1 bg-white px-2 py-0.5 rounded border border-slate-200">
             <span>📅</span>
-            <span>Titik Aktif: <strong class="text-slate-900">${this.focusedYear ? `TA ${this.focusedYear}` : 'Semua Periode'}</strong></span>
+            <span>Titik Aktif: <strong id="gis-active-period-badge" class="text-slate-900">${this.focusedYear ? `TA ${this.focusedYear}` : 'Semua Periode'}</strong></span>
           </div>
         </div>
 
-        <!-- 2. FULL-WIDTH TOP GIS MAP (Widescreen Archipelago View) OR EMPTY STATE -->
-        <div class="bg-slate-50 border border-slate-200 rounded p-2 relative flex flex-col h-[270px] min-h-[270px] max-h-[270px] w-full shrink-0">
-          ${hasDrivers ? `
-            <!-- Leaflet Container -->
-            <div id="gis-leaflet-container" class="w-full h-[225px] rounded bg-slate-100 overflow-hidden relative z-0"></div>
-
-            <!-- Map Controls Overlay -->
-            <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1 px-1">
-              <div class="flex items-center gap-2">
-                <span class="inline-flex items-center gap-1 bg-white border border-slate-200 px-1.5 py-0.5 rounded shadow-2xs text-[10px]">
-                  <span class="w-2 h-2 rounded-full bg-sky-600 animate-pulse"></span>
-                  <span id="gis-active-level">${selected ? (selected.geo_level || 'Level Provinsi') : 'Nasional'}</span>
-                </span>
-                <span class="text-slate-400 hidden sm:inline" id="gis-coords-badge">
-                  ${selected && selected.latitude ? `${selected.latitude.toFixed(2)}°, ${selected.longitude.toFixed(2)}°` : 'Indonesia'}
-                </span>
-              </div>
-              <button id="btn-reset-map-zoom" class="px-2 py-0.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded shadow-2xs font-semibold flex items-center gap-1 text-[10px] cursor-pointer" title="Kembalikan Tampilan Penuh ke Seluruh Kepulauan Indonesia">
-                <span>🇮🇩</span> Zoom Nusantara Penuh
-              </button>
-            </div>
-          ` : `
-            <!-- Empty State when no regional drivers exist -->
-            <div class="w-full h-full flex flex-col items-center justify-center text-center p-4 space-y-2.5 bg-white/70 border border-dashed border-slate-300 rounded">
-              <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-300 flex items-center justify-center text-xl text-slate-500 shadow-2xs">
-                🗺️
-              </div>
-              <div class="space-y-1 max-w-sm">
-                <div class="font-bold text-xs text-slate-800 font-mono">
-                  Tidak Ada Data atau Driver yang Signifikan secara Indeks Wilayah
+        <!-- 2. MAIN CONTENT AREA: SIDE-BY-SIDE (Left List vs Right Map) OR EMPTY STATE -->
+        ${hasDrivers ? `
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+            
+            <!-- KOLOM KIRI: DAFTAR SENTRA PENDORONG (Numbered List) -->
+            <div class="lg:col-span-5 flex flex-col bg-white border border-slate-200 rounded p-3.5 space-y-3 h-full">
+              <div class="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-1 shrink-0">
+                <div class="font-mono text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <span>📍</span>
+                  <span>DAFTAR SENTRA PENDORONG (${this.drivers.length} Lokasi):</span>
                 </div>
-                <p class="text-[11px] text-slate-500 font-sans leading-relaxed">
-                  Variabel <strong>${activeSeries ? activeSeries.name : 'ini'}</strong> merupakan indikator makroekonomi/fiskal nasional tanpa konsentrasi pendorong spasial atau anomali regional khusus pada publikasi resmi pemerintah.
-                </p>
+                <span class="text-[10px] font-mono text-slate-500">Klik item untuk fokus peta</span>
               </div>
-              <span class="inline-flex items-center gap-1 text-[9.5px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                <span>🏛️</span> Cakupan: Konsolidasi Nasional (Seluruh Indonesia)
-              </span>
-            </div>
-          `}
-        </div>
 
-        <!-- 3. BOTTOM SENTRA DRIVER NUMBERED LIST & NARRATIVE (Dynamic Holding Box Auto Height) -->
-        <div class="bg-white border border-slate-200 rounded p-3.5 flex flex-col space-y-3 shrink-0 h-auto">
-          ${hasDrivers ? `
-            <div class="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-2">
-              <div class="font-mono text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <span>📍</span>
-                <span>DAFTAR SENTRA PENDORONG GEOEKONOMI (${this.drivers.length} Lokasi Teridentifikasi):</span>
+              <!-- Numbered List Items -->
+              <div class="space-y-2 flex-1 overflow-y-auto max-h-[460px] pr-0.5 scrollbar-thin" id="driver-numbered-list">
+                ${this.renderDriverNumberedListHtml(selected)}
               </div>
-              <span class="text-[10.5px] font-mono text-slate-500">Klik sentra untuk memindahkan fokus peta</span>
-            </div>
 
-            <!-- Numbered list stacked vertically -->
-            <div class="space-y-2" id="driver-numbered-list">
-              ${this.drivers.map((d, idx) => {
-                const isSelected = selected && selected.id === d.id;
-                return `
-                  <div 
-                    class="btn-select-driver cursor-pointer p-3 rounded-md border transition-all ${isSelected ? 'bg-sky-50/90 border-sky-500 ring-2 ring-sky-300 shadow-xs' : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-slate-300'}"
-                    data-driver-id="${d.id}"
-                    data-idx="${idx}"
-                    role="button"
-                    tabindex="0"
-                    title="Klik untuk memindahkan peta ke ${d.geo_target_name || d.province_name}"
-                  >
-                    <div class="flex items-start justify-between gap-3">
-                      <div class="flex items-start gap-2.5">
-                        <span class="w-5 h-5 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-sky-600 text-white shadow-2xs' : 'bg-slate-200 text-slate-700'}">
-                          ${idx + 1}
-                        </span>
-                        <div class="space-y-1">
-                          <div class="flex items-center gap-1.5 flex-wrap">
-                            <span class="font-bold text-xs ${isSelected ? 'text-sky-950 font-mono underline decoration-sky-400 decoration-2 underline-offset-2' : 'text-slate-900 font-mono hover:text-sky-700'}">
-                              ${d.geo_target_name || d.province_name}
-                            </span>
-                            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded font-semibold ${isSelected ? 'bg-sky-200 text-sky-900' : 'bg-slate-200 text-slate-700'}">
-                              ${d.province_name.toUpperCase()} (${d.geo_level || 'Provinsi'})
-                            </span>
-                          </div>
-                          <div class="text-xs ${isSelected ? 'text-sky-900 font-bold' : 'text-slate-700 font-semibold'}">
-                            ${d.driver_role}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="shrink-0 text-right">
-                        <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded ${isSelected ? 'bg-sky-600 text-white shadow-2xs' : 'bg-white text-slate-800 border border-slate-300'}">
-                          TA ${d.period}
-                        </span>
-                      </div>
-                    </div>
-
-                    ${isSelected ? `
-                      <!-- Detailed Narrative & Provenance (Expanded for Selected Driver) -->
-                      <div class="mt-2.5 pt-2.5 border-t border-sky-200/80 space-y-2">
-                        <blockquote class="text-[11.5px] text-slate-800 bg-white p-2.5 rounded border-l-3 border-sky-500 font-sans italic leading-relaxed shadow-2xs">
-                          "${d.explanation}"
-                        </blockquote>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] text-slate-500 font-mono pt-1">
-                          <div class="truncate" title="${d.publication_title}">
-                            <strong>Publikasi:</strong> ${d.publication_title}
-                          </div>
-                          <div class="sm:text-right">
-                            <strong>Sumber:</strong> ${d.source_name || 'Lembaga Pemerintah'} (${d.page_reference || 'Ref Resmi'})
-                          </div>
-                        </div>
-                      </div>
-                    ` : ''}
-                  </div>
-                `;
-              }).join('')}
-            </div>
-
-            <!-- Footer Governance Notice -->
-            <div class="p-2 bg-slate-50 rounded border border-slate-200 text-[9.5px] text-slate-500 font-mono text-center">
-              * Terhubung langsung dengan titik pergerakan ${activeSeries ? activeSeries.name : 'indikator nasional'}.
-            </div>
-          ` : `
-            <div class="h-full flex flex-col items-center justify-center text-center p-4 space-y-2.5 my-auto max-w-[380px] mx-auto">
-              <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-xl shadow-2xs">
-                🏛️
+              <div class="p-1.5 bg-slate-50 rounded border border-slate-200 text-[9.5px] text-slate-500 font-mono text-center shrink-0">
+                * Terhubung langsung dengan titik pergerakan ${activeSeries ? activeSeries.name : 'indikator nasional'}.
               </div>
-              <div class="space-y-1">
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 border border-slate-200 text-slate-800 font-mono text-[11px] font-semibold">
-                  <span class="w-2 h-2 rounded-full" style="background-color: ${activeSeries ? (activeSeries.color || '#0284C7') : '#0284C7'}"></span>
-                  <span>Variabel: <strong class="text-slate-900">${activeSeries ? activeSeries.name : 'Indikator Terpilih'}</strong></span>
+            </div>
+
+            <!-- KOLOM KANAN: MAP AREA (Posisi teratas sama setara dengan sentra pendorong) -->
+            <div class="lg:col-span-7 flex flex-col bg-slate-50 border border-slate-200 rounded p-2.5 space-y-2 h-full min-h-[440px]">
+              <!-- Leaflet Container -->
+              <div id="gis-leaflet-container" class="w-full flex-1 min-h-[380px] rounded bg-slate-100 overflow-hidden relative z-0 border border-slate-200"></div>
+
+              <!-- Map Controls Overlay -->
+              <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 pt-1 px-1 shrink-0 flex-wrap gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1 bg-white border border-slate-200 px-2 py-0.5 rounded shadow-2xs text-[10px]">
+                    <span class="w-2 h-2 rounded-full bg-sky-600 animate-pulse"></span>
+                    <span id="gis-active-level">${selected ? (selected.geo_level || 'Level Provinsi') : 'Nasional'}</span>
+                  </span>
+                  <span class="text-slate-500 text-[10px] font-mono" id="gis-coords-badge">
+                    ${selected && selected.latitude ? `${selected.latitude.toFixed(2)}°, ${selected.longitude.toFixed(2)}°` : 'Indonesia'}
+                  </span>
                 </div>
-                <div class="font-bold text-xs text-slate-800 pt-1">
-                  Agregasi Kinerja Makroekonomi Tingkat Nasional
-                </div>
+                <button id="btn-reset-map-zoom" class="px-2.5 py-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded shadow-2xs font-semibold flex items-center gap-1 text-[10px] cursor-pointer" title="Kembalikan Tampilan Penuh ke Seluruh Kepulauan Indonesia">
+                  <span>🇮🇩</span> Zoom Nusantara Penuh
+                </button>
               </div>
-              <p class="text-[11px] text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded border border-slate-200 text-left">
-                ${this.focusedYear 
-                  ? `Pada variabel <strong>${activeSeries ? activeSeries.name : 'indikator aktif'}</strong> untuk <strong>Tahun Anggaran ${this.focusedYear}</strong>, data disajikan sebagai angka agregat nasional dan tidak terdapat catatan sentra pendorong geoekonomi spesifik dalam publikasi resmi pemerintah.`
-                  : `Pada variabel <strong>${activeSeries ? activeSeries.name : 'indikator aktif'}</strong>, seluruh seri data historis merupakan angka terkonsolidasi tingkat nasional tanpa sentra wilayah khusus. Arahkan kursor ke titik tahun tertentu pada grafik di sebelah kiri untuk memeriksa catatan geoekonomi yang tersedia.`}
+            </div>
+
+          </div>
+        ` : `
+          <!-- Empty State when no regional drivers exist -->
+          <div class="w-full flex flex-col items-center justify-center text-center p-8 space-y-2.5 bg-white/70 border border-dashed border-slate-300 rounded min-h-[220px]">
+            <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-300 flex items-center justify-center text-xl text-slate-500 shadow-2xs">
+              🗺️
+            </div>
+            <div class="space-y-1 max-w-sm">
+              <div class="font-bold text-xs text-slate-800 font-mono">
+                Tidak Ada Data atau Driver yang Signifikan secara Indeks Wilayah
+              </div>
+              <p class="text-[11px] text-slate-500 font-sans leading-relaxed">
+                Variabel <strong>${activeSeries ? activeSeries.name : 'ini'}</strong> merupakan indikator makroekonomi/fiskal nasional tanpa konsentrasi pendorong spasial atau anomali regional khusus pada publikasi resmi pemerintah.
               </p>
-              <div class="text-[9.5px] font-mono text-slate-400">
-                * Sumber Data: LKPP Audited BPK RI / BPS / Bank Indonesia
-              </div>
             </div>
-          `}
-        </div>
+            <span class="inline-flex items-center gap-1 text-[9.5px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+              <span>🏛️</span> Cakupan: Konsolidasi Nasional (Seluruh Indonesia)
+            </span>
+          </div>
+        `}
       </div>
     `;
 
     // Attach DOM events immediately
     this.attachEvents();
 
-    // Initialize or Update Leaflet Map
-    if (reinitMap) {
+    // Initialize Leaflet Map
+    if (reinitMap && hasDrivers) {
       setTimeout(() => {
         this.initLeafletMap(selected);
       }, 50);
@@ -336,9 +338,13 @@ export class ContextualMap {
 
     // Clean up previous map instance if re-rendering
     if (this.mapInstance) {
-      this.mapInstance.remove();
+      try {
+        this.mapInstance.remove();
+      } catch (e) {}
       this.mapInstance = null;
     }
+
+    this.markersMap.clear();
 
     const defaultCenter = [-2.2, 118.0];
     const defaultZoom = 4;
@@ -382,6 +388,7 @@ export class ContextualMap {
         });
 
         const marker = L.marker([d.latitude, d.longitude], { icon: customIcon }).addTo(this.markersLayer);
+        this.markersMap.set(d.id, marker);
 
         const popupContent = `
           <div class="p-2 font-sans text-xs space-y-1 bg-white text-slate-900 rounded">
@@ -395,9 +402,7 @@ export class ContextualMap {
         marker.bindPopup(popupContent);
 
         marker.on('click', () => {
-          this.selectedDriver = d;
-          this.render(false);
-          this.focusMapOnDriver(d);
+          this.selectDriver(d);
         });
       });
 
@@ -409,19 +414,55 @@ export class ContextualMap {
     } else {
       this.mapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
     }
+
+    setTimeout(() => {
+      if (this.mapInstance) {
+        this.mapInstance.invalidateSize();
+      }
+    }, 150);
+  }
+
+  updateMarkersHighlight(activeDriver) {
+    if (!this.markersMap || this.markersMap.size === 0) return;
+    this.markersMap.forEach((marker, dId) => {
+      const d = this.drivers.find(x => x.id === dId);
+      if (!d) return;
+      const isSelected = activeDriver && activeDriver.id === d.id;
+      const iconHtml = `
+        <div class="relative flex items-center justify-center">
+          <div class="w-6 h-6 rounded-full ${isSelected ? 'bg-sky-600 ring-4 ring-sky-300 shadow-md' : 'bg-slate-700 ring-2 ring-white shadow'} flex items-center justify-center text-white text-[10px] font-bold">
+            ${d.geo_level === 'Kabupaten/Kota' ? '🏢' : '📍'}
+          </div>
+          ${isSelected ? '<div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></div>' : ''}
+        </div>
+      `;
+      marker.setIcon(L.divIcon({
+        html: iconHtml,
+        className: 'custom-gov-marker',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      }));
+      if (isSelected) {
+        marker.openPopup();
+      }
+    });
   }
 
   focusMapOnDriver(driver) {
     if (!this.mapInstance || !driver || !driver.latitude || !driver.longitude) return;
 
     const targetZoom = driver.zoom_level || (driver.geo_level === 'Kabupaten/Kota' ? 9.5 : 6.5);
+    
+    // Smooth and instant pan/zoom to target coordinates
     this.mapInstance.flyTo([driver.latitude, driver.longitude], targetZoom, {
-      duration: 1.2,
-      easeLinearity: 0.25
+      duration: 0.85,
+      easeLinearity: 0.3
     });
 
     if (this.activeCircle) {
-      this.mapInstance.removeLayer(this.activeCircle);
+      try {
+        this.mapInstance.removeLayer(this.activeCircle);
+      } catch (e) {}
     }
 
     const radiusMeters = driver.geo_level === 'Kabupaten/Kota' ? 18000 : 75000;
@@ -429,7 +470,7 @@ export class ContextualMap {
       radius: radiusMeters,
       color: '#0284C7',
       fillColor: '#38BDF8',
-      fillOpacity: 0.15,
+      fillOpacity: 0.18,
       weight: 2,
       dashArray: '4, 4'
     }).addTo(this.mapInstance);
@@ -438,6 +479,8 @@ export class ContextualMap {
     const coordsBadge = document.getElementById('gis-coords-badge');
     if (levelBadge) levelBadge.textContent = driver.geo_level || 'Level Provinsi';
     if (coordsBadge) coordsBadge.textContent = `${driver.latitude.toFixed(2)}°, ${driver.longitude.toFixed(2)}°`;
+
+    this.updateMarkersHighlight(driver);
   }
 
   attachEvents() {
@@ -459,21 +502,8 @@ export class ContextualMap {
       });
     });
 
-    // Numbered Driver list items (Interactive Map Control Link)
-    const driverBtns = this.container.querySelectorAll('.btn-select-driver');
-    driverBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const driverId = parseInt(btn.getAttribute('data-driver-id'));
-        const found = this.drivers.find(d => d.id === driverId);
-        if (found) {
-          this.selectedDriver = found;
-          this.render(false);
-          this.focusMapOnDriver(found);
-        }
-      });
-    });
+    // Driver list click events
+    this.attachDriverClickEvents();
 
     // Reset map zoom button to Full Archipelago View
     const btnReset = document.getElementById('btn-reset-map-zoom');
@@ -483,13 +513,28 @@ export class ContextualMap {
       if (this.mapInstance) {
         this.mapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]], {
           padding: [10, 10],
-          duration: 1.0
+          duration: 0.8
         });
         const levelBadge = document.getElementById('gis-active-level');
         const coordsBadge = document.getElementById('gis-coords-badge');
         if (levelBadge) levelBadge.textContent = 'Seluruh Kepulauan Indonesia';
         if (coordsBadge) coordsBadge.textContent = 'Sabang — Merauke';
       }
+    });
+  }
+
+  attachDriverClickEvents() {
+    const driverBtns = this.container.querySelectorAll('.btn-select-driver');
+    driverBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const driverId = parseInt(btn.getAttribute('data-driver-id'), 10);
+        const found = this.drivers.find(d => d.id === driverId);
+        if (found) {
+          this.selectDriver(found);
+        }
+      });
     });
   }
 }
