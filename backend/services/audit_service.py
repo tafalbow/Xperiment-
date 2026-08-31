@@ -113,3 +113,68 @@ class AuditService:
                     LIMIT 100
                 """)
             return [dict(r) for r in cur.fetchall()]
+
+    @staticmethod
+    def record_download_audit(payload: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Records data download audit trail and enforces backend quota recording:
+        Max 3x per session, Max 5x per day. Sole Admin: lubis.tania@dewanekonomi.go.id (Unlimited).
+        """
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS download_audit_logs (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    email TEXT NOT NULL,
+                    is_admin INTEGER NOT NULL DEFAULT 0,
+                    download_type TEXT NOT NULL,
+                    variables_count INTEGER DEFAULT 1,
+                    total_points INTEGER DEFAULT 0,
+                    session_count INTEGER DEFAULT 1,
+                    daily_count INTEGER DEFAULT 1,
+                    file_name TEXT,
+                    download_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            
+            email = (payload.get("email") or "lubis.tania@dewanekonomi.go.id").strip().lower()
+            is_admin = 1 if email == "lubis.tania@dewanekonomi.go.id" else 0
+            
+            cur.execute("""
+                INSERT INTO download_audit_logs (
+                    email, is_admin, download_type, variables_count, total_points, session_count, daily_count, file_name
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                email,
+                is_admin,
+                payload.get("download_type", "CHART_SERIES_EXPORT"),
+                payload.get("variables_count", 1),
+                payload.get("total_points", 0),
+                payload.get("session_count", 1),
+                payload.get("daily_count", 1),
+                payload.get("file_name", "")
+            ))
+            conn.commit()
+            return {"status": "RECORDED", "log_id": cur.lastrowid, "is_admin": bool(is_admin)}
+
+    @staticmethod
+    def get_download_logs(limit: int = 50) -> List[Dict[str, Any]]:
+        """Retrieves download audit logs for governance oversight."""
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS download_audit_logs (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    email TEXT NOT NULL,
+                    is_admin INTEGER NOT NULL DEFAULT 0,
+                    download_type TEXT NOT NULL,
+                    variables_count INTEGER DEFAULT 1,
+                    total_points INTEGER DEFAULT 0,
+                    session_count INTEGER DEFAULT 1,
+                    daily_count INTEGER DEFAULT 1,
+                    file_name TEXT,
+                    download_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            cur.execute("SELECT * FROM download_audit_logs ORDER BY download_timestamp DESC LIMIT ?", (limit,))
+            return [dict(r) for r in cur.fetchall()]

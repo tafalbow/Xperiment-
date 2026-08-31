@@ -4,6 +4,7 @@
 
 import { ApiClient } from '../services/api_client.js';
 import { ExcelExporter } from '../services/excel_exporter.js';
+import { openEmailRegistrationModal } from './header.js';
 
 export class ModalManager {
   static openModal(title, contentHtml) {
@@ -14,24 +15,24 @@ export class ModalManager {
     modalEl.className = 'gov-modal-overlay';
     modalEl.innerHTML = `
       <div class="gov-modal-content">
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
+        <!-- Modal Header (Themed with #BEBEBE / #CDCDCD) -->
+        <div style="background-color: #BEBEBE;" class="flex items-center justify-between px-6 py-3.5 border-b border-[#B0B0B0] rounded-t-[5px]">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800">${title}</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-950">${title}</span>
           </div>
-          <button id="btn-modal-close" class="text-slate-400 hover:text-slate-700 font-mono text-base font-bold">
+          <button id="btn-modal-close" class="text-slate-700 hover:text-slate-950 font-mono text-base font-bold cursor-pointer">
             ✕
           </button>
         </div>
 
         <!-- Modal Body -->
-        <div class="p-6 overflow-y-auto max-h-[75vh] space-y-4 text-xs">
+        <div class="p-6 overflow-y-auto max-h-[75vh] space-y-4 text-xs bg-slate-50">
           ${contentHtml}
         </div>
 
         <!-- Modal Footer -->
-        <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex items-center justify-end">
-          <button id="btn-modal-dismiss" class="gov-btn text-xs font-medium">Tutup</button>
+        <div style="background-color: #BEBEBE;" class="px-6 py-3 border-t border-[#B0B0B0] flex items-center justify-end rounded-b-[5px]">
+          <button id="btn-modal-dismiss" class="gov-btn text-xs font-semibold bg-white hover:bg-slate-100 text-slate-900 border border-slate-400 shadow-2xs">Tutup</button>
         </div>
       </div>
     `;
@@ -381,18 +382,18 @@ export class ModalManager {
 
       const content = `
         <div class="space-y-4 font-sans text-xs">
-          <!-- Banner & Action Controls -->
-          <div class="bg-slate-900 text-white rounded-lg p-4 flex items-center justify-between flex-wrap gap-3 border border-slate-700 shadow-md">
+          <!-- Banner & Action Controls (Updated to #CDCDCD Gray) -->
+          <div style="background-color: #CDCDCD;" class="text-slate-950 rounded-lg p-4 flex items-center justify-between flex-wrap gap-3 border border-slate-400 shadow-sm">
             <div>
               <div class="flex items-center gap-2">
-                <span class="text-emerald-400 font-mono font-bold text-xs uppercase tracking-wider">HARMONISASI BAGAN AKUN STANDAR (BAS) & LAPORAN KEUANGAN LKPP AUDITED</span>
-                <span class="bg-emerald-900/80 text-emerald-200 border border-emerald-500 text-[10px] font-mono px-2 py-0.5 rounded font-bold">BPK RI AUDITED</span>
+                <span class="text-slate-950 font-mono font-bold text-xs uppercase tracking-wider">HARMONISASI BAGAN AKUN STANDAR (BAS) & LAPORAN KEUANGAN LKPP AUDITED</span>
+                <span class="bg-emerald-900 text-emerald-100 border border-emerald-950 text-[10px] font-mono px-2 py-0.5 rounded font-bold">BPK RI AUDITED</span>
               </div>
-              <p class="text-[11px] text-slate-300 font-mono mt-1">
+              <p class="text-[11px] text-slate-900 font-mono mt-1">
                 Penyesuaian nomor biaya & pos historis ke nomor akun LKPP terbaru (PMK 214/2013 & PMK 102/2020) terintegrasi 1 file buku kerja.
               </p>
             </div>
-            <button id="btn-export-crosswalk-excel" class="gov-btn bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold flex items-center gap-2 px-3.5 py-2 rounded shadow-lg transition-all cursor-pointer">
+            <button id="btn-export-crosswalk-excel" class="gov-btn bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-xs font-bold flex items-center gap-2 px-3.5 py-2 rounded shadow-md transition-all cursor-pointer">
               <span>📥</span>
               <span>Download Buku LKPP & Crosswalk (.xlsx)</span>
             </button>
@@ -400,7 +401,7 @@ export class ModalManager {
 
           <!-- Sub-Tab Navigation -->
           <div class="flex items-center gap-2 border-b border-slate-200 pb-2 flex-wrap font-mono text-xs">
-            <button class="cw-tab-btn px-3 py-1.5 rounded font-bold bg-slate-900 text-white shadow-xs" data-target="cw-tab-rules">
+            <button class="cw-tab-btn px-3 py-1.5 rounded font-bold bg-[#CDCDCD] text-slate-950 shadow-xs border border-slate-400" data-target="cw-tab-rules">
               🔀 1. Harmonisasi Crosswalk BAS
             </button>
             <button class="cw-tab-btn px-3 py-1.5 rounded font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors" data-target="cw-tab-lra">
@@ -576,19 +577,26 @@ export class ModalManager {
           const targetId = btn.getAttribute('data-target');
           document.querySelectorAll('.cw-tab-panel').forEach(p => p.classList.add('hidden'));
           document.querySelectorAll('.cw-tab-btn').forEach(b => {
-            b.classList.remove('bg-slate-900', 'text-white');
+            b.classList.remove('bg-[#CDCDCD]', 'text-slate-950', 'bg-slate-900', 'text-white');
             b.classList.add('bg-slate-100', 'text-slate-700');
           });
 
           document.getElementById(targetId)?.classList.remove('hidden');
           btn.classList.remove('bg-slate-100', 'text-slate-700');
-          btn.classList.add('bg-slate-900', 'text-white');
+          btn.classList.add('bg-[#CDCDCD]', 'text-slate-950', 'font-bold');
         });
       });
 
       // Attach Excel Download handler
       document.getElementById('btn-export-crosswalk-excel')?.addEventListener('click', () => {
-        ExcelExporter.exportCrosswalkLKPPWorkbook(lkpp);
+        const raw = localStorage.getItem('registered_researcher_access');
+        if (!raw) {
+          openEmailRegistrationModal(() => {
+            ExcelExporter.exportCrosswalkLKPPWorkbook(lkpp);
+          }, 'Silakan daftarkan / konfirmasi email Anda terlebih dahulu sebelum mengunduh Buku LKPP & Crosswalk (.xlsx). Setelah tersimpan, file akan langsung otomatis diunduh.');
+        } else {
+          ExcelExporter.exportCrosswalkLKPPWorkbook(lkpp);
+        }
       });
     } catch (err) {
       this.openModal('Error', `<div class="text-rose-600 font-mono">${err.message}</div>`);

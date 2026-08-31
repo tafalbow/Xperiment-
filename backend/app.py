@@ -235,6 +235,16 @@ def get_update_logs(limit: int = Query(50, ge=1, le=200)):
     """Returns data ingestion and connector update logs."""
     return AuditService.get_update_logs(limit)
 
+@app.post("/api/audit/download-log", tags=["Audit & Logs"])
+def record_download_log(payload: Dict[str, Any]):
+    """Records download audit log and quota tracking into backend database."""
+    return AuditService.record_download_audit(payload)
+
+@app.get("/api/audit/download-logs", tags=["Audit & Logs"])
+def get_download_logs(limit: int = Query(50, ge=1, le=200)):
+    """Returns download audit logs."""
+    return AuditService.get_download_logs(limit)
+
 # ------------------------------------------------------------------------------
 # 10. INGESTION PIPELINE TRIGGER & SANDBOX
 # ------------------------------------------------------------------------------

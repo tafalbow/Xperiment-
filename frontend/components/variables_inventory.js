@@ -85,45 +85,45 @@ export class VariablesInventory {
 
     this.container.innerHTML = `
       <div class="space-y-6">
-        <!-- 1. OFFICIAL RELEASE SCHEDULE POLICY BANNER (High Contrast & Vibrant Highlights) -->
-        <div style="background-color: #0F172A; color: #FFFFFF;" class="rounded-lg p-5 border border-slate-700 shadow-md">
+        <!-- 1. OFFICIAL RELEASE SCHEDULE POLICY BANNER (Updated to #CDCDCD Gray) -->
+        <div style="background-color: #CDCDCD; color: #0F172A;" class="rounded-lg p-5 border border-slate-400 shadow-sm">
           <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
             <div class="space-y-2.5 max-w-3xl">
               <!-- Highlight Badges -->
               <div class="flex items-center gap-2 flex-wrap">
-                <span class="px-2.5 py-1 rounded text-[11px] font-mono font-bold uppercase tracking-wide flex items-center gap-1.5 shadow-xs" style="background-color: #064E3B; color: #6EE7B7; border: 1px solid #059669;">
+                <span class="px-2.5 py-1 rounded text-[11px] font-mono font-bold uppercase tracking-wide flex items-center gap-1.5 shadow-xs bg-emerald-900 text-emerald-100 border border-emerald-950">
                   <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                   Siklus Pembaruan: Tanggal 8, 17, dan 28 Setiap Bulan
                 </span>
-                <span class="px-2.5 py-1 rounded text-[10.5px] font-mono font-semibold" style="background-color: #4C0519; color: #FDA4AF; border: 1px solid #E11D48;">
+                <span class="px-2.5 py-1 rounded text-[10.5px] font-mono font-bold bg-rose-900 text-rose-100 border border-rose-950">
                   🛑 Auto-Update Real-Time Dinonaktifkan (Kepatuhan Audit Dokumen Resmi)
                 </span>
               </div>
 
               <!-- Main Title -->
-              <h2 class="text-base font-bold tracking-tight text-white flex items-center gap-2">
+              <h2 class="text-base font-bold tracking-tight text-slate-950 flex items-center gap-2">
                 <span>🏛️</span>
                 <span>Kebijakan Pembaruan & Kalender Rilis Data Berkala Nasional</span>
               </h2>
 
               <!-- High Contrast Description with Highlights -->
-              <p class="text-xs leading-relaxed font-sans" style="color: #E2E8F0;">
-                Pusat Basis Data menerapkan kebijakan rilis berkala pada <strong style="color: #FCD34D;">Tanggal 8, 17, dan 28 setiap bulannya</strong> sesuai kalender resmi <strong style="color: #7DD3FC;">Kementerian Keuangan RI</strong> (APBN KiTa & LKPP Audited BPK), <strong style="color: #7DD3FC;">Bank Indonesia</strong> (SEKI), dan <strong style="color: #7DD3FC;">Badan Pusat Statistik</strong> (BRS PDB/Inflasi). Pembaruan otomatis real-time dinonaktifkan agar seluruh data terjamin memiliki <strong style="color: #6EE7B7;">dasar hukum dan dokumen sumber resmi yang sah</strong>.
+              <p class="text-xs leading-relaxed font-sans text-slate-900">
+                Pusat Basis Data menerapkan kebijakan rilis berkala pada <strong class="text-amber-950 font-bold underline">Tanggal 8, 17, dan 28 setiap bulannya</strong> sesuai kalender resmi <strong class="text-slate-950 font-bold">Kementerian Keuangan RI</strong> (APBN KiTa & LKPP Audited BPK), <strong class="text-slate-950 font-bold">Bank Indonesia</strong> (SEKI), dan <strong class="text-slate-950 font-bold">Badan Pusat Statistik</strong> (BRS PDB/Inflasi). Pembaruan otomatis real-time dinonaktifkan agar seluruh data terjamin memiliki <strong class="text-emerald-950 font-bold">dasar hukum dan dokumen sumber resmi yang sah</strong>.
               </p>
             </div>
 
             <!-- Next Scheduled Release Box -->
-            <div style="background-color: #1E293B; border: 1px solid #334155;" class="p-4 rounded-lg text-right shrink-0 w-full lg:w-72 shadow-inner">
-              <div class="text-[10px] font-mono uppercase font-bold text-slate-300 tracking-wider">
+            <div style="background-color: #BDBDBD; border: 1px solid #9E9E9E;" class="p-4 rounded-lg text-right shrink-0 w-full lg:w-72 shadow-xs">
+              <div class="text-[10px] font-mono uppercase font-bold text-slate-950 tracking-wider">
                 JADWAL RILIS TERDEKAT:
               </div>
-              <div class="text-xl font-bold font-mono mt-1 tracking-tight" style="color: #FBBF24;">
+              <div class="text-xl font-bold font-mono mt-1 tracking-tight text-amber-950">
                 ${policy.next_release_date || '28 Agustus 2026'}
               </div>
-              <div class="text-xs font-mono font-semibold mt-1" style="color: #7DD3FC;">
+              <div class="text-xs font-mono font-bold mt-1 text-slate-950">
                 ${policy.next_focus_sector || 'Sektor Makroekonomi & PDB'}
               </div>
-              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded mt-2.5 font-mono text-[11px] font-bold" style="background-color: #064E3B; color: #A7F3D0; border: 1px solid #059669;">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded mt-2.5 font-mono text-[11px] font-bold bg-emerald-900 text-emerald-100 border border-emerald-950">
                 <span>⏳</span>
                 <span>Hitung Mundur: <strong>${policy.days_until_next_release || 1} Hari Lagi</strong></span>
               </div>
@@ -208,7 +208,7 @@ export class VariablesInventory {
           <!-- Quick Filter Buttons -->
           <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-mono scrollbar-thin">
             <span class="text-slate-400 uppercase text-[10px] font-bold shrink-0">Filter Rilis:</span>
-            <button class="btn-inv-filter px-2.5 py-1 rounded text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'ALL' ? 'bg-slate-900 text-white font-bold border-slate-900' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}" data-cat="ALL">
+            <button class="btn-inv-filter px-2.5 py-1 rounded text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'ALL' ? 'bg-[#CDCDCD] text-slate-950 font-bold border-slate-500 shadow-2xs' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}" data-cat="ALL">
               Semua (${stats.total_variables || 47})
             </button>
             <button class="btn-inv-filter px-2.5 py-1 rounded text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'TGL_8' ? 'bg-emerald-700 text-white font-bold border-emerald-700' : 'bg-white text-emerald-800 border-emerald-300 hover:bg-emerald-50'}" data-cat="TGL_8">
@@ -417,7 +417,7 @@ export class VariablesInventory {
         });
 
         if (cat === 'ALL') {
-          btn.classList.add('bg-slate-900', 'text-white', 'font-bold');
+          btn.classList.add('bg-[#CDCDCD]', 'text-slate-950', 'font-bold');
         } else if (cat === 'TGL_8') {
           btn.classList.add('bg-emerald-700', 'text-white', 'font-bold');
         } else if (cat === 'TGL_17') {

@@ -132,7 +132,19 @@ export const ApiClient = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('Gagal melakukan batch ingestion.');
+    if (!res.ok) throw new Error('Ingestion batch gagal diproses.');
     return await res.json();
+  },
+
+  async recordDownloadLog(payload) {
+    try {
+      await fetch(`${API_BASE}/api/audit/download-log`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      console.warn('Silent download audit log notice:', e);
+    }
   }
 };

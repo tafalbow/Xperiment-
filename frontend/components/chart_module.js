@@ -4,6 +4,7 @@
 
 import { ApiClient } from '../services/api_client.js';
 import { ExcelExporter } from '../services/excel_exporter.js';
+import { openEmailRegistrationModal } from './header.js';
 
 export class ChartModule {
   constructor(containerId, options = {}) {
@@ -359,17 +360,17 @@ export class ChartModule {
     if (!this.container) return;
 
     this.container.innerHTML = `
-      <div class="gov-card p-4 space-y-3 min-h-[580px] flex flex-col justify-between overflow-hidden shadow-xs">
+      <div class="gov-card p-3 space-y-2 min-h-[430px] flex flex-col justify-between overflow-hidden shadow-xs">
         <!-- Main Top Bar: Title & Range Preset Buttons -->
-        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 pb-2 shrink-0">
+        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 pb-1.5 shrink-0">
           <div>
             <div class="flex items-center gap-2">
               <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">TREN & DISTRIBUSI DESKRIPTIF TINGKAT NASIONAL</span>
-              <span class="text-[10px] font-mono bg-sky-50 text-sky-700 border border-sky-200 px-1.5 py-0.5 rounded">
+              <span class="text-[9.5px] font-mono bg-sky-50 text-sky-700 border border-sky-200 px-1.5 py-0.5 rounded">
                 ${this.seriesConfigs.length > 1 ? `Mode Komparasi (${this.seriesConfigs.length} Variabel)` : 'Mode Tunggal'}
               </span>
             </div>
-            <p class="text-[11px] text-slate-500 mt-0.5">
+            <p class="text-[10.5px] text-slate-500 mt-0.5">
               Bandingkan 1 hingga 3 variabel data lintas lembaga dengan konfigurasi Sumbu Y Kiri/Kanan, Line, Bar, dan 100% Stacked Bar.
             </p>
           </div>
@@ -377,8 +378,8 @@ export class ChartModule {
           <!-- Time Range Presets & Download Excel Button -->
           <div class="flex items-center gap-2 flex-wrap">
             <div class="flex items-center gap-1.5">
-              <span class="text-slate-400 font-mono text-[10px] uppercase">Rentang:</span>
-              <div class="inline-flex rounded-sm border border-slate-200 p-0.5 bg-slate-50 text-[11px] font-mono">
+              <span class="text-slate-400 font-mono text-[9.5px] uppercase">Rentang:</span>
+              <div class="inline-flex rounded-sm border border-slate-200 p-0.5 bg-slate-50 text-[10.5px] font-mono">
                 <button id="btn-range-6y" class="px-2 py-0.5 ${this.activeRangePreset === '6y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">6 Thn</button>
                 <button id="btn-range-24y" class="px-2 py-0.5 ${this.activeRangePreset === '24y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">24 Thn (Max)</button>
                 <button id="btn-range-all" class="px-2 py-0.5 ${this.activeRangePreset === 'all' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">Semua (1993+)</button>
@@ -389,7 +390,7 @@ export class ChartModule {
             <button 
               type="button" 
               id="btn-chart-download-excel" 
-              class="px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-[11px] font-bold flex items-center gap-1.5 shadow-xs border border-emerald-600 transition-all cursor-pointer"
+              class="px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-[10.5px] font-bold flex items-center gap-1.5 shadow-xs border border-emerald-600 transition-all cursor-pointer"
               title="Unduh Data Mentah & Keterangan Lineage sebagai File Excel (.xlsx) (Max 3 Variabel, Max 12 Tahun / 24 Bulan)"
             >
               <span>📥</span>
@@ -401,15 +402,15 @@ export class ChartModule {
         <!-- Series Configuration Deck (Compact Proportional) -->
         <div id="chart-series-deck" class="space-y-1.5 shrink-0"></div>
 
-        <!-- Canvas & Interactive Hover Tooltip Container (Strictly Fixed Locked Height) -->
-        <div class="relative w-full h-[400px] min-h-[400px] max-h-[400px] flex items-center justify-center select-none bg-white rounded border border-slate-200 p-2 overflow-hidden shrink-0" id="chart-wrapper">
+        <!-- Canvas & Interactive Hover Tooltip Container (Compact Fixed Locked Height) -->
+        <div class="relative w-full h-[270px] min-h-[270px] max-h-[270px] flex items-center justify-center select-none bg-white rounded border border-slate-200 p-1.5 overflow-hidden shrink-0" id="chart-wrapper">
           <canvas id="gov-analytics-canvas" class="cursor-crosshair block w-full h-full"></canvas>
           <div id="chart-tooltip" class="hidden absolute pointer-events-none z-50 transition-opacity duration-75"></div>
         </div>
 
         <!-- Dual-Axis Legend & Footnote -->
-        <div class="flex items-center justify-between text-[10px] text-slate-500 font-mono pt-1.5 border-t border-slate-100 flex-wrap gap-2 shrink-0">
-          <div id="chart-legend-strip" class="flex items-center gap-2.5 flex-wrap"></div>
+        <div class="flex items-center justify-between text-[9.5px] text-slate-500 font-mono pt-1 border-t border-slate-100 flex-wrap gap-2 shrink-0">
+          <div id="chart-legend-strip" class="flex items-center gap-2 flex-wrap"></div>
           <div>
             * Sumbu Kiri (Utama) • Sumbu Kanan (Sekunder) • Arahkan kursor untuk komparasi pergerakan YoY
           </div>
@@ -427,56 +428,80 @@ export class ChartModule {
     const legendStrip = document.getElementById('chart-legend-strip');
     if (!deck) return;
 
-    // Series Tabs Strip
+    const active = this.seriesConfigs[this.activeSeriesTab] || this.seriesConfigs[0];
+
+    // Series Tabs Strip with Integrated Axis Placement Menu
     let tabsHtml = `
       <div class="flex items-center justify-between flex-wrap gap-1.5 bg-slate-50 p-1.5 rounded border border-slate-200">
         <div class="flex items-center gap-1.5 flex-wrap">
           ${this.seriesConfigs.map((s, idx) => `
             <button 
               type="button"
-              class="btn-series-tab px-2.5 py-1 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-slate-400 shadow-sm ring-2 ring-slate-800' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}"
+              class="btn-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-slate-400 shadow-xs ring-2 ring-slate-800' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}"
               data-idx="${idx}"
             >
               <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
-              <span>Var ${idx + 1}: <strong class="truncate max-w-[120px] inline-block align-bottom">${s.name || 'Pilih Indikator'}</strong></span>
-              <span class="text-[9px] px-1 py-0.2 rounded font-semibold ${s.axis === 'primary' ? 'bg-sky-100 text-sky-800' : 'bg-emerald-100 text-emerald-800'}">
-                ${s.axis === 'primary' ? 'Sumbu Kiri' : 'Sumbu Kanan'}
+              <span>Var ${idx + 1}: <strong class="truncate max-w-[110px] inline-block align-bottom">${s.name || 'Pilih Indikator'}</strong></span>
+              <span class="text-[8.5px] px-1 py-0.2 rounded font-semibold ${s.axis === 'primary' ? 'bg-sky-100 text-sky-800' : 'bg-emerald-100 text-emerald-800'}">
+                ${s.axis === 'primary' ? 'Kiri' : 'Kanan'}
               </span>
               ${idx > 0 ? `
-                <span class="btn-remove-series text-slate-400 hover:text-rose-600 font-bold ml-1 text-xs" data-idx="${idx}" title="Hapus Variabel Ini">✕</span>
+                <span class="btn-remove-series text-slate-400 hover:text-rose-600 font-bold ml-0.5 text-xs" data-idx="${idx}" title="Hapus Variabel Ini">✕</span>
               ` : ''}
             </button>
           `).join('')}
 
           ${this.seriesConfigs.length < 3 ? `
-            <button type="button" id="btn-add-series" class="px-2.5 py-1 text-[11px] font-mono rounded bg-white hover:bg-sky-50 text-sky-700 border border-dashed border-sky-400 font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
+            <button type="button" id="btn-add-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-sky-50 text-sky-700 border border-dashed border-sky-400 font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
               <span class="font-bold">➕</span> Tambah Var ${this.seriesConfigs.length + 1}
             </button>
           ` : ''}
         </div>
 
-        <div class="text-[10px] font-mono text-slate-400">
-          Maks. 3 Variabel
+        <!-- Axis Placement Menu Moved to Top Bar near Variable Selection -->
+        <div class="flex items-center gap-2 font-mono text-[10.5px]">
+          <div class="flex items-center gap-1">
+            <span class="text-slate-600 font-bold uppercase text-[9.5px]">Sumbu (Var ${this.activeSeriesTab + 1}):</span>
+            <div class="inline-flex rounded border border-slate-300 p-0.5 bg-slate-200/80">
+              <button 
+                type="button"
+                id="btn-axis-primary" 
+                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-300'}"
+                title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
+              >
+                ← Sumbu Kiri
+              </button>
+              <button 
+                type="button"
+                id="btn-axis-secondary" 
+                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-300'}"
+                title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
+              >
+                Sumbu Kanan →
+              </button>
+            </div>
+          </div>
+          <span class="text-slate-300">|</span>
+          <span class="text-[9.5px] text-slate-400">Maks. 3 Var</span>
         </div>
       </div>
     `;
 
-    // Active Series Parameter Control Panel
-    const active = this.seriesConfigs[this.activeSeriesTab] || this.seriesConfigs[0];
+    // Active Series Parameter Control Panel (Streamlined without Axis box)
     if (active) {
       const activeMeta = this.availableIndicators.find(i => i.id === active.indicatorId);
       const availableTransformations = this.getAvailableTransformations(activeMeta, active.rawData);
 
       tabsHtml += `
-        <div class="bg-white p-2.5 rounded border border-slate-200 space-y-2 text-[11px] font-mono shadow-2xs">
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5 items-center">
-            <!-- 1. Indicator Selector (4 Cols) -->
-            <div class="md:col-span-4 space-y-0.5">
-              <label class="text-[10px] uppercase font-bold text-slate-700 flex items-center gap-1.5">
+        <div class="bg-white p-2 rounded border border-slate-200 space-y-1.5 text-[11px] font-mono shadow-2xs">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+            <!-- 1. Indicator Selector (6 Cols) -->
+            <div class="md:col-span-6 space-y-0.5">
+              <label class="text-[9.5px] uppercase font-bold text-slate-700 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full" style="background-color: ${active.color}"></span>
                 Indikator (Var ${this.activeSeriesTab + 1}):
               </label>
-              <select id="select-series-indicator" class="gov-select w-full text-xs font-mono py-1 font-medium">
+              <select id="select-series-indicator" class="gov-select w-full text-[11px] font-mono py-1 font-medium">
                 ${this.availableIndicators.map(ind => `
                   <option value="${ind.id}" ${ind.id === active.indicatorId ? 'selected' : ''}>
                     ${ind.name} [${ind.unit}] (${ind.source_name || ind.sector || 'Nasional'})
@@ -487,11 +512,11 @@ export class ChartModule {
 
             <!-- 2. Data Transformation Granularity: RAW, YOY, MOM, AVG L3M/L6M/L3Y/L6Y (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[10px] uppercase font-bold text-slate-700 flex items-center justify-between">
+              <label class="text-[9.5px] uppercase font-bold text-slate-700 flex items-center justify-between">
                 <span>Granularitas Olahan:</span>
-                <span class="text-[9px] text-sky-700 bg-sky-50 px-1 rounded border border-sky-200">≥ 6 Titik</span>
+                <span class="text-[8.5px] text-sky-700 bg-sky-50 px-1 rounded border border-sky-200">≥ 6 Titik</span>
               </label>
-              <select id="select-series-transformation" class="gov-select w-full text-xs font-mono py-1 font-semibold ${availableTransformations.length > 1 ? 'bg-amber-50/50 border-amber-300 text-slate-900' : 'bg-slate-50 text-slate-600'}">
+              <select id="select-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold ${availableTransformations.length > 1 ? 'bg-amber-50/50 border-amber-300 text-slate-900' : 'bg-slate-50 text-slate-600'}">
                 ${availableTransformations.map(t => `
                   <option value="${t.id}" ${t.id === (active.transformation || 'RAW') ? 'selected' : ''}>
                     ${t.label}
@@ -500,37 +525,12 @@ export class ChartModule {
               </select>
             </div>
 
-            <!-- 3. Axis Placement: Primary vs Secondary (3 Cols) -->
+            <!-- 3. Visual Type: Line vs Bar (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[10px] uppercase font-bold text-slate-700">
-                Penempatan Sumbu (Y):
-              </label>
-              <div class="inline-flex rounded border border-slate-300 p-0.5 bg-slate-100 w-full text-[11px]">
-                <button 
-                  type="button"
-                  id="btn-axis-primary" 
-                  class="flex-1 py-0.5 px-1.5 text-center rounded transition-all cursor-pointer ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200'}"
-                  title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
-                >
-                  ← Sumbu Kiri
-                </button>
-                <button 
-                  type="button"
-                  id="btn-axis-secondary" 
-                  class="flex-1 py-0.5 px-1.5 text-center rounded transition-all cursor-pointer ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200'}"
-                  title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
-                >
-                  Sumbu Kanan →
-                </button>
-              </div>
-            </div>
-
-            <!-- 4. Visual Type: Line vs Bar (2 Cols) -->
-            <div class="md:col-span-2 space-y-0.5">
-              <label class="text-[10px] uppercase font-bold text-slate-700">
+              <label class="text-[9.5px] uppercase font-bold text-slate-700">
                 Tipe Visual:
               </label>
-              <div class="inline-flex rounded border border-slate-300 p-0.5 bg-slate-100 w-full text-[11px]">
+              <div class="inline-flex rounded border border-slate-300 p-0.5 bg-slate-100 w-full text-[10.5px]">
                 <button 
                   type="button"
                   id="btn-series-type-line" 
@@ -551,8 +551,8 @@ export class ChartModule {
 
           ${active.type === 'bar' ? `
             <div class="flex items-center gap-2 pt-1 border-t border-slate-100">
-              <span class="text-[10px] uppercase font-bold text-slate-700">Mode Bar:</span>
-              <select id="select-bar-mode" class="gov-select text-xs font-mono py-0.5 px-2">
+              <span class="text-[9.5px] uppercase font-bold text-slate-700">Mode Bar:</span>
+              <select id="select-bar-mode" class="gov-select text-[11px] font-mono py-0.5 px-2">
                 <option value="grouped" ${active.barMode === 'grouped' ? 'selected' : ''}>Normal Bar</option>
                 <option value="stacked100" ${active.barMode === 'stacked100' ? 'selected' : ''}>100% Stacked</option>
               </select>
@@ -756,7 +756,16 @@ export class ChartModule {
     btnAll?.addEventListener('click', () => updatePresetButtons('all', 1993, 2024));
 
     document.getElementById('btn-chart-download-excel')?.addEventListener('click', () => {
-      ExcelExporter.exportSeriesToExcel(this.seriesConfigs, this.activeRangePreset);
+      const raw = localStorage.getItem('registered_researcher_access');
+      if (!raw) {
+        // Prompt login/registration modal first
+        openEmailRegistrationModal(() => {
+          ExcelExporter.exportSeriesToExcel(this.seriesConfigs, this.activeRangePreset);
+        }, 'Silakan daftarkan / konfirmasi email Anda terlebih dahulu sebelum mengunduh file data Excel (.xlsx). Setelah tersimpan, file akan langsung otomatis diunduh.');
+      } else {
+        // Already registered, download directly
+        ExcelExporter.exportSeriesToExcel(this.seriesConfigs, this.activeRangePreset);
+      }
     });
 
     if (canvas) {
@@ -883,13 +892,13 @@ export class ChartModule {
     );
 
     tooltip.innerHTML = `
-      <div class="bg-slate-900 text-slate-100 border border-slate-700 shadow-2xl rounded-md p-3 max-w-[360px] space-y-2 backdrop-blur-md">
+      <div class="bg-[#CDCDCD] text-slate-950 border border-slate-400 shadow-2xl rounded-md p-3 max-w-[360px] space-y-2 backdrop-blur-md">
         <!-- Header -->
-        <div class="flex items-center justify-between border-b border-slate-700 pb-1.5">
-          <div class="font-mono font-bold text-[11px] text-white flex items-center gap-1">
+        <div class="flex items-center justify-between border-b border-slate-400 pb-1.5">
+          <div class="font-mono font-bold text-[11px] text-slate-950 flex items-center gap-1">
             <span>📅</span> TA: ${year} [Nasional]
           </div>
-          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-sky-300 border border-slate-700 font-semibold">
+          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white text-slate-900 border border-slate-400 font-bold">
             ${this.seriesConfigs.length} Var
           </span>
         </div>
@@ -990,7 +999,7 @@ export class ChartModule {
 
     const wrapper = document.getElementById('chart-wrapper') || canvas.parentElement;
     const width = Math.max(Math.floor(wrapper.clientWidth) - 16, 400);
-    const height = 380; // Strictly fixed chart drawing height
+    const height = 260; // Compact fixed chart drawing height
 
     const dpr = window.devicePixelRatio || 1;
     if (canvas.width !== Math.floor(width * dpr) || canvas.height !== Math.floor(height * dpr)) {
@@ -1034,10 +1043,10 @@ export class ChartModule {
     const hasSecondaryAxis = secondarySeries.length > 0 && primarySeries.length > 0;
 
     const padding = {
-      top: 30,
-      right: hasSecondaryAxis ? 85 : 30,
-      bottom: 30,
-      left: 85
+      top: 22,
+      right: hasSecondaryAxis ? 75 : 24,
+      bottom: 22,
+      left: 75
     };
 
     const chartW = width - padding.left - padding.right;

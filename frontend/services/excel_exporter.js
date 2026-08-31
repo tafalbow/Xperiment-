@@ -1,14 +1,149 @@
 // ==============================================================================
 // EXCEL EXPORTER SERVICE (Matrix Raw Data Tab + Transposed Var Tabs + Compile Sheet)
 // Pusat Basis Data Data Sekunder: Pergerakan Ekonomi Indonesia
+// Backend Quota Recording & Enforcement (Sole Admin: lubis.tania@dewanekonomi.go.id)
 // ==============================================================================
+
+import { ApiClient } from './api_client.js';
+
+export const SOLE_ADMIN_EMAIL = 'lubis.tania@dewanekonomi.go.id';
+
+export class DownloadQuotaManager {
+  static getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  /**
+   * Check if user is allowed to download under quota policy:
+   * - Max 3 downloads per session
+   * - Max 5 downloads per day
+   * - Sole Admin (lubis.tania@dewanekonomi.go.id) is completely exempted (Unlimited)
+   */
+  static checkQuota(email) {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const isAdmin = cleanEmail === SOLE_ADMIN_EMAIL.toLowerCase();
+
+    if (isAdmin) {
+      return {
+        allowed: true,
+        isAdmin: true,
+        sessionCount: 'Unlimited (Admin)',
+        dailyCount: 'Unlimited (Admin)'
+      };
+    }
+
+    const sessionCount = parseInt(sessionStorage.getItem('den_download_count_session') || '0', 10);
+    const todayKey = `den_download_count_daily_${this.getTodayKey()}`;
+    const dailyCount = parseInt(localStorage.getItem(todayKey) || '0', 10);
+
+    const maxSession = 3;
+    const maxDaily = 5;
+
+    if (sessionCount >= maxSession || dailyCount >= maxDaily) {
+      return {
+        allowed: false,
+        isAdmin: false,
+        reason: sessionCount >= maxSession ? 'SESSION_LIMIT_EXCEEDED' : 'DAILY_LIMIT_EXCEEDED',
+        sessionCount,
+        maxSession,
+        dailyCount,
+        maxDaily,
+        title: 'PEMBERITAHUAN AKSES DATA',
+        message: 'Batas pengunduhan data telah tercapai untuk saat ini. Silakan hubungi pengelola data resmi untuk konfirmasi atau pembaharuan akses data.'
+      };
+    }
+
+    return {
+      allowed: true,
+      isAdmin: false,
+      sessionCount,
+      maxSession,
+      dailyCount,
+      maxDaily
+    };
+  }
+
+  /**
+   * Consumes 1 download ticket for session and day (if not admin)
+   */
+  static consumeQuota(email) {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const isAdmin = cleanEmail === SOLE_ADMIN_EMAIL.toLowerCase();
+
+    if (isAdmin) {
+      return {
+        allowed: true,
+        isAdmin: true,
+        sessionCount: 'Unlimited',
+        dailyCount: 'Unlimited'
+      };
+    }
+
+    const sessionCount = parseInt(sessionStorage.getItem('den_download_count_session') || '0', 10) + 1;
+    sessionStorage.setItem('den_download_count_session', sessionCount.toString());
+
+    const todayKey = `den_download_count_daily_${this.getTodayKey()}`;
+    const dailyCount = parseInt(localStorage.getItem(todayKey) || '0', 10) + 1;
+    localStorage.setItem(todayKey, dailyCount.toString());
+
+    return {
+      allowed: true,
+      isAdmin: false,
+      sessionCount,
+      maxSession: 3,
+      dailyCount,
+      maxDaily: 5
+    };
+  }
+
+  static showQuotaExceededModal(quotaInfo) {
+    document.getElementById('quota-exceeded-modal')?.remove();
+
+    const modalEl = document.createElement('div');
+    modalEl.id = 'quota-exceeded-modal';
+    modalEl.className = 'gov-modal-overlay';
+    modalEl.innerHTML = `
+      <div class="gov-modal-content max-w-md border border-[#B0B0B0]">
+        <div style="background-color: #BEBEBE;" class="flex items-center justify-between px-5 py-3.5 border-b border-[#B0B0B0] text-slate-950 rounded-t-[5px]">
+          <div class="flex items-center gap-2">
+            <span class="text-base">ℹ️</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-950">${quotaInfo.title}</span>
+          </div>
+          <button id="btn-close-quota-modal" class="text-slate-700 hover:text-slate-950 font-mono text-base font-bold cursor-pointer">✕</button>
+        </div>
+
+        <div class="p-5 space-y-3.5 text-xs font-sans bg-slate-50 rounded-b-[5px]">
+          <div class="bg-white border border-slate-200 rounded p-3 text-slate-800 leading-relaxed text-[11.5px] shadow-2xs">
+            ${quotaInfo.message}
+          </div>
+
+          <div class="bg-slate-100/90 p-2.5 rounded text-[11px] font-mono text-slate-700 space-y-0.5 border border-slate-200">
+            <div>Pengelola Basis Data: <strong>${SOLE_ADMIN_EMAIL}</strong></div>
+          </div>
+
+          <div class="pt-2 flex justify-end">
+            <button id="btn-ack-quota" class="gov-btn bg-white hover:bg-slate-100 text-slate-950 border border-slate-400 font-mono text-xs px-4 py-1.5 font-bold shadow-2xs cursor-pointer">
+              Tutup
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modalEl);
+    const close = () => modalEl.remove();
+    document.getElementById('btn-close-quota-modal')?.addEventListener('click', close);
+    document.getElementById('btn-ack-quota')?.addEventListener('click', close);
+  }
+}
 
 export class ExcelExporter {
   /**
    * Export observations from up to 3 active chart series:
-   * - Tab 1: "Data Mentah (Matrix)" -> Pure observation matrix without metadata (Periode downwards, Var 1/2/3 as columns)
+   * - Tab 1: "Data Mentah (Matrix)" -> Pure observation matrix without metadata
    * - Tab 2..N: "Var 1", "Var 2", "Var 3" -> Transposed observation & detailed provenance per variable
-   * - Final Tab: "Kompilasi Sumber & Waktu Akses" -> Comprehensive statutory sources, websites, timestamps & audit lineage
+   * - Final Tab: "Kompilasi Sumber & Waktu Akses" -> Comprehensive statutory sources, timestamps & audit lineage
    */
   static exportSeriesToExcel(seriesConfigs, activeRangePreset = '24y') {
     if (!window.XLSX) {
@@ -27,7 +162,17 @@ export class ExcelExporter {
       const raw = localStorage.getItem('registered_researcher_access');
       if (raw) registeredUser = JSON.parse(raw);
     } catch (e) {}
-    const userEmail = registeredUser?.email || 'lubis.tania@dewanekonomi.go.id';
+    const userEmail = registeredUser?.email || SOLE_ADMIN_EMAIL;
+
+    // 1. Quota & Rate Limit Validation
+    const quotaCheck = DownloadQuotaManager.checkQuota(userEmail);
+    if (!quotaCheck.allowed) {
+      DownloadQuotaManager.showQuotaExceededModal(quotaCheck);
+      return;
+    }
+
+    // Consume 1 quota ticket
+    const consumedQuota = DownloadQuotaManager.consumeQuota(userEmail);
 
     const now = new Date();
     const downloadTimestampFormatted = now.toLocaleDateString('id-ID', {
@@ -36,7 +181,7 @@ export class ExcelExporter {
       year: 'numeric'
     }) + `, Pukul ${now.toLocaleTimeString('id-ID')} WIB`;
 
-    // 1. Enforce Max 3 Variables Constraint
+    // 2. Enforce Max 3 Variables Constraint
     const exportSeries = seriesConfigs.slice(0, 3);
     const wb = window.XLSX.utils.book_new();
 
@@ -44,7 +189,6 @@ export class ExcelExporter {
     let totalExportedPoints = 0;
 
     // Structure for Matrix Generation
-    // Gather all unique periods chronologically
     const allPeriodsMap = new Map(); // period -> { [varColName]: value }
     const varColumnNames = [];
 
@@ -165,23 +309,9 @@ export class ExcelExporter {
 
       const wsVar = window.XLSX.utils.json_to_sheet(varTabRows);
       wsVar['!cols'] = [
-        { wch: 22 }, // Periode
-        { wch: 22 }, // Nilai Observasi
-        { wch: 18 }, // Satuan
-        { wch: 26 }, // Tipe Value
-        { wch: 20 }, // Scope
-        { wch: 20 }, // Status Data
-        { wch: 22 }, // Transformasi
-        { wch: 35 }, // Nama Variabel
-        { wch: 26 }, // Kode Variabel
-        { wch: 26 }, // Lembaga
-        { wch: 32 }, // Website
-        { wch: 48 }, // Dokumen Publikasi
-        { wch: 36 }, // Nomor Dokumen
-        { wch: 24 }, // Tanggal Publikasi
-        { wch: 36 }, // Sitasi
-        { wch: 45 }, // Tautan
-        { wch: 36 }  // Waktu Pengambilan
+        { wch: 22 }, { wch: 22 }, { wch: 18 }, { wch: 26 }, { wch: 20 }, { wch: 20 },
+        { wch: 22 }, { wch: 35 }, { wch: 26 }, { wch: 26 }, { wch: 32 }, { wch: 48 },
+        { wch: 36 }, { wch: 24 }, { wch: 36 }, { wch: 45 }, { wch: 36 }
       ];
       window.XLSX.utils.book_append_sheet(wb, wsVar, sheetName);
 
@@ -223,25 +353,10 @@ export class ExcelExporter {
     // =========================================================================
     const wsCompile = window.XLSX.utils.json_to_sheet(compileSummaryRows);
     wsCompile['!cols'] = [
-      { wch: 6 },  // No
-      { wch: 28 }, // Tab Referensi
-      { wch: 38 }, // Nama Variabel
-      { wch: 28 }, // Kode Variabel
-      { wch: 24 }, // Sektor
-      { wch: 32 }, // Granularitas
-      { wch: 22 }, // Rentang Periode
-      { wch: 18 }, // Satuan Baku
-      { wch: 22 }, // Transformasi
-      { wch: 28 }, // Lembaga
-      { wch: 35 }, // Website
-      { wch: 50 }, // Dokumen Publikasi
-      { wch: 38 }, // Nomor Dokumen
-      { wch: 24 }, // Tanggal Rilis
-      { wch: 38 }, // Sitasi
-      { wch: 45 }, // Link Dokumen
-      { wch: 36 }, // Waktu Pengambilan
-      { wch: 32 }, // Email Peneliti
-      { wch: 55 }  // Status Kepatuhan
+      { wch: 6 },  { wch: 28 }, { wch: 38 }, { wch: 28 }, { wch: 24 }, { wch: 32 },
+      { wch: 22 }, { wch: 18 }, { wch: 22 }, { wch: 28 }, { wch: 35 }, { wch: 50 },
+      { wch: 38 }, { wch: 24 }, { wch: 38 }, { wch: 45 }, { wch: 36 }, { wch: 32 },
+      { wch: 55 }
     ];
     window.XLSX.utils.book_append_sheet(wb, wsCompile, 'Kompilasi Sumber & Waktu Akses');
 
@@ -251,8 +366,19 @@ export class ExcelExporter {
 
     window.XLSX.writeFile(wb, fileName);
 
-    // Show confirmation alert
-    const totalTabs = processedSeriesList.length + 2; // Matrix + Var tabs + Compile Tab
+    // 5. Record Download Audit Silently in Backend
+    ApiClient.recordDownloadLog({
+      email: userEmail,
+      download_type: 'CHART_SERIES_EXPORT',
+      variables_count: processedSeriesList.length,
+      total_points: totalExportedPoints,
+      session_count: consumedQuota.sessionCount,
+      daily_count: consumedQuota.dailyCount,
+      file_name: fileName
+    });
+
+    // Show clean confirmation toast (clean UI without rate limit counters)
+    const totalTabs = processedSeriesList.length + 2;
     this.showExportToast(processedSeriesList.length, totalTabs, totalExportedPoints, fileName);
   }
 
@@ -262,16 +388,16 @@ export class ExcelExporter {
 
     const toast = document.createElement('div');
     toast.id = 'excel-export-toast';
-    toast.className = 'fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-2xl z-50 font-mono text-xs border border-emerald-500/50 flex items-center gap-3 animate-bounce';
+    toast.className = 'fixed bottom-5 right-5 bg-[#CDCDCD] text-slate-950 px-4 py-3 rounded-lg shadow-2xl z-50 font-mono text-xs border border-slate-400 flex items-center gap-3 animate-bounce';
     toast.innerHTML = `
       <span class="text-xl">📊</span>
       <div>
-        <div class="font-bold text-emerald-400">File Excel Berhasil Diunduh!</div>
-        <div class="text-[11px] text-slate-300">
-          ${totalVars} Variabel • <strong>${totalTabs} Tab</strong> (Tab 1: Data Mentah Matrix + Tab Var + Tab Kompilasi) • ${totalPoints} Titik Data
+        <div class="font-bold text-emerald-900">File Excel Berhasil Diunduh!</div>
+        <div class="text-[11px] text-slate-800">
+          ${totalVars} Variabel • <strong>${totalTabs} Tab</strong> (${totalPoints} Titik Data)
         </div>
       </div>
-      <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white font-bold text-sm ml-2">✕</button>
+      <button onclick="this.parentElement.remove()" class="text-slate-600 hover:text-slate-950 font-bold text-sm ml-2 cursor-pointer">✕</button>
     `;
     document.body.appendChild(toast);
     setTimeout(() => {
@@ -280,12 +406,7 @@ export class ExcelExporter {
   }
 
   /**
-   * Export full Crosswalk & LKPP Audited Financial Statements:
-   * - Tab 1: Harmonisasi Crosswalk BAS (Mapping akun biaya lama ke akun baru)
-   * - Tab 2: LRA Pendapatan Pemerintah Pusat (Kode Akun 1-digit s/d 6-digit)
-   * - Tab 3: Neraca Pemerintah Pusat (Audited BPK)
-   * - Tab 4: Laporan Arus Kas (LAK Audited BPK)
-   * - Tab 5: Keterangan Legalitas & Tata Kelola Data
+   * Export full Crosswalk & LKPP Audited Financial Statements
    */
   static exportCrosswalkLKPPWorkbook(lkppData) {
     if (!window.XLSX) {
@@ -303,7 +424,16 @@ export class ExcelExporter {
       const raw = localStorage.getItem('registered_researcher_access');
       if (raw) registeredUser = JSON.parse(raw);
     } catch (e) {}
-    const userEmail = registeredUser?.email || 'lubis.tania@dewanekonomi.go.id';
+    const userEmail = registeredUser?.email || SOLE_ADMIN_EMAIL;
+
+    // 1. Quota Validation
+    const quotaCheck = DownloadQuotaManager.checkQuota(userEmail);
+    if (!quotaCheck.allowed) {
+      DownloadQuotaManager.showQuotaExceededModal(quotaCheck);
+      return;
+    }
+
+    const consumedQuota = DownloadQuotaManager.consumeQuota(userEmail);
 
     const now = new Date();
     const downloadTimestampFormatted = now.toLocaleDateString('id-ID', {
@@ -328,15 +458,7 @@ export class ExcelExporter {
     }));
     const ws1 = window.XLSX.utils.json_to_sheet(crosswalkRows);
     ws1['!cols'] = [
-      { wch: 6 },  // No
-      { wch: 26 }, // Sektor
-      { wch: 48 }, // Klasifikasi Lama
-      { wch: 48 }, // Nomenklatur Baru
-      { wch: 45 }, // Aturan Pemetaan
-      { wch: 18 }, // Tahun
-      { wch: 28 }, // Lembaga
-      { wch: 55 }, // Catatan
-      { wch: 22 }  // Versi
+      { wch: 6 },  { wch: 26 }, { wch: 48 }, { wch: 48 }, { wch: 45 }, { wch: 18 }, { wch: 28 }, { wch: 55 }, { wch: 22 }
     ];
     window.XLSX.utils.book_append_sheet(wb, ws1, 'Harmonisasi Crosswalk BAS');
 
@@ -353,14 +475,7 @@ export class ExcelExporter {
     }));
     const ws2 = window.XLSX.utils.json_to_sheet(lraRows);
     ws2['!cols'] = [
-      { wch: 16 }, // Kode Akun
-      { wch: 55 }, // Uraian
-      { wch: 26 }, // Anggaran
-      { wch: 26 }, // Realisasi 2010
-      { wch: 24 }, // % Realisasi
-      { wch: 26 }, // Realisasi 2009
-      { wch: 26 }, // Kenaikan/Penurunan
-      { wch: 18 }  // Status Audit
+      { wch: 16 }, { wch: 55 }, { wch: 26 }, { wch: 26 }, { wch: 24 }, { wch: 26 }, { wch: 26 }, { wch: 18 }
     ];
     window.XLSX.utils.book_append_sheet(wb, ws2, 'LRA Pendapatan Audited');
 
@@ -376,13 +491,7 @@ export class ExcelExporter {
     }));
     const ws3 = window.XLSX.utils.json_to_sheet(neracaRows);
     ws3['!cols'] = [
-      { wch: 18 }, // Kode Akun
-      { wch: 55 }, // Uraian
-      { wch: 16 }, // Catatan
-      { wch: 28 }, // 2010
-      { wch: 28 }, // 2009
-      { wch: 28 }, // Kenaikan/Penurunan
-      { wch: 38 }  // Metodologi
+      { wch: 18 }, { wch: 55 }, { wch: 16 }, { wch: 28 }, { wch: 28 }, { wch: 28 }, { wch: 38 }
     ];
     window.XLSX.utils.book_append_sheet(wb, ws3, 'Neraca Pemerintah Pusat');
 
@@ -398,13 +507,7 @@ export class ExcelExporter {
     }));
     const ws4 = window.XLSX.utils.json_to_sheet(arusKasRows);
     ws4['!cols'] = [
-      { wch: 16 }, // Kode
-      { wch: 58 }, // Uraian
-      { wch: 16 }, // Catatan
-      { wch: 28 }, // 2010
-      { wch: 28 }, // 2009
-      { wch: 28 }, // Kenaikan/Penurunan
-      { wch: 22 }  // Kategori
+      { wch: 16 }, { wch: 58 }, { wch: 16 }, { wch: 28 }, { wch: 28 }, { wch: 28 }, { wch: 22 }
     ];
     window.XLSX.utils.book_append_sheet(wb, ws4, 'Laporan Arus Kas (LAK)');
 
@@ -421,10 +524,6 @@ export class ExcelExporter {
       {
         'Atribut': 'Lembaga Penerbit / Auditor Negara',
         'Keterangan': 'Kementerian Keuangan RI (Penyusun LKPP) • Badan Pemeriksa Keuangan RI (Auditor Eksternal)'
-      },
-      {
-        'Atribut': 'Penerapan Bagan Akun Standar (BAS)',
-        'Keterangan': 'PMK 214/PMK.05/2013 & PMK 102/PMK.05/2020 tentang Bagan Akun Standar'
       },
       {
         'Atribut': 'Waktu Pengambilan Data Sistem',
@@ -452,18 +551,29 @@ export class ExcelExporter {
 
     window.XLSX.writeFile(wb, fileName);
 
+    // 4. Record Download Audit Silently in Backend
+    ApiClient.recordDownloadLog({
+      email: userEmail,
+      download_type: 'LKPP_CROSSWALK_EXPORT',
+      variables_count: 4,
+      total_points: 71,
+      session_count: consumedQuota.sessionCount,
+      daily_count: consumedQuota.dailyCount,
+      file_name: fileName
+    });
+
     // Toast alert
     const toast = document.createElement('div');
-    toast.className = 'fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-2xl z-50 font-mono text-xs border border-emerald-500/50 flex items-center gap-3 animate-bounce';
+    toast.className = 'fixed bottom-5 right-5 bg-[#CDCDCD] text-slate-950 px-4 py-3 rounded-lg shadow-2xl z-50 font-mono text-xs border border-slate-400 flex items-center gap-3 animate-bounce';
     toast.innerHTML = `
       <span class="text-xl">📚</span>
       <div>
-        <div class="font-bold text-emerald-400">Buku LKPP & Crosswalk Berhasil Diunduh!</div>
-        <div class="text-[11px] text-slate-300">
+        <div class="font-bold text-emerald-900">Buku LKPP & Crosswalk Berhasil Diunduh!</div>
+        <div class="text-[11px] text-slate-800">
           5 Tab Lengkap: Crosswalk BAS • LRA Pendapatan • Neraca • Arus Kas • Legalitas
         </div>
       </div>
-      <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white font-bold text-sm ml-2">✕</button>
+      <button onclick="this.parentElement.remove()" class="text-slate-600 hover:text-slate-950 font-bold text-sm ml-2 cursor-pointer">✕</button>
     `;
     document.body.appendChild(toast);
     setTimeout(() => {

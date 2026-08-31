@@ -24,7 +24,7 @@
   <div id="app-header"></div>
 
   <!-- Main Application Container -->
-  <main id="app-main" class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-6 py-4 space-y-4">
+  <main id="app-main" class="flex-1 max-w-7xl w-full mx-auto px-3 lg:px-5 py-2.5 space-y-2.5">
 
     <!-- 2. FIX SEARCH BAR: Persistent Full-Width Search & Quick Filter Pills -->
     <div id="global-search-container" class="w-full"></div>
@@ -36,7 +36,7 @@
           id="tab-btn-analytics" 
           role="tab" 
           aria-selected="true"
-          class="px-4 py-1.5 text-xs font-mono font-bold rounded-t border-b-2 border-slate-900 bg-white text-slate-900 shadow-2xs flex items-center gap-2 transition-all cursor-pointer"
+          class="px-4 py-1 text-xs font-mono font-bold rounded-t border-b-2 border-slate-900 bg-white text-slate-900 shadow-2xs flex items-center gap-2 transition-all cursor-pointer"
         >
           <span>📊</span>
           <span>Dasbor Analitik & Tren</span>
@@ -46,7 +46,7 @@
           id="tab-btn-inventory" 
           role="tab" 
           aria-selected="false"
-          class="px-4 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 transition-all cursor-pointer"
+          class="px-4 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 transition-all cursor-pointer"
         >
           <span>📅</span>
           <span>Katalog Variabel & Jadwal Rilis Data</span>
@@ -57,22 +57,22 @@
       </div>
 
       <!-- Sync Status Pill -->
-      <div class="flex items-center gap-2 text-[11px] font-mono text-slate-600 bg-slate-100 px-2.5 py-1 rounded border border-slate-200">
+      <div class="flex items-center gap-2 text-[10.5px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         <span>Siklus Rilis Data: <strong>Tanggal 8, 17, dan 28 Setiap Bulan</strong></span>
       </div>
     </div>
 
     <!-- TAB 1: DASBOR ANALITIK & TREN (Frontpage 2-Column Wireframe Grid) -->
-    <div id="tab-content-analytics" class="space-y-6">
+    <div id="tab-content-analytics" class="space-y-4">
       
       <!-- 2-COLUMN MAIN LAYOUT (Left Sidebar vs Right Main Body) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-start">
         
         <!-- ============================================================== -->
         <!-- KOLOM KIRI (Sidebar): Filtering, Tab Sumber Data, Contact, Info Ownership -->
         <!-- ============================================================== -->
-        <aside class="lg:col-span-4 xl:col-span-3.5 space-y-4">
+        <aside class="lg:col-span-4 xl:col-span-3.5 space-y-3">
           <!-- 1. Filtering Section (4 Financial Hierarchy Levels, Sources, Period Range) -->
           <section id="filter-panel-container" aria-label="Filtering Section"></section>
 
@@ -83,7 +83,7 @@
         <!-- ============================================================== -->
         <!-- KOLOM KANAN (Main Body): Chart Area, Ringkasan Metrik, Geo Ekonomi Area -->
         <!-- ============================================================== -->
-        <div class="lg:col-span-8 xl:col-span-8.5 space-y-5">
+        <div class="lg:col-span-8 xl:col-span-8.5 space-y-4">
           <!-- 1. Chart Area (Multi-Variable Comparison, Transformations YOY/MOM/AVG, Dual Axis, Callouts, Single-Click Excel Download) -->
           <section id="chart-module-container" aria-label="Chart Area"></section>
 
@@ -104,36 +104,30 @@
         </div>
 
       </div>
-
-      <!-- Area Cadangan untuk Pengembangan Data Selanjutnya (Tabel Observasi Dialihkan ke Unduh Excel di Area Chart) -->
-      <div id="data-grid-container" class="hidden"></div>
-
     </div>
 
-    <!-- TAB 2: KATALOG DETAIL VARIABEL & JADWAL RILIS DATA (Hidden by Default) -->
-    <div id="tab-content-inventory" class="hidden space-y-6">
-      <section id="variables-inventory-container" aria-label="Katalog Variabel dan Jadwal Rilis Data"></section>
+    <!-- TAB 2: KATALOG INVENTORI VARIABEL & JADWAL RILIS -->
+    <div id="tab-content-inventory" class="hidden space-y-4">
+      <section id="variables-inventory-container" aria-label="Katalog Variabel & Jadwal Rilis Data"></section>
     </div>
 
   </main>
 
-  <!-- GovTech System Footer -->
-  <footer class="bg-white border-t border-slate-200 mt-12 py-6 px-4 lg:px-8 text-slate-500 font-mono text-xs">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <div class="font-bold text-slate-800">PUSAT BASIS DATA DATA SEKUNDER: PERGERAKAN EKONOMI INDONESIA</div>
-        <div class="text-[11px] text-slate-500 mt-0.5">
-          Tata Kelola Data Standar Nasional • Keterlacakan Penuh (Data Provenance) • Kepatuhan Audit Kemenkeu, BPS, dan Bank Indonesia
-        </div>
+  <!-- GovTech Minimalist Footer (Updated to #CDCDCD Gray) -->
+  <footer style="background-color: #CDCDCD;" class="text-slate-950 text-xs py-4 px-4 lg:px-8 border-t border-slate-400 font-mono mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div class="space-y-0.5">
+        <div class="font-bold text-slate-950">Pusat Basis Data Data Sekunder — Pergerakan Ekonomi Indonesia</div>
+        <div class="text-[11px] text-slate-800">Repositori Standar Statutori Nasional • Kementerian Keuangan RI • BPS • Bank Indonesia</div>
       </div>
       <div class="text-right text-[11px]">
         <div>Cakupan Geografis: <strong>Indonesia / National</strong></div>
-        <div class="text-amber-800 font-semibold mt-0.5">DEMO DATA — NOT OFFICIAL DATA (PROTOTYPE EVALUATION)</div>
+        <div class="text-rose-950 font-bold mt-0.5">DEMO DATA — NOT OFFICIAL DATA (PROTOTYPE EVALUATION)</div>
       </div>
     </div>
   </footer>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=6.2.0"></script>
+  <script type="module" src="/static/app.js?v=6.9.0"></script>
 </body>
 </html>

@@ -218,14 +218,16 @@ body {
 }
 
 .gov-btn-primary {
-  background-color: #0F172A;
-  color: #FFFFFF;
-  border-color: #0F172A;
+  background-color: #CDCDCD;
+  color: #0F172A;
+  border-color: #B0B0B0;
+  font-weight: 600;
 }
 
 .gov-btn-primary:hover {
-  background-color: #1E293B;
-  border-color: #1E293B;
+  background-color: #BEBEBE;
+  border-color: #9E9E9E;
+  color: #000000;
 }
 
 .gov-btn-sm {
@@ -233,7 +235,7 @@ body {
   font-size: 11px;
 }
 
-/* Modal Overlay */
+/* Modal Overlay & Pop-up Screens (Updated to #CDCDCD Gray) */
 .gov-modal-overlay {
   position: fixed;
   inset: 0;
@@ -247,15 +249,16 @@ body {
 }
 
 .gov-modal-content {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-strong);
+  background-color: #CDCDCD;
+  border: 1px solid #B0B0B0;
   border-radius: 6px;
   max-width: 900px;
   width: 100%;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  color: #0F172A;
 }
 
 /* Custom GovTech Leaflet GIS Marker & Map Styling */
@@ -278,11 +281,12 @@ body {
 }
 
 #gis-leaflet-container .leaflet-popup-content-wrapper {
-  background: #0f172a !important;
-  color: #ffffff !important;
+  background: #CDCDCD !important;
+  color: #0f172a !important;
+  border: 1px solid #B0B0B0 !important;
   border-radius: 6px !important;
   padding: 2px !important;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3) !important;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2) !important;
 }
 
 #gis-leaflet-container .leaflet-popup-content {

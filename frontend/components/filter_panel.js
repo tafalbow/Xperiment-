@@ -96,9 +96,9 @@ export class FilterPanel {
     );
 
     this.container.innerHTML = `
-      <div class="gov-card p-4 space-y-3.5 bg-white border border-slate-300 shadow-xs">
+      <div class="gov-card p-3 space-y-2 bg-white border border-slate-300 shadow-xs">
         <!-- Panel Header -->
-        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
           <div class="flex items-center gap-1.5">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1">
               <span>🎛️</span>
@@ -107,7 +107,7 @@ export class FilterPanel {
           </div>
           <button 
             id="btn-reset-filter" 
-            class="gov-btn gov-btn-sm text-[11px] text-slate-600 hover:text-slate-900 flex items-center gap-1 shadow-2xs" 
+            class="gov-btn gov-btn-sm text-[10.5px] py-0.5 px-2 text-slate-600 hover:text-slate-900 flex items-center gap-1 shadow-2xs" 
             title="Reset Semua Filter ke Pengaturan Awal"
           >
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -116,13 +116,13 @@ export class FilterPanel {
         </div>
 
         <!-- 4-Level Cascading Financial / Macro Hierarchy -->
-        <div class="space-y-2.5">
+        <div class="space-y-1.5">
           <!-- Level 1: Sektor Utama -->
           <div>
-            <label class="block text-[10.5px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-1">
+            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
               1. Sektor / Kegiatan Utama
             </label>
-            <select id="filter-sector" class="gov-select w-full text-xs font-mono py-1.5">
+            <select id="filter-sector" class="gov-select w-full text-xs font-mono py-1">
               <option value="">-- Semua Sektor / Kegiatan --</option>
               ${sectors.map(s => `<option value="${s}" ${this.state.sector === s ? 'selected' : ''}>${s}</option>`).join('')}
             </select>
@@ -130,10 +130,10 @@ export class FilterPanel {
 
           <!-- Level 2: Kategori Akun -->
           <div>
-            <label class="block text-[10.5px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-1">
+            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
               2. Kategori / Kelompok Akun
             </label>
-            <select id="filter-category" class="gov-select w-full text-xs font-mono py-1.5" ${categories.length === 0 ? 'disabled' : ''}>
+            <select id="filter-category" class="gov-select w-full text-xs font-mono py-1" ${categories.length === 0 ? 'disabled' : ''}>
               <option value="">-- Semua Kategori / Kelompok --</option>
               ${categories.map(c => `<option value="${c}" ${this.state.category === c ? 'selected' : ''}>${c}</option>`).join('')}
             </select>
@@ -141,10 +141,10 @@ export class FilterPanel {
 
           <!-- Level 3: Jenis Akun -->
           <div>
-            <label class="block text-[10.5px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-1">
+            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
               3. Sub-Kategori / Jenis Akun
             </label>
-            <select id="filter-subcategory" class="gov-select w-full text-xs font-mono py-1.5" ${subcategories.length === 0 ? 'disabled' : ''}>
+            <select id="filter-subcategory" class="gov-select w-full text-xs font-mono py-1" ${subcategories.length === 0 ? 'disabled' : ''}>
               <option value="">-- Semua Jenis Akun --</option>
               ${subcategories.map(sc => `<option value="${sc}" ${this.state.subcategory === sc ? 'selected' : ''}>${sc}</option>`).join('')}
             </select>
@@ -152,10 +152,10 @@ export class FilterPanel {
 
           <!-- Level 4: Rincian Indikator / Akun Spesifik -->
           <div>
-            <label class="block text-[10.5px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-1">
+            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
               4. Indikator Spesifik / Rincian Akun
             </label>
-            <select id="filter-indicator" class="gov-select w-full text-xs font-mono py-1.5 font-medium">
+            <select id="filter-indicator" class="gov-select w-full text-xs font-mono py-1 font-medium">
               <option value="">-- Pilih Rincian Indikator / Akun --</option>
               ${uniqueIndicators.map(ind => `<option value="${ind.id}" ${this.state.indicator_id === ind.id ? 'selected' : ''}>${ind.name} (${ind.unit})</option>`).join('')}
             </select>
@@ -163,44 +163,44 @@ export class FilterPanel {
         </div>
 
         <!-- Lembaga Sumber Resmi -->
-        <div class="pt-2 border-t border-slate-100">
-          <label class="block text-[10.5px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-1">
+        <div class="pt-1.5 border-t border-slate-100">
+          <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
             Lembaga Sumber Resmi
           </label>
-          <select id="filter-source" class="gov-select w-full text-xs font-mono py-1.5">
+          <select id="filter-source" class="gov-select w-full text-xs font-mono py-1">
             <option value="">-- Seluruh Lembaga Pemerintah --</option>
             ${this.sources.map(s => `<option value="${s.id}" ${this.state.source_id === s.id ? 'selected' : ''}>${s.institution_name}</option>`).join('')}
           </select>
         </div>
 
         <!-- Rentang Tahun & Quick Presets -->
-        <div class="pt-2 border-t border-slate-100 space-y-2">
+        <div class="pt-1.5 border-t border-slate-100 space-y-1.5">
           <div class="flex items-center justify-between">
-            <label class="text-[10.5px] font-mono font-bold uppercase tracking-wider text-slate-700">
+            <label class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700">
               Rentang Tahun:
             </label>
             <div class="flex items-center gap-1">
-              <button type="button" id="filter-preset-6y" class="px-1.5 py-0.5 rounded text-[10px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2019 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+              <button type="button" id="filter-preset-6y" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2019 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
                 6 Thn
               </button>
-              <button type="button" id="filter-preset-24y" class="px-1.5 py-0.5 rounded text-[10px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2001 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+              <button type="button" id="filter-preset-24y" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2001 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
                 24 Thn
               </button>
-              <button type="button" id="filter-preset-all" class="px-1.5 py-0.5 rounded text-[10px] font-mono border transition-all cursor-pointer ${this.state.start_year === 1993 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+              <button type="button" id="filter-preset-all" class="px-1.5 py-0.5 rounded text-[9.5px] font-mono border transition-all cursor-pointer ${this.state.start_year === 1993 && this.state.end_year === 2024 ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
                 Semua
               </button>
             </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <input type="number" id="filter-start-year" class="gov-input text-xs font-mono text-center w-full py-1" min="1993" max="2025" value="${this.state.start_year}">
+            <input type="number" id="filter-start-year" class="gov-input text-xs font-mono text-center w-full py-0.5" min="1993" max="2025" value="${this.state.start_year}">
             <span class="text-slate-400 text-xs font-mono">s/d</span>
-            <input type="number" id="filter-end-year" class="gov-input text-xs font-mono text-center w-full py-1" min="1993" max="2025" value="${this.state.end_year}">
+            <input type="number" id="filter-end-year" class="gov-input text-xs font-mono text-center w-full py-0.5" min="1993" max="2025" value="${this.state.end_year}">
           </div>
         </div>
 
         <!-- Metadata Footnote -->
-        <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-400">
+        <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[9.5px] font-mono text-slate-400">
           <span>Cakupan: <strong>1993 - 2024+</strong></span>
           <span>Granularitas: <strong>Nasional</strong></span>
         </div>

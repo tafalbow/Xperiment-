@@ -98,3 +98,42 @@ def test_sources_registry():
     assert "institution_name" in first_src
     assert "source_type" in first_src
     assert "update_method" in first_src
+
+def test_download_audit_logging():
+    # Test recording download for normal user
+    res1 = client.post("/api/audit/download-log", json={
+        "email": "researcher@univ.ac.id",
+        "download_type": "CHART_SERIES_EXPORT",
+        "variables_count": 2,
+        "total_points": 24,
+        "session_count": 1,
+        "daily_count": 1,
+        "file_name": "test_export.xlsx"
+    })
+    assert res1.status_code == 200
+    data1 = res1.json()
+    assert data1["status"] == "RECORDED"
+    assert data1["is_admin"] is False
+
+    # Test recording download for Sole Admin (lubis.tania@dewanekonomi.go.id)
+    res2 = client.post("/api/audit/download-log", json={
+        "email": "lubis.tania@dewanekonomi.go.id",
+        "download_type": "LKPP_CROSSWALK_EXPORT",
+        "variables_count": 4,
+        "total_points": 71,
+        "session_count": 1,
+        "daily_count": 1,
+        "file_name": "lkpp_export.xlsx"
+    })
+    assert res2.status_code == 200
+    data2 = res2.json()
+    assert data2["status"] == "RECORDED"
+    assert data2["is_admin"] is True
+
+    # Test retrieving download logs
+    res_logs = client.get("/api/audit/download-logs?limit=10")
+    assert res_logs.status_code == 200
+    logs = res_logs.json()
+    assert len(logs) >= 2
+    emails = [l["email"] for l in logs]
+    assert "lubis.tania@dewanekonomi.go.id" in emails

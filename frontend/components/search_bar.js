@@ -26,19 +26,19 @@ export class SearchBar {
     const filtered = this.getFilteredSuggestions();
 
     this.container.innerHTML = `
-      <div class="gov-card p-3 bg-white border border-slate-300 shadow-xs space-y-2">
-        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      <div class="gov-card p-2.5 bg-white border border-slate-300 shadow-xs space-y-1.5">
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
           <!-- Left: Main Search Input with Icon -->
           <div class="relative flex-1">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg class="h-4 w-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-3.5 w-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
             </div>
             <input 
               type="text" 
               id="global-search-input" 
-              class="gov-input pl-9 pr-8 py-2 w-full font-mono text-xs text-slate-900 placeholder-slate-400 bg-slate-50/70 focus:bg-white border-slate-300 focus:border-slate-800 transition-all rounded" 
+              class="gov-input pl-8 pr-8 py-1.5 w-full font-mono text-xs text-slate-900 placeholder-slate-400 bg-slate-50/70 focus:bg-white border-slate-300 focus:border-slate-800 transition-all rounded" 
               placeholder="Cari indikator ekonomi, kode VAR_..., sektor, dasar hukum UU, atau lembaga (Kemenkeu / BPS / BI)..."
               value="${this.searchQuery}"
               autocomplete="off"
@@ -103,7 +103,7 @@ export class SearchBar {
             <span class="text-[10.5px] font-mono text-slate-500 mr-1 hidden xl:inline">Kategori Cepat:</span>
             <button 
               type="button" 
-              class="btn-quick-cat px-2.5 py-1 text-[11px] font-mono rounded border transition-all cursor-pointer ${this.activeCategory === 'ALL' ? 'bg-slate-900 text-white font-bold border-slate-900 shadow-2xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'}"
+              class="btn-quick-cat px-2.5 py-1 text-[11px] font-mono rounded border transition-all cursor-pointer ${this.activeCategory === 'ALL' ? 'bg-[#CDCDCD] text-slate-950 font-bold border-slate-400 shadow-2xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'}"
               data-cat="ALL"
             >
               Semua (47)
