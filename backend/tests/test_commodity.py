@@ -63,6 +63,10 @@ def test_commodity_balance_beras():
     assert rec_2024["surplus_deficit"] == round(prod - cons, 2)
     assert rec_2024["net_trade_volume"] == round(exp - imp, 2)
     assert rec_2024["ssr_percent"] == round((prod / cons * 100), 2)
+    assert rec_2024["apbn_target_idr_billion"] > 0
+    assert rec_2024["apbn_realization_idr_billion"] > 0
+    assert "UU No. 19 Thn 2023" in rec_2024["apbn_statute_law"]
+    assert rec_2024["production_kg"] == prod * 1000000.0
 
 def test_commodity_balance_batubara():
     """Verify detailed time-series balance for Batubara (COM-MINE-001-BATUBARA) with APBN Royalti classification."""
@@ -80,6 +84,39 @@ def test_commodity_balance_batubara():
     rec_2024 = [r for r in data["records"] if r["period"] == "2024"][0]
     assert rec_2024["export_volume"] > rec_2024["import_volume"]
     assert rec_2024["surplus_deficit"] > 0
+
+def test_commodity_balance_all_hasil_bumi():
+    """Verify aggregated multi-commodity balance for ALL_HASIL_BUMI with breakdowns."""
+    response = client.get("/api/commodities/balance?commodity_id=ALL_HASIL_BUMI&start_year=2018&end_year=2024")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["commodity"]["id"] == "ALL_HASIL_BUMI"
+    assert len(data["records"]) == 7
+    rec_2024 = next(r for r in data["records"] if r["period"] == "2024")
+    assert "breakdown" in rec_2024
+    assert len(rec_2024["breakdown"]) == 8  # 8 commodities in Hasil Bumi
+    assert rec_2024["apbn_realization_idr_billion"] > 100000  # Total PNBP SDA in Rp Miliar
+
+def test_commodity_balance_2000_2025_full_range():
+    """Verify 26-year full time-series span from 2000 to 2025."""
+    response = client.get("/api/commodities/balance?commodity_id=ALL_HASIL_BUMI&start_year=2000&end_year=2025")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data["records"]) == 26
+    assert data["records"][0]["period"] == "2000"
+    assert data["records"][-1]["period"] == "2025"
+    assert "UU No. 62 Thn 2024" in data["records"][-1]["apbn_statute_law"]
+
+def test_commodity_balance_all_pertanian():
+    """Verify aggregated multi-commodity balance for ALL_PERTANIAN with breakdowns."""
+    response = client.get("/api/commodities/balance?commodity_id=ALL_PERTANIAN&start_year=2018&end_year=2024")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["commodity"]["id"] == "ALL_PERTANIAN"
+    assert len(data["records"]) == 7
+    rec_2024 = next(r for r in data["records"] if r["period"] == "2024")
+    assert "breakdown" in rec_2024
+    assert len(rec_2024["breakdown"]) == 10  # 10 commodities in Pertanian & Peternakan
 
 def test_commodity_matrix_filtering():
     """Verify multi-level filtering by division, group, HS chapter, and APBN classification."""

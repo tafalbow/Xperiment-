@@ -259,11 +259,11 @@ def get_commodity_categories():
 @app.get("/api/commodities/balance", tags=["Commodity Tracking"])
 def get_commodity_balance(
     commodity_id: str = Query("COM-AGRI-001-BERAS", description="Unique Commodity ID"),
-    start_year: int = Query(2018, ge=2010, le=2030),
-    end_year: int = Query(2024, ge=2010, le=2030)
+    start_year: int = Query(2000, ge=1990, le=2035),
+    end_year: int = Query(2025, ge=1990, le=2035)
 ):
     """
-    Returns detailed time-series balance (Production, Consumption, Import, Export, SSR, IDR), KPIs, and HS/APBN mapping.
+    Returns detailed time-series balance (Production, Consumption, Import, Export, SSR, IDR), KPIs, and HS/APBN mapping (2000-2025).
     """
     balance = CommodityService.get_commodity_balance(commodity_id, start_year, end_year)
     if not balance:
@@ -276,7 +276,7 @@ def get_commodity_matrix(
     group: Optional[str] = Query(None, description="Group ID filter"),
     hs_chapter: Optional[str] = Query(None, description="HS Chapter filter e.g. 'HS 10'"),
     apbn_category: Optional[str] = Query(None, description="LKPP/APBN classification category"),
-    year: str = Query("2024", description="Reference year (2018-2024)")
+    year: str = Query("2024", description="Reference year (2000-2025)")
 ):
     """
     Returns comparative matrix of all commodities for benchmarking with HS codes and APBN classifications.
