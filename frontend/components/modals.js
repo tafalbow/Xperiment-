@@ -18,9 +18,9 @@ export class ModalManager {
         <!-- Modal Header (Themed with #BEBEBE / #CDCDCD) -->
         <div style="background-color: #BEBEBE;" class="flex items-center justify-between px-6 py-3.5 border-b border-[#B0B0B0] rounded-t-[5px]">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-950">${title}</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#1A73E8]">${title}</span>
           </div>
-          <button id="btn-modal-close" class="text-slate-700 hover:text-slate-950 font-mono text-base font-bold cursor-pointer">
+          <button id="btn-modal-close" class="text-slate-700 hover:text-[#1A73E8] font-mono text-base font-bold cursor-pointer">
             ✕
           </button>
         </div>
@@ -32,7 +32,7 @@ export class ModalManager {
 
         <!-- Modal Footer -->
         <div style="background-color: #BEBEBE;" class="px-6 py-3 border-t border-[#B0B0B0] flex items-center justify-end rounded-b-[5px]">
-          <button id="btn-modal-dismiss" class="gov-btn text-xs font-semibold bg-white hover:bg-slate-100 text-slate-900 border border-slate-400 shadow-2xs">Tutup</button>
+          <button id="btn-modal-dismiss" class="gov-btn text-xs font-semibold bg-white hover:bg-slate-100 text-slate-900 border border-[#DADCE0] shadow-2xs">Tutup</button>
         </div>
       </div>
     `;
@@ -383,11 +383,11 @@ export class ModalManager {
       const content = `
         <div class="space-y-4 font-sans text-xs">
           <!-- Banner & Action Controls (Updated to #CDCDCD Gray) -->
-          <div style="background-color: #CDCDCD;" class="text-slate-950 rounded-lg p-4 flex items-center justify-between flex-wrap gap-3 border border-slate-400 shadow-sm">
+          <div class="bg-white text-[#202124] rounded-lg p-4 flex items-center justify-between flex-wrap gap-3 border border-[#DADCE0] shadow-sm">
             <div>
               <div class="flex items-center gap-2">
-                <span class="text-slate-950 font-mono font-bold text-xs uppercase tracking-wider">HARMONISASI BAGAN AKUN STANDAR (BAS) & LAPORAN KEUANGAN LKPP AUDITED</span>
-                <span class="bg-emerald-900 text-emerald-100 border border-emerald-950 text-[10px] font-mono px-2 py-0.5 rounded font-bold">BPK RI AUDITED</span>
+                <span class="text-[#1A73E8] font-mono font-bold text-xs uppercase tracking-wider">HARMONISASI BAGAN AKUN STANDAR (BAS) & LAPORAN KEUANGAN LKPP AUDITED</span>
+                <span class="bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6] text-[10px] font-mono px-2 py-0.5 rounded font-bold">BPK RI AUDITED</span>
               </div>
               <p class="text-[11px] text-slate-900 font-mono mt-1">
                 Penyesuaian nomor biaya & pos historis ke nomor akun LKPP terbaru (PMK 214/2013 & PMK 102/2020) terintegrasi 1 file buku kerja.
@@ -401,7 +401,7 @@ export class ModalManager {
 
           <!-- Sub-Tab Navigation -->
           <div class="flex items-center gap-2 border-b border-slate-200 pb-2 flex-wrap font-mono text-xs">
-            <button class="cw-tab-btn px-3 py-1.5 rounded font-bold bg-[#CDCDCD] text-slate-950 shadow-xs border border-slate-400" data-target="cw-tab-rules">
+            <button class="cw-tab-btn px-3 py-1.5 rounded font-bold bg-[#E8F0FE] text-[#1A73E8] shadow-xs border border-[#DADCE0]" data-target="cw-tab-rules">
               🔀 1. Harmonisasi Crosswalk BAS
             </button>
             <button class="cw-tab-btn px-3 py-1.5 rounded font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors" data-target="cw-tab-lra">
@@ -469,10 +469,10 @@ export class ModalManager {
                 </thead>
                 <tbody>
                   ${lra.map(r => {
-                    const indentClass = r.level === 1 ? 'font-bold text-slate-950 bg-slate-100' : (r.level === 2 ? 'font-bold text-slate-900 pl-3 bg-slate-50' : (r.level === 3 ? 'font-semibold text-slate-800 pl-6' : (r.level === 4 ? 'pl-8' : 'pl-10 text-slate-600')));
+                    const indentClass = r.level === 1 ? 'font-bold text-[#1A73E8] bg-slate-100' : (r.level === 2 ? 'font-bold text-slate-900 pl-3 bg-slate-50' : (r.level === 3 ? 'font-semibold text-slate-800 pl-6' : (r.level === 4 ? 'pl-8' : 'pl-10 text-slate-600')));
                     return `
                       <tr class="${r.level === 1 ? 'border-t-2 border-slate-300' : ''}">
-                        <td class="font-bold ${r.level === 1 ? 'text-slate-950' : 'text-slate-700'}">${r.kode_akun}</td>
+                        <td class="font-bold ${r.level === 1 ? 'text-[#1A73E8]' : 'text-slate-700'}">${r.kode_akun}</td>
                         <td class="${indentClass} font-sans">${r.uraian_akun}</td>
                         <td class="text-right tabular-nums ${r.level <= 2 ? 'font-bold' : ''}">${r.anggaran ? formatRp(r.anggaran) : '—'}</td>
                         <td class="text-right tabular-nums font-bold text-slate-900">${formatRp(r.realisasi_current)}</td>
@@ -509,9 +509,9 @@ export class ModalManager {
                 </thead>
                 <tbody>
                   ${neraca.map(r => {
-                    const indentClass = r.level === 1 ? 'font-bold text-slate-950 bg-slate-100 text-xs' : (r.level === 2 ? 'font-bold text-slate-900 pl-3 bg-slate-50' : (r.level === 3 ? 'font-semibold text-slate-800 pl-6' : 'pl-9 text-slate-600'));
+                    const indentClass = r.level === 1 ? 'font-bold text-[#1A73E8] bg-slate-100 text-xs' : (r.level === 2 ? 'font-bold text-slate-900 pl-3 bg-slate-50' : (r.level === 3 ? 'font-semibold text-slate-800 pl-6' : 'pl-9 text-slate-600'));
                     return `
-                      <tr class="${r.level === 1 ? 'border-t-2 border-slate-400 font-bold' : ''}">
+                      <tr class="${r.level === 1 ? 'border-t-2 border-[#DADCE0] font-bold' : ''}">
                         <td class="font-bold">${r.kode_akun}</td>
                         <td class="${indentClass} font-sans">${r.uraian}</td>
                         <td class="text-center text-slate-500">${r.catatan}</td>
@@ -548,7 +548,7 @@ export class ModalManager {
                 </thead>
                 <tbody>
                   ${arusKas.map(r => {
-                    const indentClass = r.level === 1 ? 'font-bold text-slate-950 bg-slate-100' : (r.level === 2 ? 'font-bold text-slate-900 pl-3 bg-slate-50' : (r.level === 3 ? 'font-semibold text-slate-800 pl-6' : 'pl-9 text-slate-600'));
+                    const indentClass = r.level === 1 ? 'font-bold text-[#1A73E8] bg-slate-100' : (r.level === 2 ? 'font-bold text-slate-900 pl-3 bg-slate-50' : (r.level === 3 ? 'font-semibold text-slate-800 pl-6' : 'pl-9 text-slate-600'));
                     return `
                       <tr class="${r.level === 1 ? 'border-t-2 border-slate-300' : ''}">
                         <td class="font-bold">${r.kode_aktivitas}</td>
@@ -577,13 +577,13 @@ export class ModalManager {
           const targetId = btn.getAttribute('data-target');
           document.querySelectorAll('.cw-tab-panel').forEach(p => p.classList.add('hidden'));
           document.querySelectorAll('.cw-tab-btn').forEach(b => {
-            b.classList.remove('bg-[#CDCDCD]', 'text-slate-950', 'bg-slate-900', 'text-white');
+            b.classList.remove('bg-[#E8F0FE]', 'text-[#1A73E8]', 'bg-slate-900', 'text-white');
             b.classList.add('bg-slate-100', 'text-slate-700');
           });
 
           document.getElementById(targetId)?.classList.remove('hidden');
           btn.classList.remove('bg-slate-100', 'text-slate-700');
-          btn.classList.add('bg-[#CDCDCD]', 'text-slate-950', 'font-bold');
+          btn.classList.add('bg-[#E8F0FE]', 'text-[#1A73E8]', 'font-bold');
         });
       });
 

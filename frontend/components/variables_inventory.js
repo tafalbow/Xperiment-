@@ -85,153 +85,153 @@ export class VariablesInventory {
 
     this.container.innerHTML = `
       <div class="space-y-6">
-        <!-- 1. OFFICIAL RELEASE SCHEDULE POLICY BANNER (Updated to #CDCDCD Gray) -->
-        <div style="background-color: #CDCDCD; color: #0F172A;" class="rounded-lg p-5 border border-slate-400 shadow-sm">
+        <!-- 1. OFFICIAL RELEASE SCHEDULE POLICY BANNER (Google Analytics Clean Style) -->
+        <div class="gov-card p-5 bg-white border border-[#DADCE0] rounded-lg shadow-sm text-[#202124]">
           <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
             <div class="space-y-2.5 max-w-3xl">
-              <!-- Highlight Badges -->
+              <!-- Highlight Badges (Google Clean Tints) -->
               <div class="flex items-center gap-2 flex-wrap">
-                <span class="px-2.5 py-1 rounded text-[11px] font-mono font-bold uppercase tracking-wide flex items-center gap-1.5 shadow-xs bg-emerald-900 text-emerald-100 border border-emerald-950">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide flex items-center gap-1.5 bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+                  <span class="w-2 h-2 rounded-full bg-[#1E8E3E] animate-pulse"></span>
                   Siklus Pembaruan: Tanggal 8, 17, dan 28 Setiap Bulan
                 </span>
-                <span class="px-2.5 py-1 rounded text-[10.5px] font-mono font-bold bg-rose-900 text-rose-100 border border-rose-950">
-                  🛑 Auto-Update Real-Time Dinonaktifkan (Kepatuhan Audit Dokumen Resmi)
+                <span class="px-2.5 py-1 rounded-md text-[10.5px] font-mono font-medium bg-[#FCE8E6] text-[#C5221F] border border-[#FAD2CF]">
+                  🛑 Auto-Update Real-Time Dinonaktifkan (Kepatuhan Dokumen Audit Resmi)
                 </span>
               </div>
 
               <!-- Main Title -->
-              <h2 class="text-base font-bold tracking-tight text-slate-950 flex items-center gap-2">
-                <span>🏛️</span>
+              <h2 class="text-base font-bold tracking-tight text-[#202124] flex items-center gap-2">
+                <span class="w-6 h-6 rounded bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center text-xs">🏛️</span>
                 <span>Kebijakan Pembaruan & Kalender Rilis Data Berkala Nasional</span>
               </h2>
 
               <!-- High Contrast Description with Highlights -->
-              <p class="text-xs leading-relaxed font-sans text-slate-900">
-                Pusat Basis Data menerapkan kebijakan rilis berkala pada <strong class="text-amber-950 font-bold underline">Tanggal 8, 17, dan 28 setiap bulannya</strong> sesuai kalender resmi <strong class="text-slate-950 font-bold">Kementerian Keuangan RI</strong> (APBN KiTa & LKPP Audited BPK), <strong class="text-slate-950 font-bold">Bank Indonesia</strong> (SEKI), dan <strong class="text-slate-950 font-bold">Badan Pusat Statistik</strong> (BRS PDB/Inflasi). Pembaruan otomatis real-time dinonaktifkan agar seluruh data terjamin memiliki <strong class="text-emerald-950 font-bold">dasar hukum dan dokumen sumber resmi yang sah</strong>.
+              <p class="text-xs leading-relaxed font-sans text-[#3C4043]">
+                Pusat Basis Data menerapkan kebijakan rilis berkala pada <strong class="text-[#202124] font-bold underline decoration-[#1A73E8]">Tanggal 8, 17, dan 28 setiap bulannya</strong> sesuai kalender resmi <strong class="text-[#1A73E8] font-bold">Kementerian Keuangan RI</strong> (APBN KiTa & LKPP Audited BPK), <strong class="text-[#1A73E8] font-bold">Bank Indonesia</strong> (SEKI), dan <strong class="text-[#1A73E8] font-bold">Badan Pusat Statistik</strong> (BRS PDB/Inflasi). Pembaruan otomatis real-time dinonaktifkan agar seluruh data terjamin memiliki <strong class="text-[#137333] font-bold">dasar hukum dan dokumen sumber resmi yang sah</strong>.
               </p>
             </div>
 
-            <!-- Next Scheduled Release Box -->
-            <div style="background-color: #BDBDBD; border: 1px solid #9E9E9E;" class="p-4 rounded-lg text-right shrink-0 w-full lg:w-72 shadow-xs">
-              <div class="text-[10px] font-mono uppercase font-bold text-slate-950 tracking-wider">
+            <!-- Next Scheduled Release Box (Clean Google Surface) -->
+            <div class="p-4 rounded-lg text-right shrink-0 w-full lg:w-72 shadow-sm bg-[#F8F9FA] border border-[#DADCE0]">
+              <div class="text-[10px] font-mono uppercase font-bold text-[#5F6368] tracking-wider">
                 JADWAL RILIS TERDEKAT:
               </div>
-              <div class="text-xl font-bold font-mono mt-1 tracking-tight text-amber-950">
+              <div class="text-xl font-bold font-mono mt-1 tracking-tight text-[#202124]">
                 ${policy.next_release_date || '28 Agustus 2026'}
               </div>
-              <div class="text-xs font-mono font-bold mt-1 text-slate-950">
+              <div class="text-xs font-mono font-medium mt-1 text-[#1A73E8]">
                 ${policy.next_focus_sector || 'Sektor Makroekonomi & PDB'}
               </div>
-              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded mt-2.5 font-mono text-[11px] font-bold bg-emerald-900 text-emerald-100 border border-emerald-950">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md mt-2.5 font-mono text-[11px] font-medium bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
                 <span>⏳</span>
-                <span>Hitung Mundur: <strong>${policy.days_until_next_release || 1} Hari Lagi</strong></span>
+                <span>Hitung Mundur: <strong class="font-bold">${policy.days_until_next_release || 1} Hari Lagi</strong></span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 2. SUMMARY METRIC CARDS GRID -->
+        <!-- 2. SUMMARY METRIC CARDS GRID (Google Analytics Color Tone) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Total Variables Card -->
-          <div class="gov-card p-4 flex flex-col justify-between border-l-4 border-l-sky-600 bg-white">
-            <div class="flex items-center justify-between text-slate-500 text-xs font-mono">
-              <span class="font-semibold">TOTAL VARIABEL RESMI</span>
+          <div class="gov-card p-4 flex flex-col justify-between border border-[#DADCE0] border-l-4 border-l-[#1A73E8] bg-white rounded-lg shadow-sm">
+            <div class="flex items-center justify-between text-[#5F6368] text-xs font-mono">
+              <span class="font-bold">TOTAL VARIABEL RESMI</span>
               <span class="text-base">📊</span>
             </div>
             <div class="mt-2">
-              <div class="text-2xl font-bold font-mono text-slate-900">${stats.total_variables || 47}</div>
-              <p class="text-[11px] text-slate-500 mt-0.5">4 Level Klasifikasi Keuangan & Statistik</p>
+              <div class="text-2xl font-bold font-mono text-[#202124]">${stats.total_variables || 47}</div>
+              <p class="text-[11px] text-[#5F6368] mt-0.5">4 Level Klasifikasi Keuangan & Statistik</p>
             </div>
           </div>
 
           <!-- Batch Tgl 8 Card -->
-          <div class="gov-card p-4 flex flex-col justify-between border-l-4 border-l-emerald-600 bg-white">
-            <div class="flex items-center justify-between text-slate-500 text-xs font-mono">
-              <span class="font-semibold">RILIS TANGGAL 8</span>
+          <div class="gov-card p-4 flex flex-col justify-between border border-[#DADCE0] border-l-4 border-l-[#1E8E3E] bg-white rounded-lg shadow-sm">
+            <div class="flex items-center justify-between text-[#5F6368] text-xs font-mono">
+              <span class="font-bold">RILIS TANGGAL 8</span>
               <span class="text-base">🏦</span>
             </div>
             <div class="mt-2">
-              <div class="text-2xl font-bold font-mono text-emerald-700">${stats.total_batch_tgl_8 || 12} Variabel</div>
-              <p class="text-[11px] text-slate-500 mt-0.5">Moneter, Cadangan Devisa, Suku Bunga (Bank Indonesia)</p>
+              <div class="text-2xl font-bold font-mono text-[#1E8E3E]">${stats.total_batch_tgl_8 || 12} Variabel</div>
+              <p class="text-[11px] text-[#5F6368] mt-0.5">Moneter, Cadangan Devisa, Suku Bunga (Bank Indonesia)</p>
             </div>
           </div>
 
           <!-- Batch Tgl 17 Card -->
-          <div class="gov-card p-4 flex flex-col justify-between border-l-4 border-l-blue-600 bg-white">
-            <div class="flex items-center justify-between text-slate-500 text-xs font-mono">
-              <span class="font-semibold">RILIS TANGGAL 17</span>
+          <div class="gov-card p-4 flex flex-col justify-between border border-[#DADCE0] border-l-4 border-l-[#1A73E8] bg-white rounded-lg shadow-sm">
+            <div class="flex items-center justify-between text-[#5F6368] text-xs font-mono">
+              <span class="font-bold">RILIS TANGGAL 17</span>
               <span class="text-base">🏛️</span>
             </div>
             <div class="mt-2">
-              <div class="text-2xl font-bold font-mono text-blue-700">${stats.total_batch_tgl_17 || 23} Variabel</div>
-              <p class="text-[11px] text-slate-500 mt-0.5">LKPP LO Audited, Pajak PPh/PPN/Cukai (Kemenkeu RI)</p>
+              <div class="text-2xl font-bold font-mono text-[#1A73E8]">${stats.total_batch_tgl_17 || 23} Variabel</div>
+              <p class="text-[11px] text-[#5F6368] mt-0.5">LKPP LO Audited, Pajak PPh/PPN/Cukai (Kemenkeu RI)</p>
             </div>
           </div>
 
           <!-- Batch Tgl 28 Card -->
-          <div class="gov-card p-4 flex flex-col justify-between border-l-4 border-l-amber-600 bg-white">
-            <div class="flex items-center justify-between text-slate-500 text-xs font-mono">
-              <span class="font-semibold">RILIS TANGGAL 28</span>
+          <div class="gov-card p-4 flex flex-col justify-between border border-[#DADCE0] border-l-4 border-l-[#E37400] bg-white rounded-lg shadow-sm">
+            <div class="flex items-center justify-between text-[#5F6368] text-xs font-mono">
+              <span class="font-bold">RILIS TANGGAL 28</span>
               <span class="text-base">📈</span>
             </div>
             <div class="mt-2">
-              <div class="text-2xl font-bold font-mono text-amber-700">${stats.total_batch_tgl_28 || 12} Variabel</div>
-              <p class="text-[11px] text-slate-500 mt-0.5">PDB Riil, Inflasi IHK, Komoditas Strategis (BPS)</p>
+              <div class="text-2xl font-bold font-mono text-[#E37400]">${stats.total_batch_tgl_28 || 12} Variabel</div>
+              <p class="text-[11px] text-[#5F6368] mt-0.5">PDB Riil, Inflasi IHK, Komoditas Strategis (BPS)</p>
             </div>
           </div>
         </div>
 
-        <!-- 3. SEARCH & FILTER TOOLBAR -->
-        <div class="gov-card p-4 space-y-3 bg-white">
+        <!-- 3. SEARCH & FILTER TOOLBAR (Google Analytics Design System) -->
+        <div class="gov-card p-4 space-y-3 bg-white border border-[#DADCE0] rounded-lg shadow-sm">
           <div class="flex flex-col md:flex-row items-center justify-between gap-3">
             <!-- Search Box -->
             <div class="relative w-full md:w-96">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-[#5F6368]">
                 🔍
               </span>
               <input 
                 type="text" 
                 id="inventory-search-input" 
-                class="gov-input pl-8 w-full text-xs font-mono" 
+                class="gov-input pl-8 w-full text-xs font-mono border-[#DADCE0] focus:border-[#1A73E8]" 
                 placeholder="Cari nama variabel, kode VAR_..., sektor, atau dokumen..."
                 value="${this.currentSearchKeyword}"
               />
             </div>
 
             <!-- Total Result Badge -->
-            <div class="text-xs font-mono text-slate-500 shrink-0">
-              Menampilkan: <strong id="inventory-count" class="text-slate-900">${this.filteredVariables.length}</strong> dari <strong>${stats.total_variables || 47}</strong> variabel
+            <div class="text-xs font-mono text-[#5F6368] shrink-0">
+              Menampilkan: <strong id="inventory-count" class="text-[#202124]">${this.filteredVariables.length}</strong> dari <strong class="text-[#202124]">${stats.total_variables || 47}</strong> variabel
             </div>
           </div>
 
-          <!-- Quick Filter Buttons -->
+          <!-- Quick Filter Buttons (Google Chips) -->
           <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-mono scrollbar-thin">
-            <span class="text-slate-400 uppercase text-[10px] font-bold shrink-0">Filter Rilis:</span>
-            <button class="btn-inv-filter px-2.5 py-1 rounded text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'ALL' ? 'bg-[#CDCDCD] text-slate-950 font-bold border-slate-500 shadow-2xs' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}" data-cat="ALL">
+            <span class="text-[#5F6368] uppercase text-[10px] font-bold shrink-0">Filter Rilis:</span>
+            <button class="btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'ALL' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="ALL">
               Semua (${stats.total_variables || 47})
             </button>
-            <button class="btn-inv-filter px-2.5 py-1 rounded text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'TGL_8' ? 'bg-emerald-700 text-white font-bold border-emerald-700' : 'bg-white text-emerald-800 border-emerald-300 hover:bg-emerald-50'}" data-cat="TGL_8">
+            <button class="btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'TGL_8' ? 'bg-[#E6F4EA] text-[#137333] font-bold border-[#1E8E3E]' : 'bg-white text-[#137333] border-[#CEEAD6] hover:bg-[#E6F4EA]'}" data-cat="TGL_8">
               📅 Tgl 8 (Bank Indonesia)
             </button>
-            <button class="btn-inv-filter px-2.5 py-1 rounded text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'TGL_17' ? 'bg-blue-700 text-white font-bold border-blue-700' : 'bg-white text-blue-800 border-blue-300 hover:bg-blue-50'}" data-cat="TGL_17">
+            <button class="btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'TGL_17' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-white text-[#1A73E8] border-[#D2E3FC] hover:bg-[#E8F0FE]'}" data-cat="TGL_17">
               📅 Tgl 17 (Kemenkeu RI)
             </button>
-            <button class="btn-inv-filter px-2.5 py-1 rounded text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'TGL_28' ? 'bg-amber-700 text-white font-bold border-amber-700' : 'bg-white text-amber-800 border-amber-300 hover:bg-amber-50'}" data-cat="TGL_28">
+            <button class="btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'TGL_28' ? 'bg-[#FEF7E0] text-[#B06000] font-bold border-[#E37400]' : 'bg-white text-[#B06000] border-[#FEEFC3] hover:bg-[#FEF7E0]'}" data-cat="TGL_28">
               📅 Tgl 28 (BPS RI)
             </button>
             
-            <span class="text-slate-300 shrink-0">|</span>
-            <span class="text-slate-400 uppercase text-[10px] font-bold shrink-0">Level:</span>
-            <button class="btn-inv-filter px-2 py-0.5 rounded text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_1' ? 'bg-purple-700 text-white font-bold' : 'bg-slate-50 text-slate-600 border-slate-200'}" data-cat="LVL_1">Lvl 1 (Sektor)</button>
-            <button class="btn-inv-filter px-2 py-0.5 rounded text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_2' ? 'bg-purple-700 text-white font-bold' : 'bg-slate-50 text-slate-600 border-slate-200'}" data-cat="LVL_2">Lvl 2 (Kategori)</button>
-            <button class="btn-inv-filter px-2 py-0.5 rounded text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_3' ? 'bg-purple-700 text-white font-bold' : 'bg-slate-50 text-slate-600 border-slate-200'}" data-cat="LVL_3">Lvl 3 (Jenis)</button>
-            <button class="btn-inv-filter px-2 py-0.5 rounded text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_4' ? 'bg-purple-700 text-white font-bold' : 'bg-slate-50 text-slate-600 border-slate-200'}" data-cat="LVL_4">Lvl 4 (Rincian)</button>
+            <span class="text-[#DADCE0] shrink-0">|</span>
+            <span class="text-[#5F6368] uppercase text-[10px] font-bold shrink-0">Level:</span>
+            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_1' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="LVL_1">Lvl 1 (Sektor)</button>
+            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_2' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="LVL_2">Lvl 2 (Kategori)</button>
+            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_3' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="LVL_3">Lvl 3 (Jenis)</button>
+            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_4' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="LVL_4">Lvl 4 (Rincian)</button>
           </div>
         </div>
 
         <!-- 4. DETAILED VARIABLES INVENTORY DATA TABLE CONTAINER -->
-        <div class="gov-card overflow-hidden bg-white shadow-sm border border-slate-200" id="inventory-table-container">
+        <div class="gov-card overflow-hidden bg-white shadow-sm border border-[#DADCE0] rounded-lg" id="inventory-table-container">
           ${this.getTableHtml()}
         </div>
       </div>
@@ -254,17 +254,17 @@ export class VariablesInventory {
       <div class="overflow-x-auto">
         <table class="gov-table w-full text-left text-xs font-mono">
           <thead>
-            <tr class="bg-slate-100 border-b border-slate-200 text-slate-700 uppercase tracking-wider text-[10px]">
-              <th class="py-3 px-3 w-12 text-center">No</th>
-              <th class="py-3 px-3">Kode & Nama Variabel</th>
-              <th class="py-3 px-3">Klasifikasi & Level</th>
-              <th class="py-3 px-3">Lembaga & Dokumen Resmi</th>
-              <th class="py-3 px-3 bg-sky-50/70 border-x border-sky-100 text-sky-950 font-bold">
+            <tr class="bg-[#F8F9FA] border-b border-[#DADCE0] text-[#5F6368] uppercase tracking-wider text-[10px]">
+              <th class="py-3 px-3 w-12 text-center font-bold">No</th>
+              <th class="py-3 px-3 font-bold">Kode & Nama Variabel</th>
+              <th class="py-3 px-3 font-bold">Klasifikasi & Level</th>
+              <th class="py-3 px-3 font-bold">Lembaga & Dokumen Resmi</th>
+              <th class="py-3 px-3 bg-[#E8F0FE]/70 border-x border-[#D2E3FC] text-[#1A73E8] font-bold">
                 🗓️ Terakhir Terupdate
               </th>
-              <th class="py-3 px-3">Siklus Rilis Rutin</th>
-              <th class="py-3 px-3">Update Berikutnya</th>
-              <th class="py-3 px-3 text-center w-36">Aksi</th>
+              <th class="py-3 px-3 font-bold">Siklus Rilis Rutin</th>
+              <th class="py-3 px-3 font-bold">Update Berikutnya</th>
+              <th class="py-3 px-3 text-center w-36 font-bold">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
@@ -287,7 +287,7 @@ export class VariablesInventory {
               else if (v.level_num === 3) levelBadge = 'bg-sky-50 text-sky-800 border-sky-200';
 
               return `
-                <tr class="hover:bg-slate-50/80 transition-colors">
+                <tr class="hover:bg-[#F8F9FA] transition-colors">
                   <!-- 1. Number -->
                   <td class="py-2.5 px-3 text-center text-slate-400 text-[11px] font-bold">
                     ${idx + 1}
@@ -359,7 +359,7 @@ export class VariablesInventory {
                     <div class="flex items-center justify-center gap-1.5">
                       <button 
                         type="button" 
-                        class="btn-open-in-dash px-2 py-1 bg-sky-700 hover:bg-sky-800 text-white rounded text-[10px] font-semibold flex items-center gap-1 shadow-2xs transition-all"
+                        class="btn-open-in-dash px-2 py-1 bg-[#1A73E8] hover:bg-[#174EA6] text-white rounded-md text-[10.5px] font-medium flex items-center gap-1 shadow-2xs transition-all"
                         data-ind-id="${v.indicator_id}"
                         title="Buka variabel ini di Dasbor Analitik & Grafik"
                       >
@@ -367,7 +367,7 @@ export class VariablesInventory {
                       </button>
                       <button 
                         type="button" 
-                        class="btn-view-inv-meta px-2 py-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded text-[10px] font-semibold shadow-2xs transition-all"
+                        class="btn-view-inv-meta px-2 py-1 bg-white hover:bg-[#F1F3F4] text-[#5F6368] border border-[#DADCE0] rounded-md text-[10.5px] font-medium shadow-2xs transition-all"
                         data-ind-id="${v.indicator_id}"
                         title="Lihat 24 Atribut Kamus Metadata Resmi"
                       >
@@ -410,22 +410,21 @@ export class VariablesInventory {
         const cat = btn.getAttribute('data-cat');
         this.activeFilterCategory = cat;
 
-        // Update active style
+        // Update active style to Google Analytics palette
         filterBtns.forEach(b => {
-          b.classList.remove('bg-slate-900', 'text-white', 'font-bold', 'bg-emerald-700', 'bg-blue-700', 'bg-amber-700', 'bg-purple-700');
-          b.classList.add('bg-white', 'text-slate-700');
+          b.className = 'btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]';
         });
 
         if (cat === 'ALL') {
-          btn.classList.add('bg-[#CDCDCD]', 'text-slate-950', 'font-bold');
+          btn.className = 'btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs';
         } else if (cat === 'TGL_8') {
-          btn.classList.add('bg-emerald-700', 'text-white', 'font-bold');
+          btn.className = 'btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border bg-[#E6F4EA] text-[#137333] font-bold border-[#1E8E3E] shadow-2xs';
         } else if (cat === 'TGL_17') {
-          btn.classList.add('bg-blue-700', 'text-white', 'font-bold');
+          btn.className = 'btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs';
         } else if (cat === 'TGL_28') {
-          btn.classList.add('bg-amber-700', 'text-white', 'font-bold');
+          btn.className = 'btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border bg-[#FEF7E0] text-[#B06000] font-bold border-[#E37400] shadow-2xs';
         } else {
-          btn.classList.add('bg-purple-700', 'text-white', 'font-bold');
+          btn.className = 'btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs';
         }
 
         this.filterData();

@@ -401,7 +401,7 @@ export class ExcelExporter {
 
     const toast = document.createElement('div');
     toast.id = 'excel-export-toast';
-    toast.className = 'fixed bottom-5 right-5 bg-[#CDCDCD] text-slate-950 px-4 py-3 rounded-lg shadow-2xl z-50 font-mono text-xs border border-slate-400 flex items-center gap-3 animate-bounce';
+    toast.className = 'fixed bottom-5 right-5 bg-[#1A73E8] text-white px-4 py-3 rounded-lg shadow-xl z-50 font-mono text-xs border border-[#174EA6] flex items-center gap-3 animate-bounce';
     toast.innerHTML = `
       <span class="text-xl">📊</span>
       <div>
@@ -577,7 +577,7 @@ export class ExcelExporter {
 
     // Toast alert
     const toast = document.createElement('div');
-    toast.className = 'fixed bottom-5 right-5 bg-[#CDCDCD] text-slate-950 px-4 py-3 rounded-lg shadow-2xl z-50 font-mono text-xs border border-slate-400 flex items-center gap-3 animate-bounce';
+    toast.className = 'fixed bottom-5 right-5 bg-[#1A73E8] text-white px-4 py-3 rounded-lg shadow-xl z-50 font-mono text-xs border border-[#174EA6] flex items-center gap-3 animate-bounce';
     toast.innerHTML = `
       <span class="text-xl">📚</span>
       <div>

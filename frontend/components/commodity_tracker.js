@@ -35,6 +35,16 @@ export class CommodityTrackerComponent {
     this.hoveredYear = null;
     this.timeSlots = [];
     this.commodityBalancesCache = {}; // Cache commodityId -> balance data
+
+    // Geodata / Spatial Mining Distribution Map State
+    this.spatialData = null;
+    this.activeSpatialVariable = 'PRODUKSI_TERBANYAK'; // 'PRODUKSI_TERBANYAK' | 'PNBP_APBN' | 'TITIK_EKSPOR' | 'SMELTER_HILIR'
+    this.selectedSpatialPoint = null;
+    this.commodityMapInstance = null;
+    this.commodityMarkersLayer = null;
+    this.commodityActiveCircle = null;
+    this.commodityMarkersMap = new Map();
+    this.isTableExpanded = false;
   }
 
   async init() {
@@ -52,7 +62,9 @@ export class CommodityTrackerComponent {
       }
 
       await this.loadBalanceData(this.selectedCommodityId);
+      await this.loadSpatialData(this.selectedCommodityId);
       this.initSeriesConfigs();
+      await this.ensureAllSeriesDataLoaded();
       this.isLoading = false;
       this.render();
     } catch (err) {
@@ -83,10 +95,61 @@ export class CommodityTrackerComponent {
 
   async loadBalanceData(commodityId) {
     this.selectedCommodityId = commodityId;
+    const fetchPromises = [];
+
     if (!this.commodityBalancesCache[commodityId]) {
-      this.commodityBalancesCache[commodityId] = await ApiClient.fetchCommodityBalance(commodityId, 1990, 2026);
+      fetchPromises.push(
+        ApiClient.fetchCommodityBalance(commodityId, 1990, 2026).then(res => {
+          this.commodityBalancesCache[commodityId] = res;
+        })
+      );
     }
+
+    // Auto-preload all 3 primary comparison series in parallel
+    if (this.activeDivision === 'PERTANIAN_PETERNAKAN' && (commodityId.startsWith('AGG_') || commodityId.startsWith('ALL_'))) {
+      ['AGG_PERTANIAN', 'AGG_PERKEBUNAN', 'AGG_PETERNAKAN'].forEach(id => {
+        if (!this.commodityBalancesCache[id]) {
+          fetchPromises.push(
+            ApiClient.fetchCommodityBalance(id, 1990, 2026).then(res => {
+              this.commodityBalancesCache[id] = res;
+            })
+          );
+        }
+      });
+    } else if (this.activeDivision === 'HASIL_BUMI' && (commodityId.startsWith('AGG_') || commodityId.startsWith('ALL_'))) {
+      ['ALL_HASIL_BUMI', 'AGG_TAMBANG', 'AGG_NON_TAMBANG'].forEach(id => {
+        if (!this.commodityBalancesCache[id]) {
+          fetchPromises.push(
+            ApiClient.fetchCommodityBalance(id, 1990, 2026).then(res => {
+              this.commodityBalancesCache[id] = res;
+            })
+          );
+        }
+      });
+    }
+
+    if (fetchPromises.length > 0) {
+      await Promise.all(fetchPromises);
+    }
+
     this.balanceData = this.commodityBalancesCache[commodityId];
+  }
+
+  async ensureAllSeriesDataLoaded() {
+    const promises = [];
+    for (const s of this.seriesConfigs) {
+      if (!this.commodityBalancesCache[s.commodityId]) {
+        promises.push(
+          ApiClient.fetchCommodityBalance(s.commodityId, 1990, 2026).then(res => {
+            this.commodityBalancesCache[s.commodityId] = res;
+          }).catch(err => console.warn('Error loading balance for series:', s.commodityId, err))
+        );
+      }
+    }
+    if (promises.length > 0) {
+      await Promise.all(promises);
+    }
+    this.seriesConfigs.forEach(s => this.recalculateSeriesData(s));
   }
 
   async loadMatrixData() {
@@ -101,6 +164,20 @@ export class CommodityTrackerComponent {
     this.matrixData = await ApiClient.fetchCommodityMatrix(params);
   }
 
+  async loadSpatialData(commodityId, variable = this.activeSpatialVariable || 'PRODUKSI_TERBANYAK') {
+    try {
+      this.activeSpatialVariable = variable;
+      const res = await ApiClient.fetchCommoditySpatialDistribution(commodityId, variable);
+      this.spatialData = res || { points: [] };
+      const pts = this.spatialData.points || [];
+      this.selectedSpatialPoint = pts.length ? pts[0] : null;
+    } catch (err) {
+      console.warn('Gagal memuat data sebaran geospasial komoditas:', err);
+      this.spatialData = { points: [] };
+      this.selectedSpatialPoint = null;
+    }
+  }
+
   async setDivision(division) {
     this.activeDivision = division;
     this.activeGroup = 'ALL';
@@ -109,7 +186,7 @@ export class CommodityTrackerComponent {
     if (division === 'HASIL_BUMI') {
       this.selectedCommodityId = 'ALL_HASIL_BUMI';
     } else {
-      this.selectedCommodityId = 'COM-AGRI-001-BERAS';
+      this.selectedCommodityId = 'AGG_PERTANIAN';
     }
 
     if (!this.categoriesData) {
@@ -118,7 +195,9 @@ export class CommodityTrackerComponent {
     }
 
     await this.loadBalanceData(this.selectedCommodityId);
+    await this.loadSpatialData(this.selectedCommodityId);
     this.initSeriesConfigs();
+    await this.ensureAllSeriesDataLoaded();
     if (this.activeViewMode === 'MATRIX') {
       await this.loadMatrixData();
     }
@@ -140,10 +219,10 @@ export class CommodityTrackerComponent {
       );
     } else {
       list.push(
-        { id: 'ALL_PERTANIAN::apbn_realization_idr_billion', name: '⭐ Semua Pertanian & Peternakan - Realisasi APBN', unit: 'Rp Miliar', commodityId: 'ALL_PERTANIAN', metricKey: 'apbn_realization_idr_billion', isAggregate: true, group: 'Agregat Pertanian' },
-        { id: 'AGG_PERTANIAN_TANAMAN::apbn_realization_idr_billion', name: '🌾 Komoditas Pertanian - Realisasi APBN Pangan', unit: 'Rp Miliar', commodityId: 'AGG_PERTANIAN_TANAMAN', metricKey: 'apbn_realization_idr_billion', isAggregate: true, group: 'Agregat Pertanian' },
-        { id: 'AGG_PERAIRAN::apbn_realization_idr_billion', name: '🐟 Komoditas Perairan - PNBP & Sarpras KKP', unit: 'Rp Miliar', commodityId: 'AGG_PERAIRAN', metricKey: 'apbn_realization_idr_billion', isAggregate: true, group: 'Agregat Pertanian' },
-        { id: 'AGG_PETERNAKAN::apbn_realization_idr_billion', name: '🐄 Komoditas Peternakan - Bantuan Ternak APBN', unit: 'Rp Miliar', commodityId: 'AGG_PETERNAKAN', metricKey: 'apbn_realization_idr_billion', isAggregate: true, group: 'Agregat Pertanian' }
+        { id: 'AGG_PERTANIAN::apbn_realization_idr_billion', name: '🌾 1. PERTANIAN : Akumulasi Semua Komoditi Pertanian', unit: 'Rp Miliar', commodityId: 'AGG_PERTANIAN', metricKey: 'apbn_realization_idr_billion', isAggregate: true, group: '3 Akumulasi Utama Sektor' },
+        { id: 'AGG_PERKEBUNAN::apbn_realization_idr_billion', name: '🌴 2. PERKEBUNAN : Akumulasi Semua Komoditi Perkebunan', unit: 'Rp Miliar', commodityId: 'AGG_PERKEBUNAN', metricKey: 'apbn_realization_idr_billion', isAggregate: true, group: '3 Akumulasi Utama Sektor' },
+        { id: 'AGG_PETERNAKAN::apbn_realization_idr_billion', name: '🥩 3. PETERNAKAN : Akumulasi Semua Komoditi Peternakan', unit: 'Rp Miliar', commodityId: 'AGG_PETERNAKAN', metricKey: 'apbn_realization_idr_billion', isAggregate: true, group: '3 Akumulasi Utama Sektor' },
+        { id: 'ALL_PERTANIAN::apbn_realization_idr_billion', name: '⭐ Semua Konsolidasi (Pertanian, Perkebunan & Peternakan)', unit: 'Rp Miliar', commodityId: 'ALL_PERTANIAN', metricKey: 'apbn_realization_idr_billion', isAggregate: true, group: 'Agregat Konsolidasi' }
       );
     }
 
@@ -173,6 +252,68 @@ export class CommodityTrackerComponent {
     const available = this.getAvailableIndicatorsList();
     const isHasilBumi = this.activeDivision === 'HASIL_BUMI';
 
+    if (!isHasilBumi && (this.selectedCommodityId.startsWith('AGG_') || this.selectedCommodityId.startsWith('ALL_'))) {
+      // 3 VAR UTAMA UNTUK HALAMAN PERTANIAN, PERKEBUNAN & PETERNAKAN
+      const metaPertanian = available.find(i => i.id === 'AGG_PERTANIAN::apbn_realization_idr_billion') || available[0];
+      const metaPerkebunan = available.find(i => i.id === 'AGG_PERKEBUNAN::apbn_realization_idr_billion') || available[1];
+      const metaPeternakan = available.find(i => i.id === 'AGG_PETERNAKAN::apbn_realization_idr_billion') || available[2];
+
+      this.seriesConfigs = [
+        {
+          id: 'series-1',
+          indicatorId: metaPertanian.id,
+          commodityId: metaPertanian.commodityId,
+          metricKey: metaPertanian.metricKey,
+          name: '🌾 1. PERTANIAN : Akumulasi Komoditi Pertanian',
+          unit: metaPertanian.unit,
+          effectiveUnit: metaPertanian.unit,
+          color: '#1E8E3E', // Google Green
+          axis: 'primary',
+          type: 'line', // Line as requested
+          barMode: 'grouped',
+          transformation: 'RAW',
+          rawData: [],
+          data: []
+        },
+        {
+          id: 'series-2',
+          indicatorId: metaPerkebunan.id,
+          commodityId: metaPerkebunan.commodityId,
+          metricKey: metaPerkebunan.metricKey,
+          name: '🌴 2. PERKEBUNAN : Akumulasi Komoditi Perkebunan',
+          unit: metaPerkebunan.unit,
+          effectiveUnit: metaPerkebunan.unit,
+          color: '#E37400', // Google Orange
+          axis: 'secondary',
+          type: 'line', // Line as requested
+          barMode: 'grouped',
+          transformation: 'RAW',
+          rawData: [],
+          data: []
+        },
+        {
+          id: 'series-3',
+          indicatorId: metaPeternakan.id,
+          commodityId: metaPeternakan.commodityId,
+          metricKey: metaPeternakan.metricKey,
+          name: '🥩 3. PETERNAKAN : Akumulasi Komoditi Peternakan',
+          unit: metaPeternakan.unit,
+          effectiveUnit: metaPeternakan.unit,
+          color: '#1A73E8', // Google Blue
+          axis: 'primary',
+          type: 'line', // Line as requested
+          barMode: 'grouped',
+          transformation: 'RAW',
+          rawData: [],
+          data: []
+        }
+      ];
+
+      this.activeSeriesTab = 0;
+      this.seriesConfigs.forEach(s => this.recalculateSeriesData(s));
+      return;
+    }
+
     let defaultIndicatorId = '';
     if (this.selectedCommodityId.startsWith('ALL_') || this.selectedCommodityId.startsWith('AGG_')) {
       defaultIndicatorId = `${this.selectedCommodityId}::apbn_realization_idr_billion`;
@@ -191,7 +332,7 @@ export class CommodityTrackerComponent {
         name: defaultMeta.name,
         unit: defaultMeta.unit,
         effectiveUnit: defaultMeta.unit,
-        color: '#0284C7', // Sky Blue
+        color: '#1A73E8', // Google Blue
         axis: 'primary',
         type: (defaultMeta.isAggregate || this.selectedCommodityId.startsWith('ALL_') || this.selectedCommodityId.startsWith('AGG_')) ? 'bar' : 'line',
         barMode: 'grouped',
@@ -333,7 +474,7 @@ export class CommodityTrackerComponent {
     const selectedIds = this.seriesConfigs.map(s => s.indicatorId);
     const candidate = available.find(ind => !selectedIds.includes(ind.id)) || available[0];
 
-    const colors = ['#0284C7', '#10B981', '#F59E0B']; // Sky Blue, Emerald, Amber
+    const colors = ['#1A73E8', '#E37400', '#1E8E3E']; // Google Blue, Google Orange, Google Green
     const defaultAxis = candidate && candidate.unit !== this.seriesConfigs[0].unit ? 'secondary' : 'primary';
 
     const newSeries = {
@@ -455,16 +596,22 @@ export class CommodityTrackerComponent {
         return `
           <optgroup label="📊 Pilihan Komposisi Stacking Bar YoY:">
             <option value="ALL_PERTANIAN" ${this.selectedCommodityId === 'ALL_PERTANIAN' ? 'selected' : ''} class="font-bold text-indigo-950 bg-indigo-50">
-              ⭐ Semua Pertanian & Peternakan (Darat & Air)
+              ⭐ Semua Pertanian, Perkebunan & Peternakan (Darat & Air)
+            </option>
+            <option value="AGG_PERKEBUNAN_INDUSTRI" ${this.selectedCommodityId === 'AGG_PERKEBUNAN_INDUSTRI' ? 'selected' : ''} class="font-bold text-amber-950 bg-amber-50">
+              🏭 1. Hasil Perkebunan Industri (Sawit CPO, Karet Alam & Tembakau)
+            </option>
+            <option value="AGG_PERKEBUNAN_KONSUMSI" ${this.selectedCommodityId === 'AGG_PERKEBUNAN_KONSUMSI' ? 'selected' : ''} class="font-bold text-orange-950 bg-orange-50">
+              ☕ 2. Hasil Perkebunan Konsumsi (Gula Tebu, Kopi, Kakao, Teh & Kelapa)
             </option>
             <option value="AGG_PERTANIAN_TANAMAN" ${this.selectedCommodityId === 'AGG_PERTANIAN_TANAMAN' ? 'selected' : ''} class="font-bold text-emerald-950 bg-emerald-50">
-              🌾 1. Komoditas Pertanian (Beras, Jagung, Kedelai, Gula, Bawang, Sawit)
+              🌾 3. Tanaman Pangan Pokok & Hortikultura (Beras, Jagung, Kedelai, Gula, Bawang, Sawit)
             </option>
             <option value="AGG_PERAIRAN" ${this.selectedCommodityId === 'AGG_PERAIRAN' ? 'selected' : ''} class="font-bold text-sky-950 bg-sky-50">
-              🐟 2. Komoditas Perairan (Laut & Darat: Ikan Tuna/TCT & Udang)
+              🐟 4. Komoditas Perairan (Laut & Tambak: Ikan Tuna & Udang)
             </option>
             <option value="AGG_PETERNAKAN" ${this.selectedCommodityId === 'AGG_PETERNAKAN' ? 'selected' : ''} class="font-bold text-purple-950 bg-purple-50">
-              🐄 3. Komoditas Peternakan (Daging Sapi/Kerbau & Daging Ayam Ras)
+              🐄 5. Komoditas Peternakan (Daging Sapi & Unggas Broiler)
             </option>
           </optgroup>
         `;
@@ -474,34 +621,36 @@ export class CommodityTrackerComponent {
     this.container.innerHTML = `
       <div class="space-y-4 font-sans text-slate-900">
         
-        <!-- 1. HEADER TITLE BANNER -->
-        <div class="bg-gradient-to-r ${isHasilBumi ? 'from-stone-900 via-stone-800 to-amber-950' : 'from-slate-900 via-emerald-950 to-slate-900'} text-white p-4 sm:p-5 rounded-lg border border-slate-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <!-- 1. HEADER TITLE BANNER (Google Analytics Clean Style - No Dark/Black Background) -->
+        <div class="gov-card bg-white p-4 sm:p-5 rounded-lg border border-[#DADCE0] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div class="space-y-1">
-            <div class="flex items-center gap-2">
-              <span class="text-xl">${isHasilBumi ? '⛏️' : '🌾'}</span>
-              <h2 class="text-base sm:text-lg font-bold tracking-tight font-mono text-white">
-                ${isHasilBumi ? 'NERACA HASIL BUMI & REALISASI ANGGARAN APBN (1990 - 2026)' : 'NERACA HASIL PERTANIAN & PETERNAKAN TERHUBUNG APBN (1990 - 2026)'}
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg ${isHasilBumi ? 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]' : 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]'} flex items-center justify-center text-base shrink-0 shadow-2xs">
+                ${isHasilBumi ? '⛏️' : '🌾'}
+              </span>
+              <h2 class="text-base sm:text-lg font-bold tracking-tight font-mono text-[#202124]">
+                ${isHasilBumi ? 'NERACA HASIL BUMI & REALISASI ANGGARAN APBN (1990 - 2026)' : 'NERACA PERTANIAN, PERKEBUNAN & PETERNAKAN TERHUBUNG APBN (1990 - 2026)'}
               </h2>
             </div>
-            <p class="text-xs text-slate-300 font-sans max-w-3xl leading-relaxed">
+            <p class="text-xs text-[#5F6368] font-sans max-w-3xl leading-relaxed mt-1">
               ${isHasilBumi 
                 ? 'Pusat integrasi neraca produksi, konsumsi domestik, ekspor mineral & energi (1990-2026), klasifikasi BTKI 8-digit, dan realisasi penerimaan negara bukan pajak (PNBP SDA Minerba, Migas & Kehutanan LKPP).'
-                : 'Pusat data sekunder neraca pangan nasional (1990-2026): produksi domestik, konsumsi per kapita, kuota impor, rasio swasembada (SSR), klasifikasi HS Code BTKI 8-digit, serta belanja ketahanan pangan APBN/LKPP.'}
+                : 'Pusat data sekunder neraca pangan & perkebunan nasional (1990-2026): tanaman pangan pokok, hasil perkebunan untuk industri (kelapa sawit CPO, karet alam, tembakau) & perkebunan konsumsi (gula pasir tebu, kopi, kakao, teh, kelapa), rasio swasembada (SSR), klasifikasi HS Code BTKI 8-digit, serta belanja ketahanan pangan & dana perkebunan APBN/LKPP.'}
             </p>
           </div>
 
           <!-- View Mode Toggle Buttons -->
-          <div class="flex items-center gap-1 bg-white/10 p-1 rounded-lg border border-white/20 shrink-0 font-mono text-xs">
+          <div class="flex items-center gap-1.5 bg-[#F8F9FA] p-1 rounded-lg border border-[#DADCE0] shrink-0 font-mono text-xs">
             <button 
               type="button" 
-              class="btn-view-mode px-3 py-1.5 rounded font-bold transition-all cursor-pointer ${this.activeViewMode === 'DETAIL' ? 'bg-white text-slate-950 shadow-xs' : 'text-slate-200 hover:text-white'}"
+              class="btn-view-mode px-3 py-1.5 rounded-md font-medium transition-all cursor-pointer border ${this.activeViewMode === 'DETAIL' ? 'bg-[#E8F0FE] text-[#1A73E8] border-[#1A73E8] font-bold shadow-2xs' : 'bg-white text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}"
               data-mode="DETAIL"
             >
               🔍 Detail Neraca
             </button>
             <button 
               type="button" 
-              class="btn-view-mode px-3 py-1.5 rounded font-bold transition-all cursor-pointer ${this.activeViewMode === 'MATRIX' ? 'bg-white text-slate-950 shadow-xs' : 'text-slate-200 hover:text-white'}"
+              class="btn-view-mode px-3 py-1.5 rounded-md font-medium transition-all cursor-pointer border ${this.activeViewMode === 'MATRIX' ? 'bg-[#E8F0FE] text-[#1A73E8] border-[#1A73E8] font-bold shadow-2xs' : 'bg-white text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}"
               data-mode="MATRIX"
             >
               📋 Matriks Sektor
@@ -579,7 +728,14 @@ export class CommodityTrackerComponent {
     this.attachEvents();
     if (this.activeViewMode === 'DETAIL') {
       this.renderControls();
-      requestAnimationFrame(() => this.drawChart());
+      requestAnimationFrame(async () => {
+        const anyEmpty = this.seriesConfigs.some(s => !s.data || s.data.length === 0);
+        if (anyEmpty) {
+          await this.ensureAllSeriesDataLoaded();
+          this.renderControls();
+        }
+        this.drawChart();
+      });
     }
   }
 
@@ -704,15 +860,18 @@ export class CommodityTrackerComponent {
       <!-- 6. MULTI-VARIABLE COMPARATIVE CHART (1-3 SERIES, DUAL Y-AXIS, LINE/BAR/STACKED) -->
       ${this.renderComparativeChartCard()}
 
-      <!-- 7. FULL DATA TABLE: ANNUAL COMMODITY BALANCE SHEET -->
-      ${this.renderTableCard(comm, records, isAggregate)}
+      <!-- 7. PETA GEOSPASIAL SENTRA TAMBANG & INFRASTRUKTUR INTERAKTIF -->
+      ${this.renderSpatialMapCard(comm, isAggregate)}
+
+      <!-- 8. AKSI UNDUH & TABEL HISTORIS KONTROL -->
+      ${this.renderCollapsibleTableCard(comm, records, isAggregate)}
     `;
   }
 
   renderComparativeChartCard() {
     return `
       <!-- CHART CARD (HARMONIZED EXACTLY WITH INDIKATOR EKONOMI) -->
-      <div class="gov-card p-3 space-y-2 min-h-[430px] flex flex-col justify-between overflow-hidden shadow-xs bg-white rounded-lg border border-slate-300">
+      <div class="gov-card p-3.5 space-y-2.5 min-h-[430px] h-auto flex flex-col justify-between overflow-visible shadow-xs bg-white rounded-lg border border-[#DADCE0]">
         
         <!-- Main Top Bar: Title & Range Preset Buttons & Excel Download -->
         <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 pb-1.5 shrink-0">
@@ -768,8 +927,228 @@ export class CommodityTrackerComponent {
             * Sumbu Kiri (Utama) • Sumbu Kanan (Sekunder) • Arahkan kursor untuk komparasi pergerakan YoY
           </div>
         </div>
+
+        <!-- GLOSSARY FOOTNOTE AREA: DETAIL GABUNGAN KOMODITAS & VARIABEL APBN -->
+        ${this.renderChartFootnoteGlossary()}
       </div>
     `;
+  }
+
+  renderChartFootnoteGlossary() {
+    const isHasilBumi = this.activeDivision === 'HASIL_BUMI';
+
+    if (isHasilBumi) {
+      return `
+        <!-- GLOSSARY FOOTNOTE (HALAMAN PERTAMBANGAN & HASIL BUMI: 3 KELOMPOK GABUNGAN) -->
+        <div class="mt-2 pt-2.5 border-t border-[#DADCE0] bg-[#F8F9FA] rounded-lg p-3 space-y-2.5 shrink-0">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-[#DADCE0] pb-2">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 rounded-md bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] flex items-center justify-center text-xs font-bold shadow-2xs">
+                📖
+              </span>
+              <span class="text-xs font-mono font-bold text-[#202124] uppercase tracking-wide">
+                GLOSARIUM KOMPOSISI INDIKATOR PERTAMBANGAN & HASIL BUMI (DETAIL GABUNGAN VARIABEL)
+              </span>
+            </div>
+            <span class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
+              Akun BAS LKPP Audited BPK RI & Ditjen Anggaran Kemenkeu
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
+            
+            <!-- KELOMPOK 1: ⭐ SEMUA HASIL BUMI -->
+            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#1E8E3E] shrink-0"></span>
+                    <strong class="text-xs font-mono font-bold text-[#202124]">⭐ Semua Hasil Bumi</strong>
+                  </div>
+                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+                    TOTAL KONSOLIDASI
+                  </span>
+                </div>
+                <p class="text-[11px] text-[#3C4043] font-sans leading-relaxed">
+                  <strong>Karakteristik:</strong> Agregasi konsolidasi seluruh penerimaan negara bukan pajak (PNBP SDA) hasil bumi nasional, menggabungkan <strong>Sektor Tambang Ekstraktif</strong> dan <strong>Sektor Non-Tambang Hayati/EBT</strong>.
+                </p>
+              </div>
+
+              <div class="text-[10.5px] text-[#5F6368] font-mono space-y-1 pt-2 border-t border-[#F1F3F4]">
+                <div class="font-bold text-[#202124]">Gabungan Angka Variabel dari:</div>
+                <div class="leading-relaxed">• <strong>5 Komoditas Tambang:</strong> Batubara, Nikel, Tembaga, Minyak Mentah, Gas Alam</div>
+                <div class="leading-relaxed">• <strong>3 Komoditas Non-Tambang:</strong> Kayu Hutan PBPH, Rumput Laut, Energi Panas Bumi</div>
+                <div class="text-[10px] text-[#1A73E8] pt-0.5">
+                  <strong>Akun BAS LKPP:</strong> 4211xx (Migas), 4212xx (Minerba/EBT), 4213xx (Hutan), 4214xx (Laut)
+                </div>
+              </div>
+            </div>
+
+            <!-- KELOMPOK 2: ⛏️ KOMPOSISI KOMODITAS TAMBANG -->
+            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#E37400] shrink-0"></span>
+                    <strong class="text-xs font-mono font-bold text-[#202124]">⛏️ Komposisi Tambang</strong>
+                  </div>
+                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]">
+                    5 BARANG TAMBANG UTAMA
+                  </span>
+                </div>
+                <p class="text-[11px] text-[#3C4043] font-sans leading-relaxed">
+                  <strong>Karakteristik:</strong> Gabungan angka realisasi penerimaan negara dari seluruh komoditas ekstraktif perut bumi (mineral logam, batubara, serta minyak & gas bumi).
+                </p>
+              </div>
+
+              <div class="text-[10.5px] text-[#5F6368] font-mono space-y-1 pt-2 border-t border-[#F1F3F4]">
+                <div class="font-bold text-[#202124]">Rincian 5 Variabel Penyusun:</div>
+                <div>1. <strong>Batubara:</strong> Royalti Minerba PKP2B & IUP (Akun 421211)</div>
+                <div>2. <strong>Nikel:</strong> Royalti Bijih & Feronikel (Akun 421213)</div>
+                <div>3. <strong>Tembaga:</strong> Royalti Konsentrat & Bea Keluar (Akun 421212)</div>
+                <div>4. <strong>Minyak Mentah:</strong> PNBP SDA Minyak Bumi (Akun 421111)</div>
+                <div>5. <strong>Gas Alam:</strong> PNBP SDA Gas Bumi & LNG (Akun 421121)</div>
+              </div>
+            </div>
+
+            <!-- KELOMPOK 3: 🌿 KOMPOSISI NON-TAMBANG -->
+            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#1A73E8] shrink-0"></span>
+                    <strong class="text-xs font-mono font-bold text-[#202124]">🌿 Komposisi Non-Tambang</strong>
+                  </div>
+                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
+                    3 HASIL ALAM TERBARUKAN
+                  </span>
+                </div>
+                <p class="text-[11px] text-[#3C4043] font-sans leading-relaxed">
+                  <strong>Karakteristik:</strong> Gabungan angka realisasi penerimaan negara dari komoditas hasil bumi terbarukan non-ekstraktif (kehutanan, budidaya laut, dan energi bersih).
+                </p>
+              </div>
+
+              <div class="text-[10.5px] text-[#5F6368] font-mono space-y-1 pt-2 border-t border-[#F1F3F4]">
+                <div class="font-bold text-[#202124]">Rincian 3 Variabel Penyusun:</div>
+                <div>1. <strong>Kayu Hutan:</strong> PSDH (Akun 421311) & Dana Reboisasi (Akun 421312)</div>
+                <div>2. <strong>Rumput Laut:</strong> PNBP Jasa Kelautan & Ruang Laut (Akun 421411)</div>
+                <div>3. <strong>Panas Bumi (EBT):</strong> PNBP Pemanfaatan Geotermal Listrik (Akun 421221)</div>
+                <div class="text-[10px] text-[#5F6368] pt-0.5">
+                  * Sumber Resmi: KLHK, KKP & Ditjen EBTKE Kementerian ESDM
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+    } else {
+      return `
+        <!-- GLOSSARY FOOTNOTE: 3 VARIABEL AKUMULASI UTAMA (PERTANIAN, PERKEBUNAN & PETERNAKAN) -->
+        <div class="mt-2 pt-2.5 border-t border-[#DADCE0] bg-[#F8F9FA] rounded-lg p-3 space-y-2.5 shrink-0">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-[#DADCE0] pb-2">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 rounded-md bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6] flex items-center justify-center text-xs font-bold shadow-2xs">
+                📖
+              </span>
+              <span class="text-xs font-mono font-bold text-[#202124] uppercase tracking-wide">
+                GLOSARIUM METODOLOGI: DETAIL AKUMULASI 3 VARIABEL UTAMA (PERTANIAN, PERKEBUNAN & PETERNAKAN)
+              </span>
+            </div>
+            <span class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
+              Akun APBN Ketahanan Pangan, BPDPKS, Cukai CHT & LKPP Audited
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
+            
+            <!-- VARIABEL 1: 🌾 PERTANIAN -->
+            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#1E8E3E] shrink-0"></span>
+                    <strong class="text-xs font-mono font-bold text-[#202124]">🌾 1. PERTANIAN</strong>
+                  </div>
+                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+                    4 KOMODITAS PANGAN
+                  </span>
+                </div>
+                <p class="text-[11px] text-[#3C4043] font-sans leading-relaxed">
+                  <strong>Definisi Akumulasi:</strong> Total gabungan seluruh komoditas pertanian pangan pokok nabati dan hortikultura sayuran strategis nasional.
+                </p>
+              </div>
+
+              <div class="text-[10.5px] text-[#5F6368] font-mono space-y-1 pt-2 border-t border-[#F1F3F4]">
+                <div class="font-bold text-[#202124]">Komoditas yang Diakumulasikan:</div>
+                <div class="leading-relaxed">1. <strong>Beras / Padi:</strong> CBP Cadangan Beras Pemerintah Bulog & Panen Gabah (HS 1006)</div>
+                <div class="leading-relaxed">2. <strong>Jagung:</strong> Pipilan Kering Pakan Ternak & Industri Tepung (HS 1005)</div>
+                <div class="leading-relaxed">3. <strong>Kedelai:</strong> Biji Kering Bahan Baku Pengrajin Tahu-Tempe (HS 1201)</div>
+                <div class="leading-relaxed">4. <strong>Bawang Merah:</strong> Hortikultura Pengendali Inflasi Pangan (HS 0703)</div>
+                <div class="text-[10px] text-[#1A73E8] pt-1 border-t border-[#F1F3F4]">
+                  <strong>Detail Variabel Angka:</strong> Tonase produksi fisik panen GKG/pipilan, angka konsumsi pangan per kapita Bapanas, realisasi belanja bantuan pangan (Akun 562111), subsidi pupuk urea/NPK (Akun 531111), dan alsintan/benih Kementan (Akun 526xxx).
+                </div>
+              </div>
+            </div>
+
+            <!-- VARIABEL 2: 🌴 PERKEBUNAN -->
+            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#E37400] shrink-0"></span>
+                    <strong class="text-xs font-mono font-bold text-[#202124]">🌴 2. PERKEBUNAN</strong>
+                  </div>
+                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]">
+                    8 KOMODITAS KEBUN
+                  </span>
+                </div>
+                <p class="text-[11px] text-[#3C4043] font-sans leading-relaxed">
+                  <strong>Definisi Akumulasi:</strong> Total gabungan seluruh komoditas perkebunan komersial, mencakup hasil perkebunan untuk <strong>industri manufaktur</strong> maupun untuk <strong>konsumsi langsung</strong>.
+                </p>
+              </div>
+
+              <div class="text-[10.5px] text-[#5F6368] font-mono space-y-1 pt-2 border-t border-[#F1F3F4]">
+                <div class="font-bold text-[#202124]">Komoditas yang Diakumulasikan:</div>
+                <div class="leading-relaxed">• <strong>Perkebunan Industri:</strong> Sawit CPO (HS 1511), Karet Alam TSR 20 (HS 4001), Tembakau Rajangan/Daun (HS 2401)</div>
+                <div class="leading-relaxed">• <strong>Perkebunan Konsumsi:</strong> Gula Pasir Tebu (HS 1701), Kopi Biji (HS 0901), Kakao Cokelat (HS 1801), Teh Olahan (HS 0902), Kelapa Kopra (HS 0801)</div>
+                <div class="text-[10px] text-[#E37400] pt-1 border-t border-[#F1F3F4]">
+                  <strong>Detail Variabel Angka:</strong> Volume panen TBS/getah/biji kering, serapan mandatori biodiesel B35/B40 & pabrik ban, nilai devisa ekspor, setoran Cukai Hasil Tembakau CHT APBN (Akun 411513 >Rp 218 T), Bea Keluar CPO/Karet (Akun 411521/411522), dan Dana Sawit BPDPKS (Akun 421411).
+                </div>
+              </div>
+            </div>
+
+            <!-- VARIABEL 3: 🥩 PETERNAKAN -->
+            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#1A73E8] shrink-0"></span>
+                    <strong class="text-xs font-mono font-bold text-[#202124]">🥩 3. PETERNAKAN</strong>
+                  </div>
+                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
+                    2 PROTEIN DAGING
+                  </span>
+                </div>
+                <p class="text-[11px] text-[#3C4043] font-sans leading-relaxed">
+                  <strong>Definisi Akumulasi:</strong> Total gabungan seluruh komoditas peternakan darat penghasil protein hewani utama masyarakat.
+                </p>
+              </div>
+
+              <div class="text-[10.5px] text-[#5F6368] font-mono space-y-1 pt-2 border-t border-[#F1F3F4]">
+                <div class="font-bold text-[#202124]">Komoditas yang Diakumulasikan:</div>
+                <div class="leading-relaxed">1. <strong>Daging Sapi & Kerbau:</strong> Populasi Sapi Potong, RPH, dan Impor Daging Beku (HS 0201/0202)</div>
+                <div class="leading-relaxed">2. <strong>Daging Ayam Ras Broiler:</strong> Pasokan Unggas Pedaging Karkas & Pengendalian DOC (HS 0207)</div>
+                <div class="text-[10px] text-[#1A73E8] pt-1 border-t border-[#F1F3F4]">
+                  <strong>Detail Variabel Angka:</strong> Tonase produksi karkas daging potong nasional, konsumsi protein hewani per kapita (pencegahan stunting), realisasi belanja APBN program Sikomandan/SIWAB Kementan (Akun 526313), dan cadangan daging beku BUMN Pangan.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
   }
 
   renderControls() {
@@ -794,7 +1173,7 @@ export class CommodityTrackerComponent {
           ${this.seriesConfigs.map((s, idx) => `
             <button 
               type="button"
-              class="btn-commodity-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-slate-400 shadow-xs ring-2 ring-slate-800' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}"
+              class="btn-commodity-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-slate-400 shadow-xs ring-2 ring-[#1A73E8] border-[#1A73E8]' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}"
               data-idx="${idx}"
             >
               <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
@@ -896,14 +1275,14 @@ export class CommodityTrackerComponent {
                 <button 
                   type="button" 
                   id="btn-commodity-series-type-line" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-slate-800 text-white font-bold shadow-xs' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#1A73E8] text-white font-medium shadow-xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4]'}"
                 >
                   📈 Line
                 </button>
                 <button 
                   type="button" 
                   id="btn-commodity-series-type-bar" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-slate-800 text-white font-bold shadow-xs' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#1A73E8] text-white font-medium shadow-xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4]'}"
                 >
                   📊 Bar
                 </button>
@@ -1083,6 +1462,7 @@ export class CommodityTrackerComponent {
       }
 
       await this.loadBalanceData(newId);
+      await this.loadSpatialData(newId);
       this.initSeriesConfigs();
       this.render();
     };
@@ -1206,11 +1586,62 @@ export class CommodityTrackerComponent {
       this.handleExportExcel();
     });
 
-    // 11. Canvas Interaction Events (MouseMove & MouseLeave)
+    // 11. Spatial Map Variable / Layer Selectors (Smooth In-Place Transition)
+    this.container.querySelectorAll('.btn-spatial-var').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const v = btn.getAttribute('data-var');
+        if (v) {
+          await this.switchSpatialVariable(v);
+        }
+      });
+    });
+
+    // 12. Spatial Point Item Selection in Left Column
+    this.container.querySelectorAll('.btn-select-spatial-point').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pIdx = parseInt(btn.getAttribute('data-point-idx'), 10);
+        const pts = this.spatialData?.points || [];
+        if (!isNaN(pIdx) && pts[pIdx]) {
+          this.selectSpatialPoint(pts[pIdx]);
+        }
+      });
+    });
+
+    // 13. Reset Map Zoom
+    document.getElementById('btn-reset-commodity-map-zoom')?.addEventListener('click', () => {
+      if (this.commodityMapInstance) {
+        this.commodityMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+      }
+    });
+
+    // 14. Collapsible Table Toggle
+    document.getElementById('btn-toggle-commodity-table')?.addEventListener('click', () => {
+      this.isTableExpanded = !this.isTableExpanded;
+      const tableBox = document.getElementById('commodity-full-table-container');
+      const label = document.getElementById('label-toggle-table');
+      if (tableBox) {
+        if (this.isTableExpanded) {
+          tableBox.classList.remove('hidden');
+          if (label) label.textContent = 'Sembunyikan Tabel Historis Angka';
+        } else {
+          tableBox.classList.add('hidden');
+          if (label) label.textContent = 'Tampilkan Tabel Historis Angka (1990 - 2026)';
+        }
+      }
+    });
+
+    // 15. Canvas Interaction Events (MouseMove & MouseLeave)
     const canvas = document.getElementById('commodity-analytics-canvas');
     if (canvas) {
       canvas.addEventListener('mousemove', (e) => this.handleCanvasMouseMove(e));
       canvas.addEventListener('mouseleave', () => this.handleCanvasMouseLeave());
+    }
+
+    // 16. Initialize Commodity Leaflet Map
+    if (this.activeViewMode === 'DETAIL') {
+      setTimeout(() => {
+        this.initCommodityLeafletMap(this.selectedSpatialPoint);
+      }, 70);
     }
   }
 
@@ -1302,7 +1733,7 @@ export class CommodityTrackerComponent {
     });
 
     tooltip.innerHTML = `
-      <div class="bg-[#CDCDCD] text-slate-950 border border-slate-400 shadow-2xl rounded-md p-3 max-w-[360px] space-y-2 backdrop-blur-md">
+      <div class="bg-white text-[#202124] border border-[#DADCE0] shadow-xl rounded-lg p-3.5 max-w-[360px] space-y-2">
         <div class="flex items-center justify-between border-b border-slate-400 pb-1.5">
           <div class="font-mono font-bold text-[11px] text-slate-950 flex items-center gap-1">
             <span>📅</span> TA: ${year} [Nasional]
@@ -1631,96 +2062,729 @@ export class CommodityTrackerComponent {
     });
   }
 
-  renderTableCard(comm, records, isAggregate = false) {
+  getSpatialVariableMeta(commId, varId) {
+    const isHasilBumi = this.activeDivision === 'HASIL_BUMI';
+    
+    let commScopeText = '';
+    if (commId === 'ALL_HASIL_BUMI' || commId === 'AGG_TAMBANG' || commId === 'AGG_MINERBA') {
+      commScopeText = 'Mencakup 5 Komoditas Strategis Nasional: Batubara (Cekungan Kutai, Berau, Asam-Asam, Tanjung Enim), Nikel (IMIP Morowali, IWIP Weda Bay, Harita Obi, Pomalaa), Tembaga (Grasberg Timika, Batu Hijau Sumbawa), Minyak Bumi (Blok Rokan Duri-Minas, Blok Cepu Banyu Urip), dan Gas Alam (Tangguh Bintuni, Badak Bontang).';
+    } else if (commId === 'COM-MINE-001-BATUBARA') {
+      commScopeText = 'Komoditas Batubara: Meliputi cekungan tambang Kutai, Berau, Paser, Asam-Asam, Tanjung Enim, dan Barito (KPC, Berau Coal, Adaro, PTBA).';
+    } else if (commId === 'COM-MINE-002-NIKEL') {
+      commScopeText = 'Komoditas Nikel: Meliputi kawasan hilirisasi IMIP Morowali, IWIP Weda Bay, Pulau Obi Harita, Konawe VDNI, dan Pomalaa Antam.';
+    } else if (commId === 'COM-MINE-003-TEMBAGA') {
+      commScopeText = 'Komoditas Tembaga: Meliputi tambang bawah tanah Grasberg (PT Freeport Indonesia Timika) dan Batu Hijau (Amman Mineral Sumbawa Barat).';
+    } else if (commId === 'COM-MINE-004-MINYAK-MENTAH' || commId === 'AGG_MIGAS') {
+      commScopeText = 'Komoditas Minyak Bumi: Meliputi WK Rokan (Duri & Minas), WK Cepu (Banyu Urip Bojonegoro), Lepas Pantai Natuna, dan WK Mahakam Kaltim.';
+    } else if (commId === 'COM-MINE-005-GAS-ALAM') {
+      commScopeText = 'Komoditas Gas Alam & LNG: Meliputi Tangguh LNG Train 1-3 (BP Berau), Kilang Badak NGL Bontang, Grissik Corridor Sumsel, dan Donggi Senoro.';
+    } else {
+      commScopeText = 'Komoditas Pangan & Pertanian: Meliputi sentra utama Jawa Timur (Lamongan, Bojonegoro), Jawa Tengah (Klaten, Sragen), Jawa Barat (Karawang, Subang), dan Sulawesi Selatan (Sidrap, Pinrang).';
+    }
+
+    const varDefs = {
+      'PRODUKSI_TERBANYAK': {
+        title: isHasilBumi ? 'Peringkat Berdasarkan Volume Produksi & Cadangan Tambang' : 'Peringkat Berdasarkan Volume Produksi Panen',
+        criteria: 'Diurutkan dari volume produksi riil tahunan terbesar (Satuan: Juta Ton, Ribu Ton, MMSCFD, atau Ribu Barel/Hari) berdasarkan data Ditjen Minerba ESDM & SKK Migas.',
+        badge: isHasilBumi ? '⛏️ Volume Produksi Tambang' : '🌾 Volume Produksi Panen',
+        badgeColor: 'bg-[#E8F0FE] text-[#1A73E8] border-[#D2E3FC]'
+      },
+      'PNBP_APBN': {
+        title: 'Peringkat Berdasarkan Setoran PNBP & Royalti SDA ke Kas Negara (APBN)',
+        criteria: 'Diurutkan dari kontribusi nominal penerimaan bukan pajak terbesar (Akun BAS 421211 Royalti Minerba & 421111 PNBP SDA Migas) yang disetorkan ke kas APBN dan ditransfer sebagai Dana Bagi Hasil (DBH).',
+        badge: '🏛️ Setoran PNBP Kas Negara (Rp Miliar)',
+        badgeColor: 'bg-[#FEF7E0] text-[#B06000] border-[#FEEFC3]'
+      },
+      'TITIK_EKSPOR': {
+        title: 'Peringkat Berdasarkan Kapasitas & Pengapalan Terminal Ekspor',
+        criteria: 'Diurutkan dari throughput volume muat kargo ekspor internasional terbesar melalui pelabuhan curah khusus dan anchorage transshipment point (Kemenhub & Bea Cukai).',
+        badge: '🚢 Pelabuhan & Terminal Ekspor',
+        badgeColor: 'bg-[#FEF7E0] text-[#B06000] border-[#FEEFC3]'
+      },
+      'SMELTER_HILIR': {
+        title: isHasilBumi ? 'Peringkat Berdasarkan Kapasitas Smelter & Fasilitas Pemurnian Logam' : 'Peringkat Berdasarkan Kapasitas Sentra Pengolahan & Penggilingan',
+        criteria: 'Diurutkan dari kapasitas input pengolahan pabrik smelter RKEF/HPAL, kilang minyak RDMP, atau fasilitas pemurnian terdaftar Kementerian ESDM & Kemenperin.',
+        badge: isHasilBumi ? '🏭 Kapasitas Smelter & Kilang' : '🏭 Kapasitas Pengolahan Hilir',
+        badgeColor: 'bg-[#E6F4EA] text-[#137333] border-[#CEEAD6]'
+      }
+    };
+
+    return {
+      commScopeText,
+      ...(varDefs[varId] || varDefs['PRODUKSI_TERBANYAK'])
+    };
+  }
+
+  renderSpatialExplanationBox(commId, varId) {
+    const points = this.spatialData?.points || [];
+    const topPoint = points.length ? points[0] : null;
+    const meta = this.getSpatialVariableMeta(commId, varId);
+    const totalVal = points.reduce((acc, p) => acc + (Number(p.value) || 0), 0);
+    const unit = points.length ? points[0].unit : '';
+
     return `
-      <!-- 7. FULL DATA TABLE: ANNUAL COMMODITY BALANCE SHEET (1990 - 2026) -->
-      <div class="bg-white rounded-lg border border-slate-300 shadow-2xs overflow-hidden">
-        <div class="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-wrap gap-2">
-          <span class="font-bold text-xs text-slate-900 flex items-center gap-1.5">
-            <span>📑</span>
-            <span>Tabel Neraca & Realisasi Anggaran APBN (1990 - 2026): ${comm.name}</span>
+      <!-- Explanatory Context Banner: Scope of Commodities & Volume Ranking -->
+      <div id="spatial-variable-explanation-box" class="bg-[#F8F9FA] border border-[#DADCE0] rounded-lg p-3 space-y-2">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#DADCE0] pb-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${meta.badgeColor} border">
+              ${meta.badge}
+            </span>
+            <strong class="text-xs font-mono text-[#202124]">${meta.title}</strong>
+          </div>
+          <span class="text-[10.5px] font-mono text-[#5F6368]">
+            Total Wilayah: <strong class="text-[#202124]">${points.length} Sentra</strong>
           </span>
-          <div class="flex items-center gap-3">
-            <span class="text-[10.5px] text-slate-600 font-mono font-bold">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
+          <!-- Col 1: Scope of commodities included -->
+          <div class="md:col-span-2 bg-white p-2.5 rounded border border-[#DADCE0] space-y-1">
+            <div class="text-[10px] font-mono font-bold text-[#5F6368] uppercase flex items-center gap-1">
+              <span>📋</span>
+              <span>Cakupan Komoditas & Wilayah Terkait dalam Tombol Ini:</span>
+            </div>
+            <p class="text-[11px] text-[#202124] font-sans leading-relaxed">
+              ${meta.commScopeText}
+            </p>
+            <div class="text-[10px] text-[#5F6368] font-sans italic pt-1 border-t border-[#E8EAED]">
+              ${meta.criteria}
+            </div>
+          </div>
+
+          <!-- Col 2: Top Rank #1 Summary -->
+          <div class="bg-white p-2.5 rounded border border-[#DADCE0] flex flex-col justify-between space-y-1">
+            <div>
+              <div class="text-[10px] font-mono font-bold text-[#1A73E8] uppercase flex items-center gap-1">
+                <span>🥇</span>
+                <span>Sentra Peringkat #1 Nasional:</span>
+              </div>
+              <div class="font-mono font-bold text-xs text-[#202124] mt-0.5">
+                ${topPoint ? topPoint.province : '-'}
+              </div>
+              <div class="text-[11px] font-mono font-bold text-[#1E8E3E] mt-0.5">
+                ${topPoint ? `${Number(topPoint.value).toLocaleString('id-ID')} ${topPoint.unit}` : '-'}
+                <span class="text-[10px] font-normal text-[#5F6368]">(${topPoint ? topPoint.percentage_share : 0}%)</span>
+              </div>
+            </div>
+            <div class="text-[10px] text-[#5F6368] font-mono pt-1 border-t border-[#E8EAED]">
+              Total Akumulasi: <strong class="text-[#202124]">${Number(totalVal).toLocaleString('id-ID')} ${unit}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  renderSpatialMapCard(comm, isAggregate = false) {
+    const isHasilBumi = this.activeDivision === 'HASIL_BUMI';
+    const points = this.spatialData?.points || [];
+    const selected = this.selectedSpatialPoint || (points.length ? points[0] : null);
+
+    const varLabels = [
+      { id: 'PRODUKSI_TERBANYAK', icon: isHasilBumi ? '⛏️' : '🌾', label: isHasilBumi ? 'Sentra Tambang & Cekungan Utama' : 'Sentra Panen & Budidaya Utama' },
+      { id: 'PNBP_APBN', icon: '🏛️', label: 'Setoran PNBP & Royalti APBN' },
+      { id: 'TITIK_EKSPOR', icon: '🚢', label: 'Pelabuhan & Terminal Ekspor' },
+      { id: 'SMELTER_HILIR', icon: '🏭', label: isHasilBumi ? 'Smelter & Fasilitas Pemurnian' : 'Sentra Pengolahan & Penggilingan' }
+    ];
+
+    const currentVarObj = varLabels.find(v => v.id === this.activeSpatialVariable) || varLabels[0];
+
+    return `
+      <!-- 7. PETA GEOSPASIAL SENTRA TAMBANG & HILIRISASI NASIONAL -->
+      <div class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg shadow-sm space-y-3.5">
+        <!-- Section Header -->
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 border-b border-[#DADCE0] pb-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] flex items-center justify-center text-sm font-bold shadow-2xs">
+                ${isHasilBumi ? '⛏️' : '🌾'}
+              </span>
+              <h3 class="text-sm font-bold text-[#202124] font-mono tracking-tight uppercase">
+                DISTRIBUSI GEOSPASIAL LOKASI ${isHasilBumi ? 'PERTAMBANGAN & HILIRISASI' : 'PRODUKSI & PENGOLAHAN'}: ${comm.name}
+              </h3>
+              <span class="text-[10px] font-mono bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] px-2 py-0.5 rounded font-medium">
+                PETA INTERAKTIF NASIONAL
+              </span>
+            </div>
+            <p class="text-xs text-[#5F6368] font-sans">
+              Visualisasi sebaran koordinat tambang aktif, konsentrasi cadangan, kontribusi penerimaan negara (PNBP LKPP), dan pelabuhan muat ekspor.
+            </p>
+          </div>
+
+          <!-- Variable / Layer Filter Chips (The 4 Top-Right Buttons) -->
+          <div id="spatial-var-buttons-group" class="flex items-center gap-1.5 flex-wrap font-mono text-xs">
+            ${varLabels.map(vl => `
+              <button 
+                type="button" 
+                class="btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer border ${this.activeSpatialVariable === vl.id ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}"
+                data-var="${vl.id}"
+                title="Tampilkan sebaran geospasial: ${vl.label}"
+              >
+                <span>${vl.icon}</span>
+                <span>${vl.label}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Explanatory Context Banner: Commodities Scope, Ranking Metric, & #1 National Hub -->
+        ${this.renderSpatialExplanationBox(this.selectedCommodityId, this.activeSpatialVariable)}
+
+        <!-- 2-Column Responsive Layout: Left = Numbered List, Right = Leaflet Map -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+          
+          <!-- Left Column: Numbered List of Mining Hubs -->
+          <div class="lg:col-span-5 flex flex-col justify-between space-y-2 bg-[#F8F9FA] border border-[#DADCE0] rounded-lg p-3">
+            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2">
+              <span class="text-xs font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
+                <span>📍</span>
+                <span>DAFTAR SENTRA WILAYAH (<span id="spatial-points-count-badge">${points.length} Titik</span>)</span>
+              </span>
+              <span id="spatial-active-var-label" class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
+                ${currentVarObj.label}
+              </span>
+            </div>
+
+            <div id="commodity-spatial-points-list" class="space-y-2 overflow-y-auto max-h-[440px] pr-1 scrollbar-thin">
+              ${points.length > 0 ? points.map((p, idx) => {
+                const isSelected = selected && selected.province === p.province;
+                return `
+                  <div 
+                    class="btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-sm' : 'bg-white border-[#DADCE0] hover:bg-[#F8F9FA] hover:border-[#BDC1C6]'}"
+                    data-point-idx="${idx}"
+                    title="Arahkan peta ke ${p.province}"
+                  >
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-[#F1F3F4] text-[#202124]'}">
+                          ${p.rank || idx + 1}
+                        </span>
+                        <div>
+                          <strong class="text-xs font-mono font-bold ${isSelected ? 'text-[#1A73E8]' : 'text-[#202124]'}">
+                            ${p.province}
+                          </strong>
+                          <div class="text-[10.5px] font-mono text-[#5F6368] mt-0.5 font-medium">
+                            ${Number(p.value).toLocaleString('id-ID')} ${p.unit}
+                          </div>
+                        </div>
+                      </div>
+                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold shrink-0 ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]'}">
+                        Pangsa ${p.percentage_share}%
+                      </span>
+                    </div>
+                    <p class="text-[11px] text-[#5F6368] font-sans leading-relaxed mt-2 pt-1.5 border-t border-[#E8EAED] line-clamp-2">
+                      ${p.notes}
+                    </p>
+                  </div>
+                `;
+              }).join('') : `
+                <div class="p-8 text-center text-[#5F6368] font-mono text-xs">
+                  Tidak ada titik geospasial khusus untuk variabel ini.
+                </div>
+              `}
+            </div>
+
+            <div class="p-2 bg-white rounded-md border border-[#DADCE0] text-[10px] text-[#5F6368] font-mono text-center">
+              💡 <em>Klik nama wilayah di atas untuk mengarahkan kamera peta secara instan.</em>
+            </div>
+          </div>
+
+          <!-- Right Column: Leaflet GIS Map Container -->
+          <div class="lg:col-span-7 flex flex-col bg-white border border-[#DADCE0] rounded-lg p-3 space-y-2.5 h-full min-h-[480px]">
+            
+            <!-- Map Top Status Header -->
+            <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono">
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 bg-[#F8F9FA] border border-[#DADCE0] px-2.5 py-1 rounded-md text-[10.5px]">
+                  <span class="w-2 h-2 rounded-full bg-[#1A73E8] animate-pulse"></span>
+                  <span>Fokus Lokasi: <strong id="commodity-map-active-point" class="text-[#202124]">${selected ? selected.province : 'Seluruh Indonesia'}</strong></span>
+                </span>
+                <span class="text-[#5F6368] text-[10.5px] hidden sm:inline" id="commodity-map-coords">
+                  ${selected ? `${selected.lat.toFixed(2)}°, ${selected.lng.toFixed(2)}°` : 'Koordinat Wilayah'}
+                </span>
+              </div>
+
+              <button 
+                id="btn-reset-commodity-map-zoom" 
+                class="px-2.5 py-1 bg-white hover:bg-[#F8F9FA] text-[#1A73E8] border border-[#DADCE0] rounded-md shadow-2xs font-medium flex items-center gap-1.5 text-[10.5px] cursor-pointer transition-all"
+                title="Kembalikan tampilan peta ke seluruh kepulauan Indonesia"
+              >
+                <span>🇮🇩</span>
+                <span>Zoom Nusantara Penuh</span>
+              </button>
+            </div>
+
+            <!-- Leaflet Container -->
+            <div id="commodity-leaflet-container" class="w-full flex-1 min-h-[400px] rounded-lg bg-[#F8F9FA] overflow-hidden relative z-0 border border-[#DADCE0]"></div>
+
+            <!-- Map Footer Legend -->
+            <div class="flex items-center justify-between text-[10px] font-mono text-[#5F6368] pt-1 px-1 border-t border-[#DADCE0] flex-wrap gap-2">
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="flex items-center gap-1">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#1A73E8]"></span>
+                  <span>Sentra Tambang / Produksi</span>
+                </span>
+                <span class="flex items-center gap-1">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#1E8E3E]"></span>
+                  <span>Smelter & Pengolahan</span>
+                </span>
+                <span class="flex items-center gap-1">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#E37400]"></span>
+                  <span>Pelabuhan & Hub Ekspor</span>
+                </span>
+              </div>
+              <span>Sumber: Ditjen Minerba ESDM & SKK Migas (2024-2026)</span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    `;
+  }
+
+  renderCollapsibleTableCard(comm, records, isAggregate = false) {
+    return `
+      <!-- 8. COLLAPSIBLE DATA TABLE & EXPORT CONTROLS -->
+      <div class="gov-card p-3.5 bg-white border border-[#DADCE0] rounded-lg shadow-sm space-y-3">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-xs text-[#202124] flex items-center gap-1.5">
+              <span>📑</span>
+              <span>Dataset Neraca & Realisasi Anggaran APBN (1990 - 2026): ${comm.name}</span>
+            </span>
+            <span class="text-[10px] text-[#5F6368] font-mono bg-[#F8F9FA] px-2 py-0.5 rounded border border-[#DADCE0]">
               Pos LKPP: ${comm.lkpp_account_code}
             </span>
+          </div>
+
+          <div class="flex items-center gap-2">
             <button 
               id="btn-export-commodity-excel" 
-              class="px-2.5 py-1 bg-emerald-800 hover:bg-emerald-700 text-white rounded text-[10.5px] font-bold font-mono flex items-center gap-1 shadow-2xs cursor-pointer transition-all"
-              title="Unduh data neraca komoditas dalam format Excel (.csv)"
+              class="px-3 py-1.5 bg-[#1E8E3E] hover:bg-[#137333] text-white rounded-md text-xs font-mono font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+              title="Unduh seluruh baris data neraca komoditas dalam format Excel (.csv)"
             >
               <span>📥</span>
-              <span>Unduh Excel</span>
+              <span>Unduh Excel (.csv)</span>
+            </button>
+
+            <button 
+              id="btn-toggle-commodity-table" 
+              class="px-3 py-1.5 bg-white hover:bg-[#F8F9FA] text-[#1A73E8] border border-[#DADCE0] rounded-md text-xs font-mono font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+              title="Tampilkan atau sembunyikan tabel rincian angka historis 1990-2026"
+            >
+              <span>📊</span>
+              <span id="label-toggle-table">${this.isTableExpanded ? 'Sembunyikan Tabel Historis' : 'Tampilkan Tabel Historis (1990 - 2026)'}</span>
             </button>
           </div>
         </div>
 
-        <div class="overflow-x-auto max-h-[480px]">
-          <table class="w-full text-left border-collapse text-[11px] font-mono">
-            <thead class="sticky top-0 z-10 shadow-2xs">
-              <tr class="bg-slate-100 border-b border-slate-200 text-slate-700">
-                <th class="py-2 px-3">Tahun</th>
-                <th class="py-2 px-3 text-left">Dasar UU APBN</th>
-                <th class="py-2 px-3 text-right text-purple-950 font-bold bg-purple-50/50">Target APBN (Rp M)</th>
-                <th class="py-2 px-3 text-right text-indigo-950 font-bold bg-indigo-50/50">Realisasi APBN (Rp M)</th>
-                <th class="py-2 px-3 text-center">Daya Serap (%)</th>
-                <th class="py-2 px-3 text-right">Nilai Ekspor ($M)</th>
-                <th class="py-2 px-3 text-right">Nilai Impor ($M)</th>
-                <th class="py-2 px-3 text-right">Surplus/Defisit</th>
-                ${!isAggregate ? `
-                  <th class="py-2 px-3 text-right">Produksi (${comm.unit})</th>
-                  <th class="py-2 px-3 text-right">Konsumsi (${comm.unit})</th>
-                  <th class="py-2 px-3 text-center">SSR (%)</th>
-                  <th class="py-2 px-3 text-center">IDR (%)</th>
-                ` : `
-                  <th class="py-2 px-3 text-center">Jml Komoditas</th>
-                `}
-                <th class="py-2 px-3 text-center">Status</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-200">
-              ${records.map(r => `
-                <tr class="hover:bg-slate-50 transition-colors ${r.period === '2026' ? 'bg-amber-50/40' : ''}">
-                  <td class="py-2 px-3 font-bold text-slate-950">${r.period}</td>
-                  <td class="py-2 px-3 text-slate-700 text-[10px] max-w-[190px] truncate" title="${r.apbn_statute_law || ''}">
-                    ${r.apbn_statute_law || 'UU APBN'}
-                  </td>
-                  <td class="py-2 px-3 text-right font-bold text-purple-900 bg-purple-50/50">
-                    Rp ${Number(r.apbn_target_idr_billion || 0).toLocaleString('id-ID')} M
-                  </td>
-                  <td class="py-2 px-3 text-right font-bold text-indigo-900 bg-indigo-50/50">
-                    Rp ${Number(r.apbn_realization_idr_billion || 0).toLocaleString('id-ID')} M
-                  </td>
-                  <td class="py-2 px-3 text-center font-bold">
-                    <span class="px-1.5 py-0.5 rounded text-[10px] ${r.apbn_achievement_rate_percent >= 95 ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : (r.apbn_achievement_rate_percent >= 80 ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-slate-100 text-slate-800')}">
-                      ${r.apbn_achievement_rate_percent || 0}%
-                    </span>
-                  </td>
-                  <td class="py-2 px-3 text-right text-sky-800 font-semibold">$${Number(r.export_value_usd_million || 0).toLocaleString('id-ID')}M</td>
-                  <td class="py-2 px-3 text-right text-amber-800">$${Number(r.import_value_usd_million || 0).toLocaleString('id-ID')}M</td>
-                  <td class="py-2 px-3 text-right font-bold ${r.surplus_deficit >= 0 ? 'text-emerald-700' : 'text-rose-700'}">
-                    ${r.surplus_deficit >= 0 ? '+' : ''}${isAggregate ? '$' + Number(r.surplus_deficit).toLocaleString('id-ID') + 'M' : Number(r.surplus_deficit).toLocaleString('id-ID')}
-                  </td>
+        <!-- Collapsible Content -->
+        <div id="commodity-full-table-container" class="${this.isTableExpanded ? '' : 'hidden'} border-t border-[#DADCE0] pt-3">
+          <div class="overflow-x-auto max-h-[480px]">
+            <table class="w-full text-left border-collapse text-[11px] font-mono">
+              <thead class="sticky top-0 z-10 shadow-2xs">
+                <tr class="bg-[#F8F9FA] border-b border-[#DADCE0] text-[#5F6368]">
+                  <th class="py-2.5 px-3 font-bold">Tahun</th>
+                  <th class="py-2.5 px-3 text-left font-bold">Dasar UU APBN</th>
+                  <th class="py-2.5 px-3 text-right font-bold text-[#1A73E8]">Target APBN (Rp M)</th>
+                  <th class="py-2.5 px-3 text-right font-bold text-[#1A73E8]">Realisasi APBN (Rp M)</th>
+                  <th class="py-2.5 px-3 text-center font-bold">Daya Serap (%)</th>
+                  <th class="py-2.5 px-3 text-right font-bold">Nilai Ekspor ($M)</th>
+                  <th class="py-2.5 px-3 text-right font-bold">Nilai Impor ($M)</th>
+                  <th class="py-2.5 px-3 text-right font-bold">Surplus/Defisit</th>
                   ${!isAggregate ? `
-                    <td class="py-2 px-3 text-right font-semibold text-emerald-950">${Number(r.production).toLocaleString('id-ID')}</td>
-                    <td class="py-2 px-3 text-right text-slate-900">${Number(r.consumption).toLocaleString('id-ID')}</td>
-                    <td class="py-2 px-3 text-center font-bold ${r.ssr_percent >= 100 ? 'text-emerald-700' : 'text-rose-700'}">${r.ssr_percent}%</td>
-                    <td class="py-2 px-3 text-center ${r.idr_percent > 40 ? 'text-rose-700 font-bold' : 'text-slate-600'}">${r.idr_percent}%</td>
+                    <th class="py-2.5 px-3 text-right font-bold">Produksi (${comm.unit})</th>
+                    <th class="py-2.5 px-3 text-right font-bold">Konsumsi (${comm.unit})</th>
+                    <th class="py-2.5 px-3 text-center font-bold">SSR (%)</th>
+                    <th class="py-2.5 px-3 text-center font-bold">IDR (%)</th>
                   ` : `
-                    <td class="py-2 px-3 text-center font-bold text-slate-700">${r.breakdown?.length || 0} Komoditas</td>
+                    <th class="py-2.5 px-3 text-center font-bold">Jml Komoditas</th>
                   `}
-                  <td class="py-2 px-3 text-center">
-                    <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${r.status === 'SURPLUS' ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
-                      ${r.status}
-                    </span>
-                  </td>
+                  <th class="py-2.5 px-3 text-center font-bold">Status</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="divide-y divide-[#E8EAED]">
+                ${records.map(r => `
+                  <tr class="hover:bg-[#F8F9FA] transition-colors ${r.period === '2026' ? 'bg-[#FEF7E0]/50' : ''}">
+                    <td class="py-2 px-3 font-bold text-[#202124]">${r.period}</td>
+                    <td class="py-2 px-3 text-[#5F6368] text-[10px] max-w-[190px] truncate" title="${r.apbn_statute_law || ''}">
+                      ${r.apbn_statute_law || 'UU APBN'}
+                    </td>
+                    <td class="py-2 px-3 text-right font-bold text-[#1A73E8]">
+                      Rp ${Number(r.apbn_target_idr_billion || 0).toLocaleString('id-ID')} M
+                    </td>
+                    <td class="py-2 px-3 text-right font-bold text-[#1A73E8]">
+                      Rp ${Number(r.apbn_realization_idr_billion || 0).toLocaleString('id-ID')} M
+                    </td>
+                    <td class="py-2 px-3 text-center font-bold">
+                      <span class="px-1.5 py-0.5 rounded text-[10px] ${r.apbn_achievement_rate_percent >= 95 ? 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]' : (r.apbn_achievement_rate_percent >= 80 ? 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]' : 'bg-[#F1F3F4] text-[#5F6368]')}">
+                        ${r.apbn_achievement_rate_percent || 0}%
+                      </span>
+                    </td>
+                    <td class="py-2 px-3 text-right text-[#1A73E8] font-semibold">$${Number(r.export_value_usd_million || 0).toLocaleString('id-ID')}M</td>
+                    <td class="py-2 px-3 text-right text-[#E37400]">$${Number(r.import_value_usd_million || 0).toLocaleString('id-ID')}M</td>
+                    <td class="py-2 px-3 text-right font-bold ${r.surplus_deficit >= 0 ? 'text-[#1E8E3E]' : 'text-[#D93025]'}">
+                      ${r.surplus_deficit >= 0 ? '+' : ''}${isAggregate ? '$' + Number(r.surplus_deficit).toLocaleString('id-ID') + 'M' : Number(r.surplus_deficit).toLocaleString('id-ID')}
+                    </td>
+                    ${!isAggregate ? `
+                      <td class="py-2 px-3 text-right font-semibold text-[#1E8E3E]">${Number(r.production).toLocaleString('id-ID')}</td>
+                      <td class="py-2 px-3 text-right text-[#202124]">${Number(r.consumption).toLocaleString('id-ID')}</td>
+                      <td class="py-2 px-3 text-center font-bold ${r.ssr_percent >= 100 ? 'text-[#1E8E3E]' : 'text-[#D93025]'}">${r.ssr_percent}%</td>
+                      <td class="py-2 px-3 text-center ${r.idr_percent > 40 ? 'text-[#D93025] font-bold' : 'text-[#5F6368]'}">${r.idr_percent}%</td>
+                    ` : `
+                      <td class="py-2 px-3 text-center font-bold text-[#5F6368]">${r.breakdown?.length || 0} Komoditas</td>
+                    `}
+                    <td class="py-2 px-3 text-center">
+                      <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${r.status === 'SURPLUS' ? 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]' : 'bg-[#FCE8E6] text-[#C5221F] border border-[#FAD2CF]'}">
+                        ${r.status}
+                      </span>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     `;
+  }
+
+  async switchSpatialVariable(variableId) {
+    this.activeSpatialVariable = variableId;
+    await this.loadSpatialData(this.selectedCommodityId, variableId);
+
+    // 1. Update Buttons active styling
+    this.container.querySelectorAll('.btn-spatial-var').forEach(btn => {
+      const v = btn.getAttribute('data-var');
+      if (v === variableId) {
+        btn.className = 'btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer border bg-[#E8F0FE] text-[#1A73E8] border-[#1A73E8] shadow-2xs';
+      } else {
+        btn.className = 'btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer border bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]';
+      }
+    });
+
+    // 2. Update Explanatory Context Banner
+    const explanationBox = document.getElementById('spatial-variable-explanation-box');
+    if (explanationBox) {
+      explanationBox.outerHTML = this.renderSpatialExplanationBox(this.selectedCommodityId, variableId);
+    }
+
+    // 3. Update Points List in Left Column
+    const listContainer = document.getElementById('commodity-spatial-points-list');
+    const countBadge = document.getElementById('spatial-points-count-badge');
+    const varLabelBadge = document.getElementById('spatial-active-var-label');
+    const points = this.spatialData?.points || [];
+    const selected = points.length ? points[0] : null;
+    this.selectedSpatialPoint = selected;
+
+    if (countBadge) countBadge.textContent = `${points.length} Titik`;
+    if (varLabelBadge) varLabelBadge.textContent = this.getSpatialVariableMeta(this.selectedCommodityId, variableId).badge;
+
+    if (listContainer) {
+      listContainer.innerHTML = points.length > 0 ? points.map((p, idx) => {
+        const isSelected = selected && selected.province === p.province;
+        return `
+          <div 
+            class="btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-sm' : 'bg-white border-[#DADCE0] hover:bg-[#F8F9FA] hover:border-[#BDC1C6]'}"
+            data-point-idx="${idx}"
+            title="Arahkan peta ke ${p.province}"
+          >
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-[#F1F3F4] text-[#202124]'}">
+                  ${p.rank || idx + 1}
+                </span>
+                <div>
+                  <strong class="text-xs font-mono font-bold ${isSelected ? 'text-[#1A73E8]' : 'text-[#202124]'}">
+                    ${p.province}
+                  </strong>
+                  <div class="text-[10.5px] font-mono text-[#5F6368] mt-0.5 font-medium">
+                    ${Number(p.value).toLocaleString('id-ID')} ${p.unit}
+                  </div>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold shrink-0 ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]'}">
+                Pangsa ${p.percentage_share}%
+              </span>
+            </div>
+            <p class="text-[11px] text-[#5F6368] font-sans leading-relaxed mt-2 pt-1.5 border-t border-[#E8EAED] line-clamp-2">
+              ${p.notes}
+            </p>
+          </div>
+        `;
+      }).join('') : `
+        <div class="p-8 text-center text-[#5F6368] font-mono text-xs">
+          Tidak ada titik geospasial khusus untuk variabel ini.
+        </div>
+      `;
+
+      listContainer.querySelectorAll('.btn-select-spatial-point').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pIdx = parseInt(btn.getAttribute('data-point-idx'), 10);
+          if (!isNaN(pIdx) && points[pIdx]) {
+            this.selectSpatialPoint(points[pIdx]);
+          }
+        });
+      });
+    }
+
+    // 4. Update Leaflet Map Markers
+    this.updateCommodityMapMarkers(selected);
+  }
+
+  updateCommodityMapMarkers(activePoint = null) {
+    if (!this.commodityMapInstance || !this.commodityMarkersLayer) {
+      this.initCommodityLeafletMap(activePoint);
+      return;
+    }
+
+    this.commodityMarkersLayer.clearLayers();
+    this.commodityMarkersMap.clear();
+
+    const points = this.spatialData?.points || [];
+    if (points.length > 0) {
+      points.forEach(p => {
+        if (!p.lat || !p.lng) return;
+
+        const isSelected = activePoint && activePoint.province === p.province;
+        
+        let markerBg = 'bg-[#1A73E8]';
+        let markerIcon = '⛏️';
+        if (this.activeSpatialVariable === 'PNBP_APBN') {
+          markerBg = 'bg-[#E37400]';
+          markerIcon = '🏛️';
+        } else if (this.activeSpatialVariable === 'TITIK_EKSPOR') {
+          markerBg = 'bg-[#E37400]';
+          markerIcon = '🚢';
+        } else if (this.activeSpatialVariable === 'SMELTER_HILIR') {
+          markerBg = 'bg-[#1E8E3E]';
+          markerIcon = '🏭';
+        }
+
+        const iconHtml = `
+          <div class="relative flex items-center justify-center">
+            <div class="w-7 h-7 rounded-full ${isSelected ? `${markerBg} ring-4 ring-[#D2E3FC] shadow-lg scale-110` : `${markerBg} ring-2 ring-white shadow`} flex items-center justify-center text-white text-xs font-bold transition-transform">
+              ${p.rank ? p.rank : markerIcon}
+            </div>
+            ${isSelected ? '<div class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-amber-400 animate-ping"></div>' : ''}
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: 'custom-commodity-marker',
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
+
+        const marker = L.marker([p.lat, p.lng], { icon: customIcon }).addTo(this.commodityMarkersLayer);
+        this.commodityMarkersMap.set(p.province, marker);
+
+        const popupContent = `
+          <div class="p-2.5 font-sans text-xs space-y-1.5 bg-white text-[#202124] rounded-lg max-w-[260px] shadow-sm">
+            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-1">
+              <strong class="font-mono text-xs text-[#1A73E8]">${p.province}</strong>
+              <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] font-bold">Rank ${p.rank || 1}</span>
+            </div>
+            <div class="font-mono text-xs font-bold text-[#202124]">
+              ${Number(p.value).toLocaleString('id-ID')} ${p.unit}
+              <span class="text-[#5F6368] font-normal">(${p.percentage_share}%)</span>
+            </div>
+            <p class="text-[11px] text-[#5F6368] font-sans leading-relaxed">
+              ${p.notes}
+            </p>
+          </div>
+        `;
+        marker.bindPopup(popupContent);
+
+        marker.on('click', () => {
+          this.selectSpatialPoint(p);
+        });
+      });
+
+      if (activePoint && activePoint.lat && activePoint.lng) {
+        this.focusMapOnPoint(activePoint);
+      } else {
+        this.commodityMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+      }
+    } else {
+      this.commodityMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+    }
+  }
+
+  initCommodityLeafletMap(activePoint = null) {
+    const mapContainer = document.getElementById('commodity-leaflet-container');
+    if (!mapContainer) return;
+
+    if (typeof L === 'undefined') {
+      console.warn('Leaflet library is loading...');
+      return;
+    }
+
+    if (this.commodityMapInstance) {
+      try {
+        this.commodityMapInstance.remove();
+      } catch (e) {}
+      this.commodityMapInstance = null;
+    }
+
+    this.commodityMarkersMap.clear();
+
+    const defaultCenter = [-2.2, 118.0];
+    const defaultZoom = 4.5;
+
+    this.commodityMapInstance = L.map('commodity-leaflet-container', {
+      center: defaultCenter,
+      zoom: defaultZoom,
+      minZoom: 3.5,
+      maxZoom: 14,
+      zoomControl: true,
+      attributionControl: false
+    });
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19
+    }).addTo(this.commodityMapInstance);
+
+    this.commodityMarkersLayer = L.layerGroup().addTo(this.commodityMapInstance);
+
+    const points = this.spatialData?.points || [];
+    if (points.length > 0) {
+      points.forEach(p => {
+        if (!p.lat || !p.lng) return;
+
+        const isSelected = activePoint && activePoint.province === p.province;
+        
+        let markerBg = 'bg-[#1A73E8]';
+        let markerIcon = '⛏️';
+        if (this.activeSpatialVariable === 'PNBP_APBN') {
+          markerBg = 'bg-[#E37400]';
+          markerIcon = '🏛️';
+        } else if (this.activeSpatialVariable === 'TITIK_EKSPOR') {
+          markerBg = 'bg-[#E37400]';
+          markerIcon = '🚢';
+        } else if (this.activeSpatialVariable === 'SMELTER_HILIR') {
+          markerBg = 'bg-[#1E8E3E]';
+          markerIcon = '🏭';
+        }
+
+        const iconHtml = `
+          <div class="relative flex items-center justify-center">
+            <div class="w-7 h-7 rounded-full ${isSelected ? `${markerBg} ring-4 ring-[#D2E3FC] shadow-lg scale-110` : `${markerBg} ring-2 ring-white shadow`} flex items-center justify-center text-white text-xs font-bold transition-transform">
+              ${p.rank ? p.rank : markerIcon}
+            </div>
+            ${isSelected ? '<div class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-amber-400 animate-ping"></div>' : ''}
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: 'custom-commodity-marker',
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
+
+        const marker = L.marker([p.lat, p.lng], { icon: customIcon }).addTo(this.commodityMarkersLayer);
+        this.commodityMarkersMap.set(p.province, marker);
+
+        const popupContent = `
+          <div class="p-2.5 font-sans text-xs space-y-1.5 bg-white text-[#202124] rounded-lg max-w-[260px] shadow-sm">
+            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-1">
+              <strong class="font-mono text-xs text-[#1A73E8]">${p.province}</strong>
+              <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] font-bold">Rank ${p.rank || 1}</span>
+            </div>
+            <div class="font-mono text-xs font-bold text-[#202124]">
+              ${Number(p.value).toLocaleString('id-ID')} ${p.unit}
+              <span class="text-[#5F6368] font-normal">(${p.percentage_share}%)</span>
+            </div>
+            <p class="text-[11px] text-[#5F6368] font-sans leading-relaxed">
+              ${p.notes}
+            </p>
+          </div>
+        `;
+        marker.bindPopup(popupContent);
+
+        marker.on('click', () => {
+          this.selectSpatialPoint(p);
+        });
+      });
+
+      if (activePoint && activePoint.lat && activePoint.lng) {
+        this.focusMapOnPoint(activePoint);
+      } else {
+        this.commodityMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+      }
+    } else {
+      this.commodityMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+    }
+
+    setTimeout(() => {
+      if (this.commodityMapInstance) {
+        this.commodityMapInstance.invalidateSize();
+      }
+    }, 150);
+  }
+
+  selectSpatialPoint(point) {
+    this.selectedSpatialPoint = point;
+    this.focusMapOnPoint(point);
+
+    // Update list highlight in DOM
+    const listContainer = document.getElementById('commodity-spatial-points-list');
+    if (listContainer) {
+      const items = listContainer.querySelectorAll('.btn-select-spatial-point');
+      const points = this.spatialData?.points || [];
+      items.forEach((item, idx) => {
+        const p = points[idx];
+        const isSelected = p && p.province === point.province;
+        if (isSelected) {
+          item.className = 'btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-sm';
+          item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          item.className = 'btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all bg-white border-[#DADCE0] hover:bg-[#F8F9FA] hover:border-[#BDC1C6]';
+        }
+      });
+    }
+
+    // Update top status bar
+    const activeLabel = document.getElementById('commodity-map-active-point');
+    const coordsLabel = document.getElementById('commodity-map-coords');
+    if (activeLabel) activeLabel.textContent = point.province;
+    if (coordsLabel) coordsLabel.textContent = `${point.lat.toFixed(2)}°, ${point.lng.toFixed(2)}°`;
+  }
+
+  focusMapOnPoint(point) {
+    if (!this.commodityMapInstance || !point || !point.lat || !point.lng) return;
+
+    this.commodityMapInstance.flyTo([point.lat, point.lng], 8.5, {
+      duration: 1.2,
+      easeLinearity: 0.25
+    });
+
+    const marker = this.commodityMarkersMap.get(point.province);
+    if (marker) {
+      setTimeout(() => {
+        marker.openPopup();
+      }, 400);
+    }
+
+    // Add / update active pulsating circle
+    if (this.commodityActiveCircle) {
+      try {
+        this.commodityMapInstance.removeLayer(this.commodityActiveCircle);
+      } catch (e) {}
+    }
+
+    this.commodityActiveCircle = L.circle([point.lat, point.lng], {
+      radius: 65000,
+      color: '#1A73E8',
+      fillColor: '#1A73E8',
+      fillOpacity: 0.15,
+      weight: 2,
+      dashArray: '4, 4'
+    }).addTo(this.commodityMapInstance);
   }
 
   renderMatrixView() {
@@ -1807,7 +2871,7 @@ export class CommodityTrackerComponent {
                   </td>
                   <td class="py-2.5 px-3 text-center">
                     <button 
-                      class="btn-inspect-commodity px-2 py-1 bg-slate-900 hover:bg-slate-800 text-white rounded text-[10.5px] font-bold cursor-pointer transition-all"
+                      class="btn-inspect-commodity px-2 py-1 bg-[#1A73E8] hover:bg-[#174EA6] text-white rounded text-[10.5px] font-bold cursor-pointer transition-all"
                       data-id="${c.id || c.commodity_id}"
                     >
                       Buka Tren ➔

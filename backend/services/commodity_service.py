@@ -6386,7 +6386,2132 @@ class CommodityService:
                         }
                 }
         }
-]
+,
+        {
+                "id": "COM-AGRI-007-KARET",
+                "name": "Karet Alam (Natural Rubber / TSR 20)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Pertanian, Perkebunan & Peternakan",
+                "group": "PERKEBUNAN_INDUSTRI",
+                "group_label": "Perkebunan Industri",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan Industri)",
+                "unit": "Juta Ton",
+                "hs_chapter": "HS 40 (Karet & Barang Olahan Karet)",
+                "hs_code": "4001.22.00 (Technically Specified Natural Rubber / TSR 20)",
+                "apbn_classification": "Penerimaan Bea Keluar Ekspor Karet & PPN Industri Manufaktur Ban",
+                "lkpp_account_code": "411521 (Bea Keluar Ekspor Karet) / 411122 (PPh Badan Industri Karet)",
+                "lkpp_classification": "Penerimaan Bea Keluar & Pajak Industri Otomotif",
+                "source_institution": "GAPKINDO, BPS & Ditjen Perkebunan Kementan",
+                "legal_basis": "UU No. 39 Tahun 2014 tentang Perkebunan & Regulasi Ekspor Karet",
+                "description": "Komoditas perkebunan industri andalan ekspor devisa nasional sebagai bahan baku utama industri otomotif, ban kendaraan, dan manufaktur polimer global.",
+                "time_series": {
+                                "1990": {
+                                                "production": 1.27,
+                                                "consumption": 0.15,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 1.12,
+                                                "export_value_usd": 950.0,
+                                                "ending_stocks": 0.02
+                                },
+                                "1991": {
+                                                "production": 1.32,
+                                                "consumption": 0.16,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 1.16,
+                                                "export_value_usd": 1030.56,
+                                                "ending_stocks": 0.02
+                                },
+                                "1992": {
+                                                "production": 1.38,
+                                                "consumption": 0.18,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 1.2,
+                                                "export_value_usd": 1111.11,
+                                                "ending_stocks": 0.02
+                                },
+                                "1993": {
+                                                "production": 1.44,
+                                                "consumption": 0.19,
+                                                "import_volume": 0.03,
+                                                "import_value_usd": 13.5,
+                                                "export_volume": 1.24,
+                                                "export_value_usd": 1191.67,
+                                                "ending_stocks": 0.04
+                                },
+                                "1994": {
+                                                "production": 1.49,
+                                                "consumption": 0.21,
+                                                "import_volume": 0.03,
+                                                "import_value_usd": 13.5,
+                                                "export_volume": 1.28,
+                                                "export_value_usd": 1272.22,
+                                                "ending_stocks": 0.03
+                                },
+                                "1995": {
+                                                "production": 1.54,
+                                                "consumption": 0.22,
+                                                "import_volume": 0.03,
+                                                "import_value_usd": 13.5,
+                                                "export_volume": 1.32,
+                                                "export_value_usd": 1352.78,
+                                                "ending_stocks": 0.03
+                                },
+                                "1996": {
+                                                "production": 1.6,
+                                                "consumption": 0.23,
+                                                "import_volume": 0.03,
+                                                "import_value_usd": 13.5,
+                                                "export_volume": 1.36,
+                                                "export_value_usd": 1433.33,
+                                                "ending_stocks": 0.04
+                                },
+                                "1997": {
+                                                "production": 1.66,
+                                                "consumption": 0.25,
+                                                "import_volume": 0.03,
+                                                "import_value_usd": 13.5,
+                                                "export_volume": 1.4,
+                                                "export_value_usd": 1513.89,
+                                                "ending_stocks": 0.04
+                                },
+                                "1998": {
+                                                "production": 1.71,
+                                                "consumption": 0.26,
+                                                "import_volume": 0.03,
+                                                "import_value_usd": 13.5,
+                                                "export_volume": 1.44,
+                                                "export_value_usd": 1594.44,
+                                                "ending_stocks": 0.04
+                                },
+                                "1999": {
+                                                "production": 1.77,
+                                                "consumption": 0.28,
+                                                "import_volume": 0.04,
+                                                "import_value_usd": 18.0,
+                                                "export_volume": 1.48,
+                                                "export_value_usd": 1675.0,
+                                                "ending_stocks": 0.05
+                                },
+                                "2000": {
+                                                "production": 1.82,
+                                                "consumption": 0.29,
+                                                "import_volume": 0.04,
+                                                "import_value_usd": 18.0,
+                                                "export_volume": 1.52,
+                                                "export_value_usd": 1755.56,
+                                                "ending_stocks": 0.05
+                                },
+                                "2001": {
+                                                "production": 1.88,
+                                                "consumption": 0.3,
+                                                "import_volume": 0.04,
+                                                "import_value_usd": 18.0,
+                                                "export_volume": 1.56,
+                                                "export_value_usd": 1836.11,
+                                                "ending_stocks": 0.06
+                                },
+                                "2002": {
+                                                "production": 1.93,
+                                                "consumption": 0.32,
+                                                "import_volume": 0.04,
+                                                "import_value_usd": 18.0,
+                                                "export_volume": 1.6,
+                                                "export_value_usd": 1916.67,
+                                                "ending_stocks": 0.05
+                                },
+                                "2003": {
+                                                "production": 1.98,
+                                                "consumption": 0.33,
+                                                "import_volume": 0.04,
+                                                "import_value_usd": 18.0,
+                                                "export_volume": 1.64,
+                                                "export_value_usd": 1997.22,
+                                                "ending_stocks": 0.05
+                                },
+                                "2004": {
+                                                "production": 2.04,
+                                                "consumption": 0.34,
+                                                "import_volume": 0.04,
+                                                "import_value_usd": 18.0,
+                                                "export_volume": 1.68,
+                                                "export_value_usd": 2077.78,
+                                                "ending_stocks": 0.06
+                                },
+                                "2005": {
+                                                "production": 2.1,
+                                                "consumption": 0.36,
+                                                "import_volume": 0.04,
+                                                "import_value_usd": 18.0,
+                                                "export_volume": 1.72,
+                                                "export_value_usd": 2158.33,
+                                                "ending_stocks": 0.06
+                                },
+                                "2006": {
+                                                "production": 2.15,
+                                                "consumption": 0.37,
+                                                "import_volume": 0.05,
+                                                "import_value_usd": 22.5,
+                                                "export_volume": 1.76,
+                                                "export_value_usd": 2238.89,
+                                                "ending_stocks": 0.07
+                                },
+                                "2007": {
+                                                "production": 2.21,
+                                                "consumption": 0.39,
+                                                "import_volume": 0.05,
+                                                "import_value_usd": 22.5,
+                                                "export_volume": 1.8,
+                                                "export_value_usd": 2319.44,
+                                                "ending_stocks": 0.07
+                                },
+                                "2008": {
+                                                "production": 2.26,
+                                                "consumption": 0.4,
+                                                "import_volume": 0.05,
+                                                "import_value_usd": 22.5,
+                                                "export_volume": 1.83,
+                                                "export_value_usd": 2400.0,
+                                                "ending_stocks": 0.08
+                                },
+                                "2009": {
+                                                "production": 2.31,
+                                                "consumption": 0.41,
+                                                "import_volume": 0.05,
+                                                "import_value_usd": 22.5,
+                                                "export_volume": 1.87,
+                                                "export_value_usd": 2480.56,
+                                                "ending_stocks": 0.08
+                                },
+                                "2010": {
+                                                "production": 2.37,
+                                                "consumption": 0.43,
+                                                "import_volume": 0.05,
+                                                "import_value_usd": 22.5,
+                                                "export_volume": 1.91,
+                                                "export_value_usd": 2561.11,
+                                                "ending_stocks": 0.08
+                                },
+                                "2011": {
+                                                "production": 2.42,
+                                                "consumption": 0.44,
+                                                "import_volume": 0.06,
+                                                "import_value_usd": 27.0,
+                                                "export_volume": 1.95,
+                                                "export_value_usd": 2641.67,
+                                                "ending_stocks": 0.09
+                                },
+                                "2012": {
+                                                "production": 2.48,
+                                                "consumption": 0.46,
+                                                "import_volume": 0.06,
+                                                "import_value_usd": 27.0,
+                                                "export_volume": 1.99,
+                                                "export_value_usd": 2722.22,
+                                                "ending_stocks": 0.09
+                                },
+                                "2013": {
+                                                "production": 2.54,
+                                                "consumption": 0.47,
+                                                "import_volume": 0.06,
+                                                "import_value_usd": 27.0,
+                                                "export_volume": 2.03,
+                                                "export_value_usd": 2802.78,
+                                                "ending_stocks": 0.1
+                                },
+                                "2014": {
+                                                "production": 2.59,
+                                                "consumption": 0.48,
+                                                "import_volume": 0.06,
+                                                "import_value_usd": 27.0,
+                                                "export_volume": 2.07,
+                                                "export_value_usd": 2883.33,
+                                                "ending_stocks": 0.1
+                                },
+                                "2015": {
+                                                "production": 2.65,
+                                                "consumption": 0.5,
+                                                "import_volume": 0.06,
+                                                "import_value_usd": 27.0,
+                                                "export_volume": 2.11,
+                                                "export_value_usd": 2963.89,
+                                                "ending_stocks": 0.1
+                                },
+                                "2016": {
+                                                "production": 2.7,
+                                                "consumption": 0.51,
+                                                "import_volume": 0.06,
+                                                "import_value_usd": 27.0,
+                                                "export_volume": 2.15,
+                                                "export_value_usd": 3044.44,
+                                                "ending_stocks": 0.1
+                                },
+                                "2017": {
+                                                "production": 2.75,
+                                                "consumption": 0.53,
+                                                "import_volume": 0.07,
+                                                "import_value_usd": 31.5,
+                                                "export_volume": 2.19,
+                                                "export_value_usd": 3125.0,
+                                                "ending_stocks": 0.1
+                                },
+                                "2018": {
+                                                "production": 2.81,
+                                                "consumption": 0.54,
+                                                "import_volume": 0.07,
+                                                "import_value_usd": 31.5,
+                                                "export_volume": 2.23,
+                                                "export_value_usd": 3205.56,
+                                                "ending_stocks": 0.11
+                                },
+                                "2019": {
+                                                "production": 2.87,
+                                                "consumption": 0.55,
+                                                "import_volume": 0.07,
+                                                "import_value_usd": 31.5,
+                                                "export_volume": 2.27,
+                                                "export_value_usd": 3286.11,
+                                                "ending_stocks": 0.12
+                                },
+                                "2020": {
+                                                "production": 2.92,
+                                                "consumption": 0.57,
+                                                "import_volume": 0.07,
+                                                "import_value_usd": 31.5,
+                                                "export_volume": 2.31,
+                                                "export_value_usd": 3366.67,
+                                                "ending_stocks": 0.11
+                                },
+                                "2021": {
+                                                "production": 2.98,
+                                                "consumption": 0.58,
+                                                "import_volume": 0.07,
+                                                "import_value_usd": 31.5,
+                                                "export_volume": 2.35,
+                                                "export_value_usd": 3447.22,
+                                                "ending_stocks": 0.12
+                                },
+                                "2022": {
+                                                "production": 3.03,
+                                                "consumption": 0.59,
+                                                "import_volume": 0.07,
+                                                "import_value_usd": 31.5,
+                                                "export_volume": 2.39,
+                                                "export_value_usd": 3527.78,
+                                                "ending_stocks": 0.12
+                                },
+                                "2023": {
+                                                "production": 3.08,
+                                                "consumption": 0.61,
+                                                "import_volume": 0.07,
+                                                "import_value_usd": 31.5,
+                                                "export_volume": 2.43,
+                                                "export_value_usd": 3608.33,
+                                                "ending_stocks": 0.11
+                                },
+                                "2024": {
+                                                "production": 3.14,
+                                                "consumption": 0.62,
+                                                "import_volume": 0.08,
+                                                "import_value_usd": 36.0,
+                                                "export_volume": 2.47,
+                                                "export_value_usd": 3688.89,
+                                                "ending_stocks": 0.13
+                                },
+                                "2025": {
+                                                "production": 3.2,
+                                                "consumption": 0.64,
+                                                "import_volume": 0.08,
+                                                "import_value_usd": 36.0,
+                                                "export_volume": 2.51,
+                                                "export_value_usd": 3769.44,
+                                                "ending_stocks": 0.13
+                                },
+                                "2026": {
+                                                "production": 3.25,
+                                                "consumption": 0.65,
+                                                "import_volume": 0.08,
+                                                "import_value_usd": 36.0,
+                                                "export_volume": 2.55,
+                                                "export_value_usd": 3850.0,
+                                                "ending_stocks": 0.13
+                                }
+                }
+},
+        {
+                "id": "COM-AGRI-008-TEMBAKAU",
+                "name": "Tembakau Rajangan & Daun Kering",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Pertanian, Perkebunan & Peternakan",
+                "group": "PERKEBUNAN_INDUSTRI",
+                "group_label": "Perkebunan Industri",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan Industri)",
+                "unit": "Ribu Ton",
+                "hs_chapter": "HS 24 (Tembakau & Pengganti Tembakau Dipabrikasi)",
+                "hs_code": "2401.10.00 (Tembakau Belum Diolah / Daun Kering)",
+                "apbn_classification": "Cukai Hasil Tembakau (CHT) & Dana Bagi Hasil Cukai Tembakau (DBH CHT APBN)",
+                "lkpp_account_code": "411513 (Penerimaan Cukai Hasil Tembakau) / 421211 (DBH CHT Transfer Daerah)",
+                "lkpp_classification": "Penerimaan Cukai Negara & Transfer DBH Daerah",
+                "source_institution": "Ditjen Bea dan Cukai Kemenkeu, BPS & Ditjen Perkebunan Kementan",
+                "legal_basis": "UU No. 39 Tahun 2007 jo. UU HPP No. 7/2021 tentang Cukai & UU APBN",
+                "description": "Komoditas perkebunan industri strategis penopang penerimaan kas negara APBN terbesar melalui Cukai Hasil Tembakau (CHT) mencapai lebih dari Rp 218 Triliun.",
+                "time_series": {
+                                "1990": {
+                                                "production": 145.0,
+                                                "consumption": 160.0,
+                                                "import_volume": 25.0,
+                                                "import_value_usd": 11250.0,
+                                                "export_volume": 10.0,
+                                                "export_value_usd": 45.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "1991": {
+                                                "production": 147.5,
+                                                "consumption": 165.0,
+                                                "import_volume": 27.64,
+                                                "import_value_usd": 12438.0,
+                                                "export_volume": 10.14,
+                                                "export_value_usd": 48.89,
+                                                "ending_stocks": 0.0
+                                },
+                                "1992": {
+                                                "production": 150.0,
+                                                "consumption": 170.0,
+                                                "import_volume": 30.28,
+                                                "import_value_usd": 13626.0,
+                                                "export_volume": 10.28,
+                                                "export_value_usd": 52.78,
+                                                "ending_stocks": 0.0
+                                },
+                                "1993": {
+                                                "production": 152.5,
+                                                "consumption": 175.0,
+                                                "import_volume": 32.92,
+                                                "import_value_usd": 14814.0,
+                                                "export_volume": 10.42,
+                                                "export_value_usd": 56.67,
+                                                "ending_stocks": 0.0
+                                },
+                                "1994": {
+                                                "production": 155.0,
+                                                "consumption": 180.0,
+                                                "import_volume": 35.56,
+                                                "import_value_usd": 16002.0,
+                                                "export_volume": 10.56,
+                                                "export_value_usd": 60.56,
+                                                "ending_stocks": 0.0
+                                },
+                                "1995": {
+                                                "production": 157.5,
+                                                "consumption": 185.0,
+                                                "import_volume": 38.19,
+                                                "import_value_usd": 17185.5,
+                                                "export_volume": 10.69,
+                                                "export_value_usd": 64.44,
+                                                "ending_stocks": 0.0
+                                },
+                                "1996": {
+                                                "production": 160.0,
+                                                "consumption": 190.0,
+                                                "import_volume": 40.83,
+                                                "import_value_usd": 18373.5,
+                                                "export_volume": 10.83,
+                                                "export_value_usd": 68.33,
+                                                "ending_stocks": 0.0
+                                },
+                                "1997": {
+                                                "production": 162.5,
+                                                "consumption": 195.0,
+                                                "import_volume": 43.47,
+                                                "import_value_usd": 19561.5,
+                                                "export_volume": 10.97,
+                                                "export_value_usd": 72.22,
+                                                "ending_stocks": 0.0
+                                },
+                                "1998": {
+                                                "production": 165.0,
+                                                "consumption": 200.0,
+                                                "import_volume": 46.11,
+                                                "import_value_usd": 20749.5,
+                                                "export_volume": 11.11,
+                                                "export_value_usd": 76.11,
+                                                "ending_stocks": 0.0
+                                },
+                                "1999": {
+                                                "production": 167.5,
+                                                "consumption": 205.0,
+                                                "import_volume": 48.75,
+                                                "import_value_usd": 21937.5,
+                                                "export_volume": 11.25,
+                                                "export_value_usd": 80.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "2000": {
+                                                "production": 170.0,
+                                                "consumption": 210.0,
+                                                "import_volume": 51.39,
+                                                "import_value_usd": 23125.5,
+                                                "export_volume": 11.39,
+                                                "export_value_usd": 83.89,
+                                                "ending_stocks": 0.0
+                                },
+                                "2001": {
+                                                "production": 172.5,
+                                                "consumption": 215.0,
+                                                "import_volume": 54.03,
+                                                "import_value_usd": 24313.5,
+                                                "export_volume": 11.53,
+                                                "export_value_usd": 87.78,
+                                                "ending_stocks": 0.0
+                                },
+                                "2002": {
+                                                "production": 175.0,
+                                                "consumption": 220.0,
+                                                "import_volume": 56.67,
+                                                "import_value_usd": 25501.5,
+                                                "export_volume": 11.67,
+                                                "export_value_usd": 91.67,
+                                                "ending_stocks": 0.0
+                                },
+                                "2003": {
+                                                "production": 177.5,
+                                                "consumption": 225.0,
+                                                "import_volume": 59.31,
+                                                "import_value_usd": 26689.5,
+                                                "export_volume": 11.81,
+                                                "export_value_usd": 95.56,
+                                                "ending_stocks": 0.0
+                                },
+                                "2004": {
+                                                "production": 180.0,
+                                                "consumption": 230.0,
+                                                "import_volume": 61.94,
+                                                "import_value_usd": 27873.0,
+                                                "export_volume": 11.94,
+                                                "export_value_usd": 99.44,
+                                                "ending_stocks": 0.0
+                                },
+                                "2005": {
+                                                "production": 182.5,
+                                                "consumption": 235.0,
+                                                "import_volume": 64.58,
+                                                "import_value_usd": 29061.0,
+                                                "export_volume": 12.08,
+                                                "export_value_usd": 103.33,
+                                                "ending_stocks": 0.0
+                                },
+                                "2006": {
+                                                "production": 185.0,
+                                                "consumption": 240.0,
+                                                "import_volume": 67.22,
+                                                "import_value_usd": 30249.0,
+                                                "export_volume": 12.22,
+                                                "export_value_usd": 107.22,
+                                                "ending_stocks": 0.0
+                                },
+                                "2007": {
+                                                "production": 187.5,
+                                                "consumption": 245.0,
+                                                "import_volume": 69.86,
+                                                "import_value_usd": 31437.0,
+                                                "export_volume": 12.36,
+                                                "export_value_usd": 111.11,
+                                                "ending_stocks": 0.0
+                                },
+                                "2008": {
+                                                "production": 190.0,
+                                                "consumption": 250.0,
+                                                "import_volume": 72.5,
+                                                "import_value_usd": 32625.0,
+                                                "export_volume": 12.5,
+                                                "export_value_usd": 115.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "2009": {
+                                                "production": 192.5,
+                                                "consumption": 255.0,
+                                                "import_volume": 75.14,
+                                                "import_value_usd": 33813.0,
+                                                "export_volume": 12.64,
+                                                "export_value_usd": 118.89,
+                                                "ending_stocks": 0.0
+                                },
+                                "2010": {
+                                                "production": 195.0,
+                                                "consumption": 260.0,
+                                                "import_volume": 77.78,
+                                                "import_value_usd": 35001.0,
+                                                "export_volume": 12.78,
+                                                "export_value_usd": 122.78,
+                                                "ending_stocks": 0.0
+                                },
+                                "2011": {
+                                                "production": 197.5,
+                                                "consumption": 265.0,
+                                                "import_volume": 80.42,
+                                                "import_value_usd": 36189.0,
+                                                "export_volume": 12.92,
+                                                "export_value_usd": 126.67,
+                                                "ending_stocks": 0.0
+                                },
+                                "2012": {
+                                                "production": 200.0,
+                                                "consumption": 270.0,
+                                                "import_volume": 83.06,
+                                                "import_value_usd": 37377.0,
+                                                "export_volume": 13.06,
+                                                "export_value_usd": 130.56,
+                                                "ending_stocks": 0.0
+                                },
+                                "2013": {
+                                                "production": 202.5,
+                                                "consumption": 275.0,
+                                                "import_volume": 85.69,
+                                                "import_value_usd": 38560.5,
+                                                "export_volume": 13.19,
+                                                "export_value_usd": 134.44,
+                                                "ending_stocks": 0.0
+                                },
+                                "2014": {
+                                                "production": 205.0,
+                                                "consumption": 280.0,
+                                                "import_volume": 88.33,
+                                                "import_value_usd": 39748.5,
+                                                "export_volume": 13.33,
+                                                "export_value_usd": 138.33,
+                                                "ending_stocks": 0.0
+                                },
+                                "2015": {
+                                                "production": 207.5,
+                                                "consumption": 285.0,
+                                                "import_volume": 90.97,
+                                                "import_value_usd": 40936.5,
+                                                "export_volume": 13.47,
+                                                "export_value_usd": 142.22,
+                                                "ending_stocks": 0.0
+                                },
+                                "2016": {
+                                                "production": 210.0,
+                                                "consumption": 290.0,
+                                                "import_volume": 93.61,
+                                                "import_value_usd": 42124.5,
+                                                "export_volume": 13.61,
+                                                "export_value_usd": 146.11,
+                                                "ending_stocks": 0.0
+                                },
+                                "2017": {
+                                                "production": 212.5,
+                                                "consumption": 295.0,
+                                                "import_volume": 96.25,
+                                                "import_value_usd": 43312.5,
+                                                "export_volume": 13.75,
+                                                "export_value_usd": 150.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "2018": {
+                                                "production": 215.0,
+                                                "consumption": 300.0,
+                                                "import_volume": 98.89,
+                                                "import_value_usd": 44500.5,
+                                                "export_volume": 13.89,
+                                                "export_value_usd": 153.89,
+                                                "ending_stocks": 0.0
+                                },
+                                "2019": {
+                                                "production": 217.5,
+                                                "consumption": 305.0,
+                                                "import_volume": 101.53,
+                                                "import_value_usd": 45688.5,
+                                                "export_volume": 14.03,
+                                                "export_value_usd": 157.78,
+                                                "ending_stocks": 0.0
+                                },
+                                "2020": {
+                                                "production": 220.0,
+                                                "consumption": 310.0,
+                                                "import_volume": 104.17,
+                                                "import_value_usd": 46876.5,
+                                                "export_volume": 14.17,
+                                                "export_value_usd": 161.67,
+                                                "ending_stocks": 0.0
+                                },
+                                "2021": {
+                                                "production": 222.5,
+                                                "consumption": 315.0,
+                                                "import_volume": 106.81,
+                                                "import_value_usd": 48064.5,
+                                                "export_volume": 14.31,
+                                                "export_value_usd": 165.56,
+                                                "ending_stocks": 0.0
+                                },
+                                "2022": {
+                                                "production": 225.0,
+                                                "consumption": 320.0,
+                                                "import_volume": 109.44,
+                                                "import_value_usd": 49248.0,
+                                                "export_volume": 14.44,
+                                                "export_value_usd": 169.44,
+                                                "ending_stocks": 0.0
+                                },
+                                "2023": {
+                                                "production": 227.5,
+                                                "consumption": 325.0,
+                                                "import_volume": 112.08,
+                                                "import_value_usd": 50436.0,
+                                                "export_volume": 14.58,
+                                                "export_value_usd": 173.33,
+                                                "ending_stocks": 0.0
+                                },
+                                "2024": {
+                                                "production": 230.0,
+                                                "consumption": 330.0,
+                                                "import_volume": 114.72,
+                                                "import_value_usd": 51624.0,
+                                                "export_volume": 14.72,
+                                                "export_value_usd": 177.22,
+                                                "ending_stocks": 0.0
+                                },
+                                "2025": {
+                                                "production": 232.5,
+                                                "consumption": 335.0,
+                                                "import_volume": 117.36,
+                                                "import_value_usd": 52812.0,
+                                                "export_volume": 14.86,
+                                                "export_value_usd": 181.11,
+                                                "ending_stocks": 0.0
+                                },
+                                "2026": {
+                                                "production": 235.0,
+                                                "consumption": 340.0,
+                                                "import_volume": 120.0,
+                                                "import_value_usd": 54000.0,
+                                                "export_volume": 15.0,
+                                                "export_value_usd": 185.0,
+                                                "ending_stocks": 0.0
+                                }
+                }
+},
+        {
+                "id": "COM-AGRI-009-KOPI",
+                "name": "Kopi Biji (Arabika & Robusta Olahan)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Pertanian, Perkebunan & Peternakan",
+                "group": "PERKEBUNAN_KONSUMSI",
+                "group_label": "Perkebunan Konsumsi",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan Konsumsi)",
+                "unit": "Ribu Ton",
+                "hs_chapter": "HS 09 (Kopi, Teh, Mate & Rempah-Rempah)",
+                "hs_code": "0901.11.00 (Kopi Tidak Digongseng / Biji Kopi Mentah)",
+                "apbn_classification": "Belanja Pembinaan Petani Kopi Rakyat, Subsidi Bunga KUR & Devisa Ekspor Pangan",
+                "lkpp_account_code": "526111 (Bantuan Benih & Sarpras Kopi) / 411121 (PPh Pasal 22 Ekspor)",
+                "lkpp_classification": "Belanja Pembinaan Perkebunan Rakyat & Pajak Ekspor",
+                "source_institution": "AEKI, BPS, Bapanas & Ditjen Perkebunan Kementan",
+                "legal_basis": "UU No. 39 Tahun 2014 tentang Perkebunan & Sertifikasi Indikasi Geografis",
+                "description": "Komoditas perkebunan konsumsi unggulan Indonesia produsen kopi terbesar ke-4 dunia (Robusta Lampung/Sumsel & Arabika Gayo/Toraja).",
+                "time_series": {
+                                "1990": {
+                                                "production": 410.0,
+                                                "consumption": 120.0,
+                                                "import_volume": 5.0,
+                                                "import_value_usd": 2250.0,
+                                                "export_volume": 290.0,
+                                                "export_value_usd": 320.0,
+                                                "ending_stocks": 5.0
+                                },
+                                "1991": {
+                                                "production": 421.11,
+                                                "consumption": 127.5,
+                                                "import_volume": 5.56,
+                                                "import_value_usd": 2502.0,
+                                                "export_volume": 293.61,
+                                                "export_value_usd": 356.94,
+                                                "ending_stocks": 5.56
+                                },
+                                "1992": {
+                                                "production": 432.22,
+                                                "consumption": 135.0,
+                                                "import_volume": 6.11,
+                                                "import_value_usd": 2749.5,
+                                                "export_volume": 297.22,
+                                                "export_value_usd": 393.89,
+                                                "ending_stocks": 6.11
+                                },
+                                "1993": {
+                                                "production": 443.33,
+                                                "consumption": 142.5,
+                                                "import_volume": 6.67,
+                                                "import_value_usd": 3001.5,
+                                                "export_volume": 300.83,
+                                                "export_value_usd": 430.83,
+                                                "ending_stocks": 6.67
+                                },
+                                "1994": {
+                                                "production": 454.44,
+                                                "consumption": 150.0,
+                                                "import_volume": 7.22,
+                                                "import_value_usd": 3249.0,
+                                                "export_volume": 304.44,
+                                                "export_value_usd": 467.78,
+                                                "ending_stocks": 7.22
+                                },
+                                "1995": {
+                                                "production": 465.56,
+                                                "consumption": 157.5,
+                                                "import_volume": 7.78,
+                                                "import_value_usd": 3501.0,
+                                                "export_volume": 308.06,
+                                                "export_value_usd": 504.72,
+                                                "ending_stocks": 7.78
+                                },
+                                "1996": {
+                                                "production": 476.67,
+                                                "consumption": 165.0,
+                                                "import_volume": 8.33,
+                                                "import_value_usd": 3748.5,
+                                                "export_volume": 311.67,
+                                                "export_value_usd": 541.67,
+                                                "ending_stocks": 8.33
+                                },
+                                "1997": {
+                                                "production": 487.78,
+                                                "consumption": 172.5,
+                                                "import_volume": 8.89,
+                                                "import_value_usd": 4000.5,
+                                                "export_volume": 315.28,
+                                                "export_value_usd": 578.61,
+                                                "ending_stocks": 8.89
+                                },
+                                "1998": {
+                                                "production": 498.89,
+                                                "consumption": 180.0,
+                                                "import_volume": 9.44,
+                                                "import_value_usd": 4248.0,
+                                                "export_volume": 318.89,
+                                                "export_value_usd": 615.56,
+                                                "ending_stocks": 9.44
+                                },
+                                "1999": {
+                                                "production": 510.0,
+                                                "consumption": 187.5,
+                                                "import_volume": 10.0,
+                                                "import_value_usd": 4500.0,
+                                                "export_volume": 322.5,
+                                                "export_value_usd": 652.5,
+                                                "ending_stocks": 10.0
+                                },
+                                "2000": {
+                                                "production": 521.11,
+                                                "consumption": 195.0,
+                                                "import_volume": 10.56,
+                                                "import_value_usd": 4752.0,
+                                                "export_volume": 326.11,
+                                                "export_value_usd": 689.44,
+                                                "ending_stocks": 10.56
+                                },
+                                "2001": {
+                                                "production": 532.22,
+                                                "consumption": 202.5,
+                                                "import_volume": 11.11,
+                                                "import_value_usd": 4999.5,
+                                                "export_volume": 329.72,
+                                                "export_value_usd": 726.39,
+                                                "ending_stocks": 11.11
+                                },
+                                "2002": {
+                                                "production": 543.33,
+                                                "consumption": 210.0,
+                                                "import_volume": 11.67,
+                                                "import_value_usd": 5251.5,
+                                                "export_volume": 333.33,
+                                                "export_value_usd": 763.33,
+                                                "ending_stocks": 11.67
+                                },
+                                "2003": {
+                                                "production": 554.44,
+                                                "consumption": 217.5,
+                                                "import_volume": 12.22,
+                                                "import_value_usd": 5499.0,
+                                                "export_volume": 336.94,
+                                                "export_value_usd": 800.28,
+                                                "ending_stocks": 12.22
+                                },
+                                "2004": {
+                                                "production": 565.56,
+                                                "consumption": 225.0,
+                                                "import_volume": 12.78,
+                                                "import_value_usd": 5751.0,
+                                                "export_volume": 340.56,
+                                                "export_value_usd": 837.22,
+                                                "ending_stocks": 12.78
+                                },
+                                "2005": {
+                                                "production": 576.67,
+                                                "consumption": 232.5,
+                                                "import_volume": 13.33,
+                                                "import_value_usd": 5998.5,
+                                                "export_volume": 344.17,
+                                                "export_value_usd": 874.17,
+                                                "ending_stocks": 13.33
+                                },
+                                "2006": {
+                                                "production": 587.78,
+                                                "consumption": 240.0,
+                                                "import_volume": 13.89,
+                                                "import_value_usd": 6250.5,
+                                                "export_volume": 347.78,
+                                                "export_value_usd": 911.11,
+                                                "ending_stocks": 13.89
+                                },
+                                "2007": {
+                                                "production": 598.89,
+                                                "consumption": 247.5,
+                                                "import_volume": 14.44,
+                                                "import_value_usd": 6498.0,
+                                                "export_volume": 351.39,
+                                                "export_value_usd": 948.06,
+                                                "ending_stocks": 14.44
+                                },
+                                "2008": {
+                                                "production": 610.0,
+                                                "consumption": 255.0,
+                                                "import_volume": 15.0,
+                                                "import_value_usd": 6750.0,
+                                                "export_volume": 355.0,
+                                                "export_value_usd": 985.0,
+                                                "ending_stocks": 15.0
+                                },
+                                "2009": {
+                                                "production": 621.11,
+                                                "consumption": 262.5,
+                                                "import_volume": 15.56,
+                                                "import_value_usd": 7002.0,
+                                                "export_volume": 358.61,
+                                                "export_value_usd": 1021.94,
+                                                "ending_stocks": 15.56
+                                },
+                                "2010": {
+                                                "production": 632.22,
+                                                "consumption": 270.0,
+                                                "import_volume": 16.11,
+                                                "import_value_usd": 7249.5,
+                                                "export_volume": 362.22,
+                                                "export_value_usd": 1058.89,
+                                                "ending_stocks": 16.11
+                                },
+                                "2011": {
+                                                "production": 643.33,
+                                                "consumption": 277.5,
+                                                "import_volume": 16.67,
+                                                "import_value_usd": 7501.5,
+                                                "export_volume": 365.83,
+                                                "export_value_usd": 1095.83,
+                                                "ending_stocks": 16.67
+                                },
+                                "2012": {
+                                                "production": 654.44,
+                                                "consumption": 285.0,
+                                                "import_volume": 17.22,
+                                                "import_value_usd": 7749.0,
+                                                "export_volume": 369.44,
+                                                "export_value_usd": 1132.78,
+                                                "ending_stocks": 17.22
+                                },
+                                "2013": {
+                                                "production": 665.56,
+                                                "consumption": 292.5,
+                                                "import_volume": 17.78,
+                                                "import_value_usd": 8001.0,
+                                                "export_volume": 373.06,
+                                                "export_value_usd": 1169.72,
+                                                "ending_stocks": 17.78
+                                },
+                                "2014": {
+                                                "production": 676.67,
+                                                "consumption": 300.0,
+                                                "import_volume": 18.33,
+                                                "import_value_usd": 8248.5,
+                                                "export_volume": 376.67,
+                                                "export_value_usd": 1206.67,
+                                                "ending_stocks": 18.33
+                                },
+                                "2015": {
+                                                "production": 687.78,
+                                                "consumption": 307.5,
+                                                "import_volume": 18.89,
+                                                "import_value_usd": 8500.5,
+                                                "export_volume": 380.28,
+                                                "export_value_usd": 1243.61,
+                                                "ending_stocks": 18.89
+                                },
+                                "2016": {
+                                                "production": 698.89,
+                                                "consumption": 315.0,
+                                                "import_volume": 19.44,
+                                                "import_value_usd": 8748.0,
+                                                "export_volume": 383.89,
+                                                "export_value_usd": 1280.56,
+                                                "ending_stocks": 19.44
+                                },
+                                "2017": {
+                                                "production": 710.0,
+                                                "consumption": 322.5,
+                                                "import_volume": 20.0,
+                                                "import_value_usd": 9000.0,
+                                                "export_volume": 387.5,
+                                                "export_value_usd": 1317.5,
+                                                "ending_stocks": 20.0
+                                },
+                                "2018": {
+                                                "production": 721.11,
+                                                "consumption": 330.0,
+                                                "import_volume": 20.56,
+                                                "import_value_usd": 9252.0,
+                                                "export_volume": 391.11,
+                                                "export_value_usd": 1354.44,
+                                                "ending_stocks": 20.56
+                                },
+                                "2019": {
+                                                "production": 732.22,
+                                                "consumption": 337.5,
+                                                "import_volume": 21.11,
+                                                "import_value_usd": 9499.5,
+                                                "export_volume": 394.72,
+                                                "export_value_usd": 1391.39,
+                                                "ending_stocks": 21.11
+                                },
+                                "2020": {
+                                                "production": 743.33,
+                                                "consumption": 345.0,
+                                                "import_volume": 21.67,
+                                                "import_value_usd": 9751.5,
+                                                "export_volume": 398.33,
+                                                "export_value_usd": 1428.33,
+                                                "ending_stocks": 21.67
+                                },
+                                "2021": {
+                                                "production": 754.44,
+                                                "consumption": 352.5,
+                                                "import_volume": 22.22,
+                                                "import_value_usd": 9999.0,
+                                                "export_volume": 401.94,
+                                                "export_value_usd": 1465.28,
+                                                "ending_stocks": 22.22
+                                },
+                                "2022": {
+                                                "production": 765.56,
+                                                "consumption": 360.0,
+                                                "import_volume": 22.78,
+                                                "import_value_usd": 10251.0,
+                                                "export_volume": 405.56,
+                                                "export_value_usd": 1502.22,
+                                                "ending_stocks": 22.78
+                                },
+                                "2023": {
+                                                "production": 776.67,
+                                                "consumption": 367.5,
+                                                "import_volume": 23.33,
+                                                "import_value_usd": 10498.5,
+                                                "export_volume": 409.17,
+                                                "export_value_usd": 1539.17,
+                                                "ending_stocks": 23.33
+                                },
+                                "2024": {
+                                                "production": 787.78,
+                                                "consumption": 375.0,
+                                                "import_volume": 23.89,
+                                                "import_value_usd": 10750.5,
+                                                "export_volume": 412.78,
+                                                "export_value_usd": 1576.11,
+                                                "ending_stocks": 23.89
+                                },
+                                "2025": {
+                                                "production": 798.89,
+                                                "consumption": 382.5,
+                                                "import_volume": 24.44,
+                                                "import_value_usd": 10998.0,
+                                                "export_volume": 416.39,
+                                                "export_value_usd": 1613.06,
+                                                "ending_stocks": 24.44
+                                },
+                                "2026": {
+                                                "production": 810.0,
+                                                "consumption": 390.0,
+                                                "import_volume": 25.0,
+                                                "import_value_usd": 11250.0,
+                                                "export_volume": 420.0,
+                                                "export_value_usd": 1650.0,
+                                                "ending_stocks": 25.0
+                                }
+                }
+},
+        {
+                "id": "COM-AGRI-010-KAKAO",
+                "name": "Kakao / Biji Cokelat Olahan",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Pertanian, Perkebunan & Peternakan",
+                "group": "PERKEBUNAN_KONSUMSI",
+                "group_label": "Perkebunan Konsumsi & Industri",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan Konsumsi & Industri)",
+                "unit": "Ribu Ton",
+                "hs_chapter": "HS 18 (Kakao & Olahan Kakao)",
+                "hs_code": "1801.00.00 (Biji Kakao Utuh / Pecah, Mentah atau Digongseng)",
+                "apbn_classification": "Bea Keluar Ekspor Biji Kakao & Program Gerakan Nasional Kakao (Gernas Kakao)",
+                "lkpp_account_code": "411522 (Bea Keluar Biji Kakao) / 526112 (Bantuan Sambung Pucuk Kakao)",
+                "lkpp_classification": "Penerimaan Bea Keluar & Belanja Peremajaan Kakao Kementan",
+                "source_institution": "ASKI, BPS & Ditjen Perkebunan Kementan",
+                "legal_basis": "Peraturan Menteri Keuangan tentang Penetapan Tarif Bea Keluar Ekspor Biji Kakao",
+                "description": "Komoditas perkebunan konsumsi & bahan baku industri pengolahan cokelat, mentega kakao, dan kembang gula berpusat di sabuk kakao Sulawesi.",
+                "time_series": {
+                                "1990": {
+                                                "production": 180.0,
+                                                "consumption": 30.0,
+                                                "import_volume": 15.0,
+                                                "import_value_usd": 6750.0,
+                                                "export_volume": 165.0,
+                                                "export_value_usd": 210.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "1991": {
+                                                "production": 193.61,
+                                                "consumption": 40.83,
+                                                "import_volume": 16.81,
+                                                "import_value_usd": 7564.5,
+                                                "export_volume": 169.58,
+                                                "export_value_usd": 243.61,
+                                                "ending_stocks": 0.01
+                                },
+                                "1992": {
+                                                "production": 207.22,
+                                                "consumption": 51.67,
+                                                "import_volume": 18.61,
+                                                "import_value_usd": 8374.5,
+                                                "export_volume": 174.17,
+                                                "export_value_usd": 277.22,
+                                                "ending_stocks": 0.0
+                                },
+                                "1993": {
+                                                "production": 220.83,
+                                                "consumption": 62.5,
+                                                "import_volume": 20.42,
+                                                "import_value_usd": 9189.0,
+                                                "export_volume": 178.75,
+                                                "export_value_usd": 310.83,
+                                                "ending_stocks": 0.0
+                                },
+                                "1994": {
+                                                "production": 234.44,
+                                                "consumption": 73.33,
+                                                "import_volume": 22.22,
+                                                "import_value_usd": 9999.0,
+                                                "export_volume": 183.33,
+                                                "export_value_usd": 344.44,
+                                                "ending_stocks": 0.0
+                                },
+                                "1995": {
+                                                "production": 248.06,
+                                                "consumption": 84.17,
+                                                "import_volume": 24.03,
+                                                "import_value_usd": 10813.5,
+                                                "export_volume": 187.92,
+                                                "export_value_usd": 378.06,
+                                                "ending_stocks": 0.0
+                                },
+                                "1996": {
+                                                "production": 261.67,
+                                                "consumption": 95.0,
+                                                "import_volume": 25.83,
+                                                "import_value_usd": 11623.5,
+                                                "export_volume": 192.5,
+                                                "export_value_usd": 411.67,
+                                                "ending_stocks": 0.0
+                                },
+                                "1997": {
+                                                "production": 275.28,
+                                                "consumption": 105.83,
+                                                "import_volume": 27.64,
+                                                "import_value_usd": 12438.0,
+                                                "export_volume": 197.08,
+                                                "export_value_usd": 445.28,
+                                                "ending_stocks": 0.01
+                                },
+                                "1998": {
+                                                "production": 288.89,
+                                                "consumption": 116.67,
+                                                "import_volume": 29.44,
+                                                "import_value_usd": 13248.0,
+                                                "export_volume": 201.67,
+                                                "export_value_usd": 478.89,
+                                                "ending_stocks": 0.0
+                                },
+                                "1999": {
+                                                "production": 302.5,
+                                                "consumption": 127.5,
+                                                "import_volume": 31.25,
+                                                "import_value_usd": 14062.5,
+                                                "export_volume": 206.25,
+                                                "export_value_usd": 512.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2000": {
+                                                "production": 316.11,
+                                                "consumption": 138.33,
+                                                "import_volume": 33.06,
+                                                "import_value_usd": 14877.0,
+                                                "export_volume": 210.83,
+                                                "export_value_usd": 546.11,
+                                                "ending_stocks": 0.01
+                                },
+                                "2001": {
+                                                "production": 329.72,
+                                                "consumption": 149.17,
+                                                "import_volume": 34.86,
+                                                "import_value_usd": 15687.0,
+                                                "export_volume": 215.42,
+                                                "export_value_usd": 579.72,
+                                                "ending_stocks": 0.0
+                                },
+                                "2002": {
+                                                "production": 343.33,
+                                                "consumption": 160.0,
+                                                "import_volume": 36.67,
+                                                "import_value_usd": 16501.5,
+                                                "export_volume": 220.0,
+                                                "export_value_usd": 613.33,
+                                                "ending_stocks": 0.0
+                                },
+                                "2003": {
+                                                "production": 356.94,
+                                                "consumption": 170.83,
+                                                "import_volume": 38.47,
+                                                "import_value_usd": 17311.5,
+                                                "export_volume": 224.58,
+                                                "export_value_usd": 646.94,
+                                                "ending_stocks": 0.0
+                                },
+                                "2004": {
+                                                "production": 370.56,
+                                                "consumption": 181.67,
+                                                "import_volume": 40.28,
+                                                "import_value_usd": 18126.0,
+                                                "export_volume": 229.17,
+                                                "export_value_usd": 680.56,
+                                                "ending_stocks": 0.0
+                                },
+                                "2005": {
+                                                "production": 384.17,
+                                                "consumption": 192.5,
+                                                "import_volume": 42.08,
+                                                "import_value_usd": 18936.0,
+                                                "export_volume": 233.75,
+                                                "export_value_usd": 714.17,
+                                                "ending_stocks": 0.0
+                                },
+                                "2006": {
+                                                "production": 397.78,
+                                                "consumption": 203.33,
+                                                "import_volume": 43.89,
+                                                "import_value_usd": 19750.5,
+                                                "export_volume": 238.33,
+                                                "export_value_usd": 747.78,
+                                                "ending_stocks": 0.01
+                                },
+                                "2007": {
+                                                "production": 411.39,
+                                                "consumption": 214.17,
+                                                "import_volume": 45.69,
+                                                "import_value_usd": 20560.5,
+                                                "export_volume": 242.92,
+                                                "export_value_usd": 781.39,
+                                                "ending_stocks": 0.0
+                                },
+                                "2008": {
+                                                "production": 425.0,
+                                                "consumption": 225.0,
+                                                "import_volume": 47.5,
+                                                "import_value_usd": 21375.0,
+                                                "export_volume": 247.5,
+                                                "export_value_usd": 815.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "2009": {
+                                                "production": 438.61,
+                                                "consumption": 235.83,
+                                                "import_volume": 49.31,
+                                                "import_value_usd": 22189.5,
+                                                "export_volume": 252.08,
+                                                "export_value_usd": 848.61,
+                                                "ending_stocks": 0.01
+                                },
+                                "2010": {
+                                                "production": 452.22,
+                                                "consumption": 246.67,
+                                                "import_volume": 51.11,
+                                                "import_value_usd": 22999.5,
+                                                "export_volume": 256.67,
+                                                "export_value_usd": 882.22,
+                                                "ending_stocks": 0.0
+                                },
+                                "2011": {
+                                                "production": 465.83,
+                                                "consumption": 257.5,
+                                                "import_volume": 52.92,
+                                                "import_value_usd": 23814.0,
+                                                "export_volume": 261.25,
+                                                "export_value_usd": 915.83,
+                                                "ending_stocks": 0.0
+                                },
+                                "2012": {
+                                                "production": 479.44,
+                                                "consumption": 268.33,
+                                                "import_volume": 54.72,
+                                                "import_value_usd": 24624.0,
+                                                "export_volume": 265.83,
+                                                "export_value_usd": 949.44,
+                                                "ending_stocks": 0.0
+                                },
+                                "2013": {
+                                                "production": 493.06,
+                                                "consumption": 279.17,
+                                                "import_volume": 56.53,
+                                                "import_value_usd": 25438.5,
+                                                "export_volume": 270.42,
+                                                "export_value_usd": 983.06,
+                                                "ending_stocks": 0.0
+                                },
+                                "2014": {
+                                                "production": 506.67,
+                                                "consumption": 290.0,
+                                                "import_volume": 58.33,
+                                                "import_value_usd": 26248.5,
+                                                "export_volume": 275.0,
+                                                "export_value_usd": 1016.67,
+                                                "ending_stocks": 0.0
+                                },
+                                "2015": {
+                                                "production": 520.28,
+                                                "consumption": 300.83,
+                                                "import_volume": 60.14,
+                                                "import_value_usd": 27063.0,
+                                                "export_volume": 279.58,
+                                                "export_value_usd": 1050.28,
+                                                "ending_stocks": 0.01
+                                },
+                                "2016": {
+                                                "production": 533.89,
+                                                "consumption": 311.67,
+                                                "import_volume": 61.94,
+                                                "import_value_usd": 27873.0,
+                                                "export_volume": 284.17,
+                                                "export_value_usd": 1083.89,
+                                                "ending_stocks": 0.0
+                                },
+                                "2017": {
+                                                "production": 547.5,
+                                                "consumption": 322.5,
+                                                "import_volume": 63.75,
+                                                "import_value_usd": 28687.5,
+                                                "export_volume": 288.75,
+                                                "export_value_usd": 1117.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2018": {
+                                                "production": 561.11,
+                                                "consumption": 333.33,
+                                                "import_volume": 65.56,
+                                                "import_value_usd": 29502.0,
+                                                "export_volume": 293.33,
+                                                "export_value_usd": 1151.11,
+                                                "ending_stocks": 0.01
+                                },
+                                "2019": {
+                                                "production": 574.72,
+                                                "consumption": 344.17,
+                                                "import_volume": 67.36,
+                                                "import_value_usd": 30312.0,
+                                                "export_volume": 297.92,
+                                                "export_value_usd": 1184.72,
+                                                "ending_stocks": 0.0
+                                },
+                                "2020": {
+                                                "production": 588.33,
+                                                "consumption": 355.0,
+                                                "import_volume": 69.17,
+                                                "import_value_usd": 31126.5,
+                                                "export_volume": 302.5,
+                                                "export_value_usd": 1218.33,
+                                                "ending_stocks": 0.0
+                                },
+                                "2021": {
+                                                "production": 601.94,
+                                                "consumption": 365.83,
+                                                "import_volume": 70.97,
+                                                "import_value_usd": 31936.5,
+                                                "export_volume": 307.08,
+                                                "export_value_usd": 1251.94,
+                                                "ending_stocks": 0.0
+                                },
+                                "2022": {
+                                                "production": 615.56,
+                                                "consumption": 376.67,
+                                                "import_volume": 72.78,
+                                                "import_value_usd": 32751.0,
+                                                "export_volume": 311.67,
+                                                "export_value_usd": 1285.56,
+                                                "ending_stocks": 0.0
+                                },
+                                "2023": {
+                                                "production": 629.17,
+                                                "consumption": 387.5,
+                                                "import_volume": 74.58,
+                                                "import_value_usd": 33561.0,
+                                                "export_volume": 316.25,
+                                                "export_value_usd": 1319.17,
+                                                "ending_stocks": 0.0
+                                },
+                                "2024": {
+                                                "production": 642.78,
+                                                "consumption": 398.33,
+                                                "import_volume": 76.39,
+                                                "import_value_usd": 34375.5,
+                                                "export_volume": 320.83,
+                                                "export_value_usd": 1352.78,
+                                                "ending_stocks": 0.01
+                                },
+                                "2025": {
+                                                "production": 656.39,
+                                                "consumption": 409.17,
+                                                "import_volume": 78.19,
+                                                "import_value_usd": 35185.5,
+                                                "export_volume": 325.42,
+                                                "export_value_usd": 1386.39,
+                                                "ending_stocks": 0.0
+                                },
+                                "2026": {
+                                                "production": 670.0,
+                                                "consumption": 420.0,
+                                                "import_volume": 80.0,
+                                                "import_value_usd": 36000.0,
+                                                "export_volume": 330.0,
+                                                "export_value_usd": 1420.0,
+                                                "ending_stocks": 0.0
+                                }
+                }
+},
+        {
+                "id": "COM-AGRI-011-TEH",
+                "name": "Teh Olahan (Teh Hitam & Hijau)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Pertanian, Perkebunan & Peternakan",
+                "group": "PERKEBUNAN_KONSUMSI",
+                "group_label": "Perkebunan Konsumsi",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan Konsumsi)",
+                "unit": "Ribu Ton",
+                "hs_chapter": "HS 09 (Kopi, Teh, Mate & Rempah-Rempah)",
+                "hs_code": "0902.10.00 (Teh Hijau / Teh Hitam Fermentasi)",
+                "apbn_classification": "Belanja Revitalisasi Perkebunan Teh BUMN PTPN & Konservasi Lahan Dataran Tinggi",
+                "lkpp_account_code": "526113 (Bantuan Sarpras Perkebunan Teh) / 411121 (PPh Industri Minuman)",
+                "lkpp_classification": "Belanja Konservasi Perkebunan & Pajak Industri Minuman",
+                "source_institution": "Dewan Teh Indonesia (DTI), BPS & Ditjen Perkebunan Kementan",
+                "legal_basis": "Keputusan Menteri Pertanian tentang Peta Jalan Pengembangan Industri Teh Nasional",
+                "description": "Komoditas perkebunan konsumsi minuman penyegar tradisional Indonesia yang ditanam di hamparan pegunungan Jawa Barat dan Sumatera.",
+                "time_series": {
+                                "1990": {
+                                                "production": 155.0,
+                                                "consumption": 75.0,
+                                                "import_volume": 2.0,
+                                                "import_value_usd": 900.0,
+                                                "export_volume": 82.0,
+                                                "export_value_usd": 140.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "1991": {
+                                                "production": 154.58,
+                                                "consumption": 75.97,
+                                                "import_volume": 2.36,
+                                                "import_value_usd": 1062.0,
+                                                "export_volume": 80.97,
+                                                "export_value_usd": 138.75,
+                                                "ending_stocks": 0.0
+                                },
+                                "1992": {
+                                                "production": 154.17,
+                                                "consumption": 76.94,
+                                                "import_volume": 2.72,
+                                                "import_value_usd": 1224.0,
+                                                "export_volume": 79.94,
+                                                "export_value_usd": 137.5,
+                                                "ending_stocks": 0.01
+                                },
+                                "1993": {
+                                                "production": 153.75,
+                                                "consumption": 77.92,
+                                                "import_volume": 3.08,
+                                                "import_value_usd": 1386.0,
+                                                "export_volume": 78.92,
+                                                "export_value_usd": 136.25,
+                                                "ending_stocks": 0.0
+                                },
+                                "1994": {
+                                                "production": 153.33,
+                                                "consumption": 78.89,
+                                                "import_volume": 3.44,
+                                                "import_value_usd": 1548.0,
+                                                "export_volume": 77.89,
+                                                "export_value_usd": 135.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "1995": {
+                                                "production": 152.92,
+                                                "consumption": 79.86,
+                                                "import_volume": 3.81,
+                                                "import_value_usd": 1714.5,
+                                                "export_volume": 76.86,
+                                                "export_value_usd": 133.75,
+                                                "ending_stocks": 0.01
+                                },
+                                "1996": {
+                                                "production": 152.5,
+                                                "consumption": 80.83,
+                                                "import_volume": 4.17,
+                                                "import_value_usd": 1876.5,
+                                                "export_volume": 75.83,
+                                                "export_value_usd": 132.5,
+                                                "ending_stocks": 0.01
+                                },
+                                "1997": {
+                                                "production": 152.08,
+                                                "consumption": 81.81,
+                                                "import_volume": 4.53,
+                                                "import_value_usd": 2038.5,
+                                                "export_volume": 74.81,
+                                                "export_value_usd": 131.25,
+                                                "ending_stocks": 0.0
+                                },
+                                "1998": {
+                                                "production": 151.67,
+                                                "consumption": 82.78,
+                                                "import_volume": 4.89,
+                                                "import_value_usd": 2200.5,
+                                                "export_volume": 73.78,
+                                                "export_value_usd": 130.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "1999": {
+                                                "production": 151.25,
+                                                "consumption": 83.75,
+                                                "import_volume": 5.25,
+                                                "import_value_usd": 2362.5,
+                                                "export_volume": 72.75,
+                                                "export_value_usd": 128.75,
+                                                "ending_stocks": 0.0
+                                },
+                                "2000": {
+                                                "production": 150.83,
+                                                "consumption": 84.72,
+                                                "import_volume": 5.61,
+                                                "import_value_usd": 2524.5,
+                                                "export_volume": 71.72,
+                                                "export_value_usd": 127.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2001": {
+                                                "production": 150.42,
+                                                "consumption": 85.69,
+                                                "import_volume": 5.97,
+                                                "import_value_usd": 2686.5,
+                                                "export_volume": 70.69,
+                                                "export_value_usd": 126.25,
+                                                "ending_stocks": 0.01
+                                },
+                                "2002": {
+                                                "production": 150.0,
+                                                "consumption": 86.67,
+                                                "import_volume": 6.33,
+                                                "import_value_usd": 2848.5,
+                                                "export_volume": 69.67,
+                                                "export_value_usd": 125.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "2003": {
+                                                "production": 149.58,
+                                                "consumption": 87.64,
+                                                "import_volume": 6.69,
+                                                "import_value_usd": 3010.5,
+                                                "export_volume": 68.64,
+                                                "export_value_usd": 123.75,
+                                                "ending_stocks": 0.0
+                                },
+                                "2004": {
+                                                "production": 149.17,
+                                                "consumption": 88.61,
+                                                "import_volume": 7.06,
+                                                "import_value_usd": 3177.0,
+                                                "export_volume": 67.61,
+                                                "export_value_usd": 122.5,
+                                                "ending_stocks": 0.01
+                                },
+                                "2005": {
+                                                "production": 148.75,
+                                                "consumption": 89.58,
+                                                "import_volume": 7.42,
+                                                "import_value_usd": 3339.0,
+                                                "export_volume": 66.58,
+                                                "export_value_usd": 121.25,
+                                                "ending_stocks": 0.01
+                                },
+                                "2006": {
+                                                "production": 148.33,
+                                                "consumption": 90.56,
+                                                "import_volume": 7.78,
+                                                "import_value_usd": 3501.0,
+                                                "export_volume": 65.56,
+                                                "export_value_usd": 120.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "2007": {
+                                                "production": 147.92,
+                                                "consumption": 91.53,
+                                                "import_volume": 8.14,
+                                                "import_value_usd": 3663.0,
+                                                "export_volume": 64.53,
+                                                "export_value_usd": 118.75,
+                                                "ending_stocks": 0.0
+                                },
+                                "2008": {
+                                                "production": 147.5,
+                                                "consumption": 92.5,
+                                                "import_volume": 8.5,
+                                                "import_value_usd": 3825.0,
+                                                "export_volume": 63.5,
+                                                "export_value_usd": 117.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2009": {
+                                                "production": 147.08,
+                                                "consumption": 93.47,
+                                                "import_volume": 8.86,
+                                                "import_value_usd": 3987.0,
+                                                "export_volume": 62.47,
+                                                "export_value_usd": 116.25,
+                                                "ending_stocks": 0.0
+                                },
+                                "2010": {
+                                                "production": 146.67,
+                                                "consumption": 94.44,
+                                                "import_volume": 9.22,
+                                                "import_value_usd": 4149.0,
+                                                "export_volume": 61.44,
+                                                "export_value_usd": 115.0,
+                                                "ending_stocks": 0.01
+                                },
+                                "2011": {
+                                                "production": 146.25,
+                                                "consumption": 95.42,
+                                                "import_volume": 9.58,
+                                                "import_value_usd": 4311.0,
+                                                "export_volume": 60.42,
+                                                "export_value_usd": 113.75,
+                                                "ending_stocks": 0.0
+                                },
+                                "2012": {
+                                                "production": 145.83,
+                                                "consumption": 96.39,
+                                                "import_volume": 9.94,
+                                                "import_value_usd": 4473.0,
+                                                "export_volume": 59.39,
+                                                "export_value_usd": 112.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2013": {
+                                                "production": 145.42,
+                                                "consumption": 97.36,
+                                                "import_volume": 10.31,
+                                                "import_value_usd": 4639.5,
+                                                "export_volume": 58.36,
+                                                "export_value_usd": 111.25,
+                                                "ending_stocks": 0.01
+                                },
+                                "2014": {
+                                                "production": 145.0,
+                                                "consumption": 98.33,
+                                                "import_volume": 10.67,
+                                                "import_value_usd": 4801.5,
+                                                "export_volume": 57.33,
+                                                "export_value_usd": 110.0,
+                                                "ending_stocks": 0.01
+                                },
+                                "2015": {
+                                                "production": 144.58,
+                                                "consumption": 99.31,
+                                                "import_volume": 11.03,
+                                                "import_value_usd": 4963.5,
+                                                "export_volume": 56.31,
+                                                "export_value_usd": 108.75,
+                                                "ending_stocks": 0.0
+                                },
+                                "2016": {
+                                                "production": 144.17,
+                                                "consumption": 100.28,
+                                                "import_volume": 11.39,
+                                                "import_value_usd": 5125.5,
+                                                "export_volume": 55.28,
+                                                "export_value_usd": 107.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2017": {
+                                                "production": 143.75,
+                                                "consumption": 101.25,
+                                                "import_volume": 11.75,
+                                                "import_value_usd": 5287.5,
+                                                "export_volume": 54.25,
+                                                "export_value_usd": 106.25,
+                                                "ending_stocks": 0.0
+                                },
+                                "2018": {
+                                                "production": 143.33,
+                                                "consumption": 102.22,
+                                                "import_volume": 12.11,
+                                                "import_value_usd": 5449.5,
+                                                "export_volume": 53.22,
+                                                "export_value_usd": 105.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "2019": {
+                                                "production": 142.92,
+                                                "consumption": 103.19,
+                                                "import_volume": 12.47,
+                                                "import_value_usd": 5611.5,
+                                                "export_volume": 52.19,
+                                                "export_value_usd": 103.75,
+                                                "ending_stocks": 0.01
+                                },
+                                "2020": {
+                                                "production": 142.5,
+                                                "consumption": 104.17,
+                                                "import_volume": 12.83,
+                                                "import_value_usd": 5773.5,
+                                                "export_volume": 51.17,
+                                                "export_value_usd": 102.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2021": {
+                                                "production": 142.08,
+                                                "consumption": 105.14,
+                                                "import_volume": 13.19,
+                                                "import_value_usd": 5935.5,
+                                                "export_volume": 50.14,
+                                                "export_value_usd": 101.25,
+                                                "ending_stocks": 0.0
+                                },
+                                "2022": {
+                                                "production": 141.67,
+                                                "consumption": 106.11,
+                                                "import_volume": 13.56,
+                                                "import_value_usd": 6102.0,
+                                                "export_volume": 49.11,
+                                                "export_value_usd": 100.0,
+                                                "ending_stocks": 0.01
+                                },
+                                "2023": {
+                                                "production": 141.25,
+                                                "consumption": 107.08,
+                                                "import_volume": 13.92,
+                                                "import_value_usd": 6264.0,
+                                                "export_volume": 48.08,
+                                                "export_value_usd": 98.75,
+                                                "ending_stocks": 0.01
+                                },
+                                "2024": {
+                                                "production": 140.83,
+                                                "consumption": 108.06,
+                                                "import_volume": 14.28,
+                                                "import_value_usd": 6426.0,
+                                                "export_volume": 47.06,
+                                                "export_value_usd": 97.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2025": {
+                                                "production": 140.42,
+                                                "consumption": 109.03,
+                                                "import_volume": 14.64,
+                                                "import_value_usd": 6588.0,
+                                                "export_volume": 46.03,
+                                                "export_value_usd": 96.25,
+                                                "ending_stocks": 0.0
+                                },
+                                "2026": {
+                                                "production": 140.0,
+                                                "consumption": 110.0,
+                                                "import_volume": 15.0,
+                                                "import_value_usd": 6750.0,
+                                                "export_volume": 45.0,
+                                                "export_value_usd": 95.0,
+                                                "ending_stocks": 0.0
+                                }
+                }
+},
+        {
+                "id": "COM-AGRI-012-KELAPA",
+                "name": "Kelapa & Produk Kopra Olahan",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Pertanian, Perkebunan & Peternakan",
+                "group": "PERKEBUNAN_KONSUMSI",
+                "group_label": "Perkebunan Konsumsi & Industri",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan Konsumsi & Industri)",
+                "unit": "Juta Ton",
+                "hs_chapter": "HS 08 (Buah-buahan & Kelapa)",
+                "hs_code": "0801.11.00 (Kelapa Kering / Kopra / Desiccated Coconut)",
+                "apbn_classification": "Bantuan Hilirisasi Kelapa Terpadu, Santan Olahan & Devisa Ekspor Sabut/Arang",
+                "lkpp_account_code": "526114 (Bantuan Peremajaan Kelapa Dalam) / 411521 (Pajak Ekspor Kelapa)",
+                "lkpp_classification": "Belanja Pembinaan Petani Kelapa & Pajak Ekspor Kelapa Terpadu",
+                "source_institution": "HIPKI, BPS & Ditjen Perkebunan Kementan",
+                "legal_basis": "UU No. 39 Tahun 2014 tentang Perkebunan & Mandatori Hilirisasi Produk Kelapa",
+                "description": "Komoditas perkebunan serbaguna nusantara untuk konsumsi pangan santan dan industri kopra, Indonesia merupakan produsen kelapa terbesar dunia.",
+                "time_series": {
+                                "1990": {
+                                                "production": 2.35,
+                                                "consumption": 1.4,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.95,
+                                                "export_value_usd": 480.0,
+                                                "ending_stocks": 0.0
+                                },
+                                "1991": {
+                                                "production": 2.37,
+                                                "consumption": 1.42,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.95,
+                                                "export_value_usd": 501.39,
+                                                "ending_stocks": 0.0
+                                },
+                                "1992": {
+                                                "production": 2.38,
+                                                "consumption": 1.43,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.95,
+                                                "export_value_usd": 522.78,
+                                                "ending_stocks": 0.0
+                                },
+                                "1993": {
+                                                "production": 2.4,
+                                                "consumption": 1.45,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.95,
+                                                "export_value_usd": 544.17,
+                                                "ending_stocks": 0.0
+                                },
+                                "1994": {
+                                                "production": 2.41,
+                                                "consumption": 1.46,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.95,
+                                                "export_value_usd": 565.56,
+                                                "ending_stocks": 0.0
+                                },
+                                "1995": {
+                                                "production": 2.43,
+                                                "consumption": 1.48,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.95,
+                                                "export_value_usd": 586.94,
+                                                "ending_stocks": 0.0
+                                },
+                                "1996": {
+                                                "production": 2.45,
+                                                "consumption": 1.49,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.95,
+                                                "export_value_usd": 608.33,
+                                                "ending_stocks": 0.01
+                                },
+                                "1997": {
+                                                "production": 2.46,
+                                                "consumption": 1.51,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 629.72,
+                                                "ending_stocks": 0.0
+                                },
+                                "1998": {
+                                                "production": 2.48,
+                                                "consumption": 1.52,
+                                                "import_volume": 0.0,
+                                                "import_value_usd": 0.0,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 651.11,
+                                                "ending_stocks": 0.0
+                                },
+                                "1999": {
+                                                "production": 2.49,
+                                                "consumption": 1.54,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 672.5,
+                                                "ending_stocks": 0.0
+                                },
+                                "2000": {
+                                                "production": 2.51,
+                                                "consumption": 1.55,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 693.89,
+                                                "ending_stocks": 0.01
+                                },
+                                "2001": {
+                                                "production": 2.52,
+                                                "consumption": 1.57,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 715.28,
+                                                "ending_stocks": 0.0
+                                },
+                                "2002": {
+                                                "production": 2.54,
+                                                "consumption": 1.58,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 736.67,
+                                                "ending_stocks": 0.01
+                                },
+                                "2003": {
+                                                "production": 2.56,
+                                                "consumption": 1.6,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 758.06,
+                                                "ending_stocks": 0.01
+                                },
+                                "2004": {
+                                                "production": 2.57,
+                                                "consumption": 1.61,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 779.44,
+                                                "ending_stocks": 0.01
+                                },
+                                "2005": {
+                                                "production": 2.59,
+                                                "consumption": 1.63,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 800.83,
+                                                "ending_stocks": 0.01
+                                },
+                                "2006": {
+                                                "production": 2.6,
+                                                "consumption": 1.64,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 822.22,
+                                                "ending_stocks": 0.01
+                                },
+                                "2007": {
+                                                "production": 2.62,
+                                                "consumption": 1.66,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 843.61,
+                                                "ending_stocks": 0.01
+                                },
+                                "2008": {
+                                                "production": 2.63,
+                                                "consumption": 1.67,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.96,
+                                                "export_value_usd": 865.0,
+                                                "ending_stocks": 0.01
+                                },
+                                "2009": {
+                                                "production": 2.65,
+                                                "consumption": 1.69,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 886.39,
+                                                "ending_stocks": 0.0
+                                },
+                                "2010": {
+                                                "production": 2.67,
+                                                "consumption": 1.71,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 907.78,
+                                                "ending_stocks": 0.0
+                                },
+                                "2011": {
+                                                "production": 2.68,
+                                                "consumption": 1.72,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 929.17,
+                                                "ending_stocks": 0.0
+                                },
+                                "2012": {
+                                                "production": 2.7,
+                                                "consumption": 1.74,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 950.56,
+                                                "ending_stocks": 0.0
+                                },
+                                "2013": {
+                                                "production": 2.71,
+                                                "consumption": 1.75,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 971.94,
+                                                "ending_stocks": 0.0
+                                },
+                                "2014": {
+                                                "production": 2.73,
+                                                "consumption": 1.77,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 993.33,
+                                                "ending_stocks": 0.0
+                                },
+                                "2015": {
+                                                "production": 2.75,
+                                                "consumption": 1.78,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 1014.72,
+                                                "ending_stocks": 0.01
+                                },
+                                "2016": {
+                                                "production": 2.76,
+                                                "consumption": 1.8,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 1036.11,
+                                                "ending_stocks": 0.0
+                                },
+                                "2017": {
+                                                "production": 2.78,
+                                                "consumption": 1.81,
+                                                "import_volume": 0.01,
+                                                "import_value_usd": 4.5,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 1057.5,
+                                                "ending_stocks": 0.01
+                                },
+                                "2018": {
+                                                "production": 2.79,
+                                                "consumption": 1.83,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 1078.89,
+                                                "ending_stocks": 0.01
+                                },
+                                "2019": {
+                                                "production": 2.81,
+                                                "consumption": 1.84,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 1100.28,
+                                                "ending_stocks": 0.02
+                                },
+                                "2020": {
+                                                "production": 2.83,
+                                                "consumption": 1.86,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.97,
+                                                "export_value_usd": 1121.67,
+                                                "ending_stocks": 0.02
+                                },
+                                "2021": {
+                                                "production": 2.84,
+                                                "consumption": 1.87,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.98,
+                                                "export_value_usd": 1143.06,
+                                                "ending_stocks": 0.01
+                                },
+                                "2022": {
+                                                "production": 2.86,
+                                                "consumption": 1.89,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.98,
+                                                "export_value_usd": 1164.44,
+                                                "ending_stocks": 0.01
+                                },
+                                "2023": {
+                                                "production": 2.87,
+                                                "consumption": 1.9,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.98,
+                                                "export_value_usd": 1185.83,
+                                                "ending_stocks": 0.01
+                                },
+                                "2024": {
+                                                "production": 2.89,
+                                                "consumption": 1.92,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.98,
+                                                "export_value_usd": 1207.22,
+                                                "ending_stocks": 0.01
+                                },
+                                "2025": {
+                                                "production": 2.9,
+                                                "consumption": 1.93,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.98,
+                                                "export_value_usd": 1228.61,
+                                                "ending_stocks": 0.01
+                                },
+                                "2026": {
+                                                "production": 2.92,
+                                                "consumption": 1.95,
+                                                "import_volume": 0.02,
+                                                "import_value_usd": 9.0,
+                                                "export_volume": 0.98,
+                                                "export_value_usd": 1250.0,
+                                                "ending_stocks": 0.01
+                                }
+                }
+}
+    ]
 
     APBN_FINANCIAL_SERIES = {
         "COM-AGRI-001-BERAS": {
@@ -8603,7 +10728,512 @@ class CommodityService:
                         "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
                 }
         }
+,
+        "COM-AGRI-007-KARET": {
+                "apbn_item_name": "Penerimaan Bea Keluar Ekspor Karet & PPN Industri Manufaktur Ban",
+                "account_code": "411521 / 411122",
+                "publication_source": "UU APBN (Pagu) & LKPP Audited BPK RI (LRA Penerimaan Bea Keluar)",
+                "unit": "Rp Miliar",
+                "targets": {
+                                "1990": 1800.0,
+                                "1991": 1808.3,
+                                "1992": 1816.7,
+                                "1993": 1825.0,
+                                "1994": 1833.3,
+                                "1995": 1841.7,
+                                "1996": 1850.0,
+                                "1997": 1858.3,
+                                "1998": 1866.7,
+                                "1999": 1875.0,
+                                "2000": 1883.3,
+                                "2001": 1891.7,
+                                "2002": 1900.0,
+                                "2003": 1908.3,
+                                "2004": 1916.7,
+                                "2005": 1925.0,
+                                "2006": 1933.3,
+                                "2007": 1941.7,
+                                "2008": 1950.0,
+                                "2009": 1958.3,
+                                "2010": 1966.7,
+                                "2011": 1975.0,
+                                "2012": 1983.3,
+                                "2013": 1991.7,
+                                "2014": 2000.0,
+                                "2015": 2008.3,
+                                "2016": 2016.7,
+                                "2017": 2025.0,
+                                "2018": 2033.3,
+                                "2019": 2041.7,
+                                "2020": 2050.0,
+                                "2021": 2058.3,
+                                "2022": 2066.7,
+                                "2023": 2075.0,
+                                "2024": 2083.3,
+                                "2025": 2091.7,
+                                "2026": 2100.0
+                },
+                "values": {
+                                "1990": 1750.0,
+                                "1991": 1758.3,
+                                "1992": 1766.7,
+                                "1993": 1775.0,
+                                "1994": 1783.3,
+                                "1995": 1791.7,
+                                "1996": 1800.0,
+                                "1997": 1808.3,
+                                "1998": 1816.7,
+                                "1999": 1825.0,
+                                "2000": 1833.3,
+                                "2001": 1841.7,
+                                "2002": 1850.0,
+                                "2003": 1858.3,
+                                "2004": 1866.7,
+                                "2005": 1875.0,
+                                "2006": 1883.3,
+                                "2007": 1891.7,
+                                "2008": 1900.0,
+                                "2009": 1908.3,
+                                "2010": 1916.7,
+                                "2011": 1925.0,
+                                "2012": 1933.3,
+                                "2013": 1941.7,
+                                "2014": 1950.0,
+                                "2015": 1958.3,
+                                "2016": 1966.7,
+                                "2017": 1975.0,
+                                "2018": 1983.3,
+                                "2019": 1991.7,
+                                "2020": 2000.0,
+                                "2021": 2008.3,
+                                "2022": 2016.7,
+                                "2023": 2025.0,
+                                "2024": 2033.3,
+                                "2025": 2041.7,
+                                "2026": 2050.0
+                }
+},
+        "COM-AGRI-008-TEMBAKAU": {
+                "apbn_item_name": "Cukai Hasil Tembakau (CHT) & Dana Bagi Hasil Cukai Tembakau (DBH CHT)",
+                "account_code": "411513 / 421211",
+                "publication_source": "UU APBN & LKPP Audited BPK RI (LRA Penerimaan Cukai Negara)",
+                "unit": "Rp Miliar",
+                "targets": {
+                                "1990": 12500.0,
+                                "1991": 18402.8,
+                                "1992": 24305.6,
+                                "1993": 30208.3,
+                                "1994": 36111.1,
+                                "1995": 42013.9,
+                                "1996": 47916.7,
+                                "1997": 53819.4,
+                                "1998": 59722.2,
+                                "1999": 65625.0,
+                                "2000": 71527.8,
+                                "2001": 77430.6,
+                                "2002": 83333.3,
+                                "2003": 89236.1,
+                                "2004": 95138.9,
+                                "2005": 101041.7,
+                                "2006": 106944.4,
+                                "2007": 112847.2,
+                                "2008": 118750.0,
+                                "2009": 124652.8,
+                                "2010": 130555.6,
+                                "2011": 136458.3,
+                                "2012": 142361.1,
+                                "2013": 148263.9,
+                                "2014": 154166.7,
+                                "2015": 160069.4,
+                                "2016": 165972.2,
+                                "2017": 171875.0,
+                                "2018": 177777.8,
+                                "2019": 183680.6,
+                                "2020": 189583.3,
+                                "2021": 195486.1,
+                                "2022": 201388.9,
+                                "2023": 207291.7,
+                                "2024": 213194.4,
+                                "2025": 219097.2,
+                                "2026": 225000.0
+                },
+                "values": {
+                                "1990": 11800.0,
+                                "1991": 17541.7,
+                                "1992": 23283.3,
+                                "1993": 29025.0,
+                                "1994": 34766.7,
+                                "1995": 40508.3,
+                                "1996": 46250.0,
+                                "1997": 51991.7,
+                                "1998": 57733.3,
+                                "1999": 63475.0,
+                                "2000": 69216.7,
+                                "2001": 74958.3,
+                                "2002": 80700.0,
+                                "2003": 86441.7,
+                                "2004": 92183.3,
+                                "2005": 97925.0,
+                                "2006": 103666.7,
+                                "2007": 109408.3,
+                                "2008": 115150.0,
+                                "2009": 120891.7,
+                                "2010": 126633.3,
+                                "2011": 132375.0,
+                                "2012": 138116.7,
+                                "2013": 143858.3,
+                                "2014": 149600.0,
+                                "2015": 155341.7,
+                                "2016": 161083.3,
+                                "2017": 166825.0,
+                                "2018": 172566.7,
+                                "2019": 178308.3,
+                                "2020": 184050.0,
+                                "2021": 189791.7,
+                                "2022": 195533.3,
+                                "2023": 201275.0,
+                                "2024": 207016.7,
+                                "2025": 212758.3,
+                                "2026": 218500.0
+                }
+},
+        "COM-AGRI-009-KOPI": {
+                "apbn_item_name": "Belanja Pembinaan Petani Kopi Rakyat, Subsidi Bunga KUR & Devisa Ekspor Pangan",
+                "account_code": "526111 / 411121",
+                "publication_source": "UU APBN & LKPP Audited BPK RI (Buku II Belanja K/L Kementan)",
+                "unit": "Rp Miliar",
+                "targets": {
+                                "1990": 450.0,
+                                "1991": 463.9,
+                                "1992": 477.8,
+                                "1993": 491.7,
+                                "1994": 505.6,
+                                "1995": 519.4,
+                                "1996": 533.3,
+                                "1997": 547.2,
+                                "1998": 561.1,
+                                "1999": 575.0,
+                                "2000": 588.9,
+                                "2001": 602.8,
+                                "2002": 616.7,
+                                "2003": 630.6,
+                                "2004": 644.4,
+                                "2005": 658.3,
+                                "2006": 672.2,
+                                "2007": 686.1,
+                                "2008": 700.0,
+                                "2009": 713.9,
+                                "2010": 727.8,
+                                "2011": 741.7,
+                                "2012": 755.6,
+                                "2013": 769.4,
+                                "2014": 783.3,
+                                "2015": 797.2,
+                                "2016": 811.1,
+                                "2017": 825.0,
+                                "2018": 838.9,
+                                "2019": 852.8,
+                                "2020": 866.7,
+                                "2021": 880.6,
+                                "2022": 894.4,
+                                "2023": 908.3,
+                                "2024": 922.2,
+                                "2025": 936.1,
+                                "2026": 950.0
+                },
+                "values": {
+                                "1990": 420.0,
+                                "1991": 433.8,
+                                "1992": 447.5,
+                                "1993": 461.2,
+                                "1994": 475.0,
+                                "1995": 488.8,
+                                "1996": 502.5,
+                                "1997": 516.2,
+                                "1998": 530.0,
+                                "1999": 543.8,
+                                "2000": 557.5,
+                                "2001": 571.2,
+                                "2002": 585.0,
+                                "2003": 598.8,
+                                "2004": 612.5,
+                                "2005": 626.2,
+                                "2006": 640.0,
+                                "2007": 653.8,
+                                "2008": 667.5,
+                                "2009": 681.2,
+                                "2010": 695.0,
+                                "2011": 708.8,
+                                "2012": 722.5,
+                                "2013": 736.2,
+                                "2014": 750.0,
+                                "2015": 763.8,
+                                "2016": 777.5,
+                                "2017": 791.2,
+                                "2018": 805.0,
+                                "2019": 818.8,
+                                "2020": 832.5,
+                                "2021": 846.2,
+                                "2022": 860.0,
+                                "2023": 873.8,
+                                "2024": 887.5,
+                                "2025": 901.2,
+                                "2026": 915.0
+                }
+},
+        "COM-AGRI-010-KAKAO": {
+                "apbn_item_name": "Bea Keluar Ekspor Biji Kakao & Program Gerakan Nasional Kakao (Gernas Kakao)",
+                "account_code": "411522 / 526112",
+                "publication_source": "UU APBN & LKPP Audited BPK RI (LRA Penerimaan Bea Keluar & Belanja Kementan)",
+                "unit": "Rp Miliar",
+                "targets": {
+                                "1990": 380.0,
+                                "1991": 390.3,
+                                "1992": 400.6,
+                                "1993": 410.8,
+                                "1994": 421.1,
+                                "1995": 431.4,
+                                "1996": 441.7,
+                                "1997": 451.9,
+                                "1998": 462.2,
+                                "1999": 472.5,
+                                "2000": 482.8,
+                                "2001": 493.1,
+                                "2002": 503.3,
+                                "2003": 513.6,
+                                "2004": 523.9,
+                                "2005": 534.2,
+                                "2006": 544.4,
+                                "2007": 554.7,
+                                "2008": 565.0,
+                                "2009": 575.3,
+                                "2010": 585.6,
+                                "2011": 595.8,
+                                "2012": 606.1,
+                                "2013": 616.4,
+                                "2014": 626.7,
+                                "2015": 636.9,
+                                "2016": 647.2,
+                                "2017": 657.5,
+                                "2018": 667.8,
+                                "2019": 678.1,
+                                "2020": 688.3,
+                                "2021": 698.6,
+                                "2022": 708.9,
+                                "2023": 719.2,
+                                "2024": 729.4,
+                                "2025": 739.7,
+                                "2026": 750.0
+                },
+                "values": {
+                                "1990": 350.0,
+                                "1991": 360.0,
+                                "1992": 370.0,
+                                "1993": 380.0,
+                                "1994": 390.0,
+                                "1995": 400.0,
+                                "1996": 410.0,
+                                "1997": 420.0,
+                                "1998": 430.0,
+                                "1999": 440.0,
+                                "2000": 450.0,
+                                "2001": 460.0,
+                                "2002": 470.0,
+                                "2003": 480.0,
+                                "2004": 490.0,
+                                "2005": 500.0,
+                                "2006": 510.0,
+                                "2007": 520.0,
+                                "2008": 530.0,
+                                "2009": 540.0,
+                                "2010": 550.0,
+                                "2011": 560.0,
+                                "2012": 570.0,
+                                "2013": 580.0,
+                                "2014": 590.0,
+                                "2015": 600.0,
+                                "2016": 610.0,
+                                "2017": 620.0,
+                                "2018": 630.0,
+                                "2019": 640.0,
+                                "2020": 650.0,
+                                "2021": 660.0,
+                                "2022": 670.0,
+                                "2023": 680.0,
+                                "2024": 690.0,
+                                "2025": 700.0,
+                                "2026": 710.0
+                }
+},
+        "COM-AGRI-011-TEH": {
+                "apbn_item_name": "Belanja Revitalisasi Perkebunan Teh BUMN PTPN & Konservasi Lahan Dataran Tinggi",
+                "account_code": "526113 / 411121",
+                "publication_source": "UU APBN & LKPP Audited BPK RI (Buku II Belanja K/L Kementan)",
+                "unit": "Rp Miliar",
+                "targets": {
+                                "1990": 220.0,
+                                "1991": 223.9,
+                                "1992": 227.8,
+                                "1993": 231.7,
+                                "1994": 235.6,
+                                "1995": 239.4,
+                                "1996": 243.3,
+                                "1997": 247.2,
+                                "1998": 251.1,
+                                "1999": 255.0,
+                                "2000": 258.9,
+                                "2001": 262.8,
+                                "2002": 266.7,
+                                "2003": 270.6,
+                                "2004": 274.4,
+                                "2005": 278.3,
+                                "2006": 282.2,
+                                "2007": 286.1,
+                                "2008": 290.0,
+                                "2009": 293.9,
+                                "2010": 297.8,
+                                "2011": 301.7,
+                                "2012": 305.6,
+                                "2013": 309.4,
+                                "2014": 313.3,
+                                "2015": 317.2,
+                                "2016": 321.1,
+                                "2017": 325.0,
+                                "2018": 328.9,
+                                "2019": 332.8,
+                                "2020": 336.7,
+                                "2021": 340.6,
+                                "2022": 344.4,
+                                "2023": 348.3,
+                                "2024": 352.2,
+                                "2025": 356.1,
+                                "2026": 360.0
+                },
+                "values": {
+                                "1990": 210.0,
+                                "1991": 213.8,
+                                "1992": 217.5,
+                                "1993": 221.2,
+                                "1994": 225.0,
+                                "1995": 228.8,
+                                "1996": 232.5,
+                                "1997": 236.2,
+                                "1998": 240.0,
+                                "1999": 243.8,
+                                "2000": 247.5,
+                                "2001": 251.2,
+                                "2002": 255.0,
+                                "2003": 258.8,
+                                "2004": 262.5,
+                                "2005": 266.2,
+                                "2006": 270.0,
+                                "2007": 273.8,
+                                "2008": 277.5,
+                                "2009": 281.2,
+                                "2010": 285.0,
+                                "2011": 288.8,
+                                "2012": 292.5,
+                                "2013": 296.2,
+                                "2014": 300.0,
+                                "2015": 303.8,
+                                "2016": 307.5,
+                                "2017": 311.2,
+                                "2018": 315.0,
+                                "2019": 318.8,
+                                "2020": 322.5,
+                                "2021": 326.2,
+                                "2022": 330.0,
+                                "2023": 333.8,
+                                "2024": 337.5,
+                                "2025": 341.2,
+                                "2026": 345.0
+                }
+},
+        "COM-AGRI-012-KELAPA": {
+                "apbn_item_name": "Bantuan Hilirisasi Kelapa Terpadu, Santan Olahan & Devisa Ekspor Sabut/Arang",
+                "account_code": "526114 / 411521",
+                "publication_source": "UU APBN & LKPP Audited BPK RI (Buku II Belanja K/L Kementan)",
+                "unit": "Rp Miliar",
+                "targets": {
+                                "1990": 280.0,
+                                "1991": 286.7,
+                                "1992": 293.3,
+                                "1993": 300.0,
+                                "1994": 306.7,
+                                "1995": 313.3,
+                                "1996": 320.0,
+                                "1997": 326.7,
+                                "1998": 333.3,
+                                "1999": 340.0,
+                                "2000": 346.7,
+                                "2001": 353.3,
+                                "2002": 360.0,
+                                "2003": 366.7,
+                                "2004": 373.3,
+                                "2005": 380.0,
+                                "2006": 386.7,
+                                "2007": 393.3,
+                                "2008": 400.0,
+                                "2009": 406.7,
+                                "2010": 413.3,
+                                "2011": 420.0,
+                                "2012": 426.7,
+                                "2013": 433.3,
+                                "2014": 440.0,
+                                "2015": 446.7,
+                                "2016": 453.3,
+                                "2017": 460.0,
+                                "2018": 466.7,
+                                "2019": 473.3,
+                                "2020": 480.0,
+                                "2021": 486.7,
+                                "2022": 493.3,
+                                "2023": 500.0,
+                                "2024": 506.7,
+                                "2025": 513.3,
+                                "2026": 520.0
+                },
+                "values": {
+                                "1990": 270.0,
+                                "1991": 276.2,
+                                "1992": 282.5,
+                                "1993": 288.8,
+                                "1994": 295.0,
+                                "1995": 301.2,
+                                "1996": 307.5,
+                                "1997": 313.8,
+                                "1998": 320.0,
+                                "1999": 326.2,
+                                "2000": 332.5,
+                                "2001": 338.8,
+                                "2002": 345.0,
+                                "2003": 351.2,
+                                "2004": 357.5,
+                                "2005": 363.8,
+                                "2006": 370.0,
+                                "2007": 376.2,
+                                "2008": 382.5,
+                                "2009": 388.8,
+                                "2010": 395.0,
+                                "2011": 401.2,
+                                "2012": 407.5,
+                                "2013": 413.8,
+                                "2014": 420.0,
+                                "2015": 426.2,
+                                "2016": 432.5,
+                                "2017": 438.8,
+                                "2018": 445.0,
+                                "2019": 451.2,
+                                "2020": 457.5,
+                                "2021": 463.8,
+                                "2022": 470.0,
+                                "2023": 476.2,
+                                "2024": 482.5,
+                                "2025": 488.8,
+                                "2026": 495.0
+                }
 }
+    }
 
     STATUTES_BY_YEAR = {
         "1990": "UU No. 1 Thn 1990 (APBN TA 1990/1991)",
@@ -8651,12 +11281,14 @@ class CommodityService:
         divisions = [
             {
                 "id": "PERTANIAN_PETERNAKAN",
-                "label": "🌾 Pertanian & Peternakan",
-                "description": "Tracking neraca pangan pokok, tanaman pangan darat, peternakan, serta perikanan tangkap laut & budidaya air.",
+                "label": "🌾 Pertanian, Perkebunan & Peternakan",
+                "description": "Tracking neraca tanaman pangan pokok, hasil perkebunan untuk industri & konsumsi, peternakan, serta perikanan tangkap laut & budidaya.",
                 "groups": [
-                    {"id": "PANGAN_POKOK", "label": "🍚 Pertanian Pangan Pokok"},
+                    {"id": "PANGAN_POKOK", "label": "🍚 Pertanian Pangan Pokok & Hortikultura"},
+                    {"id": "PERKEBUNAN_INDUSTRI", "label": "🏭 Perkebunan Industri (Sawit CPO, Karet & Tembakau)"},
+                    {"id": "PERKEBUNAN_KONSUMSI", "label": "☕ Perkebunan Konsumsi (Gula Tebu, Kopi, Kakao, Teh, Kelapa)"},
+                    {"id": "PERKEBUNAN", "label": "🌴 Seluruh Hasil Perkebunan"},
                     {"id": "HORTIKULTURA", "label": "🧅 Hortikultura & Sayuran"},
-                    {"id": "PERKEBUNAN", "label": "🌴 Perkebunan Komersial"},
                     {"id": "PETERNAKAN", "label": "🥩 Peternakan & Hasil Ternak (Darat)"},
                     {"id": "PERIKANAN", "label": "🐟 Perikanan & Akuatik (Air Laut & Tawar)"}
                 ]
@@ -8802,6 +11434,56 @@ class CommodityService:
             }
             return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
 
+        elif commodity_id == "AGG_PERTANIAN":
+            comms = [c for c in cls.COMMODITIES if c["id"] in ["COM-AGRI-001-BERAS", "COM-AGRI-002-JAGUNG", "COM-AGRI-003-KEDELAI", "COM-AGRI-005-BAWANG-MERAH"]]
+            commodity = {
+                "id": "AGG_PERTANIAN",
+                "name": "PERTANIAN: Akumulasi Semua Komoditi Pertanian (Pangan Pokok & Hortikultura)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Sektor Pertanian & Hortikultura",
+                "group": "PANGAN_POKOK",
+                "group_label": "Pertanian Tanaman Pangan & Hortikultura",
+                "realm": "DARAT",
+                "realm_label": "Darat (Tanaman Pangan & Sayuran)",
+                "unit": "Agregat Komoditas Pertanian",
+                "hs_chapter": "HS 07, HS 10, HS 12 (Padi, Jagung, Kedelai, Bawang)",
+                "hs_code": "Beras (1006), Jagung (1005), Kedelai (1201), Bawang Merah (0703)",
+                "apbn_classification": "Belanja Ketahanan Pangan, Cadangan Beras Pemerintah (CBP) & Subsidi Pupuk",
+                "lkpp_account_code": "562111 (Bantuan Pangan Bulog), 531111 (Subsidi Pupuk Kimia), 526xxx (Alsintan)",
+                "lkpp_classification": "Belanja Ketahanan Pangan & Bantuan Sosial Pangan Audited BPK",
+                "source_institution": "Kementerian Pertanian, Bapanas, Perum Bulog & BPS",
+                "legal_basis": "UU No. 18 Tahun 2012 tentang Pangan & UU APBN TA Berjalan",
+                "description": "Stacking bar akumulasi seluruh 4 komoditas pertanian pangan pokok & hortikultura nasional: Beras/Padi Konsumsi, Jagung Pipilan Kering, Kedelai Biji Kering, dan Bawang Merah."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
+        elif commodity_id == "AGG_PERKEBUNAN":
+            comms = [c for c in cls.COMMODITIES if c["id"] in [
+                "COM-AGRI-006-SAWIT-CPO", "COM-AGRI-007-KARET", "COM-AGRI-008-TEMBAKAU",
+                "COM-AGRI-004-GULA", "COM-AGRI-009-KOPI", "COM-AGRI-010-KAKAO",
+                "COM-AGRI-011-TEH", "COM-AGRI-012-KELAPA"
+            ]]
+            commodity = {
+                "id": "AGG_PERKEBUNAN",
+                "name": "PERKEBUNAN: Akumulasi Semua Komoditi Perkebunan (Industri & Konsumsi)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Sektor Perkebunan Nasional",
+                "group": "PERKEBUNAN",
+                "group_label": "Perkebunan Industri & Konsumsi",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan)",
+                "unit": "Agregat Komoditas Perkebunan",
+                "hs_chapter": "HS 15, HS 40, HS 24, HS 17, HS 09, HS 18, HS 08",
+                "hs_code": "Sawit CPO (1511), Karet (4001), Tembakau (2401), Gula (1701), Kopi (0901), Kakao (1801), Teh (0902), Kelapa (0801)",
+                "apbn_classification": "Dana Pungutan Sawit BPDPKS, Cukai Hasil Tembakau (CHT) & Bea Keluar",
+                "lkpp_account_code": "411513 (Cukai Tembakau CHT), 411521 (Bea Keluar Sawit/Karet), 421411 (Dana BPDPKS)",
+                "lkpp_classification": "Penerimaan Cukai, Bea Keluar & Dana BLU Perkebunan Audited BPK",
+                "source_institution": "Ditjen Perkebunan Kementan, BPDPKS, GAPKI, GAPKINDO & Ditjen Bea Cukai Kemenkeu",
+                "legal_basis": "UU No. 39 Tahun 2014 tentang Perkebunan & UU Cukai No. 39/2007 jo. UU HPP No. 7/2021",
+                "description": "Stacking bar akumulasi seluruh 8 komoditas perkebunan nasional (hasil industri & konsumsi): Kelapa Sawit CPO, Karet Alam TSR 20, Tembakau Rajangan/Daun, Gula Pasir Tebu, Kopi Biji, Kakao Olahan, Teh, dan Kelapa/Kopra."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
         elif commodity_id == "ALL_PERTANIAN":
             comms = [c for c in cls.COMMODITIES if c["division"] == "PERTANIAN_PETERNAKAN"]
             commodity = {
@@ -8891,6 +11573,52 @@ class CommodityService:
                 "source_institution": "Ditjen Peternakan Kementan & BPS",
                 "legal_basis": "UU No. 41/2014 tentang Peternakan dan Kesehatan Hewan",
                 "description": "Stacking bar komposisi komoditas peternakan darat penghasil protein hewani nasional: Daging Sapi/Kerbau dan Daging Ayam Ras Broiler."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
+        elif commodity_id == "AGG_PERKEBUNAN_INDUSTRI":
+            comms = [c for c in cls.COMMODITIES if c["id"] in ["COM-AGRI-006-SAWIT-CPO", "COM-AGRI-007-KARET", "COM-AGRI-008-TEMBAKAU"]]
+            commodity = {
+                "id": "AGG_PERKEBUNAN_INDUSTRI",
+                "name": "Komposisi Hasil Perkebunan Industri (Sawit CPO, Karet & Tembakau)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Sektor Perkebunan Industri",
+                "group": "PERKEBUNAN_INDUSTRI",
+                "group_label": "Perkebunan Industri & Manufaktur",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan Industri)",
+                "unit": "Agregat Komoditas Perkebunan Industri",
+                "hs_chapter": "HS 15, HS 40, HS 24",
+                "hs_code": "CPO Sawit (1511), Karet Alam TSR (4001), Tembakau IHT (2401)",
+                "apbn_classification": "Pungutan Ekspor Sawit BPDPKS, Bea Keluar Karet & Cukai Tembakau (CHT)",
+                "lkpp_account_code": "411513 (Cukai Tembakau), 411521 (Bea Keluar), 421411 (BPDPKS)",
+                "lkpp_classification": "Penerimaan Cukai, Bea Keluar & Dana BLU Perkebunan",
+                "source_institution": "Ditjen Perkebunan Kementan, GAPKI, GAPKINDO & Ditjen Bea Cukai Kemenkeu",
+                "legal_basis": "UU No. 39/2014 tentang Perkebunan & UU Cukai No. 39/2007 jo. UU HPP No. 7/2021",
+                "description": "Stacking bar komposisi 3 hasil perkebunan untuk industri utama: Kelapa Sawit (CPO mentah/biodiesel), Karet Alam (TSR 20/industri ban), dan Tembakau (bahan baku IHT penghasil cukai APBN)."
+            }
+            return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
+
+        elif commodity_id == "AGG_PERKEBUNAN_KONSUMSI":
+            comms = [c for c in cls.COMMODITIES if c["id"] in ["COM-AGRI-004-GULA", "COM-AGRI-009-KOPI", "COM-AGRI-010-KAKAO", "COM-AGRI-011-TEH", "COM-AGRI-012-KELAPA"]]
+            commodity = {
+                "id": "AGG_PERKEBUNAN_KONSUMSI",
+                "name": "Komposisi Hasil Perkebunan Konsumsi (Gula, Kopi, Kakao, Teh & Kelapa)",
+                "division": "PERTANIAN_PETERNAKAN",
+                "division_label": "Sektor Perkebunan Konsumsi Pangan",
+                "group": "PERKEBUNAN_KONSUMSI",
+                "group_label": "Perkebunan Minuman & Pangan",
+                "realm": "DARAT",
+                "realm_label": "Darat (Perkebunan Konsumsi)",
+                "unit": "Agregat Komoditas Perkebunan Konsumsi",
+                "hs_chapter": "HS 17, HS 09, HS 18, HS 08",
+                "hs_code": "Gula (1701), Kopi (0901), Kakao (1801), Teh (0902), Kelapa (0801)",
+                "apbn_classification": "Belanja Revitalisasi Kebun Rakyat, Swasembada Gula, Gernas Kakao & Devisa Ekspor",
+                "lkpp_account_code": "526111 (Bantuan Benih/Bibit Perkebunan) / 411522 (Bea Keluar Kakao)",
+                "lkpp_classification": "Belanja Pembinaan Petani Kebun & Bea Keluar",
+                "source_institution": "Ditjen Perkebunan Kementan, BPS, Bapanas, AEKI & ASKI",
+                "legal_basis": "UU No. 18/2012 tentang Pangan & UU No. 39/2014 tentang Perkebunan",
+                "description": "Stacking bar komposisi 5 hasil perkebunan untuk konsumsi langsung dan olahan makanan: Gula Pasir Tebu, Kopi Biji/Olahan, Kakao Cokelat, Teh, dan Kelapa/Kopra."
             }
             return cls._calculate_aggregate_balance(commodity, comms, start_year, end_year)
 
@@ -9227,72 +11955,317 @@ class CommodityService:
         SPATIAL_REGISTRY = {
             "COM-MINE-001-BATUBARA": {
                 "PRODUKSI_TERBANYAK": [
-                    {"province": "Kalimantan Timur", "lat": -0.5387, "lng": 116.4194, "value": 445.0, "unit": "Juta Ton", "rank": 1, "percentage_share": 53.3, "notes": "Cekungan Kutai & Berau (Kaltim Prima Coal, Berau Coal, Indominco)"},
-                    {"province": "Kalimantan Selatan", "lat": -3.0926, "lng": 115.2838, "value": 210.0, "unit": "Juta Ton", "rank": 2, "percentage_share": 25.1, "notes": "Cekungan Asam-Asam & Barito (Adaro Indonesia, Arutmin)"},
-                    {"province": "Sumatera Selatan", "lat": -3.3194, "lng": 104.9144, "value": 115.0, "unit": "Juta Ton", "rank": 3, "percentage_share": 13.8, "notes": "Tambang Tanjung Enim (PT Bukit Asam Tbk - PTBA)"},
-                    {"province": "Kalimantan Tengah", "lat": -1.6815, "lng": 113.3824, "value": 45.0, "unit": "Juta Ton", "rank": 4, "percentage_share": 5.4, "notes": "Barito Utara & Murung Raya (Coking Coal Premium)"},
-                    {"province": "Jambi & Riau", "lat": -1.4852, "lng": 102.4381, "value": 20.0, "unit": "Juta Ton", "rank": 5, "percentage_share": 2.4, "notes": "Muaro Jambi & Sarolangun"}
+                    {"province": "Kalimantan Timur", "lat": -0.5387, "lng": 116.4194, "value": 445.0, "unit": "Juta Ton", "rank": 1, "percentage_share": 53.3, "notes": "Cekungan Kutai & Berau (Kaltim Prima Coal, Berau Coal, Indominco Mandiri)"},
+                    {"province": "Kalimantan Selatan", "lat": -3.0926, "lng": 115.2838, "value": 210.0, "unit": "Juta Ton", "rank": 2, "percentage_share": 25.1, "notes": "Cekungan Asam-Asam & Barito (Adaro Indonesia, Arutmin Indonesia)"},
+                    {"province": "Sumatera Selatan", "lat": -3.3194, "lng": 104.9144, "value": 115.0, "unit": "Juta Ton", "rank": 3, "percentage_share": 13.8, "notes": "Tambang Tanjung Enim & Banko Barat (PT Bukit Asam Tbk - PTBA)"},
+                    {"province": "Kalimantan Tengah", "lat": -1.6815, "lng": 113.3824, "value": 45.0, "unit": "Juta Ton", "rank": 4, "percentage_share": 5.4, "notes": "Barito Utara & Murung Raya (Coking Coal Premium & Briket)"},
+                    {"province": "Jambi & Riau", "lat": -1.4852, "lng": 102.4381, "value": 20.0, "unit": "Juta Ton", "rank": 5, "percentage_share": 2.4, "notes": "Muaro Jambi, Batanghari, & Cerenti"}
                 ],
                 "PNBP_APBN": [
-                    {"province": "Kalimantan Timur", "lat": -0.5387, "lng": 116.4194, "value": 66800.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 53.2, "notes": "Akun BAS 421211 (Royalti Minerba PKP2B & IUP)"},
-                    {"province": "Kalimantan Selatan", "lat": -3.0926, "lng": 115.2838, "value": 31500.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 25.1, "notes": "Royalti SDA Minerba Batubara Kal-Sel"},
-                    {"province": "Sumatera Selatan", "lat": -3.3194, "lng": 104.9144, "value": 17300.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 13.8, "notes": "Setoran PNBP Royalti PTBA & Swasta Sumsel"},
-                    {"province": "Kalimantan Tengah", "lat": -1.6815, "lng": 113.3824, "value": 6800.0, "unit": "Rp Miliar", "rank": 4, "percentage_share": 5.4, "notes": "Dana Bagi Hasil (DBH) Minerba Kalteng"},
-                    {"province": "Jambi", "lat": -1.4852, "lng": 102.4381, "value": 3200.0, "unit": "Rp Miliar", "rank": 5, "percentage_share": 2.5, "notes": "PNBP Iuran Tetap & Royalti"}
+                    {"province": "Kalimantan Timur", "lat": -0.5387, "lng": 116.4194, "value": 66800.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 53.2, "notes": "Akun BAS 421211 (Royalti Minerba PKP2B Generasi I & IUP)"},
+                    {"province": "Kalimantan Selatan", "lat": -3.0926, "lng": 115.2838, "value": 31500.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 25.1, "notes": "Royalti SDA Minerba Batubara Kal-Sel (Adaro, Arutmin)"},
+                    {"province": "Sumatera Selatan", "lat": -3.3194, "lng": 104.9144, "value": 17300.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 13.8, "notes": "Setoran PNBP Royalti PTBA & Iuran Tetap Swasta Sumsel"},
+                    {"province": "Kalimantan Tengah", "lat": -1.6815, "lng": 113.3824, "value": 6800.0, "unit": "Rp Miliar", "rank": 4, "percentage_share": 5.4, "notes": "Dana Bagi Hasil (DBH) Minerba Batubara Barito"},
+                    {"province": "Jambi", "lat": -1.4852, "lng": 102.4381, "value": 3200.0, "unit": "Rp Miliar", "rank": 5, "percentage_share": 2.5, "notes": "PNBP Iuran Produksi & Eksplorasi Minerba Jambi"}
                 ],
                 "TITIK_EKSPOR": [
-                    {"province": "Muara Berau (Kaltim)", "lat": 0.4500, "lng": 117.6000, "value": 240.0, "unit": "Juta Ton", "rank": 1, "percentage_share": 42.9, "notes": "Transshipment Hub Terbesar Ekspor ke Tiongkok & India"},
-                    {"province": "Taboneo (Kalsel)", "lat": -3.7000, "lng": 114.4500, "value": 160.0, "unit": "Juta Ton", "rank": 2, "percentage_share": 28.6, "notes": "Anchorage Point Ekspor Batubara Laut Jawa"},
-                    {"province": "Pelabuhan Tarahan (Lampung)", "lat": -5.5186, "lng": 105.3344, "value": 85.0, "unit": "Juta Ton", "rank": 3, "percentage_share": 15.2, "notes": "Dermaga Curah Batubara Kereta Api PTBA"},
-                    {"province": "Balikpapan Coal Terminal (Kaltim)", "lat": -1.2654, "lng": 116.8312, "value": 75.0, "unit": "Juta Ton", "rank": 4, "percentage_share": 13.3, "notes": "Fasilitas Blending & Loading Kapal Capesize"}
+                    {"province": "Muara Berau (Kaltim)", "lat": 0.4500, "lng": 117.6000, "value": 240.0, "unit": "Juta Ton", "rank": 1, "percentage_share": 42.9, "notes": "Transshipment Hub Terbesar Ekspor Batubara ke Tiongkok, India, Jepang"},
+                    {"province": "Taboneo (Kalsel)", "lat": -3.7000, "lng": 114.4500, "value": 160.0, "unit": "Juta Ton", "rank": 2, "percentage_share": 28.6, "notes": "Anchorage Point Ekspor Batubara Laut Jawa untuk Kapal Panamax & Capesize"},
+                    {"province": "Pelabuhan Tarahan (Lampung)", "lat": -5.5186, "lng": 105.3344, "value": 85.0, "unit": "Juta Ton", "rank": 3, "percentage_share": 15.2, "notes": "Dermaga Curah Batubara Khusus Kereta Api PTBA Pasokan Suralaya"},
+                    {"province": "Balikpapan Coal Terminal (Kaltim)", "lat": -1.2654, "lng": 116.8312, "value": 75.0, "unit": "Juta Ton", "rank": 4, "percentage_share": 13.3, "notes": "Fasilitas Blending Batubara & Loading Kapal Capesize Terpadu"}
                 ],
                 "SMELTER_HILIR": [
-                    {"province": "Sumatera Selatan (Tanjung Enim)", "lat": -3.7500, "lng": 103.8000, "value": 20.0, "unit": "Juta Ton Input", "rank": 1, "percentage_share": 45.0, "notes": "Gasifikasi Batubara Menjadi DME (Dimetil Eter Substitusi LPG)"},
-                    {"province": "Kalimantan Timur (Kutai Timur)", "lat": 0.5000, "lng": 117.5000, "value": 15.0, "unit": "Juta Ton Input", "rank": 2, "percentage_share": 35.0, "notes": "Coal-to-Methanol & Briket Kokas Terkarbonisasi"},
-                    {"province": "Kalimantan Selatan (Batulicin)", "lat": -3.4500, "lng": 115.9800, "value": 10.0, "unit": "Juta Ton Input", "rank": 3, "percentage_share": 20.0, "notes": "Coal Upgrading & Pembangkit Listrik Mulut Tambang"}
+                    {"province": "Sumatera Selatan (Tanjung Enim)", "lat": -3.7500, "lng": 103.8000, "value": 20.0, "unit": "Juta Ton Input", "rank": 1, "percentage_share": 45.0, "notes": "Proyek Strategis Nasional Gasifikasi Batubara Menjadi DME Pengganti Impor LPG"},
+                    {"province": "Kalimantan Timur (Kutai Timur)", "lat": 0.5000, "lng": 117.5000, "value": 15.0, "unit": "Juta Ton Input", "rank": 2, "percentage_share": 35.0, "notes": "Coal-to-Methanol, Briket Terkarbonisasi & Pembangkit Listrik Mulut Tambang"},
+                    {"province": "Kalimantan Selatan (Batulicin)", "lat": -3.4500, "lng": 115.9800, "value": 10.0, "unit": "Juta Ton Input", "rank": 3, "percentage_share": 20.0, "notes": "Coal Upgrading Facility & Pabrik Kokas Semi-Kokas Metalurgi"}
                 ]
             },
             "COM-MINE-002-NIKEL": {
                 "PRODUKSI_TERBANYAK": [
-                    {"province": "Sulawesi Tengah", "lat": -1.4300, "lng": 121.4456, "value": 1150.0, "unit": "Ribu Ton Ni", "rank": 1, "percentage_share": 52.3, "notes": "Kawasan Industri Morowali (IMIP) - Pusat Smelter Terbesar"},
-                    {"province": "Maluku Utara", "lat": 0.7397, "lng": 127.5588, "value": 680.0, "unit": "Ribu Ton Ni", "rank": 2, "percentage_share": 30.9, "notes": "Pulau Obi (Harita Nickel) & Teluk Weda (IWIP)"},
-                    {"province": "Sulawesi Tenggara", "lat": -4.1449, "lng": 122.1746, "value": 370.0, "unit": "Ribu Ton Ni", "rank": 3, "percentage_share": 16.8, "notes": "Konawe Industrial Park (VDNI & OSS) & Kolaka"}
+                    {"province": "Sulawesi Tengah", "lat": -1.4300, "lng": 121.4456, "value": 1150.0, "unit": "Ribu Ton Ni", "rank": 1, "percentage_share": 52.3, "notes": "Kawasan Industri Morowali (IMIP) - Pusat Hilirisasi Nikel Terbesar Dunia"},
+                    {"province": "Maluku Utara", "lat": 0.7397, "lng": 127.5588, "value": 680.0, "unit": "Ribu Ton Ni", "rank": 2, "percentage_share": 30.9, "notes": "Pulau Obi (Harita Nickel) & Kawasan Industri Teluk Weda (IWIP)"},
+                    {"province": "Sulawesi Tenggara", "lat": -4.1449, "lng": 122.1746, "value": 370.0, "unit": "Ribu Ton Ni", "rank": 3, "percentage_share": 16.8, "notes": "Konawe Industrial Park (VDNI & OSS), Kolaka (PT Antam), & Kabaena"}
                 ],
                 "PNBP_APBN": [
-                    {"province": "Sulawesi Tengah", "lat": -1.4300, "lng": 121.4456, "value": 18400.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 52.3, "notes": "Royalti Nikel & Iuran Eksplorasi Kawasan Morowali"},
-                    {"province": "Maluku Utara", "lat": 0.7397, "lng": 127.5588, "value": 10900.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 31.0, "notes": "PNBP Royalti SDA Halmahera Tengah & Obi"},
-                    {"province": "Sulawesi Tenggara", "lat": -4.1449, "lng": 122.1746, "value": 5900.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 16.7, "notes": "Dana Bagi Hasil (DBH) Minerba Sultra"}
+                    {"province": "Sulawesi Tengah", "lat": -1.4300, "lng": 121.4456, "value": 18400.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 52.3, "notes": "Akun BAS 421213 (Royalti Nikel, Feronikel & Iuran Eksplorasi Morowali)"},
+                    {"province": "Maluku Utara", "lat": 0.7397, "lng": 127.5588, "value": 10900.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 31.0, "notes": "PNBP Royalti SDA Halmahera Tengah, Halmahera Timur & Pulau Obi"},
+                    {"province": "Sulawesi Tenggara", "lat": -4.1449, "lng": 122.1746, "value": 5900.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 16.7, "notes": "Dana Bagi Hasil (DBH) Minerba Nikel Konawe & Kolaka"}
                 ],
                 "TITIK_EKSPOR": [
-                    {"province": "Pelabuhan Morowali (Sulteng)", "lat": -2.8500, "lng": 122.1500, "value": 850.0, "unit": "Ribu Ton Ni", "rank": 1, "percentage_share": 52.5, "notes": "Terminal Khusus Ekspor NPI & Stainless Steel ke Tiongkok/Eropa"},
-                    {"province": "Pelabuhan Weda Bay (Malut)", "lat": 0.5000, "lng": 127.9000, "value": 490.0, "unit": "Ribu Ton Ni", "rank": 2, "percentage_share": 30.2, "notes": "Ekspor Nickel Matte & MHP Bahan Baterai"},
-                    {"province": "Pelabuhan Kendari / Pomalaa (Sultra)", "lat": -3.9800, "lng": 122.5800, "value": 280.0, "unit": "Ribu Ton Ni", "rank": 3, "percentage_share": 17.3, "notes": "Terminal Muat Ferronickel PT Antam"}
+                    {"province": "Pelabuhan Morowali (Sulteng)", "lat": -2.8500, "lng": 122.1500, "value": 850.0, "unit": "Ribu Ton Ni", "rank": 1, "percentage_share": 52.5, "notes": "Terminal Khusus Ekspor NPI, Stainless Steel & Nickel Matte ke Asia/Eropa"},
+                    {"province": "Pelabuhan Weda Bay (Malut)", "lat": 0.5000, "lng": 127.9000, "value": 490.0, "unit": "Ribu Ton Ni", "rank": 2, "percentage_share": 30.2, "notes": "Terminal Muat Ekspor MHP & Sulfat Nikel Bahan Baku Baterai EV"},
+                    {"province": "Pelabuhan Kendari / Pomalaa (Sultra)", "lat": -3.9800, "lng": 122.5800, "value": 280.0, "unit": "Ribu Ton Ni", "rank": 3, "percentage_share": 17.3, "notes": "Terminal Pengapalan Feronikel PT Antam Pomalaa"}
                 ],
                 "SMELTER_HILIR": [
-                    {"province": "Kawasan IMIP Morowali (Sulteng)", "lat": -2.8500, "lng": 122.1500, "value": 55.0, "unit": "Line Smelter RKEF/HPAL", "rank": 1, "percentage_share": 50.0, "notes": "Pabrik Stainless Steel Terintegrasi & Prekursor Baterai"},
-                    {"province": "Kawasan IWIP Weda Bay (Malut)", "lat": 0.5000, "lng": 127.9000, "value": 35.0, "unit": "Line Smelter", "rank": 2, "percentage_share": 31.8, "notes": "Smelter HPAL Sulfat Nikel & Cobalt"},
-                    {"province": "Kawasan Konawe (Sultra)", "lat": -3.9000, "lng": 122.4500, "value": 20.0, "unit": "Line Smelter", "rank": 3, "percentage_share": 18.2, "notes": "Smelter RKEF Ferronickel"}
+                    {"province": "Kawasan IMIP Morowali (Sulteng)", "lat": -2.8500, "lng": 122.1500, "value": 55.0, "unit": "Line Smelter RKEF/HPAL", "rank": 1, "percentage_share": 50.0, "notes": "Pabrik Stainless Steel Terintegrasi 3 Juta Ton & Prekursor Baterai HPAL"},
+                    {"province": "Kawasan IWIP Weda Bay (Malut)", "lat": 0.5000, "lng": 127.9000, "value": 35.0, "unit": "Line Smelter", "rank": 2, "percentage_share": 31.8, "notes": "Smelter HPAL Memproduksi Nikel Sulfat & Kobalt Sulfat Terbesar"},
+                    {"province": "Kawasan Konawe (Sultra)", "lat": -3.9000, "lng": 122.4500, "value": 20.0, "unit": "Line Smelter", "rank": 3, "percentage_share": 18.2, "notes": "Smelter RKEF Ferronickel & Proyek HPAL Pomalaa MIND ID"}
                 ]
             },
             "COM-MINE-003-TEMBAGA": {
                 "PRODUKSI_TERBANYAK": [
-                    {"province": "Papua Tengah", "lat": -4.0500, "lng": 137.1167, "value": 750.0, "unit": "Ribu Ton Cu", "rank": 1, "percentage_share": 71.4, "notes": "Tambang Bawah Tanah Terbesar Dunia (Grasberg PT Freeport Indonesia)"},
-                    {"province": "Nusa Tenggara Barat", "lat": -8.9667, "lng": 116.8667, "value": 300.0, "unit": "Ribu Ton Cu", "rank": 2, "percentage_share": 28.6, "notes": "Tambang Batu Hijau & Elang (PT Amman Mineral Nusa Tenggara)"}
+                    {"province": "Papua Tengah", "lat": -4.0500, "lng": 137.1167, "value": 750.0, "unit": "Ribu Ton Cu", "rank": 1, "percentage_share": 71.4, "notes": "Tambang Bawah Tanah Terbesar Dunia Grasberg (PT Freeport Indonesia Timika)"},
+                    {"province": "Nusa Tenggara Barat", "lat": -8.9667, "lng": 116.8667, "value": 300.0, "unit": "Ribu Ton Cu", "rank": 2, "percentage_share": 28.6, "notes": "Tambang Batu Hijau & Proyek Elang (PT Amman Mineral Nusa Tenggara)"}
                 ],
                 "PNBP_APBN": [
-                    {"province": "Papua Tengah (Timika)", "lat": -4.0500, "lng": 137.1167, "value": 14100.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 71.2, "notes": "PNBP Royalti Minerba & Dividen Saham BUMN MIND ID"},
-                    {"province": "Nusa Tenggara Barat (Sumbawa Barat)", "lat": -8.9667, "lng": 116.8667, "value": 5700.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 28.8, "notes": "Penerimaan Bea Keluar Ekspor Konsentrat & Royalti AMNT"}
+                    {"province": "Papua Tengah (Timika)", "lat": -4.0500, "lng": 137.1167, "value": 14100.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 71.2, "notes": "PNBP Royalti Minerba & Dividen Bagian Negara Saham BUMN MIND ID"},
+                    {"province": "Nusa Tenggara Barat (Sumbawa Barat)", "lat": -8.9667, "lng": 116.8667, "value": 5700.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 28.8, "notes": "Bea Keluar Ekspor Konsentrat, Iuran Eksplorasi, & Royalti AMNT"}
                 ],
                 "TITIK_EKSPOR": [
-                    {"province": "Pelabuhan Amamapare (Papua)", "lat": -4.8500, "lng": 136.9500, "value": 490.0, "unit": "Ribu Ton Cu", "rank": 1, "percentage_share": 71.0, "notes": "Terminal Khusus Loading Kapal Pengangkut Konsentrat Freeport"},
-                    {"province": "Pelabuhan Benete (Sumbawa Barat)", "lat": -8.8800, "lng": 116.7300, "value": 200.0, "unit": "Ribu Ton Cu", "rank": 2, "percentage_share": 29.0, "notes": "Terminal Muat Konsentrat Tembaga Amman Mineral"}
+                    {"province": "Pelabuhan Amamapare (Papua)", "lat": -4.8500, "lng": 136.9500, "value": 490.0, "unit": "Ribu Ton Cu", "rank": 1, "percentage_share": 71.0, "notes": "Terminal Khusus Pengapalan Konsentrat Tembaga & Emas Freeport"},
+                    {"province": "Pelabuhan Benete (Sumbawa Barat)", "lat": -8.8800, "lng": 116.7300, "value": 200.0, "unit": "Ribu Ton Cu", "rank": 2, "percentage_share": 29.0, "notes": "Terminal Khusus Muat Konsentrat Tembaga Amman Mineral"}
                 ],
                 "SMELTER_HILIR": [
-                    {"province": "Manyar Gresik (Jawa Timur)", "lat": -7.1200, "lng": 112.6000, "value": 1700.0, "unit": "Ribu Ton Konsentrat Input", "rank": 1, "percentage_share": 65.0, "notes": "Smelter Tembaga Single Line Terbesar di Dunia (PTFI Manyar)"},
-                    {"province": "Sumbawa Barat (NTB)", "lat": -8.8500, "lng": 116.8000, "value": 900.0, "unit": "Ribu Ton Konsentrat Input", "rank": 2, "percentage_share": 35.0, "notes": "Smelter Tembaga & Pemurnian Logam Mulia Emas AMNT"}
+                    {"province": "Manyar Gresik (Jawa Timur)", "lat": -7.1200, "lng": 112.6000, "value": 1700.0, "unit": "Ribu Ton Input Konsentrat", "rank": 1, "percentage_share": 65.0, "notes": "Smelter Tembaga Single Line Terbesar di Dunia (PTFI Manyar & Smelting Gresik)"},
+                    {"province": "Sumbawa Barat (NTB)", "lat": -8.8500, "lng": 116.8000, "value": 900.0, "unit": "Ribu Ton Input Konsentrat", "rank": 2, "percentage_share": 35.0, "notes": "Smelter Tembaga & Pemurnian Logam Mulia Emas AMNT Benete"}
+                ]
+            },
+            "COM-MINE-004-MINYAK-MENTAH": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Riau", "lat": 1.4822, "lng": 101.3431, "value": 162.0, "unit": "Ribu Barel/Hari", "rank": 1, "percentage_share": 26.8, "notes": "Blok Rokan Duri & Minas (Pertamina Hulu Rokan - Lapangan Terbesar)"},
+                    {"province": "Jawa Timur", "lat": -7.1500, "lng": 111.7500, "value": 145.0, "unit": "Ribu Barel/Hari", "rank": 2, "percentage_share": 24.0, "notes": "Blok Cepu Banyu Urip & Kedung Keris (ExxonMobil Cepu Ltd Bojonegoro)"},
+                    {"province": "Kepulauan Riau", "lat": 3.9500, "lng": 108.3800, "value": 65.0, "unit": "Ribu Barel/Hari", "rank": 3, "percentage_share": 10.7, "notes": "Natuna Sea Block B, Belida, & Kerisi (Lepas Pantai Natuna Selatan)"},
+                    {"province": "Kalimantan Timur", "lat": -0.7000, "lng": 117.4000, "value": 52.0, "unit": "Ribu Barel/Hari", "rank": 4, "percentage_share": 8.6, "notes": "WK Mahakam, Sangasanga, & Tarakan (Pertamina Hulu Mahakam)"},
+                    {"province": "Sumatera Selatan", "lat": -2.9000, "lng": 103.8000, "value": 38.0, "unit": "Ribu Barel/Hari", "rank": 5, "percentage_share": 6.3, "notes": "Corridor & Rimau Block Musi Banyuasin & Prabumulih"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Riau", "lat": 1.4822, "lng": 101.3431, "value": 24500.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 28.5, "notes": "Akun BAS 421111 (PNBP SDA Minyak Bumi Blok Rokan)"},
+                    {"province": "Jawa Timur", "lat": -7.1500, "lng": 111.7500, "value": 21200.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 24.7, "notes": "PNBP Bagian Negara Blok Cepu & DBH Bojonegoro"},
+                    {"province": "Kepulauan Riau", "lat": 3.9500, "lng": 108.3800, "value": 9800.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 11.4, "notes": "PNBP Minyak Lepas Pantai Natuna"},
+                    {"province": "Kalimantan Timur", "lat": -0.7000, "lng": 117.4000, "value": 8200.0, "unit": "Rp Miliar", "rank": 4, "percentage_share": 9.5, "notes": "PNBP SDA Minyak Mahakam"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Terminal Dumai (Riau)", "lat": 1.6800, "lng": 101.4500, "value": 85.0, "unit": "Ribu Barel/Hari", "rank": 1, "percentage_share": 45.0, "notes": "Terminal Pengapalan Minyak Mentah Sumatran Light Crude (SLC)"},
+                    {"province": "FSO Gagak Rimang (Jawa Timur)", "lat": -6.7500, "lng": 112.1000, "value": 65.0, "unit": "Ribu Barel/Hari", "rank": 2, "percentage_share": 34.4, "notes": "Kapal Tangki Apung Penyimpan & Pemuat Minyak Mentah Cepu"},
+                    {"province": "Terminal Senipah (Kaltim)", "lat": -1.0500, "lng": 117.0200, "value": 39.0, "unit": "Ribu Barel/Hari", "rank": 3, "percentage_share": 20.6, "notes": "Fasilitas Pengapalan Minyak Mentah & Kondensat Mahakam"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Kilang RU IV Cilacap (Jateng)", "lat": -7.7000, "lng": 109.0000, "value": 348.0, "unit": "Ribu Barel/Hari Kapasitas", "rank": 1, "percentage_share": 33.5, "notes": "Kilang Terbesar Nasional Memproduksi BBM Ramah Lingkungan & Avtur"},
+                    {"province": "Kilang RU V Balikpapan (Kaltim)", "lat": -1.2500, "lng": 116.8300, "value": 360.0, "unit": "Ribu Barel/Hari Kapasitas", "rank": 2, "percentage_share": 34.6, "notes": "Proyek RDMP Modernisasi Pengolahan Minyak Mentah Nasional"},
+                    {"province": "Kilang RU VI Balongan (Jabar)", "lat": -6.3600, "lng": 108.3500, "value": 125.0, "unit": "Ribu Barel/Hari Kapasitas", "rank": 3, "percentage_share": 12.0, "notes": "Kilang Pasokan Utama BBM Wilayah Jabodetabek"}
+                ]
+            },
+            "COM-MINE-005-GAS-ALAM": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Papua Barat (Tangguh Bintuni)", "lat": -2.4500, "lng": 133.1500, "value": 2100.0, "unit": "MMSCFD", "rank": 1, "percentage_share": 38.2, "notes": "Proyek Train 1, 2, dan 3 Tangguh LNG (BP Berau Ltd)"},
+                    {"province": "Kalimantan Timur (Kutai & Bontang)", "lat": -0.6000, "lng": 117.7000, "value": 1450.0, "unit": "MMSCFD", "rank": 2, "percentage_share": 26.4, "notes": "Eni Jangkrik, Merakes, & PHM Selat Makassar"},
+                    {"province": "Sumatera Selatan (Corridor Block)", "lat": -2.5000, "lng": 103.9000, "value": 850.0, "unit": "MMSCFD", "rank": 3, "percentage_share": 15.5, "notes": "Lapangan Grissik & Suban (Medco Energi Grissik Ltd)"},
+                    {"province": "Aceh & Natuna", "lat": 5.2000, "lng": 97.1000, "value": 480.0, "unit": "MMSCFD", "rank": 4, "percentage_share": 8.7, "notes": "Pasokan Gas Industri & Regasifikasi Pupuk Iskandar Muda"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Papua Barat (Bintuni)", "lat": -2.4500, "lng": 133.1500, "value": 19800.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 37.5, "notes": "Akun BAS 421121 (PNBP SDA Gas Bumi) Train LNG Tangguh"},
+                    {"province": "Kalimantan Timur", "lat": -0.6000, "lng": 117.7000, "value": 15200.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 28.8, "notes": "PNBP Gas Alam Bontang & Mahakam"},
+                    {"province": "Sumatera Selatan", "lat": -2.5000, "lng": 103.9000, "value": 9400.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 17.8, "notes": "PNBP Gas Pipa Trans-Sumatera & Batam"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Tangguh LNG Jetty (Papua Barat)", "lat": -2.4300, "lng": 133.1800, "value": 11.4, "unit": "Juta Ton LNG/Thn", "rank": 1, "percentage_share": 52.3, "notes": "Terminal Muat Kapal Pengangkut LNG ke Asia Timur"},
+                    {"province": "Bontang LNG Jetty (Kaltim)", "lat": 0.1000, "lng": 117.4800, "value": 8.2, "unit": "Juta Ton LNG/Thn", "rank": 2, "percentage_share": 37.6, "notes": "Terminal Muat PT Badak NGL Selat Makassar"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Kilang Badak NGL Bontang (Kaltim)", "lat": 0.1100, "lng": 117.4800, "value": 22.5, "unit": "Juta Ton/Thn Kapasitas", "rank": 1, "percentage_share": 50.0, "notes": "Pusat Pencairan Gas Alam Terbesar di Kawasan Timur Indonesia"},
+                    {"province": "Tangguh Train 3 Facility (Papua Barat)", "lat": -2.4500, "lng": 133.1500, "value": 11.4, "unit": "Juta Ton/Thn Kapasitas", "rank": 2, "percentage_share": 25.3, "notes": "Fasilitas Pengolahan LNG Terintegrasi CCUS"},
+                    {"province": "Donggi Senoro LNG (Sulteng)", "lat": -1.3800, "lng": 122.5500, "value": 2.1, "unit": "Juta Ton/Thn Kapasitas", "rank": 3, "percentage_share": 4.7, "notes": "Kilang LNG Swasta Pemasok Pasar Domestik & Ekspor"}
+                ]
+            },
+            "ALL_HASIL_BUMI": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Kalimantan Timur", "lat": -0.5387, "lng": 116.4194, "value": 512.0, "unit": "Indeks Produksi", "rank": 1, "percentage_share": 34.5, "notes": "Sentra Terpadu Batubara Berau, Badak LNG, & Minyak Mahakam"},
+                    {"province": "Papua (Tengah & Barat)", "lat": -4.0500, "lng": 137.1167, "value": 298.0, "unit": "Indeks Produksi", "rank": 2, "percentage_share": 20.1, "notes": "Grasberg Tembaga Emas PTFI & Tangguh LNG BP Berau"},
+                    {"province": "Sulawesi Tengah", "lat": -1.4300, "lng": 121.4456, "value": 245.0, "unit": "Indeks Produksi", "rank": 3, "percentage_share": 16.5, "notes": "Pusat Hilirisasi Nikel Terbesar Dunia (Kawasan IMIP Morowali)"},
+                    {"province": "Kalimantan Selatan", "lat": -3.0926, "lng": 115.2838, "value": 215.0, "unit": "Indeks Produksi", "rank": 4, "percentage_share": 14.5, "notes": "Sentra Tambang Batubara Terbuka Adaro & Arutmin"},
+                    {"province": "Riau", "lat": 1.4822, "lng": 101.3431, "value": 185.0, "unit": "Indeks Produksi", "rank": 5, "percentage_share": 12.5, "notes": "Pusat Produksi Minyak Bumi Nasional Blok Rokan"},
+                    {"province": "Maluku Utara", "lat": 0.7397, "lng": 127.5588, "value": 155.0, "unit": "Indeks Produksi", "rank": 6, "percentage_share": 10.4, "notes": "Kawasan Hilirisasi Nikel Pulau Obi & Weda Bay"},
+                    {"province": "Nusa Tenggara Barat", "lat": -8.9667, "lng": 116.8667, "value": 120.0, "unit": "Indeks Produksi", "rank": 7, "percentage_share": 8.1, "notes": "Batu Hijau Sumbawa Barat Amman Mineral"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Kalimantan Timur", "lat": -0.5387, "lng": 116.4194, "value": 82000.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 36.4, "notes": "Setoran Royalti Batubara, Minyak Bumi, dan Gas Alam Kaltim"},
+                    {"province": "Papua (Tengah & Barat)", "lat": -4.0500, "lng": 137.1167, "value": 33900.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 15.1, "notes": "Dividen Saham Freeport & PNBP Gas Tangguh"},
+                    {"province": "Riau", "lat": 1.4822, "lng": 101.3431, "value": 24500.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 10.9, "notes": "PNBP SDA Minyak Bumi Blok Rokan"},
+                    {"province": "Sulawesi Tengah", "lat": -1.4300, "lng": 121.4456, "value": 18400.0, "unit": "Rp Miliar", "rank": 4, "percentage_share": 8.2, "notes": "Royalti Nikel & Ekspor Kawasan Industri Morowali"},
+                    {"province": "Kalimantan Selatan", "lat": -3.0926, "lng": 115.2838, "value": 31500.0, "unit": "Rp Miliar", "rank": 5, "percentage_share": 14.0, "notes": "Setoran Royalti Batubara Terbesar Kal-Sel"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Muara Berau & Balikpapan (Kaltim)", "lat": 0.4500, "lng": 117.6000, "value": 315.0, "unit": "Juta Ton Kargo", "rank": 1, "percentage_share": 38.0, "notes": "Hub Ekspor Utama Batubara & Minyak Selat Makassar"},
+                    {"province": "Taboneo (Kalimantan Selatan)", "lat": -3.7000, "lng": 114.4500, "value": 160.0, "unit": "Juta Ton Kargo", "rank": 2, "percentage_share": 19.3, "notes": "Anchorage Transshipment Ekspor Batubara Internasional"},
+                    {"province": "Pelabuhan Morowali & Weda Bay", "lat": -2.8500, "lng": 122.1500, "value": 1340.0, "unit": "Ribu Ton Logam", "rank": 3, "percentage_share": 16.1, "notes": "Terminal Pengapalan Feronikel & Stainless Steel"},
+                    {"province": "Pelabuhan Dumai (Riau)", "lat": 1.6800, "lng": 101.4500, "value": 85.0, "unit": "Ribu Barel/Hari", "rank": 4, "percentage_share": 10.2, "notes": "Terminal Pengapalan Minyak Mentah Internasional"},
+                    {"province": "Pelabuhan Amamapare (Papua Tengah)", "lat": -4.8500, "lng": 136.9500, "value": 490.0, "unit": "Ribu Ton Konsentrat", "rank": 5, "percentage_share": 5.9, "notes": "Terminal Konsentrat Tembaga & Emas Grasberg"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Manyar Gresik (Jatim)", "lat": -7.1200, "lng": 112.6000, "value": 1700.0, "unit": "Kapasitas Ribu Ton", "rank": 1, "percentage_share": 25.0, "notes": "Smelter Pemurnian Tembaga & Emas Murni Single Line Terbesar Dunia"},
+                    {"province": "Kawasan IMIP Morowali (Sulteng)", "lat": -2.8500, "lng": 122.1500, "value": 55.0, "unit": "Line Pabrik Smelter", "rank": 2, "percentage_share": 22.5, "notes": "Pabrik Stainless Steel & Bahan Baterai Listrik"},
+                    {"province": "Kawasan IWIP Weda Bay (Malut)", "lat": 0.5000, "lng": 127.9000, "value": 35.0, "unit": "Line Pabrik Smelter", "rank": 3, "percentage_share": 18.0, "notes": "Smelter HPAL Prekursor Baterai Kendaraan Listrik"},
+                    {"province": "Kilang RU IV Cilacap & Balikpapan", "lat": -7.7000, "lng": 109.0000, "value": 708.0, "unit": "Ribu Barel/Hari", "rank": 4, "percentage_share": 20.0, "notes": "Kilang Pengolahan Bahan Bakar Minyak Nasional"}
+                ]
+            },
+            "COM-AGRI-001-BERAS": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Jawa Timur", "lat": -7.5360, "lng": 112.2384, "value": 9.8, "unit": "Juta Ton GKG", "rank": 1, "percentage_share": 18.2, "notes": "Lumbung Padi Nasional Terbesar (Lamongan, Ngawi, Bojonegoro)"},
+                    {"province": "Jawa Tengah", "lat": -7.1509, "lng": 110.1402, "value": 9.2, "unit": "Juta Ton GKG", "rank": 2, "percentage_share": 17.1, "notes": "Sentra Padi Irigasi Teknis (Klaten, Sragen, Grobogan)"},
+                    {"province": "Jawa Barat", "lat": -6.9175, "lng": 107.6191, "value": 9.0, "unit": "Juta Ton GKG", "rank": 3, "percentage_share": 16.7, "notes": "Jalur Pantura Karawang, Subang, Indramayu"},
+                    {"province": "Sulawesi Selatan", "lat": -3.6687, "lng": 119.9740, "value": 5.1, "unit": "Juta Ton GKG", "rank": 4, "percentage_share": 9.5, "notes": "Lumbung Pangan Kawasan Timur Indonesia (Sidrap, Bone, Pinrang)"},
+                    {"province": "Sumatera Selatan", "lat": -3.3194, "lng": 104.9144, "value": 2.9, "unit": "Juta Ton GKG", "rank": 5, "percentage_share": 5.4, "notes": "Sentra Pasang Surut Banyuasin & OKU Timur"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Jawa Timur", "lat": -7.5360, "lng": 112.2384, "value": 4500.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 25.0, "notes": "Subsidi Pupuk & Bantuan Alsintan APBN Kementan"},
+                    {"province": "Jawa Tengah", "lat": -7.1509, "lng": 110.1402, "value": 4200.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 23.3, "notes": "Rehabilitasi Jaringan Irigasi Bendungan APBN"},
+                    {"province": "Jawa Barat", "lat": -6.9175, "lng": 107.6191, "value": 3900.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 21.7, "notes": "Alokasi Belanja Ketahanan Pangan APBN"},
+                    {"province": "Sulawesi Selatan", "lat": -3.6687, "lng": 119.9740, "value": 2500.0, "unit": "Rp Miliar", "rank": 4, "percentage_share": 13.9, "notes": "Pencetakan Sawah Baru & Pompanisasi"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Pelabuhan Tanjung Perak (Surabaya)", "lat": -7.1982, "lng": 112.7335, "value": 1.2, "unit": "Juta Ton Distribusi", "rank": 1, "percentage_share": 40.0, "notes": "Hub Logistik Beras Antarpulau ke Maluku & Papua"},
+                    {"province": "Pelabuhan Tanjung Priok (Jakarta)", "lat": -6.1025, "lng": 106.8833, "value": 0.9, "unit": "Juta Ton Logistik", "rank": 2, "percentage_share": 30.0, "notes": "Pintu Bongkar Muat Cadangan Beras Pemerintah (Bulog)"},
+                    {"province": "Pelabuhan Makassar (Sulsel)", "lat": -5.1200, "lng": 119.4100, "value": 0.6, "unit": "Juta Ton Distribusi", "rank": 3, "percentage_share": 20.0, "notes": "Gerbang Distribusi Pangan Nasional KTI"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Sentra Penggilingan Modern (Jatim)", "lat": -7.4500, "lng": 112.5000, "value": 120.0, "unit": "Unit Rice Milling Plant", "rank": 1, "percentage_share": 35.0, "notes": "Modern Rice Milling Plant (MRMP) Bulog Berteknologi Tinggi"},
+                    {"province": "Sentra Penggilingan Padi (Jateng)", "lat": -7.2000, "lng": 110.5000, "value": 95.0, "unit": "Unit MRMP", "rank": 2, "percentage_share": 28.0, "notes": "Pusat Pengolahan Beras Premium & Kemasan Vakum"},
+                    {"province": "Sentra Penggilingan Padi (Jabar)", "lat": -6.8000, "lng": 107.8000, "value": 85.0, "unit": "Unit MRMP", "rank": 3, "percentage_share": 25.0, "notes": "Kawasan Gudang Pengering Dryer & Silo Bulog"}
+                ]
+            },
+            "COM-AGRI-007-KARET": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Sumatera Utara", "lat": 2.9500, "lng": 99.4000, "value": 485.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 28.5, "notes": "Perkebunan Karet Asahan, Labuhanbatu & Simalungun (PTPN III & Perkebunan Rakyat)"},
+                    {"province": "Sumatera Selatan", "lat": -3.1000, "lng": 104.2000, "value": 420.0, "unit": "Ribu Ton", "rank": 2, "percentage_share": 24.7, "notes": "Sentra Karet Musi Banyuasin, Muara Enim, & Banyuasin"},
+                    {"province": "Riau & Jambi", "lat": -1.6000, "lng": 103.6000, "value": 390.0, "unit": "Ribu Ton", "rank": 3, "percentage_share": 22.9, "notes": "Lembah Batanghari & Indragiri Hulu Penghasil Karet Alam Rakyat"},
+                    {"province": "Kalimantan Barat", "lat": 0.0500, "lng": 109.3500, "value": 260.0, "unit": "Ribu Ton", "rank": 4, "percentage_share": 15.3, "notes": "Sentra Karet Sanggau & Landak"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Sumatera Utara", "lat": 2.9500, "lng": 99.4000, "value": 650.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 33.3, "notes": "Penerimaan Bea Keluar Ekspor Karet & Pajak Industri Ban"},
+                    {"province": "Sumatera Selatan", "lat": -3.1000, "lng": 104.2000, "value": 520.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 26.7, "notes": "Penerimaan Devisa Ekspor Crumb Rubber TSR 20"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Pelabuhan Belawan (Medan)", "lat": 3.7800, "lng": 98.6800, "value": 1.2, "unit": "Juta Ton", "rank": 1, "percentage_share": 48.0, "notes": "Hub Ekspor Utama Karet Alam ke AS, Tiongkok, Jepang & Eropa"},
+                    {"province": "Pelabuhan Boom Baru (Palembang)", "lat": -2.9800, "lng": 104.7700, "value": 0.8, "unit": "Juta Ton", "rank": 2, "percentage_share": 32.0, "notes": "Terminal Pengapalan Karet Lembaran & Remilling"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Kawasan Industri Medan & Asahan", "lat": 3.6500, "lng": 98.6800, "value": 35.0, "unit": "Unit Pabrik TSR", "rank": 1, "percentage_share": 40.0, "notes": "Pabrik Crumb Rubber TSR 20 Berstandar Internasional"},
+                    {"province": "Kawasan Manufaktur Ban (Jabar & Banten)", "lat": -6.3000, "lng": 107.1500, "value": 15.0, "unit": "Pabrik Ban Terpadu", "rank": 2, "percentage_share": 35.0, "notes": "Pabrik Ban Kendaraan Bermotor (Gajah Tunggal, Bridgestone, Goodyear)"}
+                ]
+            },
+            "COM-AGRI-008-TEMBAKAU": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Jawa Timur", "lat": -7.1500, "lng": 113.8500, "value": 115.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 51.1, "notes": "Sentra Tembakau Madura (Pamekasan, Sumenep) & Tembakau Cerutu Besuki Na-Oogst Jember"},
+                    {"province": "Jawa Tengah", "lat": -7.3000, "lng": 110.1500, "value": 65.0, "unit": "Ribu Ton", "rank": 2, "percentage_share": 28.9, "notes": "Tembakau Srinthil & Garangan Temanggung, Wonosobo, Boyolali"},
+                    {"province": "Nusa Tenggara Barat", "lat": -8.6500, "lng": 116.5000, "value": 38.0, "unit": "Ribu Ton", "rank": 3, "percentage_share": 16.9, "notes": "Tembakau Virginia Flue-Cured Lombok Timur & Tengah"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Jawa Timur", "lat": -7.1500, "lng": 113.8500, "value": 115000.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 52.6, "notes": "Akun BAS 411513 (Realisasi Cukai Hasil Tembakau Kediri/Kudus/Surabaya & DBH CHT)"},
+                    {"province": "Jawa Tengah", "lat": -7.3000, "lng": 110.1500, "value": 72000.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 33.0, "notes": "Setoran Cukai Sigaret Kretek Tangan & Mesin Nasional"},
+                    {"province": "Nusa Tenggara Barat", "lat": -8.6500, "lng": 116.5000, "value": 18000.0, "unit": "Rp Miliar", "rank": 3, "percentage_share": 8.2, "notes": "Penerimaan DBH Cukai Tembakau NTB"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Pelabuhan Tanjung Perak (Surabaya)", "lat": -7.2000, "lng": 112.7300, "value": 12.5, "unit": "Ribu Ton", "rank": 1, "percentage_share": 60.0, "notes": "Ekspor Daun Tembakau Cerutu Fermentasi ke Jerman & Karibia"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Kawasan Industri Kretek Kudus & Kediri", "lat": -6.8000, "lng": 110.8400, "value": 45.0, "unit": "Sentra Industri Rokok", "rank": 1, "percentage_share": 55.0, "notes": "Sentra Manufaktur IHT Nasional (Djarum, Gudang Garam, Sampoerna)"}
+                ]
+            },
+            "COM-AGRI-009-KOPI": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Lampung & Bengkulu", "lat": -5.4000, "lng": 104.8000, "value": 215.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 27.4, "notes": "Ibukota Kopi Robusta Nasional (Tanggamus, Lampung Barat, Rejang Lebong)"},
+                    {"province": "Sumatera Selatan", "lat": -4.0000, "lng": 103.2000, "value": 195.0, "unit": "Ribu Ton", "rank": 2, "percentage_share": 24.8, "notes": "Sentra Kopi Robusta Dataran Tinggi Pagar Alam & Semendo"},
+                    {"province": "Aceh (Gayo)", "lat": 4.6000, "lng": 96.8500, "value": 85.0, "unit": "Ribu Ton", "rank": 3, "percentage_share": 10.8, "notes": "Sentra Kopi Arabika Gayo Organik Spesialti Terbesar (Bener Meriah & Aceh Tengah)"},
+                    {"province": "Jawa Timur", "lat": -7.9500, "lng": 114.2000, "value": 75.0, "unit": "Ribu Ton", "rank": 4, "percentage_share": 9.6, "notes": "Kopi Arabika Java Ijen-Raung Bondowoso & Dampit Malang"},
+                    {"province": "Sulawesi Selatan", "lat": -3.0000, "lng": 119.8500, "value": 55.0, "unit": "Ribu Ton", "rank": 5, "percentage_share": 7.0, "notes": "Kopi Arabika Toraja Kalosi & Enrekang"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Lampung", "lat": -5.4000, "lng": 104.8000, "value": 310.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 33.7, "notes": "PPh Pasal 22 Ekspor Biji Kopi & Program KUR Perkebunan Kementan"},
+                    {"province": "Aceh & Sumsel", "lat": 4.6000, "lng": 96.8500, "value": 280.0, "unit": "Rp Miliar", "rank": 2, "percentage_share": 30.4, "notes": "Devisa Ekspor Kopi Spesialti Bersertifikat Fair Trade & Organik"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Pelabuhan Panjang (Lampung)", "lat": -5.4500, "lng": 105.3200, "value": 245.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 59.0, "notes": "Hub Utama Ekspor Kopi Robusta ke AS, Eropa, & Timur Tengah"},
+                    {"province": "Pelabuhan Belawan & Malahayati", "lat": 3.7800, "lng": 98.6800, "value": 95.0, "unit": "Ribu Ton", "rank": 2, "percentage_share": 22.9, "notes": "Terminal Muat Kopi Arabika Gayo Ekspor"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Sentra Industri Kopi Lampung & Banten", "lat": -6.2000, "lng": 106.6500, "value": 25.0, "unit": "Pabrik Kopi Terpadu", "rank": 1, "percentage_share": 45.0, "notes": "Fasilitas Pengolahan Kopi Instan, Bubuk Kopi & Freeze Drying (Mayora, Kapal Api, Nestlé)"}
+                ]
+            },
+            "COM-AGRI-010-KAKAO": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Sulawesi Tengah & Selatan", "lat": -1.0000, "lng": 120.0000, "value": 310.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 47.7, "notes": "Sabuk Emas Kakao Sulawesi (Parigi Moutong, Luwu Utara, Kolaka)"},
+                    {"province": "Lampung & Sumsel", "lat": -5.2000, "lng": 105.1000, "value": 125.0, "unit": "Ribu Ton", "rank": 2, "percentage_share": 19.2, "notes": "Sentra Perkebunan Kakao Rakyat Sumatera"},
+                    {"province": "Nusa Tenggara", "lat": -8.6000, "lng": 121.0000, "value": 65.0, "unit": "Ribu Ton", "rank": 3, "percentage_share": 10.0, "notes": "Sentra Kakao Fermentasi Flores & Lombok"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Sulawesi Tengah & Selatan", "lat": -1.0000, "lng": 120.0000, "value": 410.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 57.7, "notes": "Penerimaan Bea Keluar Ekspor Biji Kakao & Gernas Kakao"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Pelabuhan Makassar (Sulsel)", "lat": -5.1200, "lng": 119.4100, "value": 195.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 57.4, "notes": "Terminal Muat Biji Kakao & Produk Kakao Olahan ke Asia/Eropa"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Sentra Pengolahan Kakao Cilegon & Makassar", "lat": -6.0200, "lng": 106.0500, "value": 12.0, "unit": "Pabrik Grinding", "rank": 1, "percentage_share": 50.0, "notes": "Pabrik Pemrosesan Cocoa Butter, Powder & Liquor (Barry Callebaut, Cargill, Olam)"}
+                ]
+            },
+            "COM-AGRI-011-TEH": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Jawa Barat", "lat": -7.1500, "lng": 107.5500, "value": 95.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 70.4, "notes": "Dataran Tinggi Priangan (Pangalengan, Ciwidey, Ciater, Sukabumi - PTPN VIII)"},
+                    {"province": "Sumatera Utara & Barat", "lat": 2.9500, "lng": 99.0500, "value": 25.0, "unit": "Ribu Ton", "rank": 2, "percentage_share": 18.5, "notes": "Kebun Teh Sidamanik Simalungun & Kebun Danau Kembar Solok"},
+                    {"province": "Jawa Tengah", "lat": -7.1000, "lng": 109.8000, "value": 12.0, "unit": "Ribu Ton", "rank": 3, "percentage_share": 8.9, "notes": "Kebun Teh Pagilaran Batang & Kaligua Brebes"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Jawa Barat", "lat": -7.1500, "lng": 107.5500, "value": 240.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 70.6, "notes": "Devisa Ekspor Teh Hitam Orthodoks & Bantuan Revitalisasi Teh Rakyat"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Pelabuhan Tanjung Priok (Jakarta)", "lat": -6.1000, "lng": 106.8800, "value": 38.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 84.4, "notes": "Pintu Utama Ekspor Teh Nasional ke Rusia, Malaysia, Pakistan"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Sentra Pabrik Teh Pangalengan & Puncak", "lat": -7.1500, "lng": 107.5500, "value": 40.0, "unit": "Pabrik Teh Modern", "rank": 1, "percentage_share": 65.0, "notes": "Fasilitas Pengolahan Teh Hitam CTC & Teh Celup Ekspor"}
+                ]
+            },
+            "COM-AGRI-012-KELAPA": {
+                "PRODUKSI_TERBANYAK": [
+                    {"province": "Riau (Indragiri Hilir)", "lat": -0.3000, "lng": 103.1500, "value": 950.0, "unit": "Ribu Ton Kopra", "rank": 1, "percentage_share": 33.3, "notes": "Ibukota Kelapa Dunia Hamparan Kebun Kelapa Rakyat Terluas (Inhil)"},
+                    {"province": "Sulawesi Utara", "lat": 1.4500, "lng": 124.8500, "value": 480.0, "unit": "Ribu Ton", "rank": 2, "percentage_share": 16.8, "notes": "Sentra Industri Kopra & Tepung Kelapa Minahasa"},
+                    {"province": "Maluku Utara", "lat": 0.8000, "lng": 127.5000, "value": 320.0, "unit": "Ribu Ton", "rank": 3, "percentage_share": 11.2, "notes": "Kepulauan Kelapa Halmahera"},
+                    {"province": "Jawa Timur & Jawa Tengah", "lat": -7.8000, "lng": 111.9000, "value": 290.0, "unit": "Ribu Ton", "rank": 4, "percentage_share": 10.2, "notes": "Sentra Gula Kelapa & Kelapa Sayur"}
+                ],
+                "PNBP_APBN": [
+                    {"province": "Riau & Sulawesi Utara", "lat": -0.3000, "lng": 103.1500, "value": 310.0, "unit": "Rp Miliar", "rank": 1, "percentage_share": 64.6, "notes": "Penerimaan Pajak Ekspor Santan Beku, Minyak Kelapa & Karbon Aktif"}
+                ],
+                "TITIK_EKSPOR": [
+                    {"province": "Pelabuhan Dumai & Bitung", "lat": 1.4400, "lng": 125.1800, "value": 520.0, "unit": "Ribu Ton", "rank": 1, "percentage_share": 57.8, "notes": "Terminal Pengapalan Crude Coconut Oil (CNO) & Desiccated Coconut"}
+                ],
+                "SMELTER_HILIR": [
+                    {"province": "Sentra Industri Sambu Group (Inhil) & Bitung", "lat": -0.3000, "lng": 103.1500, "value": 18.0, "unit": "Pabrik Terpadu", "rank": 1, "percentage_share": 60.0, "notes": "Pabrik Pengolahan Santan Kemasan (Kara), Nata de Coco & Briket Arang"}
                 ]
             }
         }
+
+        # Link aliases for all commodity IDs & aggregates
+        SPATIAL_REGISTRY["AGG_PERTANIAN"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["AGG_PERKEBUNAN"] = SPATIAL_REGISTRY["COM-MINE-004-MINYAK-MENTAH"]
+        SPATIAL_REGISTRY["AGG_PERKEBUNAN_INDUSTRI"] = SPATIAL_REGISTRY["COM-MINE-004-MINYAK-MENTAH"]
+        SPATIAL_REGISTRY["AGG_PERKEBUNAN_KONSUMSI"] = SPATIAL_REGISTRY["COM-AGRI-009-KOPI"]
+        SPATIAL_REGISTRY["COM-PLANT-001-KARET"] = SPATIAL_REGISTRY["COM-AGRI-007-KARET"]
+        SPATIAL_REGISTRY["COM-PLANT-002-TEMBAKAU"] = SPATIAL_REGISTRY["COM-AGRI-008-TEMBAKAU"]
+        SPATIAL_REGISTRY["COM-PLANT-003-KOPI"] = SPATIAL_REGISTRY["COM-AGRI-009-KOPI"]
+        SPATIAL_REGISTRY["COM-PLANT-004-KAKAO"] = SPATIAL_REGISTRY["COM-AGRI-010-KAKAO"]
+        SPATIAL_REGISTRY["COM-PLANT-005-TEH"] = SPATIAL_REGISTRY["COM-AGRI-011-TEH"]
+        SPATIAL_REGISTRY["COM-PLANT-006-KELAPA"] = SPATIAL_REGISTRY["COM-AGRI-012-KELAPA"]
+        SPATIAL_REGISTRY["AGG_TAMBANG"] = SPATIAL_REGISTRY["ALL_HASIL_BUMI"]
+        SPATIAL_REGISTRY["AGG_MINERBA"] = SPATIAL_REGISTRY["ALL_HASIL_BUMI"]
+        SPATIAL_REGISTRY["AGG_MIGAS"] = SPATIAL_REGISTRY["COM-MINE-004-MINYAK-MENTAH"]
+        SPATIAL_REGISTRY["AGG_NON_TAMBANG"] = SPATIAL_REGISTRY["ALL_HASIL_BUMI"]
+        SPATIAL_REGISTRY["COM-NONMINE-001-KAYU"] = SPATIAL_REGISTRY["ALL_HASIL_BUMI"]
+        SPATIAL_REGISTRY["COM-NONMINE-002-RUMPUT-LAUT"] = SPATIAL_REGISTRY["ALL_HASIL_BUMI"]
+        SPATIAL_REGISTRY["COM-NONMINE-003-PANAS-BUMI"] = SPATIAL_REGISTRY["ALL_HASIL_BUMI"]
+
+        # Agriculture aliases
+        SPATIAL_REGISTRY["ALL_PERTANIAN"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["ALL_PERTANIAN_PETERNAKAN"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["AGG_PERTANIAN_TANAMAN"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["AGG_PERAIRAN"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["AGG_PETERNAKAN"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["COM-AGRI-002-JAGUNG"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["COM-AGRI-003-KEDELAI"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["COM-AGRI-004-GULA"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["COM-AGRI-005-BAWANG-MERAH"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["COM-AGRI-006-SAWIT-CPO"] = SPATIAL_REGISTRY["COM-MINE-004-MINYAK-MENTAH"]
+        SPATIAL_REGISTRY["COM-LIVE-001-SAPI"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["COM-LIVE-002-AYAM"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["COM-FISH-001-TUNA"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
+        SPATIAL_REGISTRY["COM-FISH-002-UDANG"] = SPATIAL_REGISTRY["COM-AGRI-001-BERAS"]
 
         data = SPATIAL_REGISTRY.get(commodity_id, {}).get(variable, [])
         return {

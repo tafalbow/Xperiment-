@@ -11,7 +11,7 @@ export class ContextualMap {
     this.onSelectSeriesCallback = onSelectSeriesCallback;
 
     this.activeSeriesList = [
-      { id: 'series-1', indicatorId: 'IND-GDP-GROWTH-YOY', name: 'Laju Pertumbuhan PDB Riil', color: '#0284C7' }
+      { id: 'series-1', indicatorId: 'IND-GDP-GROWTH-YOY', name: 'Laju Pertumbuhan PDB Riil', color: '#1A73E8' }
     ];
     this.activeSeriesIndex = 0;
 
@@ -109,7 +109,7 @@ export class ContextualMap {
       const isSelected = selected && selected.id === d.id;
       return `
         <div 
-          class="btn-select-driver cursor-pointer p-3 rounded-md border transition-all ${isSelected ? 'bg-sky-50/90 border-sky-500 ring-2 ring-sky-300 shadow-xs' : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-slate-300'}"
+          class="btn-select-driver cursor-pointer p-3 rounded-md border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-xs' : 'bg-slate-50 border-[#DADCE0] hover:bg-white hover:border-slate-300'}"
           data-driver-id="${d.id}"
           data-idx="${idx}"
           role="button"
@@ -118,25 +118,25 @@ export class ContextualMap {
         >
           <div class="flex items-start justify-between gap-2.5">
             <div class="flex items-start gap-2.5">
-              <span class="w-5 h-5 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-sky-600 text-white shadow-2xs' : 'bg-slate-200 text-slate-700'}">
+              <span class="w-5 h-5 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-slate-200 text-slate-700'}">
                 ${idx + 1}
               </span>
               <div class="space-y-1">
                 <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="font-bold text-xs ${isSelected ? 'text-sky-950 font-mono underline decoration-sky-400 decoration-2 underline-offset-2' : 'text-slate-900 font-mono hover:text-sky-700'}">
+                  <span class="font-bold text-xs ${isSelected ? 'text-[#1A73E8] font-mono underline decoration-[#1A73E8] decoration-2 underline-offset-2' : 'text-slate-900 font-mono hover:text-sky-700'}">
                     ${d.geo_target_name || d.province_name}
                   </span>
-                  <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded font-semibold ${isSelected ? 'bg-sky-200 text-sky-900' : 'bg-slate-200 text-slate-700'}">
+                  <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded font-semibold ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-slate-200 text-slate-700'}">
                     ${d.province_name.toUpperCase()} (${d.geo_level || 'Provinsi'})
                   </span>
                 </div>
-                <div class="text-[11px] leading-snug ${isSelected ? 'text-sky-900 font-bold' : 'text-slate-700 font-semibold'}">
+                <div class="text-[11px] leading-snug ${isSelected ? 'text-[#202124] font-bold' : 'text-slate-700 font-semibold'}">
                   ${d.driver_role}
                 </div>
               </div>
             </div>
             <div class="shrink-0 text-right">
-              <span class="text-[10.5px] font-mono font-bold px-1.5 py-0.5 rounded ${isSelected ? 'bg-sky-600 text-white shadow-2xs' : 'bg-white text-slate-800 border border-slate-300'}">
+              <span class="text-[10.5px] font-mono font-bold px-1.5 py-0.5 rounded ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-white text-slate-800 border border-slate-300'}">
                 TA ${d.period}
               </span>
             </div>
@@ -144,8 +144,8 @@ export class ContextualMap {
 
           ${isSelected ? `
             <!-- Detailed Narrative & Provenance (Expanded for Selected Driver) -->
-            <div class="mt-2.5 pt-2 border-t border-sky-200/80 space-y-2">
-              <blockquote class="text-[11px] text-slate-800 bg-white p-2 rounded border-l-3 border-sky-500 font-sans italic leading-relaxed shadow-2xs">
+            <div class="mt-2.5 pt-2 border-t border-[#D2E3FC] space-y-2">
+              <blockquote class="text-[11px] text-slate-800 bg-white p-2 rounded border-l-3 border-[#1A73E8] font-sans italic leading-relaxed shadow-2xs">
                 "${d.explanation}"
               </blockquote>
               <div class="space-y-0.5 text-[9.5px] text-slate-500 font-mono pt-0.5">
@@ -182,14 +182,14 @@ export class ContextualMap {
     const slotPillsHtml = [0, 1, 2].map(i => {
       const series = this.activeSeriesList[i];
       const isActive = this.activeSeriesIndex === i;
-      const defaultColors = ['#0284C7', '#10B981', '#F59E0B'];
+      const defaultColors = ['#1A73E8', '#E37400', '#1E8E3E'];
       const color = series ? (series.color || defaultColors[i]) : defaultColors[i];
 
       if (series) {
         return `
           <button 
             type="button"
-            class="btn-focus-series cursor-pointer px-2.5 py-1 rounded text-[11px] font-mono flex items-center gap-1.5 border transition-all ${isActive ? 'bg-slate-900 text-white font-bold border-slate-900 shadow-xs ring-2 ring-sky-400' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100 hover:border-slate-400'}"
+            class="btn-focus-series cursor-pointer px-2.5 py-1 rounded text-[11px] font-mono flex items-center gap-1.5 border transition-all ${isActive ? 'bg-[#1A73E8] text-white font-bold border-[#1A73E8] shadow-xs ring-2 ring-[#D2E3FC]' : 'bg-white text-[#3C4043] border-[#DADCE0] hover:bg-[#F8F9FA] hover:border-[#BDC1C6]'}"
             data-idx="${i}"
             data-action="select"
             title="Pilih Penjelasan Geoekonomi untuk Variabel ${i + 1}: ${series.name || ''}"
@@ -202,7 +202,7 @@ export class ContextualMap {
         return `
           <button 
             type="button"
-            class="btn-focus-series cursor-pointer px-2 py-1 rounded text-[11px] font-mono flex items-center gap-1 border border-dashed border-slate-300 bg-slate-50 text-slate-500 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 transition-all"
+            class="btn-focus-series cursor-pointer px-2 py-1 rounded text-[11px] font-mono flex items-center gap-1 border border-dashed border-slate-300 bg-slate-50 text-slate-500 hover:bg-sky-50 hover:text-sky-700 hover:border-[#1A73E8] transition-all"
             data-idx="${i}"
             data-action="add"
             title="Klik untuk menambahkan dan menganalisis Variabel ${i + 1}"
@@ -217,23 +217,23 @@ export class ContextualMap {
     this.container.innerHTML = `
       <div class="gov-card p-4 space-y-3 flex flex-col justify-between overflow-hidden shadow-xs">
         <!-- Section Header -->
-        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 flex-wrap gap-2 shrink-0">
+        <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2.5 flex-wrap gap-2 shrink-0">
           <div>
             <div class="flex items-center gap-2">
               <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">INFORMASI PENDORONG KONTEKSTUAL (GIS CONTEXT)</span>
-              <span class="text-[10px] font-mono bg-sky-50 text-sky-700 border border-sky-200 px-1.5 py-0.5 rounded">TERHUBUNG KE GRAFIK</span>
+              <span class="text-[10px] font-mono bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] px-1.5 py-0.5 rounded">TERHUBUNG KE GRAFIK</span>
             </div>
             <p class="text-[11px] text-slate-500 mt-0.5">
               Penjelasan pendorong geoekonomi resmi yang terhubung dengan variabel dan titik data grafik di sebelah kiri.
             </p>
           </div>
-          <span class="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+          <span class="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded border border-[#DADCE0]">
             Bukan Basis Data Provinsi
           </span>
         </div>
 
         <!-- 1. VARIABLE FOCUS SELECTOR (Var 1 / Var 2 / Var 3 Buttons) -->
-        <div class="flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-200 text-xs font-mono flex-wrap gap-2 shrink-0">
+        <div class="flex items-center justify-between bg-slate-50 p-2 rounded border border-[#DADCE0] text-xs font-mono flex-wrap gap-2 shrink-0">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="text-slate-600 text-[10px] uppercase font-bold tracking-wider">Penjelas untuk:</span>
             <div class="flex items-center gap-1.5 flex-wrap" id="focus-series-container">
@@ -241,7 +241,7 @@ export class ContextualMap {
             </div>
           </div>
 
-          <div class="text-[10px] font-mono text-slate-500 flex items-center gap-1 bg-white px-2 py-0.5 rounded border border-slate-200">
+          <div class="text-[10px] font-mono text-slate-500 flex items-center gap-1 bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
             <span>📅</span>
             <span>Titik Aktif: <strong id="gis-active-period-badge" class="text-slate-900">${this.focusedYear ? `TA ${this.focusedYear}` : 'Semua Periode'}</strong></span>
           </div>
@@ -252,8 +252,8 @@ export class ContextualMap {
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
             
             <!-- KOLOM KIRI: DAFTAR SENTRA PENDORONG (Numbered List) -->
-            <div class="lg:col-span-5 flex flex-col bg-white border border-slate-200 rounded p-3.5 space-y-3 h-full">
-              <div class="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-1 shrink-0">
+            <div class="lg:col-span-5 flex flex-col bg-white border border-[#DADCE0] rounded p-3.5 space-y-3 h-full">
+              <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2 flex-wrap gap-1 shrink-0">
                 <div class="font-mono text-xs font-bold text-slate-800 flex items-center gap-1.5">
                   <span>📍</span>
                   <span>DAFTAR SENTRA PENDORONG (${this.drivers.length} Lokasi):</span>
@@ -266,21 +266,21 @@ export class ContextualMap {
                 ${this.renderDriverNumberedListHtml(selected)}
               </div>
 
-              <div class="p-1.5 bg-slate-50 rounded border border-slate-200 text-[9.5px] text-slate-500 font-mono text-center shrink-0">
+              <div class="p-1.5 bg-slate-50 rounded border border-[#DADCE0] text-[9.5px] text-slate-500 font-mono text-center shrink-0">
                 * Terhubung langsung dengan titik pergerakan ${activeSeries ? activeSeries.name : 'indikator nasional'}.
               </div>
             </div>
 
             <!-- KOLOM KANAN: MAP AREA (Posisi teratas sama setara dengan sentra pendorong) -->
-            <div class="lg:col-span-7 flex flex-col bg-slate-50 border border-slate-200 rounded p-2.5 space-y-2 h-full min-h-[440px]">
+            <div class="lg:col-span-7 flex flex-col bg-slate-50 border border-[#DADCE0] rounded p-2.5 space-y-2 h-full min-h-[440px]">
               <!-- Leaflet Container -->
-              <div id="gis-leaflet-container" class="w-full flex-1 min-h-[380px] rounded bg-slate-100 overflow-hidden relative z-0 border border-slate-200"></div>
+              <div id="gis-leaflet-container" class="w-full flex-1 min-h-[380px] rounded bg-slate-100 overflow-hidden relative z-0 border border-[#DADCE0]"></div>
 
               <!-- Map Controls Overlay -->
               <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 pt-1 px-1 shrink-0 flex-wrap gap-2">
                 <div class="flex items-center gap-2">
-                  <span class="inline-flex items-center gap-1 bg-white border border-slate-200 px-2 py-0.5 rounded shadow-2xs text-[10px]">
-                    <span class="w-2 h-2 rounded-full bg-sky-600 animate-pulse"></span>
+                  <span class="inline-flex items-center gap-1 bg-white border border-[#DADCE0] px-2 py-0.5 rounded shadow-2xs text-[10px]">
+                    <span class="w-2 h-2 rounded-full bg-[#1A73E8] animate-pulse"></span>
                     <span id="gis-active-level">${selected ? (selected.geo_level || 'Level Provinsi') : 'Nasional'}</span>
                   </span>
                   <span class="text-slate-500 text-[10px] font-mono" id="gis-coords-badge">
@@ -308,7 +308,7 @@ export class ContextualMap {
                 Variabel <strong>${activeSeries ? activeSeries.name : 'ini'}</strong> merupakan indikator makroekonomi/fiskal nasional tanpa konsentrasi pendorong spasial atau anomali regional khusus pada publikasi resmi pemerintah.
               </p>
             </div>
-            <span class="inline-flex items-center gap-1 text-[9.5px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+            <span class="inline-flex items-center gap-1 text-[9.5px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-[#DADCE0]">
               <span>🏛️</span> Cakupan: Konsolidasi Nasional (Seluruh Indonesia)
             </span>
           </div>
@@ -373,7 +373,7 @@ export class ContextualMap {
 
         const iconHtml = `
           <div class="relative flex items-center justify-center">
-            <div class="w-6 h-6 rounded-full ${isSelected ? 'bg-sky-600 ring-4 ring-sky-300 shadow-md' : 'bg-slate-700 ring-2 ring-white shadow'} flex items-center justify-center text-white text-[10px] font-bold">
+            <div class="w-6 h-6 rounded-full ${isSelected ? 'bg-[#1A73E8] ring-4 ring-[#D2E3FC] shadow-md' : 'bg-[#5F6368] ring-2 ring-white shadow'} flex items-center justify-center text-white text-[10px] font-bold">
               ${d.geo_level === 'Kabupaten/Kota' ? '🏢' : '📍'}
             </div>
             ${isSelected ? '<div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></div>' : ''}
@@ -430,7 +430,7 @@ export class ContextualMap {
       const isSelected = activeDriver && activeDriver.id === d.id;
       const iconHtml = `
         <div class="relative flex items-center justify-center">
-          <div class="w-6 h-6 rounded-full ${isSelected ? 'bg-sky-600 ring-4 ring-sky-300 shadow-md' : 'bg-slate-700 ring-2 ring-white shadow'} flex items-center justify-center text-white text-[10px] font-bold">
+          <div class="w-6 h-6 rounded-full ${isSelected ? 'bg-[#1A73E8] ring-4 ring-[#D2E3FC] shadow-md' : 'bg-[#5F6368] ring-2 ring-white shadow'} flex items-center justify-center text-white text-[10px] font-bold">
             ${d.geo_level === 'Kabupaten/Kota' ? '🏢' : '📍'}
           </div>
           ${isSelected ? '<div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></div>' : ''}
@@ -468,8 +468,8 @@ export class ContextualMap {
     const radiusMeters = driver.geo_level === 'Kabupaten/Kota' ? 18000 : 75000;
     this.activeCircle = L.circle([driver.latitude, driver.longitude], {
       radius: radiusMeters,
-      color: '#0284C7',
-      fillColor: '#38BDF8',
+      color: '#1A73E8',
+      fillColor: '#1A73E8',
       fillOpacity: 0.18,
       weight: 2,
       dashArray: '4, 4'

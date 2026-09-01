@@ -26,7 +26,7 @@ export class SearchBar {
     const filtered = this.getFilteredSuggestions();
 
     this.container.innerHTML = `
-      <div class="gov-card p-2.5 bg-white border border-slate-300 shadow-xs space-y-1.5">
+      <div class="gov-card p-2.5 bg-white border border-[#DADCE0] shadow-xs space-y-1.5">
         <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
           <!-- Left: Main Search Input with Icon -->
           <div class="relative flex-1">
@@ -38,7 +38,7 @@ export class SearchBar {
             <input 
               type="text" 
               id="global-search-input" 
-              class="gov-input pl-8 pr-8 py-1.5 w-full font-mono text-xs text-slate-900 placeholder-slate-400 bg-slate-50/70 focus:bg-white border-slate-300 focus:border-slate-800 transition-all rounded" 
+              class="gov-input pl-8 pr-8 py-1.5 w-full font-mono text-xs text-slate-900 placeholder-slate-400 bg-slate-50/70 focus:bg-white border-[#DADCE0] focus:border-slate-800 transition-all rounded" 
               placeholder="Cari indikator ekonomi, kode VAR_..., sektor, dasar hukum UU, atau lembaga (Kemenkeu / BPS / BI)..."
               value="${this.searchQuery}"
               autocomplete="off"
@@ -55,7 +55,7 @@ export class SearchBar {
             ` : ''}
 
             <!-- Autocomplete Suggestion Dropdown -->
-            <div id="search-suggestions-dropdown" class="absolute left-0 right-0 top-full mt-1 bg-white border border-slate-300 rounded-md shadow-xl z-50 max-h-72 overflow-y-auto ${this.isDropdownOpen && this.searchQuery ? '' : 'hidden'}">
+            <div id="search-suggestions-dropdown" class="absolute left-0 right-0 top-full mt-1 bg-white border border-[#DADCE0] rounded-md shadow-xl z-50 max-h-72 overflow-y-auto ${this.isDropdownOpen && this.searchQuery ? '' : 'hidden'}">
               ${filtered.length === 0 ? `
                 <div class="p-4 text-center text-xs font-mono text-slate-500">
                   Tidak ditemukan variabel yang cocok dengan <strong>"${this.searchQuery}"</strong>.
@@ -103,7 +103,7 @@ export class SearchBar {
             <span class="text-[10.5px] font-mono text-slate-500 mr-1 hidden xl:inline">Kategori Cepat:</span>
             <button 
               type="button" 
-              class="btn-quick-cat px-2.5 py-1 text-[11px] font-mono rounded border transition-all cursor-pointer ${this.activeCategory === 'ALL' ? 'bg-[#CDCDCD] text-slate-950 font-bold border-slate-400 shadow-2xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'}"
+              class="btn-quick-cat px-2.5 py-1 text-[11px] font-mono rounded border transition-all cursor-pointer ${this.activeCategory === 'ALL' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'}"
               data-cat="ALL"
             >
               Semua (47)

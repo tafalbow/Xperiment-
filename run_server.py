@@ -12,14 +12,14 @@ if __name__ == "__main__":
     print("PUSAT BASIS DATA DATA SEKUNDER: PERGERAKAN EKONOMI INDONESIA")
     print("GovTech National Secondary Data Platform (Barely-There UI)")
     print("==============================================================================")
-    print("Starting server at: http://127.0.0.1:8000")
+    print("Starting server at: http://127.0.0.1:8000 (Local) or http://0.0.0.0:8000 (LAN/Public)")
     print("API Documentation:  http://127.0.0.1:8000/docs")
     print("Press CTRL+C to stop.")
     print("==============================================================================")
 
     uvicorn.run(
         "backend.app:app",
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=8000,
         reload=False,
         log_level="info"

@@ -1,45 +1,76 @@
 /* ==============================================================================
    PUSAT BASIS DATA DATA SEKUNDER: PERGERAKAN EKONOMI INDONESIA
-   Style System: "Barely There UI & Architecture-First Typography"
-   GovTech Minimalist, High Contrast, Tabular-First Design
+   Style System: Google Analytics / Google Marketing Platform Design System
+   Clean, Tabular-First, Neutral Canvas with Google Triad Accents
    ============================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-app: #F8FAFC;
+  /* Google Analytics Theme Tokens */
+  --bg-app: #F8F9FA;
   --bg-surface: #FFFFFF;
-  --bg-surface-subtle: #F1F5F9;
-  --border-subtle: #E2E8F0;
-  --border-strong: #CBD5E1;
-  --border-focus: #0F172A;
+  --bg-surface-subtle: #F1F3F4;
+  --bg-surface-hover: #F8F9FA;
   
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
-  --text-dim: #94A3B8;
+  --border-subtle: #DADCE0;
+  --border-strong: #BDC1C6;
+  --border-focus: #1A73E8;
 
-  --badge-observed-bg: #ECFDF5;
-  --badge-observed-text: #065F46;
-  --badge-observed-border: #A7F3D0;
+  --text-primary: #202124;
+  --text-body: #3C4043;
+  --text-secondary: #5F6368;
+  --text-muted: #80868B;
+  --text-dim: #9AA0A6;
 
-  --badge-provisional-bg: #FFFBEB;
-  --badge-provisional-text: #92400E;
-  --badge-provisional-border: #FDE68A;
+  /* Google Blue (Primary / Selection) */
+  --ga-blue: #1A73E8;
+  --ga-blue-hover: #174EA6;
+  --ga-blue-active: #185ABC;
+  --ga-blue-light: #E8F0FE;
+  --ga-blue-border: #D2E3FC;
 
-  --badge-revised-bg: #EEF2FF;
-  --badge-revised-text: #3730A3;
-  --badge-revised-border: #C7D2FE;
+  /* Google Green (Growth / Positive) */
+  --ga-green: #1E8E3E;
+  --ga-green-hover: #137333;
+  --ga-green-light: #E6F4EA;
+  --ga-green-border: #CEEAD6;
 
-  --badge-na-bg: #F1F5F9;
-  --badge-na-text: #475569;
-  --badge-na-border: #CBD5E1;
+  /* Google Yellow / Orange (Analytics Amber / Caution) */
+  --ga-orange: #E37400;
+  --ga-yellow: #F9AB00;
+  --ga-yellow-light: #FEF7E0;
+  --ga-yellow-border: #FEEFC3;
+  --ga-yellow-text: #B06000;
 
-  --badge-failed-bg: #FEF2F2;
-  --badge-failed-text: #991B1B;
-  --badge-failed-border: #FECACA;
+  /* Google Red (Alert / Negative) */
+  --ga-red: #D93025;
+  --ga-red-hover: #C5221F;
+  --ga-red-light: #FCE8E6;
+  --ga-red-border: #FAD2CF;
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Status Badges */
+  --badge-observed-bg: #E6F4EA;
+  --badge-observed-text: #137333;
+  --badge-observed-border: #CEEAD6;
+
+  --badge-provisional-bg: #FEF7E0;
+  --badge-provisional-text: #B06000;
+  --badge-provisional-border: #FEEFC3;
+
+  --badge-revised-bg: #E8F0FE;
+  --badge-revised-text: #1A73E8;
+  --badge-revised-border: #D2E3FC;
+
+  --badge-na-bg: #F1F3F4;
+  --badge-na-text: #5F6368;
+  --badge-na-border: #DADCE0;
+
+  --badge-failed-bg: #FCE8E6;
+  --badge-failed-text: #C5221F;
+  --badge-failed-border: #FAD2CF;
+
+  --font-sans: 'Google Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, Menlo, monospace;
 }
 
@@ -67,16 +98,18 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Hairline Grid & Card Aesthetics */
+/* Google Analytics Card Aesthetics */
 .gov-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  transition: border-color 0.15s ease;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .gov-card:hover {
   border-color: var(--border-strong);
+  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.12), 0 4px 8px 3px rgba(60, 64, 67, 0.06);
 }
 
 /* Status Badges */
@@ -89,7 +122,7 @@ body {
   font-weight: 600;
   font-family: var(--font-mono);
   letter-spacing: 0.02em;
-  border-radius: 3px;
+  border-radius: 4px;
   border: 1px solid transparent;
   white-space: nowrap;
 }
@@ -124,14 +157,14 @@ body {
   border-color: var(--badge-failed-border);
 }
 
-/* Custom Table Layout with Vertical & Horizontal Scrolling */
+/* Custom Table Layout with Google Analytics Clean Style */
 .gov-table-container {
   width: 100%;
   overflow-x: auto;
   overflow-y: auto;
   max-height: 540px;
   border: 1px solid var(--border-subtle);
-  border-radius: 4px;
+  border-radius: 8px;
   background: var(--bg-surface);
   position: relative;
   scroll-behavior: smooth;
@@ -149,30 +182,29 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: #F1F5F9;
+  background-color: var(--bg-surface-subtle);
   color: var(--text-secondary);
   font-weight: 600;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 10px 14px;
-  border-bottom: 2px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
   border-right: 1px solid var(--border-subtle);
   user-select: none;
   white-space: nowrap;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .gov-table td {
   padding: 10px 14px;
   border-bottom: 1px solid var(--border-subtle);
   border-right: 1px solid var(--border-subtle);
-  color: var(--text-primary);
+  color: var(--text-body);
   vertical-align: middle;
 }
 
 .gov-table tr:hover td {
-  background-color: #F8FAFC;
+  background-color: var(--bg-surface-hover);
 }
 
 /* Inputs & Form Controls */
@@ -180,7 +212,7 @@ body {
   width: 100%;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-radius: 3px;
+  border-radius: 4px;
   padding: 6px 10px;
   font-size: 13px;
   color: var(--text-primary);
@@ -190,56 +222,58 @@ body {
 
 .gov-input:focus, .gov-select:focus {
   outline: none;
-  border-color: var(--text-primary);
-  box-shadow: 0 0 0 1px var(--text-primary);
+  border-color: var(--ga-blue);
+  box-shadow: 0 0 0 2px var(--ga-blue-border);
 }
 
-/* Buttons */
+/* Google-Styled Buttons */
 .gov-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   font-size: 12px;
   font-weight: 500;
-  border-radius: 3px;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.15s ease;
   border: 1px solid var(--border-subtle);
   background-color: var(--bg-surface);
-  color: var(--text-primary);
+  color: var(--text-body);
   text-decoration: none;
 }
 
 .gov-btn:hover {
   background-color: var(--bg-surface-subtle);
   border-color: var(--border-strong);
+  color: var(--text-primary);
 }
 
 .gov-btn-primary {
-  background-color: #CDCDCD;
-  color: #0F172A;
-  border-color: #B0B0B0;
-  font-weight: 600;
+  background-color: var(--ga-blue);
+  color: #FFFFFF;
+  border-color: var(--ga-blue);
+  font-weight: 500;
 }
 
 .gov-btn-primary:hover {
-  background-color: #BEBEBE;
-  border-color: #9E9E9E;
-  color: #000000;
+  background-color: var(--ga-blue-hover);
+  border-color: var(--ga-blue-hover);
+  color: #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3);
 }
 
 .gov-btn-sm {
-  padding: 3px 8px;
+  padding: 4px 10px;
   font-size: 11px;
 }
 
-/* Modal Overlay & Pop-up Screens (Updated to #CDCDCD Gray) */
+/* Modal Overlay & Pop-up Screens */
 .gov-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.6);
+  background-color: rgba(32, 33, 36, 0.6);
   backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
@@ -249,19 +283,19 @@ body {
 }
 
 .gov-modal-content {
-  background-color: #CDCDCD;
-  border: 1px solid #B0B0B0;
-  border-radius: 6px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
   max-width: 900px;
   width: 100%;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-  color: #0F172A;
+  box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
 }
 
-/* Custom GovTech Leaflet GIS Marker & Map Styling */
+/* Custom Google Analytics Leaflet GIS Marker & Map Styling */
 .custom-gov-marker {
   background: transparent;
   border: none;
@@ -269,31 +303,40 @@ body {
 
 #gis-leaflet-container .leaflet-control-zoom {
   border: 1px solid var(--border-subtle) !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.15) !important;
   border-radius: 4px !important;
 }
 
 #gis-leaflet-container .leaflet-control-zoom a {
   background-color: #ffffff !important;
-  color: #0f172a !important;
-  font-family: var(--font-mono) !important;
-  font-weight: bold !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 500 !important;
 }
 
 #gis-leaflet-container .leaflet-popup-content-wrapper {
-  background: #CDCDCD !important;
-  color: #0f172a !important;
-  border: 1px solid #B0B0B0 !important;
-  border-radius: 6px !important;
+  background: #FFFFFF !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 8px !important;
   padding: 2px !important;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2) !important;
+  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15) !important;
 }
 
 #gis-leaflet-container .leaflet-popup-content {
-  margin: 8px 12px !important;
-  color: #f8fafc !important;
+  margin: 10px 14px !important;
+  color: var(--text-primary) !important;
 }
 
 #gis-leaflet-container .leaflet-popup-tip {
-  background: #0f172a !important;
+  background: #FFFFFF !important;
+}
+
+/* Prevent browser default black focus borders */
+button:focus, button:focus-visible, a:focus, a:focus-visible, input:focus, select:focus {
+  outline: none !important;
+}
+button:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--ga-blue-border) !important;
 }

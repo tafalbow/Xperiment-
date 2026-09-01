@@ -14,33 +14,33 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
   const isAdmin = registeredUser?.email?.trim().toLowerCase() === SOLE_ADMIN_EMAIL.toLowerCase();
 
   container.innerHTML = `
-    <!-- Top System Notice Banner (Updated to #CDCDCD Gray) -->
-    <div style="background-color: #CDCDCD;" class="text-slate-950 text-xs px-4 lg:px-8 py-2 border-b border-slate-400 flex items-center justify-between flex-wrap gap-2.5 font-mono font-medium shadow-2xs">
+    <!-- Top System Notice Banner (Google Analytics Style) -->
+    <div class="bg-[#F8F9FA] text-[#3C4043] text-xs px-4 lg:px-8 py-2 border-b border-[#DADCE0] flex items-center justify-between flex-wrap gap-2.5 font-mono font-medium shadow-2xs">
       <div class="flex items-center gap-3 flex-wrap">
         <div class="flex items-center gap-1.5 font-mono text-[11px]">
-          <span class="inline-block w-2 h-2 rounded-full bg-emerald-800 animate-pulse"></span>
-          <span class="font-bold text-slate-950">REPOSITORY STATUS: ONLINE</span>
-          <span class="text-slate-600">|</span>
-          <span class="text-slate-800 font-semibold">CAKUPAN: TINGKAT NASIONAL (INDONESIA)</span>
+          <span class="inline-block w-2 h-2 rounded-full bg-[#1E8E3E] animate-pulse"></span>
+          <span class="font-bold text-[#202124]">REPOSITORY STATUS: ONLINE</span>
+          <span class="text-[#BDC1C6]">|</span>
+          <span class="text-[#5F6368] font-semibold">CAKUPAN: TINGKAT NASIONAL (INDONESIA)</span>
         </div>
 
-        <div class="hidden sm:flex items-center gap-1.5 font-mono text-[11px] text-slate-950 bg-white/80 px-2 py-0.5 rounded border border-slate-400">
+        <div class="hidden sm:flex items-center gap-1.5 font-mono text-[11px] text-[#3C4043] bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
           <span>🕒 Terakhir Diperbarui:</span>
-          <strong class="text-slate-950">28 Januari 2025</strong>
-          <span class="text-slate-700">(Siklus Tgl 8, 17, 28)</span>
+          <strong class="text-[#202124]">28 Januari 2025</strong>
+          <span class="text-[#5F6368]">(Siklus Tgl 8, 17, 28)</span>
         </div>
       </div>
 
       <!-- Right: Restricted License Notice & Email Access Registration Button -->
       <div class="flex items-center gap-2 flex-wrap font-mono text-[11px]">
-        <span class="text-rose-950 bg-rose-200/90 border border-rose-400 px-2 py-0.5 rounded text-[10.5px] font-bold">
-          ⚠️ Penggunaan Data Terbatas (Restricted untuk Analisa) — Wajib Sitasi
+        <span class="text-[#C5221F] bg-[#FCE8E6] border border-[#FAD2CF] px-2 py-0.5 rounded text-[10.5px] font-medium">
+          ⚠️ Penggunaan Data Terbatas (Restricted) — Wajib Sitasi
         </span>
 
         <button 
           type="button" 
           id="btn-header-email-reg" 
-          class="px-2.5 py-0.5 rounded font-mono text-[11px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs ${isAdmin ? 'bg-amber-100 text-amber-950 border border-amber-500 font-bold' : (registeredUser ? 'bg-emerald-800 hover:bg-emerald-700 text-white border border-emerald-900' : 'bg-slate-900 hover:bg-slate-800 text-white border border-slate-900 font-bold')}"
+          class="px-2.5 py-0.5 rounded font-mono text-[11px] font-medium flex items-center gap-1.5 transition-all cursor-pointer shadow-xs ${isAdmin ? 'bg-[#FEF7E0] text-[#B06000] border border-[#F9AB00] font-bold' : (registeredUser ? 'bg-[#E6F4EA] hover:bg-[#CEEAD6] text-[#137333] border border-[#CEEAD6]' : 'bg-[#1A73E8] hover:bg-[#174EA6] text-white border border-[#1A73E8] font-medium')}"
           title="Daftarkan email pengguna untuk pelacakan dan otorisasi pengambilan data"
         >
           ${isAdmin ? `
@@ -58,9 +58,9 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
     </div>
 
     <!-- Main Navigation Header -->
-    <header class="bg-white border-b border-slate-200 px-4 lg:px-8 py-3 flex items-center justify-between flex-wrap gap-4">
+    <header class="bg-white border-b border-[#DADCE0] px-4 lg:px-8 py-3 flex items-center justify-between flex-wrap gap-4">
       <div class="flex items-center gap-3.5">
-        <div class="w-10 h-10 rounded bg-[#CDCDCD] flex items-center justify-center text-slate-950 font-bold text-xl font-mono shadow-xs border border-slate-400 shrink-0">
+        <div class="w-9 h-9 rounded-lg bg-[#E8F0FE] flex items-center justify-center text-[#1A73E8] font-bold text-lg font-mono shadow-xs border border-[#D2E3FC] shrink-0">
           🇮🇩
         </div>
         <div>

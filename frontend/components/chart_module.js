@@ -35,7 +35,7 @@ export class ChartModule {
         name: 'Laju Pertumbuhan PDB Riil',
         unit: 'Persen (%)',
         effectiveUnit: 'Persen (%)',
-        color: '#0284C7', // Sky Blue
+        color: '#1A73E8', // Google Blue
         axis: 'primary',  // 'primary' (Sumbu Kiri) | 'secondary' (Sumbu Kanan)
         type: 'line',     // 'line' | 'bar'
         barMode: 'grouped', // 'grouped' | 'stacked100'
@@ -268,7 +268,7 @@ export class ChartModule {
     const selectedIds = this.seriesConfigs.map(s => s.indicatorId);
     const candidate = this.availableIndicators.find(ind => !selectedIds.includes(ind.id)) || this.availableIndicators[0];
 
-    const colors = ['#0284C7', '#10B981', '#F59E0B']; // Blue, Green, Amber
+    const colors = ['#1A73E8', '#E37400', '#1E8E3E']; // Google Blue, Google Analytics Orange, Google Green
     const defaultAxis = candidate && candidate.unit !== this.seriesConfigs[0].unit ? 'secondary' : 'primary';
 
     const newSeries = {
@@ -437,7 +437,7 @@ export class ChartModule {
           ${this.seriesConfigs.map((s, idx) => `
             <button 
               type="button"
-              class="btn-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-slate-400 shadow-xs ring-2 ring-slate-800' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}"
+              class="btn-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-slate-400 shadow-xs ring-2 ring-[#1A73E8] border-[#1A73E8]' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}"
               data-idx="${idx}"
             >
               <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
@@ -534,14 +534,14 @@ export class ChartModule {
                 <button 
                   type="button"
                   id="btn-series-type-line" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-slate-800 text-white font-bold shadow-xs' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#1A73E8] text-white font-medium shadow-xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4]'}"
                 >
                   📈 Line
                 </button>
                 <button 
                   type="button"
                   id="btn-series-type-bar" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-slate-800 text-white font-bold shadow-xs' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#1A73E8] text-white font-medium shadow-xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4]'}"
                 >
                   📊 Bar
                 </button>
@@ -892,7 +892,7 @@ export class ChartModule {
     );
 
     tooltip.innerHTML = `
-      <div class="bg-[#CDCDCD] text-slate-950 border border-slate-400 shadow-2xl rounded-md p-3 max-w-[360px] space-y-2 backdrop-blur-md">
+      <div class="bg-white text-[#202124] border border-[#DADCE0] shadow-xl rounded-lg p-3.5 max-w-[360px] space-y-2">
         <!-- Header -->
         <div class="flex items-center justify-between border-b border-slate-400 pb-1.5">
           <div class="font-mono font-bold text-[11px] text-slate-950 flex items-center gap-1">

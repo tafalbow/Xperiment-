@@ -116,7 +116,7 @@ def test_commodity_balance_all_pertanian():
     assert len(data["records"]) == 7
     rec_2024 = next(r for r in data["records"] if r["period"] == "2024")
     assert "breakdown" in rec_2024
-    assert len(rec_2024["breakdown"]) == 10  # 10 commodities in Pertanian & Peternakan
+    assert len(rec_2024["breakdown"]) == 16  # 16 commodities in Pertanian, Perkebunan & Peternakan
 
 def test_commodity_balance_sub_aggregates():
     """Verify sub-sector aggregate balances: Tambang, Pertanian, Perairan, Peternakan."""
@@ -213,4 +213,28 @@ def test_commodity_spatial_distribution_nikel_and_tembaga():
     res_cu = client.get("/api/commodities/spatial-distribution?commodity_id=COM-MINE-003-TEMBAGA&variable=PRODUKSI_TERBANYAK")
     assert res_cu.status_code == 200
     assert res_cu.json()["points"][0]["province"] == "Papua Tengah"
+
+def test_commodity_balance_three_aggregates():
+    """Verify the 3 primary aggregates: PERTANIAN (4 comms), PERKEBUNAN (8 comms), PETERNAKAN (2 comms)."""
+    # 1. PERTANIAN (Beras, Jagung, Kedelai, Bawang Merah)
+    r_pertanian = client.get("/api/commodities/balance?commodity_id=AGG_PERTANIAN&start_year=2024&end_year=2024")
+    assert r_pertanian.status_code == 200
+    d_pertanian = r_pertanian.json()
+    assert d_pertanian["commodity"]["id"] == "AGG_PERTANIAN"
+    assert len(d_pertanian["records"][0]["breakdown"]) == 4
+
+    # 2. PERKEBUNAN (Sawit, Karet, Tembakau, Gula, Kopi, Kakao, Teh, Kelapa)
+    r_kebun = client.get("/api/commodities/balance?commodity_id=AGG_PERKEBUNAN&start_year=2024&end_year=2024")
+    assert r_kebun.status_code == 200
+    d_kebun = r_kebun.json()
+    assert d_kebun["commodity"]["id"] == "AGG_PERKEBUNAN"
+    assert len(d_kebun["records"][0]["breakdown"]) == 8
+
+    # 3. PETERNAKAN (Sapi, Ayam)
+    r_ternak = client.get("/api/commodities/balance?commodity_id=AGG_PETERNAKAN&start_year=2024&end_year=2024")
+    assert r_ternak.status_code == 200
+    d_ternak = r_ternak.json()
+    assert d_ternak["commodity"]["id"] == "AGG_PETERNAKAN"
+    assert len(d_ternak["records"][0]["breakdown"]) == 2
+
 

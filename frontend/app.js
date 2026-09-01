@@ -218,14 +218,14 @@ class App {
     const contentCommodities = document.getElementById('tab-content-commodities');
 
     const resetBtn = (btn) => {
-      btn?.classList.remove('border-slate-900', 'bg-white', 'text-slate-900', 'font-bold', 'shadow-2xs');
-      btn?.classList.add('border-transparent', 'text-slate-600', 'font-medium');
+      btn?.classList.remove('border-[#1A73E8]', 'border-slate-900', 'bg-white', 'text-[#1A73E8]', 'text-slate-900', 'font-bold', 'shadow-2xs');
+      btn?.classList.add('border-transparent', 'text-[#5F6368]', 'font-medium');
       btn?.setAttribute('aria-selected', 'false');
     };
 
     const activateBtn = (btn) => {
-      btn?.classList.add('border-slate-900', 'bg-white', 'text-slate-900', 'font-bold', 'shadow-2xs');
-      btn?.classList.remove('border-transparent', 'text-slate-600', 'font-medium');
+      btn?.classList.add('border-[#1A73E8]', 'bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'outline-none');
+      btn?.classList.remove('border-transparent', 'text-[#5F6368]', 'text-slate-600', 'font-medium');
       btn?.setAttribute('aria-selected', 'true');
     };
 
