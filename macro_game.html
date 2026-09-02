@@ -1,0 +1,2581 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏛️ MacroMaster: Simulasi Kebijakan Ekonomi Makro & DEN 📈⚖️</title>
+    <!-- Google Fonts for playful gaming UI + high readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="macro_game.css">
+</head>
+<body>
+    <div class="app-background-glow"></div>
+
+    <div class="macro-app-wrapper">
+        <!-- --------------------------------------------------------------------
+             TOP HEADER & GAMER COMMAND BAR
+             -------------------------------------------------------------------- -->
+        <header class="macro-header">
+            <div class="brand-section">
+                <span class="brand-icon">🏛️</span>
+                <div>
+                    <h1 class="brand-title">
+                        MacroMaster DEN
+                        <span class="brand-badge">🎮 Macro Tycoon</span>
+                    </h1>
+                    <p class="brand-subtitle">Simulasi Mengelola Perekonomian Bangsa: Tumbuhkan PDB, Kendalikan Inflasi & Sejahterakan Rakyat!</p>
+                </div>
+            </div>
+
+            <!-- Player Gamer Profile HUD -->
+            <div class="player-gamer-card" id="playerGamerCard">
+                <div class="player-avatar-btn" id="playerAvatarBtn" title="Klik untuk mengganti Avatar Karakter!">
+                    <span id="playerAvatarIcon">🧑‍💼</span>
+                    <span class="avatar-edit-badge" title="Ganti Avatar">🔄</span>
+                </div>
+                <div class="player-details">
+                    <div class="player-level-row">
+                        <span class="player-level-badge" id="playerLevelBadge">⭐ Lv. 1</span>
+                        <span class="player-title" id="playerTitle">Calon Teknokrat</span>
+                    </div>
+                    <div class="player-xp-bar-container" title="Kumpulkan XP dari Belajar Teori dan Kuis">
+                        <div class="player-xp-bar-fill" id="playerXpFill" style="width: 0%;"></div>
+                        <span class="player-xp-text" id="playerXpText">XP: 0 / 150</span>
+                    </div>
+                </div>
+                <div class="player-badges-strip">
+                    <div class="gamer-pill gamer-streak" id="gamerStreakPill" title="Combo Kuis Berturut-turut">
+                        <span>🔥</span> <strong id="gamerStreakVal">0x</strong>
+                    </div>
+                    <div class="gamer-pill gamer-coins" id="gamerCoinsPill" title="Poin Prestasi Kebijakan">
+                        <span>🪙</span> <strong id="gamerCoinsVal">100</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quarter Status Pill -->
+            <div class="quarter-status-badge">
+                <span class="q-calendar-icon">📅</span>
+                <div>
+                    <div id="qStatusTitle" class="q-title">Kuartal 1, Tahun 1</div>
+                    <div id="qStatusSub" class="q-sub">Giliran 1 dari 12 (Masa Jabatan 3 Tahun)</div>
+                </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="header-actions">
+                <button id="btnAdvanceQuarter" class="btn-gavel-primary" title="Ketok Palu Sidang Kabinet & Jalankan Kuartal Ini">
+                    <span>🔨</span> Ketok Palu Kuartal
+                </button>
+                <button id="btnOpenHowToPlay" class="btn-how-to-play" title="Panduan Cara Bermain Step-by-Step">
+                    <span>❓</span> Cara Main
+                </button>
+                <button id="btnAudioBgm" class="btn-icon-ctrl" title="BGM Suasana Command Center">🎵</button>
+                <button id="btnAudioSfx" class="btn-icon-ctrl" title="Suara Efek SFX">🔊</button>
+                <a href="trade_game.html" class="btn-icon-ctrl" title="Trade Tycoon">🌐 Dagang</a>
+                <a href="cocok_tanam.html" class="btn-icon-ctrl" style="background:#0f5132; color:#fff;" title="Cocok Tanam">🌾 Agri</a>
+                <a href="index.html" class="btn-icon-ctrl" title="Menu Game">🍡 Menu</a>
+            </div>
+        </header>
+
+        <!-- --------------------------------------------------------------------
+             KPI METRICS RIBBON (BARIS INDIKATOR MAKROEKONOMI NASIONAL)
+             -------------------------------------------------------------------- -->
+        <section class="kpi-ribbon">
+            <!-- PDB Riil / Pertumbuhan -->
+            <div class="kpi-card kpi-cyan">
+                <div class="kpi-label"><span>📈</span> Pertumbuhan PDB</div>
+                <div id="kpiGdpGrowth" class="kpi-val">5.05%</div>
+                <div id="kpiOutputGap" class="kpi-sub">Output Gap: -0.15% (Stabil)</div>
+            </div>
+
+            <!-- Inflasi IHK -->
+            <div class="kpi-card kpi-gold">
+                <div class="kpi-label"><span>🏷️</span> Inflasi IHK (YoY)</div>
+                <div id="kpiInflation" class="kpi-val">2.80%</div>
+                <div id="kpiCoreInflation" class="kpi-sub">Target BI: 2.5% ± 1%</div>
+            </div>
+
+            <!-- Pengangguran (Okun's Law) -->
+            <div class="kpi-card kpi-green">
+                <div class="kpi-label"><span>👷</span> Pengangguran Terbuka</div>
+                <div id="kpiUnemployment" class="kpi-val">5.40%</div>
+                <div id="kpiNairu" class="kpi-sub">NAIRU Alami: 5.0%</div>
+            </div>
+
+            <!-- Defisit APBN (Batas 3%) -->
+            <div class="kpi-card kpi-purple" id="cardDeficit">
+                <div class="kpi-label"><span>🏛️</span> Defisit APBN / PDB</div>
+                <div id="kpiDeficit" class="kpi-val">2.40%</div>
+                <div id="kpiDeficitLimit" class="kpi-sub">Batas UU: Max 3.0% PDB</div>
+            </div>
+
+            <!-- Rasio Utang / PDB (Batas 60%) -->
+            <div class="kpi-card kpi-purple" id="cardDebt">
+                <div class="kpi-label"><span>📜</span> Rasio Utang Negara</div>
+                <div id="kpiDebt" class="kpi-val">39.07%</div>
+                <div id="kpiDebtLimit" class="kpi-sub">Batas UU: Max 60.0% PDB</div>
+            </div>
+
+            <!-- Kurs Rupiah terhadap USD -->
+            <div class="kpi-card kpi-cyan">
+                <div class="kpi-label"><span>💵</span> Kurs USD / IDR</div>
+                <div id="kpiFx" class="kpi-val">Rp 15.650</div>
+                <div id="kpiFxDiff" class="kpi-sub">Selisih BI vs Fed: +0.75%</div>
+            </div>
+
+            <!-- Cadangan Devisa -->
+            <div class="kpi-card kpi-green">
+                <div class="kpi-label"><span>🛡️</span> Cadangan Devisa</div>
+                <div id="kpiReserves" class="kpi-val">$140.5 B</div>
+                <div class="kpi-sub">Bantalan Impor & Valas</div>
+            </div>
+
+            <!-- Approval Rating / Kesejahteraan -->
+            <div class="kpi-card kpi-gold" id="cardApproval">
+                <div class="kpi-label"><span>💖</span> HP Dukungan Rakyat</div>
+                <div id="kpiApproval" class="kpi-val">72%</div>
+                <div class="kpi-hp-bar-wrap">
+                    <div class="kpi-hp-bar-fill" id="kpiApprovalFill" style="width: 72%;"></div>
+                </div>
+                <div class="kpi-sub">Indeks Kepercayaan Publik</div>
+            </div>
+        </section>
+
+        <!-- --------------------------------------------------------------------
+             GAMIFIED NAVIGATION TABS
+             -------------------------------------------------------------------- -->
+        <nav class="macro-nav-tabs">
+            <button class="nav-tab-btn active" data-tab="tabAcademy"><span>🗺️</span> Akademi</button>
+            <button class="nav-tab-btn" data-tab="tabLab"><span>🧪</span> Lab Pasar</button>
+            <button class="nav-tab-btn" data-tab="tabScenarios"><span>⚔️</span> Krisis Sejarah <span id="tabScenariosLockBadge" class="badge-tag">🔒</span></button>
+            <button class="nav-tab-btn" data-tab="tabCockpit"><span>🏛️</span> Sidang Kabinet <span id="tabCockpitLockBadge" class="badge-tag">🔒</span></button>
+            <button class="nav-tab-btn" data-tab="tabHistory"><span>📈</span> Grafik Tren</button>
+            <button class="nav-tab-btn" data-tab="tabEncyclopedia"><span>📖</span> Glosarium</button>
+            <button class="nav-tab-btn" data-tab="tabQuiz"><span>🏆</span> Ujian Makro</button>
+            <button type="button" id="btnNavToggleQA" class="nav-tab-btn nav-tab-qa-btn" title="Buka / Ciutkan Panel Asisten Ahli"><span>💬</span> Asisten Ahli <span class="badge-tag" style="background:#dcfce7; color:#15803d; font-weight:700;">🟢</span></button>
+        </nav>
+
+        <!-- --------------------------------------------------------------------
+             MAIN GAME LAYOUT (PERMANENT ASISTEN AHLI ON LEFT + ACTIVE TAB ON RIGHT)
+             -------------------------------------------------------------------- -->
+        <div class="macro-game-layout">
+
+            <!-- ================================================================
+                 SIDEBAR KIRI PERMANEN: TANYA ASISTEN AHLI DEN (DOCK SIDE-BY-SIDE)
+                 ================================================================ -->
+            <aside id="qaPermanentSidebar" class="qa-permanent-sidebar">
+                <!-- Header Sidebar -->
+                <div class="qa-sidebar-header">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="qa-bot-avatar-sm">
+                            <span>🤖</span>
+                            <span class="qa-status-dot-sm" title="Aktif Online"></span>
+                        </div>
+                        <div class="qa-sidebar-title-wrap">
+                            <div style="font-family:var(--font-heading); font-weight:700; font-size:0.96rem; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+                                Prof. Makro
+                                <span class="badge-tag" style="background:#dcfce7; color:#15803d; font-size:0.68rem; padding:2px 6px;">Ahli DEN</span>
+                            </div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">
+                                Konsultasi Teori & Kebijakan
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <button type="button" id="btnClearQAChat" class="btn-sidebar-icon" title="Bersihkan Obrolan">🗑️</button>
+                        <button type="button" id="btnToggleQASidebarCollapse" class="btn-sidebar-icon" title="Ciutkan / Buka Sidebar">◀</button>
+                    </div>
+                </div>
+
+                <!-- Indikator Vertikal Saat Sidebar Diciutkan -->
+                <div class="qa-sidebar-collapsed-indicator">
+                    <span>💬</span> TANYA AHLI DEN <span>▶</span>
+                </div>
+
+                <!-- Slim Integritas Notice -->
+                <div class="qa-integrity-notice-compact">
+                    <span style="font-size:1.1rem; flex-shrink:0;">🛡️</span>
+                    <div>
+                        <strong>Integritas Akademis:</strong> Asisten siap menjelaskan konsep, rumus & analogi. Jawaban kuis tidak dibocorkan.
+                    </div>
+                </div>
+
+                <!-- Compact Quick Chips -->
+                <div class="qa-quick-chips-compact">
+                    <div class="qa-chips-scroll" id="qaChipsContainer">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Chat Messages Box -->
+                <div class="qa-chat-box" id="qaChatBox">
+                    <!-- Populated dynamically by JS -->
+                </div>
+
+                <!-- Compact Input Bar with Multi-line Textarea -->
+                <div class="qa-input-bar">
+                    <textarea id="qaUserInput" class="qa-text-input" rows="2" placeholder="Tanya konsep makro atau copas teks... (Shift+Enter: baris baru, klik Kirim: proses)"></textarea>
+                    <button type="button" id="btnSendQA" class="btn-gavel-primary" style="padding:8px 12px; font-size:0.84rem; flex-shrink:0; align-self:flex-end;">
+                        <span>Kirim</span> 🚀
+                    </button>
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT PANELS (TABS) -->
+            <main class="macro-main-content">
+            
+            <!-- ================================================================
+                 TAB 0: AKADEMI TEORI BERJENJANG (STEP-BY-STEP ACADEMY)
+                 ================================================================ -->
+            <section id="tabAcademy" class="view-panel active">
+                
+                <!-- Jembatan Konsep Manajemen: Mikro vs Makro -->
+                <div class="academy-card" style="margin-bottom:16px; border:1px solid #cbd5e1; background: #ffffff; box-shadow: var(--shadow-card);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" id="btnToggleManagementGuide">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size:1.5rem;">💼</span>
+                            <div>
+                                <h3 style="font-family:var(--font-heading); color:#92400e; font-size:1.05rem; margin:0;">
+                                    Kacamata Manajer & Pelajar: Membedakan Mikroekonomi vs Makroekonomi
+                                </h3>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">
+                                    Bagaimana keputusan internal perusahaan/individu (Mikro) berinteraksi dengan perekonomian nasional (Makro)? <em>(Klik untuk buka/tutup)</em>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="mgmtGuideArrow" style="font-size:1.1rem; color:var(--accent-cyan);">▼</span>
+                    </div>
+
+                    <div id="mgmtGuideContent" style="margin-top:14px; padding-top:12px; border-top:1px solid var(--card-border);">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; margin-bottom:12px;">
+                            
+                            <!-- Box Mikro -->
+                            <div style="min-width:0; background:#f0f9ff; border:1px solid #bae6fd; border-left:4px solid #0284c7; border-radius:8px; padding:10px;">
+                                <div style="font-family:var(--font-heading); font-weight:700; color:#0369a1; font-size:0.86rem; margin-bottom:4px;">
+                                    🏢 Level MIKROEKONOMI (Individu & Perusahaan)
+                                </div>
+                                <div style="font-size:0.72rem; color:#475569; margin-bottom:6px;">
+                                    Fokus: Keputusan satu pelaku usaha, toko, pabrik, atau konsumen
+                                </div>
+                                <ul style="font-size:0.78rem; color:#1e293b; padding-left:14px; margin:0; line-height:1.45;">
+                                    <li><strong>Penetapan Harga:</strong> Menentukan harga jual produk per unit agar mendapat keuntungan.</li>
+                                    <li><strong>Biaya Produksi:</strong> Menghemat pengeluaran bahan baku dan biaya operasional toko.</li>
+                                    <li><strong>Gaji & Karyawan:</strong> Merekrut pekerja dan menetapkan besaran upah pegawai.</li>
+                                    <li><strong>Investasi Alat:</strong> Membeli mesin baru untuk meningkatkan kapasitas pabrik sendiri.</li>
+                                </ul>
+                                <div style="font-size:0.72rem; color:#0369a1; margin-top:6px; font-weight:600;">
+                                    🎯 Sasaran: Efisiensi biaya, kepuasan konsumen, dan laba perusahaan.
+                                </div>
+                            </div>
+
+                            <!-- Box Makro -->
+                            <div style="min-width:0; background:#fffbeb; border:1px solid #fde68a; border-left:4px solid #d97706; border-radius:8px; padding:10px;">
+                                <div style="font-family:var(--font-heading); font-weight:700; color:#92400e; font-size:0.86rem; margin-bottom:4px;">
+                                    🌐 Level MAKROEKONOMI (Perekonomian Nasional)
+                                </div>
+                                <div style="font-size:0.72rem; color:#78350f; margin-bottom:6px;">
+                                    Fokus: Kondisi keseluruhan negara (Pemerintah & Bank Sentral)
+                                </div>
+                                <ul style="font-size:0.78rem; color:#1e293b; padding-left:14px; margin:0; line-height:1.45;">
+                                    <li><strong>Suku Bunga (BI-Rate):</strong> Biaya bunga kredit perbankan untuk seluruh masyarakat.</li>
+                                    <li><strong>Inflasi Nasional:</strong> Kenaikan harga barang-barang kebutuhan pokok secara umum.</li>
+                                    <li><strong>PDB (Produk Domestik Bruto):</strong> Total produksi dan pendapatan seluruh warga negara.</li>
+                                    <li><strong>Kurs Mata Uang:</strong> Nilai tukar rupiah terhadap mata uang asing (seperti Dolar AS).</li>
+                                </ul>
+                                <div style="font-size:0.72rem; color:#92400e; margin-top:6px; font-weight:600;">
+                                    🎯 Sasaran: Stabilitas harga, terbukanya lapangan kerja, dan pertumbuhan ekonomi.
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:10px 14px; font-size:0.83rem; color:#166534; line-height:1.45;">
+                            💡 <strong>Kunci Pemahaman:</strong> Teori mikro mempelajari bagaimana satu pohon bertumbuh (perusahaan), sedangkan teori makro mempelajari kesehatan dan cuaca seluruh hutan (negara). Memahami ekonomi makro membantu kita mengambil keputusan bisnis dan keuangan yang lebih bijak!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stepper Progress Bar -->
+                <div class="academy-stepper-wrap">
+                    <div class="stepper-header-row">
+                        <div class="stepper-title">
+                            <span>🎓</span> Kurikulum Belajar Teori Ekonomi Makro
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span id="academyProgressBadge" class="stepper-progress-text">Modul 1 dari 5 (0% Tuntas)</span>
+                            <button id="btnBypassAll" class="btn-bypass-unlock" title="Lewati tahap belajar teori jika ingin langsung bermain studi kasus">
+                                ⚡ Buka Semua Akses (Bypass)
+                            </button>
+                        </div>
+                    </div>
+                    <div id="academyStepper" class="academy-stepper">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Graduation Certificate Banner (Visible when all 5 modules completed) -->
+                <div id="academyGraduationBanner" class="graduation-certificate" style="display:none;">
+                    <div style="font-size:3rem; margin-bottom:6px;">🎓📜🏆</div>
+                    <h2 style="font-family:var(--font-heading); color:var(--accent-gold); font-size:1.5rem; margin-bottom:6px;">
+                        Selamat! Anda Telah Lulus Akademi Teknokrat DEN
+                    </h2>
+                    <p style="font-size:0.9rem; color:#e2e8f0; max-width:700px; margin:0 auto 16px; line-height:1.5;">
+                        Anda telah berhasil menguasai 5 fondasi utama teori ekonomi makro (Model AD-AS, Kebijakan Moneter, Kebijakan Fiskal, Kurva Phillips, dan Trilema Mundell-Fleming). Sekarang Anda siap mempraktikkannya dalam ujian lapangan nyata!
+                    </p>
+                    <button id="btnLaunchCapstone" class="btn-gavel-primary" style="margin:0 auto; padding:12px 28px; font-size:1.05rem;">
+                        <span>🚀</span> Buka Tahap Akhir: Sidang Kabinet Studi Kasus Riil
+                    </button>
+                </div>
+
+                <!-- Active Module Dynamic Display -->
+                <div id="academyModuleContainer" class="academy-module-grid">
+                    <!-- Populated dynamically by JS -->
+                </div>
+
+            </section>
+
+            <!-- ================================================================
+                 TAB 1: BILIK KENDALI KEBIJAKAN (POLICY COCKPIT) - MODE BEBAS
+                 ================================================================ -->
+            <section id="tabCockpit" class="view-panel">
+                
+                <div id="cockpitLockedNotice" class="capstone-locked-banner" style="display:none;">
+                    <div>
+                        <strong style="color:var(--accent-gold); font-size:0.95rem;">🔒 Mode Bebas (Sandbox):</strong>
+                        <p style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">
+                            Disarankan menuntaskan 5 modul teori di tab <strong>🎓 Akademi Teori</strong> terlebih dahulu, atau buka akses bebas dengan tombol di samping.
+                        </p>
+                    </div>
+                    <button id="btnUnlockCockpitDirect" class="btn-bypass-unlock">
+                        ⚡ Buka Akses Bebas
+                    </button>
+                </div>
+
+                <div class="cockpit-grid">
+                    
+                    <!-- Kolom 1: Kebijakan Moneter (Bank Indonesia) -->
+                    <div class="policy-card">
+                        <div class="policy-header">
+                            <div class="policy-title">
+                                <span>🏦</span> Kebijakan Moneter
+                            </div>
+                            <span class="badge-tag">Otoritas Bank Sentral</span>
+                        </div>
+
+                        <!-- Tuas 1: BI-Rate -->
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-name"><span>📊</span> Suku Bunga Acuan (BI-Rate)</span>
+                                <span id="valBiRate" class="slider-val-badge">6.00%</span>
+                            </div>
+                            <input type="range" id="sliderBiRate" class="policy-slider" min="3.00" max="15.00" step="0.25" value="6.00">
+                            <div class="slider-hint">
+                                💡 <em>Teori:</em> Bunga naik menekan inflasi & menstabilkan kurs, namun mengerem kredit investasi.<br>
+                                ⏳ <em>Praktik:</em> Butuh waktu 6-18 bulan transmisi perbankan (*policy outside lag*).
+                            </div>
+                        </div>
+
+                        <!-- Tuas 2: Giro Wajib Minimum (GWM) -->
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-name"><span>💧</span> Giro Wajib Minimum (GWM)</span>
+                                <span id="valGwmRate" class="slider-val-badge">9.00%</span>
+                            </div>
+                            <input type="range" id="sliderGwmRate" class="policy-slider" min="5.00" max="15.00" step="0.50" value="9.00">
+                            <div class="slider-hint">
+                                💡 <em>Teori:</em> Menentukan *money multiplier* $M = 1/RR$. Menaikkan GWM menyedot ekses likuiditas perbankan.
+                            </div>
+                        </div>
+
+                        <!-- Tuas 3: Intervensi Cadangan Devisa -->
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-name"><span>🛡️</span> Operasi Pasar Valas (Devisa)</span>
+                                <span id="valFxIntervention" class="slider-val-badge">$0 B</span>
+                            </div>
+                            <input type="range" id="sliderFxIntervention" class="policy-slider" min="-10" max="15" step="1" value="0">
+                            <div class="slider-hint">
+                                💡 Geser ke kanan (positif) untuk mengguyur valas membendung depresiasi Rupiah (memakan cadangan devisa).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom 2: Kebijakan Fiskal (Kementerian Keuangan) -->
+                    <div class="policy-card">
+                        <div class="policy-header">
+                            <div class="policy-title">
+                                <span>🏛️</span> Kebijakan Fiskal
+                            </div>
+                            <span class="badge-tag">APBN & Keuangan Negara</span>
+                        </div>
+
+                        <!-- Tuas 1: Belanja Pemerintah (G) -->
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-name"><span>🏗️</span> Belanja APBN Total (G)</span>
+                                <span id="valGovSpending" class="slider-val-badge">Rp 3.300 T</span>
+                            </div>
+                            <input type="range" id="sliderGovSpending" class="policy-slider" min="2400" max="4500" step="50" value="3300">
+                            <div class="slider-hint">
+                                💡 <em>Teori:</em> Injeksi belanja meningkatkan output riil via Pengali Fiskal Keynesian $k = 1/(1-MPC)$.<br>
+                                ⚠️ <em>Praktik:</em> Belanja berlebih melebihi penerimaan pajak memicu lonjakan defisit APBN & risiko *Crowding-Out*.
+                            </div>
+                        </div>
+
+                        <!-- Tuas 2: Subsidi Energi & Pangan -->
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-name"><span>⚡</span> Alokasi Subsidi Energi (BBM/PLN)</span>
+                                <span id="valEnergySubsidy" class="slider-val-badge">Rp 330 T</span>
+                            </div>
+                            <input type="range" id="sliderEnergySubsidy" class="policy-slider" min="100" max="700" step="10" value="330">
+                            <div class="slider-hint">
+                                💡 Subsidi melindungi daya beli dan meredam inflasi *cost-push*, namun menyedot ruang fiskal APBN.
+                            </div>
+                        </div>
+
+                        <!-- Tuas 3: Tarif Rasio Pajak Efektif -->
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-name"><span>🧾</span> Rasio Pajak Efektif (Tax Ratio)</span>
+                                <span id="valTaxRate" class="slider-val-badge">11.00%</span>
+                            </div>
+                            <input type="range" id="sliderTaxRate" class="policy-slider" min="8.00" max="18.00" step="0.25" value="11.00">
+                            <div class="slider-hint">
+                                💡 Pajak lebih tinggi menambah kas negara namun mengurangi pendapatan siap konsumsi $(Y - T)$ masyarakat.
+                            </div>
+                        </div>
+
+                        <!-- Prioritas Alokasi Belanja -->
+                        <div style="margin-top: 12px;">
+                            <span class="slider-name"><span>🎯</span> Prioritas Alokasi Belanja:</span>
+                            <div class="priority-select-group">
+                                <button class="btn-priority" data-prio="infrastructure">Infrastruktur (Multiplier Tinggi)</button>
+                                <button class="btn-priority active" data-prio="balanced">Seimbang (Normal)</button>
+                                <button class="btn-priority" data-prio="social">Bansos & Daya Beli</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom 3: Pratinjau Realita & Ringkasan APBN -->
+                    <div class="policy-card">
+                        <div class="policy-header">
+                            <div class="policy-title">
+                                <span>⚖️</span> Neraca & Sektor Eksternal
+                            </div>
+                            <span class="badge-tag">Trilema & APBN Check</span>
+                        </div>
+
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 14px; font-size: 0.84rem;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom: 6px;">
+                                <span style="color:var(--text-muted);">Penerimaan Pajak (Est):</span>
+                                <span id="previewTaxRev" style="font-weight:700; color:var(--accent-green);">Rp 2.365 T</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom: 6px;">
+                                <span style="color:var(--text-muted);">Total Belanja + Bunga Utang:</span>
+                                <span id="previewExpenditure" style="font-weight:700; color:var(--accent-gold);">Rp 2.880 T</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; border-top:1px solid var(--card-border); padding-top:6px;">
+                                <span style="color:var(--text-muted);">Proyeksi Defisit APBN:</span>
+                                <span id="previewDeficitRatio" style="font-weight:700; color:var(--accent-cyan);">2.40% PDB</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-hint" style="background: rgba(0, 242, 254, 0.05); border-left: 2px solid var(--accent-cyan); padding: 8px 10px; border-radius: 4px;">
+                            <strong>🛡️ Uji Trilema Mundell-Fleming:</strong><br>
+                            Suku Bunga BI: <strong id="boxBiRate">6.00%</strong> vs The Fed AS: <strong>5.25%</strong>.<br>
+                            Selisih imbal hasil <span id="boxYieldSpread" style="color:var(--accent-green);">+0.75%</span>. 
+                            Jika selisih menyempit di bawah premi risiko, modal asing kabur dan Rupiah melemah!
+                        </div>
+
+                        <div style="margin-top: 14px;">
+                            <button id="btnQuickAdvance" class="btn-gavel-primary" style="width: 100%; justify-content: center;">
+                                <span>🔨</span> Ketok Palu Sidang Kuartal
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer Command Banner -->
+                <div class="cockpit-footer-banner">
+                    <div>
+                        <h3 style="font-family:var(--font-heading); color:var(--accent-gold); font-size:1.15rem;">
+                            🎯 Siap Menjalankan Sidang Bauran Kebijakan?
+                        </h3>
+                        <p style="font-size:0.84rem; color:var(--text-muted);">
+                            Geser tuas di atas, perhatikan pratinjau di Lab Teori AD-AS, lalu klik tombol 'Ketok Palu Kuartal' untuk memproses dinamika riil perekonomian!
+                        </p>
+                    </div>
+                    <button id="btnFooterAdvance" class="btn-gavel-primary">
+                        <span>🔨</span> Ketok Palu Kuartal Ini
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 TAB 2: LABORATORIUM TEORI VISUAL (AD-AS & PHILLIPS LIVE)
+                 ================================================================ -->
+            <section id="tabLab" class="view-panel">
+                <div class="theory-lab-grid">
+                    
+                    <!-- Diagram 1: Kurva AD-AS Dinamis -->
+                    <div class="lab-card">
+                        <div class="lab-title-bar">
+                            <div class="lab-title">
+                                <span>⚖️</span> Model Permintaan & Penawaran Agregat (AD-AS)
+                            </div>
+                            <span class="badge-tag" style="background:rgba(0,242,254,0.15); color:var(--accent-cyan);">Live Canvas</span>
+                        </div>
+                        <div class="canvas-container">
+                            <canvas id="canvasAdAs" width="600" height="340"></canvas>
+                        </div>
+                        <div class="lab-explanation-box">
+                            <strong>Cara Membaca Diagram:</strong><br>
+                            - <span style="color:#ef476f; font-weight:bold;">Garis Merah (AD)</span>: Bergeser ke kanan saat belanja APBN ($G$) naik atau suku bunga dipangkas. Bergeser ke kiri jika pajak dinaikkan atau moneter diperketat.<br>
+                            - <span style="color:#00f2fe; font-weight:bold;">Garis Cyan (SRAS)</span>: Bergeser ke kiri (Stagflasi) jika harga minyak dunia meroket atau subsidi dipangkas.<br>
+                            - <span style="color:#ffd166; font-weight:bold;">Titik Emas (E)</span>: Ekuilibrium harga ($P$) dan output PDB ($Y$). Bandingkan posisinya terhadap garis vertikal putih **LRAS (Kapasitas Output Penuh $Y^*$)**!
+                        </div>
+                    </div>
+
+                    <!-- Diagram 2: Kurva Phillips Dinamis -->
+                    <div class="lab-card">
+                        <div class="lab-title-bar">
+                            <div class="lab-title">
+                                <span>📉</span> Kurva Phillips (Inflasi vs Pengangguran)
+                            </div>
+                            <span class="badge-tag" style="background:rgba(255,209,102,0.15); color:var(--accent-gold);">Hukum Okun & NAIRU</span>
+                        </div>
+                        <div class="canvas-container">
+                            <canvas id="canvasPhillips" width="600" height="340"></canvas>
+                        </div>
+                        <div class="lab-explanation-box">
+                            <strong>Cara Membaca Diagram:</strong><br>
+                            - <span style="color:#ffd166; font-weight:bold;">Kurva Kuning (SR-PC)</span>: Trade-off jangka pendek antara inflasi dan pengangguran.<br>
+                            - <span style="color:#9d4edd; font-weight:bold;">Garis Ungu (NAIRU)</span>: Tingkat pengangguran alami (~5.0%). Jika dipaksa di bawah ini secara sembrono, inflasi akan terus melompat tinggi.<br>
+                            - <span style="color:#06d6a0; font-weight:bold;">Titik Hijau & Jejak</span>: Posisi koordinat inflasi dan pengangguran kuartal Anda. Amati bagaimana titik ini berputar mengikuti siklus ekonomi!
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 TAB 3: SKENARIO KRISIS BERSEJARAH (6 SCENARIOS) - TAHAP AKHIR
+                 ================================================================ -->
+            <section id="tabScenarios" class="view-panel">
+                
+                <div id="capstoneLockedNotice" class="capstone-locked-banner" style="display:none;">
+                    <div>
+                        <strong style="color:var(--accent-red); font-size:0.95rem;">🔒 Tahap Akhir Terkunci (Disarankan Belajar Teori Dulu):</strong>
+                        <p style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">
+                            Anda sedang berada di tahap akhir studi kasus. Disarankan menuntaskan 5 modul teori di tab <strong>🎓 Akademi Teori</strong> terlebih dahulu, atau buka akses bebas dengan tombol di samping.
+                        </p>
+                    </div>
+                    <button id="btnUnlockScenariosDirect" class="btn-bypass-unlock">
+                        ⚡ Buka Kunci Langsung
+                    </button>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <h2 style="font-family:var(--font-heading); color:var(--text-main); font-size:1.35rem; margin:0;">
+                            ⚔️ Boss Raid: 6 Skenario Krisis Bersejarah
+                        </h2>
+                        <span class="badge-tag" style="background:#fee2e2; color:#b91c1c; font-weight:700;">Tantangan Puncak Kabinet</span>
+                    </div>
+                    <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">
+                        Uji kepiawaian Anda dalam mengarungi badai krisis ekonomi terbesar dalam sejarah. Setiap krisis adalah Boss Battle dengan kondisi ekstrim dan target kelulusan tersendiri!
+                    </p>
+                </div>
+                <div id="scenariosGrid" class="scenarios-grid">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 TAB 4: GRAFIK TREN HISTORIS
+                 ================================================================ -->
+            <section id="tabHistory" class="view-panel">
+                <div class="history-charts-wrapper">
+                    <h2 style="font-family:var(--font-heading); color:var(--accent-cyan); font-size:1.2rem; margin-bottom:8px;">
+                        📈 Rekam Jejak Kinerja Makroekonomi
+                    </h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">
+                        Tabel riwayat kuartal demi kuartal selama masa jabatan pengambil kebijakan.
+                    </p>
+                    <div style="overflow-x:auto;">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Periode</th>
+                                    <th>PDB Growth</th>
+                                    <th>Inflasi IHK</th>
+                                    <th>Pengangguran</th>
+                                    <th>BI-Rate</th>
+                                    <th>Defisit APBN</th>
+                                    <th>Rasio Utang</th>
+                                    <th>Kurs Rupiah</th>
+                                    <th>Cadangan Devisa</th>
+                                    <th>Approval</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 TAB 5: BUKU SAKU TEORI MAKRO (ENSIKLOPEDIA)
+                 ================================================================ -->
+            <section id="tabEncyclopedia" class="view-panel">
+                <div style="margin-bottom:16px;">
+                    <h2 style="font-family:var(--font-heading); color:var(--text-main); font-size:1.3rem;">
+                        📚 Buku Saku Teknokrat: Teori vs Realita Praktik
+                    </h2>
+                    <p style="color:var(--text-muted); font-size:0.88rem;">
+                        Pelajari konsep-konsep kunci ekonomi makro, rumus matematika akademis, dan bagaimana friksi di dunia nyata membedakannya dengan buku teks.
+                    </p>
+                </div>
+                <div id="encyclopediaGrid" class="encyclopedia-grid">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 TAB 6: SIMULASI UJIAN SEMESTER MAKROEKONOMI (UTS & UAS)
+                 ================================================================ -->
+            <section id="tabQuiz" class="view-panel">
+                <div style="margin-bottom:16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <h2 style="font-family:var(--font-heading); color:var(--text-main); font-size:1.3rem; margin:0;">
+                            🎯 Bank Soal Ujian Semester Makroekonomi (UTS & UAS)
+                        </h2>
+                        <span class="badge-tag" style="background:#fef3c7; color:#92400e; font-weight:700;">Standar Ujian FEB / Kuliah</span>
+                    </div>
+                    <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">
+                        25 soal analitis dan perhitungan berstandar Ujian Tengah Semester (UTS) dan Ujian Akhir Semester (UAS) mata kuliah Pengantar Ekonomi Makro. Mencakup perhitungan PDB, Multiplier Keynesian, IS-LM, AD-AS, Teori Uang & Moneter, Fiskal, Kurva Phillips, Valas Mundell-Fleming, hingga Model Pertumbuhan Solow. Dilengkapi kunci jawaban dan pembahasan teoritis mendalam!
+                    </p>
+                </div>
+
+                <div class="quiz-wrapper">
+                    <!-- Gamer Quiz Battle HUD -->
+                    <div class="quiz-battle-hud">
+                        <div class="quiz-life-hearts" id="quizLifeHearts" title="3 Hati Nyawa Ujian!">
+                            <span class="heart-icon" id="heart1">❤️</span>
+                            <span class="heart-icon" id="heart2">❤️</span>
+                            <span class="heart-icon" id="heart3">❤️</span>
+                        </div>
+                        <div class="quiz-combo-badge" id="quizComboBadge">
+                            <span>🔥</span> Combo: <strong id="quizComboNum">0x</strong>
+                        </div>
+                        <div class="quiz-reward-badge">
+                            <span>⭐</span> +50 XP Jawaban Benar
+                        </div>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <span id="quizCounterText" style="font-family:var(--font-heading); color:var(--accent-gold); font-size:0.9rem;">Soal 1 dari 25</span>
+                        <span id="quizScoreText" style="font-family:var(--font-heading); color:var(--accent-cyan); font-size:0.9rem;">Skor: 0</span>
+                    </div>
+                    <div class="quiz-progress-bar-wrap">
+                        <div id="quizProgressBarFill" class="quiz-progress-bar-fill"></div>
+                    </div>
+
+                    <div id="quizQuestionTitle" class="quiz-question-title">
+                        Memuat pertanyaan kuis...
+                    </div>
+
+                    <div id="quizOptionsContainer" class="quiz-options-list">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+
+                    <div id="quizFeedbackBox" class="quiz-feedback-box">
+                        <div id="quizFeedbackTitle" style="font-weight:700; margin-bottom:4px;"></div>
+                        <div id="quizFeedbackExplanation"></div>
+                    </div>
+
+                    <div style="display:flex; justify-content:flex-end;">
+                        <button id="btnQuizNext" class="btn-quiz-next" style="display:none;">
+                            <span>Lanjut Soal Berikutnya</span> ➡️
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div> <!-- end .macro-game-layout -->
+
+        <!-- --------------------------------------------------------------------
+             MODALS: EVALUASI KUARTAL (DEBRIEFING TEORI VS PRAKTEK)
+             -------------------------------------------------------------------- -->
+        <div id="modalDebrief" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <span>📋</span> Evaluasi Hasil Kuartal: Teori vs Realita Lapangan
+                    </div>
+                    <span id="debriefQuarterLabel" class="badge-tag" style="background:rgba(255,209,102,0.2); color:var(--accent-gold);">Q1 Thn 1</span>
+                </div>
+
+                <div id="debriefMetricSummary" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:16px;">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div id="debriefAlertContainer"></div>
+
+                <div style="margin-bottom:12px;">
+                    <h3 style="font-family:var(--font-heading); font-size:1.05rem; color:var(--text-main); margin-bottom:8px;">
+                        🔍 Bedah Teori Akademis vs Praktek di Lapangan:
+                    </h3>
+                    <div id="debriefHighlightsContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="btnCloseDebrief" class="btn-gavel-primary">
+                        <span>▶️</span> Lanjutkan ke Kuartal Berikutnya
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- --------------------------------------------------------------------
+             MODALS: BREAKING NEWS / FLASH DILEMMA
+             -------------------------------------------------------------------- -->
+        <div id="modalDilemma" class="modal-overlay">
+            <div class="modal-card" style="border-color:var(--accent-red);">
+                <span class="news-breaking-banner">🚨 BREAKING NEWS: SIDANG KABINET DARURAT!</span>
+                <div id="dilemmaHeadline" style="font-family:var(--font-heading); font-size:1.2rem; font-weight:700; color:var(--text-main); margin-bottom:8px;">
+                    Peristiwa Mendadak!
+                </div>
+                <p id="dilemmaDesc" style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;"></p>
+                <div id="dilemmaTheory" style="font-size:0.8rem; color:var(--accent-cyan); background:rgba(0,242,254,0.06); padding:8px 12px; border-radius:6px; margin-bottom:16px;"></div>
+
+                <div style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:8px;">
+                    Pilih Keputusan Kebijakan Anda:
+                </div>
+                <div id="dilemmaOptionsContainer" style="display:flex; flex-direction:column; gap:10px;">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- --------------------------------------------------------------------
+             MODALS: RAPOR AKHIR MASA JABATAN (GAME OVER / VICTORY)
+             -------------------------------------------------------------------- -->
+        <div id="modalGameOver" class="modal-overlay">
+            <div class="modal-card" style="text-align:center;">
+                <div style="font-size:3rem; margin-bottom:8px;" id="goMascot">🏆</div>
+                <h2 id="goTitle" style="font-family:var(--font-heading); font-size:1.5rem; color:var(--accent-gold); margin-bottom:6px;">
+                    Masa Jabatan Selesai!
+                </h2>
+                <div id="goGradeBadge" style="display:inline-block; font-family:var(--font-heading); font-size:1.2rem; font-weight:700; padding:4px 16px; border-radius:20px; background:rgba(6,214,160,0.15); color:var(--accent-green); margin-bottom:14px;">
+                    Nilai Kinerja: A (Teknokrat Teladan)
+                </div>
+                <p id="goSummary" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:18px; line-height:1.5;"></p>
+
+                <div id="goGoalsBreakdown" style="text-align:left; background:#f8fafc; border:1px solid #e2e8f0; color:var(--text-main); padding:14px; border-radius:8px; margin-bottom:18px; font-size:0.84rem;">
+                    <!-- Goals breakdown -->
+                </div>
+
+                <div style="display:flex; justify-content:center; gap:10px;">
+                    <button id="btnRestartScenario" class="btn-gavel-primary">
+                        <span>🔄</span> Main Lagi Skenario Ini
+                    </button>
+                    <button id="btnChooseOtherScenario" class="btn-icon-ctrl" style="padding:10px 18px;">
+                        <span>📜</span> Pilih Skenario Lain
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             MODAL: PANDUAN CARA BERMAIN (STEP-BY-STEP HOW TO PLAY)
+             ================================================================ -->
+        <div id="modalHowToPlay" class="modal-overlay">
+            <div class="modal-card" style="max-width: 840px;">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <span style="font-size: 1.6rem;">📖</span>
+                        <div>
+                            <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); font-family: var(--font-heading);">
+                                🎮 Panduan Petualangan MacroMaster DEN
+                            </div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">
+                                Taklukkan 5 Misi Teori, Rancang Formula di Lab, dan Kalahkan 6 Boss Krisis Sejarah!
+                            </div>
+                        </div>
+                    </div>
+                    <button id="btnCloseHowToPlay" class="btn-icon-ctrl" style="font-size: 1.1rem; padding: 4px 10px;">✕</button>
+                </div>
+
+                <div class="how-to-play-grid">
+                    
+                    <!-- Langkah 1 -->
+                    <div class="how-step-card">
+                        <div class="how-step-badge">1</div>
+                        <div class="how-step-content">
+                            <div class="how-step-title">
+                                <span>🎓</span> Langkah 1: Belajar di Akademi Teori (Modul 1 s/d 5)
+                            </div>
+                            <div class="how-step-desc">
+                                Mulai perjalanan Anda di tab <strong>🎓 Akademi Teori</strong>. Pelajari 5 fondasi utama ekonomi makro: PDB & AD-AS, Kebijakan Moneter & Bunga, Kebijakan Fiskal & APBN, Kurva Phillips & SDM, serta Valas/Trilema. Semua konsep disajikan dengan analogi manajerial yang sangat mudah dipahami.
+                            </div>
+                            <div class="how-step-tip">
+                                💡 <em>Kamus Manajer:</em> PDB = Total Omzet Nasional, BI-Rate = Biaya Bunga Modal Kerja (Cost of Capital), APBN = Budgeting Kas Negara.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Langkah 2 -->
+                    <div class="how-step-card">
+                        <div class="how-step-badge">2</div>
+                        <div class="how-step-content">
+                            <div class="how-step-title">
+                                <span>🔬</span> Langkah 2: Uji Coba di Laboratorium Mini (Hands-On)
+                            </div>
+                            <div class="how-step-desc">
+                                Di sebelah kanan setiap modul, coba geser slider eksperimen interaktif (misal: naikkan Belanja Pengadaan Tender atau naikkan Suku Bunga BI). Amati simulasi dampaknya seketika pada grafik pergeseran kurva dan risiko pasar.
+                            </div>
+                            <div class="how-step-tip">
+                                💡 <em>Hati-hati:</em> Belanja proyek yang berlebihan melampaui kapasitas terpasang pabrik ($Y^*$) akan memicu <strong>Overheating</strong> (lonjakan inflasi)!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Langkah 3 -->
+                    <div class="how-step-card">
+                        <div class="how-step-badge">3</div>
+                        <div class="how-step-content">
+                            <div class="how-step-title">
+                                <span>🎯</span> Langkah 3: Selesaikan Kuis Checkpoint Pemahaman
+                            </div>
+                            <div class="how-step-desc">
+                                Jawab 2 pertanyaan studi kasus keputusan manajerial di bagian bawah setiap modul. Begitu kedua soal dijawab dengan benar, tombol <strong>"Lanjut ke Modul Berikutnya"</strong> akan otomatis terbuka!
+                            </div>
+                            <div class="how-step-tip">
+                                💡 <em>Bypass:</em> Ingin langsung mencoba studi kasus? Klik tombol <strong>⚡ Buka Semua Akses (Bypass)</strong> kapan saja.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Langkah 4 -->
+                    <div class="how-step-card">
+                        <div class="how-step-badge">4</div>
+                        <div class="how-step-content">
+                            <div class="how-step-title">
+                                <span>📜</span> Langkah 4: Masuk ke Sidang Kabinet Studi Kasus Riil (Tahap Akhir)
+                            </div>
+                            <div class="how-step-desc">
+                                Setelah menuntaskan Modul 1 s/d 5, Anda resmi memperoleh <strong>Sertifikat Teknokrat DEN</strong> dan membuka 6 Skenario Krisis Bersejarah: Krisis Moneter 1998, Stagflasi Minyak Dunia, Pandemi 2020, Dutch Disease, dan Hiperinflasi.
+                            </div>
+                            <div class="how-step-tip">
+                                💡 <em>Target Kelulusan:</em> Setiap skenario memiliki target KPI khusus (misal: tahan inflasi di bawah 8% atau jaga kurs rupiah).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Langkah 5 -->
+                    <div class="how-step-card">
+                        <div class="how-step-badge">5</div>
+                        <div class="how-step-content">
+                            <div class="how-step-title">
+                                <span>🔨</span> Langkah 5: Kendalikan 7 Tuas Kebijakan & Ketok Palu Kuartal!
+                            </div>
+                            <div class="how-step-desc">
+                                Di bilik kendali kebijakan, Anda memiliki 3 tuas Moneter (BI-Rate, GWM, Intervensi Devisa) dan 4 tuas Fiskal (Belanja Proyek, Pajak, Subsidi, Utang). Setelah meracik formula bauran kebijakan terbaik, klik tombol <strong>🔨 Ketok Palu Kuartal</strong> untuk menjalankan waktu dan melihat laporan dinamika ekonomi kuartalan!
+                            </div>
+                            <div class="how-step-tip">
+                                💡 <em>Pantau KPI:</em> Jaga angka PDB tumbuh >5%, inflasi 1.5-3.5%, dan defisit APBN tetap di bawah batas legal UU 3% PDB.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer" style="justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted); cursor: pointer;">
+                        <input type="checkbox" id="chkDontShowHowToPlay"> Jangan tampilkan otomatis lagi saat membuka game
+                    </label>
+                    <button id="btnStartPlayingNow" class="btn-gavel-primary" style="padding: 10px 24px; font-size: 1rem;">
+                        <span>🚀</span> Mulai Belajar & Bermain!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Quick Launcher Button untuk Konsultasi Asisten Ahli -->
+        <button id="btnFloatingQA" class="btn-floating-qa" title="Buka Konsultasi Tanya Jawab Interaktif">
+            <span>💬</span> Tanya Ahli
+        </button>
+
+    </div>
+
+    <!-- --------------------------------------------------------------------
+         SCRIPTS: THEORIES, AUDIO, ENGINE, QA & CONTROLLER
+         -------------------------------------------------------------------- -->
+    <script src="macro_theory.js"></script>
+    <script src="macro_audio.js"></script>
+    <script src="macro_engine.js"></script>
+    <script src="macro_qa.js"></script>
+    <script>
+        /**
+         * ======================================================================
+         * MACROMASTER CONTROLLER
+         * Menghubungkan UI DOM dengan MacroEngine, MacroTheory, dan Audio
+         * ======================================================================
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Referensi Elemen DOM Utama
+            const engine = window.macroEngine;
+            const audio = window.macroAudio;
+
+            // Inisialisasi Canvas Visualizer
+            engine.initAdAsCanvas('canvasAdAs');
+            engine.initPhillipsCanvas('canvasPhillips');
+
+            // ------------------------------------------------------------------
+            // 1. TAB NAVIGATION
+            // ------------------------------------------------------------------
+            const navTabs = document.querySelectorAll('.nav-tab-btn');
+            const viewPanels = document.querySelectorAll('.view-panel');
+
+            navTabs.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    if (!tabId) return;
+
+                    navTabs.forEach(t => {
+                        if (t.hasAttribute('data-tab')) t.classList.remove('active');
+                    });
+                    viewPanels.forEach(p => p.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    const targetPanel = document.getElementById(tabId);
+                    if (targetPanel) targetPanel.classList.add('active');
+
+                    audio.playClick();
+
+                    // Re-render canvas if entering lab tab
+                    if (tabId === 'tabLab') {
+                        setTimeout(() => {
+                            engine.renderAdAsCanvas();
+                            engine.renderPhillipsCanvas();
+                        }, 50);
+                    }
+                });
+            });
+
+            // ------------------------------------------------------------------
+            // 2. SLIDERS & LIVE PREVIEW
+            // ------------------------------------------------------------------
+            const sBiRate = document.getElementById('sliderBiRate');
+            const sGwmRate = document.getElementById('sliderGwmRate');
+            const sFxIntervention = document.getElementById('sliderFxIntervention');
+            const sGovSpending = document.getElementById('sliderGovSpending');
+            const sEnergySubsidy = document.getElementById('sliderEnergySubsidy');
+            const sTaxRate = document.getElementById('sliderTaxRate');
+
+            function getPolicyDecisions() {
+                const activePrioBtn = document.querySelector('.btn-priority.active');
+                return {
+                    biRate: parseFloat(sBiRate.value),
+                    gwmRate: parseFloat(sGwmRate.value),
+                    fxIntervention: parseFloat(sFxIntervention.value),
+                    govSpending: parseFloat(sGovSpending.value),
+                    energySubsidy: parseFloat(sEnergySubsidy.value),
+                    taxRate: parseFloat(sTaxRate.value),
+                    spendingPriority: activePrioBtn ? activePrioBtn.getAttribute('data-prio') : 'balanced'
+                };
+            }
+
+            function updateSliderDisplayAndCanvas() {
+                const dec = getPolicyDecisions();
+
+                document.getElementById('valBiRate').textContent = dec.biRate.toFixed(2) + '%';
+                document.getElementById('valGwmRate').textContent = dec.gwmRate.toFixed(2) + '%';
+                document.getElementById('valFxIntervention').textContent = (dec.fxIntervention >= 0 ? '+$' : '-$') + Math.abs(dec.fxIntervention) + ' B';
+                document.getElementById('valGovSpending').textContent = 'Rp ' + dec.govSpending.toLocaleString() + ' T';
+                document.getElementById('valEnergySubsidy').textContent = 'Rp ' + dec.energySubsidy.toLocaleString() + ' T';
+                document.getElementById('valTaxRate').textContent = dec.taxRate.toFixed(2) + '%';
+
+                document.getElementById('boxBiRate').textContent = dec.biRate.toFixed(2) + '%';
+                const spread = (dec.biRate - engine.state.fedRate).toFixed(2);
+                document.getElementById('boxYieldSpread').textContent = (spread >= 0 ? '+' : '') + spread + '%';
+
+                // Proyeksi fiskal instan
+                const estTax = Math.round((dec.taxRate / 100) * engine.state.gdpNominal);
+                const estExpenditure = Math.round(dec.govSpending + dec.energySubsidy + (engine.state.debtToGdp * 0.06 * engine.state.gdpNominal / 100));
+                const estDeficit = Math.max(0, estExpenditure - estTax);
+                const estDeficitRatio = (estDeficit / engine.state.gdpNominal * 100).toFixed(2);
+
+                document.getElementById('previewTaxRev').textContent = 'Rp ' + estTax.toLocaleString() + ' T';
+                document.getElementById('previewExpenditure').textContent = 'Rp ' + estExpenditure.toLocaleString() + ' T';
+                const previewDefEl = document.getElementById('previewDeficitRatio');
+                previewDefEl.textContent = estDeficitRatio + '% PDB';
+                previewDefEl.style.color = estDeficitRatio > 3.0 ? 'var(--accent-red)' : 'var(--accent-cyan)';
+
+                // Update canvas preview
+                const previewState = {
+                    ...engine.state,
+                    biRate: dec.biRate,
+                    govSpending: dec.govSpending,
+                    taxRate: dec.taxRate,
+                    inflation: engine.state.inflation,
+                    gdpGrowth: engine.state.gdpGrowth
+                };
+                engine.renderAdAsCanvas(previewState);
+            }
+
+            [sBiRate, sGwmRate, sFxIntervention, sGovSpending, sEnergySubsidy, sTaxRate].forEach(slider => {
+                slider.addEventListener('input', () => {
+                    audio.playTick();
+                    updateSliderDisplayAndCanvas();
+                });
+            });
+
+            // Priority buttons
+            document.querySelectorAll('.btn-priority').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.btn-priority').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    audio.playClick();
+                });
+            });
+
+            // ------------------------------------------------------------------
+            // 3. REFRESH UI DARI STATE ENGINE
+            // ------------------------------------------------------------------
+            function refreshAllUI() {
+                const s = engine.state;
+
+                // Calendar & Status
+                document.getElementById('qStatusTitle').textContent = `Kuartal ${s.quarter}, Tahun ${s.year}`;
+                const turnNumber = engine.history.length;
+                document.getElementById('qStatusSub').textContent = `Giliran ${turnNumber} dari ${s.maxQuarters} (Masa Jabatan)`;
+
+                // KPI Ribbon
+                document.getElementById('kpiGdpGrowth').textContent = s.gdpGrowth.toFixed(2) + '%';
+                const gapSign = s.outputGap >= 0 ? '+' : '';
+                document.getElementById('kpiOutputGap').textContent = `Output Gap: ${gapSign}${s.outputGap.toFixed(2)}%`;
+
+                document.getElementById('kpiInflation').textContent = s.inflation.toFixed(2) + '%';
+                document.getElementById('kpiUnemployment').textContent = s.unemployment.toFixed(2) + '%';
+
+                const defEl = document.getElementById('kpiDeficit');
+                defEl.textContent = s.deficitToGdp.toFixed(2) + '%';
+                const cardDef = document.getElementById('cardDeficit');
+                if (s.deficitToGdp > 3.0) {
+                    cardDef.classList.add('kpi-red');
+                    defEl.classList.add('kpi-alert');
+                } else {
+                    cardDef.classList.remove('kpi-red');
+                    defEl.classList.remove('kpi-alert');
+                }
+
+                const debtEl = document.getElementById('kpiDebt');
+                debtEl.textContent = s.debtToGdp.toFixed(2) + '%';
+                const cardDebt = document.getElementById('cardDebt');
+                if (s.debtToGdp > 60.0) {
+                    cardDebt.classList.add('kpi-red');
+                    debtEl.classList.add('kpi-alert');
+                } else {
+                    cardDebt.classList.remove('kpi-red');
+                    debtEl.classList.remove('kpi-alert');
+                }
+
+                document.getElementById('kpiFx').textContent = 'Rp ' + s.exchangeRate.toLocaleString();
+                const spread = (s.biRate - s.fedRate).toFixed(2);
+                document.getElementById('kpiFxDiff').textContent = `Selisih BI vs Fed: ${(spread >= 0 ? '+' : '')}${spread}%`;
+
+                document.getElementById('kpiApproval').textContent = s.approvalRating + '%';
+                const fillEl = document.getElementById('kpiApprovalFill');
+                if (fillEl) fillEl.style.width = `${Math.min(100, Math.max(0, s.approvalRating))}%`;
+                updateGamerHUD();
+
+                // Sinkronisasi slider nilai
+                sBiRate.value = s.biRate;
+                sGwmRate.value = s.gwmRate;
+                sFxIntervention.value = 0; // reset per quarter
+                sGovSpending.value = s.govSpending;
+                sEnergySubsidy.value = s.energySubsidy;
+                sTaxRate.value = s.taxRate;
+
+                updateSliderDisplayAndCanvas();
+                engine.renderAdAsCanvas();
+                engine.renderPhillipsCanvas();
+                renderHistoryTable();
+            }
+
+            // ------------------------------------------------------------------
+            // 4. KETOK PALU SIDANG (ADVANCE QUARTER)
+            // ------------------------------------------------------------------
+            function handleAdvanceQuarter() {
+                audio.playGavel();
+
+                const decisions = getPolicyDecisions();
+                const debrief = engine.advanceQuarter(decisions);
+
+                // Gamer rewards for completing quarter
+                engine.addXP(25);
+                engine.addCoins(15);
+                updateGamerHUD();
+
+                // Tampilkan Modal Evaluasi Debriefing
+                showDebriefModal(debrief);
+
+                // Periksa apakah ada Flash Shock di kuartal genap
+                if (engine.history.length % 3 === 0 && !debrief.isTenureFinished) {
+                    setTimeout(() => {
+                        triggerRandomFlashDilemma();
+                    }, 400);
+                }
+            }
+
+            document.getElementById('btnAdvanceQuarter').addEventListener('click', handleAdvanceQuarter);
+            document.getElementById('btnQuickAdvance').addEventListener('click', handleAdvanceQuarter);
+            document.getElementById('btnFooterAdvance').addEventListener('click', handleAdvanceQuarter);
+
+            // ------------------------------------------------------------------
+            // 5. MODAL DEBRIEFING (TEORI VS PRAKTEK)
+            // ------------------------------------------------------------------
+            const modalDebrief = document.getElementById('modalDebrief');
+            const btnCloseDebrief = document.getElementById('btnCloseDebrief');
+
+            function showDebriefModal(debrief) {
+                document.getElementById('debriefQuarterLabel').textContent = `Q${debrief.quarter} Thn ${debrief.year}`;
+
+                // Summary Pills
+                const sumEl = document.getElementById('debriefMetricSummary');
+                sumEl.innerHTML = `
+                    <div style="background:rgba(0,242,254,0.1); border:1px solid rgba(0,242,254,0.3); padding:8px; border-radius:6px; text-align:center;">
+                        <div style="font-size:0.72rem; color:var(--text-muted);">PDB Riil</div>
+                        <div style="font-weight:700; color:var(--accent-cyan); font-size:1.1rem;">${debrief.gdpGrowth}%</div>
+                    </div>
+                    <div style="background:rgba(255,209,102,0.1); border:1px solid rgba(255,209,102,0.3); padding:8px; border-radius:6px; text-align:center;">
+                        <div style="font-size:0.72rem; color:var(--text-muted);">Inflasi IHK</div>
+                        <div style="font-weight:700; color:var(--accent-gold); font-size:1.1rem;">${debrief.inflation}%</div>
+                    </div>
+                    <div style="background:rgba(6,214,160,0.1); border:1px solid rgba(6,214,160,0.3); padding:8px; border-radius:6px; text-align:center;">
+                        <div style="font-size:0.72rem; color:var(--text-muted);">Pengangguran</div>
+                        <div style="font-weight:700; color:var(--accent-green); font-size:1.1rem;">${debrief.unemployment}%</div>
+                    </div>
+                    <div style="background:rgba(157,78,221,0.1); border:1px solid rgba(157,78,221,0.3); padding:8px; border-radius:6px; text-align:center;">
+                        <div style="font-size:0.72rem; color:var(--text-muted);">Defisit APBN</div>
+                        <div style="font-weight:700; color:${debrief.isDeficitBreached ? 'var(--accent-red)' : 'var(--accent-purple)'}; font-size:1.1rem;">${debrief.deficitToGdp}%</div>
+                    </div>
+                    <div style="background:#f8fafc; border:1px solid var(--card-border); padding:8px; border-radius:6px; text-align:center;">
+                        <div style="font-size:0.72rem; color:var(--text-muted);">Kurs Rupiah</div>
+                        <div style="font-weight:700; color:var(--text-main); font-size:1.0rem;">Rp ${debrief.exchangeRate.toLocaleString()}</div>
+                    </div>
+                    <div style="background:rgba(255,209,102,0.1); border:1px solid rgba(255,209,102,0.3); padding:8px; border-radius:6px; text-align:center;">
+                        <div style="font-size:0.72rem; color:var(--text-muted);">Kepuasan Publik</div>
+                        <div style="font-weight:700; color:var(--accent-gold); font-size:1.1rem;">${debrief.approvalRating}%</div>
+                    </div>
+                `;
+
+                // Alert batas undang-undang
+                const alertEl = document.getElementById('debriefAlertContainer');
+                alertEl.innerHTML = '';
+                if (debrief.isDeficitBreached) {
+                    audio.playAlert();
+                    alertEl.innerHTML += `
+                        <div style="background:rgba(239,71,111,0.15); border-left:4px solid var(--accent-red); padding:10px 14px; border-radius:6px; margin-bottom:12px; font-size:0.84rem;">
+                            <strong style="color:var(--accent-red);">⚠️ PERINGATAN FISKAL LEGAL:</strong> Defisit APBN (${debrief.deficitToGdp}%) melanggar batas legal UU Keuangan Negara (maks 3.0% PDB)! Media massa dan DPR mengkritik keras kebijakan fiskal pemerintah.
+                        </div>
+                    `;
+                }
+
+                // Highlights Teori vs Praktek
+                const highEl = document.getElementById('debriefHighlightsContainer');
+                highEl.innerHTML = '';
+                debrief.highlights.forEach(h => {
+                    highEl.innerHTML += `
+                        <div class="debrief-item">
+                            <div class="debrief-item-title">${h.title}</div>
+                            <div class="debrief-item-theory">📘 <strong>Buku Teks:</strong> ${h.theory}</div>
+                            <div class="debrief-item-practice">🏢 <strong>Realita Praktek:</strong> ${h.practice}</div>
+                        </div>
+                    `;
+                });
+
+                modalDebrief.classList.add('active');
+
+                // Check Tenure completion
+                if (debrief.isTenureFinished) {
+                    btnCloseDebrief.textContent = '🏆 Lihat Rapor Akhir Masa Jabatan';
+                    btnCloseDebrief.onclick = () => {
+                        modalDebrief.classList.remove('active');
+                        showGameOverModal();
+                    };
+                } else {
+                    btnCloseDebrief.textContent = '▶️ Lanjutkan ke Kuartal Berikutnya';
+                    btnCloseDebrief.onclick = () => {
+                        modalDebrief.classList.remove('active');
+                        refreshAllUI();
+                    };
+                }
+            }
+
+            // ------------------------------------------------------------------
+            // 6. FLASH DILEMMA / BREAKING NEWS
+            // ------------------------------------------------------------------
+            const modalDilemma = document.getElementById('modalDilemma');
+
+            function triggerRandomFlashDilemma() {
+                const dilemmas = MACRO_THEORY_DATA.flashDilemmas;
+                const shock = dilemmas[Math.floor(Math.random() * dilemmas.length)];
+                if (!shock) return;
+
+                audio.playAlert();
+
+                document.getElementById('dilemmaHeadline').textContent = shock.headline;
+                document.getElementById('dilemmaDesc').textContent = shock.description;
+                document.getElementById('dilemmaTheory').innerHTML = `💡 <strong>Konteks Teori:</strong> ${shock.theoryContext}`;
+
+                const optContainer = document.getElementById('dilemmaOptionsContainer');
+                optContainer.innerHTML = '';
+
+                shock.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-option-btn';
+                    btn.style.textAlign = 'left';
+                    btn.innerHTML = `<strong>Opsi ${idx + 1}:</strong> ${opt.text}`;
+                    btn.onclick = () => {
+                        audio.playClick();
+                        // Terapkan dampak ke state engine
+                        engine.state.activeShock = opt;
+                        if (opt.fxImpact) engine.state.exchangeRate += opt.fxImpact;
+                        if (opt.reservesDrain) engine.state.fxReserves = Math.max(30, engine.state.fxReserves - opt.reservesDrain);
+
+                        alert(`Keputusan Terpilih:\n\n${opt.explanation}`);
+                        modalDilemma.classList.remove('active');
+                        refreshAllUI();
+                    };
+                    optContainer.appendChild(btn);
+                });
+
+                modalDilemma.classList.add('active');
+            }
+
+            // ------------------------------------------------------------------
+            // 7. MODAL GAME OVER / TENURE EVALUATION
+            // ------------------------------------------------------------------
+            const modalGameOver = document.getElementById('modalGameOver');
+
+            function showGameOverModal() {
+                const evalResult = engine.evaluateScenarioCompletion();
+                audio.playSuccess();
+
+                document.getElementById('goTitle').textContent = evalResult.title || `Evaluasi Skenario: ${evalResult.scenarioName}`;
+                document.getElementById('goGradeBadge').textContent = `Predikat: ${evalResult.grade}`;
+                document.getElementById('goSummary').textContent = evalResult.summary;
+
+                const breakdownEl = document.getElementById('goGoalsBreakdown');
+                breakdownEl.innerHTML = '<strong style="color:var(--text-main);">Capaian Target Skenario:</strong><br>';
+                if (evalResult.breakdown) {
+                    evalResult.breakdown.forEach(b => {
+                        const icon = b.pass ? '✅' : '❌';
+                        const color = b.pass ? 'var(--accent-green)' : 'var(--accent-red)';
+                        breakdownEl.innerHTML += `
+                            <div style="display:flex; justify-content:space-between; margin-top:6px; color:${color};">
+                                <span>${icon} ${b.label}</span>
+                                <span style="font-weight:bold;">Hasil: ${b.current}</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                modalGameOver.classList.add('active');
+            }
+
+            document.getElementById('btnRestartScenario').onclick = () => {
+                modalGameOver.classList.remove('active');
+                if (engine.activeScenario) {
+                    engine.loadScenario(engine.activeScenario.id);
+                } else {
+                    engine.resetToDefaultState();
+                }
+                refreshAllUI();
+            };
+
+            document.getElementById('btnChooseOtherScenario').onclick = () => {
+                modalGameOver.classList.remove('active');
+                document.querySelector('.nav-tab-btn[data-tab="tabScenarios"]').click();
+            };
+
+            // ------------------------------------------------------------------
+            // 8. POPULASI TAB SKENARIO
+            // ------------------------------------------------------------------
+            function renderScenariosList() {
+                const scGrid = document.getElementById('scenariosGrid');
+                scGrid.innerHTML = '';
+
+                MACRO_THEORY_DATA.scenarios.forEach(sc => {
+                    const card = document.createElement('div');
+                    card.className = 'scenario-card';
+                    if (engine.activeScenario && engine.activeScenario.id === sc.id) {
+                        card.classList.add('active-selected');
+                    }
+
+                    let targetText = '';
+                    if (sc.targetGoals.minGdpGrowth) targetText += `• Min Pertumbuhan: ${sc.targetGoals.minGdpGrowth}%<br>`;
+                    if (sc.targetGoals.maxInflation) targetText += `• Maks Inflasi: ${sc.targetGoals.maxInflation}%<br>`;
+                    if (sc.targetGoals.maxDeficit) targetText += `• Maks Defisit: ${sc.targetGoals.maxDeficit}% PDB<br>`;
+                    if (sc.targetGoals.minApproval) targetText += `• Min Kepuasan: ${sc.targetGoals.minApproval}%<br>`;
+
+                    card.innerHTML = `
+                        <div>
+                            <div class="sc-header">
+                                <div class="sc-name">${sc.name}</div>
+                                <span class="sc-badge">${sc.badge}</span>
+                            </div>
+                            <div class="sc-desc">${sc.description}</div>
+                            <div class="sc-context"><strong>Konteks Sejarah:</strong> ${sc.historicalContext}</div>
+                            <div class="sc-targets-box">
+                                <strong style="color:var(--accent-cyan);">🎯 Target Capaian (${sc.duration} Kuartal):</strong><br>
+                                ${targetText}
+                            </div>
+                        </div>
+                        <button class="btn-start-scenario">
+                            <span>🎮</span> Mainkan Skenario Ini
+                        </button>
+                    `;
+
+                    card.querySelector('.btn-start-scenario').onclick = () => {
+                        audio.playClick();
+                        engine.loadScenario(sc.id);
+                        refreshAllUI();
+                        document.querySelector('.nav-tab-btn[data-tab="tabCockpit"]').click();
+                    };
+
+                    scGrid.appendChild(card);
+                });
+            }
+
+            // ------------------------------------------------------------------
+            // 9. POPULASI BUKU SAKU ENSIKLOPEDIA
+            // ------------------------------------------------------------------
+            function renderEncyclopedia() {
+                const encGrid = document.getElementById('encyclopediaGrid');
+                encGrid.innerHTML = '';
+
+                MACRO_THEORY_DATA.encyclopedia.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'enc-card';
+                    card.innerHTML = `
+                        <div class="enc-header">
+                            <span class="enc-icon">${item.icon}</span>
+                            <div>
+                                <div class="enc-title">${item.title}</div>
+                                <span class="badge-tag">${item.category}</span>
+                            </div>
+                        </div>
+                        <div class="enc-formula">${item.formula}</div>
+                        
+                        <div class="enc-section-title">📘 Teori Akademis (Textbook)</div>
+                        <div class="enc-body">${item.theory.trim()}</div>
+
+                        <div class="enc-section-title" style="color:var(--accent-cyan);">🏢 Dinamika Lapangan (Realita Praktik)</div>
+                        <div class="enc-body">${item.practice.trim()}</div>
+
+                        <div class="enc-takeaway">
+                            <strong>💡 Kunci Kesimpulan:</strong> ${item.keyTakeaway}
+                        </div>
+                    `;
+                    encGrid.appendChild(card);
+                });
+            }
+
+            // ------------------------------------------------------------------
+            // 10. POPULASI TAB HISTORI
+            // ------------------------------------------------------------------
+            function renderHistoryTable() {
+                const tb = document.getElementById('historyTableBody');
+                tb.innerHTML = '';
+                engine.history.forEach(h => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="font-weight:700; color:var(--accent-gold);">${h.label}</td>
+                        <td style="color:var(--accent-cyan);">${h.gdpGrowth}%</td>
+                        <td style="color:${h.inflation > 4.5 ? 'var(--accent-red)' : '#fff'};">${h.inflation}%</td>
+                        <td>${h.unemployment}%</td>
+                        <td>${h.biRate}%</td>
+                        <td style="color:${h.deficitToGdp > 3.0 ? 'var(--accent-red)' : 'var(--accent-purple)'};">${h.deficitToGdp}%</td>
+                        <td>${h.debtToGdp}%</td>
+                        <td>Rp ${h.exchangeRate.toLocaleString()}</td>
+                        <td>$${h.fxReserves.toFixed(1)} B</td>
+                        <td style="font-weight:bold; color:var(--accent-green);">${h.approvalRating}%</td>
+                    `;
+                    tb.appendChild(tr);
+                });
+            }
+
+            // ------------------------------------------------------------------
+            // 11. GAMER PROFILE, HUD & ARENA UJIAN SEMESTER
+            // ------------------------------------------------------------------
+            let currentQuizIndex = 0;
+            let quizScore = 0;
+            let quizLives = 3;
+            let quizStreak = 0;
+            const quizQuestions = MACRO_THEORY_DATA.quizQuestions;
+
+            function updateGamerHUD() {
+                const profile = engine.playerProfile;
+                if (!profile) return;
+
+                document.getElementById('playerAvatarIcon').textContent = profile.avatar || "🧑‍💼";
+                document.getElementById('playerLevelBadge').textContent = `⭐ Lv. ${profile.level}`;
+                document.getElementById('playerTitle').textContent = profile.title;
+                document.getElementById('gamerStreakVal').textContent = `${profile.streak || 0}x`;
+                document.getElementById('gamerCoinsVal').textContent = profile.coins || 100;
+
+                const nextThresh = engine.getNextLevelThreshold(profile.level);
+                const prevThresh = engine.getPrevLevelThreshold(profile.level);
+                const currentLevelXp = profile.xp - prevThresh;
+                const levelSpan = Math.max(1, nextThresh - prevThresh);
+                const pct = Math.min(100, Math.max(0, Math.round((currentLevelXp / levelSpan) * 100)));
+
+                document.getElementById('playerXpFill').style.width = `${pct}%`;
+                document.getElementById('playerXpText').textContent = `XP: ${profile.xp} / ${nextThresh}`;
+            }
+
+            document.getElementById('playerAvatarBtn').onclick = () => {
+                audio.playClick();
+                const newAvatar = engine.cycleAvatar();
+                document.getElementById('playerAvatarIcon').textContent = newAvatar;
+                showFloatingReward(`${newAvatar} Karakter Diubah!`, window.innerWidth / 2, 80);
+            };
+
+            function showFloatingReward(text, x, y) {
+                const el = document.createElement('div');
+                el.className = 'floating-reward-particle';
+                el.textContent = text;
+                el.style.left = (x !== undefined && x > 0) ? `${x}px` : '50%';
+                el.style.top = (y !== undefined && y > 0) ? `${y}px` : '30%';
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 1250);
+            }
+
+            function launchCelebrationConfetti() {
+                const icons = ['🎉', '⭐', '✨', '🪙', '🏆', '🎈', '🎓', '🚀'];
+                for (let i = 0; i < 28; i++) {
+                    const conf = document.createElement('div');
+                    conf.className = 'confetti-piece';
+                    conf.textContent = icons[Math.floor(Math.random() * icons.length)];
+                    conf.style.left = `${Math.random() * 95}vw`;
+                    conf.style.animationDuration = `${1.8 + Math.random() * 1.2}s`;
+                    conf.style.fontSize = `${1.3 + Math.random() * 1.2}rem`;
+                    document.body.appendChild(conf);
+                    setTimeout(() => conf.remove(), 3000);
+                }
+            }
+
+            function updateQuizBattleHUD() {
+                for (let h = 1; h <= 3; h++) {
+                    const heartEl = document.getElementById(`heart${h}`);
+                    if (heartEl) {
+                        if (h <= quizLives) {
+                            heartEl.classList.remove('lost');
+                        } else {
+                            heartEl.classList.add('lost');
+                        }
+                    }
+                }
+                const comboEl = document.getElementById('quizComboNum');
+                if (comboEl) comboEl.textContent = `${quizStreak}x`;
+            }
+
+            function loadQuizQuestion(idx) {
+                updateQuizBattleHUD();
+
+                if (idx >= quizQuestions.length) {
+                    // Selesai Kuis - Rapor Evaluasi Ujian Semester
+                    const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+                    let grade = '';
+                    let gradeColor = '';
+                    let advice = '';
+
+                    if (quizScore >= 22) {
+                        grade = 'Nilai A (Cum Laude / Teknokrat Unggul)';
+                        gradeColor = 'var(--accent-green)';
+                        advice = 'Pencapaian sangat baik. Penguasaan teori dan analisis makroekonomi Anda sudah matang untuk menghadapi ujian semester nyata.';
+                        audio.playFanfare();
+                        launchCelebrationConfetti();
+                        engine.addXP(250);
+                        engine.addCoins(100);
+                    } else if (quizScore >= 18) {
+                        grade = 'Nilai B+ (Sangat Baik / Lulus Ujian Semester)';
+                        gradeColor = '#0284c7';
+                        advice = 'Hasil yang baik. Anda telah menguasai sebagian besar materi kunci UTS dan UAS Makroekonomi. Pertahankan dan perdalam bagian model IS-LM serta ekonomi terbuka.';
+                        audio.playSuccess();
+                        engine.addXP(150);
+                        engine.addCoins(50);
+                    } else if (quizScore >= 14) {
+                        grade = 'Nilai B (Cukup Baik / Lulus Bersyarat)';
+                        gradeColor = 'var(--accent-gold)';
+                        advice = 'Anda sudah memahami konsep dasar makroekonomi, namun perlu mengulang materi hitungan angka pengganda (multiplier), persamaan kuantitas Fisher, dan Kurva Phillips.';
+                        audio.playSuccess();
+                        engine.addXP(80);
+                        engine.addCoins(25);
+                    } else {
+                        grade = 'Nilai C/D (Perlu Pendalaman Teori)';
+                        gradeColor = 'var(--accent-red)';
+                        advice = 'Disarankan untuk mempelajari kembali modul-modul di Akademi Teori dan mencoba eksperimen di Laboratorium Mini sebelum menempuh ujian semester nyata.';
+                        audio.playWrong();
+                    }
+                    updateGamerHUD();
+
+                    document.getElementById('quizQuestionTitle').innerHTML = `
+                        <div style="text-align:center; padding:10px 0;">
+                            <div style="font-size:2.8rem; margin-bottom:8px;">🎓</div>
+                            <h3 style="font-family:var(--font-heading); color:var(--text-main); font-size:1.3rem; margin-bottom:6px;">Rapor Hasil Simulasi Ujian Semester Makro</h3>
+                            <div style="font-family:var(--font-heading); font-size:1.15rem; font-weight:700; color:${gradeColor}; margin-bottom:8px;">
+                                ${grade}
+                            </div>
+                            <div style="font-size:1.0rem; color:var(--text-main); margin-bottom:12px;">
+                                Skor Anda: <strong>${quizScore} dari ${quizQuestions.length} Soal Benar (${percentage}%)</strong>
+                            </div>
+                            <p style="font-size:0.86rem; color:var(--text-muted); max-width:540px; margin:0 auto 16px auto; line-height:1.5;">
+                                ${advice}
+                            </p>
+
+                            <!-- Kotak Arahan Langkah Selanjutnya (Next Steps) -->
+                            <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:12px; padding:16px 20px; max-width:620px; margin:0 auto 20px auto; text-align:left;">
+                                <div style="font-family:var(--font-heading); font-weight:700; color:#0369a1; font-size:0.96rem; margin-bottom:6px;">
+                                    🎯 Arahan Langkah Selanjutnya (Next Steps):
+                                </div>
+                                <div style="font-size:0.84rem; color:#475569; margin-bottom:14px; line-height:1.5;">
+                                    Ujian semester telah usai. Sekarang Anda dapat menguji keahlian praktis meramu kebijakan fiskal & moneter dalam krisis riil, mengendalikan 7 tuas kebijakan, atau berkonsultasi ke Asisten Ahli:
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:8px;">
+                                    <button id="btnNextToScenarios" class="btn-gavel-primary" style="justify-content:flex-start; font-size:0.88rem; padding:10px 16px;">
+                                        <span>⚔️ Next: Hadapi Krisis di Boss Stage (Studi Kasus Riil)</span>
+                                    </button>
+                                    <button id="btnNextToCockpit" class="btn-gavel-subtle" style="justify-content:flex-start; font-size:0.88rem; padding:10px 16px;">
+                                        <span>🏛️ Next: Sidang Kabinet (Simulasi Kendali 7 Tuas Kebijakan)</span>
+                                    </button>
+                                    <button id="btnNextToQA" class="btn-gavel-subtle" style="justify-content:flex-start; font-size:0.88rem; padding:10px 16px;">
+                                        <span>💬 Next: Tanya Asisten Ahli DEN (Konsultasi Teori & Rumus)</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button id="btnRestartQuiz" class="btn-gavel-subtle" style="margin:0 auto; font-size:0.86rem; padding:8px 16px;">
+                                <span>🔄 Ulangi Simulasi Ujian Semester</span>
+                            </button>
+                        </div>
+                    `;
+                    document.getElementById('quizOptionsContainer').innerHTML = '';
+                    document.getElementById('quizFeedbackBox').style.display = 'none';
+                    document.getElementById('btnQuizNext').style.display = 'none';
+
+                    document.getElementById('btnRestartQuiz').onclick = () => {
+                        currentQuizIndex = 0;
+                        quizScore = 0;
+                        quizLives = 3;
+                        quizStreak = 0;
+                        loadQuizQuestion(0);
+                    };
+
+                    // Shortcuts for next actions from Rapor
+                    const btnScenarios = document.getElementById('btnNextToScenarios');
+                    if (btnScenarios) {
+                        btnScenarios.onclick = () => {
+                            audio.playSuccess();
+                            document.querySelector('.nav-tab-btn[data-tab="tabScenarios"]').click();
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        };
+                    }
+                    const btnCockpit = document.getElementById('btnNextToCockpit');
+                    if (btnCockpit) {
+                        btnCockpit.onclick = () => {
+                            audio.playSuccess();
+                            document.querySelector('.nav-tab-btn[data-tab="tabCockpit"]').click();
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        };
+                    }
+                    const btnQA = document.getElementById('btnNextToQA');
+                    if (btnQA) {
+                        btnQA.onclick = () => {
+                            audio.playClick();
+                            toggleQASidebar(true);
+                            if (qaUserInput) qaUserInput.focus();
+                            if (qaSidebar) {
+                                qaSidebar.classList.add('question-target-pulse');
+                                setTimeout(() => qaSidebar.classList.remove('question-target-pulse'), 1200);
+                                qaSidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        };
+                    }
+                    return;
+                }
+
+                const q = quizQuestions[idx];
+                document.getElementById('quizCounterText').textContent = `Soal ${idx + 1} dari ${quizQuestions.length}`;
+                document.getElementById('quizScoreText').textContent = `Skor: ${quizScore}`;
+                document.getElementById('quizProgressBarFill').style.width = `${((idx + 1) / quizQuestions.length) * 100}%`;
+                
+                const categoryBadge = q.category ? `<div style="margin-bottom:8px;"><span class="badge-tag" style="background:#e0f2fe; color:#0369a1; font-weight:700; font-size:0.75rem;">📚 ${q.category}</span></div>` : '';
+                document.getElementById('quizQuestionTitle').innerHTML = `${categoryBadge}<div style="line-height:1.45;">${q.question}</div>`;
+
+                const optBox = document.getElementById('quizOptionsContainer');
+                optBox.innerHTML = '';
+                document.getElementById('quizFeedbackBox').style.display = 'none';
+                document.getElementById('btnQuizNext').style.display = 'none';
+
+                q.options.forEach((optText, optIdx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-option-btn';
+                    btn.textContent = optText;
+                    btn.onclick = (e) => {
+                        // Disable all buttons
+                        const allBtns = optBox.querySelectorAll('.quiz-option-btn');
+                        allBtns.forEach(b => b.disabled = true);
+
+                        const isCorrect = (optIdx === q.correct);
+                        if (isCorrect) {
+                            btn.classList.add('correct');
+                            quizScore++;
+                            quizStreak++;
+                            engine.incrementStreak();
+                            const xpGain = engine.addXP(50);
+                            engine.addCoins(20);
+
+                            if (xpGain.leveledUp) {
+                                audio.playLevelUp();
+                                launchCelebrationConfetti();
+                                showFloatingReward(`🎉 LEVEL UP! Lv. ${xpGain.level}: ${xpGain.title}!`, e.clientX || 200, e.clientY || 200);
+                            } else {
+                                audio.playSuccess();
+                                audio.playCoin();
+                                showFloatingReward(`+50 XP ⭐ (Combo ${quizStreak}x!)`, e.clientX || 200, e.clientY || 200);
+                            }
+
+                            document.getElementById('quizFeedbackTitle').innerHTML = '✅ JAWABAN TEPAT!';
+                            document.getElementById('quizFeedbackTitle').style.color = '#166534';
+                            document.getElementById('quizFeedbackBox').style.background = '#f0fdf4';
+                            document.getElementById('quizFeedbackBox').style.border = '2px solid #86efac';
+                        } else {
+                            btn.classList.add('wrong');
+                            allBtns[q.correct].classList.add('correct');
+                            quizStreak = 0;
+                            engine.resetStreak();
+                            if (quizLives > 0) quizLives--;
+                            audio.playWrong();
+                            showFloatingReward(`💔 Nyawa Berkurang!`, e.clientX || 200, e.clientY || 200);
+
+                            document.getElementById('quizFeedbackTitle').innerHTML = '❌ KURANG TEPAT (PEMBAHASAN SOAL)';
+                            document.getElementById('quizFeedbackTitle').style.color = '#9f1239';
+                            document.getElementById('quizFeedbackBox').style.background = '#fff1f2';
+                            document.getElementById('quizFeedbackBox').style.border = '2px solid #fecdd3';
+                        }
+
+                        updateGamerHUD();
+                        updateQuizBattleHUD();
+
+                        document.getElementById('quizScoreText').textContent = `Skor: ${quizScore}`;
+                        document.getElementById('quizFeedbackExplanation').innerHTML = q.explanation;
+                        document.getElementById('quizFeedbackBox').style.display = 'block';
+
+                        // Dynamic Next shortcut label
+                        const nextBtn = document.getElementById('btnQuizNext');
+                        const isLastQ = (idx === quizQuestions.length - 1);
+                        if (isLastQ) {
+                            nextBtn.innerHTML = '<span>🎓 Next: Lihat Rapor Evaluasi Akhir Ujian</span> 📊';
+                        } else {
+                            nextBtn.innerHTML = `<span>➡️ Next: Lanjut ke Soal ${idx + 2} dari ${quizQuestions.length}</span>`;
+                        }
+                        nextBtn.style.display = 'inline-flex';
+                    };
+                    optBox.appendChild(btn);
+                });
+            }
+
+            document.getElementById('btnQuizNext').onclick = () => {
+                audio.playClick();
+                currentQuizIndex++;
+                loadQuizQuestion(currentQuizIndex);
+            };
+
+            // ------------------------------------------------------------------
+            // 12. AUDIO CONTROLS
+            // ------------------------------------------------------------------
+            const btnBgm = document.getElementById('btnAudioBgm');
+            const btnSfx = document.getElementById('btnAudioSfx');
+
+            btnBgm.onclick = () => {
+                const isPlaying = audio.toggleBGM();
+                btnBgm.style.color = isPlaying ? 'var(--accent-cyan)' : 'var(--text-main)';
+            };
+
+            btnSfx.onclick = () => {
+                const isMuted = audio.toggleMute();
+                btnSfx.style.color = isMuted ? 'var(--text-dim)' : 'var(--text-main)';
+            };
+
+            // ------------------------------------------------------------------
+            // 0. AKADEMI TEORI BERJENJANG (STEP-BY-STEP LEARNING CONTROLLER)
+            // ------------------------------------------------------------------
+            const stepperEl = document.getElementById('academyStepper');
+            const academyContainer = document.getElementById('academyModuleContainer');
+            const gradBanner = document.getElementById('academyGraduationBanner');
+            const progressBadge = document.getElementById('academyProgressBadge');
+            const btnBypassAll = document.getElementById('btnBypassAll');
+            const btnUnlockScenariosDirect = document.getElementById('btnUnlockScenariosDirect');
+            const btnUnlockCockpitDirect = document.getElementById('btnUnlockCockpitDirect');
+            const btnLaunchCapstone = document.getElementById('btnLaunchCapstone');
+
+            function updateAcademyStepper() {
+                stepperEl.innerHTML = '';
+                const modules = MACRO_THEORY_DATA.learningModules || [];
+                const completedCount = engine.academyState.completedModuleIds.length;
+                const pct = Math.round((completedCount / 5) * 100);
+                progressBadge.textContent = `${completedCount} dari 5 Modul Tuntas (${pct}%)`;
+
+                modules.forEach(m => {
+                    const isUnlocked = engine.academyState.unlockedModuleIds.includes(m.id);
+                    const isCompleted = engine.academyState.completedModuleIds.includes(m.id);
+                    const isActive = (engine.academyState.activeModuleId === m.id);
+
+                    const pill = document.createElement('div');
+                    pill.className = `step-pill ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${!isUnlocked ? 'locked' : ''}`;
+                    pill.innerHTML = `
+                        <div class="step-number">${isCompleted ? '✓' : m.id}</div>
+                        <div class="step-label-wrap">
+                            <div class="step-label-title">${m.title.split(':')[1] || m.title}</div>
+                            <div class="step-label-status">${isCompleted ? '✅ Selesai' : (isActive ? 'Sedang Dipelajari' : (isUnlocked ? 'Terbuka' : '🔒 Terkunci'))}</div>
+                        </div>
+                    `;
+
+                    if (isUnlocked) {
+                        pill.onclick = () => {
+                            audio.playClick();
+                            engine.academyState.activeModuleId = m.id;
+                            engine.saveAcademyProgress();
+                            updateAcademyStepper();
+                            renderAcademyModule(m.id);
+                        };
+                    }
+
+                    stepperEl.appendChild(pill);
+                });
+
+                // Pill Capstone (Tahap Akhir)
+                const isCapUnlocked = engine.academyState.isCapstoneUnlocked;
+                const capPill = document.createElement('div');
+                capPill.className = `step-pill ${isCapUnlocked ? 'completed' : 'locked'}`;
+                capPill.innerHTML = `
+                    <div class="step-number">${isCapUnlocked ? '🏆' : '🔒'}</div>
+                    <div class="step-label-wrap">
+                        <div class="step-label-title">Tahap Akhir: Studi Kasus</div>
+                        <div class="step-label-status">${isCapUnlocked ? 'Terbuka & Siap' : '🔒 Tuntaskan Teori'}</div>
+                    </div>
+                `;
+                capPill.onclick = () => {
+                    audio.playClick();
+                    document.querySelector('.nav-tab-btn[data-tab="tabScenarios"]').click();
+                };
+                stepperEl.appendChild(capPill);
+
+                updateLockedTabBadges();
+            }
+
+            function updateLockedTabBadges() {
+                const isUnlocked = engine.academyState.isCapstoneUnlocked;
+                const scBadge = document.getElementById('tabScenariosLockBadge');
+                const cpBadge = document.getElementById('tabCockpitLockBadge');
+                const capNotice = document.getElementById('capstoneLockedNotice');
+                const cockNotice = document.getElementById('cockpitLockedNotice');
+
+                if (isUnlocked) {
+                    if (scBadge) { scBadge.textContent = '🌟'; scBadge.style.color = 'var(--accent-gold)'; }
+                    if (cpBadge) { cpBadge.style.display = 'none'; }
+                    if (capNotice) capNotice.style.display = 'none';
+                    if (cockNotice) cockNotice.style.display = 'none';
+                    if (gradBanner) gradBanner.style.display = 'block';
+                } else {
+                    if (scBadge) { scBadge.textContent = '🔒'; scBadge.style.color = 'var(--accent-red)'; }
+                    if (cpBadge) { cpBadge.style.display = 'inline-block'; }
+                    if (capNotice) capNotice.style.display = 'flex';
+                    if (cockNotice) cockNotice.style.display = 'flex';
+                    if (gradBanner) gradBanner.style.display = 'none';
+                }
+            }
+
+            function formatModuleText(text) {
+                if (!text) return '';
+                if (text.includes('<ul') && text.includes('<li')) {
+                    return text;
+                }
+                const lines = text.trim().split('\n');
+                let html = '';
+                let inList = false;
+
+                lines.forEach(line => {
+                    let trimmed = line.trim();
+                    if (!trimmed) return;
+
+                    if (trimmed.startsWith('- ')) {
+                        if (!inList) {
+                            html += '<ul class="academy-bullet-list">';
+                            inList = true;
+                        }
+                        html += `<li class="academy-bullet-item">${trimmed.substring(2)}</li>`;
+                    } else {
+                        if (inList) {
+                            html += '</ul>';
+                            inList = false;
+                        }
+                        html += `<p style="margin: 0 0 6px 0; line-height: 1.5;">${trimmed}</p>`;
+                    }
+                });
+
+                if (inList) {
+                    html += '</ul>';
+                }
+                return html;
+            }
+
+            function renderAcademyModule(moduleId) {
+                const mod = MACRO_THEORY_DATA.learningModules.find(m => m.id === moduleId);
+                if (!mod) return;
+
+                const isCompleted = engine.academyState.completedModuleIds.includes(moduleId);
+
+                academyContainer.innerHTML = `
+                    <!-- Kolom Kiri: Konsep, Analogi & Formula -->
+                    <div class="module-left-column">
+                        <div class="academy-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span class="badge-tag" style="background:rgba(0,242,254,0.15); color:var(--accent-cyan); font-weight:700;">${mod.badge}</span>
+                                ${isCompleted ? '<span class="badge-tag" style="background:rgba(6,214,160,0.2); color:var(--accent-green);">✅ Telah Tuntas</span>' : '<span class="badge-tag" style="background:rgba(255,209,102,0.15); color:var(--accent-gold);">Sedang Dipelajari</span>'}
+                            </div>
+                            <h2 style="font-family:var(--font-heading); color:var(--text-main); font-size:1.35rem; margin-bottom:4px;">${mod.title}</h2>
+                            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">${mod.subtitle}</p>
+
+                            <div class="enc-formula" style="font-size:0.92rem; margin-bottom:14px;">${mod.formula}</div>
+
+                            <!-- Analogi Intuitif -->
+                            <div class="analogy-card" style="border-radius:8px; padding:12px 16px; margin-bottom:14px;">
+                                <div class="analogy-title"><span>💡</span> Analogi Sederhana & Praktik Lapangan</div>
+                                <div class="analogy-body">${formatModuleText(mod.analogy)}</div>
+                            </div>
+
+                            <!-- Konsep Teori -->
+                            <div style="margin-bottom:12px;">
+                                <h4 style="font-family:var(--font-heading); color:var(--accent-gold); font-size:0.95rem; margin-bottom:6px;">📘 Konsep Teori Ekonomi Makro:</h4>
+                                <div style="font-size:0.86rem; color:var(--text-main); line-height:1.55;">${formatModuleText(mod.theoryText)}</div>
+                            </div>
+
+                            <!-- Realita di Lapangan -->
+                            <div style="background:#f0f9ff; border:1px solid #bae6fd; border-left:4px solid #0284c7; padding:10px 14px; border-radius:6px;">
+                                <h4 style="font-family:var(--font-heading); color:#0369a1; font-size:0.95rem; margin-bottom:4px;">🏢 Realita Ekonomi & Praktik di Indonesia:</h4>
+                                <div style="font-size:0.86rem; color:var(--text-main); line-height:1.55;">${formatModuleText(mod.practiceText)}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Kanan: Mini Lab Interaktif & Kuis Checkpoint -->
+                    <div class="module-right-column">
+                        <!-- Mini Lab Interaktif -->
+                        <div class="academy-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                                <h3 style="font-family:var(--font-heading); color:var(--accent-cyan); font-size:1.05rem;">🔬 Laboratorium Mini Simulasi (Hands-On)</h3>
+                                <span class="badge-tag">Simulasi Praktik</span>
+                            </div>
+                            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px;">${mod.miniLabPrompt}</p>
+
+                            <!-- Slider Eksperimen Khusus Modul Ini -->
+                            <div id="miniLabControls"></div>
+
+                            <div id="miniLabOutput" style="background:#f8fafc; border:1px solid #cbd5e1; color:var(--text-main); border-radius:8px; padding:12px; margin-top:10px; font-size:0.84rem; line-height:1.45;">
+                                <!-- Live output text -->
+                            </div>
+                        </div>
+
+                        <!-- Checkpoint Kuis Pemahaman -->
+                        <div class="academy-card checkpoint-card">
+                            <div class="checkpoint-header">
+                                <div class="checkpoint-title"><span>🎯</span> Kuis Checkpoint Pemahaman</div>
+                                <span id="cpBadgeStatus" class="badge-tag" style="color:var(--accent-gold);">2 Soal Wajib Benar</span>
+                            </div>
+
+                            <div id="checkpointContainer">
+                                <!-- Populated dynamically by renderModuleQuiz -->
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                setupMiniLabForModule(moduleId);
+                renderModuleQuiz(mod);
+            }
+
+            function setupMiniLabForModule(moduleId) {
+                const ctrl = document.getElementById('miniLabControls');
+                const out = document.getElementById('miniLabOutput');
+
+                if (moduleId === 1) {
+                    ctrl.innerHTML = `
+                        <div class="slider-label-row">
+                            <span class="slider-name">Belanja Pemerintah (G):</span>
+                            <span id="miniGVal" class="slider-val-badge">Rp 3.300 T</span>
+                        </div>
+                        <input type="range" id="miniGSlider" class="policy-slider" min="2000" max="4800" step="100" value="3300">
+                    `;
+                    const s = document.getElementById('miniGSlider');
+                    s.oninput = () => {
+                        audio.playTick();
+                        const g = parseInt(s.value);
+                        document.getElementById('miniGVal').textContent = 'Rp ' + g.toLocaleString() + ' T';
+                        const isOverheating = g > 3900;
+                        const outputEst = (5.0 + (g - 3300) / 300).toFixed(2);
+                        const infEst = (2.8 + Math.max(0, (g - 3500) / 200)).toFixed(2);
+                        out.innerHTML = `
+                            <strong>Hasil Simulasi AD-AS:</strong><br>
+                            Pertumbuhan PDB: <span style="color:var(--accent-cyan); font-weight:bold;">${outputEst}%</span> | 
+                            Inflasi IHK: <span style="color:${isOverheating ? 'var(--accent-red)' : 'var(--accent-gold)'}; font-weight:bold;">${infEst}%</span><br>
+                            ${isOverheating 
+                                ? '<span style="color:var(--accent-red);">⚠️ Terjadi Overheating! Belanja melebihi output potensial Y* memicu lonjakan inflasi dan banjir impor!</span>' 
+                                : '<span style="color:var(--accent-green);">✅ Keseimbangan output stabil di sekitar kapasitas potensial.</span>'}
+                        `;
+                    };
+                    s.oninput();
+                } else if (moduleId === 2) {
+                    ctrl.innerHTML = `
+                        <div class="slider-label-row">
+                            <span class="slider-name">Suku Bunga BI-Rate:</span>
+                            <span id="miniBiVal" class="slider-val-badge">6.00%</span>
+                        </div>
+                        <input type="range" id="miniBiSlider" class="policy-slider" min="3.5" max="14.0" step="0.25" value="6.0">
+                    `;
+                    const s = document.getElementById('miniBiSlider');
+                    s.oninput = () => {
+                        audio.playTick();
+                        const r = parseFloat(s.value);
+                        document.getElementById('miniBiVal').textContent = r.toFixed(2) + '%';
+                        const realR = (r - 3.0).toFixed(2);
+                        out.innerHTML = `
+                            <strong>Transmisi Moneter:</strong><br>
+                            Bunga Nominal: <strong>${r}%</strong> | Bunga Riil: <strong>${realR}%</strong><br>
+                            ⏳ <em>Efek Kuartal 1:</em> Menahan depresiasi kurs Rupiah.<br>
+                            ⏳ <em>Efek Kuartal 2-4:</em> Kredit perbankan ${r > 7.0 ? 'mengerem tajam, inflasi melandai' : 'melonggar, ekspansi kredit naik'}.
+                        `;
+                    };
+                    s.oninput();
+                } else if (moduleId === 3) {
+                    ctrl.innerHTML = `
+                        <div class="slider-label-row">
+                            <span class="slider-name">Target Defisit APBN:</span>
+                            <span id="miniDefVal" class="slider-val-badge">2.3% PDB</span>
+                        </div>
+                        <input type="range" id="miniDefSlider" class="policy-slider" min="1.0" max="6.0" step="0.1" value="2.3">
+                    `;
+                    const s = document.getElementById('miniDefSlider');
+                    s.oninput = () => {
+                        audio.playTick();
+                        const d = parseFloat(s.value);
+                        document.getElementById('miniDefVal').textContent = d.toFixed(1) + '% PDB';
+                        const isBreach = d > 3.0;
+                        out.innerHTML = `
+                            <strong>Kepatuhan UU No. 17/2003:</strong><br>
+                            Status Hukum: ${isBreach 
+                                ? '<span style="color:var(--accent-red); font-weight:bold;">❌ MELANGGAR HUKUM (Batas legal maks 3.0% PDB terlampaui)! Imbal hasil SBN melonjak karena Crowding-Out.</span>' 
+                                : '<span style="color:var(--accent-green); font-weight:bold;">✅ AMAN & DISIPLIN (Di bawah batas 3.0% PDB). Kredibilitas APBN terjaga.</span>'}
+                        `;
+                    };
+                    s.oninput();
+                } else if (moduleId === 4) {
+                    ctrl.innerHTML = `
+                        <div class="slider-label-row">
+                            <span class="slider-name">Kejutan Harga Minyak / Pangan (Shock):</span>
+                            <span id="miniShockVal" class="slider-val-badge">Normal ($75)</span>
+                        </div>
+                        <input type="range" id="miniShockSlider" class="policy-slider" min="0" max="3" step="1" value="0">
+                    `;
+                    const s = document.getElementById('miniShockSlider');
+                    const shockLabels = ['Normal ($75)', 'Kenaikan Sedang ($95)', 'Krisis Energi Parah ($120)', 'Perang Minyak Ekstrem ($140)'];
+                    s.oninput = () => {
+                        audio.playTick();
+                        const lvl = parseInt(s.value);
+                        document.getElementById('miniShockVal').textContent = shockLabels[lvl];
+                        const inf = (2.8 + lvl * 2.2).toFixed(1);
+                        const u = (5.2 + lvl * 0.9).toFixed(1);
+                        out.innerHTML = `
+                            <strong>Dinamika Kurva Phillips:</strong><br>
+                            Inflasi IHK: <span style="color:var(--accent-red); font-weight:bold;">${inf}%</span> | 
+                            Pengangguran: <span style="color:var(--accent-gold); font-weight:bold;">${u}%</span><br>
+                            ${lvl >= 2 
+                                ? '<span style="color:var(--accent-red);">💥 STAGFLASI TERJADI! Kurva Phillips bergeser ke kanan atas. Suku bunga serba salah!</span>' 
+                                : '<span style="color:var(--accent-green);">Kondisi trade-off inflasi dan pengangguran berada di kisaran normal.</span>'}
+                        `;
+                    };
+                    s.oninput();
+                } else if (moduleId === 5) {
+                    ctrl.innerHTML = `
+                        <div class="slider-label-row">
+                            <span class="slider-name">Operasi Cadangan Devisa:</span>
+                            <span id="miniFxVal" class="slider-val-badge">$0 B</span>
+                        </div>
+                        <input type="range" id="miniFxSlider" class="policy-slider" min="-10" max="15" step="1" value="0">
+                    `;
+                    const s = document.getElementById('miniFxSlider');
+                    s.oninput = () => {
+                        audio.playTick();
+                        const v = parseInt(s.value);
+                        document.getElementById('miniFxVal').textContent = (v >= 0 ? '+$' : '-$') + Math.abs(v) + ' B';
+                        const kursEst = 15600 - (v * 45);
+                        out.innerHTML = `
+                            <strong>Respons Kurs Rupiah:</strong><br>
+                            Perkiraan Kurs: <strong style="color:var(--accent-cyan);">Rp ${kursEst.toLocaleString()} / USD</strong><br>
+                            ${v > 0 
+                                ? '🛡️ Devisa diguyur ke pasar: Rupiah tertahan stabil, namun cadangan devisa berkurang.' 
+                                : 'Akumulasi devisa organik saat arus modal masuk.'}
+                        `;
+                    };
+                    s.oninput();
+                }
+            }
+
+            function renderModuleQuiz(mod) {
+                const box = document.getElementById('checkpointContainer');
+                box.innerHTML = '';
+                const questions = mod.checkpointQuestions || [];
+                let answeredCount = 0;
+                let correctAnswers = 0;
+
+                questions.forEach((item, qIdx) => {
+                    const qWrap = document.createElement('div');
+                    qWrap.id = `moduleQuizQuestion_${qIdx}`;
+                    qWrap.style.marginBottom = '18px';
+                    qWrap.innerHTML = `
+                        <div style="font-size:0.92rem; font-weight:700; color:var(--text-main); margin-bottom:8px; line-height:1.45;">
+                            ${qIdx + 1}. ${item.q}
+                        </div>
+                        <div class="quiz-opts" style="display:flex; flex-direction:column; gap:6px;"></div>
+                        <div class="quiz-fb" style="display:none; font-size:0.84rem; margin-top:8px; padding:10px 14px; border-radius:6px; line-height:1.45;"></div>
+                        <div class="quiz-next-slot" style="display:none; margin-top:8px;"></div>
+                    `;
+
+                    const optBox = qWrap.querySelector('.quiz-opts');
+                    const fbBox = qWrap.querySelector('.quiz-fb');
+                    const nextSlot = qWrap.querySelector('.quiz-next-slot');
+
+                    item.options.forEach((optText, optIdx) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'quiz-option-btn';
+                        btn.style.padding = '10px 14px';
+                        btn.style.fontSize = '0.85rem';
+                        btn.textContent = optText;
+
+                        btn.onclick = (e) => {
+                            const allBtns = optBox.querySelectorAll('.quiz-option-btn');
+                            allBtns.forEach(b => b.disabled = true);
+
+                            answeredCount++;
+                            const isCorrect = (optIdx === item.correct);
+                            if (isCorrect) {
+                                btn.classList.add('correct');
+                                correctAnswers++;
+                                const xpGain = engine.addXP(40);
+                                engine.addCoins(15);
+                                engine.incrementStreak();
+
+                                if (xpGain.leveledUp) {
+                                    audio.playLevelUp();
+                                    launchCelebrationConfetti();
+                                    showFloatingReward(`🎉 LEVEL UP! Lv. ${xpGain.level}: ${xpGain.title}!`, e.clientX || 200, e.clientY || 200);
+                                } else {
+                                    audio.playSuccess();
+                                    audio.playCoin();
+                                    showFloatingReward('+40 XP ⭐', e.clientX || 200, e.clientY || 200);
+                                }
+
+                                fbBox.style.display = 'block';
+                                fbBox.style.background = '#f0fdf4';
+                                fbBox.style.border = '2px solid #86efac';
+                                fbBox.style.color = '#166534';
+                                fbBox.innerHTML = `✅ <strong>Jawaban Benar! (+40 XP ⭐)</strong> ${item.explanation}`;
+                            } else {
+                                btn.classList.add('wrong');
+                                allBtns[item.correct].classList.add('correct');
+                                engine.resetStreak();
+                                audio.playWrong();
+                                fbBox.style.display = 'block';
+                                fbBox.style.background = '#fff1f2';
+                                fbBox.style.border = '2px solid #fecdd3';
+                                fbBox.style.color = '#9f1239';
+                                fbBox.innerHTML = `❌ <strong>Pembahasan:</strong> ${item.explanation}`;
+                            }
+                            updateGamerHUD();
+
+                            // Jika masih ada soal berikutnya di modul ini, tampilkan tombol shortcut Next ke soal selanjutnya!
+                            if (qIdx + 1 < questions.length) {
+                                nextSlot.style.display = 'flex';
+                                nextSlot.style.justifyContent = 'flex-end';
+                                nextSlot.innerHTML = `
+                                    <button class="btn-next-question-shortcut" id="btnNextToQ_${qIdx + 1}">
+                                        <span>➡️ Next: Lanjut ke Soal ${qIdx + 2}</span>
+                                    </button>
+                                `;
+                                const btnNextQ = nextSlot.querySelector(`#btnNextToQ_${qIdx + 1}`);
+                                btnNextQ.onclick = () => {
+                                    audio.playClick();
+                                    const nextQWrap = document.getElementById(`moduleQuizQuestion_${qIdx + 1}`);
+                                    if (nextQWrap) {
+                                        nextQWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                        nextQWrap.classList.add('question-target-pulse');
+                                        setTimeout(() => nextQWrap.classList.remove('question-target-pulse'), 1300);
+                                    }
+                                };
+                            }
+
+                            // Jika SEMUA soal di modul ini sudah dijawab:
+                            if (answeredCount === questions.length) {
+                                showCheckpointCompletionActions(mod, correctAnswers, questions.length);
+                            }
+                        };
+
+                        optBox.appendChild(btn);
+                    });
+
+                    box.appendChild(qWrap);
+                });
+            }
+
+            function showCheckpointCompletionActions(mod, correctAnswers, totalQuestions) {
+                const existing = document.getElementById('moduleCompletionActions');
+                if (existing) existing.remove();
+
+                const card = document.createElement('div');
+                card.id = 'moduleCompletionActions';
+                card.className = 'academy-completion-card';
+                card.style.marginTop = '20px';
+                card.style.padding = '16px 20px';
+                card.style.borderRadius = '12px';
+
+                const allCorrect = (correctAnswers === totalQuestions);
+
+                if (allCorrect) {
+                    engine.completeModule(mod.id);
+                    const bonusXP = engine.addXP(80);
+                    engine.addCoins(40);
+                    audio.playLevelUp();
+                    launchCelebrationConfetti();
+                    showFloatingReward(`Modul ${mod.id} Selesai! +80 XP ⭐`);
+                    updateGamerHUD();
+                    updateAcademyStepper();
+
+                    card.style.background = '#f0fdf4';
+                    card.style.border = '1px solid #86efac';
+                    card.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                            <span style="font-size:1.4rem;">🎯</span>
+                            <div>
+                                <h4 style="font-family:var(--font-heading); color:#15803d; font-size:1.02rem; margin:0;">
+                                    Bagus! Modul ${mod.id} Berhasil Dituntaskan
+                                </h4>
+                                <div style="font-size:0.84rem; color:#166534;">
+                                    Pemahaman konsep Anda solid (${correctAnswers}/${totalQuestions} benar). Bonus +80 XP ditambahkan.
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.86rem; color:#334155; margin-bottom:12px; line-height:1.45;">
+                            <strong>Langkah Selanjutnya:</strong><br>
+                            ${mod.id < 5 
+                                ? `Lanjutkan ke <strong>Modul ${mod.id + 1}</strong> untuk mempelajari materi berikutnya.`
+                                : `Materi dasar teori telah selesai. Lanjutkan ke <strong>Tahap Akhir: Sidang Studi Kasus Krisis Riil</strong>.`}
+                        </div>
+                        <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end;">
+                            <button id="btnRetryCheckpoint" class="btn-gavel-subtle" style="font-size:0.84rem; padding:8px 14px;">
+                                <span>🔄</span> Ulangi Kuis
+                            </button>
+                            ${mod.id < 5 ? `
+                                <button id="btnNextModuleAction" class="btn-gavel-primary" style="font-size:0.9rem; padding:9px 18px;">
+                                    <span>➡️ Lanjut ke Modul ${mod.id + 1}</span>
+                                </button>
+                            ` : `
+                                <button id="btnNextModuleAction" class="btn-gavel-primary" style="font-size:0.9rem; padding:9px 18px; background:linear-gradient(135deg, #0ea5e9, #0284c7); color:#ffffff;">
+                                    <span>🚀 Masuk ke Studi Kasus Krisis</span>
+                                </button>
+                            `}
+                        </div>
+                    `;
+                } else {
+                    // Ada jawaban yang belum tepat (misal 1/2 benar seperti di capture user)
+                    card.style.background = '#fffbeb';
+                    card.style.border = '1px solid #fde68a';
+                    card.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                            <span style="font-size:1.4rem;">📝</span>
+                            <div>
+                                <h4 style="font-family:var(--font-heading); color:#92400e; font-size:1.02rem; margin:0;">
+                                    Checkpoint Selesai (${correctAnswers}/${totalQuestions} Benar)
+                                </h4>
+                                <div style="font-size:0.84rem; color:#78350f;">
+                                    Tetap semangat! Review pembahasan di atas untuk memperkuat pemahaman konsep.
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.86rem; color:#451a03; margin-bottom:12px; line-height:1.45;">
+                            <strong>Langkah Selanjutnya:</strong><br>
+                            Anda dapat mengulang kuis untuk mematangkan konsep, atau langsung melanjutkan ke modul berikutnya:
+                        </div>
+                        <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end;">
+                            <button id="btnRetryCheckpoint" class="btn-gavel-primary" style="font-size:0.86rem; padding:8px 15px; background:#f59e0b; border-color:#d97706;">
+                                <span>🔄 Ulangi Kuis</span>
+                            </button>
+                            ${mod.id < 5 ? `
+                                <button id="btnNextModuleAction" class="btn-gavel-primary" style="font-size:0.9rem; padding:9px 18px;">
+                                    <span>➡️ Lanjut ke Modul ${mod.id + 1}</span>
+                                </button>
+                            ` : `
+                                <button id="btnNextModuleAction" class="btn-gavel-primary" style="font-size:0.9rem; padding:9px 18px; background:linear-gradient(135deg, #0ea5e9, #0284c7); color:#ffffff;">
+                                    <span>🚀 Masuk ke Studi Kasus Krisis</span>
+                                </button>
+                            `}
+                        </div>
+                    `;
+                }
+
+                const box = document.getElementById('checkpointContainer');
+                box.appendChild(card);
+
+                // Wire up Retry button
+                card.querySelector('#btnRetryCheckpoint').onclick = () => {
+                    audio.playClick();
+                    renderModuleQuiz(mod);
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                };
+
+                // Wire up Next button
+                card.querySelector('#btnNextModuleAction').onclick = () => {
+                    audio.playSuccess();
+                    if (mod.id < 5) {
+                        engine.academyState.activeModuleId = mod.id + 1;
+                        if (!engine.academyState.completedModuleIds.includes(mod.id)) {
+                            engine.completeModule(mod.id);
+                        }
+                        engine.saveAcademyProgress();
+                        updateAcademyStepper();
+                        renderAcademyModule(mod.id + 1);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        if (!engine.academyState.completedModuleIds.includes(5)) {
+                            engine.completeModule(5);
+                        }
+                        engine.saveAcademyProgress();
+                        updateAcademyStepper();
+                        document.querySelector('.nav-tab-btn[data-tab="tabScenarios"]').click();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                };
+
+                // Smooth scroll down to reveal the Next guidance card
+                setTimeout(() => {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 150);
+            }
+
+            // Bypass button handlers
+            if (btnBypassAll) {
+                btnBypassAll.onclick = () => {
+                    audio.playSuccess();
+                    engine.unlockAllModules();
+                    updateAcademyStepper();
+                    renderAcademyModule(engine.academyState.activeModuleId);
+                    alert('⚡ Seluruh Modul Teori & Tahap Akhir Studi Kasus Berhasil Dibuka!');
+                };
+            }
+            if (btnUnlockScenariosDirect) {
+                btnUnlockScenariosDirect.onclick = () => {
+                    audio.playSuccess();
+                    engine.unlockAllModules();
+                    updateAcademyStepper();
+                    renderScenariosList();
+                };
+            }
+            if (btnUnlockCockpitDirect) {
+                btnUnlockCockpitDirect.onclick = () => {
+                    audio.playSuccess();
+                    engine.unlockAllModules();
+                    updateAcademyStepper();
+                };
+            }
+            if (btnLaunchCapstone) {
+                btnLaunchCapstone.onclick = () => {
+                    audio.playClick();
+                    document.querySelector('.nav-tab-btn[data-tab="tabScenarios"]').click();
+                };
+            }
+
+            // Toggle Kacamata Manajemen (Mikro vs Makro)
+            const btnToggleMgmt = document.getElementById('btnToggleManagementGuide');
+            const mgmtContent = document.getElementById('mgmtGuideContent');
+            const mgmtArrow = document.getElementById('mgmtGuideArrow');
+
+            if (btnToggleMgmt && mgmtContent) {
+                btnToggleMgmt.onclick = () => {
+                    audio.playClick();
+                    const isCurrentlyHidden = (mgmtContent.style.display === 'none');
+                    mgmtContent.style.display = isCurrentlyHidden ? 'block' : 'none';
+                    if (mgmtArrow) mgmtArrow.textContent = isCurrentlyHidden ? '▼' : '▶';
+                };
+            }
+
+            // ------------------------------------------------------------------
+            // 13. MODAL CARA BERMAIN (HOW TO PLAY POPUP)
+            // ------------------------------------------------------------------
+            const modalHowToPlay = document.getElementById('modalHowToPlay');
+            const btnOpenHowToPlay = document.getElementById('btnOpenHowToPlay');
+            const btnCloseHowToPlay = document.getElementById('btnCloseHowToPlay');
+            const btnStartPlayingNow = document.getElementById('btnStartPlayingNow');
+            const chkDontShow = document.getElementById('chkDontShowHowToPlay');
+
+            function openHowToPlayModal() {
+                audio.playClick();
+                if (modalHowToPlay) modalHowToPlay.classList.add('active');
+            }
+
+            function closeHowToPlayModal() {
+                audio.playClick();
+                if (modalHowToPlay) modalHowToPlay.classList.remove('active');
+                if (chkDontShow && chkDontShow.checked) {
+                    try {
+                        localStorage.setItem('macromaster_howtoplay_dismissed', 'true');
+                    } catch (e) {}
+                }
+            }
+
+            if (btnOpenHowToPlay) btnOpenHowToPlay.onclick = openHowToPlayModal;
+            if (btnCloseHowToPlay) btnCloseHowToPlay.onclick = closeHowToPlayModal;
+            if (btnStartPlayingNow) btnStartPlayingNow.onclick = closeHowToPlayModal;
+
+            // Auto-popup pada kunjungan pertama
+            try {
+                const isDismissed = localStorage.getItem('macromaster_howtoplay_dismissed');
+                if (!isDismissed) {
+                    setTimeout(() => {
+                        if (modalHowToPlay) modalHowToPlay.classList.add('active');
+                    }, 400);
+                }
+            } catch (e) {}
+
+            // ------------------------------------------------------------------
+            // 14. PERMANENT ASISTEN AHLI DEN (SIDEBAR Q&A INTERAKTIF DOCKED)
+            // ------------------------------------------------------------------
+            const qaSidebar = document.getElementById('qaPermanentSidebar');
+            const btnNavToggleQA = document.getElementById('btnNavToggleQA');
+            const btnToggleQASidebarCollapse = document.getElementById('btnToggleQASidebarCollapse');
+            const btnClearQAChat = document.getElementById('btnClearQAChat');
+            const qaChipsContainer = document.getElementById('qaChipsContainer');
+            const qaChatBox = document.getElementById('qaChatBox');
+            const qaUserInput = document.getElementById('qaUserInput');
+            const btnSendQA = document.getElementById('btnSendQA');
+            const btnFloatingQA = document.getElementById('btnFloatingQA');
+
+            function toggleQASidebar(forceExpand = false) {
+                if (!qaSidebar) return;
+                if (forceExpand) {
+                    qaSidebar.classList.remove('collapsed');
+                    if (btnToggleQASidebarCollapse) btnToggleQASidebarCollapse.textContent = '◀';
+                    if (btnNavToggleQA) btnNavToggleQA.classList.add('active');
+                } else {
+                    const isCollapsed = qaSidebar.classList.toggle('collapsed');
+                    if (btnToggleQASidebarCollapse) btnToggleQASidebarCollapse.textContent = isCollapsed ? '▶' : '◀';
+                    if (btnNavToggleQA) {
+                        if (isCollapsed) btnNavToggleQA.classList.remove('active');
+                        else btnNavToggleQA.classList.add('active');
+                    }
+                }
+            }
+
+            function appendQAMessage(sender, text, isCheatAttempt = false) {
+                if (!qaChatBox) return;
+
+                const row = document.createElement('div');
+                row.className = `qa-msg-row ${sender}${isCheatAttempt ? ' cheat-warning' : ''}`;
+
+                const avatar = document.createElement('div');
+                avatar.className = 'qa-msg-avatar';
+                avatar.textContent = sender === 'bot' ? '🤖' : (engine.playerProfile.avatar || '🧑‍💼');
+
+                const bubble = document.createElement('div');
+                bubble.className = 'qa-msg-bubble';
+                // Render format paragraf baru
+                bubble.innerHTML = text.replace(/\n/g, '<br>');
+
+                row.appendChild(avatar);
+                row.appendChild(bubble);
+                qaChatBox.appendChild(row);
+
+                // Auto-scroll to latest message
+                qaChatBox.scrollTop = qaChatBox.scrollHeight;
+            }
+
+            function handleSendQA(queryText) {
+                const q = queryText || (qaUserInput ? qaUserInput.value : '');
+                if (!q || q.trim().length === 0) return;
+
+                audio.playClick();
+                appendQAMessage('user', q.trim());
+                if (qaUserInput) {
+                    qaUserInput.value = '';
+                    qaUserInput.style.height = 'auto';
+                }
+
+                // Dapatkan respon dari MacroQAEngine
+                if (window.macroQAEngine) {
+                    const res = window.macroQAEngine.ask(q.trim());
+                    setTimeout(() => {
+                        if (res.isCheatAttempt) {
+                            audio.playAlert();
+                            appendQAMessage('bot', res.text, true);
+                        } else {
+                            audio.playTick();
+                            appendQAMessage('bot', res.text, false);
+                        }
+                    }, 200);
+                }
+            }
+
+            function initInteractiveQA() {
+                if (!qaChatBox) return;
+
+                // 1. Pesan sambutan awal Asisten Ahli
+                qaChatBox.innerHTML = '';
+                appendQAMessage('bot', `Salam hormat Yang Mulia Teknokrat! Saya <strong>Prof. Makro</strong>, Asisten Ahli Dewan Ekonomi Nasional.<br><br>Saya siap mendampingi Anda di sebelah kiri layar ini selama bermain. Tanyakan konsep, rumus pergerakan kurva, instrumen moneter & fiskal, krisis sejarah, hingga analogi bisnis tanpa perlu berpindah halaman!<br><br>💡 <em>Tips Penggunaan:</em> Anda dapat meng-copas teks ke kolom chat tanpa terkirim otomatis. Tekan <strong>Shift + Enter</strong> untuk membuat paragraf baru, dan klik tombol <strong>Kirim 🚀</strong> untuk memproses.`);
+
+                // 2. Render Quick Chips
+                if (qaChipsContainer && window.macroQAEngine) {
+                    qaChipsContainer.innerHTML = '';
+                    const chips = window.macroQAEngine.getQuickChips();
+                    chips.forEach(chip => {
+                        const btn = document.createElement('button');
+                        btn.className = 'qa-chip-btn';
+                        btn.textContent = chip.label;
+                        btn.onclick = (e) => {
+                            e.stopPropagation();
+                            if (qaUserInput) qaUserInput.value = chip.query;
+                            handleSendQA(chip.query);
+                        };
+                        qaChipsContainer.appendChild(btn);
+                    });
+                }
+
+                // 3. Event listener input bar, proteksi copas (paste) & shortcut Enter/Shift+Enter
+                let isPasting = false;
+
+                if (btnSendQA) {
+                    btnSendQA.onclick = () => handleSendQA();
+                }
+
+                if (qaUserInput) {
+                    // Ketika user copas (paste) teks: JANGAN langsung diproses!
+                    // Biarkan teks masuk ke textarea agar user tetap bisa mengetik pertanyaan lanjutannya.
+                    qaUserInput.addEventListener('paste', () => {
+                        isPasting = true;
+                        setTimeout(() => {
+                            isPasting = false;
+                        }, 300);
+                    });
+
+                    qaUserInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            // Jika Shift + Enter (atau Enter + Shift): buat paragraf/baris baru
+                            if (e.shiftKey) {
+                                return; // Biarkan default textarea membuat newline
+                            }
+                            // Jika masih dalam proses paste: abaikan Enter yang mungkin terbawa dari teks copas
+                            if (isPasting) {
+                                return;
+                            }
+                            // Enter biasa (tanpa Shift): kirim pertanyaan
+                            e.preventDefault();
+                            handleSendQA();
+                        }
+                    });
+                }
+
+                // 4. Collapse / expand toggle button
+                if (btnToggleQASidebarCollapse) {
+                    btnToggleQASidebarCollapse.onclick = (e) => {
+                        e.stopPropagation();
+                        audio.playClick();
+                        toggleQASidebar();
+                    };
+                }
+
+                // 5. Clear chat button
+                if (btnClearQAChat) {
+                    btnClearQAChat.onclick = (e) => {
+                        e.stopPropagation();
+                        audio.playClick();
+                        initInteractiveQA();
+                    };
+                }
+
+                // 6. Expand on clicking collapsed sidebar
+                if (qaSidebar) {
+                    qaSidebar.onclick = () => {
+                        if (qaSidebar.classList.contains('collapsed')) {
+                            audio.playClick();
+                            toggleQASidebar(true);
+                            if (qaUserInput) qaUserInput.focus();
+                        }
+                    };
+                }
+
+                // 7. Nav tab toggle button
+                if (btnNavToggleQA) {
+                    btnNavToggleQA.onclick = () => {
+                        audio.playClick();
+                        if (qaSidebar && qaSidebar.classList.contains('collapsed')) {
+                            toggleQASidebar(true);
+                        }
+                        if (qaUserInput) qaUserInput.focus();
+                        if (qaSidebar) {
+                            qaSidebar.classList.add('question-target-pulse');
+                            setTimeout(() => qaSidebar.classList.remove('question-target-pulse'), 1000);
+                            qaSidebar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    };
+                }
+
+                // 8. Floating button launcher
+                if (btnFloatingQA) {
+                    btnFloatingQA.onclick = () => {
+                        audio.playClick();
+                        toggleQASidebar(true);
+                        if (qaUserInput) qaUserInput.focus();
+                        if (qaSidebar) {
+                            qaSidebar.classList.add('question-target-pulse');
+                            setTimeout(() => qaSidebar.classList.remove('question-target-pulse'), 1000);
+                            qaSidebar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    };
+                }
+            }
+
+            // Inisialisasi Tampilan Awal
+            updateGamerHUD();
+            updateAcademyStepper();
+            renderAcademyModule(engine.academyState.activeModuleId || 1);
+            renderScenariosList();
+            renderEncyclopedia();
+            loadQuizQuestion(0);
+            initInteractiveQA();
+            refreshAllUI();
+        });
+    </script>
+</body>
+</html>
