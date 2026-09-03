@@ -8,19 +8,21 @@ if __name__ == "__main__":
     if base_dir not in sys.path:
         sys.path.insert(0, base_dir)
 
+    from backend.config import APP_BRAND, APP_TITLE, APP_SUBTITLE, SERVER_PORT
+
     print("==============================================================================")
-    print("PUSAT BASIS DATA DATA SEKUNDER: PERGERAKAN EKONOMI INDONESIA")
-    print("GovTech National Secondary Data Platform (Barely-There UI)")
+    print(f"[{APP_BRAND}] {APP_SUBTITLE}")
+    print("GovTech National Secondary Data Platform (Dewan Ekonomi Nasional)")
     print("==============================================================================")
-    print("Starting server at: http://127.0.0.1:8000 (Local) or http://0.0.0.0:8000 (LAN/Public)")
-    print("API Documentation:  http://127.0.0.1:8000/docs")
+    print(f"Starting server at: http://127.0.0.1:{SERVER_PORT} (Local) or http://0.0.0.0:{SERVER_PORT} (LAN/Public)")
+    print(f"API Documentation:  http://127.0.0.1:{SERVER_PORT}/docs")
     print("Press CTRL+C to stop.")
     print("==============================================================================")
 
     uvicorn.run(
         "backend.app:app",
         host="0.0.0.0",
-        port=8000,
+        port=SERVER_PORT,
         reload=False,
         log_level="info"
     )

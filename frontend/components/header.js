@@ -60,20 +60,23 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
     <!-- Main Navigation Header -->
     <header class="bg-white border-b border-[#DADCE0] px-4 lg:px-8 py-3 flex items-center justify-between flex-wrap gap-4">
       <div class="flex items-center gap-3.5">
-        <div class="w-9 h-9 rounded-lg bg-[#E8F0FE] flex items-center justify-center text-[#1A73E8] font-bold text-lg font-mono shadow-xs border border-[#D2E3FC] shrink-0">
-          🇮🇩
+        <div class="w-10 h-10 rounded-lg bg-[#E8F0FE] flex items-center justify-center text-[#1A73E8] font-bold text-xl font-mono shadow-xs border border-[#D2E3FC] shrink-0">
+          🏛️
         </div>
         <div>
           <div class="flex items-center gap-2 flex-wrap">
-            <h1 class="text-lg font-bold text-slate-900 tracking-tight leading-none">
-              Pergerakan Ekonomi Indonesia
+            <h1 class="text-xl font-extrabold text-[#202124] tracking-tight leading-none flex items-center gap-1.5">
+              <span>DEN-DATA</span>
             </h1>
+            <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
+              Dewan Ekonomi Nasional
+            </span>
             <span class="text-[10px] font-mono font-semibold uppercase px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
-              v1.0 Nat-Gov
+              v1.1 Nat-Gov
             </span>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">
-            Pusat Basis Data Data Sekunder & Repositori Statistik Resmi Nasional (Audit Kemenkeu, BPS, Bank Indonesia)
+          <p class="text-xs text-slate-500 mt-1">
+            Pusat Basis Data Sekunder & Repositori Statistik Resmi Nasional (Audit Kemenkeu, BPS, Bank Indonesia)
           </p>
         </div>
       </div>

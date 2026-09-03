@@ -1,184 +1,30 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🌸 Mochi Blocks - Kawaii Cute Tetris 🍡</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=http://localhost:8028/">
+  <title>DEN-DATA — Dewan Ekonomi Nasional</title>
+  <script>
+    if (window.location.port !== '8028') {
+      window.location.replace("http://" + window.location.hostname + ":8028/");
+    } else {
+      window.location.replace("/frontend/index.html");
+    }
+  </script>
 </head>
-<body>
-    <!-- Background Sparkles & Clouds -->
-    <div class="bg-decorations">
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
-        <div class="cloud cloud-3"></div>
+<body style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8f9fa; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+  <div style="background: white; padding: 2.5rem; border-radius: 12px; border: 1px solid #dadce0; text-align: center; max-width: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏛️</div>
+    <h2 style="color: #202124; margin: 0 0 0.5rem 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;">DEN-DATA</h2>
+    <div style="display: inline-block; background: #e8f0fe; color: #1a73e8; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-bottom: 1rem; border: 1px solid #d2e3fc;">
+      DEWAN EKONOMI NASIONAL
     </div>
-
-    <!-- Main Game Wrapper -->
-    <div class="game-wrapper">
-        
-        <!-- Header -->
-        <header class="game-header">
-            <div class="title-section">
-                <span class="title-logo-icon">🍡</span>
-                <div>
-                    <h1 class="game-title">Mochi Blocks</h1>
-                    <p class="game-subtitle">Kawaii Puzzle Adventure ✨</p>
-                </div>
-            </div>
-            <div class="header-controls">
-                <button id="btnMusic" class="icon-btn" title="Musik BGM" aria-label="Toggle BGM">🎵</button>
-                <button id="btnSound" class="icon-btn" title="Suara SFX" aria-label="Toggle SFX">🔊</button>
-                <button id="btnPause" class="kawaii-pause-header-btn" title="Jeda Permainan (P)" aria-label="Pause Game">
-                    <span class="pause-icon">⏸️</span>
-                    <span class="pause-label">JEDA</span>
-                </button>
-                <a href="math_tug.html" class="header-nav-btn" title="Main Tarik Tambang Matematika">
-                    <span>🪢</span> Tarik Tambang
-                </a>
-                <a href="trade_game.html" class="header-nav-btn" title="Main Global Trade Tycoon">
-                    <span>🌐</span> Trade Tycoon
-                </a>
-                <a href="cocok_tanam.html" class="header-nav-btn" title="Buka Portal Cocok Tanam Cuan DEN" style="background:#0f5132; color:#ffffff;">
-                    <span>🌾</span> Cocok Tanam Cuan
-                </a>
-                <a href="macro_game.html" class="header-nav-btn" title="Main Simulasi Ekonomi Makro DEN" style="background:#1e293b; color:#00f2fe; border:1px solid #00f2fe;">
-                    <span>🏛️</span> Ekonomi Makro
-                </a>
-            </div>
-        </header>
-
-        <!-- Main Play Area -->
-        <main class="game-main-area">
-            
-            <!-- Left Side Panel: Hold & Mascot & Pause Action -->
-            <aside class="side-panel left-panel">
-                <div class="kawaii-card">
-                    <div class="card-title"><span>📦</span> HOLD (C)</div>
-                    <canvas id="holdCanvas" class="card-canvas" width="120" height="100"></canvas>
-                </div>
-
-                <div class="kawaii-card mascot-box">
-                    <div id="mascotAvatar" class="mascot-avatar">🐰</div>
-                    <div id="mascotSpeech" class="mascot-speech">Yuk tumpuk mochi! ✨</div>
-                </div>
-
-                <button id="btnSidePause" class="kawaii-action-btn pause-action-btn" title="Jeda Game (P)">
-                    <span>⏸️</span> JEDA GAME
-                </button>
-            </aside>
-
-            <!-- Center Game Board -->
-            <section class="board-container">
-                <div class="board-ears">
-                    <div class="ear left"></div>
-                    <div class="ear right"></div>
-                </div>
-
-                <canvas id="gameBoard" width="300" height="600"></canvas>
-
-                <!-- Start Screen Modal -->
-                <div id="startModal" class="game-modal-overlay active">
-                    <div class="modal-content">
-                        <div class="modal-mascot">🍡</div>
-                        <h2 class="modal-title">Mochi Blocks!</h2>
-                        <p class="modal-desc">Tumpuk mochi-mochi imut dan pecahkan baris untuk skor tertinggi! ✨</p>
-                        <button id="btnStart" class="kawaii-btn">Mulai Main 💖</button>
-                    </div>
-                </div>
-
-                <!-- Pause Screen Modal -->
-                <div id="pauseModal" class="game-modal-overlay">
-                    <div class="modal-content">
-                        <div class="modal-mascot">💤</div>
-                        <h2 class="modal-title">Istirahat Dulu~</h2>
-                        <p class="modal-desc">Mochi sedang tidur santai...</p>
-                        <button id="btnResume" class="kawaii-btn">Lanjutkan ▶️</button>
-                        <button id="btnRestartPause" class="kawaii-btn secondary">Mulai Ulang 🔄</button>
-                    </div>
-                </div>
-
-                <!-- Game Over Screen Modal -->
-                <div id="gameOverModal" class="game-modal-overlay">
-                    <div class="modal-content">
-                        <div class="modal-mascot">🥺</div>
-                        <h2 class="modal-title">Yah, Penuh!</h2>
-                        <div class="score-badge">
-                            <div class="score-badge-label">SKOR AKHIR</div>
-                            <div id="finalScore" class="score-badge-val">0</div>
-                        </div>
-                        <div class="score-badge">
-                            <div class="score-badge-label">🏆 REKOR TERBAIK</div>
-                            <div id="finalHighScore" class="score-badge-val">0</div>
-                        </div>
-                        <button id="btnRestart" class="kawaii-btn">Main Lagi 🌸</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Right Side Panel: Next & Stats -->
-            <aside class="side-panel right-panel">
-                <div class="kawaii-card">
-                    <div class="card-title"><span>👀</span> NEXT</div>
-                    <canvas id="nextCanvas" class="card-canvas" width="120" height="240"></canvas>
-                </div>
-
-                <div class="kawaii-card stat-box">
-                    <div class="stat-item">
-                        <span class="stat-label">⭐ SKOR</span>
-                        <span id="scoreVal" class="stat-value">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">🏆 REKOR</span>
-                        <span id="highScoreVal" class="stat-value">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">🚀 LEVEL</span>
-                        <span id="levelVal" class="stat-value">1</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Lines</span>
-                        <span id="linesVal" class="stat-value">0</span>
-                    </div>
-                </div>
-            </aside>
-
-        </main>
-
-        <!-- Mobile Touch On-Screen Controls -->
-        <div class="mobile-controls">
-            <!-- D-Pad -->
-            <div class="dpad-container">
-                <div></div>
-                <button id="btnTouchRotate" class="touch-btn accent-rotate" aria-label="Rotate">🔄</button>
-                <div></div>
-                <button id="btnTouchLeft" class="touch-btn" aria-label="Move Left">◀️</button>
-                <button id="btnTouchDown" class="touch-btn" aria-label="Soft Drop">🔽</button>
-                <button id="btnTouchRight" class="touch-btn" aria-label="Move Right">▶️</button>
-            </div>
-
-            <!-- Actions -->
-            <div class="actions-container">
-                <button id="btnTouchHold" class="touch-btn accent-hold" aria-label="Hold" title="Hold Piece">📦</button>
-                <button id="btnTouchHardDrop" class="touch-btn accent-harddrop" aria-label="Hard Drop" title="Hard Drop">⚡</button>
-                <button id="btnTouchPause" class="touch-btn accent-pause" aria-label="Pause" title="Jeda Game">⏸️</button>
-            </div>
-        </div>
-
-        <!-- Keyboard Controls Help Bar -->
-        <footer class="keyboard-hints">
-            <span><span class="key-badge">⬅️ ➡️</span> Geser</span>
-            <span><span class="key-badge">⬆️ / X</span> Putar</span>
-            <span><span class="key-badge">⬇️</span> Turun Cepat</span>
-            <span><span class="key-badge">SPASI</span> Hard Drop</span>
-            <span><span class="key-badge">C / Shift</span> Hold</span>
-            <span><span class="key-badge">P</span> Pause</span>
-        </footer>
-
-    </div>
-
-    <!-- Scripts -->
-    <script src="audio.js"></script>
-    <script src="game.js"></script>
+    <p style="color: #5f6368; font-size: 14px; line-height: 1.5; margin: 0 0 1.5rem 0;">
+      Mengarahkan ke <strong>Pusat Basis Data Sekunder Ekonomi Nasional</strong> di port khusus <strong>8028</strong>...
+    </p>
+    <a href="http://localhost:8028/" style="display: inline-block; padding: 10px 20px; background: #1a73e8; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; transition: background 0.2s;">
+      Buka DEN-DATA (Port 8028) &rarr;
+    </a>
+  </div>
 </body>
 </html>

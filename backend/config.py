@@ -12,13 +12,16 @@ STATIC_DIR = BASE_DIR / "frontend"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 # System constants
-APP_TITLE = "Pergerakan Ekonomi Indonesia"
-APP_SUBTITLE = "Pusat Basis Data Data Sekunder Tingkat Nasional"
-APP_VERSION = "1.0.0"
+APP_BRAND = "DEN-DATA"
+APP_TITLE = "DEN-DATA"
+APP_SUBTITLE = "Pusat Basis Data Sekunder Ekonomi Nasional — Dewan Ekonomi Nasional"
+APP_VERSION = "1.1.0"
 GEOGRAPHIC_SCOPE = "Indonesia / National"
+SERVER_PORT = 8028
 
 # Allowed Data Statuses (Strict Governance - NO Estimated / Forecast)
 ALLOWED_STATUSES = ["Observed", "Provisional", "Revised", "N/A", "Validation Failed"]
 
 # Demo Disclaimer Notice
 DEMO_DATA_DISCLAIMER = "DEMO DATA — NOT OFFICIAL DATA. Digunakan semata-mata untuk pengujian dan evaluasi arsitektur sistem."
+

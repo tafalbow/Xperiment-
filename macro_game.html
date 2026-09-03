@@ -155,7 +155,7 @@
             <button class="nav-tab-btn" data-tab="tabHistory"><span>📈</span> Grafik Tren</button>
             <button class="nav-tab-btn" data-tab="tabEncyclopedia"><span>📖</span> Glosarium</button>
             <button class="nav-tab-btn" data-tab="tabQuiz"><span>🏆</span> Ujian Makro</button>
-            <button type="button" id="btnNavToggleQA" class="nav-tab-btn nav-tab-qa-btn" title="Buka / Ciutkan Panel Asisten Ahli"><span>💬</span> Asisten Ahli <span class="badge-tag" style="background:#dcfce7; color:#15803d; font-weight:700;">🟢</span></button>
+            <button class="nav-tab-btn" data-tab="tabEconGames"><span>🎮</span> Eksperimen</button>
         </nav>
 
         <!-- --------------------------------------------------------------------
@@ -163,66 +163,7 @@
              -------------------------------------------------------------------- -->
         <div class="macro-game-layout">
 
-            <!-- ================================================================
-                 SIDEBAR KIRI PERMANEN: TANYA ASISTEN AHLI DEN (DOCK SIDE-BY-SIDE)
-                 ================================================================ -->
-            <aside id="qaPermanentSidebar" class="qa-permanent-sidebar">
-                <!-- Header Sidebar -->
-                <div class="qa-sidebar-header">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <div class="qa-bot-avatar-sm">
-                            <span>🤖</span>
-                            <span class="qa-status-dot-sm" title="Aktif Online"></span>
-                        </div>
-                        <div class="qa-sidebar-title-wrap">
-                            <div style="font-family:var(--font-heading); font-weight:700; font-size:0.96rem; color:var(--text-main); display:flex; align-items:center; gap:6px;">
-                                Prof. Makro
-                                <span class="badge-tag" style="background:#dcfce7; color:#15803d; font-size:0.68rem; padding:2px 6px;">Ahli DEN</span>
-                            </div>
-                            <div style="font-size:0.75rem; color:var(--text-muted);">
-                                Konsultasi Teori & Kebijakan
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:6px;">
-                        <button type="button" id="btnClearQAChat" class="btn-sidebar-icon" title="Bersihkan Obrolan">🗑️</button>
-                        <button type="button" id="btnToggleQASidebarCollapse" class="btn-sidebar-icon" title="Ciutkan / Buka Sidebar">◀</button>
-                    </div>
-                </div>
-
-                <!-- Indikator Vertikal Saat Sidebar Diciutkan -->
-                <div class="qa-sidebar-collapsed-indicator">
-                    <span>💬</span> TANYA AHLI DEN <span>▶</span>
-                </div>
-
-                <!-- Slim Integritas Notice -->
-                <div class="qa-integrity-notice-compact">
-                    <span style="font-size:1.1rem; flex-shrink:0;">🛡️</span>
-                    <div>
-                        <strong>Integritas Akademis:</strong> Asisten siap menjelaskan konsep, rumus & analogi. Jawaban kuis tidak dibocorkan.
-                    </div>
-                </div>
-
-                <!-- Compact Quick Chips -->
-                <div class="qa-quick-chips-compact">
-                    <div class="qa-chips-scroll" id="qaChipsContainer">
-                        <!-- Populated dynamically by JS -->
-                    </div>
-                </div>
-
-                <!-- Chat Messages Box -->
-                <div class="qa-chat-box" id="qaChatBox">
-                    <!-- Populated dynamically by JS -->
-                </div>
-
-                <!-- Compact Input Bar with Multi-line Textarea -->
-                <div class="qa-input-bar">
-                    <textarea id="qaUserInput" class="qa-text-input" rows="2" placeholder="Tanya konsep makro atau copas teks... (Shift+Enter: baris baru, klik Kirim: proses)"></textarea>
-                    <button type="button" id="btnSendQA" class="btn-gavel-primary" style="padding:8px 12px; font-size:0.84rem; flex-shrink:0; align-self:flex-end;">
-                        <span>Kirim</span> 🚀
-                    </button>
-                </div>
-            </aside>
+            
 
             <!-- MAIN CONTENT PANELS (TABS) -->
             <main class="macro-main-content">
@@ -519,6 +460,235 @@
             <!-- ================================================================
                  TAB 2: LABORATORIUM TEORI VISUAL (AD-AS & PHILLIPS LIVE)
                  ================================================================ -->
+            
+            <!-- ================================================================
+                 TAB 1: LAB EKSPERIMEN PASAR (ECONOMICS-GAMES.COM SIMULATION MODE)
+                 ================================================================ -->
+            <section id="tabEconGames" class="view-panel">
+                <div style="margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <div>
+                        <h2 style="font-family:var(--font-heading); color:var(--text-main); font-size:1.3rem; margin:0; display:flex; align-items:center; gap:8px;">
+                            <span>🎮</span> Lab Eksperimen Pasar
+                            <span class="badge-tag" style="background:#e0f2fe; color:#0369a1; font-size:0.75rem;">Economics-Games Mode</span>
+                        </h2>
+                        <p style="color:var(--text-muted); font-size:0.86rem; margin:4px 0 0;">
+                            Eksperimen simulasi pasar interaktif terinspirasi dari <strong>Economics-games.com</strong>: bertindak sebagai pelaku pasar atau pembuat kebijakan, uji teori secara langsung, dan alami pembentukan harga serta guncangan ekonomi!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Sub-tab navigasi game eksperimen -->
+                <div class="econ-game-tab-nav">
+                    <button type="button" class="econ-subtab-btn active" data-econgametab="econBubble">
+                        <span>🫧</span> 1. The Asset Bubble Game (Spekulasi & Crash)
+                    </button>
+                    <button type="button" class="econ-subtab-btn" data-econgametab="econCompetition">
+                        <span>🏭</span> 2. The Market Competition & Capacity Game
+                    </button>
+                    <button type="button" class="econ-subtab-btn" data-econgametab="econMacroShock">
+                        <span>⚡</span> 3. Macro Policy Shock Lab (AD-AS)
+                    </button>
+                </div>
+
+                <!-- AREA GAME 1: THE ASSET BUBBLE GAME -->
+                <div id="econBubblePanel" class="econ-game-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--card-border); padding-bottom:10px;">
+                        <div>
+                            <h3 style="margin:0; font-family:var(--font-heading); color:var(--text-main); font-size:1.1rem; display:flex; align-items:center; gap:6px;">
+                                <span>🫧</span> The Speculative Asset Bubble Game
+                            </h3>
+                            <div style="font-size:0.8rem; color:var(--text-muted);">
+                                Eksperimen klasik Vernon Smith / Economics-games: Perdagangkan aset dividen dalam 6 putaran. Amati pembentukan gelembung dan crash!
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Putaran Pasar</span>
+                                <span class="econ-metric-val" id="bubbleRoundText">1 / 6</span>
+                            </div>
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Saldo Kas</span>
+                                <span class="econ-metric-val" id="bubbleCashText" style="color:#16a34a;">Rp 500.000</span>
+                            </div>
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Kepemilikan Saham</span>
+                                <span class="econ-metric-val" id="bubbleSharesText" style="color:#0284c7;">5 Lot</span>
+                            </div>
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Total Net Worth</span>
+                                <span class="econ-metric-val" id="bubbleNetWorthText" style="color:#9333ea;">Rp 800.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="econ-canvas-box">
+                        <canvas id="bubbleChartCanvas" width="760" height="240" style="width:100%; max-width:760px; height:240px; display:block;"></canvas>
+                    </div>
+
+                    <div class="econ-control-grid">
+                        <div>
+                            <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Keputusan Putaran Ini:</label>
+                            <div style="display:flex; gap:8px;">
+                                <button type="button" id="btnBubbleBuy" class="btn-gavel-primary" style="flex:1; padding:8px 10px; font-size:0.82rem; background:#16a34a; border-color:#15803d;">
+                                    <span>🛒</span> Beli (+2 Saham)
+                                </button>
+                                <button type="button" id="btnBubbleHold" class="btn-gavel-primary" style="flex:1; padding:8px 10px; font-size:0.82rem; background:#475569; border-color:#334155;">
+                                    <span>⏸️</span> Tahan (Hold)
+                                </button>
+                                <button type="button" id="btnBubbleSell" class="btn-gavel-primary" style="flex:1; padding:8px 10px; font-size:0.82rem; background:#dc2626; border-color:#b91c1c;">
+                                    <span>💰</span> Jual (-2 Saham)
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Informasi Nilai:</label>
+                            <div style="font-size:0.82rem; color:var(--text-main); line-height:1.4;">
+                                <div>🎯 Nilai Fundamental: <strong id="bubbleFundValText">Rp 60.000</strong></div>
+                                <div>🏷️ Perkiraan Harga Pasar: <strong id="bubbleMarketValText">Rp 63.000</strong></div>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:flex-end;">
+                            <button type="button" id="btnBubbleReset" class="btn-sidebar-icon" style="width:auto; padding:6px 12px; font-size:0.8rem; border:1px solid var(--card-border);" title="Mulai Ulang Eksperimen">
+                                🔄 Reset Game
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="bubbleLogBox" style="margin-top:10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px; font-size:0.82rem; max-height:120px; overflow-y:auto;">
+                        <div style="font-weight:700; color:var(--text-muted); margin-bottom:4px;">📜 Catatan Perdagangan Bursa:</div>
+                        <div id="bubbleLogContent">Pasar dibuka. Anda memegang modal awal kas Rp 500.000 dan 5 lembar saham. Tentukan keputusan Anda untuk Putaran 1!</div>
+                    </div>
+                </div>
+
+                <!-- AREA GAME 2: THE MARKET COMPETITION & CAPACITY GAME -->
+                <div id="econCompetitionPanel" class="econ-game-card" style="display:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--card-border); padding-bottom:10px;">
+                        <div>
+                            <h3 style="margin:0; font-family:var(--font-heading); color:var(--text-main); font-size:1.1rem; display:flex; align-items:center; gap:6px;">
+                                <span>🏭</span> The Market Competition & Capacity Game
+                            </h3>
+                            <div style="font-size:0.8rem; color:var(--text-muted);">
+                                Simulasi persaingan oligopoli ala Economics-games: Tetapkan kapasitas produksi dan harga jual untuk mengalahkan 3 kompetitor pabrik lain!
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Putaran</span>
+                                <span class="econ-metric-val" id="compRoundText">1 / 5</span>
+                            </div>
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Modal Kas Pabrik</span>
+                                <span class="econ-metric-val" id="compCapitalText" style="color:#16a34a;">Rp 150 Juta</span>
+                            </div>
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Laba Terakhir</span>
+                                <span class="econ-metric-val" id="compLastProfitText" style="color:#0284c7;">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="econ-canvas-box">
+                        <canvas id="compChartCanvas" width="760" height="220" style="width:100%; max-width:760px; height:220px; display:block;"></canvas>
+                    </div>
+
+                    <div class="econ-control-grid">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
+                                <span>Kapasitas Produksi (Q):</span>
+                                <span id="compQtyVal">3.500 Unit</span>
+                            </div>
+                            <input type="range" id="compQtyRange" min="1000" max="8000" step="500" value="3500" style="width:100%;">
+                            <div style="font-size:0.72rem; color:var(--text-muted);">Biaya variabel: Rp 35.000 / unit. Biaya tetap: Rp 40 Juta.</div>
+                        </div>
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
+                                <span>Harga Jual Produk (P):</span>
+                                <span id="compPriceVal">Rp 65.000</span>
+                            </div>
+                            <input type="range" id="compPriceRange" min="30000" max="95000" step="2500" value="65000" style="width:100%;">
+                            <div style="font-size:0.72rem; color:var(--text-muted);">Harga terlalu mahal = pembeli kabur ke kompetitor!</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <button type="button" id="btnCompSubmit" class="btn-gavel-primary" style="flex:1; padding:10px 14px; font-size:0.88rem;">
+                                <span>Produksi & Jual!</span> 🚀
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="compLogBox" style="margin-top:10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px; font-size:0.82rem; max-height:120px; overflow-y:auto;">
+                        <div style="font-weight:700; color:var(--text-muted); margin-bottom:4px;">📊 Laporan Hasil Penjualan:</div>
+                        <div id="compLogContent">Tentukan target kapasitas dan harga jual Anda untuk Putaran 1, lalu klik 'Produksi & Jual!'.</div>
+                    </div>
+                </div>
+
+                <!-- AREA GAME 3: THE MACROECONOMIC POLICY SHOCK LAB -->
+                <div id="econMacroShockPanel" class="econ-game-card" style="display:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--card-border); padding-bottom:10px;">
+                        <div>
+                            <h3 style="margin:0; font-family:var(--font-heading); color:var(--text-main); font-size:1.1rem; display:flex; align-items:center; gap:6px;">
+                                <span>⚡</span> Macro Policy Shock Lab
+                            </h3>
+                            <div style="font-size:0.8rem; color:var(--text-muted);">
+                                Eksperimen respon guncangan makro: Seimbangkan guncangan inflasi vs resesi menggunakan bauran moneter dan fiskal!
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Guncangan Skenario</span>
+                                <span class="econ-metric-val" id="shockRoundText">1 / 4</span>
+                            </div>
+                            <div class="econ-metric-badge">
+                                <span class="econ-metric-label">Evaluasi Kebijakan</span>
+                                <span class="econ-metric-val" id="shockGradeText" style="color:#16a34a;">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="shockBannerBox" style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px; margin:10px 0;">
+                        <div id="shockTitle" style="font-family:var(--font-heading); font-weight:700; color:#991b1b; font-size:0.95rem;">🛢️ Guncangan Pasokan Negatif (Adverse Supply Shock)</div>
+                        <p id="shockDesc" style="margin:4px 0 0; font-size:0.84rem; color:#7f1d1d; line-height:1.45;">Harga minyak mentah dunia melonjak 120%. Biaya produksi pabrik dan transportasi membengkak!</p>
+                    </div>
+
+                    <div class="econ-canvas-box">
+                        <canvas id="shockChartCanvas" width="760" height="220" style="width:100%; max-width:760px; height:220px; display:block;"></canvas>
+                    </div>
+
+                    <div class="econ-control-grid">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
+                                <span>Suku Bunga BI-Rate:</span>
+                                <span id="shockBiRateVal">6.00%</span>
+                            </div>
+                            <input type="range" id="shockBiRateRange" min="3.5" max="10.5" step="0.25" value="6.0" style="width:100%;">
+                        </div>
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
+                                <span>Belanja Negara (G):</span>
+                                <span id="shockGovVal">Rp 3.200 T</span>
+                            </div>
+                            <input type="range" id="shockGovRange" min="2500" max="4500" step="100" value="3200" style="width:100%;">
+                        </div>
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
+                                <span>Tarif Pajak (T):</span>
+                                <span id="shockTaxVal">11.0%</span>
+                            </div>
+                            <input type="range" id="shockTaxRange" min="8.0" max="16.0" step="0.5" value="11.0" style="width:100%;">
+                        </div>
+                        <div style="display:flex; align-items:center;">
+                            <button type="button" id="btnShockExecute" class="btn-gavel-primary" style="width:100%; padding:10px; font-size:0.88rem;">
+                                <span>Jalankan Bauran Kebijakan</span> ⚖️
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="shockResultBox" style="margin-top:10px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px; font-size:0.84rem; display:none;">
+                        <div style="font-weight:700; color:#166534; margin-bottom:4px;">🎯 Hasil Debriefing Bauran Kebijakan:</div>
+                        <div id="shockResultContent"></div>
+                    </div>
+                </div>
+            </section>
+
             <section id="tabLab" class="view-panel">
                 <div class="theory-lab-grid">
                     
@@ -913,9 +1083,7 @@
         </div>
 
         <!-- Floating Quick Launcher Button untuk Konsultasi Asisten Ahli -->
-        <button id="btnFloatingQA" class="btn-floating-qa" title="Buka Konsultasi Tanya Jawab Interaktif">
-            <span>💬</span> Tanya Ahli
-        </button>
+        
 
     </div>
 
@@ -925,7 +1093,8 @@
     <script src="macro_theory.js"></script>
     <script src="macro_audio.js"></script>
     <script src="macro_engine.js"></script>
-    <script src="macro_qa.js"></script>
+    <script src="macro_jargon.js"></script>
+    <script src="macro_econ_games.js"></script>
     <script>
         /**
          * ======================================================================
@@ -2520,7 +2689,7 @@
                     btnClearQAChat.onclick = (e) => {
                         e.stopPropagation();
                         audio.playClick();
-                        initInteractiveQA();
+                        initEconomicsGames();
                     };
                 }
 
@@ -2573,7 +2742,7 @@
             renderScenariosList();
             renderEncyclopedia();
             loadQuizQuestion(0);
-            initInteractiveQA();
+            initEconomicsGames();
             refreshAllUI();
         });
     </script>

@@ -2175,3 +2175,222 @@ html, body {
     border-radius: 8px;
     padding: 4px 6px;
 }
+
+/* ==========================================================================
+   INTERACTIVE ECONOMIC JARGON / TERMS CLICKABLE BADGES
+   ========================================================================== */
+
+.econ-jargon {
+    background: #e0f2fe;
+    color: #0284c7;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border-bottom: 1.5px dashed #0284c7;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-block;
+    line-height: 1.35;
+    text-decoration: none;
+    margin: 0 1px;
+}
+
+.econ-jargon:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-bottom-color: #075985;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+}
+
+.econ-jargon::after {
+    content: " ℹ️";
+    font-size: 0.72em;
+    opacity: 0.75;
+}
+
+.econ-jargon:hover::after {
+    opacity: 1;
+}
+
+/* Jargon Inspector Modal Overlay & Card */
+.jargon-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    animation: fadeInModal 0.2s ease-out;
+}
+
+.jargon-modal-card {
+    background: #ffffff;
+    border: 2px solid var(--card-border);
+    border-radius: 16px;
+    max-width: 650px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    animation: scaleUpModal 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.jargon-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--card-border);
+    background: #f8fafc;
+    border-radius: 16px 16px 0 0;
+}
+
+.jargon-modal-body {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.jargon-section-box {
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+}
+
+.jargon-section-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.jargon-section-desc {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    line-height: 1.55;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUpModal {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   ECONOMICS-GAMES.COM EXPERIMENTAL LAB STYLES
+   ========================================================================== */
+
+.econ-games-hub {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.econ-game-tab-nav {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid var(--card-border);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+}
+
+.econ-subtab-btn {
+    background: #f1f5f9;
+    color: var(--text-muted);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-family: var(--font-heading);
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.econ-subtab-btn:hover {
+    background: #e2e8f0;
+    color: var(--text-main);
+}
+
+.econ-subtab-btn.active {
+    background: linear-gradient(180deg, #38bdf8, #0284c7);
+    color: #ffffff;
+    border-color: #0369a1;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+}
+
+.econ-game-card {
+    background: #ffffff;
+    border: 2px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.econ-canvas-box {
+    background: #0f172a;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12px 0;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.econ-control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.econ-metric-badge {
+    background: #ffffff;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.econ-metric-val {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.econ-metric-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
