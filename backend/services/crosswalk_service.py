@@ -841,3 +841,80 @@ class CrosswalkService:
             "arus_kas": arus_kas,
             "crosswalk_rules": CrosswalkService.get_all_crosswalk_rules()
         }
+
+    @classmethod
+    def get_classification_evolution_document(cls) -> Dict[str, Any]:
+        """
+        Returns full statutory documentation of historical classification changes (Section 13 requirement).
+        Accessible via the clickable info link in dataset headers.
+        """
+        rules = cls.get_all_crosswalk_rules()
+        return {
+            "title": "Dokumen Riwayat & Harmonisasi Perubahan Klasifikasi Anggaran Negara (APBN / LKPP)",
+            "short_title": "Riwayat Klasifikasi APBN",
+            "last_updated": "2026-06-30",
+            "statutory_authority": "Kementerian Keuangan RI • Badan Pemeriksa Keuangan (BPK RI) • Komite Standar Akuntansi Pemerintahan (KSAP)",
+            "executive_summary": (
+                "Untuk menjaga kesinambungan analisis deret waktu (time series) fiskal Indonesia dari tahun 1990 hingga 2026+, "
+                "INDOEKONOMI data menerapkan prinsip penyajian berbasis Klasifikasi Dokumen Terbaru (Bagan Akun Standar / BAS modern sesuai PP 71/2010). "
+                "Seluruh pos anggaran historis sebelum tahun 2005 yang masih menggunakan sistem 'Dual Budgeting' (Belanja Rutin dan Belanja Pembangunan) "
+                "diharmonisasikan secara cermat menggunakan tabel jembatan (crosswalk matrix) tanpa menghilangkan keotentikan dokumen sumber aslinya."
+            ),
+            "eras": [
+                {
+                    "era_id": "ERA-1",
+                    "period_range": "1945 – 2004",
+                    "title": "Era Dual Budgeting (ICW 1925 & UU Perbendaharaan Lama)",
+                    "budget_structure": "Pemisahan tegas antara Belanja Rutin (Operasional) dan Belanja Pembangunan (Proyek Fisik & Bantuan Teknis).",
+                    "key_features": [
+                        "Dua dokumen terpisah: DIK (Daftar Isian Kegiatan) untuk rutin dan DIP (Daftar Isian Proyek) untuk pembangunan.",
+                        "Bantuan luar negeri dan pinjaman proyek dicatat terpisah dalam anggaran pembangunan.",
+                        "Belanja modal bercampur dengan biaya seminar, perjalanan dinas, dan honorarium proyek di bawah pos 'Belanja Pembangunan'."
+                    ],
+                    "challenges": "Terjadinya tumpang tindih alokasi belanja operasional dan belanja investasi serta inefisiensi pengawasan fiskal."
+                },
+                {
+                    "era_id": "ERA-2",
+                    "period_range": "2005 – 2009",
+                    "title": "Era Unifikasi Anggaran & Reformasi Keuangan Negara (UU 17/2003 & UU 1/2004)",
+                    "budget_structure": "Penyatuan anggaran ke dalam 1 dokumen DIPA (Daftar Isian Pelaksanaan Anggaran) dengan klasifikasi ekonomi 8 pos.",
+                    "key_features": [
+                        "Klasifikasi belanja menurut 8 jenis belanja ekonomi: Pegawai (51), Barang (52), Modal (53), Bunga (54), Subsidi (55), Hibah (56), Bansos (57), dan Lain-lain (58).",
+                        "Pemisahan belanja pemerintah pusat dengan Transfer ke Daerah (TKD) pasca desentralisasi fiskal (UU 33/2004).",
+                        "Penerapan Klasifikasi Fungsional (11 Fungsi Pelayanan Publik) selaras standar IMF Government Finance Statistics (GFS).",
+                    ],
+                    "challenges": "Transisi pencatatan akuntansi dari sistem kas murni ke penatausahaan aset negara."
+                },
+                {
+                    "era_id": "ERA-3",
+                    "period_range": "2010 – 2014",
+                    "title": "Era Akuntansi Kas Menuju Akrual (PP 24/2005)",
+                    "budget_structure": "LRA berbasis kas, Neraca dan Aset Tetap berbasis akrual historis.",
+                    "key_features": [
+                        "Penerbitan Neraca Pemerintah Pusat Audited BPK RI secara konsisten.",
+                        "Rekonsiliasi nasional BMN (Barang Milik Negara) untuk mencatat kapitalisasi Belanja Modal sejak era pembangunan fisik.",
+                        "Laporan Arus Kas (LAK) resmi disajikan mendampingi LRA."
+                    ],
+                    "challenges": "Perbedaan waktu pengakuan antara beban operasional dan kas keluar."
+                },
+                {
+                    "era_id": "ERA-4",
+                    "period_range": "2015 – Sekarang",
+                    "title": "Era SAP Akrual Penuh & Bagan Akun Standar Modern (PP 71/2010 & PMK 214/2013)",
+                    "budget_structure": "Konsolidasi 7 Laporan Keuangan Wajib: LRA, LP-SAL, Neraca, LO (Laporan Operasional), LAK, LPE, dan CaLK.",
+                    "key_features": [
+                        "Bagan Akun Standar (BAS) 6 digit yang menyatukan perencanaan anggaran, pelaksanaan, dan akuntansi pelaporan.",
+                        "Laporan Operasional (LO) mencatat hak dan kewajiban secara akrual penuh, sedangkan LRA mengukur realisasi anggaran berbasis kas.",
+                        "Klasifikasi modern ini menjadi baseline penyajian seluruh data fiskal pada platform INDOEKONOMI data."
+                    ],
+                    "challenges": "Kompleksitas konsolidasi puluhan ribu satuan kerja kementerian/lembaga nasional."
+                }
+            ],
+            "crosswalk_rules": rules,
+            "methodology_notes": (
+                "Aturan Harmonisasi INDOEKONOMI data: "
+                "1) Setiap angka belanja pembangunan fisik pra-2005 dialokasikan ke Belanja Modal (Akun 53) setelah dikurangi porsi honor/perjalanan dinas yang dialihkan ke Belanja Barang (Akun 52). "
+                "2) Pembayaran bunga pinjaman proyek dipisahkan ke Beban Bunga (Akun 54). "
+                "3) Data ditampilkan menggunakan label klasifikasi modern, namun setiap baris data historis menyimpan tautan ke dokumen APBN/LKPP sumber aslinya dengan nomor halaman dan tabel referensi lengkap."
+            )
+        }

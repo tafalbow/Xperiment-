@@ -65,24 +65,36 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
         </div>
         <div>
           <div class="flex items-center gap-2 flex-wrap">
-            <h1 class="text-xl font-extrabold text-[#202124] tracking-tight leading-none flex items-center gap-1.5">
-              <span>DEN-DATA</span>
+            <h1 class="text-xl font-extrabold text-[#1A73E8] tracking-tight leading-none flex items-center gap-2">
+              <span>INDOEKONOMI data</span>
             </h1>
             <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
-              Dewan Ekonomi Nasional
+              indoekonomi.data.go.id
             </span>
             <span class="text-[10px] font-mono font-semibold uppercase px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
-              v1.1 Nat-Gov
+              Dewan Ekonomi Nasional
             </span>
           </div>
           <p class="text-xs text-slate-500 mt-1">
-            Pusat Basis Data Sekunder & Repositori Statistik Resmi Nasional (Audit Kemenkeu, BPS, Bank Indonesia)
+            Indonesia Economic Data Observatory • Repositori Resmi Statutori Dewan Ekonomi Nasional RI
           </p>
         </div>
       </div>
 
-      <!-- Action Navigation Buttons -->
+      <!-- Action Navigation Buttons & Global Search Trigger -->
       <div class="flex items-center gap-2 flex-wrap">
+        <!-- Global Search Persistent Trigger (Section 5) -->
+        <button id="btn-header-global-search" class="px-3 py-1.5 rounded bg-[#F1F3F4] hover:bg-[#E8EAED] text-[#3C4043] border border-[#DADCE0] text-xs font-mono flex items-center gap-2 transition-all cursor-pointer shadow-2xs">
+          <span>🔍</span>
+          <span class="hidden sm:inline font-sans">Pencarian Observatorium...</span>
+          <kbd class="text-[9.5px] bg-white border border-[#BDC1C6] px-1.5 py-0.5 rounded shadow-2xs">Ctrl+K</kbd>
+        </button>
+
+        <button id="btn-header-crosswalk-doc" class="gov-btn text-xs font-medium bg-[#E8F0FE] text-[#1A73E8] border-[#D2E3FC]">
+          <span>ℹ️</span>
+          <span>Riwayat Klasifikasi APBN</span>
+        </button>
+
         <button id="btn-header-dict" class="gov-btn text-xs font-medium">
           <svg class="w-3.5 h-3.5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           Kamus Metadata
@@ -106,6 +118,12 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
     </header>
   `;
 
+  document.getElementById('btn-header-global-search')?.addEventListener('click', () => {
+    ModalManager.showGlobalSearchModal();
+  });
+  document.getElementById('btn-header-crosswalk-doc')?.addEventListener('click', () => {
+    ModalManager.showClassificationDocumentModal();
+  });
   document.getElementById('btn-header-dict')?.addEventListener('click', onOpenDictionary);
   document.getElementById('btn-header-registry')?.addEventListener('click', onOpenRegistry);
   document.getElementById('btn-header-crosswalk')?.addEventListener('click', onOpenCrosswalk);

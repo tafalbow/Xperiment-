@@ -176,6 +176,58 @@ export const ApiClient = {
     const res = await fetch(`${API_BASE}/api/commodities/spatial-distribution?commodity_id=${encodeURIComponent(commodityId)}&variable=${encodeURIComponent(variable)}`);
     if (!res.ok) throw new Error('Gagal memuat data sebaran spasial GeoMap komoditas.');
     return await res.json();
+  },
+
+  async fetchGlobalSearch(query, limit = 15) {
+    const res = await fetch(`${API_BASE}/api/search/global?q=${encodeURIComponent(query)}&limit=${limit}`);
+    if (!res.ok) throw new Error('Gagal melakukan pencarian global.');
+    return await res.json();
+  },
+
+  async fetchDatasets() {
+    const res = await fetch(`${API_BASE}/api/datasets`);
+    if (!res.ok) throw new Error('Gagal memuat daftar dataset analitik.');
+    return await res.json();
+  },
+
+  async fetchClassificationDocument() {
+    const res = await fetch(`${API_BASE}/api/crosswalk/document`);
+    if (!res.ok) throw new Error('Gagal memuat dokumen riwayat klasifikasi anggaran.');
+    return await res.json();
+  },
+
+  async fetchAgriculturalCalendar(params = {}) {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && v !== '') {
+        query.append(k, v);
+      }
+    });
+    const res = await fetch(`${API_BASE}/api/agricultural-calendar?${query.toString()}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: Gagal memuat kalender musim tanam`);
+    const cType = res.headers.get('content-type') || '';
+    if (!cType.includes('application/json')) {
+      throw new Error('Respons backend bukan format JSON valid');
+    }
+    return await res.json();
+  },
+
+  async fetchAgriculturalCalendarSummary() {
+    const res = await fetch(`${API_BASE}/api/agricultural-calendar/summary`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: Gagal memuat ringkasan kalender`);
+    const cType = res.headers.get('content-type') || '';
+    if (!cType.includes('application/json')) {
+      throw new Error('Respons backend bukan format JSON valid');
+    }
+    return await res.json();
+  },
+
+  getDownloadUrl(datasetId, format = 'xlsx', email = null, indicatorId = null) {
+    const query = new URLSearchParams();
+    query.append('format', format);
+    if (email) query.append('email', email);
+    if (indicatorId) query.append('indicator_id', indicatorId);
+    return `${API_BASE}/api/download/${encodeURIComponent(datasetId)}?${query.toString()}`;
   }
 };
 

@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEN-DATA — Pusat Basis Data Sekunder Ekonomi Nasional</title>
+  <title>INDOEKONOMI data — Indonesia Economic Data Observatory (indoekonomi.data.go.id)</title>
+  <meta name="description" content="INDOEKONOMI data — Indonesia Economic Data Observatory (indoekonomi.data.go.id)">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,7 +20,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <!-- Custom GovTech Barely-There UI Stylesheet (Cache-Busted) -->
-  <link rel="stylesheet" href="/static/styles/style.css?v=7.0.0">
+  <link rel="stylesheet" href="/static/styles/style.css?v=7.1.0">
 </head>
 <body class="bg-[#F8F9FA] text-[#202124] min-h-screen flex flex-col antialiased selection:bg-[#E8F0FE] selection:text-[#1A73E8]">
 
@@ -32,19 +33,32 @@
     <!-- 2. FIX SEARCH BAR: Persistent Full-Width Search & Quick Filter Pills -->
     <div id="global-search-container" class="w-full"></div>
 
-    <!-- MAIN APP NAVIGATION TABS (Google Analytics Clean Style) -->
+    <!-- MAIN APP NAVIGATION TABS (Section 3: 7 Primary Sections) -->
     <div class="flex items-center justify-between border-b border-[#DADCE0] pb-1 flex-wrap gap-2">
       <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-thin" role="tablist" aria-label="Navigasi Utama Basis Data">
+        <!-- 1. Home -->
         <button 
-          id="tab-btn-analytics" 
+          id="tab-btn-home" 
           role="tab" 
           aria-selected="true"
           class="px-3.5 py-1.5 text-xs font-mono font-bold rounded-t border-b-2 border-[#1A73E8] bg-white text-[#1A73E8] shadow-2xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+        >
+          <span>🏠</span>
+          <span>Home</span>
+        </button>
+
+        <!-- 2. Economic Indicators -->
+        <button 
+          id="tab-btn-analytics" 
+          role="tab" 
+          aria-selected="false"
+          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
         >
           <span>📊</span>
           <span>Indikator Ekonomi</span>
         </button>
 
+        <!-- 3. Agriculture / Plantation / Livestock -->
         <button 
           id="tab-btn-agri" 
           role="tab" 
@@ -52,27 +66,51 @@
           class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
         >
           <span>🌾</span>
-          <span>Pertanian, Perkebunan & Peternakan</span>
+          <span>Pertanian & Peternakan</span>
         </button>
 
+        <!-- 4. Agricultural Calendar -->
         <button 
-          id="tab-btn-mine" 
+          id="tab-btn-calendar" 
+          role="tab" 
+          aria-selected="false"
+          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+        >
+          <span>📅</span>
+          <span>Kalender Pertanian</span>
+        </button>
+
+        <!-- 5. Production / Output -->
+        <button 
+          id="tab-btn-production" 
           role="tab" 
           aria-selected="false"
           class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
         >
           <span>⛏️</span>
-          <span>Hasil Bumi</span>
+          <span>Produksi & Hasil Bumi</span>
         </button>
 
+        <!-- 6. Data Source Catalog -->
         <button 
           id="tab-btn-inventory" 
           role="tab" 
           aria-selected="false"
           class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
         >
-          <span>📅</span>
+          <span>📑</span>
           <span>Katalog Sumber Data</span>
+        </button>
+
+        <!-- 7. About -->
+        <button 
+          id="tab-btn-about" 
+          role="tab" 
+          aria-selected="false"
+          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+        >
+          <span>ℹ️</span>
+          <span>Tentang (About)</span>
         </button>
       </div>
 
@@ -83,27 +121,32 @@
       </div>
     </div>
 
-    <!-- TAB 1: DASBOR ANALITIK & TREN (Frontpage 2-Column Wireframe Grid) -->
-    <div id="tab-content-analytics" class="space-y-4">
+    <!-- TAB 1: HOME (Observatory Pulse, Headline Metrics & Quick Discovery) -->
+    <div id="tab-content-home" class="space-y-4">
+      <section id="home-view-container" aria-label="Observatorium Ekonomi Nasional"></section>
+    </div>
+
+    <!-- TAB 2: DASBOR ANALITIK & TREN INDIKATOR EKONOMI -->
+    <div id="tab-content-analytics" class="hidden space-y-4">
       
       <!-- ROW 1: 2-COLUMN BALANCED MAIN LAYOUT (Aligned Left Sidebar vs Right Chart & KPI) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
         
-        <!-- KOLOM KIRI (Sidebar): Filtering, Tab Sumber Data & Contact Person (Bottom aligned with KPI Metrics) -->
+        <!-- KOLOM KIRI (Sidebar): Filtering, Tab Sumber Data & Contact Person -->
         <aside class="lg:col-span-4 xl:col-span-3.5 flex flex-col justify-between space-y-3 h-full">
           <!-- 1. Filtering Section (4 Financial Hierarchy Levels, Sources, Period Range) -->
           <section id="filter-panel-container" aria-label="Filtering Section"></section>
 
-          <!-- 2. Tab Kompilasi Sumber Data + 3. Contact Person & Helpdesk (Pinned to Bottom) -->
+          <!-- 2. Tab Kompilasi Sumber Data + 3. Contact Person & Helpdesk -->
           <section id="sidebar-extras-container" class="mt-auto" aria-label="Sidebar Extras"></section>
         </aside>
 
-        <!-- KOLOM KANAN (Main Analytics): Chart Area & Ringkasan Metrik Deskriptif (KPI Reference Baseline) -->
+        <!-- KOLOM KANAN (Main Analytics): Chart Area & Ringkasan Metrik Deskriptif -->
         <div class="lg:col-span-8 xl:col-span-8.5 flex flex-col justify-between space-y-3 h-full">
           <!-- 1. Chart Area (Multi-Variable Comparison, Transformations YOY/MOM/AVG, Dual Axis, Callouts, Excel Download) -->
           <section id="chart-module-container" aria-label="Chart Area"></section>
 
-          <!-- 2. RINGKASAN METRIK DESKRIPTIF NASIONAL (Bottom Reference Baseline for Contact Person) -->
+          <!-- 2. RINGKASAN METRIK DESKRIPTIF NASIONAL -->
           <div class="space-y-1.5 mt-auto">
             <div class="flex items-center justify-between border-b border-slate-200 pb-1">
               <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -121,16 +164,29 @@
       <!-- ROW 2: GEO EKONOMI AREA (Contextual Regional Driver & Interactive GIS Map) -->
       <section id="contextual-map-container" class="pt-1" aria-label="Geo Ekonomi Area"></section>
 
+      <!-- ROW 3: COMPACT DATA GRID -->
+      <section id="data-grid-container" class="pt-1" aria-label="Data Grid"></section>
+
     </div>
 
-    <!-- TAB 2: KATALOG INVENTORI VARIABEL & JADWAL RILIS -->
+    <!-- TAB 3 & 5: NERACA KOMODITAS, PERTANIAN, PETERNAKAN & HASIL BUMI -->
+    <div id="tab-content-commodities" class="hidden space-y-4">
+      <!-- Injected by CommodityTrackerComponent -->
+    </div>
+
+    <!-- TAB 4: KALENDER MUSIM TANAM & POLA PANEN -->
+    <div id="tab-content-calendar" class="hidden space-y-4">
+      <section id="agri-calendar-container" aria-label="Kalender Pertanian Nasional"></section>
+    </div>
+
+    <!-- TAB 6: KATALOG INVENTORI VARIABEL & JADWAL RILIS -->
     <div id="tab-content-inventory" class="hidden space-y-4">
       <section id="variables-inventory-container" aria-label="Katalog Variabel & Jadwal Rilis Data"></section>
     </div>
 
-    <!-- TAB 3: NERACA KOMODITAS, PANGAN & HASIL BUMI -->
-    <div id="tab-content-commodities" class="hidden space-y-4">
-      <!-- Injected by CommodityTrackerComponent -->
+    <!-- TAB 7: ABOUT & TATA KELOLA STATUTORI -->
+    <div id="tab-content-about" class="hidden space-y-4">
+      <section id="about-view-container" aria-label="Tentang INDOEKONOMI data"></section>
     </div>
 
     <!-- ============================================================== -->

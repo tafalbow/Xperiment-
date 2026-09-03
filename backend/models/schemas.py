@@ -23,12 +23,35 @@ class SourceBase(BaseModel):
 class SourceResponse(SourceBase):
     pass
 
+# 1.1 Institution Models
+class InstitutionResponse(BaseModel):
+    id: str
+    code: str
+    name: str
+    short_name: str
+    institution_type: str
+    website_url: str
+    contact_email: Optional[str] = None
+
+# 1.2 Source Document Models
+class SourceDocumentResponse(BaseModel):
+    id: str
+    publication_id: str
+    document_title: str
+    document_type: str
+    edition: Optional[str] = None
+    file_type: str
+    file_url: str
+    access_status: str = "PUBLIC_DOWNLOAD_OPEN"
+    source_page_count: Optional[int] = None
+
 # 2. Publication Models
 class PublicationBase(BaseModel):
     id: str
     source_id: str
     publication_title: str
     document_number: Optional[str] = None
+    series_name: Optional[str] = None
     publication_date: str
     edition_period: str
     document_url: str
@@ -45,6 +68,17 @@ class DatasetResponse(BaseModel):
     sector: str
     category: str
     description: Optional[str] = None
+    access_status: str = "PUBLIC_DOWNLOAD_OPEN"
+    download_allowed: bool = True
+    download_requires_login: bool = False
+    license_type: Optional[str] = "Government Open Data (Pemerintah RI)"
+    access_notes: Optional[str] = None
+    latest_period: Optional[str] = None
+    latest_value: Optional[float] = None
+    latest_status: Optional[str] = None
+    frequency: Optional[str] = "Tahunan"
+    unit: Optional[str] = None
+    coverage: Optional[str] = "Indonesia / National"
 
 class IndicatorResponse(BaseModel):
     id: str
@@ -111,9 +145,12 @@ class ObservationItem(BaseModel):
     source_url: Optional[str] = None
     data_owner: Optional[str] = None
     page_reference: Optional[str] = None
-    table_reference: Optional[str] = None
     version_id: int = 1
     is_current: int = 1
+    provenance_id: Optional[str] = None
+    extraction_method: Optional[str] = None
+    transformation_status: Optional[str] = None
+    notes: Optional[str] = None
     updated_at: Optional[str] = None
 
 class ObservationQueryFilter(BaseModel):
@@ -185,7 +222,8 @@ class ClassificationCrosswalkItem(BaseModel):
     mapping_rule: str
     effective_start_year: int
     effective_end_year: int
-    source_id: str
+    source_id: Optional[str] = "SRC-KEMENKEU-LKPP"
+    source_institution: Optional[str] = "Kementerian Keuangan RI"
     transformation_note: str
     mapping_version: str
 
@@ -252,3 +290,50 @@ class IngestionBatchRequest(BaseModel):
     source_id: str
     connector_type: str
     records: List[IngestionRecord]
+
+# 12. Global Search Model (5 Distinct Entity Types - Section 5)
+class GlobalSearchResultItem(BaseModel):
+    id: str
+    entity_type: str           # 'dataset', 'indicator', 'publication', 'source_document', 'institution'
+    title: str
+    subtitle: Optional[str] = None
+    snippet: Optional[str] = None
+    sector: Optional[str] = None
+    institution: Optional[str] = None
+    url: Optional[str] = None
+    access_status: Optional[str] = None
+    extra: Optional[Dict[str, Any]] = None
+
+class GlobalSearchResponse(BaseModel):
+    query: str
+    total_matches: int
+    datasets: List[GlobalSearchResultItem] = []
+    indicators: List[GlobalSearchResultItem] = []
+    publications: List[GlobalSearchResultItem] = []
+    source_documents: List[GlobalSearchResultItem] = []
+    institutions: List[GlobalSearchResultItem] = []
+
+# 13. Agricultural Seasonal Calendar Model
+class AgriculturalCalendarItem(BaseModel):
+    id: int
+    commodity_id: str
+    commodity_name: str
+    crop_category: str
+    month: int
+    month_name: str
+    season_stage: str
+    activity_intensity: str
+    production_share_pct: float
+    key_regions: str
+    agroclimatic_factors: Optional[str] = None
+    source_document: Optional[str] = None
+
+# 14. Classification History Document Model (Section 13)
+class ClassificationDocumentResponse(BaseModel):
+    title: str
+    last_updated: str
+    statutory_authority: str
+    executive_summary: str
+    eras: List[Dict[str, Any]]
+    crosswalk_rules: List[ClassificationCrosswalkItem]
+    methodology_notes: str

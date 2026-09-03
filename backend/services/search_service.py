@@ -215,6 +215,11 @@ class SearchService:
                     s.data_owner,
                     o.page_reference,
                     o.table_reference,
+                    COALESCE(o.provenance_id, 'PRV-' || o.indicator_id || '-' || o.period) as provenance_id,
+                    COALESCE(o.publication_date, p.publication_date) as publication_date,
+                    COALESCE(o.extraction_method, 'Extracted and harmonized by INDOEKONOMI data from official source') as extraction_method,
+                    COALESCE(o.transformation_status, 'Harmonized Standard') as transformation_status,
+                    o.notes,
                     o.updated_at
                 FROM observations o
                 JOIN indicators i ON o.indicator_id = i.id
@@ -311,4 +316,205 @@ class SearchService:
                 "national_mean": mean_val,
                 "total_observed_periods": len(valid_nums),
                 "missing_periods_count": missing_count
+            }
+
+    @staticmethod
+    def get_datasets() -> List[Dict[str, Any]]:
+        """Returns all registered thematic datasets with access status and latest observations."""
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT 
+                    d.id, 
+                    d.code, 
+                    d.name, 
+                    d.sector, 
+                    d.category, 
+                    d.description,
+                    COALESCE(d.access_status, 'PUBLIC_DOWNLOAD_OPEN') as access_status,
+                    COALESCE(d.download_allowed, 1) as download_allowed,
+                    COALESCE(d.download_requires_login, 0) as download_requires_login,
+                    COALESCE(d.license_type, 'Government Open Data (Pemerintah RI)') as license_type,
+                    COALESCE(d.latest_period, '2026') as latest_period,
+                    d.latest_value,
+                    COALESCE(d.latest_status, 'APPROVED') as latest_status,
+                    COALESCE(d.frequency, 'Tahunan') as frequency,
+                    COALESCE(d.unit, 'Triliun Rupiah') as unit,
+                    COALESCE(d.coverage, 'Indonesia / National') as coverage
+                FROM datasets d
+                ORDER BY d.sector, d.name
+            """)
+            return [dict(r) for r in cur.fetchall()]
+
+    @staticmethod
+    def global_search(query: str, limit: int = 15) -> Dict[str, Any]:
+        """
+        Executes unified search across 5 distinct entity types (Section 5):
+        1. Datasets
+        2. Indicators
+        3. Publications
+        4. Source Documents
+        5. Institutions
+        """
+        cleaned_query = query.strip()
+        if not cleaned_query:
+            return {
+                "query": "",
+                "total_matches": 0,
+                "datasets": [],
+                "indicators": [],
+                "publications": [],
+                "source_documents": [],
+                "institutions": []
+            }
+
+        kw = f"%{cleaned_query}%"
+        with get_db() as conn:
+            cur = conn.cursor()
+
+            # 1. DATASETS
+            cur.execute("""
+                SELECT 
+                    id, 
+                    name as title, 
+                    category as subtitle, 
+                    sector, 
+                    description as snippet,
+                    COALESCE(access_status, 'PUBLIC_DOWNLOAD_OPEN') as access_status
+                FROM datasets
+                WHERE name LIKE ? OR code LIKE ? OR sector LIKE ? OR category LIKE ? OR description LIKE ?
+                LIMIT ?
+            """, [kw, kw, kw, kw, kw, limit])
+            datasets = [
+                {
+                    "id": r["id"],
+                    "entity_type": "dataset",
+                    "title": r["title"],
+                    "subtitle": f"{r['sector']} • {r['subtitle']}",
+                    "snippet": r["snippet"] or "Koleksi dataset analitik ekonomi nasional terharmonisasi.",
+                    "sector": r["sector"],
+                    "access_status": r["access_status"]
+                }
+                for r in cur.fetchall()
+            ]
+
+            # 2. INDICATORS
+            cur.execute("""
+                SELECT 
+                    i.id, 
+                    i.name as title, 
+                    i.unique_variable_code as subtitle, 
+                    d.sector, 
+                    m.publishing_institution as institution,
+                    m.definition as snippet
+                FROM indicators i
+                JOIN datasets d ON i.dataset_id = d.id
+                LEFT JOIN metadata m ON i.id = m.indicator_id
+                WHERE i.name LIKE ? OR i.unique_variable_code LIKE ? OR d.sector LIKE ? OR m.definition LIKE ?
+                LIMIT ?
+            """, [kw, kw, kw, kw, limit])
+            indicators = [
+                {
+                    "id": r["id"],
+                    "entity_type": "indicator",
+                    "title": r["title"],
+                    "subtitle": f"{r['subtitle']} • {r['sector']}",
+                    "snippet": (r["snippet"][:150] + "...") if r["snippet"] and len(r["snippet"]) > 150 else (r["snippet"] or "Variabel indikator statistik ekonomi nasional."),
+                    "sector": r["sector"],
+                    "institution": r["institution"]
+                }
+                for r in cur.fetchall()
+            ]
+
+            # 3. PUBLICATIONS
+            cur.execute("""
+                SELECT 
+                    p.id, 
+                    p.publication_title as title, 
+                    p.document_number as subtitle, 
+                    p.edition_period,
+                    p.publication_date,
+                    s.institution_name as institution,
+                    p.document_url as url
+                FROM publications p
+                JOIN sources s ON p.source_id = s.id
+                WHERE p.publication_title LIKE ? OR p.document_number LIKE ? OR p.edition_period LIKE ? OR s.institution_name LIKE ?
+                LIMIT ?
+            """, [kw, kw, kw, kw, limit])
+            publications = [
+                {
+                    "id": r["id"],
+                    "entity_type": "publication",
+                    "title": r["title"],
+                    "subtitle": f"{r['subtitle'] or ''} ({r['edition_period']})",
+                    "snippet": f"Diterbitkan oleh {r['institution']} pada {r['publication_date']}.",
+                    "institution": r["institution"],
+                    "url": r["url"]
+                }
+                for r in cur.fetchall()
+            ]
+
+            # 4. SOURCE DOCUMENTS
+            source_documents = []
+            try:
+                cur.execute("""
+                    SELECT 
+                        sd.id, 
+                        sd.document_title as title, 
+                        sd.document_type as subtitle, 
+                        sd.file_type, 
+                        sd.file_url as url,
+                        p.publication_title
+                    FROM source_documents sd
+                    JOIN publications p ON sd.publication_id = p.id
+                    WHERE sd.document_title LIKE ? OR sd.document_type LIKE ?
+                    LIMIT ?
+                """, [kw, kw, limit])
+                source_documents = [
+                    {
+                        "id": r["id"],
+                        "entity_type": "source_document",
+                        "title": r["title"],
+                        "subtitle": f"{r['subtitle']} [{r['file_type']}]",
+                        "snippet": f"Dokumen lampiran resmi dari {r['publication_title']}.",
+                        "url": r["url"]
+                    }
+                    for r in cur.fetchall()
+                ]
+            except Exception:
+                pass
+
+            # 5. INSTITUTIONS
+            cur.execute("""
+                SELECT DISTINCT 
+                    institution_name as title, 
+                    institution_type as subtitle, 
+                    data_owner as snippet,
+                    source_url as url
+                FROM sources
+                WHERE institution_name LIKE ? OR institution_type LIKE ? OR dataset_name LIKE ?
+                LIMIT ?
+            """, [kw, kw, kw, limit])
+            institutions = [
+                {
+                    "id": f"INST-{r['title'].replace(' ', '-').upper()}",
+                    "entity_type": "institution",
+                    "title": r["title"],
+                    "subtitle": r["subtitle"],
+                    "snippet": f"Otoritas penerbit data statistik resmi: {r['snippet']}.",
+                    "url": r["url"]
+                }
+                for r in cur.fetchall()
+            ]
+
+            total_matches = len(datasets) + len(indicators) + len(publications) + len(source_documents) + len(institutions)
+
+            return {
+                "query": cleaned_query,
+                "total_matches": total_matches,
+                "datasets": datasets,
+                "indicators": indicators,
+                "publications": publications,
+                "source_documents": source_documents,
+                "institutions": institutions
             }

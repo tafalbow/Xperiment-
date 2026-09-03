@@ -1,11 +1,22 @@
 import os
 from typing import Optional, List, Dict, Any
-from fastapi import FastAPI, HTTPException, Query, BackgroundTasks
+from fastapi import FastAPI, HTTPException, Query, BackgroundTasks, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 
-from backend.config import APP_TITLE, APP_SUBTITLE, APP_VERSION, DEMO_DATA_DISCLAIMER, STATIC_DIR
+from backend.config import (
+    APP_BRAND,
+    APP_WEB_IDENTIFIER,
+    APP_DOMAIN,
+    APP_TITLE,
+    APP_SUBTITLE,
+    APP_VERSION,
+    DEMO_DATA_DISCLAIMER,
+    STATIC_DIR,
+    DEFAULT_WINDOW_MONTHLY,
+    DEFAULT_WINDOW_ANNUAL
+)
 from backend.models.schemas import (
     ObservationListResponse,
     KPISummaryResponse,
@@ -16,7 +27,11 @@ from backend.models.schemas import (
     ClassificationCrosswalkItem,
     ValidationLogItem,
     UpdateLogItem,
-    IngestionBatchRequest
+    IngestionBatchRequest,
+    GlobalSearchResponse,
+    DatasetResponse,
+    AgriculturalCalendarItem,
+    ClassificationDocumentResponse
 )
 from backend.services.search_service import SearchService
 from backend.services.metadata_service import MetadataService
@@ -24,11 +39,13 @@ from backend.services.crosswalk_service import CrosswalkService
 from backend.services.audit_service import AuditService
 from backend.services.sync_schedule_service import SyncScheduleService
 from backend.services.commodity_service import CommodityService
+from backend.services.agri_calendar_service import AgriCalendarService
+from backend.services.export_service import ExportService
 from backend.ingestion.pipeline import IngestionPipeline
 
 app = FastAPI(
-    title=APP_TITLE,
-    description=f"{APP_SUBTITLE}. Repositori Terpusat Data Sekunder Nasional Indonesia. {DEMO_DATA_DISCLAIMER}",
+    title=f"{APP_BRAND} — {APP_WEB_IDENTIFIER}",
+    description=f"{APP_TITLE} ({APP_DOMAIN}). Repositori Terpusat Data Sekunder Nasional Indonesia. {DEMO_DATA_DISCLAIMER}",
     version=APP_VERSION
 )
 
@@ -51,6 +68,9 @@ def health_check():
     return {
         "status": "HEALTHY",
         "app_name": APP_TITLE,
+        "brand": APP_BRAND,
+        "web_identifier": APP_WEB_IDENTIFIER,
+        "domain": APP_DOMAIN,
         "subtitle": APP_SUBTITLE,
         "version": APP_VERSION,
         "geographic_scope": "Indonesia / National",
@@ -61,8 +81,28 @@ def health_check():
     }
 
 # ------------------------------------------------------------------------------
-# 2. FILTERING & SEARCH
+# 2. GLOBAL SEARCH & FILTERING (Section 5)
 # ------------------------------------------------------------------------------
+@app.get("/api/search/global", response_model=GlobalSearchResponse, tags=["Search & Filtering"])
+def global_search(
+    q: str = Query(..., min_length=1, description="Kata kunci pencarian (dataset, indikator, publikasi, dokumen, institusi)"),
+    limit: int = Query(15, ge=1, le=50)
+):
+    """
+    Unified global search across 5 distinct entity types:
+    1. Dataset
+    2. Indicator
+    3. Publication
+    4. Source Document
+    5. Institution
+    """
+    return SearchService.global_search(query=q, limit=limit)
+
+@app.get("/api/datasets", response_model=List[DatasetResponse], tags=["Datasets"])
+def get_datasets():
+    """Returns registered analytical datasets with access governance and coverage information."""
+    return SearchService.get_datasets()
+
 @app.get("/api/filter-options", tags=["Search & Filtering"])
 def get_filter_options():
     """Returns cascading multidimensional filter hierarchy and metadata."""
@@ -215,6 +255,14 @@ def get_lkpp_financial_statements(
     """
     return CrosswalkService.get_lkpp_financial_statements(statement_type, year)
 
+@app.get("/api/crosswalk/document", response_model=ClassificationDocumentResponse, tags=["Classification Crosswalk"])
+def get_classification_evolution_document():
+    """
+    Returns full statutory document of historical classification changes (Section 13 requirement).
+    Accessible via the clickable info link in dataset headers.
+    """
+    return CrosswalkService.get_classification_evolution_document()
+
 # ------------------------------------------------------------------------------
 # 9. AUDIT TRAILS & LOGS
 # ------------------------------------------------------------------------------
@@ -245,6 +293,85 @@ def record_download_log(payload: Dict[str, Any]):
 def get_download_logs(limit: int = Query(50, ge=1, le=200)):
     """Returns download audit logs."""
     return AuditService.get_download_logs(limit)
+
+@app.get("/api/download/{dataset_id}", tags=["Export & Download"])
+def download_dataset(
+    dataset_id: str,
+    format: str = Query("xlsx", description="Format: xlsx atau csv"),
+    email: Optional[str] = Query(None, description="Email pengguna untuk verifikasi unduh"),
+    indicator_id: Optional[str] = Query(None),
+    start_year: Optional[int] = Query(None),
+    end_year: Optional[int] = Query(None)
+):
+    """
+    Authorized multi-tab Excel (.xlsx) and RFC-4180 CSV export with independent provenance traceability (Rules 9, 10, 11, 12).
+    Generates Sheet 1: Data (with provenance_id), Sheet 2: Metadata, Sheet 3: Source & Provenance.
+    Standard filename: INDOEKONOMI_[DATASET TITLE]_[TIMEFRAME].[EXT]
+    """
+    # 1. Access Governance Check (Backend Authorization Enforcement)
+    perm = AuditService.check_download_permission(dataset_id=dataset_id, user_email=email)
+    if not perm["allowed"]:
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "message": perm["reason"],
+                "access_status": perm.get("access_status"),
+                "dataset_id": dataset_id,
+                "requires_login": perm.get("requires_login", False),
+                "original_url": perm.get("original_url")
+            }
+        )
+
+    # 2. Query dataset metadata
+    datasets = SearchService.get_datasets()
+    dataset_meta = next((d for d in datasets if d["id"] == dataset_id), {
+        "id": dataset_id,
+        "name": dataset_id.replace("DS-", "").replace("-", " ").title(),
+        "sector": "Ekonomi Nasional",
+        "category": "Statistik Terpadu",
+        "frequency": "Tahunan",
+        "unit": "Standar Nasional"
+    })
+
+    # 3. Query all structured observations for dataset (full historical series)
+    obs_res = SearchService.query_observations(
+        indicator_id=indicator_id,
+        start_year=start_year,
+        end_year=end_year,
+        limit=5000,
+        sort_by="period",
+        sort_order="ASC"
+    )
+    observations = obs_res.get("records", [])
+
+    timeframe_label = f"{observations[0]['period']}-{observations[-1]['period']}" if observations else "ALL"
+    dataset_title = dataset_meta.get("name") or dataset_id
+
+    # 4. Generate File Stream
+    file_fmt = format.lower()
+    if file_fmt == "csv":
+        file_bytes = ExportService.generate_csv_bytes(observations)
+        media_type = "text/csv; charset=utf-8"
+        filename = ExportService.generate_filename(dataset_title, timeframe_label, "csv")
+    else:
+        file_bytes = ExportService.generate_excel_bytes(dataset_meta, observations, observations)
+        media_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        filename = ExportService.generate_filename(dataset_title, timeframe_label, "xlsx")
+
+    # 5. Log download audit
+    AuditService.record_download_audit({
+        "email": email or "guest-public@dewanekonomi.go.id",
+        "download_type": f"DATASET_{file_fmt.upper()}",
+        "variables_count": 1,
+        "total_points": len(observations),
+        "file_name": filename
+    })
+
+    return Response(
+        content=file_bytes,
+        media_type=media_type,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
+    )
 
 # ------------------------------------------------------------------------------
 # 10. COMMODITY TRACKING & BALANCE (PERTANIAN, PETERNAKAN, PERIKANAN, HASIL BUMI)
@@ -297,6 +424,26 @@ def get_commodity_spatial_distribution(
     return spatial
 
 # ------------------------------------------------------------------------------
+# 10.1 AGRICULTURAL CALENDAR (KALENDER MUSIM TANAM & POLA PANEN)
+# ------------------------------------------------------------------------------
+@app.get("/api/agricultural-calendar", tags=["Agricultural Calendar"])
+def get_agricultural_calendar(
+    commodity_id: Optional[str] = Query(None, description="Filter ID Komoditas"),
+    crop_category: Optional[str] = Query(None, description="Filter Kategori Tanaman"),
+    month: Optional[int] = Query(None, ge=1, le=12, description="Bulan (1-12)")
+):
+    """
+    Returns monthly national agricultural calendar matrix: planting seasons (MT 1 / MT 2),
+    harvesting peaks (panen raya), lean seasons (paceklik), regional centers, and agroclimatic contexts.
+    """
+    return AgriCalendarService.get_calendar_matrix(commodity_id, crop_category, month)
+
+@app.get("/api/agricultural-calendar/summary", tags=["Agricultural Calendar"])
+def get_agricultural_calendar_summary():
+    """Returns high-level summary and seasonal highlights for the Agricultural Calendar tab."""
+    return AgriCalendarService.get_calendar_summary()
+
+# ------------------------------------------------------------------------------
 # 11. INGESTION PIPELINE TRIGGER & SANDBOX
 # ------------------------------------------------------------------------------
 @app.post("/api/ingestion/run", tags=["Data Ingestion"])
@@ -336,6 +483,8 @@ if os.path.exists(STATIC_DIR):
 
     @app.get("/{full_path:path}", include_in_schema=False)
     async def serve_spa(full_path: str):
+        if full_path.startswith("api/") or full_path == "api":
+            raise HTTPException(status_code=404, detail=f"API endpoint '/{full_path}' not found.")
         # Serve frontend index or static files
         file_path = STATIC_DIR / full_path
         if file_path.is_file():

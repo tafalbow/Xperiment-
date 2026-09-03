@@ -731,4 +731,316 @@ export class ModalManager {
       this.openModal('Error', `<div class="text-rose-600 font-mono">${err.message}</div>`);
     }
   }
+
+  // 6. SECTION 13 SPECIAL: DOKUMEN RIWAYAT PERUBAHAN KLASIFIKASI DOKUMEN ANGGARAN & STATISTIK
+  static async showClassificationDocumentModal() {
+    try {
+      const doc = await ApiClient.fetchClassificationDocument();
+
+      const erasHtml = doc.eras.map(era => `
+        <div class="p-3.5 rounded-lg border border-[#DADCE0] bg-white space-y-2 shadow-2xs">
+          <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2">
+            <div class="font-mono font-bold text-[#1A73E8] text-xs flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-[#E8F0FE] text-[#1A73E8]">${era.era_id}</span>
+              <span>${era.title}</span>
+            </div>
+            <span class="text-[11px] font-mono text-[#5F6368] font-bold">${era.period_range}</span>
+          </div>
+
+          <div class="text-xs text-[#202124] font-sans">
+            <strong>Struktur Anggaran:</strong> ${era.budget_structure}
+          </div>
+
+          <div class="space-y-1 text-[11.5px] font-sans text-[#3C4043]">
+            <div class="font-semibold text-slate-700">Karakteristik Utama:</div>
+            <ul class="list-disc pl-5 space-y-0.5">
+              ${era.key_features.map(f => `<li>${f}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="p-2 rounded bg-[#FEF7E0] border border-[#FEEFC3] text-[#B06000] text-[11px] font-sans">
+            <strong>Tantangan Transisi:</strong> ${era.challenges}
+          </div>
+        </div>
+      `).join('');
+
+      const rulesHtml = doc.crosswalk_rules.map(r => `
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="p-2 border-r border-[#DADCE0] font-bold text-[#1A73E8]">${r.sector}</td>
+          <td class="p-2 border-r border-[#DADCE0] font-sans text-[#D93025]">${r.original_classification}</td>
+          <td class="p-2 border-r border-[#DADCE0] font-sans text-[#1E8E3E] font-semibold">${r.standardized_classification}</td>
+          <td class="p-2 border-r border-[#DADCE0] font-sans text-[10.5px]">${r.mapping_rule}</td>
+          <td class="p-2 border-r border-[#DADCE0] text-center font-mono text-[10.5px]">${r.effective_start_year}–${r.effective_end_year}</td>
+          <td class="p-2 font-sans text-[11px] text-[#5F6368]">${r.transformation_note}</td>
+        </tr>
+      `).join('');
+
+      const content = `
+        <div class="space-y-4">
+          <!-- Document Header -->
+          <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-2">
+            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2 flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center font-bold text-xs">ℹ️</span>
+                <span class="font-mono font-bold text-[#202124] text-xs uppercase">
+                  DOKUMEN HISTORIS RESMI: TATA CARA & RIWAYAT HARMONISASI KLASIFIKASI ANGGARAN NEGARA
+                </span>
+              </div>
+              <span class="text-[10px] font-mono text-[#5F6368] bg-[#F1F3F4] px-2 py-0.5 rounded">
+                Standar Statutori PP 71/2010 (SAP Akrual)
+              </span>
+            </div>
+
+            <p class="text-xs text-[#3C4043] font-sans leading-relaxed">
+              ${doc.executive_summary}
+            </p>
+
+            <div class="text-[10.5px] font-mono text-[#5F6368]">
+              Otoritas Terkait: <strong>${doc.statutory_authority}</strong> • Terakhir Diperbarui: <strong>${doc.last_updated}</strong>
+            </div>
+          </div>
+
+          <!-- The 4 Historical Eras -->
+          <div class="space-y-2">
+            <div class="text-xs font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
+              <span>🏛️</span>
+              <span>EMPAT ERA EVOLUSI KLASIFIKASI ANGGARAN PENDAPATAN & BELANJA NEGARA (1945–2026+)</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${erasHtml}
+            </div>
+          </div>
+
+          <!-- Crosswalk Table -->
+          <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-2">
+            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2">
+              <span class="text-xs font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
+                <span>🔄</span>
+                <span>TABEL JEMBATAN (CROSSWALK MATRIX) KLASIFIKASI HISTORIS KE BAGAN AKUN STANDAR MODERN</span>
+              </span>
+              <span class="text-[10px] font-mono text-[#5F6368]">${doc.crosswalk_rules.length} Aturan Penyesuaian</span>
+            </div>
+
+            <div class="overflow-x-auto max-h-[40vh] scrollbar-thin border border-[#DADCE0]">
+              <table class="w-full text-[11px] font-mono border-collapse">
+                <thead class="bg-[#F8F9FA] text-[#3C4043] border-b border-[#DADCE0] sticky top-0">
+                  <tr>
+                    <th class="p-2 text-left border-r border-[#DADCE0] w-32">Sektor Anggaran</th>
+                    <th class="p-2 text-left border-r border-[#DADCE0] w-48">Klasifikasi Sumber Lama</th>
+                    <th class="p-2 text-left border-r border-[#DADCE0] w-52">Klasifikasi Standar Modern</th>
+                    <th class="p-2 text-left border-r border-[#DADCE0] w-40">Regulasi Pemetaan</th>
+                    <th class="p-2 text-center border-r border-[#DADCE0] w-24">Tahun Berlaku</th>
+                    <th class="p-2 text-left">Catatan Metodologi Transformasi</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#DADCE0]">
+                  ${rulesHtml}
+                </tbody>
+              </table>
+            </div>
+
+            <p class="text-[11px] text-[#5F6368] font-sans pt-1">
+              ${doc.methodology_notes}
+            </p>
+          </div>
+        </div>
+      `;
+
+      this.openModal('RIWAYAT PERUBAHAN KLASIFIKASI DOKUMEN ANGGARAN & STATISTIK', content);
+    } catch (err) {
+      this.openModal('Error', `<div class="text-rose-600 font-mono">${err.message}</div>`);
+    }
+  }
+
+  // 7. GLOBAL SEARCH MODAL (Section 5)
+  static async showGlobalSearchModal(initialQuery = '', onSelectIndicator = null) {
+    const content = `
+      <div class="space-y-4">
+        <!-- Search Input Bar -->
+        <div class="relative">
+          <input 
+            type="text" 
+            id="modal-global-search-input" 
+            placeholder="Cari indikator, dataset, publikasi resmi, nomor dokumen, atau lembaga sumber..." 
+            value="${initialQuery}"
+            class="w-full px-4 py-2.5 pl-10 rounded-lg border border-[#DADCE0] text-sm font-sans bg-white outline-none focus:border-[#1A73E8] focus:ring-2 focus:ring-[#D2E3FC] shadow-2xs"
+            autofocus
+          />
+          <span class="absolute left-3.5 top-3 text-slate-400">🔍</span>
+          <span id="modal-search-spinner" class="absolute right-3.5 top-3 hidden text-xs font-mono text-[#1A73E8] animate-spin">⏳</span>
+        </div>
+
+        <!-- Search Results Container -->
+        <div id="modal-search-results" class="space-y-3 max-h-[60vh] overflow-y-auto scrollbar-thin">
+          <div class="p-8 text-center text-slate-400 font-sans text-xs">
+            Ketik minimal 2 karakter untuk mencari di seluruh katalog observatorium...
+          </div>
+        </div>
+      </div>
+    `;
+
+    this.openModal('PENCARIAN GLOBAL OBSERVATORIUM EKONOMI NASIONAL', content);
+
+    const input = document.getElementById('modal-global-search-input');
+    const resultsContainer = document.getElementById('modal-search-results');
+    const spinner = document.getElementById('modal-search-spinner');
+
+    let debounceTimer = null;
+    const performSearch = async (q) => {
+      if (!q || q.trim().length < 2) {
+        if (resultsContainer) {
+          resultsContainer.innerHTML = `
+            <div class="p-8 text-center text-slate-400 font-sans text-xs">
+              Ketik minimal 2 karakter untuk mencari di seluruh katalog observatorium...
+            </div>
+          `;
+        }
+        return;
+      }
+
+      spinner?.classList.remove('hidden');
+      try {
+        const res = await ApiClient.fetchGlobalSearch(q.trim());
+        spinner?.classList.add('hidden');
+
+        if (!resultsContainer) return;
+
+        if (res.total_matches === 0) {
+          resultsContainer.innerHTML = `
+            <div class="p-8 text-center text-slate-500 font-sans text-xs space-y-1">
+              <div class="text-xl">🔍</div>
+              <div class="font-bold">Tidak ditemukan data untuk kata kunci "${q}"</div>
+              <div class="text-[11px] text-slate-400">Coba kata kunci lain seperti "PDB", "Pajak", "Beras", "Nikel", atau "LKPP".</div>
+            </div>
+          `;
+          return;
+        }
+
+        let out = '';
+
+        // Render Datasets
+        if (res.datasets.length > 0) {
+          out += `
+            <div class="space-y-1.5">
+              <div class="text-[11px] font-mono font-bold text-[#1A73E8] uppercase flex items-center gap-1.5 border-b border-[#DADCE0] pb-1">
+                <span>📁</span>
+                <span>DATASETS (${res.datasets.length})</span>
+              </div>
+              <div class="grid grid-cols-1 gap-1.5">
+                ${res.datasets.map(d => `
+                  <div class="p-2.5 rounded border border-[#DADCE0] bg-white hover:border-[#1A73E8] cursor-pointer transition-colors" data-type="dataset" data-id="${d.id}">
+                    <div class="flex items-center justify-between">
+                      <div class="font-bold text-[#202124] text-xs">${d.title}</div>
+                      <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#E8F0FE] text-[#1A73E8]">${d.access_status}</span>
+                    </div>
+                    <div class="text-[11px] text-[#5F6368] mt-0.5">${d.subtitle}</div>
+                    <div class="text-[11px] text-[#3C4043] font-sans mt-1 line-clamp-1">${d.snippet}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        // Render Indicators
+        if (res.indicators.length > 0) {
+          out += `
+            <div class="space-y-1.5 pt-2">
+              <div class="text-[11px] font-mono font-bold text-[#1E8E3E] uppercase flex items-center gap-1.5 border-b border-[#DADCE0] pb-1">
+                <span>📊</span>
+                <span>INDIKATOR EKONOMI (${res.indicators.length})</span>
+              </div>
+              <div class="grid grid-cols-1 gap-1.5">
+                ${res.indicators.map(i => `
+                  <div class="p-2.5 rounded border border-[#DADCE0] bg-white hover:border-[#1E8E3E] cursor-pointer transition-colors search-ind-item" data-id="${i.id}">
+                    <div class="flex items-center justify-between">
+                      <div class="font-bold text-[#202124] text-xs">${i.title}</div>
+                      <span class="text-[10px] font-mono text-[#5F6368]">${i.sector || ''}</span>
+                    </div>
+                    <div class="text-[10px] font-mono text-[#1A73E8] mt-0.5">${i.subtitle} • Otoritas: ${i.institution || 'BPS / Kemenkeu'}</div>
+                    <div class="text-[11px] text-[#3C4043] font-sans mt-1 line-clamp-1">${i.snippet}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        // Render Publications
+        if (res.publications.length > 0) {
+          out += `
+            <div class="space-y-1.5 pt-2">
+              <div class="text-[11px] font-mono font-bold text-[#B06000] uppercase flex items-center gap-1.5 border-b border-[#DADCE0] pb-1">
+                <span>📑</span>
+                <span>PUBLIKASI & DOKUMEN RESMI (${res.publications.length})</span>
+              </div>
+              <div class="grid grid-cols-1 gap-1.5">
+                ${res.publications.map(p => `
+                  <div class="p-2.5 rounded border border-[#DADCE0] bg-white hover:border-[#B06000] transition-colors">
+                    <div class="font-bold text-[#202124] text-xs">${p.title}</div>
+                    <div class="text-[10.5px] font-mono text-[#5F6368] mt-0.5">${p.subtitle || ''} • Penerbit: ${p.institution}</div>
+                    <div class="text-[10.5px] text-[#1A73E8] mt-1 flex items-center gap-2">
+                      <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1 font-mono">
+                        <span>Buka Tautan Resmi</span>
+                        <span>↗</span>
+                      </a>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        // Render Institutions
+        if (res.institutions.length > 0) {
+          out += `
+            <div class="space-y-1.5 pt-2">
+              <div class="text-[11px] font-mono font-bold text-slate-700 uppercase flex items-center gap-1.5 border-b border-[#DADCE0] pb-1">
+                <span>🏛️</span>
+                <span>INSTITUSI PENERBIT (${res.institutions.length})</span>
+              </div>
+              <div class="grid grid-cols-1 gap-1.5">
+                ${res.institutions.map(inst => `
+                  <div class="p-2.5 rounded border border-[#DADCE0] bg-white">
+                    <div class="font-bold text-[#202124] text-xs">${inst.title}</div>
+                    <div class="text-[10.5px] text-[#5F6368] font-mono">${inst.subtitle}</div>
+                    <div class="text-[11px] text-[#3C4043] font-sans mt-0.5">${inst.snippet}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        resultsContainer.innerHTML = out;
+
+        // Attach indicator click event
+        resultsContainer.querySelectorAll('.search-ind-item').forEach(el => {
+          el.addEventListener('click', () => {
+            const indId = el.getAttribute('data-id');
+            if (indId && onSelectIndicator) {
+              onSelectIndicator(indId);
+              ModalManager.closeModal();
+            }
+          });
+        });
+
+      } catch (err) {
+        spinner?.classList.add('hidden');
+        if (resultsContainer) {
+          resultsContainer.innerHTML = `<div class="p-4 text-center text-rose-600 font-mono text-xs">Error: ${err.message}</div>`;
+        }
+      }
+    };
+
+    input?.addEventListener('input', (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => performSearch(e.target.value), 250);
+    });
+
+    if (initialQuery && initialQuery.trim().length >= 2) {
+      performSearch(initialQuery);
+    }
+  }
 }

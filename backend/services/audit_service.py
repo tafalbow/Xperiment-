@@ -178,3 +178,67 @@ class AuditService:
             """)
             cur.execute("SELECT * FROM download_audit_logs ORDER BY download_timestamp DESC LIMIT ?", (limit,))
             return [dict(r) for r in cur.fetchall()]
+
+    @staticmethod
+    def check_download_permission(dataset_id: str, user_email: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Enforces backend access governance (Rules 10, 11, 12, Section 27-30).
+        Evaluates dataset-level access permissions before allowing data stream generation.
+        """
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT 
+                    d.id, d.name, d.access_status, d.download_allowed, d.download_requires_login,
+                    s.source_url
+                FROM datasets d
+                LEFT JOIN indicators i ON i.dataset_id = d.id
+                LEFT JOIN metadata m ON m.indicator_id = i.id
+                LEFT JOIN publications p ON p.publication_title = m.publication_document_name
+                LEFT JOIN sources s ON p.source_id = s.id
+                WHERE d.id = ?
+                LIMIT 1
+            """, (dataset_id,))
+            row = cur.fetchone()
+
+            if not row:
+                # If dataset not directly found by id, allow standard public download
+                return {"allowed": True, "access_status": "PUBLIC_DOWNLOAD_OPEN", "reason": "Authorized"}
+
+            status = row["access_status"] or "PUBLIC_DOWNLOAD_OPEN"
+            download_allowed = bool(row["download_allowed"])
+            requires_login = bool(row["download_requires_login"])
+
+            # Rule 10: Discoverability != Downloadability
+            if not download_allowed or status in ("PUBLIC_VIEW_ONLY", "METADATA_ONLY", "RESTRICTED", "UNDER_REVIEW", "ARCHIVED"):
+                return {
+                    "allowed": False,
+                    "access_status": status,
+                    "reason": f"Unduh data dilarang oleh regulasi statutori ({status}). Data hanya dapat diinspeksi secara visual.",
+                    "dataset_name": row["name"]
+                }
+
+            if status == "LINK_TO_ORIGINAL_ONLY":
+                return {
+                    "allowed": False,
+                    "access_status": status,
+                    "reason": "Data ini hanya dapat diunduh langsung melalui repositori resmi instansi penerbit.",
+                    "dataset_name": row["name"],
+                    "original_url": row["source_url"] or "https://www.bps.go.id"
+                }
+
+            if (requires_login or status == "PUBLIC_DOWNLOAD_AFTER_LOGIN") and not user_email:
+                return {
+                    "allowed": False,
+                    "access_status": status,
+                    "reason": "Unduh dataset ini memerlukan verifikasi sesi login resmi terdaftar.",
+                    "dataset_name": row["name"],
+                    "requires_login": True
+                }
+
+            return {
+                "allowed": True,
+                "access_status": status,
+                "reason": "Authorized for export",
+                "dataset_name": row["name"]
+            }

@@ -5,6 +5,7 @@
 import { ApiClient } from '../services/api_client.js';
 import { ExcelExporter } from '../services/excel_exporter.js';
 import { openEmailRegistrationModal } from './header.js';
+import { ModalManager } from './modals.js';
 
 export class ChartModule {
   constructor(containerId, options = {}) {
@@ -364,38 +365,59 @@ export class ChartModule {
         <!-- Main Top Bar: Title & Range Preset Buttons -->
         <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 pb-1.5 shrink-0">
           <div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 flex-wrap">
               <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">TREN & DISTRIBUSI DESKRIPTIF TINGKAT NASIONAL</span>
               <span class="text-[9.5px] font-mono bg-sky-50 text-sky-700 border border-sky-200 px-1.5 py-0.5 rounded">
                 ${this.seriesConfigs.length > 1 ? `Mode Komparasi (${this.seriesConfigs.length} Variabel)` : 'Mode Tunggal'}
               </span>
+              <!-- Section 13 Mandatory Clickable Info Link -->
+              <button 
+                type="button" 
+                id="btn-chart-classification-info" 
+                class="px-2 py-0.5 rounded bg-[#E8F0FE] hover:bg-[#D2E3FC] text-[#1A73E8] border border-[#D2E3FC] font-mono text-[10px] font-semibold flex items-center gap-1 shadow-2xs transition-all cursor-pointer"
+                title="Buka Dokumen Riwayat Perubahan Klasifikasi Dokumen Anggaran & Statistik (Section 13)"
+              >
+                <span>ℹ️</span>
+                <span>Riwayat Klasifikasi APBN</span>
+              </button>
             </div>
             <p class="text-[10.5px] text-slate-500 mt-0.5">
               Bandingkan 1 hingga 3 variabel data lintas lembaga dengan konfigurasi Sumbu Y Kiri/Kanan, Line, Bar, dan 100% Stacked Bar.
             </p>
           </div>
 
-          <!-- Time Range Presets & Download Excel Button -->
+          <!-- Time Range Presets & Download Buttons -->
           <div class="flex items-center gap-2 flex-wrap">
             <div class="flex items-center gap-1.5">
               <span class="text-slate-400 font-mono text-[9.5px] uppercase">Rentang:</span>
               <div class="inline-flex rounded-sm border border-slate-200 p-0.5 bg-slate-50 text-[10.5px] font-mono">
-                <button id="btn-range-5y" class="px-2 py-0.5 ${this.activeRangePreset === '5y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">5 Thn</button>
-                <button id="btn-range-10y" class="px-2 py-0.5 ${this.activeRangePreset === '10y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">10 Thn</button>
-                <button id="btn-range-all" class="px-2 py-0.5 ${this.activeRangePreset === 'all' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">1990-2026</button>
+                <button id="btn-range-5y" class="px-1.5 py-0.5 ${this.activeRangePreset === '5y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">5 Thn</button>
+                <button id="btn-range-10y" class="px-1.5 py-0.5 ${this.activeRangePreset === '10y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">10 Thn</button>
+                <button id="btn-range-12y" class="px-1.5 py-0.5 ${this.activeRangePreset === '12y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">12 Thn (Default)</button>
+                <button id="btn-range-all" class="px-1.5 py-0.5 ${this.activeRangePreset === 'all' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">Max</button>
               </div>
             </div>
 
-            <!-- Single-Click Excel Download Button (Max 3 Vars, Max 12 Years / 24 Months) -->
-            <button 
-              type="button" 
-              id="btn-chart-download-excel" 
-              class="px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-[10.5px] font-bold flex items-center gap-1.5 shadow-xs border border-emerald-600 transition-all cursor-pointer"
-              title="Unduh Data Mentah & Keterangan Lineage sebagai File Excel (.xlsx) (Max 3 Variabel, Max 12 Tahun / 24 Bulan)"
-            >
-              <span>📥</span>
-              <span>Download Excel (.xlsx)</span>
-            </button>
+            <!-- Single-Click Excel & CSV Download Group -->
+            <div class="inline-flex rounded shadow-xs border border-emerald-600 overflow-hidden">
+              <button 
+                type="button" 
+                id="btn-chart-download-excel" 
+                class="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-[10.5px] font-bold flex items-center gap-1 transition-all cursor-pointer"
+                title="Unduh Buku Kerja Excel 3 Sheet Berizin (Data + provenance_id, Metadata, Provenans)"
+              >
+                <span>📥</span>
+                <span>Excel (.xlsx)</span>
+              </button>
+              <button 
+                type="button" 
+                id="btn-chart-download-csv" 
+                class="px-2 py-1 bg-emerald-800 hover:bg-emerald-700 text-white font-mono text-[10px] font-medium border-l border-emerald-600 cursor-pointer"
+                title="Unduh Data Format CSV RFC-4180 dengan provenance_id"
+              >
+                CSV
+              </button>
+            </div>
           </div>
         </div>
 
@@ -737,9 +759,15 @@ export class ChartModule {
   attachEvents() {
     const btn5y = document.getElementById('btn-range-5y');
     const btn10y = document.getElementById('btn-range-10y');
+    const btn12y = document.getElementById('btn-range-12y');
     const btnAll = document.getElementById('btn-range-all');
     const canvas = document.getElementById('gov-analytics-canvas');
     const wrapper = document.getElementById('chart-wrapper');
+
+    // Section 13 Classification Evolution Document Modal Trigger
+    document.getElementById('btn-chart-classification-info')?.addEventListener('click', () => {
+      ModalManager.showClassificationDocumentModal();
+    });
 
     const updatePresetButtons = (preset, sYear, eYear) => {
       this.activeRangePreset = preset;
@@ -753,7 +781,21 @@ export class ChartModule {
 
     btn5y?.addEventListener('click', () => updatePresetButtons('5y', 2021, 2026));
     btn10y?.addEventListener('click', () => updatePresetButtons('10y', 2016, 2026));
+    btn12y?.addEventListener('click', () => updatePresetButtons('12y', 2014, 2026));
     btnAll?.addEventListener('click', () => updatePresetButtons('all', 1990, 2026));
+
+    // Authorized CSV Download
+    document.getElementById('btn-chart-download-csv')?.addEventListener('click', () => {
+      const activeSeries = this.seriesConfigs[this.activeSeriesTab] || this.seriesConfigs[0];
+      const indId = activeSeries?.indicatorId || 'IND-GDP-GROWTH-YOY';
+      let userEmail = null;
+      try {
+        const raw = localStorage.getItem('registered_researcher_access');
+        if (raw) userEmail = JSON.parse(raw).email;
+      } catch (e) {}
+      const downloadUrl = ApiClient.getDownloadUrl('DS-FISCAL-NAT', 'csv', userEmail, indId);
+      window.location.href = downloadUrl;
+    });
 
     document.getElementById('btn-chart-download-excel')?.addEventListener('click', () => {
       const raw = localStorage.getItem('registered_researcher_access');

@@ -14,10 +14,16 @@ import { DataGrid } from './components/data_grid.js';
 import { ContextualMap } from './components/contextual_map.js';
 import { VariablesInventory } from './components/variables_inventory.js';
 import { CommodityTrackerComponent } from './components/commodity_tracker.js';
+import { HomeView } from './components/home_view.js';
+import { AgriCalendarComponent } from './components/agri_calendar.js';
+import { AboutView } from './components/about_view.js';
 import { ModalManager } from './components/modals.js';
 
 class App {
   constructor() {
+    this.homeView = null;
+    this.agriCalendar = null;
+    this.aboutView = null;
     this.searchBar = null;
     this.filterPanel = null;
     this.sidebarExtras = null;
@@ -26,7 +32,7 @@ class App {
     this.contextualMap = null;
     this.variablesInventory = null;
     this.commodityTracker = null;
-    this.activeMainTab = 'analytics'; // 'analytics' | 'inventory' | 'commodities'
+    this.activeMainTab = 'home'; // 7 Primary Sections: 'home' | 'analytics' | 'agri' | 'calendar' | 'production' | 'inventory' | 'about'
 
     this.currentQueryState = {
       sector: '',
@@ -154,8 +160,32 @@ class App {
         }
       });
 
-      // 11. Initial Data Fetch
+      // 11. Initialize Home View
+      this.homeView = new HomeView('home-view-container', {
+        onNavigate: (targetTab) => this.switchMainTab(targetTab),
+        onOpenCrosswalk: () => ModalManager.showClassificationDocumentModal()
+      });
+      await this.homeView.render();
+
+      // 12. Initialize Agricultural Calendar
+      this.agriCalendar = new AgriCalendarComponent('agri-calendar-container');
+
+      // 13. Initialize About View
+      this.aboutView = new AboutView('about-view-container');
+
+      // 14. Setup Keyboard Shortcut Ctrl+K for Global Search (Section 5)
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+          e.preventDefault();
+          ModalManager.showGlobalSearchModal();
+        }
+      });
+
+      // 15. Initial Data Fetch for Indicators
       await this.loadData();
+
+      // Set default landing tab to Home
+      this.switchMainTab('home');
 
     } catch (err) {
       console.error('App initialization error:', err);
@@ -172,50 +202,39 @@ class App {
   }
 
   setupMainTabs() {
+    const btnHome = document.getElementById('tab-btn-home');
     const btnAnalytics = document.getElementById('tab-btn-analytics');
     const btnAgri = document.getElementById('tab-btn-agri');
-    const btnMine = document.getElementById('tab-btn-mine');
+    const btnCalendar = document.getElementById('tab-btn-calendar');
+    const btnProduction = document.getElementById('tab-btn-production');
     const btnInventory = document.getElementById('tab-btn-inventory');
+    const btnAbout = document.getElementById('tab-btn-about');
 
-    // Frontpage direct access buttons
-    const btnFpAgri = document.getElementById('btn-frontpage-agri');
-    const btnFpMine = document.getElementById('btn-frontpage-mine');
-
-    btnAnalytics?.addEventListener('click', () => {
-      this.switchMainTab('analytics');
-    });
-
-    btnAgri?.addEventListener('click', () => {
-      this.switchMainTab('commodities', 'PERTANIAN_PETERNAKAN');
-    });
-
-    btnMine?.addEventListener('click', () => {
-      this.switchMainTab('commodities', 'HASIL_BUMI');
-    });
-
-    btnInventory?.addEventListener('click', () => {
-      this.switchMainTab('inventory');
-    });
-
-    btnFpAgri?.addEventListener('click', () => {
-      this.switchMainTab('commodities', 'PERTANIAN_PETERNAKAN');
-    });
-
-    btnFpMine?.addEventListener('click', () => {
-      this.switchMainTab('commodities', 'HASIL_BUMI');
-    });
+    btnHome?.addEventListener('click', () => this.switchMainTab('home'));
+    btnAnalytics?.addEventListener('click', () => this.switchMainTab('analytics'));
+    btnAgri?.addEventListener('click', () => this.switchMainTab('agri'));
+    btnCalendar?.addEventListener('click', () => this.switchMainTab('calendar'));
+    btnProduction?.addEventListener('click', () => this.switchMainTab('production'));
+    btnInventory?.addEventListener('click', () => this.switchMainTab('inventory'));
+    btnAbout?.addEventListener('click', () => this.switchMainTab('about'));
   }
 
   async switchMainTab(tabName, division = null) {
     this.activeMainTab = tabName;
+    const btnHome = document.getElementById('tab-btn-home');
     const btnAnalytics = document.getElementById('tab-btn-analytics');
     const btnAgri = document.getElementById('tab-btn-agri');
-    const btnMine = document.getElementById('tab-btn-mine');
+    const btnCalendar = document.getElementById('tab-btn-calendar');
+    const btnProduction = document.getElementById('tab-btn-production');
     const btnInventory = document.getElementById('tab-btn-inventory');
+    const btnAbout = document.getElementById('tab-btn-about');
 
+    const contentHome = document.getElementById('tab-content-home');
     const contentAnalytics = document.getElementById('tab-content-analytics');
-    const contentInventory = document.getElementById('tab-content-inventory');
     const contentCommodities = document.getElementById('tab-content-commodities');
+    const contentCalendar = document.getElementById('tab-content-calendar');
+    const contentInventory = document.getElementById('tab-content-inventory');
+    const contentAbout = document.getElementById('tab-content-about');
 
     const resetBtn = (btn) => {
       btn?.classList.remove('border-[#1A73E8]', 'border-slate-900', 'bg-white', 'text-[#1A73E8]', 'text-slate-900', 'font-bold', 'shadow-2xs');
@@ -229,47 +248,54 @@ class App {
       btn?.setAttribute('aria-selected', 'true');
     };
 
-    // Hide all contents and reset buttons
-    contentAnalytics?.classList.add('hidden');
-    contentInventory?.classList.add('hidden');
-    contentCommodities?.classList.add('hidden');
+    // Hide all contents and reset all buttons
+    [contentHome, contentAnalytics, contentCommodities, contentCalendar, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
+    [btnHome, btnAnalytics, btnAgri, btnCalendar, btnProduction, btnInventory, btnAbout].forEach(b => resetBtn(b));
 
-    resetBtn(btnAnalytics);
-    resetBtn(btnAgri);
-    resetBtn(btnMine);
-    resetBtn(btnInventory);
-
-    if (tabName === 'analytics') {
+    if (tabName === 'home') {
+      contentHome?.classList.remove('hidden');
+      activateBtn(btnHome);
+      if (this.homeView) this.homeView.render();
+    } else if (tabName === 'analytics' || tabName === 'indicators') {
       contentAnalytics?.classList.remove('hidden');
       activateBtn(btnAnalytics);
-
-      // Re-trigger chart canvas draw after becoming visible
       if (this.chartModule) {
         requestAnimationFrame(() => this.chartModule.drawChart());
       }
-    } else if (tabName === 'inventory') {
-      contentInventory?.classList.remove('hidden');
-      activateBtn(btnInventory);
-    } else if (tabName === 'commodities') {
+    } else if (tabName === 'agri') {
       contentCommodities?.classList.remove('hidden');
-
-      const targetDiv = division || (this.commodityTracker ? this.commodityTracker.activeDivision : 'PERTANIAN_PETERNAKAN');
-      if (targetDiv === 'PERTANIAN_PETERNAKAN') {
-        activateBtn(btnAgri);
-      } else {
-        activateBtn(btnMine);
-      }
-
-      // Initialize or switch division in commodity tracker
+      activateBtn(btnAgri);
       if (!this.commodityTracker) {
         this.commodityTracker = new CommodityTrackerComponent('tab-content-commodities');
         await this.commodityTracker.init();
       }
-      if (division) {
-        await this.commodityTracker.setDivision(division);
+      await this.commodityTracker.setDivision('PERTANIAN_PETERNAKAN');
+    } else if (tabName === 'calendar') {
+      contentCalendar?.classList.remove('hidden');
+      activateBtn(btnCalendar);
+      if (this.agriCalendar) {
+        await this.agriCalendar.render();
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (tabName === 'production') {
+      contentCommodities?.classList.remove('hidden');
+      activateBtn(btnProduction);
+      if (!this.commodityTracker) {
+        this.commodityTracker = new CommodityTrackerComponent('tab-content-commodities');
+        await this.commodityTracker.init();
+      }
+      await this.commodityTracker.setDivision('HASIL_BUMI');
+    } else if (tabName === 'inventory' || tabName === 'catalog') {
+      contentInventory?.classList.remove('hidden');
+      activateBtn(btnInventory);
+    } else if (tabName === 'about') {
+      contentAbout?.classList.remove('hidden');
+      activateBtn(btnAbout);
+      if (this.aboutView) {
+        this.aboutView.render();
+      }
     }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async selectVariableAndSwitchToDashboard(indId) {
