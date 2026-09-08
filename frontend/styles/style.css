@@ -340,3 +340,34 @@ button:focus-visible {
   outline: none !important;
   box-shadow: 0 0 0 2px var(--ga-blue-border) !important;
 }
+
+/* Custom Agricultural Regency Infographic Map Styles */
+#agri-map-container .leaflet-control-zoom {
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.15) !important;
+  border-radius: 4px !important;
+}
+
+#agri-map-container .leaflet-control-zoom a {
+  background-color: #ffffff !important;
+  color: var(--text-primary) !important;
+}
+
+#agri-map-container .leaflet-popup-content-wrapper {
+  background: #FFFFFF !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 8px !important;
+  padding: 0 !important;
+  box-shadow: 0 2px 6px rgba(60, 64, 67, 0.25) !important;
+}
+
+#agri-map-container .leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.agri-custom-pin {
+  background: transparent;
+  border: none;
+}

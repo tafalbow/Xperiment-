@@ -275,6 +275,11 @@ class App {
       activateBtn(btnCalendar);
       if (this.agriCalendar) {
         await this.agriCalendar.render();
+        setTimeout(() => {
+          if (this.agriCalendar.mapInstance) {
+            this.agriCalendar.mapInstance.invalidateSize();
+          }
+        }, 200);
       }
     } else if (tabName === 'production') {
       contentCommodities?.classList.remove('hidden');

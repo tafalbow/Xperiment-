@@ -120,10 +120,9 @@ class CocokTanamEngine {
                 scrollWheelZoom: true
             });
 
-            // Tile Layer Kartografi Berkualitas Tinggi (CartoDB Voyager)
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | DEN RI Agritrade',
-                subdomains: 'abcd',
+            // Tile Layer OpenStreetMap (Bebas API Key)
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors | INDOEKONOMI data',
                 maxZoom: 19
             }).addTo(this.gisMap);
 

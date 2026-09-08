@@ -222,6 +222,22 @@ export const ApiClient = {
     return await res.json();
   },
 
+  async fetchRegencyPlantingRecommendations(params = {}) {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && v !== '') {
+        query.append(k, v);
+      }
+    });
+    const res = await fetch(`${API_BASE}/api/agricultural-calendar/regencies?${query.toString()}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: Gagal memuat rekomendasi tanam kabupaten`);
+    const cType = res.headers.get('content-type') || '';
+    if (!cType.includes('application/json')) {
+      throw new Error('Respons backend bukan format JSON valid');
+    }
+    return await res.json();
+  },
+
   getDownloadUrl(datasetId, format = 'xlsx', email = null, indicatorId = null) {
     const query = new URLSearchParams();
     query.append('format', format);
