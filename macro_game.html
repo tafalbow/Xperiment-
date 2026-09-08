@@ -2810,18 +2810,38 @@
 
                 // Update Stage Stepper Nodes
                 function updateStageStepper() {
+                    const stageDefs = [
+                        { id: 1, icon: '🛒', name: 'Pasar & Warung' },
+                        { id: 2, icon: '🏦', name: 'Bank Sentral' },
+                        { id: 3, icon: '🏛️', name: 'Kemenkeu' },
+                        { id: 4, icon: '🚢', name: 'Valas Dunia' },
+                        { id: 5, icon: '🌪️', name: 'Badai Krisis' }
+                    ];
+
                     const nodes = stageMap ? stageMap.querySelectorAll('.trivia-stage-node') : [];
-                    nodes.forEach(node => {
-                        const sId = parseInt(node.getAttribute('data-stage'));
+                    const unlockedNums = trivia.unlockedStageIds.map(Number);
+                    const curStageNum = Number(trivia.currentStageId);
+
+                    nodes.forEach((node, idx) => {
+                        const sId = idx + 1;
+                        const sDef = stageDefs[idx];
+                        const isUnlocked = unlockedNums.includes(sId);
+                        const isCurrent = curStageNum === sId;
+                        const isCompleted = unlockedNums.includes(sId + 1) || (sId === 5 && trivia.advanceUnlocked.cockpit);
+
                         node.classList.remove('active', 'completed', 'locked');
-                        if (sId === trivia.currentStageId) {
+
+                        if (isCurrent) {
                             node.classList.add('active');
-                        } else if (trivia.unlockedStageIds.includes(sId + 1) || (sId === 5 && trivia.unlockedStageIds.includes(5) && trivia.advanceUnlocked.cockpit)) {
+                            node.innerHTML = `<span>${sDef.icon}</span> Stage ${sId}: ${sDef.name} <span style="font-size:0.7rem; background:rgba(255,255,255,0.3); padding:1px 6px; border-radius:10px; margin-left:4px;">Main</span>`;
+                        } else if (isCompleted) {
                             node.classList.add('completed');
-                        } else if (trivia.unlockedStageIds.includes(sId)) {
-                            // Unlocked but not active
+                            node.innerHTML = `<span>${sDef.icon}</span> Stage ${sId}: ${sDef.name} <span style="color:#16a34a; font-weight:bold; margin-left:4px;">✅</span>`;
+                        } else if (isUnlocked) {
+                            node.innerHTML = `<span>${sDef.icon}</span> Stage ${sId}: ${sDef.name} <span style="color:#0284c7; margin-left:4px;">▶️</span>`;
                         } else {
                             node.classList.add('locked');
+                            node.innerHTML = `<span>${sDef.icon}</span> Stage ${sId}: ${sDef.name} <span style="opacity:0.6; margin-left:4px;">🔒</span>`;
                         }
                     });
 
@@ -2944,6 +2964,7 @@
                             if (debriefText) debriefText.innerHTML = res.debrief;
 
                             if (btnTriviaNext) {
+                                updateStageStepper();
                                 if (res.isStageFinished) {
                                     btnTriviaNext.innerHTML = `<span>🏆 Stage Selesai! Buka Kunci Level Lanjut</span>`;
                                 } else {
@@ -2959,14 +2980,17 @@
                     btnTriviaNext.onclick = () => {
                         audio.playClick();
                         if (trivia.isStageComplete()) {
-                            // Move to next stage or show celebration
-                            const nextS = trivia.currentStageId + 1;
+                            const nextS = Number(trivia.currentStageId) + 1;
                             if (nextS <= trivia.stages.length) {
                                 trivia.selectStage(nextS);
-                                alert(`🎉 Selamat! Anda telah menuntaskan ${trivia.stages[nextS - 2].title}! Kunci Stage ${nextS} terbuka!`);
+                                audio.playSuccess();
+                                if (typeof launchCelebrationConfetti === 'function') launchCelebrationConfetti();
                                 renderQuestion();
+                                // Smooth scroll to top of card
+                                const card = document.getElementById('triviaArenaCard');
+                                if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             } else {
-                                alert(`👑 LUAR BIASA! Anda telah menuntaskan seluruh stage Trivia Quest! Seluruh mode simulasi telah TERBUKA PENUH!`);
+                                alert(`👑 LUAR BIASA! Anda telah menuntaskan seluruh 5 Stage Trivia Quest! Seluruh mode simulasi telah TERBUKA PENUH!`);
                                 renderQuestion();
                             }
                         } else {
@@ -2990,8 +3014,9 @@
                     const nodes = stageMap.querySelectorAll('.trivia-stage-node');
                     nodes.forEach(node => {
                         node.onclick = () => {
-                            const sId = parseInt(node.getAttribute('data-stage'));
-                            if (trivia.unlockedStageIds.includes(sId)) {
+                            const sId = parseInt(node.getAttribute('data-stage'), 10);
+                            const unlockedNums = trivia.unlockedStageIds.map(Number);
+                            if (unlockedNums.includes(sId) || sId === Number(trivia.currentStageId) + 1) {
                                 audio.playClick();
                                 trivia.selectStage(sId);
                                 renderQuestion();

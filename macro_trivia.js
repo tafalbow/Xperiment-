@@ -532,28 +532,40 @@ class MacroTriviaEngine {
             const saved = localStorage.getItem('macromaster_trivia_progress');
             if (saved) {
                 const data = JSON.parse(saved);
-                this.score = data.score || 0;
-                this.unlockedStageIds = data.unlockedStageIds || [1];
+                this.score = Number(data.score) || 0;
+                this.unlockedStageIds = (data.unlockedStageIds || [1]).map(Number);
                 this.advanceUnlocked = data.advanceUnlocked || { econGames: false, scenarios: false, cockpit: false };
-                this.currentStageId = data.currentStageId || 1;
+                this.currentStageId = Number(data.currentStageId) || 1;
             }
         } catch (e) {}
+        this.unlockedStageIds = Array.from(new Set((this.unlockedStageIds || [1]).map(Number)));
+        if (!this.unlockedStageIds.includes(1)) this.unlockedStageIds.unshift(1);
+
+        // Auto-heal: If completed current stage, ensure next stage is unlocked
+        const curStage = this.getCurrentStage();
+        if (curStage && this.currentQuestionIdx >= curStage.questions.length - 1) {
+            const nxt = Number(this.currentStageId) + 1;
+            if (nxt <= this.stages.length && !this.unlockedStageIds.includes(nxt)) {
+                this.unlockedStageIds.push(nxt);
+            }
+        }
     }
 
     saveProgress() {
         try {
             const data = {
                 score: this.score,
-                unlockedStageIds: this.unlockedStageIds,
+                unlockedStageIds: Array.from(new Set(this.unlockedStageIds.map(Number))),
                 advanceUnlocked: this.advanceUnlocked,
-                currentStageId: this.currentStageId
+                currentStageId: Number(this.currentStageId)
             };
             localStorage.setItem('macromaster_trivia_progress', JSON.stringify(data));
         } catch (e) {}
     }
 
     getCurrentStage() {
-        return this.stages.find(s => s.id === this.currentStageId) || this.stages[0];
+        const curId = Number(this.currentStageId);
+        return this.stages.find(s => Number(s.id) === curId) || this.stages[0];
     }
 
     getCurrentQuestion() {
@@ -570,7 +582,16 @@ class MacroTriviaEngine {
     }
 
     selectStage(stageId) {
-        if (!this.unlockedStageIds.includes(stageId)) return false;
+        stageId = Number(stageId);
+        const unlockedNums = this.unlockedStageIds.map(Number);
+        if (!unlockedNums.includes(stageId)) {
+            // If selecting sequential next stage, allow and unlock
+            if (stageId === Number(this.currentStageId) + 1) {
+                this.unlockedStageIds.push(stageId);
+            } else {
+                return false;
+            }
+        }
         this.currentStageId = stageId;
         this.currentQuestionIdx = 0;
         this.lives = this.maxLives;
@@ -597,7 +618,6 @@ class MacroTriviaEngine {
             this.score += points;
         } else {
             if (this.shieldActive) {
-                // Shield saves life
                 this.shieldActive = false;
             } else {
                 this.lives--;
@@ -606,6 +626,7 @@ class MacroTriviaEngine {
         }
 
         const isStageFinished = this.isStageComplete();
+        // Selalu buka stage berikutnya jika stage sudah selesai (selama lives > 0)
         if (isStageFinished && this.lives > 0) {
             this.handleStageCompletion();
         }
@@ -642,19 +663,23 @@ class MacroTriviaEngine {
     }
 
     handleStageCompletion() {
-        const nextStageId = this.currentStageId + 1;
-        if (nextStageId <= this.stages.length && !this.unlockedStageIds.includes(nextStageId)) {
-            this.unlockedStageIds.push(nextStageId);
+        const curId = Number(this.currentStageId);
+        const nextStageId = curId + 1;
+        if (nextStageId <= this.stages.length) {
+            const unlockedNums = this.unlockedStageIds.map(Number);
+            if (!unlockedNums.includes(nextStageId)) {
+                this.unlockedStageIds.push(nextStageId);
+            }
         }
 
         // Unlocks for Advance Modes
-        if (this.currentStageId >= 3) {
+        if (curId >= 3) {
             this.advanceUnlocked.econGames = true;
         }
-        if (this.currentStageId >= 4) {
+        if (curId >= 4) {
             this.advanceUnlocked.scenarios = true;
         }
-        if (this.currentStageId >= 5) {
+        if (curId >= 5) {
             this.advanceUnlocked.cockpit = true;
         }
 
