@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="macro_game.css">
 </head>
-<body>
+<body class="mode-trivia">
     <div class="app-background-glow"></div>
 
     <div class="macro-app-wrapper">
@@ -147,15 +147,15 @@
         <!-- --------------------------------------------------------------------
              GAMIFIED NAVIGATION TABS
              -------------------------------------------------------------------- -->
-        <nav class="macro-nav-tabs">
-            <button class="nav-tab-btn active" data-tab="tabAcademy"><span>🗺️</span> Akademi</button>
-            <button class="nav-tab-btn" data-tab="tabLab"><span>🧪</span> Lab Pasar</button>
+                <nav class="macro-nav-tabs">
+            <button class="nav-tab-btn active" data-tab="tabTrivia"><span>🎮</span> Trivia Quest</button>
+            <button class="nav-tab-btn" data-tab="tabEconGames"><span>🧪</span> Lab Pasar <span id="tabEconLockBadge" class="badge-tag">🔒</span></button>
             <button class="nav-tab-btn" data-tab="tabScenarios"><span>⚔️</span> Krisis Sejarah <span id="tabScenariosLockBadge" class="badge-tag">🔒</span></button>
             <button class="nav-tab-btn" data-tab="tabCockpit"><span>🏛️</span> Sidang Kabinet <span id="tabCockpitLockBadge" class="badge-tag">🔒</span></button>
             <button class="nav-tab-btn" data-tab="tabHistory"><span>📈</span> Grafik Tren</button>
             <button class="nav-tab-btn" data-tab="tabEncyclopedia"><span>📖</span> Glosarium</button>
-            <button class="nav-tab-btn" data-tab="tabQuiz"><span>🏆</span> Ujian Makro</button>
-            <button class="nav-tab-btn" data-tab="tabEconGames"><span>🎮</span> Eksperimen</button>
+            <button class="nav-tab-btn" data-tab="tabAcademy"><span>📚</span> Modul Bacaan</button>
+            <button class="nav-tab-btn" data-tab="tabQuiz"><span>🏆</span> Ujian Kuliah</button>
         </nav>
 
         <!-- --------------------------------------------------------------------
@@ -167,11 +167,141 @@
 
             <!-- MAIN CONTENT PANELS (TABS) -->
             <main class="macro-main-content">
+            <!-- ================================================================
+                 TAB 0: TRIVIA QUEST (PETUALANGAN TRIVIA MAKRO SERU & SANTAI)
+                 ================================================================ -->
+            <section id="tabTrivia" class="view-panel active">
+                <div class="trivia-quest-wrapper">
+                    <!-- Header Bar & Quick Sandbox Unlock -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <div>
+                            <h2 style="font-family:var(--font-heading); color:var(--text-main); font-size:1.3rem; margin:0; display:flex; align-items:center; gap:8px;">
+                                <span>🎮</span> Petualangan Trivia Makro
+                                <span class="badge-tag" style="background:#fef3c7; color:#92400e; font-size:0.75rem;">Mode Santai & Fun</span>
+                            </h2>
+                            <p style="color:var(--text-muted); font-size:0.86rem; margin:4px 0 0;">
+                                Pelajari ekonomi makro lewat kuis santai, analogi warung sehari-hari, dan tantangan seru. Tuntaskan stage untuk membuka simulator tingkat lanjut!
+                            </p>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <button type="button" id="btnUnlockAllSandbox" class="btn-sidebar-icon" style="width:auto; padding:6px 12px; font-size:0.78rem; border:1px solid #cbd5e1; background:#ffffff; border-radius:8px;" title="Buka Akses Semua Simulasi Seketika untuk Evaluator/Pengajar">
+                                ⚡ Mode Sandbox (Buka Semua)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Peta Level Petualangan (Stage Map Stepper) -->
+                    <div class="trivia-stage-map" id="triviaStageMap">
+                        <button type="button" class="trivia-stage-node active" data-stage="1">
+                            <span>🛒</span> Stage 1: Pasar & Warung
+                        </button>
+                        <button type="button" class="trivia-stage-node locked" data-stage="2">
+                            <span>🏦</span> Stage 2: Bank Sentral 🔒
+                        </button>
+                        <button type="button" class="trivia-stage-node locked" data-stage="3">
+                            <span>🏛️</span> Stage 3: Kemenkeu 🔒
+                        </button>
+                        <button type="button" class="trivia-stage-node locked" data-stage="4">
+                            <span>🚢</span> Stage 4: Valas Dunia 🔒
+                        </button>
+                        <button type="button" class="trivia-stage-node locked" data-stage="5">
+                            <span>🌪️</span> Stage 5: Badai Krisis 🔒
+                        </button>
+                    </div>
+
+                    <!-- Trivia Arena Card -->
+                    <div class="trivia-arena-card" id="triviaArenaCard">
+                        <!-- Battle HUD Row -->
+                        <div class="trivia-hud-row">
+                            <div style="display:flex; align-items:center; gap:12px;">
+                                <div class="trivia-hearts-wrap" id="triviaHeartsWrap" title="Nyawa Trivia (5 Hati)">
+                                    <span class="trivia-heart-icon" id="triviaHeart1">❤️</span>
+                                    <span class="trivia-heart-icon" id="triviaHeart2">❤️</span>
+                                    <span class="trivia-heart-icon" id="triviaHeart3">❤️</span>
+                                    <span class="trivia-heart-icon" id="triviaHeart4">❤️</span>
+                                    <span class="trivia-heart-icon" id="triviaHeart5">❤️</span>
+                                </div>
+                                <div class="trivia-combo-badge" id="triviaComboBadge">
+                                    <span>🔥</span> Combo: <strong id="triviaComboText">0x</strong>
+                                </div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div class="trivia-score-badge" id="triviaScoreBadge">
+                                    <span>⭐</span> Skor: <strong id="triviaScoreText">0</strong>
+                                </div>
+                                <span class="badge-tag" id="triviaProgressText" style="background:#e0f2fe; color:#0369a1; font-weight:700;">
+                                    Soal 1 / 6
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Scenario Pill -->
+                        <div class="trivia-scenario-pill" id="triviaScenarioPill">
+                            <span>🏪</span> Bu Tejo di Pasar Tradisional
+                        </div>
+
+                        <!-- Question Box -->
+                        <div class="trivia-question-box" id="triviaQuestionBox">
+                            Pertanyaan kuis sedang dimuat...
+                        </div>
+
+                        <!-- Options Grid -->
+                        <div class="trivia-options-grid" id="triviaOptionsGrid">
+                            <!-- 4 Option Buttons populated dynamically -->
+                        </div>
+
+                        <!-- Lifelines Toolbar -->
+                        <div class="trivia-lifelines-bar">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <button type="button" id="btnLifeline5050" class="btn-lifeline" title="Buang 2 opsi salah">
+                                    <span>✂️</span> 50:50
+                                </button>
+                                <button type="button" id="btnLifelineHint" class="btn-lifeline" title="Bocoran analogi santai">
+                                    <span>💡</span> Bisikan Analogi
+                                </button>
+                                <button type="button" id="btnLifelineShield" class="btn-lifeline" title="Lindungi nyawa jika salah">
+                                    <span>🛡️</span> Perisai Nyawa
+                                </button>
+                            </div>
+                            <div id="triviaHintDisplay" style="font-size:0.8rem; color:#b45309; font-weight:600; display:none;"></div>
+                        </div>
+
+                        <!-- Debriefing Box -->
+                        <div class="trivia-debrief-box" id="triviaDebriefBox" style="display:none;">
+                            <div class="trivia-debrief-header" id="triviaDebriefHeader">
+                                <span id="triviaDebriefIcon" style="font-size:1.3rem;">🎉</span>
+                                <span id="triviaDebriefTitle">Jawaban Tepat!</span>
+                            </div>
+                            <p class="trivia-debrief-text" id="triviaDebriefText"></p>
+                            <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+                                <button type="button" id="btnTriviaNext" class="btn-gavel-primary" style="padding:10px 18px; font-size:0.88rem;">
+                                    <span>Lanjut Soal Berikutnya</span> ➡️
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Game Over / Retry State Box -->
+                        <div class="trivia-debrief-box wrong-theme" id="triviaGameOverBox" style="display:none; text-align:center; align-items:center;">
+                            <div style="font-size:2rem;">💔</div>
+                            <div style="font-family:var(--font-heading); font-size:1.15rem; font-weight:700; color:#991b1b;">
+                                Nyawa Habis di Stage Ini!
+                            </div>
+                            <p style="font-size:0.86rem; color:#7f1d1d; margin:4px 0 10px;">
+                                Jangan menyerah! Setiap teknokrat hebat pernah keliru. Ulangi stage ini dengan nyawa penuh!
+                            </p>
+                            <button type="button" id="btnTriviaRetryStage" class="btn-gavel-primary" style="padding:10px 20px; font-size:0.9rem; background:#f59e0b; border-color:#d97706;">
+                                <span>🔄 Coba Lagi Stage Ini</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             
             <!-- ================================================================
                  TAB 0: AKADEMI TEORI BERJENJANG (STEP-BY-STEP ACADEMY)
                  ================================================================ -->
-            <section id="tabAcademy" class="view-panel active">
+            <section id="tabAcademy" class="view-panel">
                 
                 <!-- Jembatan Konsep Manajemen: Mikro vs Makro -->
                 <div class="academy-card" style="margin-bottom:16px; border:1px solid #cbd5e1; background: #ffffff; box-shadow: var(--shadow-card);">
@@ -1095,6 +1225,7 @@
     <script src="macro_engine.js"></script>
     <script src="macro_jargon.js"></script>
     <script src="macro_econ_games.js"></script>
+    <script src="macro_trivia.js"></script>
     <script>
         /**
          * ======================================================================
@@ -1127,9 +1258,16 @@
                     });
                     viewPanels.forEach(p => p.classList.remove('active'));
 
-                    btn.classList.add('active');
+                                        btn.classList.add('active');
                     const targetPanel = document.getElementById(tabId);
                     if (targetPanel) targetPanel.classList.add('active');
+
+                    // Toggle clean mode-trivia
+                    if (tabId === 'tabTrivia') {
+                        document.body.classList.add('mode-trivia');
+                    } else {
+                        document.body.classList.remove('mode-trivia');
+                    }
 
                     audio.playClick();
 
@@ -2540,210 +2678,426 @@
             } catch (e) {}
 
             // ------------------------------------------------------------------
-            // 14. PERMANENT ASISTEN AHLI DEN (SIDEBAR Q&A INTERAKTIF DOCKED)
+            // 14. ECONOMICS-GAMES EXPERIMENTS CONTROLLER
             // ------------------------------------------------------------------
-            const qaSidebar = document.getElementById('qaPermanentSidebar');
-            const btnNavToggleQA = document.getElementById('btnNavToggleQA');
-            const btnToggleQASidebarCollapse = document.getElementById('btnToggleQASidebarCollapse');
-            const btnClearQAChat = document.getElementById('btnClearQAChat');
-            const qaChipsContainer = document.getElementById('qaChipsContainer');
-            const qaChatBox = document.getElementById('qaChatBox');
-            const qaUserInput = document.getElementById('qaUserInput');
-            const btnSendQA = document.getElementById('btnSendQA');
-            const btnFloatingQA = document.getElementById('btnFloatingQA');
+            function initEconomicsGames() {
+                if (!window.econGamesEngine) return;
+                const engine = window.econGamesEngine;
 
-            function toggleQASidebar(forceExpand = false) {
-                if (!qaSidebar) return;
-                if (forceExpand) {
-                    qaSidebar.classList.remove('collapsed');
-                    if (btnToggleQASidebarCollapse) btnToggleQASidebarCollapse.textContent = '◀';
-                    if (btnNavToggleQA) btnNavToggleQA.classList.add('active');
-                } else {
-                    const isCollapsed = qaSidebar.classList.toggle('collapsed');
-                    if (btnToggleQASidebarCollapse) btnToggleQASidebarCollapse.textContent = isCollapsed ? '▶' : '◀';
-                    if (btnNavToggleQA) {
-                        if (isCollapsed) btnNavToggleQA.classList.remove('active');
-                        else btnNavToggleQA.classList.add('active');
+                // Subtab navigation
+                const subtabBtns = document.querySelectorAll('.econ-subtab-btn');
+                subtabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const targetId = btn.getAttribute('data-econgametab');
+                        subtabBtns.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+
+                        const panels = ['econBubblePanel', 'econCompPanel', 'econShockPanel'];
+                        panels.forEach(pId => {
+                            const p = document.getElementById(pId);
+                            if (p) p.style.display = 'none';
+                        });
+
+                        if (targetId === 'econBubble') {
+                            const p = document.getElementById('econBubblePanel');
+                            if (p) p.style.display = 'block';
+                            drawBubbleChart();
+                        } else if (targetId === 'econCompetition') {
+                            const p = document.getElementById('econCompPanel');
+                            if (p) p.style.display = 'block';
+                        } else if (targetId === 'econMacroShock') {
+                            const p = document.getElementById('econShockPanel');
+                            if (p) p.style.display = 'block';
+                        }
+                        audio.playClick();
+                    });
+                });
+
+                function drawBubbleChart() {
+                    const canvas = document.getElementById('bubbleChartCanvas');
+                    if (!canvas || !canvas.getContext) return;
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    // Background grid
+                    ctx.strokeStyle = '#e2e8f0';
+                    ctx.lineWidth = 1;
+                    for (let y = 30; y < canvas.height; y += 40) {
+                        ctx.beginPath();
+                        ctx.moveTo(40, y);
+                        ctx.lineTo(canvas.width - 20, y);
+                        ctx.stroke();
+                    }
+
+                    const history = engine.bubbleState.history || [];
+                    if (history.length < 2) return;
+
+                    const maxPrice = 120000;
+                    const getX = (round) => 50 + (round / 6) * (canvas.width - 90);
+                    const getY = (val) => canvas.height - 30 - (val / maxPrice) * (canvas.height - 60);
+
+                    // Draw Fundamental Line (Gold Dashed)
+                    ctx.strokeStyle = '#f59e0b';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    history.forEach((h, i) => {
+                        const x = getX(h.round);
+                        const y = getY(h.fundamental);
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    });
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Draw Market Price Line (Cyan Solid)
+                    ctx.strokeStyle = '#0284c7';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    history.forEach((h, i) => {
+                        const x = getX(h.round);
+                        const y = getY(h.price);
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    });
+                    ctx.stroke();
+                }
+
+                // Initial render of chart if canvas exists
+                setTimeout(drawBubbleChart, 100);
+            }
+            // ------------------------------------------------------------------
+            // 15. TRIVIA QUEST CONTROLLER & GAMIFIED ENGINE
+            // ------------------------------------------------------------------
+            function initTriviaQuest() {
+                if (!window.macroTriviaEngine) return;
+                const trivia = window.macroTriviaEngine;
+
+                const stageMap = document.getElementById('triviaStageMap');
+                const scenarioPill = document.getElementById('triviaScenarioPill');
+                const questionBox = document.getElementById('triviaQuestionBox');
+                const optionsGrid = document.getElementById('triviaOptionsGrid');
+                const progressText = document.getElementById('triviaProgressText');
+                const scoreText = document.getElementById('triviaScoreText');
+                const comboText = document.getElementById('triviaComboText');
+                const debriefBox = document.getElementById('triviaDebriefBox');
+                const debriefTitle = document.getElementById('triviaDebriefTitle');
+                const debriefIcon = document.getElementById('triviaDebriefIcon');
+                const debriefText = document.getElementById('triviaDebriefText');
+                const btnTriviaNext = document.getElementById('btnTriviaNext');
+                const gameOverBox = document.getElementById('triviaGameOverBox');
+                const btnRetry = document.getElementById('btnTriviaRetryStage');
+
+                const btn5050 = document.getElementById('btnLifeline5050');
+                const btnHint = document.getElementById('btnLifelineHint');
+                const btnShield = document.getElementById('btnLifelineShield');
+                const hintDisplay = document.getElementById('triviaHintDisplay');
+                const btnSandbox = document.getElementById('btnUnlockAllSandbox');
+
+                // Render Hearts (5 Hati)
+                function updateHearts() {
+                    for (let i = 1; i <= 5; i++) {
+                        const h = document.getElementById(`triviaHeart${i}`);
+                        if (h) {
+                            if (i <= trivia.lives) {
+                                h.classList.remove('lost');
+                            } else {
+                                h.classList.add('lost');
+                            }
+                        }
                     }
                 }
-            }
 
-            function appendQAMessage(sender, text, isCheatAttempt = false) {
-                if (!qaChatBox) return;
-
-                const row = document.createElement('div');
-                row.className = `qa-msg-row ${sender}${isCheatAttempt ? ' cheat-warning' : ''}`;
-
-                const avatar = document.createElement('div');
-                avatar.className = 'qa-msg-avatar';
-                avatar.textContent = sender === 'bot' ? '🤖' : (engine.playerProfile.avatar || '🧑‍💼');
-
-                const bubble = document.createElement('div');
-                bubble.className = 'qa-msg-bubble';
-                // Render format paragraf baru
-                bubble.innerHTML = text.replace(/\n/g, '<br>');
-
-                row.appendChild(avatar);
-                row.appendChild(bubble);
-                qaChatBox.appendChild(row);
-
-                // Auto-scroll to latest message
-                qaChatBox.scrollTop = qaChatBox.scrollHeight;
-            }
-
-            function handleSendQA(queryText) {
-                const q = queryText || (qaUserInput ? qaUserInput.value : '');
-                if (!q || q.trim().length === 0) return;
-
-                audio.playClick();
-                appendQAMessage('user', q.trim());
-                if (qaUserInput) {
-                    qaUserInput.value = '';
-                    qaUserInput.style.height = 'auto';
-                }
-
-                // Dapatkan respon dari MacroQAEngine
-                if (window.macroQAEngine) {
-                    const res = window.macroQAEngine.ask(q.trim());
-                    setTimeout(() => {
-                        if (res.isCheatAttempt) {
-                            audio.playAlert();
-                            appendQAMessage('bot', res.text, true);
+                // Update Stage Stepper Nodes
+                function updateStageStepper() {
+                    const nodes = stageMap ? stageMap.querySelectorAll('.trivia-stage-node') : [];
+                    nodes.forEach(node => {
+                        const sId = parseInt(node.getAttribute('data-stage'));
+                        node.classList.remove('active', 'completed', 'locked');
+                        if (sId === trivia.currentStageId) {
+                            node.classList.add('active');
+                        } else if (trivia.unlockedStageIds.includes(sId + 1) || (sId === 5 && trivia.unlockedStageIds.includes(5) && trivia.advanceUnlocked.cockpit)) {
+                            node.classList.add('completed');
+                        } else if (trivia.unlockedStageIds.includes(sId)) {
+                            // Unlocked but not active
                         } else {
-                            audio.playTick();
-                            appendQAMessage('bot', res.text, false);
+                            node.classList.add('locked');
                         }
-                    }, 200);
-                }
-            }
-
-            function initInteractiveQA() {
-                if (!qaChatBox) return;
-
-                // 1. Pesan sambutan awal Asisten Ahli
-                qaChatBox.innerHTML = '';
-                appendQAMessage('bot', `Salam hormat Yang Mulia Teknokrat! Saya <strong>Prof. Makro</strong>, Asisten Ahli Dewan Ekonomi Nasional.<br><br>Saya siap mendampingi Anda di sebelah kiri layar ini selama bermain. Tanyakan konsep, rumus pergerakan kurva, instrumen moneter & fiskal, krisis sejarah, hingga analogi bisnis tanpa perlu berpindah halaman!<br><br>💡 <em>Tips Penggunaan:</em> Anda dapat meng-copas teks ke kolom chat tanpa terkirim otomatis. Tekan <strong>Shift + Enter</strong> untuk membuat paragraf baru, dan klik tombol <strong>Kirim 🚀</strong> untuk memproses.`);
-
-                // 2. Render Quick Chips
-                if (qaChipsContainer && window.macroQAEngine) {
-                    qaChipsContainer.innerHTML = '';
-                    const chips = window.macroQAEngine.getQuickChips();
-                    chips.forEach(chip => {
-                        const btn = document.createElement('button');
-                        btn.className = 'qa-chip-btn';
-                        btn.textContent = chip.label;
-                        btn.onclick = (e) => {
-                            e.stopPropagation();
-                            if (qaUserInput) qaUserInput.value = chip.query;
-                            handleSendQA(chip.query);
-                        };
-                        qaChipsContainer.appendChild(btn);
                     });
+
+                    // Update Tab Badges for Advance Modes
+                    updateAdvanceTabBadges();
                 }
 
-                // 3. Event listener input bar, proteksi copas (paste) & shortcut Enter/Shift+Enter
-                let isPasting = false;
+                function updateAdvanceTabBadges() {
+                    const badgeEcon = document.getElementById('tabEconLockBadge');
+                    const badgeScenarios = document.getElementById('tabScenariosLockBadge');
+                    const badgeCockpit = document.getElementById('tabCockpitLockBadge');
 
-                if (btnSendQA) {
-                    btnSendQA.onclick = () => handleSendQA();
+                    if (badgeEcon) {
+                        badgeEcon.textContent = trivia.advanceUnlocked.econGames ? '🌟' : '🔒';
+                        badgeEcon.style.background = trivia.advanceUnlocked.econGames ? '#dcfce7' : '#fee2e2';
+                        badgeEcon.style.color = trivia.advanceUnlocked.econGames ? '#166534' : '#991b1b';
+                    }
+                    if (badgeScenarios) {
+                        badgeScenarios.textContent = trivia.advanceUnlocked.scenarios ? '🌟' : '🔒';
+                        badgeScenarios.style.background = trivia.advanceUnlocked.scenarios ? '#dcfce7' : '#fee2e2';
+                        badgeScenarios.style.color = trivia.advanceUnlocked.scenarios ? '#166534' : '#991b1b';
+                    }
+                    if (badgeCockpit) {
+                        badgeCockpit.textContent = trivia.advanceUnlocked.cockpit ? '🌟' : '🔒';
+                        badgeCockpit.style.background = trivia.advanceUnlocked.cockpit ? '#dcfce7' : '#fee2e2';
+                        badgeCockpit.style.color = trivia.advanceUnlocked.cockpit ? '#166534' : '#991b1b';
+                    }
                 }
 
-                if (qaUserInput) {
-                    // Ketika user copas (paste) teks: JANGAN langsung diproses!
-                    // Biarkan teks masuk ke textarea agar user tetap bisa mengetik pertanyaan lanjutannya.
-                    qaUserInput.addEventListener('paste', () => {
-                        isPasting = true;
+                // Render Current Question
+                function renderQuestion() {
+                    const q = trivia.getCurrentQuestion();
+                    const stage = trivia.getCurrentStage();
+
+                    if (scenarioPill) scenarioPill.innerHTML = `<span>${stage.theme === 'market' ? '🛒' : (stage.theme === 'central_bank' ? '🏦' : (stage.theme === 'fiscal' ? '🏛️' : (stage.theme === 'foreign_exchange' ? '🚢' : '🌪️')))}</span> ${q.scenario}`;
+                    if (questionBox) questionBox.textContent = q.question;
+                    if (progressText) progressText.textContent = `Soal ${trivia.currentQuestionIdx + 1} / ${stage.questions.length}`;
+                    if (scoreText) scoreText.textContent = trivia.score.toLocaleString('id-ID');
+                    if (comboText) comboText.textContent = `${trivia.combo}x`;
+
+                    updateHearts();
+                    updateStageStepper();
+
+                    // Hide debrief & gameover
+                    if (debriefBox) debriefBox.style.display = 'none';
+                    if (gameOverBox) gameOverBox.style.display = 'none';
+                    if (hintDisplay) hintDisplay.style.display = 'none';
+
+                    // Render 4 options
+                    if (optionsGrid) {
+                        optionsGrid.innerHTML = '';
+                        const letters = ['A', 'B', 'C', 'D'];
+                        q.options.forEach((optText, idx) => {
+                            const btn = document.createElement('button');
+                            btn.type = 'button';
+                            btn.className = 'trivia-opt-btn';
+                            if (trivia.eliminatedOptions.includes(idx)) {
+                                btn.classList.add('eliminated');
+                            }
+                            btn.innerHTML = `
+                                <div class="trivia-opt-letter">${letters[idx]}</div>
+                                <div style="flex:1;">${optText}</div>
+                            `;
+                            btn.onclick = () => handleAnswer(idx);
+                            optionsGrid.appendChild(btn);
+                        });
+                    }
+
+                    // Reset button states
+                    if (btn5050) btn5050.disabled = trivia.eliminatedOptions.length > 0;
+                    if (btnShield) btnShield.disabled = trivia.shieldActive;
+                }
+
+                function handleAnswer(chosenIdx) {
+                    if (trivia.isAnswered) return;
+                    const res = trivia.answerQuestion(chosenIdx);
+                    if (!res) return;
+
+                    const allBtns = optionsGrid ? optionsGrid.querySelectorAll('.trivia-opt-btn') : [];
+                    allBtns.forEach((btn, idx) => {
+                        btn.disabled = true;
+                        if (idx === res.correctIdx) {
+                            btn.classList.add('correct');
+                        } else if (idx === res.chosenIdx) {
+                            btn.classList.add('wrong');
+                        }
+                    });
+
+                    if (res.isCorrect) {
+                        audio.playSuccess();
+                    } else {
+                        audio.playAlert();
+                    }
+
+                    updateHearts();
+                    if (scoreText) scoreText.textContent = res.score.toLocaleString('id-ID');
+                    if (comboText) comboText.textContent = `${res.combo}x`;
+
+                    // Check Game Over
+                    if (res.isGameOver) {
                         setTimeout(() => {
-                            isPasting = false;
-                        }, 300);
-                    });
+                            if (gameOverBox) gameOverBox.style.display = 'flex';
+                        }, 500);
+                        return;
+                    }
 
-                    qaUserInput.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter') {
-                            // Jika Shift + Enter (atau Enter + Shift): buat paragraf/baris baru
-                            if (e.shiftKey) {
-                                return; // Biarkan default textarea membuat newline
+                    // Show Debrief
+                    setTimeout(() => {
+                        if (debriefBox) {
+                            debriefBox.style.display = 'flex';
+                            if (res.isCorrect) {
+                                debriefBox.classList.remove('wrong-theme');
+                                if (debriefIcon) debriefIcon.textContent = '🎉';
+                                if (debriefTitle) debriefTitle.textContent = res.combo > 1 ? `Jawaban Tepat! (Combo ${res.combo}x 🔥)` : 'Jawaban Tepat!';
+                            } else {
+                                debriefBox.classList.add('wrong-theme');
+                                if (debriefIcon) debriefIcon.textContent = '💡';
+                                if (debriefTitle) debriefTitle.textContent = 'Kurang Tepat, Tapi Jangan Khawatir!';
                             }
-                            // Jika masih dalam proses paste: abaikan Enter yang mungkin terbawa dari teks copas
-                            if (isPasting) {
-                                return;
+                            if (debriefText) debriefText.innerHTML = res.debrief;
+
+                            if (btnTriviaNext) {
+                                if (res.isStageFinished) {
+                                    btnTriviaNext.innerHTML = `<span>🏆 Stage Selesai! Buka Kunci Level Lanjut</span>`;
+                                } else {
+                                    btnTriviaNext.innerHTML = `<span>Lanjut Soal Berikutnya</span> ➡️`;
+                                }
                             }
-                            // Enter biasa (tanpa Shift): kirim pertanyaan
+                        }
+                    }, 400);
+                }
+
+                // Next Button
+                if (btnTriviaNext) {
+                    btnTriviaNext.onclick = () => {
+                        audio.playClick();
+                        if (trivia.isStageComplete()) {
+                            // Move to next stage or show celebration
+                            const nextS = trivia.currentStageId + 1;
+                            if (nextS <= trivia.stages.length) {
+                                trivia.selectStage(nextS);
+                                alert(`🎉 Selamat! Anda telah menuntaskan ${trivia.stages[nextS - 2].title}! Kunci Stage ${nextS} terbuka!`);
+                                renderQuestion();
+                            } else {
+                                alert(`👑 LUAR BIASA! Anda telah menuntaskan seluruh stage Trivia Quest! Seluruh mode simulasi telah TERBUKA PENUH!`);
+                                renderQuestion();
+                            }
+                        } else {
+                            trivia.nextQuestion();
+                            renderQuestion();
+                        }
+                    };
+                }
+
+                // Retry Button
+                if (btnRetry) {
+                    btnRetry.onclick = () => {
+                        audio.playClick();
+                        trivia.restartStage();
+                        renderQuestion();
+                    };
+                }
+
+                // Stage Map Click handlers
+                if (stageMap) {
+                    const nodes = stageMap.querySelectorAll('.trivia-stage-node');
+                    nodes.forEach(node => {
+                        node.onclick = () => {
+                            const sId = parseInt(node.getAttribute('data-stage'));
+                            if (trivia.unlockedStageIds.includes(sId)) {
+                                audio.playClick();
+                                trivia.selectStage(sId);
+                                renderQuestion();
+                            } else {
+                                audio.playAlert();
+                                alert(`🔒 Stage ${sId} masih terkunci. Tuntaskan stage sebelumnya terlebih dahulu!`);
+                            }
+                        };
+                    });
+                }
+
+                // Lifelines
+                if (btn5050) {
+                    btn5050.onclick = () => {
+                        audio.playClick();
+                        const elim = trivia.use5050();
+                        const allBtns = optionsGrid ? optionsGrid.querySelectorAll('.trivia-opt-btn') : [];
+                        elim.forEach(idx => {
+                            if (allBtns[idx]) allBtns[idx].classList.add('eliminated');
+                        });
+                        btn5050.disabled = true;
+                    };
+                }
+
+                if (btnHint) {
+                    btnHint.onclick = () => {
+                        audio.playClick();
+                        const hint = trivia.useHint();
+                        if (hintDisplay) {
+                            hintDisplay.textContent = `💡 Bisikan: "${hint}"`;
+                            hintDisplay.style.display = 'block';
+                        }
+                        btnHint.disabled = true;
+                    };
+                }
+
+                if (btnShield) {
+                    btnShield.onclick = () => {
+                        audio.playClick();
+                        trivia.useShield();
+                        btnShield.disabled = true;
+                        btnShield.style.background = '#dcfce7';
+                        btnShield.style.borderColor = '#16a34a';
+                        btnShield.innerHTML = `<span>🛡️</span> Perisai Aktif!`;
+                    };
+                }
+
+                // Sandbox Unlock All
+                if (btnSandbox) {
+                    btnSandbox.onclick = () => {
+                        audio.playSuccess();
+                        trivia.unlockAllAdvanceModes();
+                        engine.unlockAllModules();
+                        updateStageStepper();
+                        alert('⚡ MODE SANDBOX DIAKTIFKAN: Seluruh Stage Trivia & Simulator Advance (Lab Pasar, Krisis Sejarah, Sidang Kabinet) telah TERBUKA PENUH!');
+                        renderQuestion();
+                    };
+                }
+
+                // Intercept clicks on Advance Tabs if locked
+                const navBtns = document.querySelectorAll('.nav-tab-btn');
+                navBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const tabId = btn.getAttribute('data-tab');
+                        if (tabId === 'tabEconGames' && !trivia.advanceUnlocked.econGames) {
                             e.preventDefault();
-                            handleSendQA();
+                            e.stopPropagation();
+                            audio.playAlert();
+                            alert('🔒 Mode Lab Eksperimen Pasar terkunci! Selesaikan Stage 3 di Trivia Quest, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
+                            return false;
                         }
-                    });
-                }
-
-                // 4. Collapse / expand toggle button
-                if (btnToggleQASidebarCollapse) {
-                    btnToggleQASidebarCollapse.onclick = (e) => {
-                        e.stopPropagation();
-                        audio.playClick();
-                        toggleQASidebar();
-                    };
-                }
-
-                // 5. Clear chat button
-                if (btnClearQAChat) {
-                    btnClearQAChat.onclick = (e) => {
-                        e.stopPropagation();
-                        audio.playClick();
-                        initEconomicsGames();
-                    };
-                }
-
-                // 6. Expand on clicking collapsed sidebar
-                if (qaSidebar) {
-                    qaSidebar.onclick = () => {
-                        if (qaSidebar.classList.contains('collapsed')) {
-                            audio.playClick();
-                            toggleQASidebar(true);
-                            if (qaUserInput) qaUserInput.focus();
+                        if (tabId === 'tabScenarios' && !trivia.advanceUnlocked.scenarios) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            audio.playAlert();
+                            alert('🔒 Mode Krisis Sejarah terkunci! Selesaikan Stage 4 di Trivia Quest, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
+                            return false;
                         }
-                    };
-                }
+                        if (tabId === 'tabCockpit' && !trivia.advanceUnlocked.cockpit) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            audio.playAlert();
+                            alert('🔒 Sidang Kabinet 7 Tuas terkunci! Selesaikan seluruh 5 Stage Trivia Quest, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
+                            return false;
+                        }
+                    }, true);
+                });
 
-                // 7. Nav tab toggle button
-                if (btnNavToggleQA) {
-                    btnNavToggleQA.onclick = () => {
-                        audio.playClick();
-                        if (qaSidebar && qaSidebar.classList.contains('collapsed')) {
-                            toggleQASidebar(true);
-                        }
-                        if (qaUserInput) qaUserInput.focus();
-                        if (qaSidebar) {
-                            qaSidebar.classList.add('question-target-pulse');
-                            setTimeout(() => qaSidebar.classList.remove('question-target-pulse'), 1000);
-                            qaSidebar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        }
-                    };
-                }
-
-                // 8. Floating button launcher
-                if (btnFloatingQA) {
-                    btnFloatingQA.onclick = () => {
-                        audio.playClick();
-                        toggleQASidebar(true);
-                        if (qaUserInput) qaUserInput.focus();
-                        if (qaSidebar) {
-                            qaSidebar.classList.add('question-target-pulse');
-                            setTimeout(() => qaSidebar.classList.remove('question-target-pulse'), 1000);
-                            qaSidebar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        }
-                    };
-                }
+                // Initial render
+                renderQuestion();
             }
 
-            // Inisialisasi Tampilan Awal
-            updateGamerHUD();
-            updateAcademyStepper();
-            renderAcademyModule(engine.academyState.activeModuleId || 1);
-            renderScenariosList();
-            renderEncyclopedia();
-            loadQuizQuestion(0);
-            initEconomicsGames();
-            refreshAllUI();
+                        // ------------------------------------------------------------------
+            // INISIALISASI TAMPILAN AWAL (PRIORITAS: TRIVIA QUEST)
+            // ------------------------------------------------------------------
+            document.body.classList.add('mode-trivia');
+            initTriviaQuest();
+
+            try { updateGamerHUD(); } catch (e) { console.warn(e); }
+            try { updateAcademyStepper(); } catch (e) { console.warn(e); }
+            try { renderAcademyModule(engine.academyState.activeModuleId || 1); } catch (e) { console.warn(e); }
+            try { renderScenariosList(); } catch (e) { console.warn(e); }
+            try { renderEncyclopedia(); } catch (e) { console.warn(e); }
+            try { loadQuizQuestion(0); } catch (e) { console.warn(e); }
+            try { initEconomicsGames(); } catch (e) { console.warn(e); }
+            try { refreshAllUI(); } catch (e) { console.warn(e); }
         });
     </script>
 </body>

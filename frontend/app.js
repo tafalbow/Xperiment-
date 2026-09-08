@@ -262,6 +262,18 @@ class App {
       if (this.chartModule) {
         requestAnimationFrame(() => this.chartModule.drawChart());
       }
+      if (this.contextualMap && this.contextualMap.mapInstance) {
+        setTimeout(() => {
+          if (this.contextualMap && this.contextualMap.mapInstance) {
+            this.contextualMap.mapInstance.invalidateSize();
+          }
+        }, 150);
+        setTimeout(() => {
+          if (this.contextualMap && this.contextualMap.mapInstance) {
+            this.contextualMap.mapInstance.invalidateSize();
+          }
+        }, 400);
+      }
     } else if (tabName === 'agri') {
       contentCommodities?.classList.remove('hidden');
       activateBtn(btnAgri);

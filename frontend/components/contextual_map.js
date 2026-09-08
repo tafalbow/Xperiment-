@@ -247,20 +247,22 @@ export class ContextualMap {
           </div>
         </div>
 
-        <!-- 2. MAIN CONTENT AREA: SIDE-BY-SIDE (Left List vs Right Map) OR EMPTY STATE -->
-        ${hasDrivers ? `
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
-            
-            <!-- KOLOM KIRI: DAFTAR SENTRA PENDORONG (Numbered List) -->
-            <div class="lg:col-span-5 flex flex-col bg-white border border-[#DADCE0] rounded p-3.5 space-y-3 h-full">
-              <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2 flex-wrap gap-1 shrink-0">
-                <div class="font-mono text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <span>📍</span>
-                  <span>DAFTAR SENTRA PENDORONG (${this.drivers.length} Lokasi):</span>
-                </div>
-                <span class="text-[10px] font-mono text-slate-500">Klik item untuk fokus peta</span>
+        <!-- 2. MAIN CONTENT AREA: SIDE-BY-SIDE (Left List vs Right Map) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+          
+          <!-- KOLOM KIRI: DAFTAR SENTRA PENDORONG (Numbered List OR Agregat Nasional) -->
+          <div class="lg:col-span-5 flex flex-col bg-white border border-[#DADCE0] rounded p-3.5 space-y-3 h-full">
+            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2 flex-wrap gap-1 shrink-0">
+              <div class="font-mono text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <span>📍</span>
+                <span>DAFTAR SENTRA PENDORONG (${hasDrivers ? `${this.drivers.length} Lokasi` : 'Cakupan Nasional'}):</span>
               </div>
+              <span class="text-[10px] font-mono text-slate-500">
+                ${hasDrivers ? 'Klik item untuk fokus peta' : 'Konsolidasi 38 Provinsi'}
+              </span>
+            </div>
 
+            ${hasDrivers ? `
               <!-- Numbered List Items -->
               <div class="space-y-2 flex-1 overflow-y-auto max-h-[460px] pr-0.5 scrollbar-thin" id="driver-numbered-list">
                 ${this.renderDriverNumberedListHtml(selected)}
@@ -269,61 +271,95 @@ export class ContextualMap {
               <div class="p-1.5 bg-slate-50 rounded border border-[#DADCE0] text-[9.5px] text-slate-500 font-mono text-center shrink-0">
                 * Terhubung langsung dengan titik pergerakan ${activeSeries ? activeSeries.name : 'indikator nasional'}.
               </div>
-            </div>
+            ` : `
+              <!-- Tampilan saat Tidak Ada Driver / Cakupan Nasional Agregat -->
+              <div class="space-y-3 flex-1 flex flex-col justify-center p-2">
+                <div class="p-4 bg-slate-50 border border-[#DADCE0] rounded-lg space-y-3 shadow-2xs">
+                  <div class="flex items-center justify-between gap-2 flex-wrap">
+                    <span class="px-2.5 py-1 rounded bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3] text-[11px] font-mono font-bold flex items-center gap-1">
+                      <span>📍</span>
+                      <span>Tidak Ada Daerah Spesifik</span>
+                    </span>
+                    <span class="text-[10px] font-mono text-slate-500 font-medium">Agregat Makro / Fiskal</span>
+                  </div>
 
-            <!-- KOLOM KANAN: MAP AREA (Posisi teratas sama setara dengan sentra pendorong) -->
-            <div class="lg:col-span-7 flex flex-col bg-slate-50 border border-[#DADCE0] rounded p-2.5 space-y-2 h-full min-h-[440px]">
-              <!-- Leaflet Container -->
-              <div id="gis-leaflet-container" class="w-full flex-1 min-h-[380px] rounded bg-slate-100 overflow-hidden relative z-0 border border-[#DADCE0]"></div>
+                  <h4 class="font-mono text-xs font-bold text-slate-900 leading-snug">
+                    Konsolidasi Nasional Terpusat (Seluruh Indonesia)
+                  </h4>
 
-              <!-- Map Controls Overlay -->
-              <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 pt-1 px-1 shrink-0 flex-wrap gap-2">
-                <div class="flex items-center gap-2">
-                  <span class="inline-flex items-center gap-1 bg-white border border-[#DADCE0] px-2 py-0.5 rounded shadow-2xs text-[10px]">
-                    <span class="w-2 h-2 rounded-full bg-[#1A73E8] animate-pulse"></span>
-                    <span id="gis-active-level">${selected ? (selected.geo_level || 'Level Provinsi') : 'Nasional'}</span>
-                  </span>
-                  <span class="text-slate-500 text-[10px] font-mono" id="gis-coords-badge">
-                    ${selected && selected.latitude ? `${selected.latitude.toFixed(2)}°, ${selected.longitude.toFixed(2)}°` : 'Indonesia'}
-                  </span>
+                  <p class="text-[11.5px] text-slate-600 font-sans leading-relaxed">
+                    Variabel <strong class="text-slate-900 font-mono">${activeSeries ? activeSeries.name : 'ini'}</strong> merupakan indikator makroekonomi/fiskal yang berlaku secara agregat nasional untuk seluruh 38 provinsi di Indonesia, tanpa konsentrasi pendorong spasial atau anomali regional khusus pada publikasi resmi pemerintah.
+                  </p>
+
+                  <div class="pt-2 border-t border-[#DADCE0] flex items-center justify-between text-[10px] font-mono text-slate-600 flex-wrap gap-1">
+                    <span>🏛️ Otoritas: BPS • Kemenkeu • Bank Indonesia</span>
+                    <span class="font-bold text-[#1A73E8]">Sabang — Merauke</span>
+                  </div>
                 </div>
-                <button id="btn-reset-map-zoom" class="px-2.5 py-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded shadow-2xs font-semibold flex items-center gap-1 text-[10px] cursor-pointer" title="Kembalikan Tampilan Penuh ke Seluruh Kepulauan Indonesia">
-                  <span>🇮🇩</span> Zoom Nusantara Penuh
-                </button>
               </div>
+
+              <div class="p-1.5 bg-slate-50 rounded border border-[#DADCE0] text-[9.5px] text-slate-500 font-mono text-center shrink-0">
+                * Menampilkan seluruh peta kepulauan Indonesia secara konsolidasi nasional.
+              </div>
+            `}
+          </div>
+
+          <!-- KOLOM KANAN: MAP AREA -->
+          <div class="lg:col-span-7 flex flex-col bg-slate-50 border border-[#DADCE0] rounded p-2.5 space-y-2 h-full min-h-[440px]">
+            <!-- Leaflet Container -->
+            <div id="gis-leaflet-container" class="w-full flex-1 min-h-[380px] rounded bg-slate-100 overflow-hidden relative z-0 border border-[#DADCE0]">
+              ${!hasDrivers ? `
+                <!-- Floating Overlay: Tidak Ada Daerah Spesifik -->
+                <div id="gis-no-specific-badge" class="absolute top-3 right-3 z-[1000] bg-white/95 backdrop-blur-xs border border-[#DADCE0] shadow-md rounded-lg p-2.5 max-w-[270px] pointer-events-auto">
+                  <div class="flex items-center gap-1.5 text-xs font-mono font-bold text-[#202124]">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#E37400]"></span>
+                    <span>Tidak Ada Daerah Spesifik</span>
+                  </div>
+                  <p class="text-[11px] text-[#5F6368] font-sans mt-1 leading-relaxed">
+                    Peta menampilkan seluruh kepulauan Indonesia untuk cakupan data konsolidasi agregat nasional.
+                  </p>
+                  <div class="mt-1.5 pt-1 border-t border-[#F1F3F4] text-[10px] font-mono text-[#1A73E8]">
+                    🇮🇩 Sabang — Merauke (38 Provinsi)
+                  </div>
+                </div>
+              ` : ''}
             </div>
 
-          </div>
-        ` : `
-          <!-- Empty State when no regional drivers exist -->
-          <div class="w-full flex flex-col items-center justify-center text-center p-8 space-y-2.5 bg-white/70 border border-dashed border-slate-300 rounded min-h-[220px]">
-            <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-300 flex items-center justify-center text-xl text-slate-500 shadow-2xs">
-              🗺️
-            </div>
-            <div class="space-y-1 max-w-sm">
-              <div class="font-bold text-xs text-slate-800 font-mono">
-                Tidak Ada Data atau Driver yang Signifikan secara Indeks Wilayah
+            <!-- Map Controls Overlay -->
+            <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 pt-1 px-1 shrink-0 flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 bg-white border border-[#DADCE0] px-2 py-0.5 rounded shadow-2xs text-[10px]">
+                  <span class="w-2 h-2 rounded-full ${hasDrivers ? 'bg-[#1A73E8] animate-pulse' : 'bg-[#E37400]'}"></span>
+                  <span id="gis-active-level">${hasDrivers ? (selected ? (selected.geo_level || 'Level Provinsi') : 'Nasional') : 'Seluruh Kepulauan Indonesia'}</span>
+                </span>
+                <span class="text-slate-500 text-[10px] font-mono" id="gis-coords-badge">
+                  ${hasDrivers && selected && selected.latitude ? `${selected.latitude.toFixed(2)}°, ${selected.longitude.toFixed(2)}°` : 'Tidak ada daerah spesifik'}
+                </span>
               </div>
-              <p class="text-[11px] text-slate-500 font-sans leading-relaxed">
-                Variabel <strong>${activeSeries ? activeSeries.name : 'ini'}</strong> merupakan indikator makroekonomi/fiskal nasional tanpa konsentrasi pendorong spasial atau anomali regional khusus pada publikasi resmi pemerintah.
-              </p>
+              <button id="btn-reset-map-zoom" class="px-2.5 py-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded shadow-2xs font-semibold flex items-center gap-1 text-[10px] cursor-pointer" title="Kembalikan Tampilan Penuh ke Seluruh Kepulauan Indonesia">
+                <span>🇮🇩</span> Zoom Nusantara Penuh
+              </button>
             </div>
-            <span class="inline-flex items-center gap-1 text-[9.5px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-[#DADCE0]">
-              <span>🏛️</span> Cakupan: Konsolidasi Nasional (Seluruh Indonesia)
-            </span>
           </div>
-        `}
+
+        </div>
       </div>
     `;
 
     // Attach DOM events immediately
     this.attachEvents();
 
-    // Initialize Leaflet Map
-    if (reinitMap && hasDrivers) {
+    // Initialize Leaflet Map (always initialize whether hasDrivers is true or false)
+    if (reinitMap) {
       setTimeout(() => {
         this.initLeafletMap(selected);
       }, 50);
+      setTimeout(() => {
+        if (this.mapInstance) this.mapInstance.invalidateSize();
+      }, 250);
+      setTimeout(() => {
+        if (this.mapInstance) this.mapInstance.invalidateSize();
+      }, 600);
     }
   }
 
@@ -347,7 +383,7 @@ export class ContextualMap {
     this.markersMap.clear();
 
     const defaultCenter = [-2.2, 118.0];
-    const defaultZoom = 4;
+    const defaultZoom = 4.5;
 
     this.mapInstance = L.map('gis-leaflet-container', {
       center: defaultCenter,
@@ -359,10 +395,24 @@ export class ContextualMap {
     });
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.mapInstance);
 
     this.markersLayer = L.layerGroup().addTo(this.mapInstance);
+
+    // Setup ResizeObserver so map tiles load whenever container becomes visible
+    if (this.resizeObserver) {
+      try { this.resizeObserver.disconnect(); } catch (e) {}
+    }
+    if (window.ResizeObserver && mapContainer) {
+      this.resizeObserver = new ResizeObserver(() => {
+        if (this.mapInstance) {
+          this.mapInstance.invalidateSize();
+        }
+      });
+      this.resizeObserver.observe(mapContainer);
+    }
 
     // Render Markers for all available drivers
     if (this.drivers && this.drivers.length > 0) {
@@ -409,10 +459,12 @@ export class ContextualMap {
       if (activeDriver && activeDriver.latitude && activeDriver.longitude) {
         this.focusMapOnDriver(activeDriver);
       } else {
-        this.mapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+        this.mapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]], { padding: [20, 20] });
       }
     } else {
-      this.mapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+      // If no drivers exist, set view to full archipelago of Indonesia
+      this.mapInstance.setView(defaultCenter, defaultZoom);
+      this.mapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]], { padding: [20, 20] });
     }
 
     setTimeout(() => {
