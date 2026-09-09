@@ -3017,9 +3017,9 @@
                     });
 
                     if (res.isCorrect) {
-                        audio.playSuccess();
+                        // Senyap (tanpa suara)
                     } else {
-                        audio.playAlert();
+                        audio.playWrong(); // Suara bip jika salah
                     }
 
                     updateHearts();
@@ -3089,7 +3089,7 @@
 
                     if (evalRes.isPassed) {
                         summaryBox.classList.add('pass-theme');
-                        audio.playSuccess();
+                        // Visual konfeti saja tanpa efek suara kemenangan
                         if (typeof launchCelebrationConfetti === 'function') launchCelebrationConfetti();
 
                         if (summaryStatusBadge) {
@@ -3166,7 +3166,6 @@
                     } else {
                         // Belum Lulus (< 80%)
                         summaryBox.classList.add('fail-theme');
-                        audio.playAlert();
 
                         if (summaryStatusBadge) {
                             summaryStatusBadge.className = 'summary-badge-status fail';
