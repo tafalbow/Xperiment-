@@ -2796,3 +2796,152 @@ body.mode-trivia .macro-header {
 body.mode-trivia .macro-main-content {
     padding: 10px 16px;
 }
+
+/* Stage Banner inside Arena Card */
+.trivia-stage-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border: 1.5px solid #bae6fd;
+    border-radius: 12px;
+    padding: 8px 14px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.trivia-stage-banner-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: #0369a1;
+    font-size: 0.94rem;
+}
+
+.trivia-stage-banner-target {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0284c7;
+    background: #ffffff;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid #7dd3fc;
+}
+
+/* Stage Summary Card */
+.trivia-stage-summary-box {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    animation: fadeInModal 0.3s ease-out;
+}
+
+.trivia-stage-summary-box.pass-theme {
+    border: 2px solid #22c55e;
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 45%);
+}
+
+.trivia-stage-summary-box.fail-theme {
+    border: 2px solid #f59e0b;
+    background: linear-gradient(180deg, #fffbeb 0%, #ffffff 45%);
+}
+
+.trivia-stage-summary-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.summary-badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+
+.summary-badge-status.pass {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+
+.summary-badge-status.fail {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+}
+
+.summary-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.summary-kpi-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-kpi-card .kpi-title {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.summary-kpi-card .kpi-num {
+    font-size: 1.3rem;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.summary-eval-msg {
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.summary-eval-msg.pass {
+    background: #f0fdf4;
+    border-left: 4px solid #22c55e;
+    color: #166534;
+}
+
+.summary-eval-msg.fail {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    color: #92400e;
+}
+
+.summary-eval-msg.grand {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 2px solid #f59e0b;
+    color: #78350f;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
+}
+
+.summary-action-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 6px;
+}

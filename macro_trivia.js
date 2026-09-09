@@ -500,6 +500,7 @@ class MacroTriviaEngine {
             scenarios: false,
             cockpit: false
         };
+        this.stageCorrectCount = 0;
 
         // Acak posisi pilihan jawaban untuk semua stage agar jawaban benar tidak selalu di 'A'
         this.stages.forEach(stage => this.shuffleAllStageQuestions(stage));
@@ -540,15 +541,6 @@ class MacroTriviaEngine {
         } catch (e) {}
         this.unlockedStageIds = Array.from(new Set((this.unlockedStageIds || [1]).map(Number)));
         if (!this.unlockedStageIds.includes(1)) this.unlockedStageIds.unshift(1);
-
-        // Auto-heal: If completed current stage, ensure next stage is unlocked
-        const curStage = this.getCurrentStage();
-        if (curStage && this.currentQuestionIdx >= curStage.questions.length - 1) {
-            const nxt = Number(this.currentStageId) + 1;
-            if (nxt <= this.stages.length && !this.unlockedStageIds.includes(nxt)) {
-                this.unlockedStageIds.push(nxt);
-            }
-        }
     }
 
     saveProgress() {
@@ -585,15 +577,11 @@ class MacroTriviaEngine {
         stageId = Number(stageId);
         const unlockedNums = this.unlockedStageIds.map(Number);
         if (!unlockedNums.includes(stageId)) {
-            // If selecting sequential next stage, allow and unlock
-            if (stageId === Number(this.currentStageId) + 1) {
-                this.unlockedStageIds.push(stageId);
-            } else {
-                return false;
-            }
+            return false;
         }
         this.currentStageId = stageId;
         this.currentQuestionIdx = 0;
+        this.stageCorrectCount = 0;
         this.lives = this.maxLives;
         this.combo = 0;
         this.isAnswered = false;
@@ -616,6 +604,7 @@ class MacroTriviaEngine {
             if (this.combo > this.maxCombo) this.maxCombo = this.combo;
             const points = 100 + (this.combo * 20);
             this.score += points;
+            this.stageCorrectCount = (this.stageCorrectCount || 0) + 1;
         } else {
             if (this.shieldActive) {
                 this.shieldActive = false;
@@ -625,9 +614,15 @@ class MacroTriviaEngine {
             }
         }
 
+        const stage = this.getCurrentStage();
+        const totalQ = stage.questions.length;
         const isStageFinished = this.isStageComplete();
-        // Selalu buka stage berikutnya jika stage sudah selesai (selama lives > 0)
-        if (isStageFinished && this.lives > 0) {
+        const stageScorePct = Math.round(((this.stageCorrectCount || 0) / totalQ) * 100);
+        
+        // Syarat kelulusan: Stage tuntas, nyawa masih ada, dan nilai benar minimal 80% (misal 5 dari 6 soal)
+        const isPassed = isStageFinished && (stageScorePct >= 80) && (this.lives > 0);
+
+        if (isPassed) {
             this.handleStageCompletion();
         }
 
@@ -642,7 +637,33 @@ class MacroTriviaEngine {
             combo: this.combo,
             score: this.score,
             isGameOver: this.lives <= 0,
-            isStageFinished: isStageFinished
+            isStageFinished: isStageFinished,
+            stageCorrectCount: this.stageCorrectCount || 0,
+            stageTotalQuestions: totalQ,
+            stageScorePct: stageScorePct,
+            isPassed: isPassed
+        };
+    }
+
+    getStageEvaluation() {
+        const stage = this.getCurrentStage();
+        const totalQ = stage.questions.length;
+        const correct = this.stageCorrectCount || 0;
+        const pct = Math.round((correct / totalQ) * 100);
+        const isPassed = pct >= 80 && this.lives > 0;
+        const curId = Number(this.currentStageId);
+        const nextStageId = curId + 1;
+        const nextStage = this.stages.find(s => Number(s.id) === nextStageId);
+        return {
+            stageId: curId,
+            stageTitle: stage.title,
+            correctCount: correct,
+            totalQuestions: totalQ,
+            scorePct: pct,
+            isPassed: isPassed,
+            nextStageId: nextStageId,
+            nextStageTitle: nextStage ? nextStage.title : null,
+            isAllStagesCompleted: (curId === this.stages.length) && isPassed
         };
     }
 
@@ -688,6 +709,7 @@ class MacroTriviaEngine {
 
     restartStage() {
         this.currentQuestionIdx = 0;
+        this.stageCorrectCount = 0;
         this.lives = this.maxLives;
         this.combo = 0;
         this.isAnswered = false;

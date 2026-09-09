@@ -235,6 +235,17 @@
                             </div>
                         </div>
 
+                        <!-- Banner Indikator Stage & Syarat Lulus 80% -->
+                        <div class="trivia-stage-banner" id="triviaStageBanner">
+                            <div class="trivia-stage-banner-title">
+                                <span id="triviaStageBannerIcon">🛒</span>
+                                <span id="triviaStageBannerText">Stage 1: Pasar & Warung</span>
+                            </div>
+                            <div class="trivia-stage-banner-target" id="triviaStageBannerTarget">
+                                🎯 Syarat Lulus: Min. 80% (5 dari 6 Benar)
+                            </div>
+                        </div>
+
                         <!-- Scenario Pill -->
                         <div class="trivia-scenario-pill" id="triviaScenarioPill">
                             <span>🏪</span> Bu Tejo di Pasar Tradisional
@@ -292,6 +303,45 @@
                             <button type="button" id="btnTriviaRetryStage" class="btn-gavel-primary" style="padding:10px 20px; font-size:0.9rem; background:#f59e0b; border-color:#d97706;">
                                 <span>🔄 Coba Lagi Stage Ini</span>
                             </button>
+                        </div>
+
+                        <!-- Stage Completion Summary Modal / Card (Evaluasi Nilai Min. 80%) -->
+                        <div class="trivia-stage-summary-box" id="triviaStageSummaryBox">
+                            <div class="trivia-stage-summary-header">
+                                <div id="summaryStatusBadge" class="summary-badge-status pass">✅ LULUS STAGE</div>
+                                <h3 id="summaryTitle" style="margin:6px 0 2px; font-size:1.25rem; font-family:var(--font-heading); color:var(--text-main);">
+                                    Hasil Evaluasi Stage
+                                </h3>
+                                <p id="summarySub" style="margin:0; font-size:0.84rem; color:var(--text-muted);">
+                                    Rekapitulasi ketepatan pemahaman konsep makroekonomi Anda
+                                </p>
+                            </div>
+
+                            <!-- Scoreboard Grid -->
+                            <div class="summary-kpi-grid">
+                                <div class="summary-kpi-card">
+                                    <span class="kpi-title">🎯 Jawaban Benar</span>
+                                    <span id="summaryCorrectVal" class="kpi-num">0 / 6</span>
+                                </div>
+                                <div class="summary-kpi-card">
+                                    <span class="kpi-title">📈 Nilai Akhir</span>
+                                    <span id="summaryScoreVal" class="kpi-num" style="color:#16a34a;">0%</span>
+                                </div>
+                                <div class="summary-kpi-card">
+                                    <span class="kpi-title">⚖️ Standar Kelulusan</span>
+                                    <span class="kpi-num" style="font-size:1.1rem; color:#0284c7;">Min. 80%</span>
+                                </div>
+                            </div>
+
+                            <!-- Pesan Evaluasi -->
+                            <div id="summaryMessage" class="summary-eval-msg pass">
+                                Evaluasi kelulusan stage...
+                            </div>
+
+                            <!-- Action Buttons Container -->
+                            <div id="summaryActions" class="summary-action-btns">
+                                <!-- Tombol akan diisi secara dinamis -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2774,6 +2824,11 @@
                 const trivia = window.macroTriviaEngine;
 
                 const stageMap = document.getElementById('triviaStageMap');
+                const stageBanner = document.getElementById('triviaStageBanner');
+                const stageBannerIcon = document.getElementById('triviaStageBannerIcon');
+                const stageBannerText = document.getElementById('triviaStageBannerText');
+                const stageBannerTarget = document.getElementById('triviaStageBannerTarget');
+
                 const scenarioPill = document.getElementById('triviaScenarioPill');
                 const questionBox = document.getElementById('triviaQuestionBox');
                 const optionsGrid = document.getElementById('triviaOptionsGrid');
@@ -2788,11 +2843,21 @@
                 const gameOverBox = document.getElementById('triviaGameOverBox');
                 const btnRetry = document.getElementById('btnTriviaRetryStage');
 
+                const lifelinesBar = document.querySelector('.trivia-lifelines-bar');
                 const btn5050 = document.getElementById('btnLifeline5050');
                 const btnHint = document.getElementById('btnLifelineHint');
                 const btnShield = document.getElementById('btnLifelineShield');
                 const hintDisplay = document.getElementById('triviaHintDisplay');
                 const btnSandbox = document.getElementById('btnUnlockAllSandbox');
+
+                // Summary Box Elements
+                const summaryBox = document.getElementById('triviaStageSummaryBox');
+                const summaryStatusBadge = document.getElementById('summaryStatusBadge');
+                const summaryTitle = document.getElementById('summaryTitle');
+                const summaryCorrectVal = document.getElementById('summaryCorrectVal');
+                const summaryScoreVal = document.getElementById('summaryScoreVal');
+                const summaryMessage = document.getElementById('summaryMessage');
+                const summaryActions = document.getElementById('summaryActions');
 
                 // Render Hearts (5 Hati)
                 function updateHearts() {
@@ -2808,7 +2873,7 @@
                     }
                 }
 
-                // Update Stage Stepper Nodes
+                // Update Stage Stepper Nodes & Stage Banner
                 function updateStageStepper() {
                     const stageDefs = [
                         { id: 1, icon: '🛒', name: 'Pasar & Warung' },
@@ -2821,6 +2886,16 @@
                     const nodes = stageMap ? stageMap.querySelectorAll('.trivia-stage-node') : [];
                     const unlockedNums = trivia.unlockedStageIds.map(Number);
                     const curStageNum = Number(trivia.currentStageId);
+                    const curDef = stageDefs.find(s => s.id === curStageNum) || stageDefs[0];
+
+                    // Update Top Banner in Trivia Card
+                    if (stageBannerIcon) stageBannerIcon.textContent = curDef.icon;
+                    if (stageBannerText) stageBannerText.textContent = `Stage ${curStageNum}: ${curDef.name}`;
+                    if (stageBannerTarget) {
+                        const correctSoFar = trivia.stageCorrectCount || 0;
+                        const answeredSoFar = trivia.currentQuestionIdx + (trivia.isAnswered ? 1 : 0);
+                        stageBannerTarget.innerHTML = `🎯 Benar: <strong>${correctSoFar}</strong>/${answeredSoFar} • Syarat Lulus: Min. 80% (5/6)`;
+                    }
 
                     nodes.forEach((node, idx) => {
                         const sId = idx + 1;
@@ -2873,6 +2948,16 @@
 
                 // Render Current Question
                 function renderQuestion() {
+                    // Hide summary box, show game elements
+                    if (summaryBox) summaryBox.style.display = 'none';
+                    if (scenarioPill) scenarioPill.style.display = 'inline-flex';
+                    if (questionBox) questionBox.style.display = 'block';
+                    if (optionsGrid) optionsGrid.style.display = 'grid';
+                    if (lifelinesBar) lifelinesBar.style.display = 'flex';
+                    if (debriefBox) debriefBox.style.display = 'none';
+                    if (gameOverBox) gameOverBox.style.display = 'none';
+                    if (hintDisplay) hintDisplay.style.display = 'none';
+
                     const q = trivia.getCurrentQuestion();
                     const stage = trivia.getCurrentStage();
 
@@ -2884,11 +2969,6 @@
 
                     updateHearts();
                     updateStageStepper();
-
-                    // Hide debrief & gameover
-                    if (debriefBox) debriefBox.style.display = 'none';
-                    if (gameOverBox) gameOverBox.style.display = 'none';
-                    if (hintDisplay) hintDisplay.style.display = 'none';
 
                     // Render 4 options
                     if (optionsGrid) {
@@ -2912,7 +2992,13 @@
 
                     // Reset button states
                     if (btn5050) btn5050.disabled = trivia.eliminatedOptions.length > 0;
-                    if (btnShield) btnShield.disabled = trivia.shieldActive;
+                    if (btnShield) {
+                        btnShield.disabled = trivia.shieldActive;
+                        btnShield.style.background = '';
+                        btnShield.style.borderColor = '';
+                        btnShield.innerHTML = `<span>🛡️</span> Perisai Nyawa`;
+                    }
+                    if (btnHint) btnHint.disabled = false;
                 }
 
                 function handleAnswer(chosenIdx) {
@@ -2937,23 +3023,26 @@
                     }
 
                     updateHearts();
+                    updateStageStepper();
                     if (scoreText) scoreText.textContent = res.score.toLocaleString('id-ID');
                     if (comboText) comboText.textContent = `${res.combo}x`;
 
-                    // Check Game Over
+                    // Check Game Over (Nyawa habis)
                     if (res.isGameOver) {
                         setTimeout(() => {
                             if (gameOverBox) gameOverBox.style.display = 'flex';
+                            if (debriefBox) debriefBox.style.display = 'none';
                         }, 500);
                         return;
                     }
 
-                    // Show Debrief
+                    // Tampilkan debrief
                     setTimeout(() => {
                         if (debriefBox) {
                             debriefBox.style.display = 'flex';
+                            debriefBox.classList.remove('wrong-theme');
+
                             if (res.isCorrect) {
-                                debriefBox.classList.remove('wrong-theme');
                                 if (debriefIcon) debriefIcon.textContent = '🎉';
                                 if (debriefTitle) debriefTitle.textContent = res.combo > 1 ? `Jawaban Tepat! (Combo ${res.combo}x 🔥)` : 'Jawaban Tepat!';
                             } else {
@@ -2964,9 +3053,8 @@
                             if (debriefText) debriefText.innerHTML = res.debrief;
 
                             if (btnTriviaNext) {
-                                updateStageStepper();
                                 if (res.isStageFinished) {
-                                    btnTriviaNext.innerHTML = `<span>🏆 Stage Selesai! Buka Kunci Level Lanjut</span>`;
+                                    btnTriviaNext.innerHTML = `<span>📊 Selesaikan & Lihat Hasil Evaluasi Stage</span> ➡️`;
                                 } else {
                                     btnTriviaNext.innerHTML = `<span>Lanjut Soal Berikutnya</span> ➡️`;
                                 }
@@ -2975,24 +3063,154 @@
                     }, 400);
                 }
 
+                // Show Stage Summary Screen (Evaluasi Nilai Min 80%)
+                function showStageSummary(evalRes) {
+                    // Hide question arena elements
+                    if (scenarioPill) scenarioPill.style.display = 'none';
+                    if (questionBox) questionBox.style.display = 'none';
+                    if (optionsGrid) optionsGrid.style.display = 'none';
+                    if (lifelinesBar) lifelinesBar.style.display = 'none';
+                    if (debriefBox) debriefBox.style.display = 'none';
+                    if (gameOverBox) gameOverBox.style.display = 'none';
+
+                    if (!summaryBox) return;
+                    summaryBox.style.display = 'flex';
+
+                    // Update Stepper
+                    updateStageStepper();
+
+                    if (summaryCorrectVal) summaryCorrectVal.textContent = `${evalRes.correctCount} / ${evalRes.totalQuestions}`;
+                    if (summaryScoreVal) {
+                        summaryScoreVal.textContent = `${evalRes.scorePct}%`;
+                        summaryScoreVal.style.color = evalRes.isPassed ? '#16a34a' : '#dc2626';
+                    }
+
+                    summaryBox.classList.remove('pass-theme', 'fail-theme');
+
+                    if (evalRes.isPassed) {
+                        summaryBox.classList.add('pass-theme');
+                        audio.playSuccess();
+                        if (typeof launchCelebrationConfetti === 'function') launchCelebrationConfetti();
+
+                        if (summaryStatusBadge) {
+                            summaryStatusBadge.className = 'summary-badge-status pass';
+                            summaryStatusBadge.textContent = `✅ LULUS (Nilai: ${evalRes.scorePct}%)`;
+                        }
+                        if (summaryTitle) summaryTitle.textContent = `🎉 Selamat! Anda Lulus ${evalRes.stageTitle}!`;
+
+                        if (evalRes.isAllStagesCompleted) {
+                            // Grand Finale (Stage 5 Lulus)
+                            if (summaryMessage) {
+                                summaryMessage.className = 'summary-eval-msg grand';
+                                summaryMessage.innerHTML = `
+                                    <div style="font-size:1.1rem; font-weight:800; margin-bottom:6px;">👑 MAHA KARYA TEKNOKRAT MAKROEKONOMI!</div>
+                                    Selamat Yang Mulia! Anda telah berhasil menuntaskan seluruh 5 Stage Trivia Quest Makroekonomi dengan nilai gemilang (<strong>${evalRes.scorePct}%</strong>). Pemahaman instrumen moneter, fiskal, valas, dan mitigasi krisis Anda kini setara teknokrat ahli. Seluruh simulator tingkat lanjut kini <strong>TERBUKA PENUH</strong>!
+                                `;
+                            }
+                            if (summaryActions) {
+                                summaryActions.innerHTML = `
+                                    <button type="button" id="btnGoCockpit" class="btn-gavel-primary" style="background:#0284c7;">
+                                        🏛️ Masuk Sidang Kabinet (7 Tuas)
+                                    </button>
+                                    <button type="button" id="btnGoScenarios" class="btn-gavel-primary" style="background:#7c3aed;">
+                                        ⚔️ Hadapi Badai Krisis Sejarah
+                                    </button>
+                                    <button type="button" id="btnGoSandbox" class="btn-sidebar-icon">
+                                        🧪 Lab Pasar & Eksperimen
+                                    </button>
+                                    <button type="button" id="btnRestartAllTrivia" class="btn-sidebar-icon">
+                                        🔄 Main Ulang Trivia dari Stage 1
+                                    </button>
+                                `;
+                                document.getElementById('btnGoCockpit').onclick = () => {
+                                    document.querySelector('.nav-tab-btn[data-tab="tabCockpit"]').click();
+                                };
+                                document.getElementById('btnGoScenarios').onclick = () => {
+                                    document.querySelector('.nav-tab-btn[data-tab="tabScenarios"]').click();
+                                };
+                                document.getElementById('btnGoSandbox').onclick = () => {
+                                    document.querySelector('.nav-tab-btn[data-tab="tabEconGames"]').click();
+                                };
+                                document.getElementById('btnRestartAllTrivia').onclick = () => {
+                                    trivia.selectStage(1);
+                                    renderQuestion();
+                                };
+                            }
+                        } else {
+                            // Stages 1-4 Lulus
+                            if (summaryMessage) {
+                                summaryMessage.className = 'summary-eval-msg pass';
+                                summaryMessage.innerHTML = `
+                                    <strong>Luar Biasa!</strong> Anda menjawab <strong>${evalRes.correctCount} dari ${evalRes.totalQuestions} soal</strong> dengan benar (${evalRes.scorePct}%). Standar kelulusan min. 80% terpenuhi. Pintu akses ke <strong>Stage ${evalRes.nextStageId}: ${evalRes.nextStageTitle || ''}</strong> resmi TERBUKA!
+                                `;
+                            }
+                            if (summaryActions) {
+                                summaryActions.innerHTML = `
+                                    <button type="button" id="btnSummaryNextStage" class="btn-gavel-primary" style="padding:10px 22px; font-size:0.92rem;">
+                                        🚀 Lanjut ke Stage ${evalRes.nextStageId} ➡️
+                                    </button>
+                                    <button type="button" id="btnSummaryReplayStage" class="btn-sidebar-icon">
+                                        🔄 Main Ulang Stage Ini
+                                    </button>
+                                `;
+                                document.getElementById('btnSummaryNextStage').onclick = () => {
+                                    trivia.selectStage(evalRes.nextStageId);
+                                    renderQuestion();
+                                };
+                                document.getElementById('btnSummaryReplayStage').onclick = () => {
+                                    trivia.restartStage();
+                                    renderQuestion();
+                                };
+                            }
+                        }
+                    } else {
+                        // Belum Lulus (< 80%)
+                        summaryBox.classList.add('fail-theme');
+                        audio.playAlert();
+
+                        if (summaryStatusBadge) {
+                            summaryStatusBadge.className = 'summary-badge-status fail';
+                            summaryStatusBadge.textContent = `⚠️ BELUM LULUS (Nilai: ${evalRes.scorePct}% / Butuh Min. 80%)`;
+                        }
+                        if (summaryTitle) summaryTitle.textContent = `Tetap Semangat! Sedikit Lagi Mencapai 80%`;
+                        if (summaryMessage) {
+                            summaryMessage.className = 'summary-eval-msg fail';
+                            summaryMessage.innerHTML = `
+                                Anda menjawab <strong>${evalRes.correctCount} dari ${evalRes.totalQuestions} soal</strong> dengan benar (<strong>${evalRes.scorePct}%</strong>).<br>
+                                Untuk dapat naik ke Stage berikutnya, Anda membutuhkan nilai <strong>minimal 80%</strong> (minimal 5 jawaban tepat). Tinjau kembali konsepnya dan ulangi tantangan ini!
+                            `;
+                        }
+                        if (summaryActions) {
+                            summaryActions.innerHTML = `
+                                <button type="button" id="btnSummaryRetryStage" class="btn-gavel-primary" style="background:#f59e0b; border-color:#d97706; padding:10px 22px;">
+                                    🔄 Ulangi Stage Ini (Target 80%)
+                                </button>
+                                <button type="button" id="btnSummaryOpenGlosarium" class="btn-sidebar-icon">
+                                    📖 Baca Kitab Glosarium
+                                </button>
+                            `;
+                            document.getElementById('btnSummaryRetryStage').onclick = () => {
+                                trivia.restartStage();
+                                renderQuestion();
+                            };
+                            document.getElementById('btnSummaryOpenGlosarium').onclick = () => {
+                                document.querySelector('.nav-tab-btn[data-tab="tabEncyclopedia"]').click();
+                            };
+                        }
+                    }
+
+                    // Smooth scroll to top of arena card
+                    const card = document.getElementById('triviaArenaCard');
+                    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
                 // Next Button
                 if (btnTriviaNext) {
                     btnTriviaNext.onclick = () => {
                         audio.playClick();
                         if (trivia.isStageComplete()) {
-                            const nextS = Number(trivia.currentStageId) + 1;
-                            if (nextS <= trivia.stages.length) {
-                                trivia.selectStage(nextS);
-                                audio.playSuccess();
-                                if (typeof launchCelebrationConfetti === 'function') launchCelebrationConfetti();
-                                renderQuestion();
-                                // Smooth scroll to top of card
-                                const card = document.getElementById('triviaArenaCard');
-                                if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            } else {
-                                alert(`👑 LUAR BIASA! Anda telah menuntaskan seluruh 5 Stage Trivia Quest! Seluruh mode simulasi telah TERBUKA PENUH!`);
-                                renderQuestion();
-                            }
+                            const evalRes = trivia.getStageEvaluation();
+                            showStageSummary(evalRes);
                         } else {
                             trivia.nextQuestion();
                             renderQuestion();
@@ -3000,7 +3218,7 @@
                     };
                 }
 
-                // Retry Button
+                // Retry Button (saat game over nyawa habis)
                 if (btnRetry) {
                     btnRetry.onclick = () => {
                         audio.playClick();
@@ -3016,13 +3234,13 @@
                         node.onclick = () => {
                             const sId = parseInt(node.getAttribute('data-stage'), 10);
                             const unlockedNums = trivia.unlockedStageIds.map(Number);
-                            if (unlockedNums.includes(sId) || sId === Number(trivia.currentStageId) + 1) {
+                            if (unlockedNums.includes(sId)) {
                                 audio.playClick();
                                 trivia.selectStage(sId);
                                 renderQuestion();
                             } else {
                                 audio.playAlert();
-                                alert(`🔒 Stage ${sId} masih terkunci. Tuntaskan stage sebelumnya terlebih dahulu!`);
+                                alert(`🔒 Stage ${sId} masih terkunci. Anda harus lulus Stage sebelumnya dengan nilai minimal 80% (min. 5 dari 6 soal benar)!`);
                             }
                         };
                     });
@@ -3085,21 +3303,21 @@
                             e.preventDefault();
                             e.stopPropagation();
                             audio.playAlert();
-                            alert('🔒 Mode Lab Eksperimen Pasar terkunci! Selesaikan Stage 3 di Trivia Quest, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
+                            alert('🔒 Mode Lab Eksperimen Pasar terkunci! Selesaikan Stage 3 di Trivia Quest dengan nilai min. 80%, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
                             return false;
                         }
                         if (tabId === 'tabScenarios' && !trivia.advanceUnlocked.scenarios) {
                             e.preventDefault();
                             e.stopPropagation();
                             audio.playAlert();
-                            alert('🔒 Mode Krisis Sejarah terkunci! Selesaikan Stage 4 di Trivia Quest, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
+                            alert('🔒 Mode Krisis Sejarah terkunci! Selesaikan Stage 4 di Trivia Quest dengan nilai min. 80%, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
                             return false;
                         }
                         if (tabId === 'tabCockpit' && !trivia.advanceUnlocked.cockpit) {
                             e.preventDefault();
                             e.stopPropagation();
                             audio.playAlert();
-                            alert('🔒 Sidang Kabinet 7 Tuas terkunci! Selesaikan seluruh 5 Stage Trivia Quest, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
+                            alert('🔒 Sidang Kabinet 7 Tuas terkunci! Selesaikan seluruh 5 Stage Trivia Quest dengan nilai min. 80%, atau klik "⚡ Mode Sandbox" untuk membukanya langsung!');
                             return false;
                         }
                     }, true);
@@ -3109,7 +3327,7 @@
                 renderQuestion();
             }
 
-                        // ------------------------------------------------------------------
+            // ------------------------------------------------------------------
             // INISIALISASI TAMPILAN AWAL (PRIORITAS: TRIVIA QUEST)
             // ------------------------------------------------------------------
             document.body.classList.add('mode-trivia');
