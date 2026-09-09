@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>🏛️ MacroMaster: Simulasi Kebijakan Ekonomi Makro & DEN 📈⚖️</title>
     <!-- Google Fonts for playful gaming UI + high readability -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="macro_game.css">
+    <link rel="stylesheet" href="macro_game.css?v=2.2">
 </head>
 <body class="mode-trivia">
     <div class="app-background-glow"></div>
@@ -1270,12 +1273,12 @@
     <!-- --------------------------------------------------------------------
          SCRIPTS: THEORIES, AUDIO, ENGINE, QA & CONTROLLER
          -------------------------------------------------------------------- -->
-    <script src="macro_theory.js"></script>
-    <script src="macro_audio.js"></script>
-    <script src="macro_engine.js"></script>
-    <script src="macro_jargon.js"></script>
-    <script src="macro_econ_games.js"></script>
-    <script src="macro_trivia.js"></script>
+    <script src="macro_theory.js?v=2.2"></script>
+    <script src="macro_audio.js?v=2.2"></script>
+    <script src="macro_engine.js?v=2.2"></script>
+    <script src="macro_jargon.js?v=2.2"></script>
+    <script src="macro_econ_games.js?v=2.2"></script>
+    <script src="macro_trivia.js?v=2.2"></script>
     <script>
         /**
          * ======================================================================
@@ -2920,8 +2923,8 @@
                     if (stageBannerIcon) stageBannerIcon.textContent = curDef.icon;
                     if (stageBannerText) stageBannerText.textContent = `Stage ${curStageNum}: ${curDef.name}`;
                     if (stageBannerTarget) {
-                        const correctSoFar = trivia.stageCorrectCount || 0;
-                        const answeredSoFar = trivia.currentQuestionIdx + (trivia.isAnswered ? 1 : 0);
+                        const correctSoFar = (trivia && typeof trivia.stageCorrectCount === 'number') ? trivia.stageCorrectCount : (Number(trivia ? trivia.stageCorrectCount : 0) || 0);
+                        const answeredSoFar = (trivia && typeof trivia.currentQuestionIdx === 'number') ? (trivia.currentQuestionIdx + (trivia.isAnswered ? 1 : 0)) : 0;
                         stageBannerTarget.innerHTML = `🎯 Benar: <strong>${correctSoFar}</strong>/${answeredSoFar} • Syarat Lulus: Min. 80% (5/6)`;
                     }
 
@@ -3047,6 +3050,11 @@
 
                     if (res.isCorrect) {
                         engine.addXP(25);
+                        if (typeof res.stageCorrectCount === 'number') {
+                            trivia.stageCorrectCount = res.stageCorrectCount;
+                        } else {
+                            trivia.stageCorrectCount = (Number(trivia.stageCorrectCount) || 0) + 1;
+                        }
                     }
 
                     updateHearts();

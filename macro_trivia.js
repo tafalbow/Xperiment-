@@ -2712,27 +2712,28 @@ class MacroTriviaEngine {
         this.isAnswered = true;
 
         const q = this.getCurrentQuestion();
-        const isCorrect = chosenIdx === q.correct;
+        const isCorrect = (Number(chosenIdx) === Number(q.correct));
 
         if (isCorrect) {
-            this.combo++;
-            if (this.combo > this.maxCombo) this.maxCombo = this.combo;
+            this.combo = (this.combo || 0) + 1;
+            if (this.combo > (this.maxCombo || 0)) this.maxCombo = this.combo;
             const points = 100 + (this.combo * 20);
-            this.score += points;
-            this.stageCorrectCount = (this.stageCorrectCount || 0) + 1;
+            this.score = (this.score || 0) + points;
+            this.stageCorrectCount = (Number(this.stageCorrectCount) || 0) + 1;
         } else {
             if (this.shieldActive) {
                 this.shieldActive = false;
             } else {
-                this.lives--;
+                this.lives = Math.max(0, (this.lives || 5) - 1);
                 this.combo = 0;
             }
         }
 
         const stage = this.getCurrentStage();
-        const totalQ = stage.questions.length;
+        const totalQ = (stage && stage.questions) ? stage.questions.length : 6;
         const isStageFinished = this.isStageComplete();
-        const stageScorePct = Math.round(((this.stageCorrectCount || 0) / totalQ) * 100);
+        const currentCorrect = Number(this.stageCorrectCount) || 0;
+        const stageScorePct = Math.round((currentCorrect / totalQ) * 100);
 
         // Syarat kelulusan: Selesai 6 soal, nilai benar minimal 80% (misal 5 dari 6 soal = 83%), dan nyawa > 0
         const isPassed = isStageFinished && (stageScorePct >= 80) && (this.lives > 0);
@@ -2753,7 +2754,7 @@ class MacroTriviaEngine {
             score: this.score,
             isGameOver: this.lives <= 0,
             isStageFinished: isStageFinished,
-            stageCorrectCount: this.stageCorrectCount || 0,
+            stageCorrectCount: currentCorrect,
             stageTotalQuestions: totalQ,
             stageScorePct: stageScorePct,
             isPassed: isPassed
@@ -2762,8 +2763,8 @@ class MacroTriviaEngine {
 
     getStageEvaluation() {
         const stage = this.getCurrentStage();
-        const totalQ = (stage.questions && stage.questions.length) || 6;
-        const correct = this.stageCorrectCount || 0;
+        const totalQ = (stage && stage.questions && stage.questions.length) || 6;
+        const correct = Number(this.stageCorrectCount) || 0;
         const pct = Math.round((correct / totalQ) * 100);
         const isPassed = pct >= 80 && this.lives > 0;
         const curId = Number(this.currentStageId);
