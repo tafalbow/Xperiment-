@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="macro_game.css?v=2.4">
+    <link rel="stylesheet" href="macro_game.css?v=2.6">
 </head>
 <body class="mode-trivia">
     <div class="app-background-glow"></div>
@@ -1303,7 +1303,7 @@
                     <div class="auth-gate-info-banner">
                         <span style="font-size:1.2rem;">🛡️</span>
                         <div>
-                            <strong>Wajib Registrasi Identitas:</strong> Tentukan <strong>1 Nama User yang Unik</strong> (tidak boleh sama dengan pemain lain) dan <strong>Email Aktif</strong>. Progres level dan nomor soal yang belum diselesaikan akan tersimpan aman sehingga Anda dapat melanjutkan kapan saja!
+                            <strong>Wajib Daftar atau Login:</strong> Tentukan <strong>1 Nama User yang Unik</strong> (tidak boleh sama dengan pemain lain) dan <strong>Email Aktif</strong>. Jika Anda belum terdaftar di sistem / Google Spreadsheet, akun Anda akan <strong>otomatis didaftarkan</strong> sebagai pemain baru. Jika Anda sudah pernah mendaftar, Anda akan <strong>langsung login</strong> dan melanjutkan progres permainan Anda!
                         </div>
                     </div>
 
@@ -1327,7 +1327,7 @@
                         <div id="authErrorMessage" class="auth-error-banner" style="display:none;"></div>
 
                         <button type="submit" id="btnSubmitAuth" class="btn-gavel-primary auth-submit-btn">
-                            <span>🚀</span> Masuk & Mulai Petualangan
+                            <span>🚀</span> Masuk / Daftar Akun
                         </button>
                     </form>
                 </div>
@@ -1380,55 +1380,125 @@
         </div>
 
         <!-- ================================================================
-             MODAL 3: TRACK RECORD PEMAIN (LEADERBOARD / DIRECTORY)
+             MODAL 3: TRACK RECORD PEMAIN & BAGAN DETAIL LOG AKTIVITAS (GOOGLE SHEETS)
              ================================================================ -->
         <div id="modalTrackRecord" class="modal-overlay" style="display:none; z-index:99997; backdrop-filter:blur(6px); background:rgba(15,23,42,0.7);">
-            <div class="modal-card" style="max-width:840px; border-radius:18px;">
+            <div class="modal-card" style="max-width:1150px; width:95%; border-radius:18px;">
                 <div class="modal-header" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); justify-content:space-between; align-items:center;">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <span style="font-size:1.8rem;">📋</span>
                         <div>
                             <h2 style="font-size:1.25rem; font-family:var(--font-heading); margin:0; color:#0f172a;">
-                                Track Record Pemain MacroMaster DEN
+                                Track Record Pemain & Bagan Detail Log Aktivitas
                             </h2>
                             <p style="margin:2px 0 0; font-size:0.82rem; color:#64748b;">
-                                Rekam jejak seluruh pemain, email terdaftar, dan capaian level makroekonomi
+                                Rekam jejak seluruh pemain, email terdaftar, waktu login/logout, halaman masuk/keluar, dan sinkronisasi Google Sheets
                             </p>
                         </div>
                     </div>
                     <button type="button" id="btnCloseTrackRecord" class="btn-sidebar-icon" style="font-size:1.2rem; padding:4px 10px;">✖</button>
                 </div>
 
-                <div class="modal-body" style="padding:16px 20px; max-height:60vh; overflow-y:auto;">
-                    <div id="trackRecordEmptyNotice" style="display:none; text-align:center; padding:30px 10px; color:#64748b;">
-                        <span style="font-size:2rem;">🧑‍💼</span>
-                        <p style="margin:8px 0 0; font-weight:600;">Belum ada pemain yang terdaftar. Jadilah yang pertama!</p>
+                <div class="modal-body" style="padding:16px 20px; max-height:68vh; overflow-y:auto;">
+                    <!-- Google Sheets Webhook Sync Panel -->
+                    <div class="webhook-sync-panel">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:1.2rem;">📊</span>
+                                <strong style="font-size:0.88rem; color:#0f172a;">Google Spreadsheet Target:</strong>
+                                <a href="https://docs.google.com/spreadsheets/d/1Uk2CdmA9Z_atlVIcX-TZDwUaRgIFAo6QOa1W_M-Epoo/edit?usp=sharing" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline; font-size:0.82rem; font-weight:700;">
+                                    Buka Spreadsheet MacroMaster (1Uk2CdmA...) ↗
+                                </a>
+                            </div>
+                            <span id="webhookStatusIndicator" class="sync-badge badge-pending">⚡ Status: Antrean Lokal Siap</span>
+                        </div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <input type="url" id="inputWebhookUrl" class="auth-input" style="flex:1; min-width:280px; padding:6px 12px; font-size:0.82rem;" placeholder="Tempel URL Webhook Google Apps Script di sini (akhiran /exec)...">
+                            <button type="button" id="btnSaveWebhookUrl" class="btn-sidebar-icon" style="font-size:0.82rem; padding:6px 14px;">💾 Simpan URL</button>
+                            <button type="button" id="btnSyncGoogleSheetsNow" class="btn-gavel-primary" style="font-size:0.82rem; padding:6px 16px;">🔄 Sinkronkan ke Google Sheet Sekarang</button>
+                        </div>
+                        <div id="syncFeedbackMsg" style="font-size:0.78rem; margin-top:6px; color:#64748b;">
+                            Setiap pendaftaran, login, perpindahan halaman, jawaban, dan logout tercatat otomatis di antrean browser & siap disinkronkan ke Google Sheets.
+                        </div>
                     </div>
 
-                    <table class="track-record-table" id="trackRecordTable">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nama User (Username)</th>
-                                <th>Alamat Email</th>
-                                <th>Capaian Level</th>
-                                <th>Total Skor</th>
-                                <th>Aktivitas Terakhir</th>
-                            </tr>
-                        </thead>
-                        <tbody id="trackRecordTableBody">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                    <!-- Subtabs Navigation -->
+                    <div class="modal-subtabs-nav">
+                        <button type="button" id="subTabTrackUsers" class="modal-subtab-btn active">
+                            <span>📋</span> Direktori Pemain Terdaftar (<span id="trackUsersTabCount">0</span>)
+                        </button>
+                        <button type="button" id="subTabTrackActivities" class="modal-subtab-btn">
+                            <span>📜</span> Bagan Detail Log Aktivitas (<span id="trackLogsTabCount">0</span>)
+                        </button>
+                    </div>
+
+                    <!-- Subtab 1: Direktori Pemain Terdaftar -->
+                    <div id="panelTrackUsers">
+                        <div id="trackRecordEmptyNotice" style="display:none; text-align:center; padding:30px 10px; color:#64748b;">
+                            <span style="font-size:2rem;">🧑‍💼</span>
+                            <p style="margin:8px 0 0; font-weight:600;">Belum ada pemain yang terdaftar. Jadilah yang pertama!</p>
+                        </div>
+
+                        <table class="track-record-table" id="trackRecordTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama User (Username)</th>
+                                    <th>Alamat Email</th>
+                                    <th>Capaian Level</th>
+                                    <th>Total Skor / XP</th>
+                                    <th>Aktivitas Terakhir</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trackRecordTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Subtab 2: Bagan Detail Log Aktivitas (11 Kolom) -->
+                    <div id="panelTrackActivities" style="display:none;">
+                        <div id="activityLogsEmptyNotice" style="display:none; text-align:center; padding:30px 10px; color:#64748b;">
+                            <span style="font-size:2rem;">📜</span>
+                            <p style="margin:8px 0 0; font-weight:600;">Belum ada riwayat aktivitas yang tercatat.</p>
+                        </div>
+
+                        <div class="activity-log-table-container" id="activityLogsTableWrap">
+                            <table class="activity-log-table" id="activityLogsTable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Waktu (WIB)</th>
+                                        <th>Session ID</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Jenis Aktivitas</th>
+                                        <th>Halaman Masuk (Entry)</th>
+                                        <th>Halaman Keluar (Exit)</th>
+                                        <th>Soal Terakhir</th>
+                                        <th>Skor / XP</th>
+                                        <th>Durasi Sesi</th>
+                                        <th>Keterangan (Details)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activityLogsTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer" style="justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                     <div style="font-size:0.8rem; color:#64748b;">
-                        Total Pemain Terdaftar: <strong id="trackRecordTotalCount">0</strong> orang
+                        Total Pemain: <strong id="trackRecordTotalCount">0</strong> orang | Total Log: <strong id="trackRecordTotalLogsCount">0</strong> entri
                     </div>
-                    <div style="display:flex; gap:8px;">
-                        <button type="button" id="btnExportTrackRecordCsv" class="btn-sidebar-icon" style="font-size:0.85rem; padding:8px 16px;">
-                            <span>📥</span> Unduh Track Record (CSV)
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button type="button" id="btnExportTrackRecordCsv" class="btn-sidebar-icon" style="font-size:0.82rem; padding:8px 14px;">
+                            <span>📥</span> Unduh Pemain (CSV)
+                        </button>
+                        <button type="button" id="btnExportActivityLogsCsv" class="btn-sidebar-icon" style="font-size:0.82rem; padding:8px 14px;">
+                            <span>📥</span> Unduh Log Aktivitas (CSV)
                         </button>
                         <button type="button" id="btnCloseTrackRecordFooter" class="btn-gavel-primary" style="padding:8px 20px; font-size:0.88rem;">
                             Tutup
@@ -1451,7 +1521,7 @@
     <script src="macro_engine.js?v=2.4"></script>
     <script src="macro_jargon.js?v=2.4"></script>
     <script src="macro_econ_games.js?v=2.4"></script>
-    <script src="macro_trivia.js?v=2.4"></script>
+    <script src="macro_trivia.js?v=2.6"></script>
     <script>
         /**
          * ======================================================================
@@ -1496,6 +1566,13 @@
                     }
 
                     audio.playClick();
+
+                    // Catat perpindahan halaman/menu ke logger aktivitas
+                    if (window.MacroActivityLogger) {
+                        const tabText = btn.innerText.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+                        window.MacroActivityLogger.updateCurrentPage('Tab: ' + tabText);
+                        window.MacroActivityLogger.logActivity('ENTER_PAGE', 'Pemain membuka tab: ' + tabText);
+                    }
 
                     // Re-render canvas if entering lab tab
                     if (tabId === 'tabLab') {
@@ -3208,6 +3285,14 @@
                     if (scenarioPill) scenarioPill.innerHTML = `<span>${stage.theme === 'market' ? '🛒' : (stage.theme === 'central_bank' ? '🏦' : (stage.theme === 'fiscal' ? '🏛️' : (stage.theme === 'foreign_exchange' ? '🚢' : '🌪️')))}</span> ${q.scenario}`;
                     if (questionBox) questionBox.textContent = q.question;
                     if (progressText) progressText.textContent = `Soal ${trivia.currentQuestionIdx + 1} / ${stage.questions.length}`;
+
+                    if (window.MacroActivityLogger) {
+                        const sNum = trivia.currentStageId || 1;
+                        const sTitle = stage ? stage.title : `Level ${sNum}`;
+                        const qNum = (trivia.currentQuestionIdx || 0) + 1;
+                        const totalQ = (stage && stage.questions) ? stage.questions.length : 6;
+                        window.MacroActivityLogger.updateCurrentPage(`Stage ${sNum}: ${sTitle} (Soal ${qNum}/${totalQ})`);
+                    }
                     if (scoreText) scoreText.textContent = trivia.score.toLocaleString('id-ID');
                     if (comboText) comboText.textContent = `${trivia.combo}x`;
 
@@ -3688,6 +3773,10 @@
                 hideUserAuthGate();
                 updateGamerHUD();
 
+                if (result.isNew) {
+                    alert(`🎉 Akun baru Anda '${result.user.username}' berhasil didaftarkan!\n\nData profil dan aktivitas Anda telah tersimpan dan siap disinkronkan ke Google Spreadsheet.`);
+                }
+
                 if (result.hasMidLevelProgress) {
                     // Pemain kembali dengan soal di tengah stage yang belum selesai
                     const user = result.user;
@@ -3716,6 +3805,63 @@
                     updateGamerHUD();
                 }
             }
+
+            // ------------------------------------------------------------------
+            // SISTEM IDLE TIMEOUT 1 JAM (60 MENIT = 3.600.000 MS) & OTOMATIS LOGOUT
+            // ------------------------------------------------------------------
+            const IDLE_TIMEOUT_MS = 60 * 60 * 1000; // 1 Jam
+            let lastUserActivityTime = Date.now();
+
+            function resetUserActivityTimer() {
+                lastUserActivityTime = Date.now();
+            }
+
+            ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'].forEach(evtName => {
+                window.addEventListener(evtName, resetUserActivityTimer, { passive: true });
+            });
+
+            setInterval(() => {
+                const activeUser = window.MacroUserManager ? window.MacroUserManager.getActiveUser() : null;
+                if (!activeUser) return; // Tidak perlu idle check jika belum login
+
+                const idleElapsed = Date.now() - lastUserActivityTime;
+                if (idleElapsed >= IDLE_TIMEOUT_MS) {
+                    const exitPage = window.MacroActivityLogger ? window.MacroActivityLogger.getCurrentPage() : 'Halaman Permainan';
+                    
+                    if (window.MacroActivityLogger) {
+                        window.MacroActivityLogger.logActivity(
+                            'IDLE_TIMEOUT',
+                            'User tidak aktif selama 60 menit (1 jam). Sesi otomatis berakhir.',
+                            exitPage
+                        );
+                    }
+
+                    if (window.MacroUserManager) {
+                        window.MacroUserManager.logout('IDLE_TIMEOUT', exitPage);
+                    }
+
+                    updateGamerHUD();
+                    alert(`⏱️ Sesi Anda telah berakhir otomatis karena tidak ada aktivitas selama 1 jam (idle timeout).\n\nHalaman Terakhir: ${exitPage}\n\nSilakan login kembali untuk melanjutkan permainan.`);
+                    showUserAuthGate();
+                }
+            }, 15000);
+
+            // ------------------------------------------------------------------
+            // DETEKSI PENUTUPAN BROWSER (BEFOREUNLOAD BEACON LOG)
+            // ------------------------------------------------------------------
+            window.addEventListener('beforeunload', () => {
+                const activeUser = window.MacroUserManager ? window.MacroUserManager.getActiveUser() : null;
+                if (!activeUser) return;
+
+                const exitPage = window.MacroActivityLogger ? window.MacroActivityLogger.getCurrentPage() : 'Halaman Permainan';
+                if (window.MacroActivityLogger) {
+                    window.MacroActivityLogger.logActivity(
+                        'BROWSER_CLOSED',
+                        'Browser atau tab dimatikan oleh pemain',
+                        exitPage
+                    );
+                }
+            });
 
             if (formUserAuth) {
                 formUserAuth.addEventListener('submit', (e) => {
@@ -3773,12 +3919,187 @@
                 };
             }
 
+            // Subtab UI Elements
+            const subTabTrackUsers = document.getElementById('subTabTrackUsers');
+            const subTabTrackActivities = document.getElementById('subTabTrackActivities');
+            const panelTrackUsers = document.getElementById('panelTrackUsers');
+            const panelTrackActivities = document.getElementById('panelTrackActivities');
+            const trackUsersTabCount = document.getElementById('trackUsersTabCount');
+            const trackLogsTabCount = document.getElementById('trackLogsTabCount');
+            const trackRecordTotalLogsCount = document.getElementById('trackRecordTotalLogsCount');
+            const activityLogsEmptyNotice = document.getElementById('activityLogsEmptyNotice');
+            const activityLogsTableWrap = document.getElementById('activityLogsTableWrap');
+            const activityLogsTableBody = document.getElementById('activityLogsTableBody');
+            const btnExportActivityLogsCsv = document.getElementById('btnExportActivityLogsCsv');
+
+            // Webhook Elements
+            const inputWebhookUrl = document.getElementById('inputWebhookUrl');
+            const btnSaveWebhookUrl = document.getElementById('btnSaveWebhookUrl');
+            const btnSyncGoogleSheetsNow = document.getElementById('btnSyncGoogleSheetsNow');
+            const webhookStatusIndicator = document.getElementById('webhookStatusIndicator');
+            const syncFeedbackMsg = document.getElementById('syncFeedbackMsg');
+
+            function updateWebhookUI() {
+                if (!window.MacroActivityLogger) return;
+                const currentUrl = window.MacroActivityLogger.getWebhookUrl();
+                if (inputWebhookUrl) inputWebhookUrl.value = currentUrl;
+
+                if (webhookStatusIndicator) {
+                    if (currentUrl && currentUrl.startsWith('http')) {
+                        webhookStatusIndicator.className = 'sync-badge badge-connected';
+                        webhookStatusIndicator.textContent = '🟢 Terhubung ke Webhook';
+                    } else {
+                        webhookStatusIndicator.className = 'sync-badge badge-pending';
+                        webhookStatusIndicator.textContent = '⚡ Status: Antrean Lokal Siap';
+                    }
+                }
+            }
+
+            if (btnSaveWebhookUrl) {
+                btnSaveWebhookUrl.onclick = () => {
+                    audio.playClick();
+                    const url = (inputWebhookUrl ? inputWebhookUrl.value : '').trim();
+                    if (window.MacroActivityLogger) {
+                        window.MacroActivityLogger.setWebhookUrl(url);
+                        updateWebhookUI();
+                        if (syncFeedbackMsg) {
+                            syncFeedbackMsg.style.color = '#16a34a';
+                            syncFeedbackMsg.textContent = url ? '✅ URL Webhook berhasil disimpan!' : 'URL Webhook dikosongkan. Data tetap tersimpan di browser.';
+                        }
+                    }
+                };
+            }
+
+            if (btnSyncGoogleSheetsNow) {
+                btnSyncGoogleSheetsNow.onclick = async () => {
+                    audio.playClick();
+                    if (!window.MacroActivityLogger) return;
+
+                    const url = (inputWebhookUrl ? inputWebhookUrl.value : '').trim();
+                    if (!url) {
+                        alert('Silakan masukkan URL Webhook Google Apps Script terlebih dahulu.\nPetunjuk penyiapan tersedia di menu dokumentasi skrip.');
+                        return;
+                    }
+
+                    window.MacroActivityLogger.setWebhookUrl(url);
+                    updateWebhookUI();
+
+                    if (webhookStatusIndicator) {
+                        webhookStatusIndicator.className = 'sync-badge badge-syncing';
+                        webhookStatusIndicator.textContent = '🔄 Sedang Menyinkronkan...';
+                    }
+                    if (syncFeedbackMsg) {
+                        syncFeedbackMsg.style.color = '#2563eb';
+                        syncFeedbackMsg.textContent = 'Mengirim data pemain dan log aktivitas ke Google Spreadsheet...';
+                    }
+
+                    const res = await window.MacroActivityLogger.syncAllPendingLogs();
+                    updateWebhookUI();
+
+                    if (res.success) {
+                        if (syncFeedbackMsg) {
+                            syncFeedbackMsg.style.color = '#16a34a';
+                            syncFeedbackMsg.textContent = `✅ ${res.message}`;
+                        }
+                        alert(`✅ Sukses Sinkronisasi Google Sheets!\n\n${res.message}\n\nBuka spreadsheet untuk melihat baris baru di sheet 'User_Activities_Log' dan 'Registered_Users'.`);
+                        renderActivityLogsTable();
+                    } else {
+                        if (syncFeedbackMsg) {
+                            syncFeedbackMsg.style.color = '#dc2626';
+                            syncFeedbackMsg.textContent = `❌ ${res.message}`;
+                        }
+                        alert(`⚠️ Gagal menyinkronkan: ${res.message}`);
+                    }
+                };
+            }
+
+            function switchTrackRecordSubtab(tabName) {
+                audio.playClick();
+                if (tabName === 'users') {
+                    if (subTabTrackUsers) subTabTrackUsers.classList.add('active');
+                    if (subTabTrackActivities) subTabTrackActivities.classList.remove('active');
+                    if (panelTrackUsers) panelTrackUsers.style.display = 'block';
+                    if (panelTrackActivities) panelTrackActivities.style.display = 'none';
+                } else {
+                    if (subTabTrackUsers) subTabTrackUsers.classList.remove('active');
+                    if (subTabTrackActivities) subTabTrackActivities.classList.add('active');
+                    if (panelTrackUsers) panelTrackUsers.style.display = 'none';
+                    if (panelTrackActivities) panelTrackActivities.style.display = 'block';
+                    renderActivityLogsTable();
+                }
+            }
+
+            if (subTabTrackUsers) subTabTrackUsers.onclick = () => switchTrackRecordSubtab('users');
+            if (subTabTrackActivities) subTabTrackActivities.onclick = () => switchTrackRecordSubtab('activities');
+
+            function renderActivityLogsTable() {
+                if (!window.MacroActivityLogger) return;
+                const logs = window.MacroActivityLogger.getAllLogs();
+                const count = logs ? logs.length : 0;
+
+                if (trackLogsTabCount) trackLogsTabCount.textContent = count;
+                if (trackRecordTotalLogsCount) trackRecordTotalLogsCount.textContent = count;
+
+                if (!logs || logs.length === 0) {
+                    if (activityLogsEmptyNotice) activityLogsEmptyNotice.style.display = 'block';
+                    if (activityLogsTableWrap) activityLogsTableWrap.style.display = 'none';
+                    return;
+                }
+
+                if (activityLogsEmptyNotice) activityLogsEmptyNotice.style.display = 'none';
+                if (activityLogsTableWrap) activityLogsTableWrap.style.display = 'block';
+
+                if (activityLogsTableBody) {
+                    activityLogsTableBody.innerHTML = '';
+                    // Urutkan dari aktivitas terbaru ke terlama
+                    const reversedLogs = [...logs].reverse();
+
+                    const actBadgeClasses = {
+                        'REGISTER': 'act-register',
+                        'LOGIN': 'act-login',
+                        'ENTER_PAGE': 'act-enter-page',
+                        'ANSWER_QUESTION': 'act-answer',
+                        'STAGE_PASS': 'act-stage-pass',
+                        'STAGE_RESET': 'act-stage-reset',
+                        'IDLE_TIMEOUT': 'act-idle-timeout',
+                        'BROWSER_CLOSED': 'act-browser-closed',
+                        'LOGOUT_MANUAL': 'act-logout-manual'
+                    };
+
+                    reversedLogs.forEach((l, idx) => {
+                        const tr = document.createElement('tr');
+                        const badgeClass = actBadgeClasses[l.activityType] || 'act-answer';
+                        tr.innerHTML = `
+                            <td style="font-weight:700; color:#64748b;">${logs.length - idx}</td>
+                            <td style="font-family:monospace; font-size:0.74rem;">${escapeHtml(l.timestamp)}</td>
+                            <td style="font-family:monospace; font-size:0.72rem; color:#475569;">${escapeHtml(l.sessionId || '-')}</td>
+                            <td><strong style="color:#0f172a;">${escapeHtml(l.username || '-')}</strong></td>
+                            <td style="color:#475569;">${escapeHtml(l.email || '-')}</td>
+                            <td><span class="act-badge ${badgeClass}">${escapeHtml(l.activityType || '-')}</span></td>
+                            <td style="color:#0369a1; font-weight:600;">${escapeHtml(l.entryPage || '-')}</td>
+                            <td style="color:#b45309; font-weight:600;">${escapeHtml(l.exitPage || '-')}</td>
+                            <td style="font-size:0.74rem;">${escapeHtml(l.lastQuestion || '-')}</td>
+                            <td><strong style="color:#16a34a;">${escapeHtml(l.scoreXp || '-')}</strong></td>
+                            <td style="color:#475569;">${escapeHtml(l.sessionDuration || '-')}</td>
+                            <td style="color:#334155; font-size:0.76rem; max-width:260px; white-space:normal;">${escapeHtml(l.details || '-')}</td>
+                        `;
+                        activityLogsTableBody.appendChild(tr);
+                    });
+                }
+            }
+
             function openTrackRecordModal() {
                 if (!modalTrackRecord) return;
                 audio.playClick();
+                updateWebhookUI();
 
                 const users = window.MacroUserManager ? window.MacroUserManager.getAllUsers() : [];
+                const logs = window.MacroActivityLogger ? window.MacroActivityLogger.getAllLogs() : [];
+
                 if (trackRecordTotalCount) trackRecordTotalCount.textContent = users.length;
+                if (trackUsersTabCount) trackUsersTabCount.textContent = users.length;
+                if (trackLogsTabCount) trackLogsTabCount.textContent = logs.length;
+                if (trackRecordTotalLogsCount) trackRecordTotalLogsCount.textContent = logs.length;
 
                 if (!users || users.length === 0) {
                     if (trackRecordEmptyNotice) trackRecordEmptyNotice.style.display = 'block';
@@ -3816,13 +4137,16 @@
                                         ⭐ Lv. ${lvl} (${stageName})
                                     </span>
                                 </td>
-                                <td><strong style="color:#16a34a;">${scoreFormatted}</strong></td>
+                                <td><strong style="color:#16a34a;">${scoreFormatted} XP</strong></td>
                                 <td style="font-size:0.78rem; color:#64748b;">${lastDate}</td>
                             `;
                             trackRecordTableBody.appendChild(tr);
                         });
                     }
                 }
+
+                // Render Activity Logs
+                renderActivityLogsTable();
 
                 modalTrackRecord.style.display = 'flex';
             }
@@ -3835,6 +4159,15 @@
             if (btnOpenTrackRecordFromAuth) btnOpenTrackRecordFromAuth.onclick = openTrackRecordModal;
             if (btnCloseTrackRecord) btnCloseTrackRecord.onclick = closeTrackRecordModal;
             if (btnCloseTrackRecordFooter) btnCloseTrackRecordFooter.onclick = closeTrackRecordModal;
+
+            if (btnExportActivityLogsCsv) {
+                btnExportActivityLogsCsv.onclick = () => {
+                    audio.playClick();
+                    if (window.MacroActivityLogger) {
+                        window.MacroActivityLogger.exportLogsToCsv();
+                    }
+                };
+            }
 
             if (btnExportTrackRecordCsv) {
                 btnExportTrackRecordCsv.onclick = () => {

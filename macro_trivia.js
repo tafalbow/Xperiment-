@@ -2577,6 +2577,11 @@ const MACRO_TRIVIA_STAGES = [
  * MACRO USER MANAGER: USER REGISTRATION, UNIQUE VALIDATION & TRACK RECORD
  * ==============================================================================
  */
+/**
+ * ==============================================================================
+ * MACRO USER MANAGER: USER REGISTRATION, UNIQUE VALIDATION & TRACK RECORD
+ * ==============================================================================
+ */
 class MacroUserManager {
     static REGISTRY_KEY = 'macromaster_user_registry';
     static ACTIVE_USER_KEY = 'macromaster_active_email';
@@ -2609,7 +2614,8 @@ class MacroUserManager {
 
     static getActiveEmail() {
         try {
-            return localStorage.getItem(this.ACTIVE_USER_KEY) || null;
+            // Sesi aktif WAJIB menggunakan sessionStorage agar otomatis logout saat browser / tab dimatikan
+            return sessionStorage.getItem(this.ACTIVE_USER_KEY) || null;
         } catch (e) {
             return null;
         }
@@ -2625,8 +2631,11 @@ class MacroUserManager {
     static setActiveEmail(email) {
         try {
             if (email) {
-                localStorage.setItem(this.ACTIVE_USER_KEY, email.toLowerCase());
+                sessionStorage.setItem(this.ACTIVE_USER_KEY, email.toLowerCase());
+                // Bersihkan residu lama di localStorage jika pernah ada
+                localStorage.removeItem(this.ACTIVE_USER_KEY);
             } else {
+                sessionStorage.removeItem(this.ACTIVE_USER_KEY);
                 localStorage.removeItem(this.ACTIVE_USER_KEY);
             }
         } catch (e) {}
@@ -2659,8 +2668,16 @@ class MacroUserManager {
         const map = this.getUserMap();
         const existing = map[cleanEmail];
 
+        const stageNames = {
+            1: 'Pasar & Warung',
+            2: 'Bank Sentral',
+            3: 'Kemenkeu & APBN',
+            4: 'Valas & Kurs',
+            5: 'Badai Krisis'
+        };
+
         if (existing) {
-            // Returning user by email: check if username matches (case-insensitive)
+            // User sudah terdaftar sebelumnya
             const registeredName = (existing.username || '').trim().toLowerCase();
             if (registeredName !== cleanName.toLowerCase()) {
                 return {
@@ -2676,10 +2693,16 @@ class MacroUserManager {
             this.saveUserMap(map);
             this.setActiveEmail(cleanEmail);
 
-            // Check if user has mid-level progress (e.g. at question 1-5 and not complete)
             const prog = existing.progress || {};
             const qIdx = Number(prog.currentQuestionIdx) || 0;
+            const stageNum = Number(prog.currentStageId) || 1;
             const isMidLevel = Boolean(qIdx > 0 && qIdx < 6 && !prog.isStageComplete);
+
+            const entryDesc = `Stage ${stageNum}: ${stageNames[stageNum] || 'Stage ' + stageNum} (Soal ${qIdx + 1}/6)`;
+            if (typeof MacroActivityLogger !== 'undefined') {
+                MacroActivityLogger.setEntryPage(entryDesc);
+                MacroActivityLogger.logActivity('LOGIN', `Pemain terdaftar login ke permainan (Stage ${stageNum}, Soal ${qIdx + 1})`);
+            }
 
             return {
                 success: true,
@@ -2688,7 +2711,7 @@ class MacroUserManager {
                 user: existing
             };
         } else {
-            // New user registration: check unique username
+            // User baru: Daftarkan ke sistem & sinkronkan ke Google Doc
             if (this.isUsernameTaken(cleanName)) {
                 return {
                     success: false,
@@ -2722,6 +2745,13 @@ class MacroUserManager {
             this.saveUserMap(map);
             this.setActiveEmail(cleanEmail);
 
+            const entryDesc = 'Stage 1: Pasar & Warung (Soal 1/6)';
+            if (typeof MacroActivityLogger !== 'undefined') {
+                MacroActivityLogger.setEntryPage(entryDesc);
+                MacroActivityLogger.logActivity('REGISTER', 'Pendaftaran akun baru pemain ke sistem & Google Doc');
+                MacroActivityLogger.logActivity('LOGIN', 'Sesi login perdana pemain baru');
+            }
+
             return {
                 success: true,
                 isNew: true,
@@ -2754,10 +2784,328 @@ class MacroUserManager {
         this.saveUserMap(map);
     }
 
-    static logout() {
+    static logout(reason = 'LOGOUT_MANUAL', customExitPage = null) {
+        if (typeof MacroActivityLogger !== 'undefined') {
+            const exitDesc = customExitPage || MacroActivityLogger.getCurrentPage();
+            MacroActivityLogger.logActivity(reason, 'User keluar dari sesi permainan', exitDesc);
+        }
         this.setActiveEmail(null);
+        try {
+            sessionStorage.removeItem('macromaster_current_session_id');
+            sessionStorage.removeItem('macromaster_session_start_time');
+            sessionStorage.removeItem('macromaster_entry_page');
+            sessionStorage.removeItem('macromaster_current_page');
+        } catch (e) {}
     }
 }
+
+
+/**
+ * ==============================================================================
+ * MACRO ACTIVITY LOGGER: 11-PARAMETER USER LOGS & GOOGLE SHEETS SYNC
+ * ==============================================================================
+ */
+class MacroActivityLogger {
+    static LOGS_KEY = 'macromaster_activity_logs';
+    static WEBHOOK_KEY = 'macromaster_webhook_url';
+    static SESSION_ID_KEY = 'macromaster_current_session_id';
+    static SESSION_START_KEY = 'macromaster_session_start_time';
+    static ENTRY_PAGE_KEY = 'macromaster_entry_page';
+    static CURRENT_PAGE_KEY = 'macromaster_current_page';
+
+    static getWebhookUrl() {
+        try {
+            return localStorage.getItem(this.WEBHOOK_KEY) || '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    static setWebhookUrl(url) {
+        try {
+            if (url) {
+                localStorage.setItem(this.WEBHOOK_KEY, url.trim());
+            } else {
+                localStorage.removeItem(this.WEBHOOK_KEY);
+            }
+        } catch (e) {}
+    }
+
+    static getOrCreateSessionId(username) {
+        try {
+            let sessId = sessionStorage.getItem(this.SESSION_ID_KEY);
+            if (!sessId) {
+                const prefix = (username || 'user').replace(/[^a-zA-Z0-9]/g, '').toLowerCase().slice(0, 10);
+                sessId = `SESS_${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+                sessionStorage.setItem(this.SESSION_ID_KEY, sessId);
+                sessionStorage.setItem(this.SESSION_START_KEY, String(Date.now()));
+            }
+            return sessId;
+        } catch (e) {
+            return `SESS_${Date.now()}`;
+        }
+    }
+
+    static getSessionDuration() {
+        try {
+            const start = Number(sessionStorage.getItem(this.SESSION_START_KEY)) || Date.now();
+            const diffSec = Math.max(0, Math.floor((Date.now() - start) / 1000));
+            const mins = Math.floor(diffSec / 60);
+            const secs = diffSec % 60;
+            return `${mins}m ${secs}s`;
+        } catch (e) {
+            return '0m 0s';
+        }
+    }
+
+    static setEntryPage(pageDesc) {
+        try {
+            sessionStorage.setItem(this.ENTRY_PAGE_KEY, pageDesc || 'Halaman Utama');
+            this.setCurrentPage(pageDesc);
+        } catch (e) {}
+    }
+
+    static getEntryPage() {
+        try {
+            return sessionStorage.getItem(this.ENTRY_PAGE_KEY) || 'Halaman Utama';
+        } catch (e) {
+            return 'Halaman Utama';
+        }
+    }
+
+    static setCurrentPage(pageDesc) {
+        try {
+            sessionStorage.setItem(this.CURRENT_PAGE_KEY, pageDesc || 'Halaman Utama');
+        } catch (e) {}
+    }
+
+    static updateCurrentPage(pageDesc) {
+        this.setCurrentPage(pageDesc);
+    }
+
+    static getCurrentPage() {
+        try {
+            return sessionStorage.getItem(this.CURRENT_PAGE_KEY) || this.getEntryPage();
+        } catch (e) {
+            return 'Halaman Utama';
+        }
+    }
+
+    static getFormattedWIB(date = new Date()) {
+        try {
+            // Format WIB (Asia/Jakarta, UTC+7): YYYY-MM-DD HH:mm:ss
+            const options = {
+                timeZone: 'Asia/Jakarta',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const parts = new Intl.DateTimeFormat('id-ID', options).formatToParts(date);
+            const p = {};
+            parts.forEach(({ type, value }) => { p[type] = value; });
+            return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}`;
+        } catch (e) {
+            return new Date().toISOString();
+        }
+    }
+
+    static getAllLogs() {
+        try {
+            const raw = localStorage.getItem(this.LOGS_KEY);
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    static saveLogs(logs) {
+        try {
+            // Simpan maksimal 1500 log terakhir di storage lokal
+            const trimmed = (logs || []).slice(-1500);
+            localStorage.setItem(this.LOGS_KEY, JSON.stringify(trimmed));
+        } catch (e) {}
+    }
+
+    /**
+     * Merekam aktivitas user ke bagan detail log (11 Kolom)
+     */
+    static logActivity(activityType, details = '', customExitPage = null) {
+        const user = (typeof MacroUserManager !== 'undefined') ? MacroUserManager.getActiveUser() : null;
+        const username = user ? user.username : 'Pemain Belum Login';
+        const email = user ? user.email : '-';
+        const sessId = this.getOrCreateSessionId(username);
+        const timestamp = this.getFormattedWIB();
+        const entryPage = this.getEntryPage();
+        const exitPage = customExitPage || this.getCurrentPage();
+        const duration = this.getSessionDuration();
+
+        let lastQuestion = '-';
+        let scoreXp = '-';
+        let highestStage = user ? (user.highestStage || 1) : 1;
+
+        if (typeof window !== 'undefined' && window.macroTriviaEngine) {
+            const engine = window.macroTriviaEngine;
+            const curStage = engine.getCurrentStage ? engine.getCurrentStage() : null;
+            const stageNum = engine.currentStageId || 1;
+            const qIdx = (engine.currentQuestionIdx || 0) + 1;
+            const totalQ = (curStage && curStage.questions) ? curStage.questions.length : 6;
+            const correct = engine.stageCorrectCount || 0;
+            lastQuestion = `Stage ${stageNum} - Soal ${qIdx}/${totalQ} (Benar: ${correct})`;
+            scoreXp = `${engine.score || 0} XP`;
+        } else if (user && user.progress) {
+            lastQuestion = `Stage ${user.progress.currentStageId || 1} - Soal ${(user.progress.currentQuestionIdx || 0) + 1}/6`;
+            scoreXp = `${user.progress.score || user.totalScore || 0} XP`;
+        }
+
+        const logRecord = {
+            timestamp: timestamp,
+            sessionId: sessId,
+            username: username,
+            email: email,
+            activityType: activityType,
+            entryPage: entryPage,
+            exitPage: exitPage,
+            lastQuestion: lastQuestion,
+            scoreXp: scoreXp,
+            sessionDuration: duration,
+            details: details || '-',
+            highestStage: highestStage,
+            syncedToSheets: false
+        };
+
+        const logs = this.getAllLogs();
+        logs.push(logRecord);
+        this.saveLogs(logs);
+
+        // Kirim otomatis ke Google Sheets jika Webhook telah diatur
+        this.sendRecordToWebhook(logRecord);
+
+        return logRecord;
+    }
+
+    static sendRecordToWebhook(record) {
+        const webhookUrl = this.getWebhookUrl();
+        if (!webhookUrl || !webhookUrl.startsWith('http')) return;
+
+        try {
+            // Jika browser sedang ditutup / unload, gunakan sendBeacon untuk keandalan maksimal
+            if (typeof navigator !== 'undefined' && navigator.sendBeacon && 
+                (record.activityType === 'BROWSER_CLOSED' || record.activityType === 'LOGOUT_MANUAL' || record.activityType === 'IDLE_TIMEOUT')) {
+                const blob = new Blob([JSON.stringify(record)], { type: 'application/json' });
+                navigator.sendBeacon(webhookUrl, blob);
+                record.syncedToSheets = true;
+                return;
+            }
+
+            if (typeof fetch !== 'undefined') {
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(record)
+                }).then(() => {
+                    record.syncedToSheets = true;
+                }).catch(err => {
+                    console.warn('Gagal sinkronisasi otomatis ke Google Sheets:', err);
+                });
+            }
+        } catch (e) {
+            console.warn('Dispatch webhook log error:', e);
+        }
+    }
+
+    static async syncAllPendingLogs() {
+        const webhookUrl = this.getWebhookUrl();
+        if (!webhookUrl || !webhookUrl.startsWith('http')) {
+            return { success: false, message: 'URL Webhook Google Apps Script belum diatur!' };
+        }
+        const logs = this.getAllLogs();
+        if (!logs || logs.length === 0) {
+            return { success: true, count: 0, message: 'Belum ada log aktivitas untuk disinkronkan.' };
+        }
+
+        try {
+            await fetch(webhookUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    records: logs
+                })
+            });
+
+            logs.forEach(l => l.syncedToSheets = true);
+            this.saveLogs(logs);
+
+            return {
+                success: true,
+                count: logs.length,
+                message: `Berhasil menyinkronkan ${logs.length} baris data aktivitas ke Google Sheets!`
+            };
+        } catch (e) {
+            return { success: false, error: e.toString(), message: 'Gagal mengirim ke Google Sheets: ' + e.message };
+        }
+    }
+
+    static exportLogsToCsv() {
+        const logs = this.getAllLogs();
+        if (!logs || logs.length === 0) {
+            alert('Belum ada log aktivitas untuk diunduh.');
+            return;
+        }
+
+        const headers = [
+            'Timestamp (WIB)',
+            'Session ID',
+            'Username',
+            'Email',
+            'Activity Type',
+            'Entry Page / Level',
+            'Exit Page / Level',
+            'Last Question',
+            'Score / XP',
+            'Session Duration',
+            'Details'
+        ];
+
+        const escapeCsv = (str) => {
+            const clean = String(str || '').replace(/"/g, '""');
+            return `"${clean}"`;
+        };
+
+        const rows = [headers.join(',')];
+        logs.forEach(l => {
+            rows.push([
+                escapeCsv(l.timestamp),
+                escapeCsv(l.sessionId),
+                escapeCsv(l.username),
+                escapeCsv(l.email),
+                escapeCsv(l.activityType),
+                escapeCsv(l.entryPage),
+                escapeCsv(l.exitPage),
+                escapeCsv(l.lastQuestion),
+                escapeCsv(l.scoreXp),
+                escapeCsv(l.sessionDuration),
+                escapeCsv(l.details)
+            ].join(','));
+        });
+
+        const csvContent = '\uFEFF' + rows.join('\r\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', `macromaster_activity_logs_${Date.now()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+}
+
 
 class MacroTriviaEngine {
     constructor() {
@@ -2970,6 +3318,17 @@ class MacroTriviaEngine {
 
         this.saveProgress();
 
+        if (typeof MacroActivityLogger !== 'undefined') {
+            const stageNum = this.currentStageId || 1;
+            const qNum = this.currentQuestionIdx + 1;
+            const stageTitle = stage ? stage.title : `Level ${stageNum}`;
+            MacroActivityLogger.updateCurrentPage(`Stage ${stageNum}: ${stageTitle} (Soal ${qNum}/${totalQ})`);
+            MacroActivityLogger.logActivity(
+                'ANSWER_QUESTION',
+                `Soal ${qNum}/${totalQ}: ${isCorrect ? 'Benar (+XP)' : 'Salah (Sisa nyawa: ' + this.lives + ')'}`
+            );
+        }
+
         return {
             isCorrect: isCorrect,
             correctIdx: q.correct,
@@ -3049,6 +3408,13 @@ class MacroTriviaEngine {
         }
 
         this.saveProgress();
+
+        if (typeof MacroActivityLogger !== 'undefined') {
+            MacroActivityLogger.logActivity(
+                'STAGE_PASS',
+                `🎉 LULUS STAGE ${curId}! Membuka akses ke Stage ${nextStageId}.`
+            );
+        }
     }
 
     getRemainingResets(stageId) {
@@ -3069,6 +3435,9 @@ class MacroTriviaEngine {
             this.stageResetsRemaining[curId] = newRemaining;
             this.restartStage();
             this.saveProgress();
+            if (typeof MacroActivityLogger !== 'undefined') {
+                MacroActivityLogger.logActivity('STAGE_RESET', `Reset Stage ${curId} (Sisa kesempatan: ${newRemaining}x)`);
+            }
             return {
                 status: 'reset_success',
                 remaining: newRemaining,
@@ -3157,5 +3526,6 @@ class MacroTriviaEngine {
 
 if (typeof window !== 'undefined') {
     window.MacroUserManager = MacroUserManager;
+    window.MacroActivityLogger = MacroActivityLogger;
     window.macroTriviaEngine = new MacroTriviaEngine();
 }
