@@ -72,8 +72,6 @@
                 <button id="btnOpenHowToPlay" class="btn-how-to-play" title="Panduan Cara Bermain Step-by-Step">
                     <span>❓</span> Cara Main
                 </button>
-                <button id="btnAudioBgm" class="btn-icon-ctrl" title="BGM Suasana Command Center">🎵</button>
-                <button id="btnAudioSfx" class="btn-icon-ctrl" title="Suara Efek SFX">🔊</button>
                 <a href="trade_game.html" class="btn-icon-ctrl" title="Trade Tycoon">🌐 Dagang</a>
                 <a href="cocok_tanam.html" class="btn-icon-ctrl" style="background:#0f5132; color:#fff;" title="Cocok Tanam">🌾 Agri</a>
                 <a href="index.html" class="btn-icon-ctrl" title="Menu Game">🍡 Menu</a>
@@ -1216,7 +1214,7 @@
                                 • <strong>🛡️ Perisai Nyawa:</strong> Melindungi nyawa agar tidak berkurang jika keliru.
                             </div>
                             <div class="how-step-tip">
-                                💡 <em>Catatan Suara:</em> Game beroperasi dalam mode hening (tanpa musik), hanya terdengar nada bip pendek jika jawaban salah.
+                                💡 <em>Catatan Mode Hening:</em> Game beroperasi dalam mode hening total (tanpa suara/musik) dengan fokus murni pada visual dan tantangan kuis.
                             </div>
                         </div>
                     </div>
@@ -2068,20 +2066,24 @@
             };
 
             // ------------------------------------------------------------------
-            // 12. AUDIO CONTROLS
+            // 12. AUDIO CONTROLS (DISABLED - 100% VISUAL SILENT GAME)
             // ------------------------------------------------------------------
             const btnBgm = document.getElementById('btnAudioBgm');
             const btnSfx = document.getElementById('btnAudioSfx');
 
-            btnBgm.onclick = () => {
-                const isPlaying = audio.toggleBGM();
-                btnBgm.style.color = isPlaying ? 'var(--accent-cyan)' : 'var(--text-main)';
-            };
+            if (btnBgm) {
+                btnBgm.onclick = () => {
+                    const isPlaying = audio.toggleBGM();
+                    btnBgm.style.color = isPlaying ? 'var(--accent-cyan)' : 'var(--text-main)';
+                };
+            }
 
-            btnSfx.onclick = () => {
-                const isMuted = audio.toggleMute();
-                btnSfx.style.color = isMuted ? 'var(--text-dim)' : 'var(--text-main)';
-            };
+            if (btnSfx) {
+                btnSfx.onclick = () => {
+                    const isMuted = audio.toggleMute();
+                    btnSfx.style.color = isMuted ? 'var(--text-dim)' : 'var(--text-main)';
+                };
+            }
 
             // ------------------------------------------------------------------
             // 0. AKADEMI TEORI BERJENJANG (STEP-BY-STEP LEARNING CONTROLLER)
