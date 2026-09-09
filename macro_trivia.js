@@ -2572,6 +2572,193 @@ const MACRO_TRIVIA_STAGES = [
 ];
 
 
+/**
+ * ==============================================================================
+ * MACRO USER MANAGER: USER REGISTRATION, UNIQUE VALIDATION & TRACK RECORD
+ * ==============================================================================
+ */
+class MacroUserManager {
+    static REGISTRY_KEY = 'macromaster_user_registry';
+    static ACTIVE_USER_KEY = 'macromaster_active_email';
+
+    static getAllUsers() {
+        try {
+            const raw = localStorage.getItem(this.REGISTRY_KEY);
+            if (!raw) return [];
+            const data = JSON.parse(raw);
+            return Object.values(data).sort((a, b) => new Date(b.lastActive || 0) - new Date(a.lastActive || 0));
+        } catch (e) {
+            return [];
+        }
+    }
+
+    static getUserMap() {
+        try {
+            const raw = localStorage.getItem(this.REGISTRY_KEY);
+            return raw ? JSON.parse(raw) : {};
+        } catch (e) {
+            return {};
+        }
+    }
+
+    static saveUserMap(map) {
+        try {
+            localStorage.setItem(this.REGISTRY_KEY, JSON.stringify(map));
+        } catch (e) {}
+    }
+
+    static getActiveEmail() {
+        try {
+            return localStorage.getItem(this.ACTIVE_USER_KEY) || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    static getActiveUser() {
+        const email = this.getActiveEmail();
+        if (!email) return null;
+        const map = this.getUserMap();
+        return map[email.toLowerCase()] || null;
+    }
+
+    static setActiveEmail(email) {
+        try {
+            if (email) {
+                localStorage.setItem(this.ACTIVE_USER_KEY, email.toLowerCase());
+            } else {
+                localStorage.removeItem(this.ACTIVE_USER_KEY);
+            }
+        } catch (e) {}
+    }
+
+    static isUsernameTaken(username, excludeEmail = null) {
+        if (!username) return false;
+        const cleanName = username.trim().toLowerCase();
+        const users = this.getAllUsers();
+        const excEmail = excludeEmail ? excludeEmail.trim().toLowerCase() : null;
+
+        return users.some(u => {
+            if (excEmail && u.email && u.email.toLowerCase() === excEmail) return false;
+            const uName = (u.usernameLower || u.username || '').trim().toLowerCase();
+            return uName === cleanName;
+        });
+    }
+
+    static registerOrLogin(username, email) {
+        const cleanEmail = (email || '').trim().toLowerCase();
+        const cleanName = (username || '').trim();
+
+        if (!cleanName) {
+            return { success: false, error: 'empty_username', message: 'Nama user wajib diisi!' };
+        }
+        if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+            return { success: false, error: 'invalid_email', message: 'Format email tidak valid (contoh: nama@instansi.go.id)!' };
+        }
+
+        const map = this.getUserMap();
+        const existing = map[cleanEmail];
+
+        if (existing) {
+            // Returning user by email: check if username matches (case-insensitive)
+            const registeredName = (existing.username || '').trim().toLowerCase();
+            if (registeredName !== cleanName.toLowerCase()) {
+                return {
+                    success: false,
+                    error: 'username_mismatch',
+                    message: `Email '${cleanEmail}' sudah terdaftar dengan nama user '${existing.username}'. Silakan gunakan nama user tersebut atau periksa kembali email Anda.`
+                };
+            }
+
+            // Valid login
+            existing.lastActive = new Date().toISOString();
+            map[cleanEmail] = existing;
+            this.saveUserMap(map);
+            this.setActiveEmail(cleanEmail);
+
+            // Check if user has mid-level progress (e.g. at question 1-5 and not complete)
+            const prog = existing.progress || {};
+            const qIdx = Number(prog.currentQuestionIdx) || 0;
+            const isMidLevel = Boolean(qIdx > 0 && qIdx < 6 && !prog.isStageComplete);
+
+            return {
+                success: true,
+                isNew: false,
+                hasMidLevelProgress: isMidLevel,
+                user: existing
+            };
+        } else {
+            // New user registration: check unique username
+            if (this.isUsernameTaken(cleanName)) {
+                return {
+                    success: false,
+                    error: 'username_taken',
+                    message: `Nama user '${cleanName}' sudah digunakan oleh pemain lain. Mohon tentukan nama user yang unik!`
+                };
+            }
+
+            const newUser = {
+                username: cleanName,
+                usernameLower: cleanName.toLowerCase(),
+                email: cleanEmail,
+                createdAt: new Date().toISOString(),
+                lastActive: new Date().toISOString(),
+                highestStage: 1,
+                totalScore: 0,
+                progress: {
+                    currentStageId: 1,
+                    currentQuestionIdx: 0,
+                    stageCorrectCount: 0,
+                    score: 0,
+                    combo: 0,
+                    lives: 5,
+                    stageResetsRemaining: { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 },
+                    unlockedStageIds: [1],
+                    advanceUnlocked: { econGames: false, scenarios: false, cockpit: false }
+                }
+            };
+
+            map[cleanEmail] = newUser;
+            this.saveUserMap(map);
+            this.setActiveEmail(cleanEmail);
+
+            return {
+                success: true,
+                isNew: true,
+                hasMidLevelProgress: false,
+                user: newUser
+            };
+        }
+    }
+
+    static saveProgress(progressData) {
+        const email = this.getActiveEmail();
+        if (!email) return;
+        const map = this.getUserMap();
+        const user = map[email.toLowerCase()];
+        if (!user) return;
+
+        user.lastActive = new Date().toISOString();
+        const stageNum = Number(progressData.currentStageId) || 1;
+        user.highestStage = Math.max(user.highestStage || 1, stageNum);
+        if (progressData.unlockedStageIds && Array.isArray(progressData.unlockedStageIds)) {
+            user.highestStage = Math.max(user.highestStage, ...progressData.unlockedStageIds.map(Number));
+        }
+        user.totalScore = Number(progressData.score) || user.totalScore || 0;
+        user.progress = {
+            ...(user.progress || {}),
+            ...progressData
+        };
+
+        map[email.toLowerCase()] = user;
+        this.saveUserMap(map);
+    }
+
+    static logout() {
+        this.setActiveEmail(null);
+    }
+}
+
 class MacroTriviaEngine {
     constructor() {
         this.stages = MACRO_TRIVIA_STAGES;
@@ -2637,13 +2824,24 @@ class MacroTriviaEngine {
 
     loadProgress() {
         try {
-            const saved = localStorage.getItem('macromaster_trivia_progress');
-            if (saved) {
-                const data = JSON.parse(saved);
+            const activeUser = (typeof MacroUserManager !== 'undefined') ? MacroUserManager.getActiveUser() : null;
+            let data = null;
+            if (activeUser && activeUser.progress) {
+                data = activeUser.progress;
+            } else {
+                const saved = localStorage.getItem('macromaster_trivia_progress');
+                if (saved) data = JSON.parse(saved);
+            }
+
+            if (data) {
                 this.score = Number(data.score) || 0;
                 this.unlockedStageIds = (data.unlockedStageIds || [1]).map(Number);
                 this.advanceUnlocked = data.advanceUnlocked || { econGames: false, scenarios: false, cockpit: false };
                 this.currentStageId = Number(data.currentStageId) || 1;
+                this.currentQuestionIdx = Number(data.currentQuestionIdx) || 0;
+                this.stageCorrectCount = Number(data.stageCorrectCount) || 0;
+                this.lives = (typeof data.lives === 'number') ? data.lives : 5;
+                this.combo = Number(data.combo) || 0;
                 if (data.stageResetsRemaining && typeof data.stageResetsRemaining === 'object') {
                     this.stageResetsRemaining = { ...this.stageResetsRemaining, ...data.stageResetsRemaining };
                 }
@@ -2660,10 +2858,33 @@ class MacroTriviaEngine {
                 unlockedStageIds: Array.from(new Set(this.unlockedStageIds.map(Number))),
                 advanceUnlocked: this.advanceUnlocked,
                 currentStageId: Number(this.currentStageId),
-                stageResetsRemaining: this.stageResetsRemaining
+                currentQuestionIdx: Number(this.currentQuestionIdx),
+                stageCorrectCount: Number(this.stageCorrectCount),
+                lives: Number(this.lives),
+                combo: Number(this.combo),
+                stageResetsRemaining: this.stageResetsRemaining,
+                isStageComplete: this.isStageComplete()
             };
+            if (typeof MacroUserManager !== 'undefined') {
+                MacroUserManager.saveProgress(data);
+            }
             localStorage.setItem('macromaster_trivia_progress', JSON.stringify(data));
         } catch (e) {}
+    }
+
+    loadActiveUserSession(resumeChoice = 'continue') {
+        this.loadProgress();
+        const stage = this.getCurrentStage();
+        if (resumeChoice === 'restart') {
+            this.restartStage();
+        } else {
+            // Lanjutkan soal yang tersimpan
+            if (!stage.questions || stage.questions.length === 0) {
+                this.startSessionQuestions(stage);
+            }
+            this.isAnswered = false;
+        }
+        this.saveProgress();
     }
 
     getCurrentStage() {
@@ -2935,5 +3156,6 @@ class MacroTriviaEngine {
 }
 
 if (typeof window !== 'undefined') {
+    window.MacroUserManager = MacroUserManager;
     window.macroTriviaEngine = new MacroTriviaEngine();
 }

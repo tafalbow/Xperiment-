@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="macro_game.css?v=2.3">
+    <link rel="stylesheet" href="macro_game.css?v=2.4">
 </head>
 <body class="mode-trivia">
     <div class="app-background-glow"></div>
@@ -43,6 +43,10 @@
                         <span class="player-level-badge" id="playerLevelBadge">⭐ Lv. 1</span>
                         <span class="player-title" id="playerTitle">Calon Teknokrat</span>
                     </div>
+                    <div style="display:flex; align-items:center; gap:6px; margin:2px 0;">
+                        <span id="playerUsernameDisplay" style="font-size:0.8rem; font-weight:800; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:115px;" title="Nama Pemain Aktif">Pemain</span>
+                        <button type="button" id="btnSwitchAccount" class="btn-switch-user" title="Ganti Akun Pemain / Keluar">👤 Ganti</button>
+                    </div>
                     <div class="player-xp-bar-container" title="Kumpulkan XP dari Belajar Teori dan Kuis">
                         <div class="player-xp-bar-fill" id="playerXpFill" style="width: 0%;"></div>
                         <span class="player-xp-text" id="playerXpText">XP: 0 / 150</span>
@@ -69,6 +73,9 @@
 
             <!-- Header Action Controls -->
             <div class="header-actions">
+                <button id="btnOpenTrackRecord" class="btn-how-to-play" style="background:#eff6ff; border-color:#93c5fd; color:#1d4ed8;" title="Lihat Track Record Siapa Saja yang Pernah Main & Capaian Level">
+                    <span>📋</span> Track Record
+                </button>
                 <button id="btnAdvanceQuarter" class="btn-gavel-primary" title="Ketok Palu Sidang Kabinet & Jalankan Kuartal Ini">
                     <span>🔨</span> Ketok Palu Kuartal
                 </button>
@@ -1273,6 +1280,164 @@
             </div>
         </div>
 
+        <!-- ================================================================
+             MODAL 1: AUTHENTICATION / OPENING GATE (USER UNIK & EMAIL WAJIB)
+             ================================================================ -->
+        <div id="modalUserAuthGate" class="modal-overlay" style="display:none; z-index:99999; backdrop-filter:blur(10px); background:rgba(15,23,42,0.85);">
+            <div class="modal-card auth-gate-card">
+                <div class="modal-header auth-gate-header">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span style="font-size:2.2rem; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15));">🏛️</span>
+                        <div>
+                            <h2 style="font-size:1.35rem; font-family:var(--font-heading); margin:0; color:#0f172a; font-weight:800;">
+                                Selamat Datang di MacroMaster DEN
+                            </h2>
+                            <p style="margin:2px 0 0; font-size:0.85rem; color:#475569;">
+                                Registrasi Pemain & Rekam Jejak (Track Record) Teknokrat Ekonomi
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body auth-gate-body">
+                    <div class="auth-gate-info-banner">
+                        <span style="font-size:1.2rem;">🛡️</span>
+                        <div>
+                            <strong>Wajib Registrasi Identitas:</strong> Tentukan <strong>1 Nama User yang Unik</strong> (tidak boleh sama dengan pemain lain) dan <strong>Email Aktif</strong>. Progres level dan nomor soal yang belum diselesaikan akan tersimpan aman sehingga Anda dapat melanjutkan kapan saja!
+                        </div>
+                    </div>
+
+                    <form id="formUserAuth" onsubmit="return false;" style="display:flex; flex-direction:column; gap:14px; margin-top:6px;">
+                        <div class="auth-input-group">
+                            <label for="inputAuthUsername" class="auth-label">
+                                👤 Nama User / Username <span style="color:#dc2626;">* (Harus Unik)</span>
+                            </label>
+                            <input type="text" id="inputAuthUsername" class="auth-input" placeholder="Contoh: SriMulyani2026 atau TeknokratHandal" required autocomplete="username" maxlength="32">
+                            <span class="auth-field-hint">Nama ini dicatat unik di Papan Prestasi (Track Record) Nasional.</span>
+                        </div>
+
+                        <div class="auth-input-group">
+                            <label for="inputAuthEmail" class="auth-label">
+                                📧 Alamat Email Aktif <span style="color:#dc2626;">* (Wajib)</span>
+                            </label>
+                            <input type="email" id="inputAuthEmail" class="auth-input" placeholder="contoh: nama@kemenkeu.go.id atau pemain@gmail.com" required autocomplete="email">
+                            <span class="auth-field-hint">Digunakan untuk melanjutkan progres atau mengulang level jika keluar sebelum permainan tuntas.</span>
+                        </div>
+
+                        <div id="authErrorMessage" class="auth-error-banner" style="display:none;"></div>
+
+                        <button type="submit" id="btnSubmitAuth" class="btn-gavel-primary auth-submit-btn">
+                            <span>🚀</span> Masuk & Mulai Petualangan
+                        </button>
+                    </form>
+                </div>
+
+                <div class="modal-footer" style="justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <span style="font-size:0.75rem; color:#64748b;">
+                        🔒 Data tersimpan otomatis di basis data per-user browser Anda.
+                    </span>
+                    <button type="button" id="btnOpenTrackRecordFromAuth" class="btn-sidebar-icon" style="font-size:0.8rem; padding:6px 12px;">
+                        📋 Lihat Track Record Pemain
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             MODAL 2: PILIHAN MELANJUTKAN ATAU ULANG LEVEL (RESUME MID-LEVEL)
+             ================================================================ -->
+        <div id="modalResumeChoice" class="modal-overlay" style="display:none; z-index:99998; backdrop-filter:blur(8px); background:rgba(15,23,42,0.8);">
+            <div class="modal-card" style="max-width:520px; border-radius:18px;">
+                <div class="modal-header" style="background:linear-gradient(135deg, #eff6ff, #dbeafe); border-bottom:1.5px solid #bfdbfe;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:1.8rem;">💾</span>
+                        <div>
+                            <h2 style="font-size:1.2rem; font-family:var(--font-heading); margin:0; color:#1e40af;">
+                                Sesi Belum Selesai Ditemukan
+                            </h2>
+                            <p id="resumeUserGreeting" style="margin:2px 0 0; font-size:0.84rem; color:#2563eb; font-weight:700;">
+                                Selamat datang kembali!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body" style="padding:18px 22px;">
+                    <p id="resumeMessage" style="font-size:0.92rem; color:#334155; line-height:1.5; margin:0 0 16px;">
+                        Anda sebelumnya keluar saat berada di tengah permainan Level ini. Silakan pilih apakah Anda ingin melanjutkan soal berikutnya atau mengulang level ini dari awal.
+                    </p>
+
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <button type="button" id="btnResumeContinue" class="btn-gavel-primary" style="background:#0284c7; padding:12px 18px; font-size:0.92rem; justify-content:flex-start;">
+                            <span>▶️</span> Lanjutkan Pertanyaan Selanjutnya (Soal <span id="resumeNextQNum">2</span> / 6)
+                        </button>
+                        <button type="button" id="btnResumeRestartLevel" class="btn-gavel-primary" style="background:#f59e0b; border-color:#d97706; padding:12px 18px; font-size:0.92rem; justify-content:flex-start;">
+                            <span>🔄</span> Ulangi Level Ini dari Awal (Soal 1 / 6)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             MODAL 3: TRACK RECORD PEMAIN (LEADERBOARD / DIRECTORY)
+             ================================================================ -->
+        <div id="modalTrackRecord" class="modal-overlay" style="display:none; z-index:99997; backdrop-filter:blur(6px); background:rgba(15,23,42,0.7);">
+            <div class="modal-card" style="max-width:840px; border-radius:18px;">
+                <div class="modal-header" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); justify-content:space-between; align-items:center;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:1.8rem;">📋</span>
+                        <div>
+                            <h2 style="font-size:1.25rem; font-family:var(--font-heading); margin:0; color:#0f172a;">
+                                Track Record Pemain MacroMaster DEN
+                            </h2>
+                            <p style="margin:2px 0 0; font-size:0.82rem; color:#64748b;">
+                                Rekam jejak seluruh pemain, email terdaftar, dan capaian level makroekonomi
+                            </p>
+                        </div>
+                    </div>
+                    <button type="button" id="btnCloseTrackRecord" class="btn-sidebar-icon" style="font-size:1.2rem; padding:4px 10px;">✖</button>
+                </div>
+
+                <div class="modal-body" style="padding:16px 20px; max-height:60vh; overflow-y:auto;">
+                    <div id="trackRecordEmptyNotice" style="display:none; text-align:center; padding:30px 10px; color:#64748b;">
+                        <span style="font-size:2rem;">🧑‍💼</span>
+                        <p style="margin:8px 0 0; font-weight:600;">Belum ada pemain yang terdaftar. Jadilah yang pertama!</p>
+                    </div>
+
+                    <table class="track-record-table" id="trackRecordTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama User (Username)</th>
+                                <th>Alamat Email</th>
+                                <th>Capaian Level</th>
+                                <th>Total Skor</th>
+                                <th>Aktivitas Terakhir</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trackRecordTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-footer" style="justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div style="font-size:0.8rem; color:#64748b;">
+                        Total Pemain Terdaftar: <strong id="trackRecordTotalCount">0</strong> orang
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button type="button" id="btnExportTrackRecordCsv" class="btn-sidebar-icon" style="font-size:0.85rem; padding:8px 16px;">
+                            <span>📥</span> Unduh Track Record (CSV)
+                        </button>
+                        <button type="button" id="btnCloseTrackRecordFooter" class="btn-gavel-primary" style="padding:8px 20px; font-size:0.88rem;">
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Floating Quick Launcher Button untuk Konsultasi Asisten Ahli -->
         
 
@@ -1281,12 +1446,12 @@
     <!-- --------------------------------------------------------------------
          SCRIPTS: THEORIES, AUDIO, ENGINE, QA & CONTROLLER
          -------------------------------------------------------------------- -->
-    <script src="macro_theory.js?v=2.3"></script>
-    <script src="macro_audio.js?v=2.3"></script>
-    <script src="macro_engine.js?v=2.3"></script>
-    <script src="macro_jargon.js?v=2.3"></script>
-    <script src="macro_econ_games.js?v=2.3"></script>
-    <script src="macro_trivia.js?v=2.3"></script>
+    <script src="macro_theory.js?v=2.4"></script>
+    <script src="macro_audio.js?v=2.4"></script>
+    <script src="macro_engine.js?v=2.4"></script>
+    <script src="macro_jargon.js?v=2.4"></script>
+    <script src="macro_econ_games.js?v=2.4"></script>
+    <script src="macro_trivia.js?v=2.4"></script>
     <script>
         /**
          * ======================================================================
@@ -1838,6 +2003,14 @@
 
                 document.getElementById('playerXpFill').style.width = `${pct}%`;
                 document.getElementById('playerXpText').textContent = `XP: ${profile.xp} / ${nextThresh}`;
+
+                // Tampilkan nama user aktif
+                const usernameEl = document.getElementById('playerUsernameDisplay');
+                if (usernameEl) {
+                    const activeUser = (typeof window.MacroUserManager !== 'undefined') ? window.MacroUserManager.getActiveUser() : null;
+                    usernameEl.textContent = activeUser ? activeUser.username : 'Pemain Tamu';
+                    usernameEl.title = activeUser ? `${activeUser.username} (${activeUser.email})` : 'Pemain Tamu';
+                }
             }
 
             document.getElementById('playerAvatarBtn').onclick = () => {
@@ -3443,8 +3616,264 @@
                     }, true);
                 });
 
+                // Expose renderer
+                window._renderTriviaQuestion = renderQuestion;
+
                 // Initial render
                 renderQuestion();
+            }
+
+            // ------------------------------------------------------------------
+            // SISTEM AUTENTIKASI USER UNIK, RESUME LEVEL, & TRACK RECORD
+            // ------------------------------------------------------------------
+            const modalUserAuthGate = document.getElementById('modalUserAuthGate');
+            const formUserAuth = document.getElementById('formUserAuth');
+            const inputAuthUsername = document.getElementById('inputAuthUsername');
+            const inputAuthEmail = document.getElementById('inputAuthEmail');
+            const authErrorMessage = document.getElementById('authErrorMessage');
+            const btnSubmitAuth = document.getElementById('btnSubmitAuth');
+
+            const modalResumeChoice = document.getElementById('modalResumeChoice');
+            const resumeUserGreeting = document.getElementById('resumeUserGreeting');
+            const resumeMessage = document.getElementById('resumeMessage');
+            const resumeNextQNum = document.getElementById('resumeNextQNum');
+            const btnResumeContinue = document.getElementById('btnResumeContinue');
+            const btnResumeRestartLevel = document.getElementById('btnResumeRestartLevel');
+
+            const modalTrackRecord = document.getElementById('modalTrackRecord');
+            const btnOpenTrackRecord = document.getElementById('btnOpenTrackRecord');
+            const btnOpenTrackRecordFromAuth = document.getElementById('btnOpenTrackRecordFromAuth');
+            const btnCloseTrackRecord = document.getElementById('btnCloseTrackRecord');
+            const btnCloseTrackRecordFooter = document.getElementById('btnCloseTrackRecordFooter');
+            const trackRecordTableBody = document.getElementById('trackRecordTableBody');
+            const trackRecordEmptyNotice = document.getElementById('trackRecordEmptyNotice');
+            const trackRecordTable = document.getElementById('trackRecordTable');
+            const trackRecordTotalCount = document.getElementById('trackRecordTotalCount');
+            const btnExportTrackRecordCsv = document.getElementById('btnExportTrackRecordCsv');
+            const btnSwitchAccount = document.getElementById('btnSwitchAccount');
+
+            function showUserAuthGate() {
+                if (!modalUserAuthGate) return;
+                modalUserAuthGate.style.display = 'flex';
+                if (authErrorMessage) authErrorMessage.style.display = 'none';
+                if (inputAuthUsername) inputAuthUsername.value = '';
+                if (inputAuthEmail) inputAuthEmail.value = '';
+                setTimeout(() => {
+                    if (inputAuthUsername) inputAuthUsername.focus();
+                }, 100);
+            }
+
+            function hideUserAuthGate() {
+                if (modalUserAuthGate) modalUserAuthGate.style.display = 'none';
+            }
+
+            function handleAuthSubmit() {
+                const username = inputAuthUsername ? inputAuthUsername.value : '';
+                const email = inputAuthEmail ? inputAuthEmail.value : '';
+
+                if (!window.MacroUserManager) return;
+                const result = window.MacroUserManager.registerOrLogin(username, email);
+
+                if (!result.success) {
+                    audio.playAlert();
+                    if (authErrorMessage) {
+                        authErrorMessage.textContent = result.message;
+                        authErrorMessage.style.display = 'block';
+                    }
+                    return;
+                }
+
+                // Sukses autentikasi
+                audio.playClick();
+                hideUserAuthGate();
+                updateGamerHUD();
+
+                if (result.hasMidLevelProgress) {
+                    // Pemain kembali dengan soal di tengah stage yang belum selesai
+                    const user = result.user;
+                    const stageNum = Number(user.progress.currentStageId) || 1;
+                    const nextQ = (Number(user.progress.currentQuestionIdx) || 0) + 1;
+
+                    if (resumeUserGreeting) {
+                        resumeUserGreeting.textContent = `Selamat datang kembali, ${user.username}!`;
+                    }
+                    if (resumeMessage) {
+                        resumeMessage.innerHTML = `
+                            Anda sebelumnya keluar saat sedang mengerjakan <strong>Stage ${stageNum}</strong> di <strong>Soal ke-${nextQ}</strong>.<br>
+                            Silakan tentukan apakah Anda ingin melanjutkan soal tersebut atau memulai ulang Stage ${stageNum} dari awal.
+                        `;
+                    }
+                    if (resumeNextQNum) resumeNextQNum.textContent = nextQ;
+                    if (modalResumeChoice) modalResumeChoice.style.display = 'flex';
+                } else {
+                    const trivia = window.macroTriviaEngine;
+                    if (trivia) {
+                        trivia.loadActiveUserSession('continue');
+                    }
+                    if (typeof window._renderTriviaQuestion === 'function') {
+                        window._renderTriviaQuestion();
+                    }
+                    updateGamerHUD();
+                }
+            }
+
+            if (formUserAuth) {
+                formUserAuth.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    handleAuthSubmit();
+                });
+            }
+            if (btnSubmitAuth) {
+                btnSubmitAuth.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    handleAuthSubmit();
+                });
+            }
+
+            if (btnResumeContinue) {
+                btnResumeContinue.onclick = () => {
+                    audio.playClick();
+                    if (modalResumeChoice) modalResumeChoice.style.display = 'none';
+                    const trivia = window.macroTriviaEngine;
+                    if (trivia) {
+                        trivia.loadActiveUserSession('continue');
+                    }
+                    if (typeof window._renderTriviaQuestion === 'function') {
+                        window._renderTriviaQuestion();
+                    }
+                    updateGamerHUD();
+                };
+            }
+
+            if (btnResumeRestartLevel) {
+                btnResumeRestartLevel.onclick = () => {
+                    audio.playClick();
+                    if (modalResumeChoice) modalResumeChoice.style.display = 'none';
+                    const trivia = window.macroTriviaEngine;
+                    if (trivia) {
+                        trivia.loadActiveUserSession('restart');
+                    }
+                    if (typeof window._renderTriviaQuestion === 'function') {
+                        window._renderTriviaQuestion();
+                    }
+                    updateGamerHUD();
+                };
+            }
+
+            if (btnSwitchAccount) {
+                btnSwitchAccount.onclick = () => {
+                    audio.playClick();
+                    if (confirm('Apakah Anda ingin berganti akun pemain? Progres akun saat ini telah tersimpan aman.')) {
+                        if (window.MacroUserManager) {
+                            window.MacroUserManager.logout();
+                        }
+                        updateGamerHUD();
+                        showUserAuthGate();
+                    }
+                };
+            }
+
+            function openTrackRecordModal() {
+                if (!modalTrackRecord) return;
+                audio.playClick();
+
+                const users = window.MacroUserManager ? window.MacroUserManager.getAllUsers() : [];
+                if (trackRecordTotalCount) trackRecordTotalCount.textContent = users.length;
+
+                if (!users || users.length === 0) {
+                    if (trackRecordEmptyNotice) trackRecordEmptyNotice.style.display = 'block';
+                    if (trackRecordTable) trackRecordTable.style.display = 'none';
+                } else {
+                    if (trackRecordEmptyNotice) trackRecordEmptyNotice.style.display = 'none';
+                    if (trackRecordTable) trackRecordTable.style.display = 'table';
+
+                    if (trackRecordTableBody) {
+                        trackRecordTableBody.innerHTML = '';
+                        const stageNames = {
+                            1: 'Pasar & Warung',
+                            2: 'Bank Sentral',
+                            3: 'Kemenkeu & APBN',
+                            4: 'Valas & Kurs',
+                            5: 'Badai Krisis'
+                        };
+
+                        users.forEach((u, idx) => {
+                            const tr = document.createElement('tr');
+                            const lvl = Number(u.highestStage) || 1;
+                            const badgeCls = `lvl-${Math.min(5, Math.max(1, lvl))}`;
+                            const stageName = stageNames[lvl] || `Level ${lvl}`;
+                            const lastDate = u.lastActive ? new Date(u.lastActive).toLocaleDateString('id-ID', {
+                                day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                            }) : '-';
+                            const scoreFormatted = (Number(u.totalScore) || 0).toLocaleString('id-ID');
+
+                            tr.innerHTML = `
+                                <td style="font-weight:700; color:#64748b;">${idx + 1}</td>
+                                <td><strong style="color:#0f172a;">${escapeHtml(u.username)}</strong></td>
+                                <td style="color:#475569;">${escapeHtml(u.email)}</td>
+                                <td>
+                                    <span class="track-record-badge ${badgeCls}">
+                                        ⭐ Lv. ${lvl} (${stageName})
+                                    </span>
+                                </td>
+                                <td><strong style="color:#16a34a;">${scoreFormatted}</strong></td>
+                                <td style="font-size:0.78rem; color:#64748b;">${lastDate}</td>
+                            `;
+                            trackRecordTableBody.appendChild(tr);
+                        });
+                    }
+                }
+
+                modalTrackRecord.style.display = 'flex';
+            }
+
+            function closeTrackRecordModal() {
+                if (modalTrackRecord) modalTrackRecord.style.display = 'none';
+            }
+
+            if (btnOpenTrackRecord) btnOpenTrackRecord.onclick = openTrackRecordModal;
+            if (btnOpenTrackRecordFromAuth) btnOpenTrackRecordFromAuth.onclick = openTrackRecordModal;
+            if (btnCloseTrackRecord) btnCloseTrackRecord.onclick = closeTrackRecordModal;
+            if (btnCloseTrackRecordFooter) btnCloseTrackRecordFooter.onclick = closeTrackRecordModal;
+
+            if (btnExportTrackRecordCsv) {
+                btnExportTrackRecordCsv.onclick = () => {
+                    const users = window.MacroUserManager ? window.MacroUserManager.getAllUsers() : [];
+                    if (!users.length) {
+                        alert('Belum ada data pemain untuk diunduh.');
+                        return;
+                    }
+
+                    const rows = [
+                        ['No', 'Nama User', 'Alamat Email', 'Level Tertinggi', 'Total Skor', 'Waktu Terdaftar', 'Aktivitas Terakhir']
+                    ];
+
+                    users.forEach((u, idx) => {
+                        rows.push([
+                            idx + 1,
+                            `"${(u.username || '').replace(/"/g, '""')}"`,
+                            `"${(u.email || '').replace(/"/g, '""')}"`,
+                            u.highestStage || 1,
+                            u.totalScore || 0,
+                            `"${u.createdAt || ''}"`,
+                            `"${u.lastActive || ''}"`
+                        ]);
+                    });
+
+                    const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + rows.map(r => r.join(',')).join('\n');
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement('a');
+                    link.setAttribute('href', encodedUri);
+                    link.setAttribute('download', `track_record_macromaster_${new Date().toISOString().slice(0,10)}.csv`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                };
+            }
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
             }
 
             // ------------------------------------------------------------------
@@ -3452,6 +3881,27 @@
             // ------------------------------------------------------------------
             document.body.classList.add('mode-trivia');
             initTriviaQuest();
+
+            // Pengecekan user aktif saat start
+            const activeUser = window.MacroUserManager ? window.MacroUserManager.getActiveUser() : null;
+            if (!activeUser) {
+                showUserAuthGate();
+            } else {
+                const prog = activeUser.progress || {};
+                const qIdx = Number(prog.currentQuestionIdx) || 0;
+                if (qIdx > 0 && qIdx < 6 && !prog.isStageComplete) {
+                    const stageNum = Number(prog.currentStageId) || 1;
+                    if (resumeUserGreeting) resumeUserGreeting.textContent = `Selamat datang kembali, ${activeUser.username}!`;
+                    if (resumeMessage) {
+                        resumeMessage.innerHTML = `
+                            Anda sebelumnya keluar saat sedang berada di tengah <strong>Stage ${stageNum}</strong> di <strong>Soal ke-${qIdx + 1}</strong>.<br>
+                            Silakan tentukan apakah Anda ingin melanjutkan soal tersebut atau memulai ulang Stage ${stageNum} dari awal.
+                        `;
+                    }
+                    if (resumeNextQNum) resumeNextQNum.textContent = qIdx + 1;
+                    if (modalResumeChoice) modalResumeChoice.style.display = 'flex';
+                }
+            }
 
             try { updateGamerHUD(); } catch (e) { console.warn(e); }
             try { updateAcademyStepper(); } catch (e) { console.warn(e); }
