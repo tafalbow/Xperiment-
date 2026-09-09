@@ -327,6 +327,347 @@ const MACRO_JARGON_DATA = {
         formula: "\\text{Mikro: } \\max \\text{Profit}(\\pi = TR - TC) \\quad \\text{vs} \\quad \\text{Makro: } \\max \\text{Welfare}(Y, \\text{Inflasi}, \\text{Tenaga Kerja})",
         realImpact: "Membantu para manajer bisnis memprediksi waktu yang tepat untuk ekspansi modal, merekrut karyawan, atau mengamankan arus kas sebelum badai krisis melanda.",
         related: ["pdb_riil", "bi_rate", "inflasi_ihk"]
+    },
+    pajak_pigouvian: {
+        name: "Pajak Pigouvian (Pigouvian Tax / Cukai Korektif)",
+        category: "Kebijakan Fiskal & Eksternalitas",
+        icon: "🚬",
+        simpleDef: "Pajak atau pungutan cukai khusus yang dikenakan pada barang atau kegiatan ekonomi yang menimbulkan dampak buruk (eksternalitas negatif) bagi masyarakat, seperti rokok, minuman beralkohol, polusi pabrik, dan emisi karbon.",
+        analogy: "Ibarat denda ganti rugi: Perokok berisiko tinggi terkena penyakit kronis yang membebani anggaran BPJS Kesehatan yang dibayar rakyat. Melalui cukai rokok yang tinggi, konsumen rokok dipaksa 'mengganti biaya sosial' kerusakan yang mereka timbulkan kepada orang lain.",
+        mechanism: "Harga rokok naik drastis akibat cukai → Konsumsi rokok (terutama di kalangan remaja dan keluarga rentan) berkurang → Beban pembiayaan penyakit paru/jantung berkurang → Kas penerimaan cukai (Rp 200+ triliun) dipakai membiayai fasilitas kesehatan dan jaminan sosial.",
+        formula: "t^* = \\text{MEC} \\quad (\\text{Tarif Pajak Optimal} = \\text{Marginal External Cost / Biaya Kerusakan Eksternal})",
+        realImpact: "Di Indonesia, Cukai Hasil Tembakau (CHT) menyumbang lebih dari Rp 210 triliun per tahun bagi APBN. Minimal 50% Dana Bagi Hasil Cukai (DBH CHT) wajib dialokasikan pemda untuk fasilitas kesehatan dan jaminan sosial petani tembakau.",
+        related: ["tax_ratio", "subsidi_tepat_sasaran", "apbn_defisit", "defisit_apbn"]
+    },
+    keseimbangan_primer: {
+        name: "Keseimbangan Primer APBN",
+        category: "Kebijakan Fiskal & APBN",
+        icon: "⚖️",
+        simpleDef: "Selisih antara total Pendapatan Negara dengan Belanja Negara di luar pembayaran bunga utang. Jika surplus, berarti pendapatan negara mampu membiayai seluruh belanja operasional tanpa berutang untuk membayar cicilan bunga.",
+        analogy: "Sama seperti keuangan keluarga: Gaji bulanan Anda cukup untuk membiayai makan, sekolah anak, dan listrik, tanpa harus berutang baru hanya demi menutup tagihan cicilan bunga utang lama (bebas gali lubang tutup lubang).",
+        mechanism: "Keseimbangan Primer = Pendapatan Negara - (Belanja Total - Bunga Utang). Keseimbangan primer surplus menandakan posisi utang pemerintah bergerak aman dan rasio utang/PDB akan menurun secara berkelanjutan.",
+        formula: "\\text{Keseimbangan Primer} = \\text{Pendapatan Total} - (\\text{Belanja Total} - \\text{Bunga Utang})",
+        realImpact: "Kementerian Keuangan RI terus menjaga agar Keseimbangan Primer berada di zona surplus (seperti surplus pada APBN 2022 dan 2023) sebagai bukti kemandirian dan kesehatan fiskal Indonesia.",
+        related: ["apbn_defisit", "defisit_apbn", "utang_negara", "sbn"]
+    },
+    defisit_apbn: {
+        name: "Defisit APBN & Disiplin Batas 3% PDB",
+        category: "Kebijakan Fiskal & Utang",
+        icon: "📜",
+        simpleDef: "Kondisi saat pengeluaran belanja negara melampaui penerimaan kas negara, yang sesuai UU No. 17/2003 tentang Keuangan Negara dibatasi maksimal 3,0% dari PDB.",
+        analogy: "Batas plafon utang darurat: Negara boleh meminjam uang untuk membiayai pembangunan rel kereta, jembatan, dan pelabuhan produktif, namun dibatasi maksimal 3% agar utang tidak menumpuk liar hingga negara bangkrut.",
+        mechanism: "Defisit ditutup melalui penerbitan Surat Berharga Negara (SBN) atau pinjaman program. Pengetatan batas 3% menjaga kredibilitas dan reputasi investasi Indonesia di mata dunia internasional.",
+        formula: "\\frac{\\text{Defisit APBN}}{\\text{PDB Nominal}} \\times 100\\% \\le 3.0\\%",
+        realImpact: "Hanya pada masa darurat pandemi Covid-19 (2020-2022) batas 3% dilonggarkan melalui Perppu No. 1/2020, dan Indonesia berhasil mengembalikannya ke bawah 3% lebih cepat dari target pada tahun 2022.",
+        related: ["apbn_defisit", "keseimbangan_primer", "utang_negara", "crowding_out", "sbn"]
+    },
+    kssk: {
+        name: "KSSK (Komite Stabilitas Sistem Keuangan)",
+        category: "Arsitektur & Stabilitas Sistem Keuangan",
+        icon: "🏛️",
+        simpleDef: "Lembaga koordinasi empat pilar otoritas tertinggi keuangan Indonesia yang dibentuk berdasarkan UU No. 9/2016 (UU PPKSK) untuk mencegah dan menangani krisis sistem keuangan.",
+        analogy: "Pusat Komando Tanggap Darurat Nasional: Berisi 4 komandan penanggung jawab (Menteri Keuangan, Gubernur BI, Ketua OJK, Ketua LPS) yang duduk satu meja agar penanganan krisis berlangsung kilat tanpa saling lempar tanggung jawab.",
+        mechanism: "KSSK memantau indikator makro dan perbankan secara triwulanan. Dalam kondisi krisis, Menteri Keuangan mengoordinasikan penetapan status sistemik bank dan langkah penyehatan.",
+        formula: "\\text{KSSK} = \\text{Kemenkeu (Fiskal)} + \\text{Bank Indonesia (Moneter)} + \\text{OJK (Pengawasan)} + \\text{LPS (Penjamin Simpanan)}",
+        realImpact: "KSSK menggelar simulasi krisis berkala untuk memastikan jika bank besar goyah, skema resolusi penyelamatan (seperti bail-in dan purchase & assumption) dapat dieksekusi tanpa memicu kepanikan nasabah.",
+        related: ["lps", "lender_of_last_resort", "bail_in", "too_big_to_fail"]
+    },
+    lps: {
+        name: "LPS (Lembaga Penjamin Simpanan)",
+        category: "Arsitektur & Stabilitas Sistem Keuangan",
+        icon: "🛡️",
+        simpleDef: "Lembaga independen yang menjamin simpanan nasabah perbankan hingga Rp 2 miliar per nasabah per bank untuk menjaga kepercayaan masyarakat dan mencegah kepanikan penarikan dana massal (bank run).",
+        analogy: "Ibarat sabuk pengaman dan asuransi kecelakaan bagi uang tabungan Anda: Jika bank tempat Anda menabung bangkrut atau dicabut izinnya, LPS yang langsung mencairkan dan mengganti uang tabungan Anda.",
+        mechanism: "Syarat 3T LPS agar simpanan dijamin: (1) Tercatat dalam pembukuan bank, (2) Tingkat bunga tidak melebihi suku bunga penjaminan LPS, (3) Tidak melakukan tindakan yang merugikan bank.",
+        formula: "\\text{Batas Penjaminan Maksimal} = \\text{Rp 2.000.000.000 per nasabah per bank}",
+        realImpact: "Sejak beroperasi tahun 2005, LPS telah melikuidasi dan membayar klaim ratusan BPR/BPRS bermasalah di Indonesia tanpa memicu gejolak sistemik di sektor perbankan.",
+        related: ["kssk", "moral_hazard", "lender_of_last_resort"]
+    },
+    lender_of_last_resort: {
+        name: "Lender of Last Resort (Fasilitas Pembiayaan Darurat BI)",
+        category: "Kebijakan Moneter & Perbankan",
+        icon: "🚨",
+        simpleDef: "Fungsi bank sentral sebagai penolong terakhir yang menyediakan pinjaman likuiditas darurat kepada bank yang mengalami krisis likuiditas jangka pendek namun masih memiliki kondisi modal yang solven.",
+        analogy: "Ibarat ambulans darurat: Memberikan tabung oksigen bantuan napas kepada orang yang tersedak sesaat, bukan menyuntikkan obat kepada orang yang sudah meninggal.",
+        mechanism: "Doktrin Klasik Walter Bagehot: Berikan pinjaman secara bebas pada tingkat bunga penalti yang tinggi (penalty rate) dan hanya dengan jaminan agunan aset berkualitas tinggi (high-quality collateral).",
+        formula: "\\text{Pinjaman Likuiditas Jangka Pendek (PLJP)} \\implies \\text{Bank Solven, Agunan Prima, Bunga Penalti}",
+        realImpact: "Diatur dalam UU Bank Indonesia dan UU P2SK untuk menghindari penyalahgunaan dana talangan seperti tragedi BLBI pada krisis moneter 1998.",
+        related: ["bi_rate", "kssk", "moral_hazard", "gwm"]
+    },
+    bail_in: {
+        name: "Bail-In (Resolusi Beban Internal Bank)",
+        category: "Resolusi Perbankan & Mitigasi Krisis",
+        icon: "🔒",
+        simpleDef: "Mekanisme penyehatan bank bermasalah di mana kerugian bank diserap terlebih dahulu oleh modal pemilik saham dan kreditur bank itu sendiri (mengonversi utang menjadi modal), bukan menggunakan uang APBN/pajak rakyat (Bail-Out).",
+        analogy: "Ibarat kapal bocor: Pemilik kapal dan penumpang kelas satu yang memegang saham wajib merelakan barang bawaannya untuk menambal lambung kapal, bukan meminta warga di daratan membayar kapal baru.",
+        mechanism: "Modal saham dihapusbukukan → Utang subordinasi dikonversi menjadi saham baru → Manajemen diganti → Bank kembali sehat tanpa menyedot sepeser pun uang pajak rakyat.",
+        formula: "\\text{Piramida Penyerapan Rugi: } \\text{Modal Saham} \\to \\text{Obligasi Subordinasi} \\to \\text{Kreditur Tanpa Jaminan}",
+        realImpact: "Diadopsi secara ketat dalam UU PPKSK No. 9/2016 agar negara Indonesia tidak pernah lagi menanggung skandal 'Bail-Out' seperti kasus Bank Century 2008 atau BLBI 1998.",
+        related: ["too_big_to_fail", "moral_hazard", "kssk", "lps"]
+    },
+    too_big_to_fail: {
+        name: "Too Big to Fail (Bank Berdampak Sistemik)",
+        category: "Arsitektur & Stabilitas Sistem Keuangan",
+        icon: "🏦",
+        simpleDef: "Istilah untuk bank-bank raksasa yang skala aset, interkoneksi, dan perannya di sistem pembayaran begitu besar sehingga jika satu bank ini runtuh, seluruh perekonomian nasional ikut terseret ke dalam krisis.",
+        analogy: "Ibarat tiang pancang utama sebuah gedung pencakar langit: Jika tiang ini retak, seluruh lantai gedung terancam roboh seketika.",
+        mechanism: "Karena memiliki risiko sistemik, bank-bank kategori ini dikenakan pengawasan ekstra ketat oleh OJK dan BI, serta diwajibkan memiliki bantalan modal tambahan (Capital Surcharge) sebesar 1% - 2,5%.",
+        formula: "\\text{Bantalan Modal Ekstra} = \\text{CAR Minimum} + \\text{Systemic Capital Surcharge (1,0\\% - 2,5\\%)}",
+        realImpact: "Di Indonesia terdapat lebih dari 15 bank yang dikategorikan sebagai Bank Berdampak Sistemik (Domestic Systemically Important Banks / D-SIBs) yang wajib memiliki Rencana Aksi Pemulihan (Recovery Plan) mandiri.",
+        related: ["bail_in", "kssk", "moral_hazard", "stress_test"]
+    },
+    moral_hazard: {
+        name: "Moral Hazard (Bahaya Moral)",
+        category: "Perilaku Pasar & Regulasi",
+        icon: "🎭",
+        simpleDef: "Kecenderungan seseorang, bankir, atau perusahaan untuk mengambil risiko yang ugal-ugalan atau tidak berhati-hati karena merasa konsekuensi kerugiannya akan ditanggung atau ditalangi oleh pihak lain/pemerintah.",
+        analogy: "Orang yang menyetir mobil sewaan dengan ugal-ugalan menabrak trotoar hanya karena ia membeli asuransi ganti rugi penuh tanpa biaya sendiri.",
+        mechanism: "Janji talangan (bailout) pemerintah membuat bankir berani menyalurkan kredit spekulatif berbunga tinggi demi bonus pribadi. Jika untung mereka nikmati sendiri, jika rugi mereka minta APBN menalangi.",
+        formula: "\\text{Asymmetric Information} + \\text{Protection Guarantee} \\implies \\text{Excessive Risk-Taking}",
+        realImpact: "Alasan mengapa bantuan likuiditas bank sentral dan regulasi perbankan selalu menetapkan penalti, syarat agunan ketat, dan ancaman pemecatan bagi direksi bank yang ceroboh.",
+        related: ["bail_in", "lender_of_last_resort", "too_big_to_fail"]
+    },
+    sbn: {
+        name: "SBN (Surat Berharga Negara)",
+        category: "Kebijakan Fiskal & Utang",
+        icon: "📜",
+        simpleDef: "Surat pengakuan utang resmi yang diterbitkan oleh Pemerintah Republik Indonesia, terdiri dari Surat Utang Negara (SUN konvensional) dan Surat Berharga Syariah Negara (SBSN / Sukuk Negara).",
+        analogy: "Surat pinjaman negara kepada warganya: Pemerintah meminjam Rp 10 juta dari Anda untuk membangun jembatan, dan berjanji membayar imbalan bunga/kupon rutin setiap bulan serta mengembalikan pokok pinjaman secara utuh saat jatuh tempo.",
+        mechanism: "Kemenkeu menerbitkan SBN melalui lelang pasar perdana dan ritel (ORI, Sukuk Ritel, SBR). Hasil dana masuk kas APBN untuk membiayai belanja produktif negara.",
+        formula: "\\text{Yield SBN} = \\frac{\\text{Kupon Tahunan} + (\\text{Nilai Pari} - \\text{Harga Beli})/t}{\\text{Harga Beli}}",
+        realImpact: "SBN ritel Indonesia sangat diminati milenial dan generasi muda sebagai instrumen investasi yang dijamin 100% oleh undang-undang dengan imbal hasil di atas bunga deposito.",
+        related: ["apbn_defisit", "defisit_apbn", "crowding_out", "utang_negara"]
+    },
+    fiskal_kontrasiklikal: {
+        name: "Kebijakan Fiskal Kontrasiklikal (Counter-cyclical)",
+        category: "Kebijakan Fiskal & APBN",
+        icon: "🔄",
+        simpleDef: "Strategi pengelolaan APBN yang bergerak berlawanan arah dengan siklus ekonomi: belanja dinaikkan saat ekonomi sedang resesi, dan belanja dikurangi/pajak dinaikkan saat ekonomi mengalami overheating (kepanasan).",
+        analogy: "Ibarat menyimpan lumbung padi di tahun panen raya dan membuka lumbung padi membagikan beras saat musim kemarau dan paceklik tiba.",
+        mechanism: "Resesi: Belanja naik, pajak dipotong untuk memompa daya beli. Overheating: Belanja direm, pajak dinaikkan untuk meredam lonjakan inflasi dan memperkuat saldo tabungan kas negara.",
+        formula: "\\Delta G = -k \\cdot (Y - Y^*) \\quad (\\text{Belanja berlawanan arah dengan selisih Output Gap})",
+        realImpact: "Paket pemulihan ekonomi nasional (PEN) saat pandemi Covid-19 adalah bukti nyata manuver fiskal kontrasiklikal Indonesia yang sukses mencegah ekonomi masuk ke depresi berkepanjangan.",
+        related: ["automatic_stabilizers", "keseimbangan_ad_as", "multiplier_effect"]
+    },
+    automatic_stabilizers: {
+        name: "Penstabil Otomatis (Automatic Stabilizers)",
+        category: "Kebijakan Fiskal & APBN",
+        icon: "⚙️",
+        simpleDef: "Fitur dalam struktur anggaran pemerintah yang secara otomatis meredam gejolak resesi atau inflasi tanpa perlu menunggu persetujuan undang-undang baru dari parlemen/DPR.",
+        analogy: "Thermostat otomatis AC: Ketika ruangan mendadak panas, AC otomatis mendinginkan tanpa perlu Anda bangun mencari remote control.",
+        mechanism: "Saat resesi: Penerimaan pajak otomatis anjlok karena pendapatan warga turun, sementara pencairan bantuan sosial dan subsidi otomatis melonjak. Hal ini secara mandiri menopang daya beli konsumsi.",
+        formula: "Y \\downarrow \\implies \\text{Penerimaan Pajak } T \\downarrow \\text{ dan Belanja Transfer } TR \\uparrow \\implies \\text{Konsumsi Agregat Tertahan}",
+        realImpact: "Pajak penghasilan (PPh) progresif dan skema bansos bersyarat (PKH, BPNT) di Indonesia bekerja sebagai penstabil otomatis penyerap guncangan ekonomi.",
+        related: ["fiskal_kontrasiklikal", "daya_beli", "apbn_defisit"]
+    },
+    multiplier_effect: {
+        name: "Angka Pengganda (Multiplier Effect)",
+        category: "Kebijakan Fiskal & Moneter",
+        icon: "⚡",
+        simpleDef: "Faktor kelipatan di mana penambahan Rp 1 belanja pemerintah atau investasi akan menghasilkan penambahan pendapatan nasional (PDB) yang berlipat ganda di masyarakat.",
+        analogy: "Efek riak gelombang di kolam: Pemerintah menyewa kontraktor membangun jalan Rp 1 miliar → Buruh digaji lalu belanja beras di warung → Warung beli motor baru → Pabrik motor merekrut pekerja baru. Uang Rp 1 miliar bergulir menjadi transaksi bernilai Rp 3 miliar!",
+        mechanism: "Ditentukan oleh Marginal Propensity to Consume (MPC). Semakin tinggi porsi pendapatan yang dibelanjakan masyarakat, semakin raksasa angka pengganda ekonominya.",
+        formula: "k = \\frac{1}{1 - MPC} = \\frac{1}{MPS} \\quad (\\text{Pengganda Belanja Pemerintah})",
+        realImpact: "Belanja infrastruktur logistik di Indonesia memiliki angka pengganda fiskal di atas 1,4x karena membuka akses pasar baru bagi ribuan pelaku UMKM daerah.",
+        related: ["keseimbangan_ad_as", "pdb_riil", "daya_beli"]
+    },
+    daya_beli: {
+        name: "Daya Beli Masyarakat (Purchasing Power)",
+        category: "Konsumsi & Kesejahteraan",
+        icon: "🛒",
+        simpleDef: "Kemampuan finansial riil masyarakat untuk membeli sejumlah barang dan jasa dengan penghasilan yang mereka peroleh setelah memperhitungkan laju kenaikan harga (inflasi).",
+        analogy: "Jika gaji Anda Rp 3 juta dan harga sepiring nasi Rp 15 ribu, Anda bisa membeli 200 piring nasi. Jika tahun depan gaji naik jadi Rp 3,2 juta tapi harga nasi melonjak jadi Rp 20 ribu, Anda hanya bisa membeli 160 piring. Gaji nominal naik tapi daya beli Anda anjlok!",
+        mechanism: "Daya beli riil adalah rasio pendapatan terhadap indeks harga: Upah Riil = Upah Nominal / IHK. Jika inflasi pangan meroket, daya beli masyarakat kelas menengah-bawah tergerus drastis.",
+        formula: "\\text{Daya Beli Riil} = \\frac{\\text{Pendapatan Nominal}}{\\text{Tingkat Harga (IHK)}}",
+        realImpact: "Konsumsi rumah tangga menyumbang lebih dari 53% PDB Indonesia, sehingga menjaga daya beli pangan adalah prioritas nomor wahid stabilitas nasional.",
+        related: ["inflasi_ihk", "pdb_riil", "rasio_gini"]
+    },
+    rasio_gini: {
+        name: "Rasio Gini (Indeks Ketimpangan Pendapatan)",
+        category: "Distribusi Pendapatan & Kesejahteraan",
+        icon: "📊",
+        simpleDef: "Tolok ukur statistik ketimpangan pengeluaran/pendapatan masyarakat dengan rentang nilai 0 (pemerataan sempurna: semua orang setara) hingga 1 (ketimpangan absolut: seluruh kekayaan dikuasai 1 orang).",
+        analogy: "Kue ulang tahun yang dibagikan ke 100 orang: Jika setiap orang mendapat potongan kue sama besar, Gini = 0. Jika 1 orang melahap seluruh kue sementara 99 orang lainnya hanya menonton gigit jari, Gini = 1.",
+        mechanism: "Dihitung dari luas area antara Kurva Lorenz dan garis pemerataan diagonal sempurna. Nilai di atas 0,4 menandakan ketimpangan yang rawan memicu konflik sosial.",
+        formula: "G = 1 - \\sum_{i=1}^n (X_i - X_{i-1})(Y_i + Y_{i-1}) \\quad (\\text{Formula Kurva Lorenz})",
+        realImpact: "BPS melaporkan Rasio Gini Indonesia berada di kisaran 0,381. Penyaluran bantuan sosial, pembangunan infrastruktur desa, dan beasiswa KIP Kuliah bertujuan menurunkan angka rasio ini.",
+        related: ["daya_beli", "tax_ratio", "subsidi_tepat_sasaran"]
+    },
+    subsidi_tepat_sasaran: {
+        name: "Subsidi Tepat Sasaran (Targeted Subsidies)",
+        category: "Kebijakan Fiskal & Kesejahteraan",
+        icon: "🎯",
+        simpleDef: "Transformasi kebijakan bantuan negara dari subsidi berbasis komoditas (harga barang dibuat murah untuk semua orang) menjadi bantuan tunai langsung berbasis data penerima manfaat (hanya keluarga miskin).",
+        analogy: "Subsidi BBM di SPBU: Orang kaya pemilik mobil mewah ikut menikmati bensin subsidi murah yang disubsidi negara. Subsidi tepat sasaran mengubahnya menjadi transfer uang digital langsung ke dompet keluarga miskin.",
+        mechanism: "Menggunakan Data Terpadu Kesejahteraan Sosial (DTKS) dan identitas NIK agar subsidi tidak bocor dinikmati golongan berada.",
+        formula: "\\text{Efisiensi Fiskal} = \\frac{\\text{Bantuan Dinikmati 40\\% Warga Termiskin}}{\\text{Total Anggaran Subsidi}} \\times 100\\%",
+        realImpact: "Peralihan subsidi BBM ke BLT (Bantuan Langsung Tunai) menghemat puluhan triliun rupiah kas APBN untuk dialihkan ke pembangunan fasilitas kesehatan dan pendidikan.",
+        related: ["apbn_defisit", "rasio_gini", "automatic_stabilizers"]
+    },
+    tax_ratio: {
+        name: "Tax Ratio (Rasio Penerimaan Pajak terhadap PDB)",
+        category: "Kebijakan Fiskal & Penerimaan",
+        icon: "📈",
+        simpleDef: "Persentase perbandingan antara total penerimaan pajak yang berhasil dikumpulkan negara terhadap nilai Produk Domestik Bruto (PDB) nominalnya.",
+        analogy: "Seberapa banyak porsi panen yang disisihkan warga untuk lumbung bersama desa: Jika ekonomi desa menghasilkan 100 karung padi dan terkumpul 10 karung untuk kas desa, tax ratio desa adalah 10%.",
+        mechanism: "Mencerminkan efektivitas sistem administrasi perpajakan, tingkat kepatuhan wajib pajak, serta besarnya sektor informal (shadow economy) yang belum terjangkau pajak.",
+        formula: "\\text{Tax Ratio} = \\frac{\\text{Total Penerimaan Pajak (Pusat + Bea Cukai)}}{\\text{PDB Nominal}} \\times 100\\%",
+        realImpact: "Tax ratio Indonesia saat ini berkisar 10% - 11%, masih di bawah rata-rata negara OECD (34%) dan negara emerging market sepadan (15%). Meningkatkan tax ratio adalah syarat mutlak menuju Indonesia Emas 2045.",
+        related: ["core_tax", "apbn_defisit", "pajak_pigouvian"]
+    },
+    core_tax: {
+        name: "Core Tax Administration System (PSIAP DJP)",
+        category: "Transformasi Digital Perpajakan",
+        icon: "💻",
+        simpleDef: "Sistem teknologi informasi inti perpajakan modern terintegrasi milik Direktorat Jenderal Pajak Kementerian Keuangan yang mengotomatisasi seluruh proses bisnis layanan pajak, pengawasan, dan penegakan hukum.",
+        analogy: "Ibarat sistem operasi perbankan digital mutakhir: Semua data faktur, rekening, transaksi aset, dan pelaporan SPT tersambung otomatis dalam satu layar tanpa perlu berkas kertas bertumpuk.",
+        mechanism: "Data transaksi pihak ketiga (perbankan, bea cukai, BPN, kepolisian) dicocokkan otomatis (auto-matching) dengan pelaporan SPT wajib pajak, mendeteksi ketidakwajaran secara instan.",
+        formula: "\\text{Kepatuhan Pajak } \\uparrow \\implies \\text{Tax Gap } \\downarrow \\implies \\text{Penerimaan APBN } \\uparrow",
+        realImpact: "Diluncurkan untuk merevolusi kepatuhan sukarela, menutup kebocoran pajak, dan mendongkrak Tax Ratio Indonesia menuju target 12% - 14%.",
+        related: ["tax_ratio", "apbn_defisit"]
+    },
+    neraca_pembayaran: {
+        name: "Neraca Pembayaran Indonesia (NPI / Balance of Payments)",
+        category: "Ekonomi Terbuka & Perdagangan Internasional",
+        icon: "🌐",
+        simpleDef: "Catatan statistik sistematis seluruh transaksi ekonomi dan keuangan antara penduduk Indonesia dengan penduduk negara lain di seluruh dunia dalam periode tertentu.",
+        analogy: "Buku kas transaksi luar negeri bangsa: Mencatat arus devisa masuk (dari ekspor barang, devisa turis, utang/investasi asing) dan arus devisa keluar (untuk bayar impor, jalan-jalan ke luar negeri, bayar bunga utang).",
+        mechanism: "Terdiri dari dua pos utama: Transaksi Berjalan (ekspor-impor barang/jasa) dan Transaksi Finansial (investasi langsung FDI dan portofolio saham/obligasi).",
+        formula: "\\text{NPI} = \\text{Neraca Transaksi Berjalan (CAB)} + \\text{Neraca Modal & Finansial (FAB)} = \\Delta \\text{Cadangan Devisa}",
+        realImpact: "Jika NPI mengalami defisit berkepanjangan, cadangan devisa Bank Indonesia akan terkuras dan nilai tukar Rupiah rentan terhadap tekanan depresiasi tajam.",
+        related: ["cadangan_devisa", "kurs_valas", "trilema_mundell_fleming"]
+    },
+    itf: {
+        name: "Inflation Targeting Framework (ITF / Bauran Moneter)",
+        category: "Kebijakan Moneter & Perbankan",
+        icon: "🎯",
+        simpleDef: "Kerangka kerja kebijakan moneter Bank Indonesia di mana stabilitas inflasi ditetapkan secara eksplisit di awal sebagai target/jangkar utama, didukung transparansi dan komunikasi publik yang kredibel.",
+        analogy: "Ibarat kompas pemandu kapal: Kapal bank sentral mengarahkan seluruh instrumen (suku bunga, intervensi valas, likuiditas) ke satu titik sasaran yaitu angka inflasi 2,5% ± 1%.",
+        mechanism: "BI mengumumkan sasaran inflasi → Memantau proyeksi inflasi ke depan → Menyesuaikan BI-Rate jika proyeksi melenceng dari target → Masyarakat yakin harga stabil (ekspektasi inflasi terjangkar).",
+        formula: "i_t = r^* + \\pi_t + 0.5(\\pi_t - \\pi^*) + 0.5(y_t - y^*) \\quad (\\text{Taylor Rule Framework})",
+        realImpact: "Penerapan ITF sejak 2005 berhasil menjinakkan inflasi liar Indonesia dari semula belasan persen pasca-krisis menjadi stabil di kisaran 2% - 3% dalam satu dekade terakhir.",
+        related: ["bi_rate", "transmisi_moneter", "inflasi_ihk"]
+    },
+    keseimbangan_ad_as: {
+        name: "Model Keseimbangan Agregat AD-AS",
+        category: "Teori Makroekonomi Dasar",
+        icon: "📈",
+        simpleDef: "Model utama ekonomi makro yang mempertemukan kurva Permintaan Agregat (Aggregate Demand / AD) dengan Penawaran Agregat (Aggregate Supply / AS) untuk menentukan titik keseimbangan output PDB dan tingkat harga nasional.",
+        analogy: "Titik temu tawar-menawar skala raksasa seisi negeri: Total hasrat belanja seluruh rakyat dan pemerintah (AD) bertemu dengan total kesiapan pabrik dan petani memproduksi barang fisik (AS).",
+        mechanism: "Pergeseran AD (akibat stimulus belanja/suku bunga) atau pergeseran AS (akibat guncangan panen/kenaikan harga minyak) akan menggeser PDB riil dan inflasi secara simultan.",
+        formula: "AD = C + I + G + (X - M) = AS(P, W, \\text{Teknologi})",
+        realImpact: "Menjadi peta kompas utama teknokrat Bappenas dan Kemenkeu dalam memprediksi dampak kebijakan stimulus sebelum diputuskan di sidang kabinet.",
+        related: ["pdb_riil", "output_potensial", "stagflasi"]
+    },
+    dndf: {
+        name: "DNDF (Domestic Non-Deliverable Forward)",
+        category: "Pasar Valuta Asing & Moneter",
+        icon: "💱",
+        simpleDef: "Instrumen transaksi derivatif valuta asing standar Bank Indonesia di pasar domestik, di mana penyelesaian transaksinya tidak menukarkan fisik Dolar AS, melainkan hanya selisih nilai kursnya dalam mata uang Rupiah.",
+        analogy: "Kontrak taruhan lindung nilai cuaca: Anda mengunci harga beli beras Rp 15.000 untuk bulan depan. Jika bulan depan harga pasar jadi Rp 16.000, penjual hanya mentransfer selisih Rp 1.000 ke rekening Anda tanpa perlu mengangkut fisik beras.",
+        mechanism: "Pelaku usaha importir mengunci kurs forward di bank domestik → Kebutuhan memburu fisik Dolar di pasar spot berkurang → Tekanan volatilitas kurs Rupiah mereda tanpa menguras cadangan devisa fisik BI.",
+        formula: "\\text{Settlement DNDF} = (\\text{Kurs Acuan JISDOR} - \\text{Kurs Kontrak DNDF}) \\times \\text{Nominal USD (Dibayar dalam IDR)}",
+        realImpact: "Diperkenalkan BI pada 2018 sebagai instrumen penyelamat stabilitas Rupiah saat The Fed menaikkan suku bunga agresif, memangkas ketergantungan pada pasar NDF Singapura.",
+        related: ["kurs_valas", "cadangan_devisa", "hedging"]
+    },
+    lcs: {
+        name: "LCS (Local Currency Settlement) / LCT",
+        category: "Ekonomi Internasional & Dedolarisasi",
+        icon: "🤝",
+        simpleDef: "Kerja sama penyelesaian transaksi perdagangan bilateral dan investasi antar-negara menggunakan mata uang lokal masing-masing tanpa perlu lagi menukarkannya terlebih dahulu ke mata uang Dolar AS (Dedolarisasi).",
+        analogy: "Jika pengusaha Indonesia bertransaksi dengan pengusaha Malaysia, eksportir menerima Ringgit dan importir membayar Rupiah langsung, tanpa harus repot menukar Rupiah ke Dolar AS lalu Dolar ke Ringgit.",
+        mechanism: "Mengurangi biaya konversi ganda (kurs ganda), mempercepat transaksi antar-negara, dan melindungi neraca perdagangan dari goncangan fluktuasi nilai tukar Dolar AS.",
+        formula: "\\text{IDR} \\longleftrightarrow \\text{Mata Uang Mitra (CNY, JPY, MYR, THB, KRW)} \\quad (\\text{Tanpa Melalui USD})",
+        realImpact: "Bank Indonesia telah menjalin kemitraan LCT dengan Tiongkok, Jepang, Malaysia, Thailand, dan Korea Selatan, mencatatkan nilai transaksi setara miliaran Dolar AS per tahun.",
+        related: ["kurs_valas", "neraca_pembayaran", "trilema_mundell_fleming"]
+    },
+    hedging: {
+        name: "Hedging (Lindung Nilai Valas)",
+        category: "Manajemen Risiko & Keuangan Korporasi",
+        icon: "🛡️",
+        simpleDef: "Tindakan pengamanan keuangan yang dilakukan perusahaan atau pemerintah untuk melindungi diri dari potensi kerugian akibat pergerakan liar nilai tukar mata uang asing di masa depan.",
+        analogy: "Membeli asuransi kebakaran untuk gudang: Anda membayar sedikit premi kontrak di awal agar jika terjadi kebakaran (Rupiah anjlok tajam), bisnis Anda tidak langsung gulung tikar.",
+        mechanism: "BUMN yang berutang Dolar AS membeli kontrak forward/swap valas dari perbankan domestik, mengunci kurs pembayaran utang di masa mendatang.",
+        formula: "\\text{Rasio Lindung Nilai Wajib BUMN} \\ge 25\\% \\text{ dari Selisih Bersih Kewajiban Valas Jangka Pendek}",
+        realImpact: "BUMN seperti PLN dan Pertamina diwajibkan melakukan hedging valas untuk memastikan lonjakan kurs USD tidak menghancurkan arus kas operasional pasokan listrik dan BBM nasional.",
+        related: ["dndf", "currency_mismatch", "kurs_valas"]
+    },
+    dutch_disease: {
+        name: "Dutch Disease (Penyakit Belanda)",
+        category: "Struktur Industri & Komoditas",
+        icon: "🛢️",
+        simpleDef: "Kondisi paradoks di mana lonjakan ekspor sumber daya alam (seperti minyak, gas, batu bara, atau nikel) menyebabkan mata uang domestik menguat terlalu drastis, yang justru menghancurkan daya saing ekspor sektor manufaktur dan pertanian.",
+        analogy: "Seseorang yang mendadak menang undian warisan triliunan rupiah: Ia menjadi malas bekerja, berhenti bertani, dan mematikan usaha toko kerajinannya. Ketika uang warisan habis, ia tidak lagi memiliki keahlian produktif untuk bertahan hidup.",
+        mechanism: "Booming komoditas → Devisanya membanjiri pasar → Kurs Rupiah menguat tajam → Harga barang pabrik lokal jadi mahal bagi pembeli asing → Pabrik tekstil & elektronik domestik gulung tikar.",
+        formula: "\\text{Ekspor Komoditas } \\uparrow \\implies \\text{Nilai Tukar Riil Menguat} \\implies \\text{Daya Saing Manufaktur } \\downarrow",
+        realImpact: "Pelajaran berharga bagi Indonesia agar tidak terjebak kutukan sumber daya mentah, yang melahirkan kebijakan Hilirisasi Mineral untuk membangun industri pengolahan bernilai tambah tinggi di dalam negeri.",
+        related: ["kurs_valas", "pdb_riil", "tax_ratio"]
+    },
+    imported_inflation: {
+        name: "Imported Inflation (Inflasi Impor)",
+        category: "Tingkat Harga & Valas",
+        icon: "🚢",
+        simpleDef: "Kenaikan harga barang dan jasa di dalam negeri yang dipicu oleh kenaikan harga komoditas global di luar negeri atau akibat pelemahan nilai tukar mata uang domestik yang membuat biaya impor membengkak.",
+        analogy: "Kenaikan harga gandum di Amerika Serikat: Indonesia tidak memproduksi gandum lokal. Ketika harga gandum dunia naik atau Dolar menguat, harga mie instan dan roti di warung lokal otomatis ikut naik.",
+        mechanism: "Rupiah melemah terhadap USD → Importir membayar harga bahan baku (kedelai, BBM, gandum, obat) lebih mahal dalam Rupiah → Beban biaya diteruskan ke konsumen akhir dalam bentuk lonjakan harga jual.",
+        formula: "\\Delta P_{\\text{domestik}} = \\alpha \\cdot \\Delta e + \\beta \\cdot \\Delta P^* \\quad (\\text{Exchange Rate Pass-Through})",
+        realImpact: "Alasan Bank Indonesia selalu siaga mempertahankan stabilitas Rupiah, karena setiap pelemahan kurs Rp 1.000 terhadap USD akan merambat menaikkan angka inflasi domestik.",
+        related: ["inflasi_ihk", "kurs_valas", "bi_rate"]
+    },
+    policy_mix: {
+        name: "Policy Mix (Bauran Kebijakan Nasional)",
+        category: "Strategi Makroekonomi Nasional",
+        icon: "🎼",
+        simpleDef: "Kombinasi sinergis dan harmonis antara instrumen kebijakan moneter Bank Indonesia (suku bunga, kurs, makroprudensial) dan kebijakan fiskal Kementerian Keuangan (pajak, belanja, pembiayaan) untuk mencapai pertumbuhan ekonomi tinggi sekaligus menjaga stabilitas harga.",
+        analogy: "Ibarat orkestra musik simfoni: Drum dan gitar bas (fiskal & moneter) harus bertempo selaras. Jika moneter menginjak rem sementara fiskal menginjak gas tanpa koordinasi, mobil ekonomi akan oleng dan terbalik.",
+        mechanism: "Moneter menjaga stabilitas harga & kurs (Pro-Stability), sementara Fiskal dan Makroprudensial mendorong akselerasi pertumbuhan kredit dan hilirisasi riil (Pro-Growth).",
+        formula: "\\text{Policy Mix} = \\text{Monetary Policy} + \\text{Fiscal Policy} + \\text{Macroprudential}",
+        realImpact: "Sinergi erat antara Menkeu dan Gubernur BI (termasuk skema burden sharing pembiayaan darurat) diakui dunia internasional sebagai model bauran kebijakan terbaik di kawasan Asia.",
+        related: ["bi_rate", "apbn_defisit", "kssk"]
+    },
+    stress_test: {
+        name: "Stress Test (Uji Ketahanan Modal Perbankan)",
+        category: "Pengawasan Perbankan & Mitigasi Risiko",
+        icon: "🔬",
+        simpleDef: "Simulasi komputasi kuantitatif yang dijalankan oleh regulator untuk menguji apakah bank memiliki modal dan likuiditas yang cukup tangguh jika terjadi skenario terburuk (misal: ekonomi anjlok -5%, kurs melorot ke Rp 18.000/USD, dan kredit macet NPL melonjak).",
+        analogy: "Crash test tabrakan mobil di pabrik: Mobil dihempaskan ke tembok beton berkecepatan 100 km/jam untuk memastikan airbag dan sabuk pengaman berfungsi menyelamatkan nyawa penumpang di dalamnya.",
+        mechanism: "Data portofolio kredit dan surat berharga bank dimasukkan ke model simulasi krisis makro. Jika rasio modal (CAR) bank jatuh di bawah batas minimum regulator, bank diwajibkan menambah setoran modal darurat.",
+        formula: "\\text{CAR Post-Shock} = \\frac{\\text{Modal Awal} - \\text{Proyeksi Kerugian Skenario Ekstrem}}{\\text{ATMR Baru}} \\ge 8\\% - 12\\%",
+        realImpact: "OJK dan Bank Indonesia melakukan stress test perbankan setiap semester untuk memastikan tidak ada bank sistemik yang tumbang saat terjadi gejolak global.",
+        related: ["too_big_to_fail", "kssk", "gwm"]
+    },
+    human_capital: {
+        name: "Human Capital (Modal Manusia)",
+        category: "Pertumbuhan Ekonomi Jangka Panjang",
+        icon: "🎓",
+        simpleDef: "Akumulasi pengetahuan, keahlian, keterampilan teknis, kreativitas, dan status kesehatan yang melekat pada tenaga kerja suatu bangsa, yang menentukan produktivitas total faktor (TFP) perekonomian.",
+        analogy: "Memiliki komputer tercanggih di dunia tidak berguna jika penggunanya tidak bisa mengetik atau memprogram. Komputer adalah modal fisik, sementara keahlian sang insinyur adalah modal manusia.",
+        mechanism: "Peningkatan mutu sekolah, vokasi, dan nutrisi gizi anak (cegah stunting) → Produktivitas pekerja naik berlipat ganda → Inovasi teknologi lokal bermunculan → Negara lolos dari Middle-Income Trap.",
+        formula: "Y = A \\cdot K^\\alpha \\cdot (h \\cdot L)^{1-\\alpha} \\quad (\\text{Model Pertumbuhan Solow-Mankiw-Romer})",
+        realImpact: "Konstitusi UUD 1945 mengamanatkan minimal 20% anggaran APBN wajib dialokasikan untuk sektor pendidikan guna mencetak generasi unggul Indonesia.",
+        related: ["pdb_riil", "hukum_okun", "tax_ratio"]
+    },
+    early_warning: {
+        name: "Early Warning System (EWS / Sistem Peringatan Dini)",
+        category: "Manajemen Krisis Sistem Keuangan",
+        icon: "🚨",
+        simpleDef: "Perangkat indikator statistik dan sinyal kuantitatif yang memantau anomali di pasar uang, perbankan, pasar modal, dan sektor eksternal untuk mendeteksi kerentanan krisis sebelum bencana ekonomi benar-benar meledak.",
+        analogy: "Alat seismograf pendeteksi getaran gempa bumi dan sirine tsunami di tepi pantai: Berbunyi beberapa menit sebelum gelombang raksasa menghantam daratan, memberi waktu bagi warga untuk evakuasi ke tempat aman.",
+        mechanism: "Indikator yang dipantau meliputi lonjakan spread imbal hasil obligasi, deviasi kurs riil, rasio kecukupan cadangan devisa, pertumbuhan kredit berlebih (Credit Boom), dan penarikan simpanan valas.",
+        formula: "\\text{Sinyal Krisis} = \\sum w_i \\cdot \\mathbb{I}(X_{i,t} > \\theta_i) \\quad (\\text{Indikator melampaui ambang batas deviasi standar})",
+        realImpact: "Bank Indonesia dan KSSK mengoperasikan Financial Vulnerability Index (FVI) sebagai radar peringatan dini mingguan untuk menjaga stabilitas makroekonomi nasional.",
+        related: ["kssk", "stress_test", "kurs_valas"]
+    },
+    monopoli_alami: {
+        name: "Monopoli Alami (Natural Monopoly)",
+        category: "Struktur Pasar & Kebijakan Publik",
+        icon: "⚡",
+        simpleDef: "Kondisi industri di mana satu perusahaan tunggal mampu melayani seluruh kebutuhan pasar dengan biaya per unit yang jauh lebih murah dan efisien dibandingkan jika ada banyak perusahaan yang bersaing, biasanya karena membutuhkan biaya investasi infrastruktur awal (biaya tetap) yang sangat raksasa.",
+        analogy: "Jaringan pipa air PDAM atau kabel transmisi listrik PLN: Tidak masuk akal jika ada 5 perusahaan berbeda menggali jalan raya yang sama untuk menanam 5 pipa air paralel ke rumah Anda. Cukup satu jaringan pipa yang dikelola secara profesional.",
+        mechanism: "Kurva biaya rata-rata jangka panjang (LRAC) terus menurun seiring bertambahnya output (skala ekonomis raksasa). Namun, karena tidak ada saingan, negara wajib meregulasi harga/tarifnya agar perusahaan tidak memeras rakyat.",
+        formula: "\\frac{\\partial \\text{ATC}}{\\partial Q} < 0 \\quad \\text{pada seluruh rentang permintaan pasar (Subadditivity of Cost)}",
+        realImpact: "Dasar hukum dari Pasal 33 UUD 1945: Cabang-cabang produksi yang penting bagi negara dan menguasai hajat hidup orang banyak (seperti PLN, KAI, Pertamina) dikuasai oleh negara untuk kemakmuran rakyat.",
+        related: ["keseimbangan_ad_as", "pajak_pigouvian"]
     }
 };
 
@@ -412,11 +753,36 @@ class JargonInspector {
         }
     }
 
-    inspect(termKey) {
-        const data = MACRO_JARGON_DATA[termKey];
-        if (!data) return;
+    inspect(termKey, fallbackText = '') {
+        let cleanKey = (termKey || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '_');
+        let data = MACRO_JARGON_DATA[cleanKey] || MACRO_JARGON_DATA[termKey];
 
-        this.currentTerm = termKey;
+        // Jika tidak langsung cocok, coba pencarian kemiripan key
+        if (!data) {
+            const foundKey = Object.keys(MACRO_JARGON_DATA).find(k => k === cleanKey || k.includes(cleanKey) || cleanKey.includes(k));
+            if (foundKey) {
+                data = MACRO_JARGON_DATA[foundKey];
+                cleanKey = foundKey;
+            }
+        }
+
+        // Jika masih belum ada, buat kartu penjelasan dinamis agar pop-up PASTI muncul
+        if (!data) {
+            const displayName = fallbackText || termKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            data = {
+                name: displayName,
+                category: "Konsep & Istilah Makroekonomi",
+                icon: "💡",
+                simpleDef: `Istilah "${displayName}" merupakan konsep penting dalam analisis instrumen kebijakan ekonomi makro nasional.`,
+                analogy: "Membantu para pembuat kebijakan, teknokrat, dan pelaku bisnis memahami transmisi variabel moneter, fiskal, atau dinamika pasar secara terpadu.",
+                mechanism: "Memengaruhi pembentukan harga, alokasi anggaran belanja negara, transmisi likuiditas perbankan, atau stabilitas nilai tukar nasional.",
+                formula: "",
+                realImpact: "Digunakan secara luas dalam kajian resmi Bank Indonesia, Kementerian Keuangan RI, dan Kementerian PPN/Bappenas.",
+                related: ["bi_rate", "inflasi_ihk", "pdb_riil"]
+            };
+        }
+
+        this.currentTerm = cleanKey;
 
         // Populate elements
         document.getElementById('jargonIcon').textContent = data.icon || '💡';
@@ -485,9 +851,10 @@ if (typeof window !== 'undefined') {
         if (target) {
             e.preventDefault();
             e.stopPropagation();
-            const termKey = target.getAttribute('data-term');
-            if (termKey && window.jargonInspector) {
-                window.jargonInspector.inspect(termKey);
+            const termKey = target.getAttribute('data-term') || target.textContent.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_');
+            const termText = target.textContent.replace('ℹ️', '').trim();
+            if (window.jargonInspector) {
+                window.jargonInspector.inspect(termKey, termText);
             }
         }
     });
