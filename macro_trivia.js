@@ -2586,6 +2586,7 @@ class MacroTriviaEngine {
         this.shieldActive = false;
         this.eliminatedOptions = [];
         this.stageCorrectCount = 0;
+        this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
 
         this.unlockedStageIds = [1];
         this.advanceUnlocked = {
@@ -2643,6 +2644,9 @@ class MacroTriviaEngine {
                 this.unlockedStageIds = (data.unlockedStageIds || [1]).map(Number);
                 this.advanceUnlocked = data.advanceUnlocked || { econGames: false, scenarios: false, cockpit: false };
                 this.currentStageId = Number(data.currentStageId) || 1;
+                if (data.stageResetsRemaining && typeof data.stageResetsRemaining === 'object') {
+                    this.stageResetsRemaining = { ...this.stageResetsRemaining, ...data.stageResetsRemaining };
+                }
             }
         } catch (e) {}
         this.unlockedStageIds = Array.from(new Set((this.unlockedStageIds || [1]).map(Number)));
@@ -2655,7 +2659,8 @@ class MacroTriviaEngine {
                 score: this.score,
                 unlockedStageIds: Array.from(new Set(this.unlockedStageIds.map(Number))),
                 advanceUnlocked: this.advanceUnlocked,
-                currentStageId: Number(this.currentStageId)
+                currentStageId: Number(this.currentStageId),
+                stageResetsRemaining: this.stageResetsRemaining
             };
             localStorage.setItem('macromaster_trivia_progress', JSON.stringify(data));
         } catch (e) {}
@@ -2807,6 +2812,8 @@ class MacroTriviaEngine {
             if (!unlockedNums.includes(nextStageId)) {
                 this.unlockedStageIds.push(nextStageId);
             }
+            if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+            this.stageResetsRemaining[nextStageId] = 3;
         }
 
         // Unlocks for Advance Modes
@@ -2821,6 +2828,67 @@ class MacroTriviaEngine {
         }
 
         this.saveProgress();
+    }
+
+    getRemainingResets(stageId) {
+        const sId = Number(stageId || this.currentStageId);
+        if (this.stageResetsRemaining && typeof this.stageResetsRemaining[sId] === 'number') {
+            return Math.max(0, this.stageResetsRemaining[sId]);
+        }
+        return 3;
+    }
+
+    resetCurrentStageWithLimit() {
+        const curId = Number(this.currentStageId);
+        const remaining = this.getRemainingResets(curId);
+
+        if (remaining > 0) {
+            const newRemaining = remaining - 1;
+            if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+            this.stageResetsRemaining[curId] = newRemaining;
+            this.restartStage();
+            this.saveProgress();
+            return {
+                status: 'reset_success',
+                remaining: newRemaining,
+                stageId: curId,
+                message: `Level ${curId} berhasil direset. Sisa kesempatan reset untuk level ini: ${newRemaining} kali.`
+            };
+        } else {
+            // Kuota reset sudah habis (0)
+            if (curId > 1) {
+                const prevId = curId - 1;
+                if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+                // Pulihkan kuota level ini agar tersedia saat nanti berhasil kembali ke level ini
+                this.stageResetsRemaining[curId] = 3;
+                // Kunci level ini kembali (pemain harus mengulang dan lulus level sebelumnya)
+                this.unlockedStageIds = this.unlockedStageIds.filter(id => Number(id) < curId);
+                if (!this.unlockedStageIds.includes(prevId)) {
+                    this.unlockedStageIds.push(prevId);
+                }
+                this.selectStage(prevId);
+                this.saveProgress();
+                return {
+                    status: 'demoted',
+                    remaining: 0,
+                    prevStageId: prevId,
+                    stageId: prevId,
+                    message: `⚠️ Batas reset Level ${curId} telah habis (3/3 kali)! Anda harus mengulang dari Level ${prevId}. Level ${curId} dikunci kembali hingga Anda lulus Level ${prevId} lagi.`
+                };
+            } else {
+                // Level 1: ulang level 1 dari awal dan pulihkan 3 kesempatan
+                if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+                this.stageResetsRemaining[1] = 3;
+                this.restartStage();
+                this.saveProgress();
+                return {
+                    status: 'level1_exhausted',
+                    remaining: 3,
+                    stageId: 1,
+                    message: `⚠️ Batas reset Level 1 telah habis (3/3 kali)! Level 1 diulang kembali dari awal dan kuota 3 kesempatan reset dipulihkan.`
+                };
+            }
+        }
     }
 
     restartStage() {

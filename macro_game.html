@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="macro_game.css?v=2.2">
+    <link rel="stylesheet" href="macro_game.css?v=2.3">
 </head>
 <body class="mode-trivia">
     <div class="app-background-glow"></div>
@@ -234,14 +234,19 @@
                             </div>
                         </div>
 
-                        <!-- Banner Indikator Stage & Syarat Lulus 80% -->
+                        <!-- Banner Indikator Stage & Syarat Lulus 80% & Tombol Reset Level -->
                         <div class="trivia-stage-banner" id="triviaStageBanner">
                             <div class="trivia-stage-banner-title">
                                 <span id="triviaStageBannerIcon">🛒</span>
                                 <span id="triviaStageBannerText">Stage 1: Pasar & Warung</span>
                             </div>
-                            <div class="trivia-stage-banner-target" id="triviaStageBannerTarget">
-                                🎯 Syarat Lulus: Min. 80% (5 dari 6 Benar)
+                            <div class="trivia-stage-banner-right">
+                                <div class="trivia-stage-banner-target" id="triviaStageBannerTarget">
+                                    🎯 Syarat Lulus: Min. 80% (5 dari 6 Benar)
+                                </div>
+                                <button type="button" id="btnResetCurrentStage" class="btn-reset-stage" title="Reset level ini dari soal ke-1 (Maksimal 3x per level. Jika habis, harus mengulang ke level sebelumnya)">
+                                    <span>🔄</span> Reset Level <span class="reset-count-badge" id="resetCountBadge">3/3</span>
+                                </button>
                             </div>
                         </div>
 
@@ -296,11 +301,14 @@
                             <div style="font-family:var(--font-heading); font-size:1.15rem; font-weight:700; color:#991b1b;">
                                 Nyawa Habis di Stage Ini!
                             </div>
-                            <p style="font-size:0.86rem; color:#7f1d1d; margin:4px 0 10px;">
+                            <p style="font-size:0.86rem; color:#7f1d1d; margin:4px 0 6px;">
                                 Jangan menyerah! Setiap teknokrat hebat pernah keliru. Ulangi stage ini dengan nyawa penuh!
                             </p>
+                            <p id="triviaGameOverResetInfo" style="font-size:0.82rem; color:#b45309; font-weight:700; margin:0 0 12px;">
+                                Sisa Kesempatan Reset Stage Ini: 3 / 3 kali
+                            </p>
                             <button type="button" id="btnTriviaRetryStage" class="btn-gavel-primary" style="padding:10px 20px; font-size:0.9rem; background:#f59e0b; border-color:#d97706;">
-                                <span>🔄 Coba Lagi Stage Ini</span>
+                                <span id="btnTriviaRetryStageText">🔄 Coba Lagi Stage Ini</span>
                             </button>
                         </div>
 
@@ -1273,12 +1281,12 @@
     <!-- --------------------------------------------------------------------
          SCRIPTS: THEORIES, AUDIO, ENGINE, QA & CONTROLLER
          -------------------------------------------------------------------- -->
-    <script src="macro_theory.js?v=2.2"></script>
-    <script src="macro_audio.js?v=2.2"></script>
-    <script src="macro_engine.js?v=2.2"></script>
-    <script src="macro_jargon.js?v=2.2"></script>
-    <script src="macro_econ_games.js?v=2.2"></script>
-    <script src="macro_trivia.js?v=2.2"></script>
+    <script src="macro_theory.js?v=2.3"></script>
+    <script src="macro_audio.js?v=2.3"></script>
+    <script src="macro_engine.js?v=2.3"></script>
+    <script src="macro_jargon.js?v=2.3"></script>
+    <script src="macro_econ_games.js?v=2.3"></script>
+    <script src="macro_trivia.js?v=2.3"></script>
     <script>
         /**
          * ======================================================================
@@ -2873,6 +2881,10 @@
                 const btnTriviaNext = document.getElementById('btnTriviaNext');
                 const gameOverBox = document.getElementById('triviaGameOverBox');
                 const btnRetry = document.getElementById('btnTriviaRetryStage');
+                const gameOverResetInfo = document.getElementById('triviaGameOverResetInfo');
+                const btnRetryStageText = document.getElementById('btnTriviaRetryStageText');
+                const btnResetStage = document.getElementById('btnResetCurrentStage');
+                const resetCountBadge = document.getElementById('resetCountBadge');
 
                 const lifelinesBar = document.querySelector('.trivia-lifelines-bar');
                 const btn5050 = document.getElementById('btnLifeline5050');
@@ -2926,6 +2938,34 @@
                         const correctSoFar = (trivia && typeof trivia.stageCorrectCount === 'number') ? trivia.stageCorrectCount : (Number(trivia ? trivia.stageCorrectCount : 0) || 0);
                         const answeredSoFar = (trivia && typeof trivia.currentQuestionIdx === 'number') ? (trivia.currentQuestionIdx + (trivia.isAnswered ? 1 : 0)) : 0;
                         stageBannerTarget.innerHTML = `🎯 Benar: <strong>${correctSoFar}</strong>/${answeredSoFar} • Syarat Lulus: Min. 80% (5/6)`;
+                    }
+
+                    // Update Reset Level Button & Badges
+                    if (resetCountBadge) {
+                        const rem = trivia.getRemainingResets ? trivia.getRemainingResets(curStageNum) : 3;
+                        resetCountBadge.textContent = `${rem}/3`;
+                        if (btnResetStage) {
+                            btnResetStage.classList.remove('warning', 'exhausted');
+                            if (rem === 1) {
+                                btnResetStage.classList.add('warning');
+                            } else if (rem === 0) {
+                                btnResetStage.classList.add('exhausted');
+                            }
+                        }
+                    }
+                    if (gameOverResetInfo) {
+                        const rem = trivia.getRemainingResets ? trivia.getRemainingResets(curStageNum) : 3;
+                        gameOverResetInfo.textContent = `Sisa Kesempatan Reset Stage Ini: ${rem} / 3 kali`;
+                    }
+                    if (btnRetryStageText) {
+                        const rem = trivia.getRemainingResets ? trivia.getRemainingResets(curStageNum) : 3;
+                        if (rem > 0) {
+                            btnRetryStageText.textContent = `🔄 Coba Lagi Stage Ini (Sisa: ${rem}x)`;
+                        } else {
+                            btnRetryStageText.textContent = curStageNum > 1 
+                                ? `🔄 Kuota Habis: Ulangi Stage ${curStageNum - 1}` 
+                                : `🔄 Kuota Habis: Ulangi Stage 1`;
+                        }
                     }
 
                     nodes.forEach((node, idx) => {
@@ -3204,6 +3244,9 @@
                         // Belum Lulus (< 80%)
                         summaryBox.classList.add('fail-theme');
 
+                        const curId = Number(trivia.currentStageId);
+                        const rem = trivia.getRemainingResets ? trivia.getRemainingResets(curId) : 3;
+
                         if (summaryStatusBadge) {
                             summaryStatusBadge.className = 'summary-badge-status fail';
                             summaryStatusBadge.textContent = `⚠️ BELUM LULUS (Nilai: ${evalRes.scorePct}% / Butuh Min. 80%)`;
@@ -3213,20 +3256,30 @@
                             summaryMessage.className = 'summary-eval-msg fail';
                             summaryMessage.innerHTML = `
                                 Anda menjawab <strong>${evalRes.correctCount} dari ${evalRes.totalQuestions} soal</strong> dengan benar (<strong>${evalRes.scorePct}%</strong>).<br>
-                                Untuk dapat naik ke Stage berikutnya, Anda membutuhkan nilai <strong>minimal 80%</strong> (minimal 5 jawaban tepat). Tinjau kembali konsepnya dan ulangi tantangan ini!
+                                Untuk dapat naik ke Stage berikutnya, Anda membutuhkan nilai <strong>minimal 80%</strong> (minimal 5 jawaban tepat).<br>
+                                <div style="margin-top:8px; padding:6px 12px; background:#fef2f2; border-radius:8px; border:1px solid #fecaca; color:#b91c1c; font-size:0.84rem;">
+                                    <strong>Kesempatan Reset Stage ${curId}:</strong> Tersisa <strong>${rem} dari 3 kali</strong>.
+                                    ${rem === 0 ? (curId > 1 ? '<br>⚠️ Kuota reset habis! Memulai ulang akan membawa Anda ke <strong>Stage ' + (curId - 1) + '</strong>.' : '<br>⚠️ Kuota reset habis! Stage 1 akan diulang kembali dari awal.') : ''}
+                                </div>
                             `;
                         }
                         if (summaryActions) {
+                            const retryBtnText = rem > 0 
+                                ? `🔄 Ulangi Stage Ini (Sisa: ${rem}x)` 
+                                : (curId > 1 ? `🔄 Kuota Habis: Ulangi Stage ${curId - 1}` : `🔄 Kuota Habis: Ulangi Stage 1`);
                             summaryActions.innerHTML = `
-                                <button type="button" id="btnSummaryRetryStage" class="btn-gavel-primary" style="background:#f59e0b; border-color:#d97706; padding:10px 22px;">
-                                    🔄 Ulangi Stage Ini (Target 80%)
+                                <button type="button" id="btnSummaryRetryStage" class="btn-gavel-primary" style="background:${rem > 0 ? '#f59e0b' : '#ef4444'}; border-color:${rem > 0 ? '#d97706' : '#dc2626'}; padding:10px 22px;">
+                                    ${retryBtnText}
                                 </button>
                                 <button type="button" id="btnSummaryOpenGlosarium" class="btn-sidebar-icon">
                                     📖 Baca Kitab Glosarium
                                 </button>
                             `;
                             document.getElementById('btnSummaryRetryStage').onclick = () => {
-                                trivia.restartStage();
+                                const res = trivia.resetCurrentStageWithLimit();
+                                if (res.status === 'demoted' || res.status === 'level1_exhausted') {
+                                    alert(res.message);
+                                }
                                 renderQuestion();
                             };
                             document.getElementById('btnSummaryOpenGlosarium').onclick = () => {
@@ -3258,7 +3311,38 @@
                 if (btnRetry) {
                     btnRetry.onclick = () => {
                         audio.playClick();
-                        trivia.restartStage();
+                        const res = trivia.resetCurrentStageWithLimit();
+                        if (res.status === 'demoted' || res.status === 'level1_exhausted') {
+                            alert(res.message);
+                        }
+                        renderQuestion();
+                    };
+                }
+
+                // Reset Level Button in Stage Banner
+                if (btnResetStage) {
+                    btnResetStage.onclick = () => {
+                        audio.playClick();
+                        const curId = Number(trivia.currentStageId);
+                        const rem = trivia.getRemainingResets ? trivia.getRemainingResets(curId) : 3;
+
+                        if (rem > 0) {
+                            const confirmed = confirm(`🔄 Reset Level ${curId}?\n\nSoal akan diacak ulang dari soal ke-1 dengan nyawa penuh (5 hati).\nSisa kesempatan reset untuk Level ${curId}: ${rem} kali.\n\nKlik OK untuk mereset.`);
+                            if (!confirmed) return;
+                        } else {
+                            if (curId > 1) {
+                                const confirmed = confirm(`⚠️ Batas kuota reset Level ${curId} telah habis (3/3 kali)!\n\nSesuai peraturan, Anda harus mengulang dari Level ${curId - 1}.\nLevel ${curId} akan dikunci kembali hingga Anda lulus Level ${curId - 1} lagi.\n\nKlik OK untuk kembali ke Level ${curId - 1}.`);
+                                if (!confirmed) return;
+                            } else {
+                                const confirmed = confirm(`⚠️ Batas kuota reset Level 1 telah habis (3/3 kali)!\n\nLevel 1 akan diulang kembali dari awal dan kuota 3 kali reset akan dipulihkan.\n\nKlik OK untuk memulai ulang.`);
+                                if (!confirmed) return;
+                            }
+                        }
+
+                        const res = trivia.resetCurrentStageWithLimit();
+                        if (res.status === 'demoted' || res.status === 'level1_exhausted') {
+                            alert(res.message);
+                        }
                         renderQuestion();
                     };
                 }

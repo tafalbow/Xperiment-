@@ -2830,6 +2830,66 @@ body.mode-trivia .macro-main-content {
     border: 1px solid #7dd3fc;
 }
 
+.trivia-stage-banner-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-reset-stage {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    border: 1.5px solid #f59e0b;
+    color: #b45309;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-body);
+}
+
+.btn-reset-stage:hover {
+    background: #fef3c7;
+    border-color: #d97706;
+    color: #92400e;
+    transform: translateY(-1px);
+}
+
+.btn-reset-stage .reset-count-badge {
+    background: #f59e0b;
+    color: #ffffff;
+    padding: 1px 7px;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    transition: background 0.2s ease;
+}
+
+.btn-reset-stage.warning {
+    border-color: #ea580c;
+    color: #c2410c;
+    background: #fff7ed;
+}
+
+.btn-reset-stage.warning .reset-count-badge {
+    background: #ea580c;
+}
+
+.btn-reset-stage.exhausted {
+    border-color: #ef4444;
+    color: #b91c1c;
+    background: #fef2f2;
+}
+
+.btn-reset-stage.exhausted .reset-count-badge {
+    background: #ef4444;
+}
+
 /* Stage Summary Card */
 .trivia-stage-summary-box {
     display: none;
