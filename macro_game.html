@@ -73,8 +73,6 @@
                     <span>❓</span> Cara Main
                 </button>
                 <a href="trade_game.html" class="btn-icon-ctrl" title="Trade Tycoon">🌐 Dagang</a>
-                <a href="cocok_tanam.html" class="btn-icon-ctrl" style="background:#0f5132; color:#fff;" title="Cocok Tanam">🌾 Agri</a>
-                <a href="index.html" class="btn-icon-ctrl" title="Menu Game">🍡 Menu</a>
             </div>
         </header>
 
@@ -1791,15 +1789,39 @@
                 const profile = engine.playerProfile;
                 if (!profile) return;
 
+                // Sinkronisasi level pemain dengan Level Trivia Quest yang sedang aktif/dimainkan
+                const trivia = window.macroTriviaEngine;
+                if (trivia) {
+                    const triviaStage = Number(trivia.currentStageId) || 1;
+                    profile.level = triviaStage;
+                    profile.title = engine.getTitleForLevel(triviaStage);
+
+                    // Sinkronisasi XP dasar agar bar XP proporsional dengan level yang sedang dimainkan
+                    const prevThresh = engine.getPrevLevelThreshold(triviaStage);
+                    const nextThresh = engine.getNextLevelThreshold(triviaStage);
+                    if (profile.xp < prevThresh) {
+                        profile.xp = prevThresh + Math.floor((nextThresh - prevThresh) * 0.35);
+                    }
+
+                    // Sinkronisasi combo streak dan koin dengan skor Trivia Quest
+                    if (typeof trivia.combo === 'number') {
+                        profile.streak = trivia.combo;
+                    }
+                    if (typeof trivia.score === 'number' && trivia.score > 0) {
+                        profile.coins = trivia.score;
+                    }
+                    engine.savePlayerProfile();
+                }
+
                 document.getElementById('playerAvatarIcon').textContent = profile.avatar || "🧑‍💼";
                 document.getElementById('playerLevelBadge').textContent = `⭐ Lv. ${profile.level}`;
                 document.getElementById('playerTitle').textContent = profile.title;
-                document.getElementById('gamerStreakVal').textContent = `${profile.streak || 0}x`;
-                document.getElementById('gamerCoinsVal').textContent = profile.coins || 100;
+                document.getElementById('gamerStreakVal').textContent = `${(trivia && trivia.combo !== undefined) ? trivia.combo : (profile.streak || 0)}x`;
+                document.getElementById('gamerCoinsVal').textContent = (trivia && trivia.score) ? trivia.score.toLocaleString('id-ID') : (profile.coins || 100);
 
                 const nextThresh = engine.getNextLevelThreshold(profile.level);
                 const prevThresh = engine.getPrevLevelThreshold(profile.level);
-                const currentLevelXp = profile.xp - prevThresh;
+                const currentLevelXp = Math.max(0, profile.xp - prevThresh);
                 const levelSpan = Math.max(1, nextThresh - prevThresh);
                 const pct = Math.min(100, Math.max(0, Math.round((currentLevelXp / levelSpan) * 100)));
 
@@ -2975,6 +2997,7 @@
 
                     updateHearts();
                     updateStageStepper();
+                    updateGamerHUD();
 
                     // Render 4 options
                     if (optionsGrid) {
@@ -3023,13 +3046,12 @@
                     });
 
                     if (res.isCorrect) {
-                        // Senyap (tanpa suara)
-                    } else {
-                        audio.playWrong(); // Suara bip jika salah
+                        engine.addXP(25);
                     }
 
                     updateHearts();
                     updateStageStepper();
+                    updateGamerHUD();
                     if (scoreText) scoreText.textContent = res.score.toLocaleString('id-ID');
                     if (comboText) comboText.textContent = `${res.combo}x`;
 
@@ -3082,8 +3104,9 @@
                     if (!summaryBox) return;
                     summaryBox.style.display = 'flex';
 
-                    // Update Stepper
+                    // Update Stepper & Gamer HUD
                     updateStageStepper();
+                    updateGamerHUD();
 
                     if (summaryCorrectVal) summaryCorrectVal.textContent = `${evalRes.correctCount} / ${evalRes.totalQuestions}`;
                     if (summaryScoreVal) {
