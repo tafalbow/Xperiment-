@@ -53,26 +53,26 @@ const MACRO_THEORY_DATA = {
             subtitle: "Total Omzet Penjualan Nasional, Kapasitas Pabrik & Bahaya Over-Capacity",
             icon: "⚖️",
             badge: "Tingkat 1: Fondasi Bisnis & Pasar",
-            formula: "\\text{PDB} = C + I + G + (X - M) \\quad \\text{vs} \\quad Y^* \\text{ (Kapasitas Maksimal Industri)}",
+            formula: "PDB = C + I + G + (X - M) | vs | Y* (Kapasitas Maksimal Industri)",
             analogy: `
                 <div style="font-weight:700; margin-bottom:6px;">🏢 Analogi Manajer Pabrik / Restoran:</div>
-                <p style="margin-bottom:8px;">Bayangkan Anda adalah Manajer Pabrik dengan kapasitas produksi maksimal 10.000 baju per bulan (ini adalah Penawaran Agregat / Kapasitas Potensial $Y^*$). Jumlah pesanan (order) yang masuk dari pembeli adalah Permintaan Agregat ($AD$).</p>
+                <p style="margin-bottom:8px;">Bayangkan Anda adalah Manajer Pabrik dengan kapasitas produksi maksimal 10.000 baju per bulan (ini adalah Penawaran Agregat / Kapasitas Potensial Y*). Jumlah pesanan (order) yang masuk dari pembeli adalah Permintaan Agregat (AD).</p>
                 <ul class="academy-bullet-list">
-                    <li><strong>Saat order 7.000 baju ($AD < Y^*$):</strong> Pabrik masih punya kapasitas menganggur. Tambahan pesanan akan menambah omzet dan laba tanpa kendala biaya.</li>
-                    <li><strong>Saat order membeludak 25.000 baju ($AD > Y^*$, Overheating):</strong> Mesin dipaksa lembur 24 jam dan mulai rusak, kain langka sehingga supplier menaikkan harga bahan baku 40%, dan buruh menuntut uang lembur berlipat. Hasilnya bukan efisiensi, melainkan lonjakan biaya produksi dan kenaikan harga jual ke konsumen (Inflasi Demand-Pull)!</li>
+                    <li><strong>Saat order 7.000 baju (AD < Y*):</strong> Pabrik masih punya kapasitas menganggur. Tambahan pesanan akan menambah omzet dan laba tanpa kendala biaya.</li>
+                    <li><strong>Saat order membeludak 25.000 baju (AD > Y*, Overheating):</strong> Mesin dipaksa lembur 24 jam dan mulai rusak, kain langka sehingga supplier menaikkan harga bahan baku 40%, dan buruh menuntut uang lembur berlipat. Hasilnya bukan efisiensi, melainkan lonjakan biaya produksi dan kenaikan harga jual ke konsumen (Inflasi Demand-Pull)!</li>
                 </ul>
             `,
             theoryText: `
                 <div style="font-weight:600; margin-bottom:6px;">Dalam kacamata manajemen bisnis dan teori pasar:</div>
                 <ul class="academy-bullet-list">
                     <li><strong>PDB (Produk Domestik Bruto):</strong> Total 'Omzet Penjualan' seluruh barang dan jasa akhir yang diproduksi di Indonesia dalam setahun.</li>
-                    <li><strong>Permintaan Agregat (AD):</strong> Total daya beli / belanja dari konsumen rumah tangga ($C$), belanja modal investasi perusahaan ($I$), belanja pengadaan tender pemerintah ($G$), dan ekspor neto ($X - M$).</li>
-                    <li><strong>Output Potensial ($Y^*$):</strong> Kapasitas terpasang maksimal seluruh pabrik, infrastruktur, dan angkatan kerja riil di tanah air.</li>
+                    <li><strong>Permintaan Agregat (AD):</strong> Total daya beli / belanja dari konsumen rumah tangga (C), belanja modal investasi perusahaan (I), belanja pengadaan tender pemerintah (G), dan ekspor neto (X - M).</li>
+                    <li><strong>Output Potensial (Y*):</strong> Kapasitas terpasang maksimal seluruh pabrik, infrastruktur, dan angkatan kerja riil di tanah air.</li>
                 </ul>
             `,
             practiceText: `
                 <div style="font-weight:700; color:#0369a1; margin-bottom:6px;">⚖️ Dilema Manajemen di Dunia Riil:</div>
-                <p style="margin:0; line-height:1.5;">Pemerintah sering tergoda memacu anggaran belanja proyek ($G$) setinggi-tingginya demi mengejar angka pertumbuhan. Namun jika kapasitas pasokan pabrik semen, baja, dan pelabuhan lokal belum siap ($AD > Y^*$), pesanan proyek pemerintah justru memicu banjir impor bahan baku dari luar negeri yang menguras cadangan devisa dan melambungkan harga-harga.</p>
+                <p style="margin:0; line-height:1.5;">Pemerintah sering tergoda memacu anggaran belanja proyek (G) setinggi-tingginya demi mengejar angka pertumbuhan. Namun jika kapasitas pasokan pabrik semen, baja, dan pelabuhan lokal belum siap (AD > Y*), pesanan proyek pemerintah justru memicu banjir impor bahan baku dari luar negeri yang menguras cadangan devisa dan melambungkan harga-harga.</p>
             `,
             miniLabPrompt: "Uji Eksperimen: Coba naikkan Belanja Pemerintah (G) secara wajar dan amati omzet PDB naik. Lalu coba naikkan ekstrem melampaui kapasitas terpasang (LRAS Y*) untuk melihat terjadinya Overheating dan lonjakan inflasi!",
             checkpointQuestions: [
@@ -107,7 +107,7 @@ const MACRO_THEORY_DATA = {
             subtitle: "Suku Bunga Acuan, Transmisi Moneter, Persamaan Fisher & Teori Kuantitas",
             icon: "🏦",
             badge: "Tingkat 2: Perbankan & Suku Bunga",
-            formula: "\\text{Persamaan Fisher: } i = r + \\pi^e \\quad | \\quad \\text{Teori Kuantitas: } M \\cdot V = P \\cdot Y",
+            formula: "Persamaan Fisher: i = r + πᵉ | Teori Kuantitas: M × V = P × Y",
             analogy: `
                 <div style="font-weight:700; margin-bottom:6px;">🚗 Analogi Sederhana: Pedal Gas dan Rem pada Mobil</div>
                 <p style="margin-bottom:8px;">Kebijakan moneter Bank Indonesia ibarat pedal gas dan rem pada mobil perekonomian:</p>
@@ -119,9 +119,9 @@ const MACRO_THEORY_DATA = {
             theoryText: `
                 <div style="font-weight:600; margin-bottom:6px;">Dalam buku teks Pengantar Makroekonomi (Mankiw / Krugman):</div>
                 <ul class="academy-bullet-list">
-                    <li><strong>Persamaan Pertukaran Fisher ($M \\cdot V = P \\cdot Y$):</strong> Jika kecepatan perputaran uang ($V$) konstan, laju pertumbuhan uang berlebih di atas pertumbuhan output riil akan bermuara langsung pada inflasi $(\\%\\Delta P = \\%\\Delta M - \\%\\Delta Y)$.</li>
-                    <li><strong>Persamaan Fisher ($i = r + \\pi^e$):</strong> Suku bunga nominal ($i$) adalah penjumlahan suku bunga riil ($r$) dan ekspektasi inflasi ($\\pi^e$).</li>
-                    <li><strong>Penciptaan Uang Giral (Money Multiplier):</strong> Melalui sistem perbankan cadangan fraksional (*fractional-reserve banking*), penawaran uang berlipat ganda dengan rasio pengganda uang $m = 1 / rr$.</li>
+                    <li><strong>Persamaan Pertukaran Fisher (M × V = P × Y):</strong> Jika kecepatan perputaran uang (V) konstan, laju pertumbuhan uang berlebih di atas pertumbuhan output riil akan bermuara langsung pada inflasi (%ΔP = %ΔM - %ΔY).</li>
+                    <li><strong>Persamaan Fisher (i = r + πᵉ):</strong> Suku bunga nominal (i) adalah penjumlahan suku bunga riil (r) dan ekspektasi inflasi (πᵉ).</li>
+                    <li><strong>Penciptaan Uang Giral (Money Multiplier):</strong> Melalui sistem perbankan cadangan fraksional (*fractional-reserve banking*), penawaran uang berlipat ganda dengan rasio pengganda uang m = 1 / GWM.</li>
                 </ul>
             `,
             practiceText: `
@@ -161,7 +161,7 @@ const MACRO_THEORY_DATA = {
             subtitle: "Pengganda Keynesian, Keseimbangan Pasar Dana Pinjaman & Efek Crowding-Out",
             icon: "🏛️",
             badge: "Tingkat 3: Keuangan Negara & APBN",
-            formula: "k_G = \\frac{1}{1 - MPC} \\quad | \\quad k_T = \\frac{-MPC}{1 - MPC} \\quad | \\quad \\text{Defisit APBN} \\le 3\\% \\text{ PDB}",
+            formula: "k_G = (1 / (1 - MPC)) | k_T = ((-MPC) / (1 - MPC)) | Defisit APBN ≤ 3% PDB",
             analogy: `
                 <div style="font-weight:700; margin-bottom:6px;">💳 Analogi Sederhana: Anggaran Keuangan Keluarga</div>
                 <p style="margin-bottom:8px;">APBN pada dasarnya mirip seperti anggaran belanja dalam rumah tangga:</p>
@@ -175,9 +175,9 @@ const MACRO_THEORY_DATA = {
             theoryText: `
                 <div style="font-weight:600; margin-bottom:6px;">Dalam materi Ujian Semester Makroekonomi:</div>
                 <ul class="academy-bullet-list">
-                    <li><strong>Multiplier Belanja Pemerintah ($k_G$):</strong> Menunjukkan kelipatan kenaikan pendapatan nasional dari setiap rupiah belanja negara: $k_G = 1 / (1 - MPC)$.</li>
-                    <li><strong>Multiplier Pajak ($k_T$):</strong> Berdampak lebih kecil daripada belanja karena sebagian pemotongan pajak akan ditabung: $k_T = -MPC / (1 - MPC)$.</li>
-                    <li><strong>Efek Desakan (Crowding-Out):</strong> Defisit anggaran negara yang dibiayai penerbitan obligasi mengurangi pasokan dana pinjaman nasional ($S = Y - C - G$), menaikkan suku bunga riil ($r$), dan menekan investasi swasta ($I$).</li>
+                    <li><strong>Multiplier Belanja Pemerintah (k_G):</strong> Menunjukkan kelipatan kenaikan pendapatan nasional dari setiap rupiah belanja negara: k_G = 1 / (1 - MPC).</li>
+                    <li><strong>Multiplier Pajak (k_T):</strong> Berdampak lebih kecil daripada belanja karena sebagian pemotongan pajak akan ditabung: k_T = -MPC / (1 - MPC).</li>
+                    <li><strong>Efek Desakan (Crowding-Out):</strong> Defisit anggaran negara yang dibiayai penerbitan obligasi mengurangi pasokan dana pinjaman nasional (S = Y - C - G), menaikkan suku bunga riil (r), dan menekan investasi swasta (I).</li>
                 </ul>
             `,
             practiceText: `
@@ -217,7 +217,7 @@ const MACRO_THEORY_DATA = {
             subtitle: "Pengangguran Alami (NAIRU), Hukum Okun, Ekspektasi Inflasi & Stagflasi",
             icon: "📉",
             badge: "Tingkat 4: Ketenagakerjaan & Upah",
-            formula: "\\pi = \\pi^e - \\beta(u - u_n) + v \\quad | \\quad \\Delta u = -0.5(g_Y - g_{Y^*})",
+            formula: "π = πᵉ - β(u - un (alamiah)) + v | Δu = -0.5(gY - gY*})",
             analogy: `
                 <div style="font-weight:700; margin-bottom:6px;">🌾 Analogi Sederhana: Mencari Pekerja di Musim Panen</div>
                 <ul class="academy-bullet-list">
@@ -228,10 +228,10 @@ const MACRO_THEORY_DATA = {
             theoryText: `
                 <div style="font-weight:600; margin-bottom:6px;">Dalam silabus Ujian Semester Makroekonomi:</div>
                 <ul class="academy-bullet-list">
-                    <li><strong>Kurva Phillips Ekspektasi (Friedman-Phelps):</strong> $\\pi = \\pi^e - \\beta(u - u_n) + v$. Dalam jangka pendek ada *trade-off* antara inflasi dan pengangguran.</li>
-                    <li><strong>Kurva Phillips Jangka Panjang:</strong> Berbentuk vertikal pada tingkat pengangguran alamiah ($u_n$ / NAIRU) karena ekspektasi inflasi beradaptasi penuh ($\pi^e = \pi$).</li>
+                    <li><strong>Kurva Phillips Ekspektasi (Friedman-Phelps):</strong> π = πᵉ - β(u - un (alamiah)) + v. Dalam jangka pendek ada *trade-off* antara inflasi dan pengangguran.</li>
+                    <li><strong>Kurva Phillips Jangka Panjang:</strong> Berbentuk vertikal pada tingkat pengangguran alamiah (un (alamiah) / NAIRU) karena ekspektasi inflasi beradaptasi penuh (πᵉ = π).</li>
                     <li><strong>Hukum Okun (Okun's Law):</strong> Setiap pertumbuhan PDB riil 2% di atas tren output potensial akan menurunkan tingkat pengangguran sebesar 1%.</li>
-                    <li><strong>Stagflasi:</strong> Guncangan penawaran negatif ($v > 0$) yang menggeser kurva SRAS ke kiri atas (inflasi naik bersamaan dengan naiknya pengangguran).</li>
+                    <li><strong>Stagflasi:</strong> Guncangan penawaran negatif (v > 0) yang menggeser kurva SRAS ke kiri atas (inflasi naik bersamaan dengan naiknya pengangguran).</li>
                 </ul>
             `,
             practiceText: `
@@ -271,7 +271,7 @@ const MACRO_THEORY_DATA = {
             subtitle: "Model Mundell-Fleming, Trilema Kebijakan, Kondisi Marshall-Lerner & PPP",
             icon: "🔺",
             badge: "Tingkat 5: Valuta Asing & Perdagangan Global",
-            formula: "\\text{Trilema Mundell-Fleming: Pilih Maksimal 2 dari 3 Pilar Moneter}",
+            formula: "Trilema Mundell-Fleming: Pilih Maksimal 2 dari 3 Pilar Moneter",
             analogy: `
                 <div style="font-weight:700; margin-bottom:6px;">💻 Analogi Sederhana: Membeli Laptop & Barang Impor</div>
                 <p style="margin-bottom:8px;">Bayangkan Anda ingin membeli laptop atau bahan baku impor seharga 100 Dolar AS:</p>
@@ -285,8 +285,8 @@ const MACRO_THEORY_DATA = {
                 <div style="font-weight:600; margin-bottom:6px;">Dalam silabus Makroekonomi Terbuka (Mundell-Fleming):</div>
                 <ul class="academy-bullet-list">
                     <li><strong>Trilema Kebijakan (The Impossible Trinity):</strong> Negara mustahil menerapkan secara bersamaan: (1) Kurs Tetap, (2) Mobilitas Modal Bebas, dan (3) Moneter Independen.</li>
-                    <li><strong>Efektivitas Kebijakan pada Kurs Mengambang:</strong> Kebijakan moneter sangat efektif (karena depresiasi kurs menambah ekspor neto $NX$), sedangkan kebijakan fiskal tidak efektif (karena apresiasi kurs melenyapkan stimulus belanja).</li>
-                    <li><strong>Kondisi Marshall-Lerner:</strong> Depresiasi kurs riil hanya memperbaiki neraca perdagangan jika jumlah elastisitas ekspor dan impor melebihi satu ($|\\epsilon_x| + |\\epsilon_m| > 1$).</li>
+                    <li><strong>Efektivitas Kebijakan pada Kurs Mengambang:</strong> Kebijakan moneter sangat efektif (karena depresiasi kurs menambah ekspor neto NX), sedangkan kebijakan fiskal tidak efektif (karena apresiasi kurs melenyapkan stimulus belanja).</li>
+                    <li><strong>Kondisi Marshall-Lerner:</strong> Depresiasi kurs riil hanya memperbaiki neraca perdagangan jika jumlah elastisitas ekspor dan impor melebihi satu (|ε_x| + |ε_m| > 1).</li>
                 </ul>
             `,
             practiceText: `
@@ -330,17 +330,17 @@ const MACRO_THEORY_DATA = {
             title: "Model Permintaan & Penawaran Agregat (AD-AS)",
             category: "Teori Utama",
             icon: "⚖️",
-            formula: "AD = C + I + G + (X - M) \\quad \\text{vs} \\quad AS = f(K, L, \\text{Teknologi}, \\text{Biaya Input})",
+            formula: "AD = C + I + G + (X - M) | vs | AS = f(K, L, Teknologi, Biaya Input)",
             theory: `
-                Model AD-AS adalah fondasi utama ekonomi makro modern yang menjelaskan bagaimana PDB riil ($Y$) 
-                dan tingkat harga umum ($P$) ditentukan secara simultan.
+                Model AD-AS adalah fondasi utama ekonomi makro modern yang menjelaskan bagaimana PDB riil (Y) 
+                dan tingkat harga umum (P) ditentukan secara simultan.
                 - **Kurva AD (Aggregate Demand)** melandai ke bawah: ketika tingkat harga turun, daya beli riil naik (efek kekayaan Pigou), suku bunga turun (efek Keynes), dan ekspor neto meningkat (efek nilai tukar).
                 - **Kurva SRAS (Short-Run Aggregate Supply)** melandai ke atas: dalam jangka pendek, upah dan harga input bersifat kaku (sticky wages/prices). Jika harga output naik, margin laba produsen meningkat sehingga output ditambah.
-                - **Kurva LRAS (Long-Run Aggregate Supply)** tegak lurus pada tingkat Output Potensial ($Y^*$): dalam jangka panjang, output ditentukan oleh modal fisik, angkatan kerja, dan produktivitas/teknologi, bukan oleh tingkat harga nominal.
+                - **Kurva LRAS (Long-Run Aggregate Supply)** tegak lurus pada tingkat Output Potensial (Y*): dalam jangka panjang, output ditentukan oleh modal fisik, angkatan kerja, dan produktivitas/teknologi, bukan oleh tingkat harga nominal.
             `,
             practice: `
                 **Realita di Lapangan (Indonesia & Dunia):**
-                1. **Output Gap & Overheating**: Jika pemerintah terus memacu AD melampaui kapasitas potensial ($Y > Y^*$), ekonomi mengalami *overheating*. Hasilnya bukan lagi lonjakan pertumbuhan riil, melainkan lonjakan inflasi (*demand-pull*) dan defisit neraca dagang karena banjir impor.
+                1. **Output Gap & Overheating**: Jika pemerintah terus memacu AD melampaui kapasitas potensial (Y > Y*), ekonomi mengalami *overheating*. Hasilnya bukan lagi lonjakan pertumbuhan riil, melainkan lonjakan inflasi (*demand-pull*) dan defisit neraca dagang karena banjir impor.
                 2. **Supply Shock (Kejutan Penawaran)**: Ketika harga minyak dunia atau pangan melonjak (seperti perang energi 2022 atau El Nino), kurva SRAS terdorong bergeser ke kiri. Ini menciptakan dilema terburuk bagi pengambil kebijakan: output turun (resesi) sementara harga-harga naik (inflasi), yang dikenal sebagai **Stagflasi**.
             `,
             keyTakeaway: "Kebijakan sisi permintaan (moneter/fiskal) hanya efektif menutup kesenjangan jangka pendek (output gap). Untuk mendorong pertumbuhan jangka panjang yang berkelanjutan tanpa inflasi, negara harus menggeser LRAS melalui reformasi struktural, pendidikan, dan infrastruktur produktif."
@@ -350,11 +350,11 @@ const MACRO_THEORY_DATA = {
             title: "Transmisi Kebijakan Moneter & BI-Rate",
             category: "Kebijakan Moneter",
             icon: "🏦",
-            formula: "r_{riil} = i_{nominal} - \\pi^e \\quad \\text{(Fisher Effect)}",
+            formula: "r (riil) = i (nominal) - πᵉ | (Fisher Effect)",
             theory: `
                 Bank sentral (seperti Bank Indonesia) mengendalikan likuiditas dan stabilitas harga terutama melalui 
                 instrumen suku bunga kebijakan (BI-Rate) dan Giro Wajib Minimum (GWM).
-                - **Suku Bunga Rendah (Ekspansif)**: Menurunkan biaya pinjaman, merangsang kredit investasi ($I$) dan konsumsi ($C$), serta mendorong pertumbuhan ekonomi.
+                - **Suku Bunga Rendah (Ekspansif)**: Menurunkan biaya pinjaman, merangsang kredit investasi (I) dan konsumsi (C), serta mendorong pertumbuhan ekonomi.
                 - **Suku Bunga Tinggi (Kontraktif)**: Mengerem ekspansi kredit, mendorong masyarakat menabung, menstabilkan kurs mata uang, dan meredam laju inflasi.
             `,
             practice: `
@@ -369,10 +369,10 @@ const MACRO_THEORY_DATA = {
             title: "Kebijakan Fiskal, Pengali & Batas Utang",
             category: "Kebijakan Fiskal",
             icon: "🏛️",
-            formula: "k = \\frac{1}{1 - MPC(1 - t)} \\quad \\text{(Pengali Belanja)} \\quad | \\quad \\text{Defisit} = G - T",
+            formula: "k = (1 / (1 - MPC(1 - t))) | (Pengali Belanja) | Defisit = G - T",
             theory: `
                 Kebijakan fiskal dikelola oleh Kementerian Keuangan melalui Anggaran Pendapatan dan Belanja Negara (APBN).
-                - **Pengali Fiskal (Fiscal Multiplier)**: Belanja pemerintah ($G$) menciptakan efek berantai. Rp 1 triliun belanja infrastruktur dibayarkan ke pekerja & pemasok, yang kemudian membelanjakan sebagian penghasilannya ($MPC$) untuk konsumsi lain.
+                - **Pengali Fiskal (Fiscal Multiplier)**: Belanja pemerintah (G) menciptakan efek berantai. Rp 1 triliun belanja infrastruktur dibayarkan ke pekerja & pemasok, yang kemudian membelanjakan sebagian penghasilannya (MPC) untuk konsumsi lain.
                 - **Penstabil Otomatis (Automatic Stabilizers)**: Saat resesi, penerimaan pajak otomatis menyusut dan belanja bantuan sosial otomatis meningkat, menahan ekonomi agar tidak jatuh lebih dalam.
             `,
             practice: `
@@ -387,15 +387,15 @@ const MACRO_THEORY_DATA = {
             title: "Kurva Phillips & Hukum Okun",
             category: "Ketenagakerjaan & Inflasi",
             icon: "📉",
-            formula: "\\pi = \\pi^e - \\beta(u - u_n) + \\nu \\quad | \\quad \\Delta u = -0.4 \\times (g_{PDB} - g_{potensial})",
+            formula: "π = πᵉ - β(u - un (alamiah)) + v | Δu = -0.4 × (gPDB - gPotensial)",
             theory: `
-                - **Kurva Phillips Klasik**: Menggambarkan trade-off jangka pendek antara inflasi ($\pi$) dan pengangguran ($u$). Ketika ekonomi tumbuh pesat, pengangguran rendah, namun persaingan tenaga kerja menaikkan upah dan memicu inflasi.
+                - **Kurva Phillips Klasik**: Menggambarkan trade-off jangka pendek antara inflasi (π) dan pengangguran (u). Ketika ekonomi tumbuh pesat, pengangguran rendah, namun persaingan tenaga kerja menaikkan upah dan memicu inflasi.
                 - **NAIRU (Non-Accelerating Inflation Rate of Unemployment)**: Tingkat pengangguran alami di mana inflasi stabil. Menekan pengangguran di bawah NAIRU secara paksa akan memicu spiral inflasi yang terus berakselerasi.
                 - **Hukum Okun (Okun's Law)**: Setiap pertumbuhan ekonomi riil di atas kapasitas pertumbuhan tren potensial akan menurunkan tingkat pengangguran secara proporsional.
             `,
             practice: `
                 **Realita di Lapangan (Mengapa Trade-off Bisa Rusak?):**
-                1. **Stagflasi Merusak Kurva Phillips**: Pada tahun 1970-an (dan krisis energi global), terjadi inflasi tinggi bersamaan dengan melonjaknya pengangguran. Penyebabnya adalah *supply shock* ($\nu > 0$) yang menggeser seluruh kurva Phillips ke kanan atas.
+                1. **Stagflasi Merusak Kurva Phillips**: Pada tahun 1970-an (dan krisis energi global), terjadi inflasi tinggi bersamaan dengan melonjaknya pengangguran. Penyebabnya adalah *supply shock* (v > 0) yang menggeser seluruh kurva Phillips ke kanan atas.
                 2. **Struktur Tenaga Kerja Informal**: Di Indonesia, sekitar 55-60% tenaga kerja berada di sektor informal. Saat terjadi perlambatan ekonomi, pekerja formal yang terkena PHK sering beralih menjadi pedagang kecil atau pekerja informal, sehingga angka pengangguran terbuka resmi tidak selalu melonjak setinggi di negara maju, namun angka kemiskinan dan kualitas hidup merosot drastis.
             `,
             keyTakeaway: "Target pertumbuhan tinggi tanpa inflasi hanya bisa dicapai bila kapasitas penyerapan tenaga kerja formal dan produktivitas riil dinaikkan secara bersamaan."
@@ -405,7 +405,7 @@ const MACRO_THEORY_DATA = {
             title: "Trilema Kebijakan (The Impossible Trinity)",
             category: "Ekonomi Terbuka & Valas",
             icon: "🔺",
-            formula: "\\text{Pilih maksimal 2 dari 3:} \\quad 1.\\text{Kurs Tetap} \\quad 2.\\text{Arus Modal Bebas} \\quad 3.\\text{Moneter Independen}",
+            formula: "Pilih maksimal 2 dari 3: | 1.Kurs Tetap | 2.Arus Modal Bebas | 3.Moneter Independen",
             theory: `
                 Dirumuskan oleh Robert Mundell dan Marcus Fleming. Suatu perekonomian terbuka tidak dapat memiliki 
                 ketiga hal berikut secara bersamaan:
@@ -427,13 +427,13 @@ const MACRO_THEORY_DATA = {
             title: "Persamaan Fisher & Jebakan Cetak Uang",
             category: "Uang & Inflasi",
             icon: "💸",
-            formula: "M \\cdot V = P \\cdot Y \\quad \\implies \\quad \\%\\Delta M + \\%\\Delta V = \\%\\Delta P + \\%\\Delta Y",
+            formula: "M × V = P × Y | → | %ΔM + %ΔV = %ΔP + %ΔY",
             theory: `
-                Persamaan Kuantitas Uang oleh Irving Fisher menyatakan bahwa jumlah uang beredar ($M$) dikalikan 
-                dengan kecepatan perputaran uang ($V$) selalu sama dengan tingkat harga ($P$) dikalikan output riil ($Y$).
-                Jika kecepatan perputaran uang ($V$) diasumsikan konstan dalam jangka pendek dan output riil ($Y$) 
-                terbatas oleh kapasitas fisik pabrik dan tenaga kerja, maka setiap pencetakan uang baru ($M$) secara 
-                berlebihan akan langsung berubah 100% menjadi kenaikan harga ($P$) alias inflasi!
+                Persamaan Kuantitas Uang oleh Irving Fisher menyatakan bahwa jumlah uang beredar (M) dikalikan 
+                dengan kecepatan perputaran uang (V) selalu sama dengan tingkat harga (P) dikalikan output riil (Y).
+                Jika kecepatan perputaran uang (V) diasumsikan konstan dalam jangka pendek dan output riil (Y) 
+                terbatas oleh kapasitas fisik pabrik dan tenaga kerja, maka setiap pencetakan uang baru (M) secara 
+                berlebihan akan langsung berubah 100% menjadi kenaikan harga (P) alias inflasi!
             `,
             practice: `
                 **Realita di Lapangan (Mengapa Negara Tidak Boleh Asal Cetak Uang?):**

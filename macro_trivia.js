@@ -41,7 +41,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Kekayaan riil suatu bangsa diukur dari jumlah barang dan jasa yang diproduksi, bukan dari lembaran kertas uang yang dicetak!",
-                "debrief": "Hebat! Persamaan kuantitas uang Fisher ($M \\cdot V = P \\cdot Y$) membuktikan bahwa mencetak uang ($M$) tanpa kenaikan produksi riil ($Y$) hanya akan melesatkan tingkat harga ($P$) alias <span class='econ-jargon' data-term='teori_kuantitas_uang'>Hiperinflasi</span>. Uang banyak tapi tidak bisa membeli apa-apa!"
+                "debrief": "Hebat! Persamaan kuantitas uang Fisher (M × V = P × Y) membuktikan bahwa mencetak uang (M) tanpa kenaikan produksi riil (Y) hanya akan melesatkan tingkat harga (P) alias <span class='econ-jargon' data-term='teori_kuantitas_uang'>Hiperinflasi</span>. Uang banyak tapi tidak bisa membeli apa-apa!"
             },
             {
                 "id": "s1_q3",
@@ -73,14 +73,14 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "PDB nominal memuat kenaikan harga; hilangkan komponen kenaikan harga untuk mendapatkan pertumbuhan barang fisik yang sesungguhnya!",
-                "debrief": "Tepat sekali! PDB Nominal mengukur output dengan harga berlaku. Pertumbuhan <span class='econ-jargon' data-term='pdb_riil'>PDB Riil</span> diperoleh dengan mendiskontokan inflasi (PDB Deflator): $10\\% - 8\\% \\approx 2\\%$. Pertumbuhan fisik barang dan jasa sebenarnya hanyalah 2%!"
+                "debrief": "Tepat sekali! PDB Nominal mengukur output dengan harga berlaku. Pertumbuhan <span class='econ-jargon' data-term='pdb_riil'>PDB Riil</span> diperoleh dengan mendiskontokan inflasi (PDB Deflator): 10% - 8% ≈ 2%. Pertumbuhan fisik barang dan jasa sebenarnya hanyalah 2%!"
             },
             {
                 "id": "s1_q5",
                 "theoryKey": "keseimbangan_ad_as",
                 "theoryTitle": "Komponen Investasi (I) & Agregat Demand",
                 "scenario": "🛍️ Komponen Formula PDB Nasional",
-                "question": "Dalam persamaan identitas Produk Domestik Bruto pendekatan pengeluaran: $Y = C + I + G + (X - M)$, komponen apakah yang mencerminkan belanja mesin pabrik baru dan pembangunan gudang oleh dunia usaha?",
+                "question": "Dalam persamaan identitas Produk Domestik Bruto pendekatan pengeluaran: Y = C + I + G + (X - M), komponen apakah yang mencerminkan belanja mesin pabrik baru dan pembangunan gudang oleh dunia usaha?",
                 "options": [
                     "Konsumsi Rumah Tangga (C), karena pabrik dibeli dari uang kas milik pengusaha",
                     "Belanja Pengeluaran Pemerintah (G), karena pembangunan industri diawasi langsung oleh kementerian",
@@ -89,7 +89,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Dalam kacamata makroekonomi, 'Investasi' bukanlah membeli saham di aplikasi ponsel, melainkan belanja modal fisik untuk berproduksi!",
-                "debrief": "Benar sekali! Komponen $I$ (<span class='econ-jargon' data-term='keseimbangan_ad_as'>Investasi</span>) mencakup Pembentukan Modal Tetap Bruto (PMTB) seperti mesin, gedung pabrik, dan inventori yang akan melipatgandakan output barang di masa depan."
+                "debrief": "Benar sekali! Komponen I (<span class='econ-jargon' data-term='keseimbangan_ad_as'>Investasi</span>) mencakup Pembentukan Modal Tetap Bruto (PMTB) seperti mesin, gedung pabrik, dan inventori yang akan melipatgandakan output barang di masa depan."
             },
             {
                 "id": "s1_q6",
@@ -121,14 +121,14 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Bagi jumlah tambahan belanja dengan jumlah tambahan penghasilan yang diterima!",
-                "debrief": "Tepat! $MPC = \\frac{\\Delta C}{\\Delta Y} = \\frac{800.000}{1.000.000} = 0,8$. Sisanya sebesar $0,2$ adalah <span class='econ-jargon' data-term='multiplier_effect'>Marginal Propensity to Save (MPS)</span>."
+                "debrief": "Tepat! MPC = ΔC / ΔY = 800.000 / 1.000.000 = 0,8. Sisanya sebesar 0,2 adalah <span class='econ-jargon' data-term='multiplier_effect'>Marginal Propensity to Save (MPS)</span>."
             },
             {
                 "id": "s1_q8",
                 "theoryKey": "output_potensial",
                 "theoryTitle": "Output Potensial & Batas Kapasitas Perekonomian",
                 "scenario": "🏭 Batas Kapasitas Produksi Nasional (Y*)",
-                "question": "Apa yang terjadi pada perekonomian jika permintaan agregat (AD) terus dipacu melampaui kapasitas produksi potensial nasional ($Y^*$) saat pabrik-pabrik sudah beroperasi 100% dan pekerja sudah lembur penuh?",
+                "question": "Apa yang terjadi pada perekonomian jika permintaan agregat (AD) terus dipacu melampaui kapasitas produksi potensial nasional (Y*) saat pabrik-pabrik sudah beroperasi 100% dan pekerja sudah lembur penuh?",
                 "options": [
                     "Perekonomian otomatis memasuki masa deflasi karena penawaran barang menjadi terlalu melimpah ruah",
                     "Nilai tukar mata uang domestik menguat tajam karena semua orang ingin berbelanja di dalam negeri",
@@ -137,7 +137,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Ibarat mesin mobil yang digas terus sampai jarum merah mentok: laju mobil tidak bertambah, tetapi mesinnya mengepul kepanasan!",
-                "debrief": "Jenius! Ketika ekonomi melewati $Y^*$ (<span class='econ-jargon' data-term='keseimbangan_ad_as'>Output Potensial</span>), kurva AS menjadi sangat curam/tegak lurus. Setiap stimulus tambahan hanya menciptakan inflasi murni tanpa menambah barang riil."
+                "debrief": "Jenius! Ketika ekonomi melewati Y* (<span class='econ-jargon' data-term='keseimbangan_ad_as'>Output Potensial</span>), kurva AS menjadi sangat curam/tegak lurus. Setiap stimulus tambahan hanya menciptakan inflasi murni tanpa menambah barang riil."
             },
             {
                 "id": "s1_q9",
@@ -217,7 +217,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Uang nominal di dompet bertambah, tetapi harga barang di toko naik lebih cepat daripada kenaikan uangmu!",
-                "debrief": "Tepat! Upah riil = Upah Nominal - Inflasi: $5\\% - 7\\% = -2\\%$. Kenaikan gaji Pak Joko tergerus oleh <span class='econ-jargon' data-term='daya_beli'>Inflasi</span>, sehingga jumlah barang fisik yang bisa dibelinya justru lebih sedikit daripada tahun lalu."
+                "debrief": "Tepat! Upah riil = Upah Nominal - Inflasi: 5% - 7% = -2%. Kenaikan gaji Pak Joko tergerus oleh <span class='econ-jargon' data-term='daya_beli'>Inflasi</span>, sehingga jumlah barang fisik yang bisa dibelinya justru lebih sedikit daripada tahun lalu."
             },
             {
                 "id": "s1_q14",
@@ -256,7 +256,7 @@ const MACRO_TRIVIA_STAGES = [
                 "theoryKey": "teori_kuantitas_uang",
                 "theoryTitle": "Kecepatan Perputaran Uang (Velocity)",
                 "scenario": "🛒 QRIS & Perputaran Uang Harian",
-                "question": "Dalam persamaan kuantitas uang $M \\cdot V = P \\cdot Y$, adopsi massal pembayaran digital seperti QRIS di warung-warung dan UMKM secara teoritis berdampak pada variabel apa?",
+                "question": "Dalam persamaan kuantitas uang M × V = P × Y, adopsi massal pembayaran digital seperti QRIS di warung-warung dan UMKM secara teoritis berdampak pada variabel apa?",
                 "options": [
                     "Menghilangkan komponen Jumlah Uang Beredar (M) dari sistem perbankan nasional",
                     "Meningkatkan Kecepatan Perputaran Uang (Velocity of Money / V), karena transaksi berlangsung seketika tanpa jeda uang kembalian tunai",
@@ -281,7 +281,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Untuk membangun pabrik atau jembatan, harus ada dana tabungan yang dihimpun dari masyarakat dan surplus anggaran negara!",
-                "debrief": "Tepat! <span class='econ-jargon' data-term='tabungan_investasi'>Identitas makro dasar: $S = I$</span>. Investasi fisik membutuhkan penundaan konsumsi saat ini (Tabungan) untuk diubah menjadi modal produktif yang menghasilkan di masa depan."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='tabungan_investasi'>Identitas makro dasar: S = I</span>. Investasi fisik membutuhkan penundaan konsumsi saat ini (Tabungan) untuk diubah menjadi modal produktif yang menghasilkan di masa depan."
             },
             {
                 "id": "s1_q18",
@@ -329,7 +329,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Meminjam modal kerja di bank jadi lebih mahal bunganya, sehingga proyek yang untungnya tipis jadi tidak layak jalan!",
-                "debrief": "Benar! Suku bunga adalah harga dari modal kerja (<span class='econ-jargon' data-term='transmisi_moneter'>Cost of Capital</span>). Bunga tinggi menaikkan beban cicilan kredit investasi ($I$), menahan laju ekspansi fisik dunia usaha."
+                "debrief": "Benar! Suku bunga adalah harga dari modal kerja (<span class='econ-jargon' data-term='transmisi_moneter'>Cost of Capital</span>). Bunga tinggi menaikkan beban cicilan kredit investasi (I), menahan laju ekspansi fisik dunia usaha."
             },
             {
                 "id": "s1_q21",
@@ -393,7 +393,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Bila tidak ada satu pun orang yang mau jajan di warung, warung tutup, pekerjanya di-PHK, dan ekonomi lumpuh total!",
-                "debrief": "Jenius! Ini adalah <span class='econ-jargon' data-term='keseimbangan_ad_as'>Paradox of Thrift</span> John Maynard Keynes. Menabung itu bijak bagi individu, tetapi jika seluruh masyarakat menolak belanja serempak, permintaan agregat ($AD$) runtuh dan memicu resesi hebat."
+                "debrief": "Jenius! Ini adalah <span class='econ-jargon' data-term='keseimbangan_ad_as'>Paradox of Thrift</span> John Maynard Keynes. Menabung itu bijak bagi individu, tetapi jika seluruh masyarakat menolak belanja serempak, permintaan agregat (AD) runtuh dan memicu resesi hebat."
             },
             {
                 "id": "s1_q25",
@@ -425,7 +425,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Angka di atas 100 berarti kelompok yang optimis jauh lebih banyak daripada kelompok yang pesimis!",
-                "debrief": "Tepat! Angka 100 adalah garis batas netral. IKK > 100 mengindikasikan optimisme konsumen, yang menjadi sinyal kuat bahwa motor konsumsi rumah tangga ($C$) akan terus berputar kencang. <span class='econ-jargon' data-term='indeks_keyakinan_konsumen'>Indeks Keyakinan Konsumen (IKK)</span>"
+                "debrief": "Tepat! Angka 100 adalah garis batas netral. IKK > 100 mengindikasikan optimisme konsumen, yang menjadi sinyal kuat bahwa motor konsumsi rumah tangga (C) akan terus berputar kencang. <span class='econ-jargon' data-term='indeks_keyakinan_konsumen'>Indeks Keyakinan Konsumen (IKK)</span>"
             },
             {
                 "id": "s1_q27",
@@ -448,7 +448,7 @@ const MACRO_TRIVIA_STAGES = [
                 "theoryKey": "elastisitas_permintaan",
                 "theoryTitle": "Elastisitas Harga Permintaan Inelastis",
                 "scenario": "📈 Elastisitas Permintaan Beras",
-                "question": "Beras di Indonesia merupakan makanan pokok utama dengan elastisitas harga permintaan yang inelastis ($|E_d| < 1$). Apa artinya hal ini bagi anggaran belanja keluarga ketika harga beras naik 20%?",
+                "question": "Beras di Indonesia merupakan makanan pokok utama dengan elastisitas harga permintaan yang inelastis (|Ed| < 1). Apa artinya hal ini bagi anggaran belanja keluarga ketika harga beras naik 20%?",
                 "options": [
                     "Keluarga akan langsung berhenti mengonsumsi beras dan menggantinya 100% dengan roti gandum impor",
                     "Total pengeluaran keluarga untuk pos beras justru menyusut drastis karena menolak makan",
@@ -569,7 +569,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Uang receh yang mengendap di kaleng biskuit disatukan ke bank, menjadi triliunan rupiah modal kerja bagi pembangunan pabrik dan usaha rakyat!",
-                "debrief": "Tepat! <span class='econ-jargon' data-term='inklusi_keuangan'>Inklusi keuangan</span> mengubah <em>Dead Capital</em> menjadi modal aktif. Dana masyarakat yang terhimpun di bank memperbesar kapasitas penyaluran kredit investasi ($I$) bagi perekonomian nasional."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='inklusi_keuangan'>Inklusi keuangan</span> mengubah <em>Dead Capital</em> menjadi modal aktif. Dana masyarakat yang terhimpun di bank memperbesar kapasitas penyaluran kredit investasi (I) bagi perekonomian nasional."
             },
             {
                 "id": "s1_q36",
@@ -626,7 +626,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Bunga tabungan naik membuat orang lebih bersemangat menabung di bank ketimbang menghabiskan uang untuk foya-foya!",
-                "debrief": "Benar! Kenaikan suku bunga acuan menaikkan suku bunga simpanan/deposito. Ini meredam konsumsi agregat ($C$), mengerem laju peredaran uang, dan menstabilkan inflasi. <span class='econ-jargon' data-term='transmisi_moneter'>Jalur Transmisi Suku Bunga (Interest Rate Channel)</span>"
+                "debrief": "Benar! Kenaikan suku bunga acuan menaikkan suku bunga simpanan/deposito. Ini meredam konsumsi agregat (C), mengerem laju peredaran uang, dan menstabilkan inflasi. <span class='econ-jargon' data-term='transmisi_moneter'>Jalur Transmisi Suku Bunga (Interest Rate Channel)</span>"
             },
             {
                 "id": "s2_q3",
@@ -635,10 +635,10 @@ const MACRO_TRIVIA_STAGES = [
                 "scenario": "⚙️ Saluran Transmisi Suku Bunga",
                 "question": "Jelaskan urutan transmisi kebijakan moneter sejak Bank Indonesia menaikkan BI-Rate hingga terasa dampaknya pada penurunan inflasi di warung pasar tradisional!",
                 "options": [
-                    "BI-Rate naik $\\to$ Harga beras di warung langsung diturunkan oleh polisi $\\to$ Gaji buruh pabrik dinaikkan $\\to$ Inflasi selesai",
-                    "BI-Rate naik $\\to$ Bunga Pasar Uang & Deposito naik $\\to$ Bunga Kredit Bank naik $\\to$ Permintaan pinjaman modal turun $\\to$ Belanja agregat melambat $\\to$ Tekanan inflasi mereda",
-                    "BI-Rate naik $\\to$ Kementerian Keuangan mencetak obligasi gratis $\\to$ Bunga bank turun nol persen $\\to$ Inflasi terkendali",
-                    "BI-Rate naik $\\to$ Seluruh uang kertas di masyarakat ditarik dan dibakar $\\to$ Kurs dolar menguat $\\to$ Pasar tutup"
+                    "BI-Rate naik → Harga beras di warung langsung diturunkan oleh polisi → Gaji buruh pabrik dinaikkan → Inflasi selesai",
+                    "BI-Rate naik → Bunga Pasar Uang & Deposito naik → Bunga Kredit Bank naik → Permintaan pinjaman modal turun → Belanja agregat melambat → Tekanan inflasi mereda",
+                    "BI-Rate naik → Kementerian Keuangan mencetak obligasi gratis → Bunga bank turun nol persen → Inflasi terkendali",
+                    "BI-Rate naik → Seluruh uang kertas di masyarakat ditarik dan dibakar → Kurs dolar menguat → Pasar tutup"
                 ],
                 "correct": 1,
                 "hint": "Kenaikan suku bunga merambat pelan-pelan dari bank sentral, ke bank umum, ke peminjam kredit, lalu ke toko-toko!",
@@ -658,7 +658,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Saat ekonomi lesu darah, bank sentral harus menyuntikkan vitamin: bunga diturunkan agar pengusaha berani pinjam modal dan menyerap pekerja!",
-                "debrief": "Tepat! Kebijakan moneter ekspansif memangkas biaya modal (<span class='econ-jargon' data-term='transmisi_moneter'>Cost of Capital</span>), memicu gairah investasi ($I$) dan konsumsi ($C$) untuk mengangkat kembali ekonomi dari jurang resesi."
+                "debrief": "Tepat! Kebijakan moneter ekspansif memangkas biaya modal (<span class='econ-jargon' data-term='transmisi_moneter'>Cost of Capital</span>), memicu gairah investasi (I) dan konsumsi (C) untuk mengangkat kembali ekonomi dari jurang resesi."
             },
             {
                 "id": "s2_q5",
@@ -716,13 +716,13 @@ const MACRO_TRIVIA_STAGES = [
                 "question": "Dalam sistem perbankan cadangan fraksional (Fractional Reserve Banking), jika rasio cadangan wajib perbankan adalah 10% (0,10), berapakah nilai pengganda uang (Money Multiplier) teoretis maksimum?",
                 "options": [
                     "1 kali lipat, karena setiap rupiah uang tabungan hanya boleh dipinjamkan kepada satu orang peminjam saja",
-                    "10 kali lipat, dihitung dari formula $m = 1 / GWM = 1 / 0,10$",
+                    "10 kali lipat, dihitung dari formula m = 1 / GWM = 1 / 0,10",
                     "100 kali lipat, karena bank diperbolehkan mencetak uang kertas sendiri tanpa batasan izin",
                     "0,1 kali lipat, karena uang tabungan akan terus menyusut setiap kali dipinjamkan ke nasabah baru"
                 ],
                 "correct": 1,
                 "hint": "Bagi angka 1 dengan persentase rasio cadangan wajib perbankan!",
-                "debrief": "Tepat! Money Multiplier $m = \\frac{1}{rr}$. Dari Rp 1 juta uang primer yang disetor, sistem perbankan dapat menciptakan hingga Rp 10 juta uang beredar luas melalui siklus kredit dan simpanan berulang. <span class='econ-jargon' data-term='lender_of_last_resort'>Lender of Last Resort (Fasilitas Likuiditas Terakhir)</span>"
+                "debrief": "Tepat! Money Multiplier m = 1 / GWM. Dari Rp 1 juta uang primer yang disetor, sistem perbankan dapat menciptakan hingga Rp 10 juta uang beredar luas melalui siklus kredit dan simpanan berulang. <span class='econ-jargon' data-term='lender_of_last_resort'>Lender of Last Resort (Fasilitas Likuiditas Terakhir)</span>"
             },
             {
                 "id": "s2_q9",
@@ -942,11 +942,11 @@ const MACRO_TRIVIA_STAGES = [
                     "Sekitar 10% per tahun, karena bunga deposito dan inflasi saling menjumlahkan keuntungan nasabah",
                     "Sekitar 24% per tahun, hasil kali antara suku bunga nominal dengan ekspektasi inflasi pasar",
                     "Nol persen, karena inflasi selalu menghapus seluruh pokok simpanan uang nasabah di bank",
-                    "Sekitar 2% per tahun, dihitung dari suku bunga nominal dikurangi tingkat inflasi ($r \\approx i - \\pi$)"
+                    "Sekitar 2% per tahun, dihitung dari suku bunga nominal dikurangi tingkat inflasi (r ≈ i - π)"
                 ],
                 "correct": 3,
                 "hint": "Kurangkan bunga yang kamu terima dengan laju kenaikan harga barang untuk mengetahui pertumbuhan daya beli tabunganmu!",
-                "debrief": "Tepat sekali! Persamaan Fisher: $r = i - \\pi$. Jika bunga nominal $6\\%$ dan inflasi $4\\%$, imbal hasil riil tabunganmu secara fisik hanyalah $2\\%$. Bila inflasi lebih tinggi dari bunga bank, bunga riilmu menjadi negatif! <span class='econ-jargon' data-term='uang_primer'>Uang Primer / Basis Moneter (M0)</span>"
+                "debrief": "Tepat sekali! Persamaan Fisher: r = i - π. Jika bunga nominal 6% dan inflasi 4%, imbal hasil riil tabunganmu secara fisik hanyalah 2%. Bila inflasi lebih tinggi dari bunga bank, bunga riilmu menjadi negatif! <span class='econ-jargon' data-term='uang_primer'>Uang Primer / Basis Moneter (M0)</span>"
             },
             {
                 "id": "s2_q23",
@@ -1010,7 +1010,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Liabilitas moneter paling murni dari bank sentral: uang tunai fisik yang dipegang rakyat plus simpanan cadangan bank di rekening BI!",
-                "debrief": "Tepat! Uang Primer ($M_0$) adalah fondasi dari seluruh piramida uang beredar. Melalui mekanisme perbankan, uang primer ini digandakan menjadi $M_1$ dan $M_2$ di sektor riil. <span class='econ-jargon' data-term='cbdc_rupiah_digital'>Rupiah Digital (Central Bank Digital Currency / CBDC)</span>"
+                "debrief": "Tepat! Uang Primer (M0) adalah fondasi dari seluruh piramida uang beredar. Melalui mekanisme perbankan, uang primer ini digandakan menjadi M1 dan M2 di sektor riil. <span class='econ-jargon' data-term='cbdc_rupiah_digital'>Rupiah Digital (Central Bank Digital Currency / CBDC)</span>"
             },
             {
                 "id": "s2_q27",
@@ -1643,7 +1643,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Menjaga agar jutaan anak-anak keluarga miskin tetap bisa makan bergizi dan bersekolah, menopang perputaran belanja warung sembako!",
-                "debrief": "Tepat! <span class='econ-jargon' data-term='belanja_bansos'>Perlinsos</span> adalah fondasi stabilitas sosial dan ekonomi. Kelompok miskin yang terlindungi menjaga angka konsumsi dasar ($C$) nasional tetap stabil dan inklusif."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='belanja_bansos'>Perlinsos</span> adalah fondasi stabilitas sosial dan ekonomi. Kelompok miskin yang terlindungi menjaga angka konsumsi dasar (C) nasional tetap stabil dan inklusif."
             },
             {
                 "id": "s3_q30",
@@ -1675,14 +1675,14 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Belanja modal meninggalkan warisan fisik bernilai puluhan tahun; belanja barang habis terpakai dalam hitungan hari!",
-                "debrief": "Sangat tepat! <span class='econ-jargon' data-term='debt_sustainability'>Belanja Modal</span> menambah stok modal kapital nasional ($K$), meningkatkan kapasitas output potensial ($Y^*$) perekonomian jangka panjang."
+                "debrief": "Sangat tepat! <span class='econ-jargon' data-term='debt_sustainability'>Belanja Modal</span> menambah stok modal kapital nasional (K), meningkatkan kapasitas output potensial (Y*) perekonomian jangka panjang."
             },
             {
                 "id": "s3_q32",
                 "theoryKey": "belanja_infrastruktur",
                 "theoryTitle": "Multiplier Belanja Infrastruktur Fisik",
                 "scenario": "🌾 Subsidi Pupuk vs Bantuan Alat Mesin Pertanian (Alsintan)",
-                "question": "Pemerintah menggabungkan subsidi pupuk dengan bantuan alsintan (traktor, combine harvester) kepada kelompok tani. Dari perspektif fungsi produksi Cobb-Douglas $Y = A \\cdot K^\\alpha \\cdot L^\\beta$, bantuan alsintan meningkatkan komponen:",
+                "question": "Pemerintah menggabungkan subsidi pupuk dengan bantuan alsintan (traktor, combine harvester) kepada kelompok tani. Dari perspektif fungsi produksi Cobb-Douglas Y = A × K^α × L^β, bantuan alsintan meningkatkan komponen:",
                 "options": [
                     "Tingkat suku bunga simpanan perbankan yang ditanggung oleh petani di pedesaan",
                     "Stok Kapital Fisik Pertanian (K) dan Efisiensi Teknologi (A), melipatgandakan produktivitas gabah per hektar sawah",
@@ -1691,7 +1691,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Mesin traktor dan pemanen padi modern memangkas waktu panen dan melipatgandakan hasil gabah tanpa buang banyak bulir!",
-                "debrief": "Tepat! Peningkatan modal alat ($K$) dan mekanisasi ($A$) melipatgandakan <span class='econ-jargon' data-term='belanja_infrastruktur'>produktivitas sektor pertanian</span>, memperkuat ketahanan pangan dan menaikkan taraf hidup petani."
+                "debrief": "Tepat! Peningkatan modal alat (K) dan mekanisasi (A) melipatgandakan <span class='econ-jargon' data-term='belanja_infrastruktur'>produktivitas sektor pertanian</span>, memperkuat ketahanan pangan dan menaikkan taraf hidup petani."
             },
             {
                 "id": "s3_q33",
@@ -1812,7 +1812,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Bila belanja barang impor lebih besar dari ekspor, kekurangannya harus ditambal oleh aliran modal asing (FDI & investasi modal) yang masuk!",
-                "debrief": "Tepat! Keseimbangan dasar: $Current\\ Account + Financial\\ Account = \\Delta Reserves$. Aliran masuk modal asing (<span class='econ-jargon' data-term='neraca_pembayaran'>Capital Inflow</span>) menjadi penyangga penutup defisit transaksi berjalan."
+                "debrief": "Tepat! Keseimbangan dasar: Current Account + Financial Account = ΔReserves. Aliran masuk modal asing (<span class='econ-jargon' data-term='neraca_pembayaran'>Capital Inflow</span>) menjadi penyangga penutup defisit transaksi berjalan."
             },
             {
                 "id": "s4_q4",
