@@ -92,49 +92,49 @@
         <section class="kpi-ribbon">
             <!-- PDB Riil / Pertumbuhan -->
             <div class="kpi-card kpi-cyan">
-                <div class="kpi-label"><span>📈</span> Pertumbuhan PDB</div>
+                <div class="kpi-label econ-jargon" data-term="pdb_riil" title="Klik untuk penjelasan Teori Pertumbuhan PDB Riil"><span>📈</span> Pertumbuhan PDB</div>
                 <div id="kpiGdpGrowth" class="kpi-val">5.05%</div>
                 <div id="kpiOutputGap" class="kpi-sub">Output Gap: -0.15% (Stabil)</div>
             </div>
 
             <!-- Inflasi IHK -->
             <div class="kpi-card kpi-gold">
-                <div class="kpi-label"><span>🏷️</span> Inflasi IHK (YoY)</div>
+                <div class="kpi-label econ-jargon" data-term="inflasi_ihk" title="Klik untuk penjelasan Teori Inflasi IHK"><span>🏷️</span> Inflasi IHK (YoY)</div>
                 <div id="kpiInflation" class="kpi-val">2.80%</div>
                 <div id="kpiCoreInflation" class="kpi-sub">Target BI: 2.5% ± 1%</div>
             </div>
 
             <!-- Pengangguran (Okun's Law) -->
             <div class="kpi-card kpi-green">
-                <div class="kpi-label"><span>👷</span> Pengangguran Terbuka</div>
+                <div class="kpi-label econ-jargon" data-term="hukum_okun" title="Klik untuk penjelasan Teori Pengangguran & Hukum Okun"><span>👷</span> Pengangguran Terbuka</div>
                 <div id="kpiUnemployment" class="kpi-val">5.40%</div>
                 <div id="kpiNairu" class="kpi-sub">NAIRU Alami: 5.0%</div>
             </div>
 
             <!-- Defisit APBN (Batas 3%) -->
             <div class="kpi-card kpi-purple" id="cardDeficit">
-                <div class="kpi-label"><span>🏛️</span> Defisit APBN / PDB</div>
+                <div class="kpi-label econ-jargon" data-term="defisit_apbn" title="Klik untuk penjelasan Teori Batas Defisit APBN 3%"><span>🏛️</span> Defisit APBN / PDB</div>
                 <div id="kpiDeficit" class="kpi-val">2.40%</div>
                 <div id="kpiDeficitLimit" class="kpi-sub">Batas UU: Max 3.0% PDB</div>
             </div>
 
             <!-- Rasio Utang / PDB (Batas 60%) -->
             <div class="kpi-card kpi-purple" id="cardDebt">
-                <div class="kpi-label"><span>📜</span> Rasio Utang Negara</div>
+                <div class="kpi-label econ-jargon" data-term="rasio_utang_negara" title="Klik untuk penjelasan Teori Batas Utang Negara 60%"><span>📜</span> Rasio Utang Negara</div>
                 <div id="kpiDebt" class="kpi-val">39.07%</div>
                 <div id="kpiDebtLimit" class="kpi-sub">Batas UU: Max 60.0% PDB</div>
             </div>
 
             <!-- Kurs Rupiah terhadap USD -->
             <div class="kpi-card kpi-cyan">
-                <div class="kpi-label"><span>💵</span> Kurs USD / IDR</div>
+                <div class="kpi-label econ-jargon" data-term="kurs_valas" title="Klik untuk penjelasan Teori Penentuan Nilai Tukar Valas"><span>💵</span> Kurs USD / IDR</div>
                 <div id="kpiFx" class="kpi-val">Rp 15.650</div>
                 <div id="kpiFxDiff" class="kpi-sub">Selisih BI vs Fed: +0.75%</div>
             </div>
 
             <!-- Cadangan Devisa -->
             <div class="kpi-card kpi-green">
-                <div class="kpi-label"><span>🛡️</span> Cadangan Devisa</div>
+                <div class="kpi-label econ-jargon" data-term="cadangan_devisa" title="Klik untuk penjelasan Teori Bantalan Cadangan Devisa"><span>🛡️</span> Cadangan Devisa</div>
                 <div id="kpiReserves" class="kpi-val">$140.5 B</div>
                 <div class="kpi-sub">Bantalan Impor & Valas</div>
             </div>
@@ -1519,9 +1519,9 @@
     <script src="macro_theory.js?v=2.4"></script>
     <script src="macro_audio.js?v=2.4"></script>
     <script src="macro_engine.js?v=2.4"></script>
-    <script src="macro_jargon.js?v=2.8"></script>
+    <script src="macro_jargon.js?v=3.0"></script>
     <script src="macro_econ_games.js?v=2.4"></script>
-    <script src="macro_trivia.js?v=2.8"></script>
+    <script src="macro_trivia.js?v=3.0"></script>
     <script>
         /**
          * ======================================================================
@@ -3293,7 +3293,7 @@
                     const q = trivia.getCurrentQuestion();
                     const stage = trivia.getCurrentStage();
 
-                    if (scenarioPill) scenarioPill.innerHTML = `<span>${stage.theme === 'market' ? '🛒' : (stage.theme === 'central_bank' ? '🏦' : (stage.theme === 'fiscal' ? '🏛️' : (stage.theme === 'foreign_exchange' ? '🚢' : '🌪️')))}</span> ${q.scenario}`;
+                    if (scenarioPill) scenarioPill.innerHTML = `<span>${stage.theme === 'market' ? '🛒' : (stage.theme === 'central_bank' ? '🏦' : (stage.theme === 'fiscal' ? '🏛️' : (stage.theme === 'foreign_exchange' ? '🚢' : '🌪️')))}</span> ${q.scenario} ${q.theoryKey ? `<button type="button" class="econ-jargon trivia-q-theory-btn" data-term="${q.theoryKey}" title="Pelajari Teori Makroekonomi Terkait">ℹ️ Info Teori</button>` : ''}`;
                     if (questionBox) questionBox.textContent = q.question;
                     if (progressText) progressText.textContent = `Soal ${trivia.currentQuestionIdx + 1} / ${stage.questions.length}`;
 
@@ -3395,7 +3395,14 @@
                                 if (debriefIcon) debriefIcon.textContent = '💡';
                                 if (debriefTitle) debriefTitle.textContent = 'Kurang Tepat, Tapi Jangan Khawatir!';
                             }
-                            if (debriefText) debriefText.innerHTML = res.debrief;
+                            const theoryBadgeHTML = (res.theoryKey && res.theoryTitle) ? `
+                                <div class="trivia-theory-badge-row">
+                                    <button type="button" class="econ-jargon trivia-theory-btn" data-term="${res.theoryKey}">
+                                        📘 Konsep Teori: ${res.theoryTitle}
+                                    </button>
+                                </div>
+                            ` : '';
+                            if (debriefText) debriefText.innerHTML = theoryBadgeHTML + res.debrief;
 
                             if (btnTriviaNext) {
                                 if (res.isStageFinished) {

@@ -13,6 +13,8 @@ const MACRO_TRIVIA_STAGES = [
         "questionPool": [
             {
                 "id": "s1_q1",
+                "theoryKey": "demand_pull_inflation",
+                "theoryTitle": "Inflasi Tarikan Permintaan (Demand-Pull)",
                 "scenario": "🏪 Bu Tejo di Pasar Tradisional",
                 "question": "Menjelang hari raya, harga cabai, beras, dan daging sapi serempak naik tajam di berbagai pasar. Dari kacamata ekonomi makro, mekanisme utama apakah yang memicu kenaikan harga tersebut?",
                 "options": [
@@ -27,6 +29,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q2",
+                "theoryKey": "teori_kuantitas_uang",
+                "theoryTitle": "Teori Kuantitas Uang (M x V = P x Y)",
                 "scenario": "💸 Kebijakan Moneter & Kapasitas Riil",
                 "question": "Mengapa bank sentral tidak boleh mencetak uang kartal dalam jumlah berlipat ganda untuk melunasi seluruh utang negara dan dibagikan secara gratis kepada warga?",
                 "options": [
@@ -41,6 +45,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q3",
+                "theoryKey": "cost_push_inflation",
+                "theoryTitle": "Inflasi Dorongan Biaya (Cost-Push)",
                 "scenario": "⛽ Kenaikan BBM Bersubsidi",
                 "question": "Ketika pemerintah menaikkan harga solar dan bensin subsidi, tarif angkutan umum dan harga sembako di warung-warung langsung terkerek naik. Fenomena inflasi ini dikategorikan sebagai:",
                 "options": [
@@ -55,6 +61,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q4",
+                "theoryKey": "pdb_riil",
+                "theoryTitle": "PDB Riil vs Nominal & Deflator",
                 "scenario": "📊 Mengukur PDB Riil vs Nominal",
                 "question": "Jika Produk Domestik Bruto (PDB) nominal suatu negara naik 10% dalam setahun, tetapi inflasi pada tahun yang sama mencapai 8%, berapakah taksiran pertumbuhan PDB riil negara tersebut?",
                 "options": [
@@ -69,6 +77,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q5",
+                "theoryKey": "keseimbangan_ad_as",
+                "theoryTitle": "Komponen Investasi (I) & Agregat Demand",
                 "scenario": "🛍️ Komponen Formula PDB Nasional",
                 "question": "Dalam persamaan identitas Produk Domestik Bruto pendekatan pengeluaran: $Y = C + I + G + (X - M)$, komponen apakah yang mencerminkan belanja mesin pabrik baru dan pembangunan gudang oleh dunia usaha?",
                 "options": [
@@ -83,6 +93,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q6",
+                "theoryKey": "mpc_konsumsi",
+                "theoryTitle": "Marginal Propensity to Consume (MPC)",
                 "scenario": "🛒 Tulang Punggung Ekonomi Indonesia",
                 "question": "Secara struktur statistik, lebih dari 53% Produk Domestik Bruto Indonesia disokong oleh Konsumsi Rumah Tangga (C). Mengapa menjaga daya beli masyarakat kelas menengah-bawah menjadi prioritas tertinggi teknokrat makro?",
                 "options": [
@@ -93,10 +105,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Bagi orang berpenghasilan pas-pasan, setiap tambahan rupiah langsung dibelanjakan untuk makanan dan kebutuhan harian, menggerakkan roda ekonomi warung!",
-                "debrief": "Sangat jitu! Kelompok menengah-bawah memiliki nilai <em>MPC</em> mendekati 1. Setiap bantuan atau stabilitas harga beras menjaga konsumsi mereka tetap berputar di sektor riil, menopang lebih dari separuh pertumbuhan PDB nasional!"
+                "debrief": "Sangat jitu! Kelompok menengah-bawah memiliki nilai <em><span class='econ-jargon' data-term='mpc_konsumsi'>MPC</span></em> mendekati 1. Setiap bantuan atau stabilitas harga beras menjaga konsumsi mereka tetap berputar di sektor riil, menopang lebih dari separuh pertumbuhan PDB nasional!"
             },
             {
                 "id": "s1_q7",
+                "theoryKey": "multiplier_effect",
+                "theoryTitle": "Angka Pengganda (Multiplier Effect)",
                 "scenario": "💰 Marginal Propensity to Consume (MPC)",
                 "question": "Jika seseorang menerima kenaikan upah sebesar Rp 1.000.000 dan memutuskan untuk membelanjakan Rp 800.000 serta menabung Rp 200.000, berapakah nilai Marginal Propensity to Consume (MPC)-nya?",
                 "options": [
@@ -111,6 +125,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q8",
+                "theoryKey": "output_potensial",
+                "theoryTitle": "Output Potensial & Batas Kapasitas Perekonomian",
                 "scenario": "🏭 Batas Kapasitas Produksi Nasional (Y*)",
                 "question": "Apa yang terjadi pada perekonomian jika permintaan agregat (AD) terus dipacu melampaui kapasitas produksi potensial nasional ($Y^*$) saat pabrik-pabrik sudah beroperasi 100% dan pekerja sudah lembur penuh?",
                 "options": [
@@ -125,6 +141,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q9",
+                "theoryKey": "keseimbangan_ad_as",
+                "theoryTitle": "Guncangan Penawaran Positif (Positive Supply Shock)",
                 "scenario": "🌾 Panen Raya & Penurunan Harga Pangan",
                 "question": "Saat panen raya serentak di Jawa dan Sulawesi, harga gabah dan beras di tingkat petani anjlok tajam. Dari analisis kurva AD-AS, pergeseran apakah yang sedang terjadi?",
                 "options": [
@@ -139,6 +157,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q10",
+                "theoryKey": "distorsi_pasar",
+                "theoryTitle": "Distorsi Pasar & Spekulasi Penimbunan",
                 "scenario": "📦 Penimbunan Barang & Distorsi Pasar",
                 "question": "Di tengah isu kelangkaan minyak goreng, sebagian pedagang besar menahan stok di gudang demi menjualnya dengan harga dua kali lipat pekan depan. Mengapa tindakan spekulasi ini merusak mekanisme pasar makro?",
                 "options": [
@@ -149,10 +169,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Menyembunyikan barang dari pasar membuat barang langka dan memaksa pembeli membayar harga selangit!",
-                "debrief": "Tepat! Spekulasi penimbunan menahan pasokan fisik beredar, menciptakan kelangkaan semu yang memeras daya beli rakyat. Di sinilah Satgas Pangan dan kebijakan operasi pasar murah pemerintah turun tangan."
+                "debrief": "Tepat! Spekulasi penimbunan menahan pasokan fisik beredar, menciptakan kelangkaan semu yang memeras daya beli rakyat. Di sinilah Satgas Pangan dan kebijakan operasi pasar murah pemerintah turun tangan. <span class='econ-jargon' data-term='distorsi_pasar'>Distorsi Pasar & Spekulasi Penimbunan</span>"
             },
             {
                 "id": "s1_q11",
+                "theoryKey": "inflasi_ihk",
+                "theoryTitle": "Inflasi Inti (Core Inflation)",
                 "scenario": "📉 Inflasi Inti vs Inflasi Bergejolak",
                 "question": "Bank Indonesia membagi inflasi IHK menjadi Inflasi Inti (Core), Inflasi Harga Diatur (Administered), dan Inflasi Bergejolak (Volatile). Manakah komponen yang mencerminkan murni tren fundamental permintaan-penawaran jangka panjang tanpa gangguan cuaca?",
                 "options": [
@@ -167,6 +189,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q12",
+                "theoryKey": "efek_substitusi",
+                "theoryTitle": "Efek Substitusi & Perilaku Konsumen",
                 "scenario": "🍞 Efek Substitusi Konsumen",
                 "question": "Ketika harga daging sapi melonjak drastis, ibu rumah tangga beralih membeli daging ayam, ikan lele, dan telur sebagai lauk keluarga. Dalam ekonomi makro, perilaku ini mencerminkan:",
                 "options": [
@@ -177,10 +201,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Mengganti barang mahal dengan alternatif yang fungsinya mirip untuk menghemat uang belanja!",
-                "debrief": "Tepat! Efek substitusi adalah mekanisme pertahanan alami rumah tangga untuk menjaga kecukupan konsumsi riil saat salah satu komoditas mengalami lonjakan harga."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='efek_substitusi'>Efek substitusi</span> adalah mekanisme pertahanan alami rumah tangga untuk menjaga kecukupan konsumsi riil saat salah satu komoditas mengalami lonjakan harga."
             },
             {
                 "id": "s1_q13",
+                "theoryKey": "daya_beli",
+                "theoryTitle": "Upah Riil & Pengikisan Daya Beli",
                 "scenario": "💵 Gaji Naik tapi Daya Beli Turun",
                 "question": "Pak Joko mendapat kenaikan gaji dari kantornya sebesar 5% tahun ini. Namun, tingkat inflasi tahunan di kotanya tercatat sebesar 7%. Apakah yang sebenarnya terjadi pada upah riil Pak Joko?",
                 "options": [
@@ -195,6 +221,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q14",
+                "theoryKey": "biaya_logistik",
+                "theoryTitle": "Konektivitas Logistik & Integrasi Pasar",
                 "scenario": "🚚 Rantai Pasok Logistik Antar-Pulau",
                 "question": "Indonesia adalah negara kepulauan. Mengapa disparitas harga cabai atau semen antara pulau Jawa dan pulau terluar (seperti Papua) bisa sangat tinggi padahal uang yang digunakan sama-sama Rupiah?",
                 "options": [
@@ -205,10 +233,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Membawa barang menyeberangi lautan butuh kapal kargo, bahan bakar, dan waktu tempuh yang memakan biaya!",
-                "debrief": "Benar! Konektivitas maritim dan tol laut adalah kunci integrasi pasar nasional. Biaya logistik yang mahal menggeser kurva penawaran lokal ke kiri, melipatgandakan harga barang di wilayah terluar."
+                "debrief": "Benar! <span class='econ-jargon' data-term='biaya_logistik'>Konektivitas maritim dan tol laut</span> adalah kunci integrasi pasar nasional. Biaya logistik yang mahal menggeser kurva penawaran lokal ke kiri, melipatgandakan harga barang di wilayah terluar."
             },
             {
                 "id": "s1_q15",
+                "theoryKey": "hukum_engel",
+                "theoryTitle": "Hukum Engel (Engel's Law)",
                 "scenario": "⚖️ Hukum Engel & Pengeluaran Pangan",
                 "question": "Menurut Hukum Engel (Engel's Law) dalam teori konsumsi, apa yang terjadi pada proporsi pengeluaran untuk makanan ketika pendapatan suatu keluarga meningkat pesat?",
                 "options": [
@@ -219,10 +249,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Orang kaya makan makanan enak, tetapi perut mereka punya batas kenyang; sisa kekayaannya lari ke investasi, gadget, dan liburan!",
-                "debrief": "Luar biasa! Hukum Engel membuktikan bahwa seiring naiknya kemakmuran, porsi belanja pangan dalam total anggaran keluarga menyusut, dialihkan ke barang tersier dan investasi."
+                "debrief": "Luar biasa! <span class='econ-jargon' data-term='hukum_engel'>Hukum Engel</span> membuktikan bahwa seiring naiknya kemakmuran, porsi belanja pangan dalam total anggaran keluarga menyusut, dialihkan ke barang tersier dan investasi."
             },
             {
                 "id": "s1_q16",
+                "theoryKey": "teori_kuantitas_uang",
+                "theoryTitle": "Kecepatan Perputaran Uang (Velocity)",
                 "scenario": "🛒 QRIS & Perputaran Uang Harian",
                 "question": "Dalam persamaan kuantitas uang $M \\cdot V = P \\cdot Y$, adopsi massal pembayaran digital seperti QRIS di warung-warung dan UMKM secara teoritis berdampak pada variabel apa?",
                 "options": [
@@ -237,6 +269,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q17",
+                "theoryKey": "tabungan_investasi",
+                "theoryTitle": "Identitas Tabungan & Investasi Makro (S = I)",
                 "scenario": "🏘️ Tabungan Nasional & Investasi",
                 "question": "Dalam perekonomian tertutup tanpa perdagangan luar negeri, keseimbangan pasar dana pinjaman (Loanable Funds) menyatakan bahwa total Investasi riil (I) harus didanai oleh:",
                 "options": [
@@ -247,10 +281,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Untuk membangun pabrik atau jembatan, harus ada dana tabungan yang dihimpun dari masyarakat dan surplus anggaran negara!",
-                "debrief": "Tepat! Identitas makro dasar: $S = I$. Investasi fisik membutuhkan penundaan konsumsi saat ini (Tabungan) untuk diubah menjadi modal produktif yang menghasilkan di masa depan."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='tabungan_investasi'>Identitas makro dasar: $S = I$</span>. Investasi fisik membutuhkan penundaan konsumsi saat ini (Tabungan) untuk diubah menjadi modal produktif yang menghasilkan di masa depan."
             },
             {
                 "id": "s1_q18",
+                "theoryKey": "inflasi_ihk",
+                "theoryTitle": "Indeks Harga Konsumen (IHK)",
                 "scenario": "📈 Indeks Harga Konsumen (IHK)",
                 "question": "Bagaimanakah Badan Pusat Statistik (BPS) menghitung laju inflasi bulanan dan tahunan di Indonesia?",
                 "options": [
@@ -265,6 +301,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q19",
+                "theoryKey": "ilusi_uang",
+                "theoryTitle": "Ilusi Uang (Money Illusion)",
                 "scenario": "⚠️ Ilusi Uang (Money Illusion)",
                 "question": "Seorang buruh merasa dirinya jauh lebih kaya karena upahnya naik 10%, padahal di saat bersamaan harga seluruh barang di pasar naik 15%. Buruh tersebut sedang mengalami fenomena psikologis ekonomi yang disebut:",
                 "options": [
@@ -275,10 +313,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Tertipu oleh angka nominal di slip gaji yang bertambah, tanpa menyadari tas belanjaannya justru makin kosong!",
-                "debrief": "Tepat! Ekonom Irving Fisher memperkenalkan konsep <em>Money Illusion</em>: manusia sering terpukau oleh angka nominal uang, lupa bahwa yang menentukan kesejahteraan adalah jumlah barang fisik yang bisa dibeli."
+                "debrief": "Tepat! Ekonom Irving Fisher memperkenalkan konsep <em><span class='econ-jargon' data-term='ilusi_uang'>Money Illusion</span></em>: manusia sering terpukau oleh angka nominal uang, lupa bahwa yang menentukan kesejahteraan adalah jumlah barang fisik yang bisa dibeli."
             },
             {
                 "id": "s1_q20",
+                "theoryKey": "transmisi_moneter",
+                "theoryTitle": "Biaya Modal (Cost of Capital) & Investasi",
                 "scenario": "🏗️ Investasi Swasta & Suku Bunga",
                 "question": "Jika bank sentral menaikkan suku bunga acuan secara signifikan, bagaimana pengaruh langsungnya terhadap rencana pengusaha membuka cabang toko atau pabrik baru (Investasi / I)?",
                 "options": [
@@ -293,6 +333,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q21",
+                "theoryKey": "barang_inferior",
+                "theoryTitle": "Barang Inferior & Elastisitas Pendapatan",
                 "scenario": "🥛 Barang Inferior di Masa Sulit",
                 "question": "Ketika terjadi resesi dan pendapatan riil masyarakat menurun, penjualan ikan sarden kalengan dan mi instan justru melonjak tajam. Dalam klasifikasi ekonomi mikro-makro, barang-barang tersebut digolongkan sebagai:",
                 "options": [
@@ -303,10 +345,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Saat kantong menipis, orang beralih dari makan di restoran steak mewah ke mi instan dan makanan kaleng murah!",
-                "debrief": "Tepat sekali! Barang inferior memiliki elastisitas pendapatan negatif. Saat resesi melanda, konsumen menurunkan standar belanjanya ke komoditas murah yang mengenyangkan."
+                "debrief": "Tepat sekali! <span class='econ-jargon' data-term='barang_inferior'>Barang inferior</span> memiliki elastisitas pendapatan negatif. Saat resesi melanda, konsumen menurunkan standar belanjanya ke komoditas murah yang mengenyangkan."
             },
             {
                 "id": "s1_q22",
+                "theoryKey": "monopoli_alami",
+                "theoryTitle": "Monopoli Alami & Skala Ekonomi",
                 "scenario": "🛡️ Pasar Monopoli Alami & Tarif PLN",
                 "question": "Mengapa tarif listrik untuk rumah tangga dan industri tidak diserahkan pada mekanisme pasar bebas multi-operator, melainkan diatur tunggal oleh PT PLN dengan persetujuan pemerintah?",
                 "options": [
@@ -321,6 +365,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q23",
+                "theoryKey": "eksternalitas_negatif",
+                "theoryTitle": "Kegagalan Pasar & Eksternalitas Negatif",
                 "scenario": "🍎 Kegagalan Pasar (Market Failure) & Eksternalitas",
                 "question": "Sebuah pabrik tapioka membuang limbah cair ke sungai desa tanpa pengolahan, mencemari air minum dan mematikan kolam ikan warga sekitar. Dalam analisis ekonomi, fenomena ini disebut:",
                 "options": [
@@ -331,10 +377,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Pabrik yang untung dapat uang, tetapi warga yang rugi menanggung bau busuk dan penyakit tanpa kompensasi!",
-                "debrief": "Benar! Polusi adalah contoh klasik eksternalitas negatif. Mekanisme pasar bebas gagal memperhitungkan biaya lingkungan, sehingga pemerintah wajib mengenakan pajak polusi atau denda Amdal."
+                "debrief": "Benar! Polusi adalah contoh klasik <span class='econ-jargon' data-term='eksternalitas_negatif'>eksternalitas negatif</span>. Mekanisme pasar bebas gagal memperhitungkan biaya lingkungan, sehingga pemerintah wajib mengenakan pajak polusi atau denda Amdal."
             },
             {
                 "id": "s1_q24",
+                "theoryKey": "keseimbangan_ad_as",
+                "theoryTitle": "Paradox of Thrift (John Maynard Keynes)",
                 "scenario": "📉 Paradoks Berhemat (Paradox of Thrift)",
                 "question": "Jika seluruh warga negara secara serentak memutuskan untuk memangkas belanja konsumsi dan menabung 90% dari pendapatannya saat ancaman resesi tiba, apa yang akan terjadi pada PDB nasional menurut teori Keynesian?",
                 "options": [
@@ -349,6 +397,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q25",
+                "theoryKey": "buffer_stock",
+                "theoryTitle": "Buffer Stock & Stabilisasi Pasokan Pangan",
                 "scenario": "🌾 Operasi Pasar Bulog & Stabilisasi Harga",
                 "question": "Menjelang panen yang tertunda akibat kekeringan, Perum Bulog menggelar Operasi Pasar Murah dengan menjual beras cadangan pemerintah (CBP) langsung ke konsumen. Dari sisi kurva pasar, tindakan ini bertujuan untuk:",
                 "options": [
@@ -359,10 +409,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Mengguyur pasar dengan beras stok gudang agar barang melimpah dan harga tidak melambung liar!",
-                "debrief": "Tepat! Bulog bertindak sebagai <em>Stabilizer</em> pasokan pangan. Guyuran pasokan fisik meredam kepanikan pasar dan menggeser penawaran ke kanan, menjaga stabilitas harga pangan pokok."
+                "debrief": "Tepat! Bulog bertindak sebagai <em><span class='econ-jargon' data-term='buffer_stock'>Stabilizer</span></em> pasokan pangan. Guyuran pasokan fisik meredam kepanikan pasar dan menggeser penawaran ke kanan, menjaga stabilitas harga pangan pokok."
             },
             {
                 "id": "s1_q26",
+                "theoryKey": "indeks_keyakinan_konsumen",
+                "theoryTitle": "Indeks Keyakinan Konsumen (IKK)",
                 "scenario": "📊 Indeks Keyakinan Konsumen (IKK)",
                 "question": "Bank Indonesia rutin merilis Indeks Keyakinan Konsumen (IKK). Jika angka IKK berada di atas level 100 (misalnya 124,5), apakah arti ekonomi dari data tersebut?",
                 "options": [
@@ -373,10 +425,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Angka di atas 100 berarti kelompok yang optimis jauh lebih banyak daripada kelompok yang pesimis!",
-                "debrief": "Tepat! Angka 100 adalah garis batas netral. IKK > 100 mengindikasikan optimisme konsumen, yang menjadi sinyal kuat bahwa motor konsumsi rumah tangga ($C$) akan terus berputar kencang."
+                "debrief": "Tepat! Angka 100 adalah garis batas netral. IKK > 100 mengindikasikan optimisme konsumen, yang menjadi sinyal kuat bahwa motor konsumsi rumah tangga ($C$) akan terus berputar kencang. <span class='econ-jargon' data-term='indeks_keyakinan_konsumen'>Indeks Keyakinan Konsumen (IKK)</span>"
             },
             {
                 "id": "s1_q27",
+                "theoryKey": "barang_publik",
+                "theoryTitle": "Barang Publik (Non-Rival & Non-Excludable)",
                 "scenario": "🏛️ Barang Publik (Public Goods) & Jalan Raya",
                 "question": "Mengapa jalan raya nasional, lampu penerangan jalan, dan mercusuar di laut digolongkan sebagai Barang Publik murni?",
                 "options": [
@@ -387,10 +441,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Satu kapal melihat cahaya mercusuar tidak membuat kapal lain kehilangan cahaya, dan tidak bisa dipungut karcis di tengah laut!",
-                "debrief": "Benar! Dua sifat utama barang publik: <em>Non-Rival</em> dan <em>Non-Excludable</em>. Karena pasar swasta tidak bisa menarik untung langsung, barang publik harus dibiayai oleh pajak negara melalui APBN."
+                "debrief": "Benar! Dua sifat utama <span class='econ-jargon' data-term='barang_publik'>barang publik</span>: <em>Non-Rival</em> dan <em>Non-Excludable</em>. Karena pasar swasta tidak bisa menarik untung langsung, barang publik harus dibiayai oleh pajak negara melalui APBN."
             },
             {
                 "id": "s1_q28",
+                "theoryKey": "elastisitas_permintaan",
+                "theoryTitle": "Elastisitas Harga Permintaan Inelastis",
                 "scenario": "📈 Elastisitas Permintaan Beras",
                 "question": "Beras di Indonesia merupakan makanan pokok utama dengan elastisitas harga permintaan yang inelastis ($|E_d| < 1$). Apa artinya hal ini bagi anggaran belanja keluarga ketika harga beras naik 20%?",
                 "options": [
@@ -401,10 +457,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Orang Indonesia merasa 'belum makan kalau belum makan nasi', jadi harga beras naik pun tetap harus dibeli!",
-                "debrief": "Tepat! Permintaan inelastis berarti persentase penurunan jumlah yang dibeli jauh lebih kecil dibanding persentase kenaikan harga. Inilah mengapa inflasi beras sangat memukul daya beli rakyat miskin."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='elastisitas_permintaan'>Permintaan inelastis</span> berarti persentase penurunan jumlah yang dibeli jauh lebih kecil dibanding persentase kenaikan harga. Inilah mengapa inflasi beras sangat memukul daya beli rakyat miskin."
             },
             {
                 "id": "s1_q29",
+                "theoryKey": "rasio_gini",
+                "theoryTitle": "Rasio Gini & Kesenjangan Distribusi Pendapatan",
                 "scenario": "👥 Rasio Gini & Ketimpangan Pengeluaran",
                 "question": "Badan Pusat Statistik (BPS) merilis angka Rasio Gini (Gini Coefficient) Indonesia sebesar 0,381. Apakah makna dari koefisien Gini dalam kacamata pembangunan ekonomi makro?",
                 "options": [
@@ -419,6 +477,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q30",
+                "theoryKey": "sektor_informal",
+                "theoryTitle": "Sektor Informal sebagai Bantalan Sosial (Safety Net)",
                 "scenario": "🏪 Sektor Informal & Bantalan Sosial",
                 "question": "Di Indonesia, lebih dari 59% tenaga kerja bekerja di sektor informal (pedagang kaki lima, warung kelontong, ojek daring). Apa fungsi makro terpenting dari sektor informal saat ekonomi formal dilanda krisis PHK massal?",
                 "options": [
@@ -429,10 +489,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Saat pabrik garmen tutup dan merumahkan ribuan buruh, mereka membuka warung kopi atau jualan gorengan agar dapur tetap ngebul!",
-                "debrief": "Luar biasa! Sektor informal adalah <em>Safety Net</em> alami bangsa. Kelenturannya menyerap limpahan tenaga kerja korban PHK pabrik formal menjaga stabilitas sosial dan perputaran konsumsi di tingkat akar rumput."
+                "debrief": "Luar biasa! <span class='econ-jargon' data-term='sektor_informal'>Sektor informal</span> adalah <em>Safety Net</em> alami bangsa. Kelenturannya menyerap limpahan tenaga kerja korban PHK pabrik formal menjaga stabilitas sosial dan perputaran konsumsi di tingkat akar rumput."
             },
             {
                 "id": "s1_q31",
+                "theoryKey": "menu_costs",
+                "theoryTitle": "Biaya Menu (Menu Costs) & Kekakuan Harga",
                 "scenario": "💡 Biaya Menu (Menu Costs) & Friksi Harga",
                 "question": "Mengapa pedagang warteg atau kedai kopi tidak menaikkan harga secangkir kopi setiap jam saat harga gula di pasar berfluktuasi naik-turun beberapa rupiah?",
                 "options": [
@@ -443,10 +505,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Mengganti spanduk daftar menu dan menjelaskan harga baru ke pelanggan setiap hari itu merepotkan dan bisa bikin pembeli kabur!",
-                "debrief": "Tepat! Teori Keynesian Baru menjelaskan kekakuan harga (Price Stickiness) salah satunya melalui <em>Menu Costs</em>. Biaya administrasi dan reputasi membuat pengusaha menahan penyesuaian harga hingga ambang batas tertentu."
+                "debrief": "Tepat! Teori Keynesian Baru menjelaskan kekakuan harga (Price Stickiness) salah satunya melalui <em><span class='econ-jargon' data-term='menu_costs'>Menu Costs</span></em>. Biaya administrasi dan reputasi membuat pengusaha menahan penyesuaian harga hingga ambang batas tertentu."
             },
             {
                 "id": "s1_q32",
+                "theoryKey": "supply_shock_elnino",
+                "theoryTitle": "Guncangan Penawaran Pertanian & Anomali El Nino",
                 "scenario": "🌧️ Fenomena El Nino & Siklus Pangan",
                 "question": "Anomali cuaca El Nino ekstrem yang memicu kemarau panjang berkepanjangan di Asia Tenggara berdampak pada perekonomian makro melalui jalur:",
                 "options": [
@@ -457,10 +521,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Kemarau panjang membakar sawah, panen gagal, gabah langka di pasar, harga beras melonjak tinggi!",
-                "debrief": "Benar! El Nino adalah guncangan pasokan fisik riil. Dalam jangka pendek, ini mendorong kurva AS ke kiri, memicu inflasi pangan yang harus diantisipasi pemerintah melalui manajemen cadangan pangan."
+                "debrief": "Benar! <span class='econ-jargon' data-term='supply_shock_elnino'>El Nino</span> adalah guncangan pasokan fisik riil. Dalam jangka pendek, ini mendorong kurva AS ke kiri, memicu inflasi pangan yang harus diantisipasi pemerintah melalui manajemen cadangan pangan."
             },
             {
                 "id": "s1_q33",
+                "theoryKey": "kebijakan_penawaran",
+                "theoryTitle": "Kebijakan Sisi Penawaran (Supply-Side Policy)",
                 "scenario": "🌾 Subsidi Pupuk & Kurva Penawaran",
                 "question": "Pemerintah mengucurkan subsidi pupuk kimia dan bibit unggul kepada jutaan petani padi di pedesaan. Bagaimana dampak fiskal ini terhadap kurva penawaran agregat pangan nasional?",
                 "options": [
@@ -471,10 +537,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Bantuan pupuk murah memangkas ongkos tanam petani, membuat hasil panen lebih melimpah dan harga jual lebih bersahabat!",
-                "debrief": "Tepat sekali! Subsidi input produksi bekerja langsung pada sisi penawaran (Supply-Side Policy). Penurunan ongkos produksi menggeser kurva penawaran ke kanan, meningkatkan output panen sekaligus menekan inflasi."
+                "debrief": "Tepat sekali! Subsidi input produksi bekerja langsung pada sisi penawaran (<span class='econ-jargon' data-term='kebijakan_penawaran'>Supply-Side Policy</span>). Penurunan ongkos produksi menggeser kurva penawaran ke kanan, meningkatkan output panen sekaligus menekan inflasi."
             },
             {
                 "id": "s1_q34",
+                "theoryKey": "rasio_gini",
+                "theoryTitle": "PDB per Kapita vs Indeks Kesejahteraan Alternatif",
                 "scenario": "📈 PDB Per Kapita vs Kesejahteraan Nyata",
                 "question": "PDB per kapita Indonesia mencapai sekitar US$ 4.900 per tahun. Mengapa angka rata-rata matematis ini tidak serta-merta mencerminkan bahwa setiap individu warga negara menikmati penghasilan setara nilai tersebut?",
                 "options": [
@@ -489,6 +557,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s1_q35",
+                "theoryKey": "inklusi_keuangan",
+                "theoryTitle": "Inklusi Keuangan & Intermediasi Perbankan",
                 "scenario": "🏦 Inklusi Keuangan & Tabungan Formal",
                 "question": "Pemerintah gencar mendorong program inklusi keuangan, seperti pembukaan rekening bank bagi pelajar dan agen bank laku pandai di pelosok desa. Dari kacamata intermediasi makro, apa manfaat utamanya?",
                 "options": [
@@ -499,10 +569,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Uang receh yang mengendap di kaleng biskuit disatukan ke bank, menjadi triliunan rupiah modal kerja bagi pembangunan pabrik dan usaha rakyat!",
-                "debrief": "Tepat! Inklusi keuangan mengubah <em>Dead Capital</em> menjadi modal aktif. Dana masyarakat yang terhimpun di bank memperbesar kapasitas penyaluran kredit investasi ($I$) bagi perekonomian nasional."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='inklusi_keuangan'>Inklusi keuangan</span> mengubah <em>Dead Capital</em> menjadi modal aktif. Dana masyarakat yang terhimpun di bank memperbesar kapasitas penyaluran kredit investasi ($I$) bagi perekonomian nasional."
             },
             {
                 "id": "s1_q36",
+                "theoryKey": "kesejahteraan_sosial",
+                "theoryTitle": "Keseimbangan Makro & Kesejahteraan Rakyat",
                 "scenario": "👑 Sasaran Pamungkas Keseimbangan Makro",
                 "question": "Di akhir pembelajaran Level 1, apakah tujuan pamungkas dari upaya menjaga stabilitas harga (inflasi rendah) dan pertumbuhan Produk Domestik Bruto (PDB) yang berkelanjutan?",
                 "options": [
@@ -513,7 +585,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Ekonomi tumbuh bukan untuk angka statistik semata, melainkan agar dapur rakyat terus mengepul dan anak bangsa punya masa depan cerah!",
-                "debrief": "Luar biasa! Inilah esensi sejati ilmu ekonomi makro: bukan sekadar angka dan grafik di atas kertas, melainkan mandat moral untuk memakmurkan kehidupan seluruh rakyat Indonesia!"
+                "debrief": "Luar biasa! Inilah esensi sejati ilmu ekonomi makro: bukan sekadar angka dan grafik di atas kertas, melainkan mandat moral untuk memakmurkan kehidupan seluruh rakyat Indonesia! <span class='econ-jargon' data-term='kesejahteraan_sosial'>Keseimbangan Makro & Kesejahteraan Rakyat</span>"
             }
         ]
     },
@@ -526,6 +598,8 @@ const MACRO_TRIVIA_STAGES = [
         "questionPool": [
             {
                 "id": "s2_q1",
+                "theoryKey": "transmisi_moneter",
+                "theoryTitle": "Mandat Kestabilan Nilai Rupiah",
                 "scenario": "🎯 Mandat Tunggal Bank Indonesia",
                 "question": "Menurut Undang-Undang Bank Indonesia dan UU P2SK, apakah tujuan utama dan tunggal dari Bank Indonesia sebagai bank sentral Republik Indonesia?",
                 "options": [
@@ -540,6 +614,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q2",
+                "theoryKey": "transmisi_moneter",
+                "theoryTitle": "Jalur Transmisi Suku Bunga (Interest Rate Channel)",
                 "scenario": "🏦 Efek Kenaikan BI-Rate pada Tabungan",
                 "question": "Ketika Rapat Dewan Gubernur Bank Indonesia memutuskan menaikkan BI-Rate sebesar 50 basis poin (0,50%), bagaimana respon tipikal nasabah perbankan terhadap keputusan tersebut?",
                 "options": [
@@ -550,10 +626,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Bunga tabungan naik membuat orang lebih bersemangat menabung di bank ketimbang menghabiskan uang untuk foya-foya!",
-                "debrief": "Benar! Kenaikan suku bunga acuan menaikkan suku bunga simpanan/deposito. Ini meredam konsumsi agregat ($C$), mengerem laju peredaran uang, dan menstabilkan inflasi."
+                "debrief": "Benar! Kenaikan suku bunga acuan menaikkan suku bunga simpanan/deposito. Ini meredam konsumsi agregat ($C$), mengerem laju peredaran uang, dan menstabilkan inflasi. <span class='econ-jargon' data-term='transmisi_moneter'>Jalur Transmisi Suku Bunga (Interest Rate Channel)</span>"
             },
             {
                 "id": "s2_q3",
+                "theoryKey": "transmisi_moneter",
+                "theoryTitle": "Kebijakan Moneter Ekspansif & Pemulihan Resesi",
                 "scenario": "⚙️ Saluran Transmisi Suku Bunga",
                 "question": "Jelaskan urutan transmisi kebijakan moneter sejak Bank Indonesia menaikkan BI-Rate hingga terasa dampaknya pada penurunan inflasi di warung pasar tradisional!",
                 "options": [
@@ -568,6 +646,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q4",
+                "theoryKey": "perangkap_likuiditas",
+                "theoryTitle": "Perangkap Likuiditas (Liquidity Trap)",
                 "scenario": "📉 Menolong Resesi: Moneter Ekspansif",
                 "question": "Ketika perekonomian dilanda resesi berat dan banyak pabrik merumahkan pekerja, kebijakan moneter apakah yang seharusnya diambil oleh Bank Indonesia untuk memulihkan ekonomi?",
                 "options": [
@@ -582,6 +662,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q5",
+                "theoryKey": "transmisi_moneter",
+                "theoryTitle": "Selisih Suku Bunga (Interest Rate Differential)",
                 "scenario": "🪤 Perangkap Likuiditas (Liquidity Trap)",
                 "question": "Mengapa ketika suku bunga acuan sudah dipangkas hingga menyentuh angka 0% (Zero Lower Bound), kebijakan penurunan bunga lebih lanjut tidak lagi efektif memicu pinjaman baru?",
                 "options": [
@@ -596,6 +678,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q6",
+                "theoryKey": "gwm",
+                "theoryTitle": "Giro Wajib Minimum (GWM) Perbankan",
                 "scenario": "🌐 Selisih Suku Bunga & Kurs Rupiah",
                 "question": "Jika Bank Indonesia menaikkan BI-Rate saat suku bunga bank sentral Amerika Serikat (The Fed) tetap rendah, mengapa nilai tukar Rupiah cenderung menguat terhadap Dolar AS?",
                 "options": [
@@ -610,6 +694,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q7",
+                "theoryKey": "transmisi_moneter",
+                "theoryTitle": "Operasi Pasar Terbuka & Instrumen SRBI",
                 "scenario": "🏛️ Giro Wajib Minimum (GWM)",
                 "question": "Bank Indonesia menaikkan rasio Giro Wajib Minimum (GWM) perbankan dari 5% menjadi 9%. Apa dampak langsung instrumen kuantitatif ini terhadap kapasitas kredit bank umum?",
                 "options": [
@@ -624,6 +710,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q8",
+                "theoryKey": "lender_of_last_resort",
+                "theoryTitle": "Lender of Last Resort (Fasilitas Likuiditas Terakhir)",
                 "scenario": "🔄 Efek Pengganda Uang (Money Multiplier)",
                 "question": "Dalam sistem perbankan cadangan fraksional (Fractional Reserve Banking), jika rasio cadangan wajib perbankan adalah 10% (0,10), berapakah nilai pengganda uang (Money Multiplier) teoretis maksimum?",
                 "options": [
@@ -634,10 +722,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Bagi angka 1 dengan persentase rasio cadangan wajib perbankan!",
-                "debrief": "Tepat! Money Multiplier $m = \\frac{1}{rr}$. Dari Rp 1 juta uang primer yang disetor, sistem perbankan dapat menciptakan hingga Rp 10 juta uang beredar luas melalui siklus kredit dan simpanan berulang."
+                "debrief": "Tepat! Money Multiplier $m = \\frac{1}{rr}$. Dari Rp 1 juta uang primer yang disetor, sistem perbankan dapat menciptakan hingga Rp 10 juta uang beredar luas melalui siklus kredit dan simpanan berulang. <span class='econ-jargon' data-term='lender_of_last_resort'>Lender of Last Resort (Fasilitas Likuiditas Terakhir)</span>"
             },
             {
                 "id": "s2_q9",
+                "theoryKey": "itf",
+                "theoryTitle": "Inflation Targeting Framework (ITF)",
                 "scenario": "📜 Operasi Pasar Terbuka (SRBI)",
                 "question": "Bank Indonesia secara rutin menerbitkan instrumen Sekuritas Rupiah Bank Indonesia (SRBI) di pasar uang. Apa tujuan strategis BI menjual instrumen SRBI kepada perbankan dan investor global?",
                 "options": [
@@ -652,6 +742,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q10",
+                "theoryKey": "teori_kuantitas_uang",
+                "theoryTitle": "Agregat Moneter M1 vs M2 (Likuiditas Perekonomian)",
                 "scenario": "🏦 Fasilitas Diskonto (Lending Facility)",
                 "question": "Jika sebuah bank umum mengalami kesulitan likuiditas jangka sangat pendek pada akhir hari kerja (clearing mismatch), fasilitas apa yang disediakan BI untuk meminjamkan likuiditas darurat?",
                 "options": [
@@ -662,10 +754,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Fasilitas pinjaman semalam (overnight) dari bank sentral kepada bank yang butuh uang tunai darurat dengan jaminan obligasi!",
-                "debrief": "Tepat! <em>Lending Facility</em> (Fasilitas Diskonto) adalah salah satu pilar koridor suku bunga BI (Standing Facilities) untuk memastikan pasar uang antar-bank tetap likuid dan tertib."
+                "debrief": "Tepat! <em>Lending Facility</em> (Fasilitas Diskonto) adalah salah satu pilar koridor suku bunga BI (Standing Facilities) untuk memastikan pasar uang antar-bank tetap likuid dan tertib. <span class='econ-jargon' data-term='teori_kuantitas_uang'>Agregat Moneter M1 vs M2 (Likuiditas Perekonomian)</span>"
             },
             {
                 "id": "s2_q11",
+                "theoryKey": "kurs_valas",
+                "theoryTitle": "Strategi Intervensi Tiga Jalur (Triple Intervention BI)",
                 "scenario": "🔒 Fasilitas Simpanan BI (Deposit Facility)",
                 "question": "Sebaliknya, jika sebuah bank umum memiliki kelebihan likuiditas kas di sore hari dan ingin menempatkannya dengan aman di bank sentral semalam (overnight), fasilitas apakah yang digunakan?",
                 "options": [
@@ -676,10 +770,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Tempat bank umum menitipkan uang nganggurnya semalam di bank sentral agar tetap dapat bunga aman!",
-                "debrief": "Benar! <em>Deposit Facility</em> (FasBI) menjadi batas bawah (floor) dari koridor suku bunga BI, mencegah suku bunga pasar uang antar-bank anjlok terlalu dalam saat likuiditas melimpah."
+                "debrief": "Benar! <em>Deposit Facility</em> (FasBI) menjadi batas bawah (floor) dari koridor suku bunga BI, mencegah suku bunga pasar uang antar-bank anjlok terlalu dalam saat likuiditas melimpah. <span class='econ-jargon' data-term='kurs_valas'>Strategi Intervensi Tiga Jalur (Triple Intervention BI)</span>"
             },
             {
                 "id": "s2_q12",
+                "theoryKey": "itf",
+                "theoryTitle": "Tim Pengendalian Inflasi Daerah (TPID)",
                 "scenario": "🛡️ Lender of Last Resort",
                 "question": "Dalam situasi krisis perbankan sistemik di mana terjadi kepanikan penarikan dana massal (Bank Run), apa peran vital Bank Indonesia sebagai 'Lender of Last Resort'?",
                 "options": [
@@ -694,6 +790,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q13",
+                "theoryKey": "kurs_valas",
+                "theoryTitle": "Suku Bunga Riil Negatif & Pelarian Modal (Capital Flight)",
                 "scenario": "🎯 Inflation Targeting Framework (ITF)",
                 "question": "Sejak tahun 2005, Bank Indonesia secara konsisten menerapkan kerangka kebijakan moneter berbasis penargetan inflasi (ITF). Ciri utama dari kerangka ITF ini adalah:",
                 "options": [
@@ -708,6 +806,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q14",
+                "theoryKey": "transmisi_moneter",
+                "theoryTitle": "Suku Bunga Pasar Uang Antar-Bank (IndONIA)",
                 "scenario": "💵 Agregat Moneter M1 vs M2",
                 "question": "Dalam statistik moneter Bank Indonesia, apakah perbedaan mendasar antara komponen Uang Beredar Sempit (M1) dan Uang Beredar Luas (M2)?",
                 "options": [
@@ -722,6 +822,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q15",
+                "theoryKey": "forward_guidance",
+                "theoryTitle": "Panduan Kebijakan Masa Depan (Forward Guidance)",
                 "scenario": "🏠 Kebijakan Rasio Loan to Value (LTV)",
                 "question": "Jika terjadi lonjakan spekulasi harga properti (Housing Bubble) di mana harga rumah melonjak tidak wajar, instrumen makroprudensial apakah yang dapat diketatkan oleh Bank Indonesia?",
                 "options": [
@@ -732,10 +834,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Mewajibkan uang muka (DP) KPR lebih besar agar para spekulan tidak gampang meminjam uang bank untuk memborong rumah!",
-                "debrief": "Tepat! Rasio LTV adalah instrumen makroprudensial penjinak risiko kredit properti. Mengetatkan LTV meredam laju spekulasi dan mencegah kredit macet sistemik perbankan."
+                "debrief": "Tepat! Rasio LTV adalah instrumen makroprudensial penjinak risiko kredit properti. Mengetatkan LTV meredam laju spekulasi dan mencegah kredit macet sistemik perbankan. <span class='econ-jargon' data-term='forward_guidance'>Panduan Kebijakan Masa Depan (Forward Guidance)</span>"
             },
             {
                 "id": "s2_q16",
+                "theoryKey": "transmisi_kredit",
+                "theoryTitle": "Jalur Kredit Perbankan (Bank Lending Channel)",
                 "scenario": "🧱 Countercyclical Capital Buffer (CCB)",
                 "question": "Bank Indonesia mewajibkan perbankan memupuk modal tambahan melalui instrumen Countercyclical Capital Buffer (CCB) saat ekonomi sedang mengalami ekspansi kredit yang sangat kencang. Apa tujuannya?",
                 "options": [
@@ -746,10 +850,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Ibarat kisah Nabi Yusuf: menyimpan gandum cadangan di lumbung saat 7 tahun masa subur, agar tidak kelaparan saat 7 tahun masa paceklik!",
-                "debrief": "Luar biasa! Konsep Makroprudensial Countercyclical: bank dipaksa memperkuat benteng modal saat ekonomi sedang ekspansif, sehingga saat resesi tiba perbankan tidak rapuh dan tetap sanggup menyalurkan kredit."
+                "debrief": "Luar biasa! Konsep Makroprudensial Countercyclical: bank dipaksa memperkuat benteng modal saat ekonomi sedang ekspansif, sehingga saat resesi tiba perbankan tidak rapuh dan tetap sanggup menyalurkan <span class='econ-jargon' data-term='transmisi_kredit'>kredit</span>."
             },
             {
                 "id": "s2_q17",
+                "theoryKey": "makroprudensial_ltv",
+                "theoryTitle": "Rasio Pinjaman terhadap Agunan (Loan-to-Value / LTV)",
                 "scenario": "📈 Inversi Kurva Imbal Hasil (Yield Curve Inversion)",
                 "question": "Mengapa fenomena Inversi Kurva Imbal Hasil—di mana yield obligasi pemerintah jangka pendek (2 tahun) justru lebih tinggi dibanding obligasi jangka panjang (10 tahun)—sering dianggap sinyal kuat akan datangnya resesi?",
                 "options": [
@@ -760,10 +866,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Pasar bertaruh bahwa ekonomi masa depan bakal suram dan bank sentral nanti pasti terpaksa memangkas suku bunga drastis!",
-                "debrief": "Jenius! Inversi kurva yield adalah salah satu indikator awal (leading indicator) resesi paling akurat dalam sejarah keuangan global, mencerminkan pesimisme pasar terhadap prospek pertumbuhan jangka menengah-panjang."
+                "debrief": "Jenius! Inversi kurva yield adalah salah satu indikator awal (leading indicator) resesi paling akurat dalam sejarah keuangan global, mencerminkan pesimisme pasar terhadap prospek pertumbuhan jangka menengah-panjang. <span class='econ-jargon' data-term='makroprudensial_ltv'>Rasio Pinjaman terhadap Agunan (Loan-to-Value / LTV)</span>"
             },
             {
                 "id": "s2_q18",
+                "theoryKey": "pengetatan_kuantitatif",
+                "theoryTitle": "Pengetatan Kuantitatif (Quantitative Tightening / QT)",
                 "scenario": "📢 Forward Guidance & Manajemen Ekspektasi",
                 "question": "Selain mengutak-atik suku bunga acuan secara riil, bank sentral modern sangat mengandalkan instrumen komunikasi 'Forward Guidance'. Apakah esensi dari strategi komunikasi ini?",
                 "options": [
@@ -774,10 +882,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Membimbing pasar secara transparan: 'Suku bunga kemungkinan akan tetap tinggi sampai inflasi benar-benar jinak!', agar dunia usaha tidak kaget!",
-                "debrief": "Tepat! Kebijakan moneter modern adalah seni mengelola ekspektasi publik. Kredibilitas <em>Forward Guidance</em> membuat pasar keuangan melakukan penyesuaian secara teratur tanpa memicu gejolak pasar dadakan."
+                "debrief": "Tepat! Kebijakan moneter modern adalah seni mengelola ekspektasi publik. Kredibilitas <em>Forward Guidance</em> membuat pasar keuangan melakukan penyesuaian secara teratur tanpa memicu gejolak pasar dadakan. <span class='econ-jargon' data-term='pengetatan_kuantitatif'>Pengetatan Kuantitatif (Quantitative Tightening / QT)</span>"
             },
             {
                 "id": "s2_q19",
+                "theoryKey": "taylor_rule",
+                "theoryTitle": "Aturan Suku Bunga Taylor (Taylor Rule)",
                 "scenario": "⚠️ Bahaya Monetisasi Utang Langsung",
                 "question": "Mengapa dalam kondisi normal, undang-undang melarang keras Bank Indonesia membeli Surat Berharga Negara (SBN) langsung di pasar perdana (Direct Debt Monetization) dari Kementerian Keuangan?",
                 "options": [
@@ -788,10 +898,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Bila menteri keuangan bisa menyuruh bank sentral langsung mencetak uang untuk menambal belanja APBN, disiplin anggaran runtuh dan uang akan kehilangan nilainya!",
-                "debrief": "Sangat tepat! Pemisahan tegas (independensi) antara otoritas fiskal dan moneter adalah benteng utama pencegah kehancuran nilai mata uang suatu negara."
+                "debrief": "Sangat tepat! Pemisahan tegas (independensi) antara otoritas fiskal dan moneter adalah benteng utama pencegah kehancuran nilai mata uang suatu negara. <span class='econ-jargon' data-term='taylor_rule'>Aturan Suku Bunga Taylor (Taylor Rule)</span>"
             },
             {
                 "id": "s2_q20",
+                "theoryKey": "transmisi_nilai_tukar",
+                "theoryTitle": "Jalur Nilai Tukar Transmisi Moneter",
                 "scenario": "🌊 Quantitative Easing (QE)",
                 "question": "Ketika bank sentral negara maju (seperti The Fed AS) melakukan pelonggaran kuantitatif (Quantitative Easing / QE) pasca-krisis keuangan, instrumen apakah yang mereka operasikan?",
                 "options": [
@@ -802,10 +914,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Membeli aset obligasi besar-besaran di pasar untuk menyuntikkan triliunan dolar likuiditas saat suku bunga sudah mentok nol persen!",
-                "debrief": "Benar! <em>Quantitative Easing</em> adalah kebijakan moneter non-konvensional. Neraca bank sentral membengkak drastis demi menekan suku bunga jangka panjang dan memulihkan intermediasi kredit pasar."
+                "debrief": "Benar! <em>Quantitative Easing</em> adalah kebijakan moneter non-konvensional. Neraca bank sentral membengkak drastis demi menekan suku bunga jangka panjang dan memulihkan intermediasi kredit pasar. <span class='econ-jargon' data-term='transmisi_nilai_tukar'>Jalur Nilai Tukar Transmisi Moneter</span>"
             },
             {
                 "id": "s2_q21",
+                "theoryKey": "jangkar_inflasi",
+                "theoryTitle": "Jangkar Ekspektasi Inflasi (Anchoring Expectations)",
                 "scenario": "🧊 Quantitative Tightening (QT)",
                 "question": "Sebaliknya, ketika bank sentral menjalankan pengetatan kuantitatif (Quantitative Tightening / QT), apa yang mereka lakukan terhadap neraca keuangannya?",
                 "options": [
@@ -816,10 +930,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Membiarkan obligasi jatuh tempo tanpa membeli lagi, sehingga triliunan uang tersedot keluar dari sistem keuangan!",
-                "debrief": "Tepat! QT adalah kebalikan dari QE. Likuiditas moneter global ditarik kembali, yang seringkali memicu gejolak pembalikan modal (capital outflow) di negara-negara berkembang."
+                "debrief": "Tepat! QT adalah kebalikan dari QE. Likuiditas moneter global ditarik kembali, yang seringkali memicu gejolak pembalikan modal (capital outflow) di negara-negara berkembang. <span class='econ-jargon' data-term='jangkar_inflasi'>Jangkar Ekspektasi Inflasi (Anchoring Expectations)</span>"
             },
             {
                 "id": "s2_q22",
+                "theoryKey": "uang_primer",
+                "theoryTitle": "Uang Primer / Basis Moneter (M0)",
                 "scenario": "🪞 Efek Fisher: Bunga Riil vs Nominal",
                 "question": "Menurut Persamaan Fisher (Fisher Effect), jika suku bunga deposito perbankan adalah 6% per tahun sementara ekspektasi inflasi adalah 4% per tahun, berapakah tingkat suku bunga riil yang dinikmati nasabah?",
                 "options": [
@@ -830,10 +946,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Kurangkan bunga yang kamu terima dengan laju kenaikan harga barang untuk mengetahui pertumbuhan daya beli tabunganmu!",
-                "debrief": "Tepat sekali! Persamaan Fisher: $r = i - \\pi$. Jika bunga nominal $6\\%$ dan inflasi $4\\%$, imbal hasil riil tabunganmu secara fisik hanyalah $2\\%$. Bila inflasi lebih tinggi dari bunga bank, bunga riilmu menjadi negatif!"
+                "debrief": "Tepat sekali! Persamaan Fisher: $r = i - \\pi$. Jika bunga nominal $6\\%$ dan inflasi $4\\%$, imbal hasil riil tabunganmu secara fisik hanyalah $2\\%$. Bila inflasi lebih tinggi dari bunga bank, bunga riilmu menjadi negatif! <span class='econ-jargon' data-term='uang_primer'>Uang Primer / Basis Moneter (M0)</span>"
             },
             {
                 "id": "s2_q23",
+                "theoryKey": "beban_bunga_perbankan",
+                "theoryTitle": "Margin Bunga Bersih (Net Interest Margin / NIM)",
                 "scenario": "🛡️ Triple Intervention Bank Indonesia",
                 "question": "Dalam menjaga stabilitas nilai tukar Rupiah dari tekanan gejolak eksternal, Bank Indonesia menerapkan strategi 'Triple Intervention'. Di pasar mana sajakah BI melakukan intervensi simultan tersebut?",
                 "options": [
@@ -848,6 +966,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q24",
+                "theoryKey": "pasar_repo",
+                "theoryTitle": "Transaksi Repo (Repurchase Agreement)",
                 "scenario": "🤝 Koordinasi TPID (Pengendalian Inflasi)",
                 "question": "Mengapa Bank Indonesia tidak bisa sendirian mengendalikan inflasi dan harus bekerja sama erat dengan pemerintah daerah melalui Tim Pengendalian Inflasi Daerah (TPID)?",
                 "options": [
@@ -862,6 +982,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q25",
+                "theoryKey": "kontrasiklikal_makroprudensial",
+                "theoryTitle": "Penyangga Modal Kontrasiklikal (CCyB)",
                 "scenario": "🏃‍♂️ Pelarian Modal (Capital Flight) & Bunga",
                 "question": "Jika inflasi di dalam negeri melonjak tinggi sementara Bank Indonesia terlambat menaikkan suku bunga (suku bunga riil menjadi negatif), bahaya moneter apakah yang mengancam sistem keuangan?",
                 "options": [
@@ -876,6 +998,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q26",
+                "theoryKey": "cbdc_rupiah_digital",
+                "theoryTitle": "Rupiah Digital (Central Bank Digital Currency / CBDC)",
                 "scenario": "💳 Uang Primer (Base Money / M0)",
                 "question": "Apakah yang dimaksud dengan Uang Primer (Base Money / Reserve Money / M0) dalam neraca Bank Indonesia?",
                 "options": [
@@ -886,10 +1010,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Liabilitas moneter paling murni dari bank sentral: uang tunai fisik yang dipegang rakyat plus simpanan cadangan bank di rekening BI!",
-                "debrief": "Tepat! Uang Primer ($M_0$) adalah fondasi dari seluruh piramida uang beredar. Melalui mekanisme perbankan, uang primer ini digandakan menjadi $M_1$ dan $M_2$ di sektor riil."
+                "debrief": "Tepat! Uang Primer ($M_0$) adalah fondasi dari seluruh piramida uang beredar. Melalui mekanisme perbankan, uang primer ini digandakan menjadi $M_1$ dan $M_2$ di sektor riil. <span class='econ-jargon' data-term='cbdc_rupiah_digital'>Rupiah Digital (Central Bank Digital Currency / CBDC)</span>"
             },
             {
                 "id": "s2_q27",
+                "theoryKey": "kurva_imbal_hasil",
+                "theoryTitle": "Kurva Imbal Hasil Obligasi & Inversi (Yield Curve)",
                 "scenario": "🪙 Seigniorage: Laba Emisi Uang",
                 "question": "Dalam sejarah ekonomi, apakah yang dimaksud dengan konsep keuntungan Seigniorage bagi otoritas moneter pencetak uang?",
                 "options": [
@@ -900,10 +1026,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Ongkos mencetak selembar uang Rp 100.000 kertas hanyalah beberapa ratus rupiah; selisih nilainya itulah seigniorage!",
-                "debrief": "Tepat! <em>Seigniorage</em> adalah keuntungan ekonomi dari monopoli hak mencetak uang. Namun jika hak ini disalahgunakan untuk mencetak uang tanpa kendali, nilainya akan hancur oleh hiperinflasi."
+                "debrief": "Tepat! <em>Seigniorage</em> adalah keuntungan ekonomi dari monopoli hak mencetak uang. Namun jika hak ini disalahgunakan untuk mencetak uang tanpa kendali, nilainya akan hancur oleh hiperinflasi. <span class='econ-jargon' data-term='kurva_imbal_hasil'>Kurva Imbal Hasil Obligasi & Inversi (Yield Curve)</span>"
             },
             {
                 "id": "s2_q28",
+                "theoryKey": "moral_suasion",
+                "theoryTitle": "Himbauan Moral (Moral Suasion) Otoritas Moneter",
                 "scenario": "📱 Central Bank Digital Currency (CBDC)",
                 "question": "Bank Indonesia sedang mengembangkan proyek 'Digital Rupiah' (CBDC). Apa perbedaan fundamental antara Digital Rupiah dengan saldo dompet digital komersial (seperti GoPay/OVO)?",
                 "options": [
@@ -914,10 +1042,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Digital Rupiah adalah uang kartal resmi negara dalam bentuk kode digital terenkripsi langsung dari BI, bukan uang giral perusahaan fintech!",
-                "debrief": "Sangat tepat! CBDC (Digital Rupiah) adalah uang berdaulat (Sovereign Currency) berdaya laku sah (Legal Tender) dalam format digital, memperkuat kedaulatan moneter di era ekonomi digital."
+                "debrief": "Sangat tepat! CBDC (Digital Rupiah) adalah uang berdaulat (Sovereign Currency) berdaya laku sah (Legal Tender) dalam format digital, memperkuat kedaulatan moneter di era ekonomi digital. <span class='econ-jargon' data-term='moral_suasion'>Himbauan Moral (Moral Suasion) Otoritas Moneter</span>"
             },
             {
                 "id": "s2_q29",
+                "theoryKey": "kebijakan_makroprudensial",
+                "theoryTitle": "Kebijakan Makroprudensial & Rasio Intermediasi (RIM)",
                 "scenario": "⚖️ Sifat Asimetris Kebijakan Moneter",
                 "question": "Ekonom sering mengibaratkan kebijakan moneter seperti 'tali': menarik tali sangat efektif untuk mengerem inflasi (moneter ketat), tetapi mendorong tali sangat sulit untuk memicu pemulihan saat resesi. Mengapa terjadi asimetri ini?",
                 "options": [
@@ -928,10 +1058,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Kamu bisa menarik rem kuda untuk berhenti, tetapi kamu tidak bisa mendorong tali kekang kalau kudanya menolak jalan!",
-                "debrief": "Luar biasa! Konsep 'Pushing on a string'. Moneter kontraktif sangat ampuh mengerem permintaan, tetapi saat krisis melanda, moneter ekspansif butuh sokongan stimulus belanja fiskal pemerintah agar ekonomi bergerak."
+                "debrief": "Luar biasa! Konsep 'Pushing on a string'. Moneter kontraktif sangat ampuh mengerem permintaan, tetapi saat krisis melanda, moneter ekspansif butuh sokongan stimulus belanja fiskal pemerintah agar ekonomi bergerak. <span class='econ-jargon' data-term='kebijakan_makroprudensial'>Kebijakan Makroprudensial & Rasio Intermediasi (RIM)</span>"
             },
             {
                 "id": "s2_q30",
+                "theoryKey": "independensi_bank_sentral",
+                "theoryTitle": "Independensi Bank Sentral & Kredibilitas Moneter",
                 "scenario": "🏦 Stabilitas Sistem Keuangan (SSK)",
                 "question": "Selain menjaga stabilitas moneter (inflasi), Bank Indonesia juga mengemban mandat menjaga Stabilitas Sistem Keuangan (SSK). Mengapa stabilitas moneter saja tidak cukup tanpa stabilitas sistem perbankan?",
                 "options": [
@@ -942,10 +1074,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Inflasi tenang pun tidak ada gunanya jika tiba-tiba sistem perbankan kolaps dan tabungan jutaan rakyat terkunci!",
-                "debrief": "Tepat sekali! Krisis Keuangan Global 2008 membuktikan: stabilitas harga tidak menjamin stabilitas keuangan. Oleh karena itu, kebijakan moneter harus berjalan beriringan dengan kebijakan makroprudensial SSK."
+                "debrief": "Tepat sekali! Krisis Keuangan Global 2008 membuktikan: stabilitas harga tidak menjamin stabilitas keuangan. Oleh karena itu, kebijakan moneter harus berjalan beriringan dengan kebijakan makroprudensial SSK. <span class='econ-jargon' data-term='independensi_bank_sentral'>Independensi Bank Sentral & Kredibilitas Moneter</span>"
             },
             {
                 "id": "s2_q31",
+                "theoryKey": "transmisi_aset",
+                "theoryTitle": "Jalur Harga Aset Transmisi Moneter",
                 "scenario": "🌱 Green Financing & Taksonomi Hijau",
                 "question": "Bank Indonesia memberikan kelonggaran uang muka (LTV 0%) untuk kredit pembelian Kendaraan Bermotor Listrik Berbasis Baterai (KBLBB). Kebijakan makroprudensial ini mencerminkan komitmen bank sentral terhadap:",
                 "options": [
@@ -956,10 +1090,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Memberikan insentif kemudahan kredit untuk barang ramah lingkungan agar industri hijau tumbuh pesat!",
-                "debrief": "Benar! Bank sentral modern kini mengintegrasikan risiko perubahan iklim ke dalam kerangka makroprudensial melalui insentif pembiayaan hijau (Green Financing)."
+                "debrief": "Benar! Bank sentral modern kini mengintegrasikan risiko perubahan iklim ke dalam kerangka makroprudensial melalui insentif pembiayaan hijau (Green Financing). <span class='econ-jargon' data-term='transmisi_aset'>Jalur Harga Aset Transmisi Moneter</span>"
             },
             {
                 "id": "s2_q32",
+                "theoryKey": "fasilitas_simpanan_bi",
+                "theoryTitle": "Fasilitas Simpanan Bank Indonesia (Deposit Facility)",
                 "scenario": "📈 Suku Bunga Acuan BI-Rate vs PUAB",
                 "question": "Di pasar uang antar-bank (PUAB), bank-bank umum saling meminjamkan kelebihan likuiditas jangka pendek semalam. Bagaimana posisi suku bunga PUAB (IndONIA) terhadap suku bunga acuan BI-Rate?",
                 "options": [
@@ -974,6 +1110,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s2_q33",
+                "theoryKey": "seigniorage",
+                "theoryTitle": "Hak Emisi & Keuntungan Seigniorage",
                 "scenario": "💵 Sterilisasi Intervensi Valas",
                 "question": "Ketika Bank Indonesia membeli Dolar AS di pasar valas untuk memperkuat cadangan devisa, BI sekaligus menyuntikkan likuiditas Rupiah ke sistem perbankan. Apa yang dilakukan BI dalam 'Sterilisasi Moneter' agar rupiah baru tersebut tidak memicu inflasi?",
                 "options": [
@@ -984,10 +1122,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Membeli dolar menambah rupiah di pasar; agar tidak kelebihan rupiah dan bikin inflasi, rupiahnya disedot balik pakai surat berharga!",
-                "debrief": "Jenius! <em>Sterilized Intervention</em> memungkinkan bank sentral memupuk cadangan devisa atau menstabilkan kurs tanpa mengorbankan sasaran jumlah uang beredar dan target inflasi domestik."
+                "debrief": "Jenius! <em>Sterilized Intervention</em> memungkinkan bank sentral memupuk cadangan devisa atau menstabilkan kurs tanpa mengorbankan sasaran jumlah uang beredar dan target inflasi domestik. <span class='econ-jargon' data-term='seigniorage'>Hak Emisi & Keuntungan Seigniorage</span>"
             },
             {
                 "id": "s2_q34",
+                "theoryKey": "shadow_banking",
+                "theoryTitle": "Sistem Perbankan Bayangan (Shadow Banking)",
                 "scenario": "🌪️ Tapering The Fed & Respon Moneter",
                 "question": "Ketika bank sentral Amerika Serikat (The Fed) mengumumkan rencana pengurangan stimulus (Tapering Off) dan kenaikan Fed Funds Rate (FFR), respon moneter preventif apakah yang umumnya disiapkan oleh Bank Indonesia?",
                 "options": [
@@ -998,10 +1138,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Saat suku bunga Dolar naik, bunga Rupiah harus dijaga tetap kompetitif agar investor tidak kabur membawa pulang dolarnya!",
-                "debrief": "Sangat tepat! Tindakan <em>Pre-emptive, Front-Loading, and Ahead of the Curve</em> sering diambil BI untuk membentengi stabilitas nilai tukar Rupiah dari ancaman gejolak moneter global."
+                "debrief": "Sangat tepat! Tindakan <em>Pre-emptive, Front-Loading, and Ahead of the Curve</em> sering diambil BI untuk membentengi stabilitas nilai tukar Rupiah dari ancaman gejolak moneter global. <span class='econ-jargon' data-term='shadow_banking'>Sistem Perbankan Bayangan (Shadow Banking)</span>"
             },
             {
                 "id": "s2_q35",
+                "theoryKey": "intervensi_sterilisasi",
+                "theoryTitle": "Intervensi Sterilisasi Valas Pasar Uang",
                 "scenario": "📊 Ekspektasi Inflasi Adaptif vs Rasional",
                 "question": "Mengapa ekspektasi inflasi masyarakat yang tidak terkendali (Unanchored Inflation Expectations) sangat ditakuti oleh bank sentral?",
                 "options": [
@@ -1012,10 +1154,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Keyakinan bahwa besok harga barang pasti naik membuat orang menaikkan harga hari ini—ketakutan itu sendiri yang menciptakan inflasi!",
-                "debrief": "Tepat! Ekspektasi yang tidak terjangkar memicu <em>Wage-Price Spiral</em>. Tugas terpenting bank sentral adalah menjaga ekspektasi publik tetap tenang dan percaya bahwa inflasi akan selalu terkendali."
+                "debrief": "Tepat! Ekspektasi yang tidak terjangkar memicu <em>Wage-Price Spiral</em>. Tugas terpenting bank sentral adalah menjaga ekspektasi publik tetap tenang dan percaya bahwa inflasi akan selalu terkendali. <span class='econ-jargon' data-term='intervensi_sterilisasi'>Intervensi Sterilisasi Valas Pasar Uang</span>"
             },
             {
                 "id": "s2_q36",
+                "theoryKey": "stabilitas_sistem_keuangan",
+                "theoryTitle": "Arsitektur Stabilitas Sistem Keuangan (SSK)",
                 "scenario": "👑 Mahakarya Kebijakan Moneter",
                 "question": "Di akhir Level 2, kesimpulan fundamental apakah yang harus dipahami oleh calon teknokrat mengenai kebijakan moneter modern?",
                 "options": [
@@ -1026,7 +1170,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Moneter yang sehat adalah seperti udara bersih: saat ada kita tidak menyadarinya, tapi saat ia rusak seluruh ekonomi akan tercekik!",
-                "debrief": "Luar biasa! Selamat! Anda telah menuntaskan Level 2 Kebijakan Moneter. Anda kini memahami bagaimana transmisi suku bunga, instrumen makroprudensial, dan stabilitas nilai tukar menjaga detak jantung perekonomian bangsa!"
+                "debrief": "Luar biasa! Selamat! Anda telah menuntaskan Level 2 <span class='econ-jargon' data-term='stabilitas_sistem_keuangan'>Kebijakan Moneter</span>. Anda kini memahami bagaimana transmisi suku bunga, instrumen makroprudensial, dan stabilitas nilai tukar menjaga detak jantung perekonomian bangsa!"
             }
         ]
     },
@@ -1039,6 +1183,8 @@ const MACRO_TRIVIA_STAGES = [
         "questionPool": [
             {
                 "id": "s3_q1",
+                "theoryKey": "multiplier_effect",
+                "theoryTitle": "Angka Pengganda Fiskal Belanja Modal",
                 "scenario": "🏗️ Belanja Infrastruktur & Angka Pengganda",
                 "question": "Kementerian Keuangan mengalokasikan anggaran Rp 400 triliun untuk membangun jalan tol, pelabuhan, dan bendungan irigasi. Dari analisis fiskal, mengapa belanja modal fisik ini memiliki multiplier effect lebih tinggi dibanding belanja operasional birokrasi?",
                 "options": [
@@ -1053,6 +1199,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q2",
+                "theoryKey": "defisit_apbn",
+                "theoryTitle": "Batas Defisit Maksimal 3% PDB (UU No. 17/2003)",
                 "scenario": "⚖️ Batas Hukum Defisit APBN 3%",
                 "question": "Undang-Undang Keuangan Negara No. 17 Tahun 2003 secara tegas membatasi defisit anggaran APBN maksimal 3% dari Produk Domestik Bruto (PDB). Apakah filosofi utama di balik batasan hukum yang ketat ini?",
                 "options": [
@@ -1067,6 +1215,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q3",
+                "theoryKey": "crowding_out",
+                "theoryTitle": "Efek Desakan Investasi Swasta (Crowding-Out Effect)",
                 "scenario": "📜 Batas Rasio Utang 60% PDB",
                 "question": "Selain batas defisit 3%, undang-undang juga menetapkan batas maksimal rasio total utang pemerintah sebesar 60% dari PDB. Mengapa rasio utang Indonesia (sekitar 38-39% PDB) dinilai relatif sehat dibanding banyak negara maju yang rasionya melampaui 100% PDB?",
                 "options": [
@@ -1077,10 +1227,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Beban utang Indonesia terkendali di bawah 40% PDB, jauh lebih aman dibanding Amerika Serikat atau Jepang yang utangnya tembus 120-250% PDB!",
-                "debrief": "Tepat! Rasio utang yang konservatif memberikan ruang manuver fiskal (Fiscal Space) saat krisis tak terduga melanda, serta menjaga peringkat kredit <em>Investment Grade</em> Indonesia."
+                "debrief": "Tepat! Rasio utang yang konservatif memberikan ruang manuver fiskal (Fiscal Space) saat krisis tak terduga melanda, serta menjaga peringkat kredit <em>Investment Grade</em> Indonesia. <span class='econ-jargon' data-term='crowding_out'>Efek Desakan Investasi Swasta (Crowding-Out Effect)</span>"
             },
             {
                 "id": "s3_q4",
+                "theoryKey": "subsidi_tepat_sasaran",
+                "theoryTitle": "Transformasi Subsidi Barang ke Bantuan Tunai",
                 "scenario": "🏢 Efek Crowding-Out",
                 "question": "Jika pemerintah menerbitkan Surat Berharga Negara (SBN) dalam jumlah yang terlampau masif dengan imbal hasil (yield) yang sangat tinggi, bahaya 'Crowding-Out Effect' apakah yang dapat menimpa sektor swasta?",
                 "options": [
@@ -1095,6 +1247,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q5",
+                "theoryKey": "sbn",
+                "theoryTitle": "Surat Berharga Negara (SBN) & Pembiayaan",
                 "scenario": "🎯 Reformasi Subsidi: Barang vs Orang",
                 "question": "Teknokrat ekonomi makro merekomendasikan transformasi subsidi harga komoditas (seperti subsidi terbuka elpiji 3 kg atau BBM) menjadi Bantuan Sosial Tunai Langsung (BLT) berbasis data identitas. Apa keunggulan fundamental reformasi ini?",
                 "options": [
@@ -1109,6 +1263,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q6",
+                "theoryKey": "fiskal_kontrasiklikal",
+                "theoryTitle": "Kebijakan Fiskal Kontrasiklikal",
                 "scenario": "📜 Menutup Defisit dengan SBN",
                 "question": "Ketika pendapatan negara dari pajak tercatat Rp 2.800 triliun sementara belanja negara mencapai Rp 3.300 triliun, terdapat defisit anggaran Rp 500 triliun. Bagaimanakah Kementerian Keuangan membiayai defisit tersebut secara sah dan prudent?",
                 "options": [
@@ -1123,6 +1279,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q7",
+                "theoryKey": "tax_ratio",
+                "theoryTitle": "Rasio Penerimaan Pajak (Tax Ratio)",
                 "scenario": "🔄 Kebijakan Fiskal Kontrasiklikal",
                 "question": "Ketika ekonomi sedang menghadapi resesi global dan konsumsi swasta anjlok, Kementerian Keuangan menerapkan kebijakan 'Fiskal Kontrasiklikal' (Countercyclical Fiscal Policy). Apakah wujud konkret dari kebijakan ini?",
                 "options": [
@@ -1137,6 +1295,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q8",
+                "theoryKey": "rasio_gini",
+                "theoryTitle": "Pajak Progresif & Redistribusi Pendapatan",
                 "scenario": "📊 Rasio Pajak terhadap PDB (Tax Ratio)",
                 "question": "Rasio Pajak (Tax Ratio) Indonesia saat ini berada di kisaran 10% - 10,5% dari PDB, relatif lebih rendah dibanding rata-rata negara berpendapatan menengah di ASEAN. Apa konsekuensi jangka panjang dari rendahnya Tax Ratio ini?",
                 "options": [
@@ -1151,6 +1311,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q9",
+                "theoryKey": "automatic_stabilizers",
+                "theoryTitle": "Penstabil Otomatis Fiskal (Automatic Stabilizers)",
                 "scenario": "⚖️ Pajak Progresif PPh Orang Pribadi",
                 "question": "Sistem perpajakan Indonesia mengenakan tarif Pajak Penghasilan (PPh) Orang Pribadi berjenjang: 5% untuk penghasilan terbawah hingga 35% untuk penghasilan di atas Rp 5 miliar. Filosofi keadilan apakah yang mendasari tarif progresif ini?",
                 "options": [
@@ -1165,6 +1327,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q10",
+                "theoryKey": "keseimbangan_primer",
+                "theoryTitle": "Keseimbangan Primer APBN",
                 "scenario": "🛒 Karakteristik Pajak Pertambahan Nilai (PPN)",
                 "question": "Pajak Pertambahan Nilai (PPN) yang dipungut dari setiap transaksi barang dan jasa di minimarket sering dikritik ekonom karena memiliki sifat 'Regresif'. Mengapa PPN dikatakan regresif?",
                 "options": [
@@ -1175,10 +1339,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Tarif PPN 11% untuk sebotol sabun terasa sangat berat bagi buruh bergaji pas-pasan, tetapi sama sekali tidak terasa bagi seorang miliarder!",
-                "debrief": "Benar! Pajak tidak langsung atas konsumsi bersifat regresif terhadap pendapatan. Untuk mengimbanginya, pemerintah membebaskan sembako pokok dan kebutuhan dasar rakyat dari pengenaan PPN."
+                "debrief": "Benar! <span class='econ-jargon' data-term='keseimbangan_primer'>Pajak tidak langsung</span> atas konsumsi bersifat regresif terhadap pendapatan. Untuk mengimbanginya, pemerintah membebaskan sembako pokok dan kebutuhan dasar rakyat dari pengenaan PPN."
             },
             {
                 "id": "s3_q11",
+                "theoryKey": "human_capital",
+                "theoryTitle": "Mandat Anggaran Pendidikan 20% & Human Capital",
                 "scenario": "💼 Pajak Penghasilan Badan & Investasi",
                 "question": "Banyak negara bersaing menurunkan tarif Pajak Penghasilan (PPh) Badan Korporasi untuk menarik minat penanaman modal. Namun mengapa penurunan tarif PPh Badan yang terlampau drastis dapat menjadi bumerang (Race to the Bottom)?",
                 "options": [
@@ -1189,10 +1355,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Perang diskon pajak antar-negara membuat kas negara boncos, sementara perusahaan multinasional meraup untung jumbo tanpa membayar pajak yang adil!",
-                "debrief": "Tepat! Fenomena <em>Race to the Bottom</em> mengikis penerimaan negara. Inilah alasan mengapa kesepakatan pajak global (OECD Global Minimum Tax 15%) digagas untuk mencegah perang tarif pajak korporasi."
+                "debrief": "Tepat! Fenomena <em>Race to the Bottom</em> mengikis penerimaan negara. Inilah alasan mengapa kesepakatan pajak global (OECD Global Minimum Tax 15%) digagas untuk mencegah perang tarif pajak korporasi. <span class='econ-jargon' data-term='human_capital'>Mandat Anggaran Pendidikan 20% & Human Capital</span>"
             },
             {
                 "id": "s3_q12",
+                "theoryKey": "pajak_pigouvian",
+                "theoryTitle": "Pajak Pigouvian & Cukai Koreksi Eksternalitas",
                 "scenario": "🛡️ Penstabil Otomatis (Automatic Stabilizers)",
                 "question": "Dalam struktur APBN modern, instrumen apakah yang bekerja secara otomatis meredam gejolak ekonomi tanpa memerlukan undang-undang baru dari DPR saat terjadi resesi?",
                 "options": [
@@ -1207,6 +1375,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q13",
+                "theoryKey": "kssk",
+                "theoryTitle": "Komite Stabilitas Sistem Keuangan (KSSK)",
                 "scenario": "🏦 Keseimbangan Primer (Primary Balance)",
                 "question": "Dalam laporan realisasi APBN, Kementerian Keuangan membedakan antara 'Defisit Total' dan 'Keseimbangan Primer'. Apakah yang dimaksud dengan Keseimbangan Primer mencatat surplus?",
                 "options": [
@@ -1221,6 +1391,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q14",
+                "theoryKey": "dana_alokasi_khusus",
+                "theoryTitle": "Transfer ke Daerah (TKD) & Dana Alokasi Khusus (DAK)",
                 "scenario": "🏛️ Belanja Transfer ke Daerah (TKD)",
                 "question": "Sekitar sepertiga dari total belanja APBN disalurkan ke pemerintah provinsi dan kabupaten/kota melalui Transfer ke Daerah (TKD) seperti DAU, DAK, dan Dana Desa. Apa tujuan makroekonomi utama dari transfer fiskal ini?",
                 "options": [
@@ -1231,10 +1403,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Daerah terpencil dengan PAD kecil tetap bisa membangun puskesmas, jembatan desa, dan menggaji guru berkat transfer dana dari APBN pusat!",
-                "debrief": "Tepat! Transfer ke Daerah (TKD) adalah instrumen desentralisasi fiskal untuk mewujudkan sila kelima keadilan sosial, menutup kesenjangan kapasitas fiskal antar-wilayah di Indonesia."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='dana_alokasi_khusus'>Transfer ke Daerah (TKD)</span> adalah instrumen desentralisasi fiskal untuk mewujudkan sila kelima keadilan sosial, menutup kesenjangan kapasitas fiskal antar-wilayah di Indonesia."
             },
             {
                 "id": "s3_q15",
+                "theoryKey": "dana_alokasi_khusus",
+                "theoryTitle": "Dana Alokasi Khusus & Desentralisasi Fiskal",
                 "scenario": "💎 Dana Abadi Pendidikan (LPDP) & Danantara",
                 "question": "Pemerintah mengalokasikan ratusan triliun rupiah ke dalam Dana Abadi Pendidikan (LPDP) dan Sovereign Wealth Fund. Mengapa dana ini diinvestasikan secara permanen dan hanya imbal hasil investasinya yang dibelanjakan?",
                 "options": [
@@ -1245,10 +1419,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Uang pokoknya disimpan abadi di lumbung investasi, bunganya yang ratusan triliun dipakai menyekolahkan puluhan ribu anak bangsa ke universitas terbaik dunia!",
-                "debrief": "Luar biasa! Konsep <em>Sovereign Wealth Fund</em> dan Dana Abadi memastikan bahwa kekayaan bangsa tidak habis dihabiskan untuk konsumsi sesaat, melainkan menjadi warisan modal abadi lintas generasi."
+                "debrief": "Luar biasa! Konsep <em>Sovereign Wealth Fund</em> dan <span class='econ-jargon' data-term='dana_alokasi_khusus'>Dana</span> Abadi memastikan bahwa kekayaan bangsa tidak habis dihabiskan untuk konsumsi sesaat, melainkan menjadi warisan modal abadi lintas generasi."
             },
             {
                 "id": "s3_q16",
+                "theoryKey": "anggaran_kesehatan",
+                "theoryTitle": "Alokasi Anggaran Kesehatan & JKN",
                 "scenario": "📑 Belanja Wajib Pendidikan 20% (Mandatory Spending)",
                 "question": "UUD 1945 mengamanatkan pemerintah mengalokasikan minimal 20% dari total APBN untuk sektor pendidikan. Dari perspektif teori pertumbuhan ekonomi Solow, belanja pendidikan ini merupakan investasi pada:",
                 "options": [
@@ -1263,6 +1439,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q17",
+                "theoryKey": "rasio_utang_negara",
+                "theoryTitle": "Batas Rasio Utang Negara 60% PDB",
                 "scenario": "📜 Peringkat Kredit (Sovereign Credit Rating)",
                 "question": "Lembaga pemeringkat internasional (seperti Moody's, S&P, Fitch) menyematkan peringkat 'Investment Grade' (Baa2 / BBB) pada surat utang pemerintah Indonesia. Mengapa peringkat ini sangat penting bagi kementerian keuangan?",
                 "options": [
@@ -1273,10 +1451,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Peringkat kredit bagus ibarat reputasi orang jujur: dipinjamkan uang dengan bunga murah. Kalau peringkat sampah (junk), investor menuntut bunga selangit!",
-                "debrief": "Sangat tepat! Status <em>Investment Grade</em> mencerminkan persepsi risiko gagal bayar yang rendah. Setiap perbaikan peringkat memangkas beban kupon bunga utang APBN hingga puluhan triliun rupiah."
+                "debrief": "Sangat tepat! Status <em>Investment Grade</em> mencerminkan persepsi risiko gagal bayar yang rendah. Setiap perbaikan peringkat memangkas beban kupon bunga utang APBN hingga puluhan triliun rupiah. <span class='econ-jargon' data-term='rasio_utang_negara'>Batas Rasio Utang Negara 60% PDB</span>"
             },
             {
                 "id": "s3_q18",
+                "theoryKey": "anggaran_berimbang",
+                "theoryTitle": "Teorema Multiplier Anggaran Berimbang",
                 "scenario": "🏭 Insentif Tax Holiday untuk Hilirisasi",
                 "question": "Pemerintah memberikan fasilitas Tax Holiday (pembebasan PPh Badan selama 5-20 tahun) kepada investor yang membangun smelter nikel dan pabrik baterai mobil listrik di dalam negeri. Apa pertimbangan kalkulasi makroekonominya?",
                 "options": [
@@ -1287,10 +1467,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Mengorbankan sedikit setoran pajak di awal demi mendapatkan pabrik raksasa yang menyerap puluhan ribu pekerja dan melipatgandakan devisa ekspor!",
-                "debrief": "Benar! Kebijakan insentif pajak selektif adalah instrumen kebijakan industri (Industrial Policy) untuk mendorong hilirisasi komoditas dan memperkuat struktur manufaktur nasional."
+                "debrief": "Benar! Kebijakan insentif pajak selektif adalah instrumen <span class='econ-jargon' data-term='anggaran_berimbang'>kebijakan industri</span> (Industrial Policy) untuk mendorong hilirisasi komoditas dan memperkuat struktur manufaktur nasional."
             },
             {
                 "id": "s3_q19",
+                "theoryKey": "dana_abadi",
+                "theoryTitle": "Sovereign Wealth Fund & Dana Abadi (LPDP & INA)",
                 "scenario": "🚬 Cukai Rokok & Eksternalitas Negatif",
                 "question": "Setiap tahun pemerintah menaikkan tarif cukai hasil tembakau (rokok) rata-rata 10-15%. Selain menyumbang penerimaan kas negara lebih dari Rp 200 triliun, apa fungsi regulasi (Pigouvian Tax) dari cukai rokok?",
                 "options": [
@@ -1305,6 +1487,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q20",
+                "theoryKey": "pembelian_sbn_bi",
+                "theoryTitle": "Pembelian SBN oleh BI di Pasar Perdana (Kondisi Krisis)",
                 "scenario": "🌱 Pajak Karbon (Carbon Tax) & Transisi Energi",
                 "question": "Indonesia telah merancang regulasi pengenaan Pajak Karbon atas emisi gas rumah kaca yang dihasilkan pembangkit listrik tenaga uap (PLTU) batu bara. Tujuan strategis jangka panjang kebijakan fiskal ini adalah:",
                 "options": [
@@ -1315,10 +1499,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Membuat emisi polusi jadi mahal, sehingga perusahaan terpacu berinvestasi pada teknologi ramah lingkungan dan energi surya/angin!",
-                "debrief": "Tepat sekali! Pajak Karbon memanfaatkan mekanisme harga pasar (Market-Based Instrument) untuk mempercepat dekarbonisasi ekonomi dan membuka peluang perdagangan bursa karbon internasional."
+                "debrief": "Tepat sekali! <span class='econ-jargon' data-term='pembelian_sbn_bi'>Pajak Karbon</span> memanfaatkan mekanisme harga pasar (Market-Based Instrument) untuk mempercepat dekarbonisasi ekonomi dan membuka peluang perdagangan bursa karbon internasional."
             },
             {
                 "id": "s3_q21",
+                "theoryKey": "kurva_laffer",
+                "theoryTitle": "Kurva Laffer (Laffer Curve) & Tarif Pajak Optimal",
                 "scenario": "🤝 Kerjasama Pemerintah & Badan Usaha (KPBU)",
                 "question": "Pembangunan sistem penyediaan air minum dan bandara baru sering menggunakan skema KPBU (Public-Private Partnership) ketimbang 100% didanai APBN. Apa keuntungan utama skema pembiayaan kreatif ini bagi kementerian keuangan?",
                 "options": [
@@ -1329,10 +1515,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "APBN tidak sanggup menanggung semua proyek sekaligus; swasta diajak bermitra membangun dengan jaminan hukum dan bagi hasil yang adil!",
-                "debrief": "Benar! Skema KPBU adalah jalan keluar keterbatasan ruang fiskal APBN (Creative Financing). Infrastruktur terbangun lebih cepat dengan standar manajemen swasta profesional."
+                "debrief": "Benar! <span class='econ-jargon' data-term='kurva_laffer'>Skema KPBU</span> adalah jalan keluar keterbatasan ruang fiskal APBN (Creative Financing). Infrastruktur terbangun lebih cepat dengan standar manajemen swasta profesional."
             },
             {
                 "id": "s3_q22",
+                "theoryKey": "fiskal_ruang_gerak",
+                "theoryTitle": "Ruang Fiskal (Fiscal Space)",
                 "scenario": "🛡️ KSSK: Komite Stabilitas Sistem Keuangan",
                 "question": "Ketika stabilitas ekonomi terancam oleh guncangan krisis finansial, menteri keuangan memimpin rapat koordinasi KSSK bersama Gubernur BI, Ketua OJK, dan Ketua LPS. Mengapa koordinasi 4 lembaga ini mutlak diperlukan?",
                 "options": [
@@ -1347,6 +1535,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q23",
+                "theoryKey": "belanja_mengikat",
+                "theoryTitle": "Belanja Wajib / Mengikat (Mandatory Spending)",
                 "scenario": "🔄 Sisa Lebih Pembiayaan Anggaran (SiLPA)",
                 "question": "Di akhir tahun anggaran, realisasi defisit APBN ternyata lebih kecil dari proyeksi awal, menyisakan saldo kas yang disebut SiLPA. Bagaimana pemanfaatan terbaik saldo kas SiLPA ini oleh kementerian keuangan?",
                 "options": [
@@ -1357,10 +1547,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Sisa uang belanja yang tidak terpakai disimpan di brankas kas negara sebagai cadangan darurat, mengurangi kebutuhan meminjam utang baru tahun depan!",
-                "debrief": "Tepat! SiLPA bertindak sebagai <em>Cash Buffer</em> kas negara. Pengelolaan SiLPA yang cermat memperkuat likuiditas pemerintah saat menghadapi guncangan awal tahun."
+                "debrief": "Tepat! SiLPA bertindak sebagai <em>Cash Buffer</em> kas negara. Pengelolaan SiLPA yang cermat memperkuat likuiditas pemerintah saat menghadapi guncangan awal tahun. <span class='econ-jargon' data-term='belanja_mengikat'>Belanja Wajib / Mengikat (Mandatory Spending)</span>"
             },
             {
                 "id": "s3_q24",
+                "theoryKey": "efisiensi_birokrasi",
+                "theoryTitle": "Reformasi Belanja Pegawai & Efisiensi Birokrasi",
                 "scenario": "💼 Efisiensi Belanja Barang (Spending Better)",
                 "question": "Kementerian Keuangan meluncurkan kebijakan efisiensi 'Spending Better' dengan memangkas pos belanja perjalanan dinas, rapat konsumsi di hotel mewah, dan pengadaan seremonial. Dampak positifnya terhadap struktur APBN adalah:",
                 "options": [
@@ -1371,10 +1563,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Hentikan pemborosan rapat seremonial di hotel; alihkan uangnya untuk bangun puskesmas dan beasiswa anak miskin!",
-                "debrief": "Benar! Kualitas belanja (Quality of Spending) jauh lebih penting dibanding kuantitas nominal. Memangkas inefisiensi birokrasi melipatgandakan daya ungkit APBN bagi kesejahteraan rakyat."
+                "debrief": "Benar! Kualitas belanja (Quality of Spending) jauh lebih penting dibanding kuantitas nominal. Memangkas in<span class='econ-jargon' data-term='efisiensi_birokrasi'>efisiensi birokrasi</span> melipatgandakan daya ungkit APBN bagi kesejahteraan rakyat."
             },
             {
                 "id": "s3_q25",
+                "theoryKey": "sal_apbn",
+                "theoryTitle": "Saldo Anggaran Lebih (SAL) Kas Negara",
                 "scenario": "💰 Struktur Utang: Domestik vs Valas",
                 "question": "Kementerian Keuangan menggeser komposisi utang pemerintah dari pinjaman valas luar negeri menjadi dominan SBN berdenominasi Rupiah (lebih dari 70%). Apa keuntungan strategis dari portofolio utang Rupiah ini?",
                 "options": [
@@ -1385,10 +1579,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Bila berutang dalam Rupiah, pelemahan kurs Dolar tidak membuat utang kita mendadak melonjak seperti yang terjadi pada krisis 1998!",
-                "debrief": "Jenius! Pelajaran berharga dari krisis 1998 adalah bahaya utang valas asing. Dominasi utang berdenominasi mata uang domestik (Rupiah) membentengi APBN dari petaka lonjakan kurs valuta asing."
+                "debrief": "Jenius! Pelajaran berharga dari krisis 1998 adalah bahaya <span class='econ-jargon' data-term='sal_apbn'>utang</span> valas asing. Dominasi utang berdenominasi mata uang domestik (Rupiah) membentengi APBN dari petaka lonjakan kurs valuta asing."
             },
             {
                 "id": "s3_q26",
+                "theoryKey": "pajak_karbon",
+                "theoryTitle": "Pajak Karbon & Nilai Ekonomi Karbon (Carbon Pricing)",
                 "scenario": "💻 Digitalisasi Core Tax & Shadow Economy",
                 "question": "Direktorat Jenderal Pajak mengimplementasikan pembaruan sistem teknologi perpajakan canggih (Core Tax System). Manfaat makroekonomi terbesar dari integrasi data digital perpajakan ini adalah:",
                 "options": [
@@ -1403,6 +1599,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s3_q27",
+                "theoryKey": "pembiayaan_kreatif",
+                "theoryTitle": "Pembiayaan Infrastruktur Kreatif Non-Utang",
                 "scenario": "🌊 Pooling Fund Bencana Alam",
                 "question": "Sebagai negara di jalur cincin api (Ring of Fire), Indonesia membentuk Dana Bersama Penanggulangan Bencana (Pooling Fund Bencana). Mengapa instrumen mitigasi fiskal ini sangat penting?",
                 "options": [
@@ -1413,10 +1611,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Saat bencana alam tiba-tiba melanda, kas rekonstruksi langsung cair dari dana abadi bencana tanpa mengorbankan anggaran sekolah dan rumah sakit!",
-                "debrief": "Benar! <em>Disaster Risk Financing</em> melindungi stabilitas APBN dari guncangan bencana alam tak terduga, mempercepat pemulihan fisik dan ekonomi para korban bencana."
+                "debrief": "Benar! <em>Disaster Risk Financing</em> melindungi stabilitas APBN dari guncangan bencana alam tak terduga, mempercepat pemulihan fisik dan ekonomi para korban bencana. <span class='econ-jargon' data-term='pembiayaan_kreatif'>Pembiayaan Infrastruktur Kreatif Non-Utang</span>"
             },
             {
                 "id": "s3_q28",
+                "theoryKey": "kepatuhan_pajak",
+                "theoryTitle": "Kepatuhan Pajak Sukarela (Voluntary Compliance)",
                 "scenario": "📈 Konsolidasi Fiskal Pasca-Pandemi",
                 "question": "Ketika krisis pandemi Covid-19 mereda, pemerintah Indonesia berhasil mengembalikan defisit APBN ke bawah 3% PDB pada tahun 2022—satu tahun lebih cepat dari jadwal UU. Mengapa prestasi konsolidasi fiskal ini dipuji dunia internasional?",
                 "options": [
@@ -1427,10 +1627,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Mengembalikan rem defisit ke bawah 3% dengan cepat membuktikan bahwa kas negara dikelola secara profesional dan bertanggung jawab!",
-                "debrief": "Luar biasa! Konsolidasi fiskal yang cepat membentengi Indonesia dari ancaman krisis utang yang melanda banyak negara berkembang lain pasca-pandemi."
+                "debrief": "Luar biasa! <span class='econ-jargon' data-term='kepatuhan_pajak'>Konsolidasi fiskal</span> yang cepat membentengi Indonesia dari ancaman krisis utang yang melanda banyak negara berkembang lain pasca-pandemi."
             },
             {
                 "id": "s3_q29",
+                "theoryKey": "belanja_bansos",
+                "theoryTitle": "Bantalan Sosial & Jaring Pengaman Kemiskinan",
                 "scenario": "⚖️ Belanja Perlindungan Sosial (Perlinsos)",
                 "question": "Anggaran Perlindungan Sosial (Perlinsos) dialokasikan mendekati Rp 500 triliun per tahun untuk Program Keluarga Harapan (PKH), Kartu Sembako, dan PIP. Dari kacamata ekonomi makro, belanja ini berfungsi sebagai:",
                 "options": [
@@ -1441,10 +1643,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Menjaga agar jutaan anak-anak keluarga miskin tetap bisa makan bergizi dan bersekolah, menopang perputaran belanja warung sembako!",
-                "debrief": "Tepat! Perlinsos adalah fondasi stabilitas sosial dan ekonomi. Kelompok miskin yang terlindungi menjaga angka konsumsi dasar ($C$) nasional tetap stabil dan inklusif."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='belanja_bansos'>Perlinsos</span> adalah fondasi stabilitas sosial dan ekonomi. Kelompok miskin yang terlindungi menjaga angka konsumsi dasar ($C$) nasional tetap stabil dan inklusif."
             },
             {
                 "id": "s3_q30",
+                "theoryKey": "audit_bpk",
+                "theoryTitle": "Pengawasan Anggaran & Opini WTP BPK",
                 "scenario": "📦 Penerimaan Negara Bukan Pajak (PNBP)",
                 "question": "Selain dari sektor perpajakan, kas negara menerima ratusan triliun rupiah dari PNBP Sumber Daya Alam (royalti minyak, gas, batu bara, emas). Mengapa pengelolaan pos PNBP komoditas ini membutuhkan kehati-hatian ekstra?",
                 "options": [
@@ -1455,10 +1659,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Saat harga tambang dunia meroket, kas negara banjir rezeki; tapi saat harga tambang anjlok, penerimaan bisa menyusut drastis!",
-                "debrief": "Benar! Fenomena <em>Windfall Revenue</em> menuntut manajemen fiskal yang disiplin agar rezeki nomplok komoditas dialokasikan ke dana abadi, bukan dibakar untuk belanja konsumtif rutin."
+                "debrief": "Benar! Fenomena <em>Windfall Revenue</em> menuntut manajemen fiskal yang disiplin agar rezeki nomplok komoditas dialokasikan ke dana abadi, bukan dibakar untuk belanja konsumtif rutin. <span class='econ-jargon' data-term='audit_bpk'>Pengawasan Anggaran & Opini WTP BPK</span>"
             },
             {
                 "id": "s3_q31",
+                "theoryKey": "debt_sustainability",
+                "theoryTitle": "Analisis Keberlanjutan Utang (Debt Sustainability)",
                 "scenario": "🏛️ Belanja Modal vs Belanja Barang",
                 "question": "Dalam penyusunan postur APBN yang berkualitas, menteri keuangan selalu berupaya memperbesar proporsi Belanja Modal dibanding Belanja Barang. Apakah perbedaan fundamental dari kedua pos belanja ini?",
                 "options": [
@@ -1469,10 +1675,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Belanja modal meninggalkan warisan fisik bernilai puluhan tahun; belanja barang habis terpakai dalam hitungan hari!",
-                "debrief": "Sangat tepat! Belanja Modal menambah stok modal kapital nasional ($K$), meningkatkan kapasitas output potensial ($Y^*$) perekonomian jangka panjang."
+                "debrief": "Sangat tepat! <span class='econ-jargon' data-term='debt_sustainability'>Belanja Modal</span> menambah stok modal kapital nasional ($K$), meningkatkan kapasitas output potensial ($Y^*$) perekonomian jangka panjang."
             },
             {
                 "id": "s3_q32",
+                "theoryKey": "belanja_infrastruktur",
+                "theoryTitle": "Multiplier Belanja Infrastruktur Fisik",
                 "scenario": "🌾 Subsidi Pupuk vs Bantuan Alat Mesin Pertanian (Alsintan)",
                 "question": "Pemerintah menggabungkan subsidi pupuk dengan bantuan alsintan (traktor, combine harvester) kepada kelompok tani. Dari perspektif fungsi produksi Cobb-Douglas $Y = A \\cdot K^\\alpha \\cdot L^\\beta$, bantuan alsintan meningkatkan komponen:",
                 "options": [
@@ -1483,10 +1691,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Mesin traktor dan pemanen padi modern memangkas waktu panen dan melipatgandakan hasil gabah tanpa buang banyak bulir!",
-                "debrief": "Tepat! Peningkatan modal alat ($K$) dan mekanisasi ($A$) melipatgandakan produktivitas sektor pertanian, memperkuat ketahanan pangan dan menaikkan taraf hidup petani."
+                "debrief": "Tepat! Peningkatan modal alat ($K$) dan mekanisasi ($A$) melipatgandakan <span class='econ-jargon' data-term='belanja_infrastruktur'>produktivitas sektor pertanian</span>, memperkuat ketahanan pangan dan menaikkan taraf hidup petani."
             },
             {
                 "id": "s3_q33",
+                "theoryKey": "pajak_daerah",
+                "theoryTitle": "Harmonisasi Pajak Daerah & Retribusi (UU HKPD)",
                 "scenario": "💵 Pembiayaan Utang Luar Negeri vs Domestik",
                 "question": "Ketika pemerintah menerbitkan Samurai Bond (berdenominasi Yen di Jepang) atau Global Sukuk (berdenominasi USD), apa pertimbangan teknokrat selain memperluas diversifikasi basis investor internasional?",
                 "options": [
@@ -1497,10 +1707,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Obligasi global menjadi jembatan diplomasi finansial dan benchmark kredibilitas instrumen investasi Indonesia di bursa dunia!",
-                "debrief": "Benar! Diversifikasi instrumen utang valas global secara terukur memperkuat cadangan devisa dan membangun reputasi korporasi Indonesia di panggung keuangan dunia."
+                "debrief": "Benar! Diversifikasi instrumen utang valas global secara terukur memperkuat <span class='econ-jargon' data-term='pajak_daerah'>cadangan devisa</span> dan membangun reputasi korporasi Indonesia di panggung keuangan dunia."
             },
             {
                 "id": "s3_q34",
+                "theoryKey": "skema_kpbu",
+                "theoryTitle": "Kerjasama Pemerintah dan Badan Usaha (KPBU / PPP)",
                 "scenario": "⚖️ Evaluasi Spending Review Kementerian",
                 "question": "Setiap semester, Direktorat Jenderal Anggaran menggelar evaluasi 'Spending Review' terhadap seluruh kementerian dan lembaga. Apa indikator utama keberhasilan penyerapan anggaran yang sehat?",
                 "options": [
@@ -1511,10 +1723,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Bukan soal asal habiskan uang di bulan Desember, tapi apakah uang triliunan itu benar-benar jadi jalan tol yang mulus dan sekolah yang kokoh!",
-                "debrief": "Tepat sekali! Paradigma <em>Performance-Based Budgeting</em>: penyerapan anggaran harus mencerminkan hasil nyata (Outcome) di lapangan, bukan sekadar laporan formalitas habis belanja."
+                "debrief": "Tepat sekali! Paradigma <em>Performance-Based Budgeting</em>: penyerapan anggaran harus mencerminkan hasil nyata (Outcome) di lapangan, bukan sekadar laporan formalitas habis belanja. <span class='econ-jargon' data-term='skema_kpbu'>Kerjasama Pemerintah dan Badan Usaha (KPBU / PPP)</span>"
             },
             {
                 "id": "s3_q35",
+                "theoryKey": "risiko_kontinjensi",
+                "theoryTitle": "Kewajiban Kontinjensi & Penjaminan Negara",
                 "scenario": "🏭 Ketahanan Fiskal Menghadapi Resesi",
                 "question": "Dalam menghadapi risiko krisis ekonomi global, apakah pilar utama yang menjamin ketahanan fiskal (Fiscal Resilience) Republik Indonesia tetap kokoh?",
                 "options": [
@@ -1525,10 +1739,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Empat pilar benteng pertahanan fiskal: defisit kecil, utang terkendali, cadangan kas siap pakai, dan utang dalam mata uang sendiri!",
-                "debrief": "Luar biasa! Inilah rumus benteng ketahanan fiskal Indonesia yang teruji dalam berbagai guncangan krisis global."
+                "debrief": "Luar biasa! Inilah rumus benteng <span class='econ-jargon' data-term='risiko_kontinjensi'>ketahanan fiskal Indonesia</span> yang teruji dalam berbagai guncangan krisis global."
             },
             {
                 "id": "s3_q36",
+                "theoryKey": "kedaulatan_fiskal",
+                "theoryTitle": "Kedaulatan Fiskal & Kemandirian APBN",
                 "scenario": "👑 Mahakarya Pengelola Keuangan Negara",
                 "question": "Di akhir Level 3, apa esensi filosofis tertinggi dari penyusunan Anggaran Pendapatan dan Belanja Negara (APBN) bagi sebuah bangsa berdaulat?",
                 "options": [
@@ -1539,7 +1755,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "APBN adalah wujud gotong royong 280 juta rakyat Indonesia: yang kuat membantu yang lemah, bersama membangun peradaban bangsa yang adil dan makmur!",
-                "debrief": "Selamat! Anda telah menuntaskan seluruh 36 Soal Level 3 Kebijakan Fiskal dengan predikat gemilang! Pemahaman Anda mengenai arsitektur APBN, batas defisit, dan instrumen SBN kini setara teknokrat fiskal sejati!"
+                "debrief": "Selamat! Anda telah menuntaskan seluruh 36 Soal Level 3 <span class='econ-jargon' data-term='kedaulatan_fiskal'>Kebijakan Fiskal</span> dengan predikat gemilang! Pemahaman Anda mengenai arsitektur APBN, batas defisit, dan instrumen SBN kini setara teknokrat fiskal sejati!"
             }
         ]
     },
@@ -1552,6 +1768,8 @@ const MACRO_TRIVIA_STAGES = [
         "questionPool": [
             {
                 "id": "s4_q1",
+                "theoryKey": "kurs_valas",
+                "theoryTitle": "Dinamika Permintaan Valas & Depresiasi Rupiah",
                 "scenario": "🚢 Mengapa Rupiah Melemah saat Impor Lebih Besar?",
                 "question": "Ketika nilai impor barang dan jasa melampaui nilai ekspor, mengapa nilai tukar Rupiah cenderung mengalami tekanan depresiasi terhadap Dolar AS?",
                 "options": [
@@ -1566,6 +1784,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q2",
+                "theoryKey": "neraca_pembayaran",
+                "theoryTitle": "Defisit Transaksi Berjalan (Current Account Deficit)",
                 "scenario": "📉 Neraca Transaksi Berjalan (CAD)",
                 "question": "Defisit Neraca Transaksi Berjalan (Current Account Deficit / CAD) yang melebihi 3% dari PDB sering dianggap sebagai zona merah kerentanan makro. Apa yang dicatat dalam Neraca Transaksi Berjalan ini?",
                 "options": [
@@ -1580,6 +1800,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q3",
+                "theoryKey": "neraca_pembayaran",
+                "theoryTitle": "Surplus Neraca Finansial Penutup Defisit Berjalan",
                 "scenario": "💵 Neraca Transaksi Finansial (Capital Account)",
                 "question": "Ketika terjadi defisit transaksi berjalan (CAD), bagaimanakah perekonomian Indonesia menyeimbangkan Neraca Pembayaran keseluruhan agar cadangan devisa tidak terkuras?",
                 "options": [
@@ -1594,6 +1816,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q4",
+                "theoryKey": "cadangan_devisa",
+                "theoryTitle": "Cadangan Devisa sebagai Bantalan Stabilitas Eksternal",
                 "scenario": "🛡️ Standar Cadangan Devisa Internasional",
                 "question": "Bank Indonesia mengumumkan cadangan devisa sebesar US$ 140 miliar, setara dengan pembiayaan 6,5 bulan impor. Mengapa angka ini dinilai sangat aman oleh Dana Moneter Internasional (IMF)?",
                 "options": [
@@ -1608,6 +1832,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q5",
+                "theoryKey": "trilema_mundell_fleming",
+                "theoryTitle": "Trilema Mundell-Fleming (The Impossible Trinity)",
                 "scenario": "🔺 Trilema Moneter Mundell-Fleming",
                 "question": "Teori Trilema Mundell-Fleming (The Impossible Trinity) menyatakan bahwa sebuah negara tidak mungkin mencapai tiga target kebijakan sekaligus secara bersamaan. Manakah kombinasi 3 target yang mustahil diraih serentak tersebut?",
                 "options": [
@@ -1622,6 +1848,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q6",
+                "theoryKey": "marshall_lerner",
+                "theoryTitle": "Kondisi Marshall-Lerner & Depresiasi Mata Uang",
                 "scenario": "🌊 Kurs Mengambang Bebas vs Kurs Tetap",
                 "question": "Mengapa pada krisis moneter 1997-1998, rezim Kurs Mengambang Terkendali (yang dipatok kaku di kisaran Rp 2.500 per USD) akhirnya jebol dan memaksa Indonesia beralih ke Kurs Mengambang Bebas?",
                 "options": [
@@ -1632,10 +1860,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Mempertahankan kurs tetap saat modal asing kabur masif ibarat menahan bendungan jebol dengan tangan kosong—cadangan devisa habis terbakar!",
-                "debrief": "Tepat sekali! Pelajaran pahit 1997: Rezim kurs mengambang fleksibel (Managed Floating) saat ini bertindak sebagai <em>Shock Absorber</em> alami. Kurs melemah menyerap guncangan tanpa menghanguskan seluruh cadangan devisa."
+                "debrief": "Tepat sekali! Pelajaran pahit 1997: Rezim kurs mengambang fleksibel (Managed Floating) saat ini bertindak sebagai <em>Shock Absorber</em> alami. Kurs melemah menyerap guncangan tanpa menghanguskan seluruh cadangan devisa. <span class='econ-jargon' data-term='marshall_lerner'>Kondisi Marshall-Lerner & Depresiasi Mata Uang</span>"
             },
             {
                 "id": "s4_q7",
+                "theoryKey": "marshall_lerner",
+                "theoryTitle": "Fenomena Kurva J (J-Curve Effect) Neraca Perdagangan",
                 "scenario": "🦅 Kenaikan Suku Bunga The Fed AS",
                 "question": "Ketika bank sentral Amerika Serikat (The Fed) menaikkan suku bunga acuannya secara agresif (Hawkish Fed), mengapa mata uang negara berkembang (Emerging Markets) serempak melemah?",
                 "options": [
@@ -1646,10 +1876,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Saat bank sentral adidaya menaikkan bunga, investor sedunia menarik dolarnya dari pasar berkembang untuk ditabung di obligasi pemerintah AS yang aman!",
-                "debrief": "Benar! Fenomena <em>Flight to Quality / Safety</em>. Dolar AS menguat perkasa (King Dollar), menekan mata uang seluruh dunia termasuk Rupiah, menuntut respon kebijakan moneter yang sigap."
+                "debrief": "Benar! Fenomena <em>Flight to Quality / Safety</em>. Dolar AS menguat perkasa (King Dollar), menekan mata uang seluruh dunia termasuk Rupiah, menuntut respon kebijakan moneter yang sigap. <span class='econ-jargon' data-term='marshall_lerner'>Fenomena Kurva J (J-Curve Effect) Neraca Perdagangan</span>"
             },
             {
                 "id": "s4_q8",
+                "theoryKey": "dndf",
+                "theoryTitle": "Pasar Valas DNDF (Domestic Non-Deliverable Forward)",
                 "scenario": "🏃 Pelarian Modal Asing (Capital Flight)",
                 "question": "Apa dampak makroekonomi langsung yang terjadi di pasar keuangan domestik saat investor asing melakukan aksi jual massal (Sudden Stop / Capital Flight) di pasar saham dan obligasi Indonesia?",
                 "options": [
@@ -1664,6 +1896,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q9",
+                "theoryKey": "lcs",
+                "theoryTitle": "LCS (Local Currency Settlement) / LCT",
                 "scenario": "💎 Devisa Hasil Ekspor (DHE) di Dalam Negeri",
                 "question": "Pemerintah menerbitkan Peraturan Pemerintah mengenai Devisa Hasil Ekspor (DHE) yang mewajibkan eksportir komoditas sumber daya alam (SDA) menempatkan minimal 30% devisanya di perbankan domestik selama 3 bulan. Mengapa kebijakan ini penting?",
                 "options": [
@@ -1674,10 +1908,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Nikel dan sawitnya dari tanah air kita, masak uang hasil ekspornya diparkir di bank luar negeri? Wajib menginap di dalam negeri untuk menjaga stabilitas Rupiah!",
-                "debrief": "Luar biasa! Kebijakan DHE SDA memperkuat ketahanan moneter eksternal. Pasokan valas yang menetap di perbankan nasional mempertebal cadangan devisa dan menopang stabilitas kurs Rupiah."
+                "debrief": "Luar biasa! <span class='econ-jargon' data-term='lcs'>Kebijakan DHE SDA</span> memperkuat ketahanan moneter eksternal. Pasokan valas yang menetap di perbankan nasional mempertebal cadangan devisa dan menopang stabilitas kurs Rupiah."
             },
             {
                 "id": "s4_q10",
+                "theoryKey": "hedging",
+                "theoryTitle": "Lindung Nilai (Hedging) Utang Valas Korporasi",
                 "scenario": "📦 Imported Inflation (Inflasi Impor)",
                 "question": "Indonesia mengimpor gandum untuk bahan baku mi instan dan kedelai untuk tahu-tempe. Ketika kurs Rupiah melemah dari Rp 15.000 menjadi Rp 16.500 per Dolar AS, bagaimana dampaknya terhadap harga mi dan tahu di warung?",
                 "options": [
@@ -1692,6 +1928,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q11",
+                "theoryKey": "dutch_disease",
+                "theoryTitle": "Penyakit Belanda (Dutch Disease) Boom Komoditas",
                 "scenario": "🤝 Dedolarisasi & Local Currency Settlement (LCS)",
                 "question": "Bank Indonesia aktif menjalin kerja sama Local Currency Settlement (LCS) dengan China, Jepang, Malaysia, Thailand, dan Korea Selatan. Apa manfaat strategis transaksi bilateral menggunakan mata uang lokal masing-masing tanpa lewat Dolar AS?",
                 "options": [
@@ -1706,6 +1944,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q12",
+                "theoryKey": "imported_inflation",
+                "theoryTitle": "Inflasi Terimpor (Imported Inflation)",
                 "scenario": "🛡️ Hedging / Lindung Nilai Valas Korporasi",
                 "question": "Mengapa Bank Indonesia dan Otoritas Jasa Keuangan (OJK) mewajibkan korporasi yang memiliki utang luar negeri dalam Dolar AS untuk melakukan Lindung Nilai (Hedging)?",
                 "options": [
@@ -1720,6 +1960,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q13",
+                "theoryKey": "hilirisasi_komoditas",
+                "theoryTitle": "Hilirisasi Komoditas & Peningkatan Nilai Tambah Ekspor",
                 "scenario": "⚠️ Currency Mismatch (Ketidakcocokan Mata Uang)",
                 "question": "Sebuah perusahaan pengembang properti lokal membangun perumahan di Bekasi dengan pendapatan 100% dalam Rupiah, namun mendanai proyek tersebut dengan meminjam utang US$ 100 juta tanpa lindung nilai. Mengapa perusahaan ini menghadapi risiko maut 'Currency Mismatch'?",
                 "options": [
@@ -1730,10 +1972,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Pemasukan dalam Rupiah tetapi cicilan utang dalam Dolar AS: begitu Dolar meroket, uang kas Rupiahmu tidak cukup lagi bayar cicilan utang!",
-                "debrief": "Benar sekali! <em>Currency Mismatch</em> adalah biang keladi utama krisis perbankan dan kebangkrutan massal dunia usaha pada krisis 1997-1998."
+                "debrief": "Benar sekali! <em>Currency Mismatch</em> adalah biang keladi utama krisis perbankan dan kebangkrutan massal dunia usaha pada krisis 1997-1998. <span class='econ-jargon' data-term='hilirisasi_komoditas'>Hilirisasi Komoditas & Peningkatan Nilai Tambah Ekspor</span>"
             },
             {
                 "id": "s4_q14",
+                "theoryKey": "dhe_sda",
+                "theoryTitle": "Devisa Hasil Ekspor Sumber Daya Alam (DHE SDA)",
                 "scenario": "📈 Fenomena Kurva J (J-Curve Effect)",
                 "question": "Ketika nilai tukar Rupiah terdepresiasi, teori perdagangan menyatakan ekspor akan naik dan impor turun sehingga neraca perdagangan membaik. Namun mengapa pada bulan-bulan awal, neraca perdagangan justru sering memburuk sebelum akhirnya membaik (Kurva J)?",
                 "options": [
@@ -1748,6 +1992,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q15",
+                "theoryKey": "terms_of_trade",
+                "theoryTitle": "Ketentuan Perdagangan (Terms of Trade / ToT)",
                 "scenario": "🚢 Neraca Perdagangan: Surplus vs Defisit",
                 "question": "Badan Pusat Statistik (BPS) mengumumkan neraca perdagangan Indonesia mencatatkan surplus selama 50 bulan berturut-turut. Apakah makna ekonomi positif dari surplus perdagangan beruntun ini bagi makroekonomi?",
                 "options": [
@@ -1758,10 +2004,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Uang dari penjualan barang ke luar negeri lebih banyak dibanding uang yang kita keluarkan untuk belanja impor—kantong devisa negara surplus!",
-                "debrief": "Benar! Surplus neraca perdagangan yang konsisten memperkuat transaksi berjalan, mempertebal cadangan devisa, dan menjaga kestabilan nilai tukar Rupiah dari tekanan eksternal."
+                "debrief": "Benar! <span class='econ-jargon' data-term='terms_of_trade'>Surplus neraca perdagangan</span> yang konsisten memperkuat transaksi berjalan, mempertebal cadangan devisa, dan menjaga kestabilan nilai tukar Rupiah dari tekanan eksternal."
             },
             {
                 "id": "s4_q16",
+                "theoryKey": "interest_rate_parity",
+                "theoryTitle": "Paritas Suku Bunga (Interest Rate Parity / IRP)",
                 "scenario": "👷 Remitansi Pekerja Migran Indonesia (PMI)",
                 "question": "Jutaan Pekerja Migran Indonesia (PMI) di luar negeri mengirimkan uang ratusan triliun rupiah ke kampung halamannya setiap tahun. Dalam struktur Neraca Pembayaran Indonesia, aliran devisa ini dicatat sebagai:",
                 "options": [
@@ -1772,10 +2020,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Pahlawan devisa: uang hasil jerih payah keringat buruh migran mengalir langsung ke desa, membiayai sekolah adik-adiknya dan membangun rumah!",
-                "debrief": "Luar biasa! Remitansi PMI adalah devisa riil yang langsung dinikmati masyarakat akar rumput, menopang konsumsi daerah dan menyumbang surplus pada pendapatan sekunder neraca pembayaran."
+                "debrief": "Luar biasa! <span class='econ-jargon' data-term='interest_rate_parity'>Remitansi PMI</span> adalah devisa riil yang langsung dinikmati masyarakat akar rumput, menopang konsumsi daerah dan menyumbang surplus pada pendapatan sekunder neraca pembayaran."
             },
             {
                 "id": "s4_q17",
+                "theoryKey": "fdi_investasi",
+                "theoryTitle": "Penanaman Modal Asing Langsung (FDI)",
                 "scenario": "🏭 Ekspor Bernilai Tambah Tinggi vs Mentah",
                 "question": "Mengapa kebijakan hilirisasi (melarang ekspor bijih nikel mentah dan mewajibkan smelter mengolahnya menjadi feronikel atau baterai) secara struktural menyehatkan Neraca Pembayaran Indonesia?",
                 "options": [
@@ -1786,10 +2036,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Menjual baterai mobil listrik menghasilkan ratusan juta rupiah devisa, dibanding hanya menjual tanah lumpur mentah seharga ratusan ribu rupiah!",
-                "debrief": "Tepat! Hilirisasi industri memperkokoh <em>Terms of Trade</em> Indonesia, mendiversifikasi struktur ekspor dari komoditas mentah bergejolak menjadi produk manufaktur bernilai tambah tinggi."
+                "debrief": "Tepat! Hilirisasi industri memperkokoh <em>Terms of Trade</em> Indonesia, mendiversifikasi struktur ekspor dari komoditas mentah bergejolak menjadi produk manufaktur bernilai tambah tinggi. <span class='econ-jargon' data-term='fdi_investasi'>Penanaman Modal Asing Langsung (FDI)</span>"
             },
             {
                 "id": "s4_q18",
+                "theoryKey": "repatriasi_keuntungan",
+                "theoryTitle": "Defisit Pendapatan Primer & Repatriasi Laba Asing",
                 "scenario": "📉 Defisit Neraca Jasa (Service Balance Deficit)",
                 "question": "Meskipun neraca perdagangan barang Indonesia sering mencatat surplus besar, Neraca Jasa (Services Account) Indonesia hampir selalu mencatat defisit kronis. Apa biang keladi utama defisit neraca jasa ini?",
                 "options": [
@@ -1800,10 +2052,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Barangnya kita ekspor, tapi kapal pengangkut raksasa dan asuransi pelayarannya milik perusahaan asing—kita tekor bayar ongkos sewa kapalnya!",
-                "debrief": "Benar sekali! Defisit jasa logistik maritim (freight charges) dan jasa asuransi internasional adalah kelemahan struktural yang harus diatasi dengan memperkuat armada perkapalan nasional."
+                "debrief": "Benar sekali! <span class='econ-jargon' data-term='repatriasi_keuntungan'>Defisit jasa logistik maritim</span> (freight charges) dan jasa asuransi internasional adalah kelemahan struktural yang harus diatasi dengan memperkuat armada perkapalan nasional."
             },
             {
                 "id": "s4_q19",
+                "theoryKey": "currency_swap",
+                "theoryTitle": "Bilateral Currency Swap Arrangement (BCSA)",
                 "scenario": "📊 Real Effective Exchange Rate (REER)",
                 "question": "Apa yang diukur oleh indeks Real Effective Exchange Rate (REER) yang dipantau oleh Bank Indonesia dan Dana Moneter Internasional (IMF)?",
                 "options": [
@@ -1818,6 +2072,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q20",
+                "theoryKey": "remitansi_tki",
+                "theoryTitle": "Remitansi Pekerja Migran & Pendapatan Sekunder",
                 "scenario": "🔥 Hot Money vs Foreign Direct Investment (FDI)",
                 "question": "Mengapa penanaman modal asing langsung (FDI) jauh lebih disukai oleh teknokrat makroekonomi ketimbang aliran dana investasi portofolio jangka pendek (Hot Money)?",
                 "options": [
@@ -1828,10 +2084,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Membangun pabrik semen butuh waktu bertahun-tahun dan tidak bisa diangkut lari saat krisis; tapi dana saham dan obligasi bisa kabur lewat satu klik tombol komputer!",
-                "debrief": "Sangat tepat! <em>Hot Money</em> sangat labil dan mudah berbalik arah (Capital Reversal). FDI adalah modal jangka panjang yang kokoh, mentransfer teknologi, dan memperkuat kapasitas produktif bangsa."
+                "debrief": "Sangat tepat! <em>Hot Money</em> sangat labil dan mudah berbalik arah (Capital Reversal). FDI adalah modal jangka panjang yang kokoh, mentransfer teknologi, dan memperkuat kapasitas produktif bangsa. <span class='econ-jargon' data-term='remitansi_tki'>Remitansi Pekerja Migran & Pendapatan Sekunder</span>"
             },
             {
                 "id": "s4_q21",
+                "theoryKey": "perjanjian_fta",
+                "theoryTitle": "Perjanjian Perdagangan Bebas (FTA & RCEP)",
                 "scenario": "🏝️ Pariwisata Internasional sebagai Devisa Jasa",
                 "question": "Ketika turis mancanegara dari Australia dan Eropa berlibur ke Bali, Labuan Bajo, atau Raja Ampat dan membelanjakan Dolar mereka untuk hotel dan kuliner lokal, transaksi ini dicatat sebagai:",
                 "options": [
@@ -1842,10 +2100,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Turis asing menikmati indahnya pantai dan keramahan hotel lokal lalu membayar pakai devisa—itu adalah ekspor jasa pariwisata!",
-                "debrief": "Tepat! Pariwisata adalah pundi devisa jasa terbesar bangsa. Devisa turis langsung mengalir ke pengusaha hotel, pemandu wisata, perajin suvenir, dan UMKM kuliner lokal."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='perjanjian_fta'>Pariwisata adalah pundi devisa jasa</span> terbesar bangsa. Devisa turis langsung mengalir ke pengusaha hotel, pemandu wisata, perajin suvenir, dan UMKM kuliner lokal."
             },
             {
                 "id": "s4_q22",
+                "theoryKey": "taper_tantrum",
+                "theoryTitle": "Fenomena Taper Tantrum",
                 "scenario": "🛡️ Bilateral Swap Arrangement (BSA)",
                 "question": "Bank Indonesia menjalin kerja sama Bilateral Swap Arrangement (BSA) dengan bank sentral negara mitra (seperti Bank of Japan dan Bank of Korea). Apa fungsi utama jaring pengaman moneter bilateral ini?",
                 "options": [
@@ -1856,10 +2116,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Pakta tolong-menolong antar-bank sentral: jika salah satu negara kehabisan likuiditas valas darurat, negara mitra siap menukarkan likuiditas mata uang seketika!",
-                "debrief": "Benar! <em>Bilateral Swap Arrangement (BSA)</em> adalah lapis kedua jaring pengaman keuangan (Financial Safety Net) kawasan untuk menangkal krisis likuiditas global."
+                "debrief": "Benar! <em>Bilateral Swap Arrangement (BSA)</em> adalah lapis kedua jaring pengaman keuangan (Financial Safety Net) kawasan untuk menangkal krisis likuiditas global. <span class='econ-jargon' data-term='taper_tantrum'>Fenomena Taper Tantrum</span>"
             },
             {
                 "id": "s4_q23",
+                "theoryKey": "peringkat_utang",
+                "theoryTitle": "Peringkat Utang Negara (Sovereign Credit Rating)",
                 "scenario": "🚢 Tarif Impor & Proteksionisme Dagang",
                 "question": "Pemerintah mengenakan Bea Masuk Tindakan Pengamanan (BMTP) atau tarif impor tinggi terhadap produk pakaian jadi dan keramik dari luar negeri. Apa motif dan konsekuensi makro dari kebijakan proteksionisme ini?",
                 "options": [
@@ -1870,10 +2132,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Membentengi pabrik lokal agar tidak gulung tikar diserbu barang murah asing, tapi konsumen harus rela membayar harga barang sedikit lebih mahal!",
-                "debrief": "Tepat! Kebijakan proteksionisme adalah pisau bermata dua: melindungi industri bayi (Infant Industry) dan lapangan kerja, tetapi mendistorsi efisiensi pasar dan membebani konsumen."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='peringkat_utang'>Kebijakan proteksionisme</span> adalah pisau bermata dua: melindungi industri bayi (Infant Industry) dan lapangan kerja, tetapi mendistorsi efisiensi pasar dan membebani konsumen."
             },
             {
                 "id": "s4_q24",
+                "theoryKey": "premi_cds",
+                "theoryTitle": "Premi Risiko Credit Default Swap (CDS 5-Tahun)",
                 "scenario": "💵 Pasar Valas Spot vs Forward",
                 "question": "Seorang importir laptop dari Taiwan harus melunasi pembayaran US$ 1 juta dalam waktu 6 bulan ke depan. Mengapa importir tersebut memilih membeli kontrak Forward Valas ketimbang membeli di pasar Spot saat ini?",
                 "options": [
@@ -1884,10 +2148,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Kontrak Forward mengunci harga dolar hari ini: tidur tenang tanpa takut besok dolar mendadak meroket!",
-                "debrief": "Benar! Pasar <em>Forward</em> dan DNDF adalah instrumen lindung nilai (hedging) yang memberikan kepastian kalkulasi biaya bagi pelaku usaha yang bertransaksi dengan valuta asing."
+                "debrief": "Benar! Pasar <em>Forward</em> dan DNDF adalah instrumen lindung nilai (hedging) yang memberikan kepastian kalkulasi biaya bagi pelaku usaha yang bertransaksi dengan valuta asing. <span class='econ-jargon' data-term='premi_cds'>Premi Risiko Credit Default Swap (CDS 5-Tahun)</span>"
             },
             {
                 "id": "s4_q25",
+                "theoryKey": "hukum_satu_harga",
+                "theoryTitle": "Hukum Satu Harga & Paritas Daya Beli (PPP)",
                 "scenario": "📉 Beban Utang Luar Negeri (DSR)",
                 "question": "Indikator Debt Service Ratio (DSR) Tier-1 mengukur persentase penerimaan devisa ekspor yang harus dihabiskan untuk membayar pokok dan bunga utang luar negeri. Mengapa DSR yang melebihi batas 30% dianggap membahayakan?",
                 "options": [
@@ -1898,10 +2164,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Jika dari setiap Rp 100 devisa ekspor, Rp 30-nya habis hanya buat bayar cicilan utang luar negeri, kantong devisa bangsa sangat rapuh!",
-                "debrief": "Tepat! Rasio DSR adalah barometer beban utang eksternal. DSR yang terkendali menjamin bahwa devisa hasil ekspor tetap dominan berputar untuk menopang pertumbuhan ekonomi riil domestik."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='hukum_satu_harga'>Rasio DSR</span> adalah barometer beban utang eksternal. DSR yang terkendali menjamin bahwa devisa hasil ekspor tetap dominan berputar untuk menopang pertumbuhan ekonomi riil domestik."
             },
             {
                 "id": "s4_q26",
+                "theoryKey": "kurs_reer",
+                "theoryTitle": "Real Effective Exchange Rate (Kurs REER)",
                 "scenario": "🌊 Gejolak Global: Taper Tantrum 2013",
                 "question": "Pada peristiwa 'Taper Tantrum' tahun 2013, pernyataan Ketua The Fed Ben Bernanke memicu depresiasi Rupiah hingga melampaui Rp 12.000 per USD dan IHSG anjlok tajam. Pelajaran makro terpenting dari krisis ini adalah:",
                 "options": [
@@ -1912,10 +2180,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Pelajaran berharga 2013: jangan biarkan defisit transaksi berjalan melebar dan cadangan devisa tipis saat suku bunga dunia mau naik!",
-                "debrief": "Sangat tepat! Kerentanan internal (CAD lebar dan inflasi tinggi) adalah magnet badai. Memperkuat fondasi fundamental makro adalah obat terbaik menangkal penularan krisis global."
+                "debrief": "Sangat tepat! <span class='econ-jargon' data-term='kurs_reer'>Kerentanan internal</span> (CAD lebar dan inflasi tinggi) adalah magnet badai. Memperkuat fondasi fundamental makro adalah obat terbaik menangkal penularan krisis global."
             },
             {
                 "id": "s4_q27",
+                "theoryKey": "komoditas_supercycle",
+                "theoryTitle": "Siklus Super Komoditas (Commodity Supercycle)",
                 "scenario": "🏛️ Chiang Mai Initiative (CMIM)",
                 "question": "Negara-negara ASEAN+3 (ASEAN bersama China, Jepang, dan Korea Selatan) membentuk kesepakatan jaring pengaman keuangan regional Chiang Mai Initiative Multilateralisation (CMIM). Apa mandat utama lembaga ini?",
                 "options": [
@@ -1926,10 +2196,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Bila ada negara tetangga kehabisan likuiditas valas akibat serangan spekulan, dana bersama ratusan miliar dolar siap disuntikkan seketika!",
-                "debrief": "Benar! CMIM adalah pilar stabilitas keuangan regional Asia Timur dan Tenggara, mengurangi ketergantungan pada program penyesuaian struktural IMF yang seringkali menyakitkan."
+                "debrief": "Benar! <span class='econ-jargon' data-term='komoditas_supercycle'>CMIM</span> adalah pilar stabilitas keuangan regional Asia Timur dan Tenggara, mengurangi ketergantungan pada program penyesuaian struktural IMF yang seringkali menyakitkan."
             },
             {
                 "id": "s4_q28",
+                "theoryKey": "larangan_ekspor_mentah",
+                "theoryTitle": "Larangan Ekspor Bijih Mentah Mineral",
                 "scenario": "📦 Aturan Ketentuan Asal Barang (Rules of Origin)",
                 "question": "Dalam perjanjian perdagangan bebas Regional Comprehensive Economic Partnership (RCEP), mengapa aturan 'Rules of Origin' (Ketentuan Asal Barang) sangat diperiksa ketat oleh petugas bea cukai?",
                 "options": [
@@ -1940,10 +2212,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Mencegah barang luar negeri 'numpang lewat stempel' di negara tetangga agar dapat diskon tarif bea masuk gratisan!",
-                "debrief": "Tepat! <em>Rules of Origin</em> menetapkan syarat kandungan nilai lokal (Local Value Added) minimal agar suatu produk berhak menikmati pembebasan tarif bea masuk perjanjian perdagangan bebas."
+                "debrief": "Tepat! <em>Rules of Origin</em> menetapkan syarat kandungan nilai lokal (Local Value Added) minimal agar suatu produk berhak menikmati pembebasan tarif bea masuk perjanjian perdagangan bebas. <span class='econ-jargon' data-term='larangan_ekspor_mentah'>Larangan Ekspor Bijih Mentah Mineral</span>"
             },
             {
                 "id": "s4_q29",
+                "theoryKey": "devaluasi_kompetitif",
+                "theoryTitle": "Devaluasi Kompetitif (Beggar-Thy-Neighbour)",
                 "scenario": "💰 Devaluasi Mata Uang secara Sengaja",
                 "question": "Dalam sejarah ekonomi, beberapa negara pengekspor besar pernah sengaja mendevaluasi (melemahkan) nilai mata uangnya secara drastis (Competitive Devaluation). Apa tujuan tersembunyi dari kebijakan agresif ini?",
                 "options": [
@@ -1954,10 +2228,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Sengaja melemahkan mata uang agar barang dagangannya tampak sangat murah di mata pembeli luar negeri dan mematikan pabrik lawan!",
-                "debrief": "Benar! Devaluasi kompetitif (sering disebut <em>Beggar-Thy-Neighbour Policy</em>) dapat memicu perang mata uang global (Currency Wars) yang merusak tatanan perdagangan internasional."
+                "debrief": "Benar! Devaluasi kompetitif (sering disebut <em><span class='econ-jargon' data-term='devaluasi_kompetitif'>Beggar-Thy-Neighbour Policy</span></em>) dapat memicu perang mata uang global (Currency Wars) yang merusak tatanan perdagangan internasional."
             },
             {
                 "id": "s4_q30",
+                "theoryKey": "investasi_portofolio",
+                "theoryTitle": "Arus Modal Panas (Hot Money) & Portofolio",
                 "scenario": "🚢 Neraca Finansial: Investasi Portofolio",
                 "question": "Selain Penanaman Modal Asing (PMA/FDI), Neraca Finansial Indonesia sangat dipengaruhi oleh Investasi Portofolio. Instrumen pasar modal apa sajakah yang dibeli oleh investor asing dalam investasi portofolio ini?",
                 "options": [
@@ -1968,10 +2244,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Investasi kertas di layar monitor: saham emiten di bursa efek dan obligasi SBN negara!",
-                "debrief": "Tepat! Investasi portofolio mencakup aset-aset likuid di pasar modal. Keuntungannya adalah cepat mendatangkan devisa modal, namun kelemahannya sangat rentan terhadap penarikan mendadak saat sentimen memburuk."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='investasi_portofolio'>Investasi portofolio</span> mencakup aset-aset likuid di pasar modal. Keuntungannya adalah cepat mendatangkan devisa modal, namun kelemahannya sangat rentan terhadap penarikan mendadak saat sentimen memburuk."
             },
             {
                 "id": "s4_q31",
+                "theoryKey": "global_value_chains",
+                "theoryTitle": "Rantai Nilai Global (Global Value Chains / GVC)",
                 "scenario": "🌐 Fenomena Dutch Disease di Sektor Valas",
                 "question": "Ketika ekspor batu bara dan kelapa sawit melonjak masif, devisa Dolar mengalir deras ke Indonesia dan mengapresiasi nilai tukar Rupiah secara tajam. Mengapa penguatan Rupiah yang terlalu ekstrem ini justru mematikan industri garmen dan mebel lokal?",
                 "options": [
@@ -1986,6 +2264,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q32",
+                "theoryKey": "risk_free_rate",
+                "theoryTitle": "Suku Bunga Bebas Risiko (Risk-Free Rate)",
                 "scenario": "📈 Suku Bunga Bebas Risiko (Risk-Free Rate)",
                 "question": "Dalam penentuan arus modal valas global, imbal hasil obligasi pemerintah Amerika Serikat (US Treasury Bills) selalu dijadikan acuan 'Risk-Free Rate' dunia. Mengapa investor global menjadikannya tolok ukur utama?",
                 "options": [
@@ -1996,10 +2276,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Standar emas imbal hasil aman dunia: jika obligasi AS naik bunganya, semua aset investasi di negara lain harus menawarkan bunga lebih tinggi agar dilirik!",
-                "debrief": "Tepat! <em>Risk-Free Rate</em> US Treasury adalah tolok ukur dasar penentuan premi risiko (Risk Premium) bagi instrumen keuangan di seluruh negara berkembang."
+                "debrief": "Tepat! <em><span class='econ-jargon' data-term='risk_free_rate'>Risk-Free Rate</span></em> US Treasury adalah tolok ukur dasar penentuan premi risiko (Risk Premium) bagi instrumen keuangan di seluruh negara berkembang."
             },
             {
                 "id": "s4_q33",
+                "theoryKey": "swasembada_pangan",
+                "theoryTitle": "Swasembada Pangan & Kedaulatan Devisa",
                 "scenario": "🌾 Ketahanan Pangan & Kedaulatan Valas",
                 "question": "Mengapa ketergantungan kronis pada impor pangan pokok (seperti beras, kedelai, dan daging sapi) bukan hanya masalah pertanian semata, melainkan ancaman langsung terhadap ketahanan moneter dan valas?",
                 "options": [
@@ -2010,10 +2292,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Bila perut bangsa bergantung pada pasokan impor, lonjakan harga dunia langsung menghabisi cadangan devisa dan menenggelamkan kurs Rupiah!",
-                "debrief": "Sangat tepat! Kedaulatan pangan adalah pilar ketahanan eksternal. Swasembada pangan melindungi cadangan devisa dan memutus transmisi inflasi pangan impor."
+                "debrief": "Sangat tepat! <span class='econ-jargon' data-term='swasembada_pangan'>Kedaulatan pangan</span> adalah pilar ketahanan eksternal. Swasembada pangan melindungi cadangan devisa dan memutus transmisi inflasi pangan impor."
             },
             {
                 "id": "s4_q34",
+                "theoryKey": "utang_valas_swasta",
+                "theoryTitle": "Mitigasi Risiko Utang Valas Swasta Non-Bank",
                 "scenario": "🏢 Utang Luar Negeri Swasta Non-Bank",
                 "question": "Kementerian Keuangan dan Bank Indonesia memantau secara ketat rasio Utang Luar Negeri (ULN) swasta non-bank. Apa bahaya terbesar dari lonjakan utang valas korporasi swasta yang tidak terkontrol?",
                 "options": [
@@ -2024,10 +2308,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Jika ribuan perusahaan swasta ramai-ramai panik memburu Dolar untuk bayar utang jatuh tempo, pasar valas jebol dan ekonomi nasional bisa terseret krisis!",
-                "debrief": "Benar! Salah satu pemicu utama kedalaman krisis 1998 adalah membengkaknya utang valas swasta tanpa lindung nilai yang tidak terpantau oleh otoritas makroekonomi."
+                "debrief": "Benar! Salah satu pemicu utama kedalaman krisis 1998 adalah membengkaknya <span class='econ-jargon' data-term='utang_valas_swasta'>utang valas swasta</span> tanpa lindung nilai yang tidak terpantau oleh otoritas makroekonomi."
             },
             {
                 "id": "s4_q35",
+                "theoryKey": "diversifikasi_mitra",
+                "theoryTitle": "Diversifikasi Pasar Ekspor Non-Tradisional",
                 "scenario": "📊 Derivatif DNDF (Domestic Non-Deliverable Forward)",
                 "question": "Bank Indonesia meluncurkan instrumen lindung nilai Domestic Non-Deliverable Forward (DNDF). Apa keunggulan transaksi DNDF dibanding transaksi forward valas konvensional?",
                 "options": [
@@ -2042,6 +2328,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s4_q36",
+                "theoryKey": "ketahanan_eksternal",
+                "theoryTitle": "Benteng Ketahanan Sektor Eksternal Indonesia",
                 "scenario": "👑 Mahakarya Ketahanan Eksternal Bangsa",
                 "question": "Di akhir Level 4, apa ikhtisar pamungkas yang harus dikuasai oleh seorang teknokrat makroekonomi dalam mengelola hubungan ekonomi internasional?",
                 "options": [
@@ -2052,7 +2340,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Menari di tengah badai ombak global: kita rangkul pasar dunia untuk memajukan bangsa, namun benteng devisa dan kedaulatan moneter tetap kokoh tak tergoyahkan!",
-                "debrief": "Selamat! Anda telah menuntaskan seluruh 36 Soal Level 4 Valas & Hubungan Internasional! Pemahaman Anda mengenai dinamika transaksi berjalan, devisa, dan trilema moneter kini setara analis makroekonomi global sejati!"
+                "debrief": "Selamat! Anda telah menuntaskan seluruh 36 Soal Level 4 <span class='econ-jargon' data-term='ketahanan_eksternal'>Valas & Hubungan Internasional</span>! Pemahaman Anda mengenai dinamika transaksi berjalan, devisa, dan trilema moneter kini setara analis makroekonomi global sejati!"
             }
         ]
     },
@@ -2065,6 +2353,8 @@ const MACRO_TRIVIA_STAGES = [
         "questionPool": [
             {
                 "id": "s5_q1",
+                "theoryKey": "krismon_1998",
+                "theoryTitle": "Krisis Moneter Asia 1998 (Krismon)",
                 "scenario": "🌪️ Anatomi Krisis Moneter 1997-1998",
                 "question": "Pada Krisis Keuangan Asia 1997-1998, nilai tukar Rupiah ambruk dari Rp 2.500 menjadi Rp 16.000 per USD, memicu kebangkrutan massal perbankan dan resesi minus 13% PDB. Faktor kerentanan struktural apakah yang menjadi sumbu ledak krisis tersebut?",
                 "options": [
@@ -2075,10 +2365,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Tiga serangkai petaka: kurs dipatok kaku, utang swasta dalam Dolar membludak tanpa asuransi, dan bank-bank meminjamkan uang ke kroni sendiri tanpa agunan sehat!",
-                "debrief": "Tepat sekali! Krisis 1998 adalah pelajaran paling berharga dalam sejarah makroekonomi Indonesia. Kolapsnya nilai tukar melipatgandakan beban utang valas swasta, meruntuhkan likuiditas perbankan, dan menghanguskan stabilitas sosial."
+                "debrief": "Tepat sekali! <span class='econ-jargon' data-term='krismon_1998'>Krisis 1998</span> adalah pelajaran paling berharga dalam sejarah makroekonomi Indonesia. Kolapsnya nilai tukar melipatgandakan beban utang valas swasta, meruntuhkan likuiditas perbankan, dan menghanguskan stabilitas sosial."
             },
             {
                 "id": "s5_q2",
+                "theoryKey": "policy_mix",
+                "theoryTitle": "Bauran Kebijakan (Policy Mix) Moneter & Fiskal",
                 "scenario": "💎 Penyakit Belanda (Dutch Disease)",
                 "question": "Ketika harga batu bara dan minyak sawit global melonjak tinggi, devisa ekspor mengalir deras ke Indonesia. Mengapa teknokrat ekonomi sangat mewaspadai bahaya 'Dutch Disease' (Penyakit Belanda) di saat booming komoditas?",
                 "options": [
@@ -2093,6 +2385,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q3",
+                "theoryKey": "kssk",
+                "theoryTitle": "Protokol Manajemen Krisis Sistem Keuangan KSSK",
                 "scenario": "📉 Dilema Stagflasi (Stagflation)",
                 "question": "Perekonomian global dilanda 'Stagflasi' ketika terjadi guncangan kenaikan harga minyak mentah perang dunia (Supply Shock). Mengapa stagflasi merupakan mimpi buruk terburuk bagi teknokrat ekonomi makro?",
                 "options": [
@@ -2107,6 +2401,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q4",
+                "theoryKey": "bail_in",
+                "theoryTitle": "Mekanisme Resolusi Bank Bail-In (UU P2SK)",
                 "scenario": "📈 Kurva Phillips & Batas NAIRU",
                 "question": "Konsep NAIRU (Non-Accelerating Inflation Rate of Unemployment) menyatakan bahwa ada batas pengangguran alami dalam perekonomian. Apa yang terjadi jika pemerintah memaksakan menurunkan pengangguran di bawah tingkat NAIRU melalui stimulus moneter-fiskal terus-menerus?",
                 "options": [
@@ -2121,6 +2417,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q5",
+                "theoryKey": "pandemi_shock",
+                "theoryTitle": "Guncangan Ganda Pandemi Covid-19 (Double Shock)",
                 "scenario": "🦠 Guncangan Ganda Pandemi Covid-19",
                 "question": "Pada tahun 2020, pandemi Covid-19 menghantam perekonomian Indonesia sebagai 'Double Shock' (Guncangan Ganda). Mengapa krisis ini berbeda dari krisis finansial konvensional?",
                 "options": [
@@ -2131,10 +2429,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Pabrik tidak bisa berproduksi karena buruh harus di rumah (Supply Shock), sementara mall dan pasar sepi karena pembeli dilarang keluar (Demand Shock)!",
-                "debrief": "Benar! Pandemi adalah guncangan kemanusiaan dan ekonomi multidimensi. Respon kebijakannya menuntut keselamatan jiwa di atas segalanya, ditopang jaring pengaman sosial masif dan kelonggaran regulasi darurat."
+                "debrief": "Benar! <span class='econ-jargon' data-term='pandemi_shock'>Pandemi</span> adalah guncangan kemanusiaan dan ekonomi multidimensi. Respon kebijakannya menuntut keselamatan jiwa di atas segalanya, ditopang jaring pengaman sosial masif dan kelonggaran regulasi darurat."
             },
             {
                 "id": "s5_q6",
+                "theoryKey": "relaksasi_defisit",
+                "theoryTitle": "Relaksasi Batas Defisit APBN Darurat Pandemi",
                 "scenario": "🏛️ Bauran Kebijakan Terpadu (Policy Mix DEN)",
                 "question": "Di ruang sidang kabinet, instrumen kebijakan moneter Bank Indonesia dan instrumen fiskal Kementerian Keuangan diramu secara terkoordinasi (Policy Mix). Apakah sasaran pamungkas dari bauran kebijakan makroekonomi yang sehat bagi suatu bangsa?",
                 "options": [
@@ -2149,6 +2449,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q7",
+                "theoryKey": "burden_sharing",
+                "theoryTitle": "Skema Berbagi Beban (Burden Sharing) BI-Kemenkeu",
                 "scenario": "🤝 Skema Berbagi Beban (Burden Sharing) 2020",
                 "question": "Saat pandemi Covid-19 melanda, pemerintah menerbitkan Perppu No. 1/2020 (UU No. 2/2020) yang mengizinkan skema 'Burden Sharing' antara Kemenkeu dan BI. Bagaimana mekanisme luar biasa ini bekerja secara darurat?",
                 "options": [
@@ -2159,10 +2461,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Kondisi darurat perang kesehatan: bank sentral dan kementerian keuangan bahu-membahu menanggung biaya rumah sakit dan bansos rakyat tanpa bunga mencekik!",
-                "debrief": "Tepat! Skema <em>Burden Sharing</em> adalah terobosan kebijakan darurat yang menyelamatkan jutaan nyawa dan mencegah kehancuran ekonomi nasional di masa tergelap pandemi Covid-19."
+                "debrief": "Tepat! Skema <em><span class='econ-jargon' data-term='burden_sharing'>Burden Sharing</span></em> adalah terobosan kebijakan darurat yang menyelamatkan jutaan nyawa dan mencegah kehancuran ekonomi nasional di masa tergelap pandemi Covid-19."
             },
             {
                 "id": "s5_q8",
+                "theoryKey": "too_big_to_fail",
+                "theoryTitle": "Penanganan Bank Sistemik Too Big To Fail (D-SIB)",
                 "scenario": "🏦 Penanganan Bank 'Too Big To Fail'",
                 "question": "Ketika sebuah bank sistemik raksasa terancam gagal bayar akibat kredit macet, otoritas keuangan menghadapi dilema moral dan sistemik. Mengapa pemerintah tidak bisa begitu saja membiarkan bank sistemik tersebut bangkrut seketika?",
                 "options": [
@@ -2177,6 +2481,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q9",
+                "theoryKey": "lps",
+                "theoryTitle": "Lembaga Penjamin Simpanan (LPS) & Pencegahan Bank Run",
                 "scenario": "🛡️ Lembaga Penjamin Simpanan (LPS) & Bank Run",
                 "question": "Ketika beredar rumor bohong bahwa sebuah bank swasta akan bangkrut, nasabah mulai antre panik di depan kantor cabang untuk menarik tabungannya (Bank Run). Bagaimana peran LPS dalam memadamkan kepanikan ini?",
                 "options": [
@@ -2191,6 +2497,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q10",
+                "theoryKey": "moral_hazard",
+                "theoryTitle": "Bahaya Moral Hazard dalam Penyelamatan Keuangan",
                 "scenario": "⚠️ Bahaya Moral Hazard dalam Penyelamatan Bank",
                 "question": "Mengapa skema penyelamatan bank bermasalah menggunakan dana talangan negara (Bail-out APBN) sangat dihindari pasca-krisis BLBI 1998?",
                 "options": [
@@ -2205,6 +2513,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q11",
+                "theoryKey": "teori_kuantitas_uang",
+                "theoryTitle": "Hiperinflasi & Kehancuran Kepercayaan Mata Uang",
                 "scenario": "💸 Hiperinflasi & Kehancuran Kepercayaan Uang",
                 "question": "Di Zimbabwe (2008) dan Republik Weimar Jerman (1923), uang dicetak dengan pecahan triliunan namun tidak laku dibelanjakan sekeranjang roti. Apa obat pamungkas paling radikal untuk menghentikan petaka hiperinflasi?",
                 "options": [
@@ -2215,10 +2525,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Saat uang kertas kehilangan kepercayaan publik menjadi sampah, kamu harus ganti mata uang baru dengan jangkar disiplin yang kredibel!",
-                "debrief": "Tepat! Hiperinflasi adalah krisis hilangnya kepercayaan total pada mata uang. Penanganannya membutuhkan reformasi moneter radikal, disiplin anggaran mutlak, dan komitmen independensi bank sentral."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='teori_kuantitas_uang'>Hiperinflasi</span> adalah krisis hilangnya kepercayaan total pada mata uang. Penanganannya membutuhkan reformasi moneter radikal, disiplin anggaran mutlak, dan komitmen independensi bank sentral."
             },
             {
                 "id": "s5_q12",
+                "theoryKey": "krisis_2008",
+                "theoryTitle": "Krisis Keuangan Global Subprime Mortgage 2008",
                 "scenario": "🏠 Krisis Subprime Mortgage Global 2008",
                 "question": "Krisis Keuangan Global 2008 bermula dari kejatuhan sektor perumahan di Amerika Serikat (Subprime Mortgage) yang disulap menjadi surat berharga beracun (CDO). Mengapa dampaknya merambat ke seluruh dunia termasuk Indonesia?",
                 "options": [
@@ -2229,10 +2541,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Wall Street pilek berat, pasar keuangan sedunia kena flu: modal asing kabur, harga komoditas jatuh, dan ekspor terpukul!",
-                "debrief": "Benar! Transmisi krisis 2008 berjalan lewat saluran keuangan dan perdagangan (Global Contagion). Untungnya, perbankan Indonesia kala itu sangat minim terpapar aset beracun berkat kepatuhan prinsip kehati-hatian."
+                "debrief": "Benar! Transmisi <span class='econ-jargon' data-term='krisis_2008'>krisis 2008</span> berjalan lewat saluran keuangan dan perdagangan (Global Contagion). Untungnya, perbankan Indonesia kala itu sangat minim terpapar aset beracun berkat kepatuhan prinsip kehati-hatian."
             },
             {
                 "id": "s5_q13",
+                "theoryKey": "wage_price_spiral",
+                "theoryTitle": "Spiral Upah-Harga (Wage-Price Spiral)",
                 "scenario": "🔥 Spiral Upah-Harga (Wage-Price Spiral)",
                 "question": "Ketika inflasi naik, serikat buruh menuntut kenaikan upah tinggi. Pengusaha menyetujui upah naik namun menaikkan harga jual produknya untuk menutup biaya, yang kemudian memicu tuntutan upah baru. Lingkaran setan ini disebut:",
                 "options": [
@@ -2243,10 +2557,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Upah naik mendorong harga naik, harga naik memicu upah minta naik lagi—lingkaran setan yang membakar daya beli!",
-                "debrief": "Tepat! <em>Wage-Price Spiral</em> adalah musuh laten stabilitas makro. Tanpa jangkar ekspektasi inflasi yang kredibel dan peningkatan produktivitas riil, kenaikan upah nominal hanya akan berujung pada inflasi yang makin beringas."
+                "debrief": "Tepat! <em><span class='econ-jargon' data-term='wage_price_spiral'>Wage-Price Spiral</span></em> adalah musuh laten stabilitas makro. Tanpa jangkar ekspektasi inflasi yang kredibel dan peningkatan produktivitas riil, kenaikan upah nominal hanya akan berujung pada inflasi yang makin beringas."
             },
             {
                 "id": "s5_q14",
+                "theoryKey": "bail_in",
+                "theoryTitle": "Resolusi Bank Bail-In vs Bail-Out Negara",
                 "scenario": "🏛️ Skema Resolusi Bail-In vs Bail-Out",
                 "question": "Dalam kerangka regulasi penanganan bank bermasalah saat ini, apakah perbedaan mendasar antara skema 'Bail-In' dan skema 'Bail-Out'?",
                 "options": [
@@ -2261,6 +2577,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q15",
+                "theoryKey": "histeresis_pengangguran",
+                "theoryTitle": "Histeresis Pengangguran (Unemployment Hysteresis)",
                 "scenario": "📉 Histeresis Pengangguran (Unemployment Hysteresis)",
                 "question": "Dalam krisis resesi yang berkepanjangan, mengapa pengangguran jangka panjang dapat memicu 'Histeresis'—di mana tingkat pengangguran alami meningkat secara permanen bahkan setelah krisis selesai?",
                 "options": [
@@ -2271,10 +2589,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Menganggur terlalu lama membuat keahlian berkarat, mental jatuh, dan perusahaan enggan merekrut kembali—krisis usai tapi pengangguran tetap membatu!",
-                "debrief": "Sangat tepat! Histeresis adalah kerusakan permanen (Scars of Recession). Menyelamatkan lapangan kerja secepat mungkin saat krisis jauh lebih murah dibanding memulihkan pengangguran yang sudah terlanjur berakar."
+                "debrief": "Sangat tepat! <span class='econ-jargon' data-term='histeresis_pengangguran'>Histeresis</span> adalah kerusakan permanen (Scars of Recession). Menyelamatkan lapangan kerja secepat mungkin saat krisis jauh lebih murah dibanding memulihkan pengangguran yang sudah terlanjur berakar."
             },
             {
                 "id": "s5_q16",
+                "theoryKey": "sovereign_debt_crisis",
+                "theoryTitle": "Krisis Utang Berdaulat (Sovereign Debt Crisis)",
                 "scenario": "⚠️ Krisis Utang Berdaulat (Sovereign Debt Crisis) Yunani",
                 "question": "Pada tahun 2010, negara Yunani dilanda Krisis Utang Berdaulat yang menghancurkan sistem perbankannya. Faktor fiskal apakah yang menyeret Yunani ke jurang kebangkrutan tersebut?",
                 "options": [
@@ -2285,10 +2605,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Pelajaran dari Yunani: belanja ugal-ugalan dibiayai utang jumbo tanpa diimbangi penerimaan pajak, begitu pasar hilang percaya, negara langsung bangkrut!",
-                "debrief": "Tepat! Pelajaran berharga bagi teknokrat Indonesia: Disiplin batas defisit 3% dan rasio utang < 60% PDB adalah perisai pelindung agar Indonesia tidak pernah mengalami nasib tragis krisis utang seperti Yunani."
+                "debrief": "Tepat! Pelajaran berharga bagi teknokrat Indonesia: <span class='econ-jargon' data-term='sovereign_debt_crisis'>Disiplin batas defisit 3%</span> dan rasio utang < 60% PDB adalah perisai pelindung agar Indonesia tidak pernah mengalami nasib tragis krisis utang seperti Yunani."
             },
             {
                 "id": "s5_q17",
+                "theoryKey": "stress_test",
+                "theoryTitle": "Macro Stress Test Ketahanan Perbankan",
                 "scenario": "🛡️ Stress Test Makroprudensial Perbankan",
                 "question": "Setiap semester, Bank Indonesia dan OJK melakukan 'Macro Stress Test' terhadap seluruh bank umum. Bagaimana simulasi ketahanan perbankan ini dijalankan?",
                 "options": [
@@ -2303,6 +2625,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q18",
+                "theoryKey": "balance_sheet_recession",
+                "theoryTitle": "Resesi Neraca (Balance Sheet Recession) & Gelembung Aset",
                 "scenario": "🫧 Gelembung Aset (Asset Price Bubble Collapse)",
                 "question": "Dalam sejarah krisis perbankan Jepang 1990 dan krisis properti China baru-baru ini, bagaimana mekanisme meletusnya gelembung harga aset (Bubble Burst) merusak sektor riil?",
                 "options": [
@@ -2313,10 +2637,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Saat harga rumah yang digoreng spekulan meletus anjlok, pembeli bangkrut, bank macet kreditnya, dan roda ekonomi mogok bertahun-tahun!",
-                "debrief": "Tepat! Krisis neraca (Balance Sheet Recession) Richard Koo: pelaku usaha dan rumah tangga sibuk membayar utang alih-alih berinvestasi, membekukan pertumbuhan ekonomi selama bertahun-tahun."
+                "debrief": "Tepat! Krisis neraca (<span class='econ-jargon' data-term='balance_sheet_recession'>Balance Sheet Recession</span>) Richard Koo: pelaku usaha dan rumah tangga sibuk membayar utang alih-alih berinvestasi, membekukan pertumbuhan ekonomi selama bertahun-tahun."
             },
             {
                 "id": "s5_q19",
+                "theoryKey": "restrukturisasi_kredit",
+                "theoryTitle": "Restrukturisasi Kredit Darurat Perbankan OJK",
                 "scenario": "🔄 Restrukturisasi Kredit Darurat OJK",
                 "question": "Saat pandemi Covid-19 melumpuhkan aktivitas usaha, OJK menerbitkan POJK No. 11/2020 mengenai restrukturisasi kredit perbankan bagi debitur terdampak. Mengapa relaksasi regulasi ini menyelamatkan sektor riil dan perbankan sekaligus?",
                 "options": [
@@ -2327,10 +2653,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Memberi waktu bernapas bagi pengusaha yang tokonya tutup agar tidak langsung divonis bangkrut, sembari menjaga kesehatan buku neraca bank!",
-                "debrief": "Tepat! Restrukturisasi kredit darurat adalah jembatan likuiditas penyelamat. Debitur selamat dari jurang kebangkrutan dan sistem perbankan terhindar dari ledakan kredit macet sistemik."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='restrukturisasi_kredit'>Restrukturisasi kredit darurat</span> adalah jembatan likuiditas penyelamat. Debitur selamat dari jurang kebangkrutan dan sistem perbankan terhindar dari ledakan kredit macet sistemik."
             },
             {
                 "id": "s5_q20",
+                "theoryKey": "cadangan_beras_pemerintah",
+                "theoryTitle": "Manajemen Cadangan Beras Pemerintah (CBP)",
                 "scenario": "🌾 Manajemen Cadangan Beras Pemerintah (CBP)",
                 "question": "Dalam menghadapi ancaman gejolak krisis pangan global, pemerintah menetapkan batas aman Cadangan Beras Pemerintah (CBP) di gudang Bulog minimal 1,5 - 2 juta ton. Apa fungsi strategis cadangan fisik ini?",
                 "options": [
@@ -2341,10 +2669,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "Lumbung pangan darurat bangsa: jika krisis pangan dunia meledak dan negara lain tutup keran ekspor, rakyat Indonesia tetap kenyang dan aman!",
-                "debrief": "Luar biasa! Ketahanan fisik pangan adalah fondasi kedaulatan nasional. Memegang cadangan pangan fisik menjamin stabilitas sosial dan membentengi stabilitas makro dari guncangan global."
+                "debrief": "Luar biasa! Ketahanan fisik pangan adalah fondasi kedaulatan nasional. Memegang <span class='econ-jargon' data-term='cadangan_beras_pemerintah'>cadangan pangan fisik</span> menjamin stabilitas sosial dan membentengi stabilitas makro dari guncangan global."
             },
             {
                 "id": "s5_q21",
+                "theoryKey": "subsidi_energi",
+                "theoryTitle": "Guncangan Minyak Dunia & Subsidi Kompensasi Energi",
                 "scenario": "⚡ Krisis Energi & Subsidi Kompensasi APBN",
                 "question": "Ketika harga minyak mentah dunia melonjak hingga US$ 120 per barel akibat perang geopolitik, kuota subsidi energi BBM dan listrik dalam APBN membengkak ratusan triliun rupiah. Pilihan kebijakan sulit apakah yang dihadapi teknokrat?",
                 "options": [
@@ -2355,10 +2685,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Pilihan simalakamanya menteri keuangan: tahan harga BBM kas negara jebol, naikkan harga BBM rakyat tercekik inflasi. Di sinilah seni menyeimbangkan subsidi dan bansos terarah!",
-                "debrief": "Sangat tepat! Dilema fiskal energi membutuhkan penyesuaian bertahap yang presisi: bantalan bansos tunai (BLT) dipertebal bagi warga rentan sebelum harga BBM subsidi disesuaikan secara terukur."
+                "debrief": "Sangat tepat! <span class='econ-jargon' data-term='subsidi_energi'>Dilema fiskal energi</span> membutuhkan penyesuaian bertahap yang presisi: bantalan bansos tunai (BLT) dipertebal bagi warga rentan sebelum harga BBM subsidi disesuaikan secara terukur."
             },
             {
                 "id": "s5_q22",
+                "theoryKey": "early_warning",
+                "theoryTitle": "Early Warning System (EWS) Kerentanan Makroekonomi",
                 "scenario": "🛡️ Early Warning System (EWS) Kerentanan",
                 "question": "Bank Indonesia dan Kementerian Keuangan membangun sistem peringatan dini (Early Warning System / EWS). Indikator makroekonomi utama apakah yang dipantau setiap hari untuk mendeteksi ancaman krisis sebelum meledak?",
                 "options": [
@@ -2373,6 +2705,8 @@ const MACRO_TRIVIA_STAGES = [
             },
             {
                 "id": "s5_q23",
+                "theoryKey": "just_energy_transition",
+                "theoryTitle": "Kemitraan Transisi Energi Berkeadilan (JETP)",
                 "scenario": "🌱 Just Energy Transition Partnership (JETP)",
                 "question": "Indonesia menandatangani kesepakatan JETP senilai puluhan miliar dolar untuk memensiunkan dini PLTU batu bara dan membangun pembangkit energi terbarukan. Mengapa transisi energi ini harus dijalankan secara 'Berkeadilan' (Just Transition)?",
                 "options": [
@@ -2383,10 +2717,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Transisi hijau harus manusiawi: kita kurangi polusi karbon, tapi para pekerja tambang dan keluarganya tidak boleh dibiarkan terlantar kehilangan nafkah!",
-                "debrief": "Luar biasa! Transisi energi berkeadilan menyeimbangkan komitmen iklim global dengan keberlangsungan ekonomi sosial rakyat lokal dan keandalan pasokan listrik nasional."
+                "debrief": "Luar biasa! <span class='econ-jargon' data-term='just_energy_transition'>Transisi energi berkeadilan</span> menyeimbangkan komitmen iklim global dengan keberlangsungan ekonomi sosial rakyat lokal dan keandalan pasokan listrik nasional."
             },
             {
                 "id": "s5_q24",
+                "theoryKey": "deflationary_spiral",
+                "theoryTitle": "Bahaya Spiral Deflasi Kronis (Deflationary Spiral)",
                 "scenario": "📉 Bahaya Deflasi Kronis (Deflationary Spiral)",
                 "question": "Orang awam sering mengira harga barang yang terus turun (Deflasi) selalu menguntungkan. Mengapa bagi teknokrat makroekonomi, deflasi kronis yang berkepanjangan (seperti fenomena Dekade yang Hilang di Jepang) justru sangat mematikan?",
                 "options": [
@@ -2397,10 +2733,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Bila kamu tahu harga laptop atau baju bulan depan bakal turun lagi, kamu tunda belanja. Jika semua orang menunda belanja, toko tutup dan ekonomi mati suri!",
-                "debrief": "Tepat sekali! Spiral Deflasi (Deflationary Spiral) sangat sulit disembuhkan. Inilah alasan mengapa bank sentral dunia menargetkan inflasi positif yang rendah dan stabil (2-3%), bukan inflasi nol atau deflasi."
+                "debrief": "Tepat sekali! <span class='econ-jargon' data-term='deflationary_spiral'>Spiral Deflasi (Deflationary Spiral)</span> sangat sulit disembuhkan. Inilah alasan mengapa bank sentral dunia menargetkan inflasi positif yang rendah dan stabil (2-3%), bukan inflasi nol atau deflasi."
             },
             {
                 "id": "s5_q25",
+                "theoryKey": "ketahanan_pangan",
+                "theoryTitle": "Ketahanan Pangan Struktural & Produktivitas Pertanian",
                 "scenario": "🛡️ Ketahanan Pangan: Food Estate & Produktivitas",
                 "question": "Dalam jangka panjang, apa strategi struktural paling berkelanjutan untuk melindungi ekonomi Indonesia dari ancaman krisis pangan global selain mengandalkan cadangan impor?",
                 "options": [
@@ -2411,10 +2749,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Solusi sejati bukan terus-menerus impor, tapi memodernisasi sawah, irigasi, dan bibit petani agar panen padi lokal melimpah ruah!",
-                "debrief": "Tepat! Kebijakan struktural di sisi penawaran pertanian adalah kunci ketahanan jangka panjang. Produktivitas yang tinggi menjamin swasembada pangan yang berkelanjutan."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='ketahanan_pangan'>Kebijakan struktural</span> di sisi penawaran pertanian adalah kunci ketahanan jangka panjang. Produktivitas yang tinggi menjamin swasembada pangan yang berkelanjutan."
             },
             {
                 "id": "s5_q26",
+                "theoryKey": "car_perbankan",
+                "theoryTitle": "Rasio Kecukupan Modal Bank (CAR)",
                 "scenario": "🏦 Rasio Kecukupan Modal Bank (CAR)",
                 "question": "Rasio Kecukupan Modal (Capital Adequacy Ratio / CAR) industri perbankan Indonesia berada di atas 26%, jauh melampaui standar Basel III minimal 8%. Mengapa modal perbankan yang tebal ini menjadi pahlawan saat badai krisis global melanda?",
                 "options": [
@@ -2425,10 +2765,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Bantalan pengaman mobil yang sangat tebal: jika terjadi tabrakan krisis ekonomi yang keras, para penumpang di dalam mobil (tabungan nasabah) tetap selamat terlindungi!",
-                "debrief": "Benar sekali! Modal perbankan (CAR) yang kokoh adalah benteng utama stabilitas sistem keuangan (SSK), memastikan perbankan Indonesia tetap resilien menghadapi guncangan global."
+                "debrief": "Benar sekali! <span class='econ-jargon' data-term='car_perbankan'>Modal perbankan (CAR)</span> yang kokoh adalah benteng utama stabilitas sistem keuangan (SSK), memastikan perbankan Indonesia tetap resilien menghadapi guncangan global."
             },
             {
                 "id": "s5_q27",
+                "theoryKey": "umkm_ketahanan",
+                "theoryTitle": "Ketahanan Ekonomi UMKM sebagai Tulang Punggung Bangsa",
                 "scenario": "🤝 Peran Koperasi & UMKM dalam Ketahanan",
                 "question": "Saat krisis moneter 1998 meruntuhkan konglomerasi besar yang sarat utang valas, mengapa sektor UMKM dan koperasi justru terbukti paling tangguh bertahan?",
                 "options": [
@@ -2439,10 +2781,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 3,
                 "hint": "UMKM tidak berutang Dolar, belanja bahan lokal, dan lincah beradaptasi: inilah pahlawan penyelamat ekonomi rakyat di saat konglomerat bertumbangan!",
-                "debrief": "Tepat! UMKM adalah tulang punggung ketahanan ekonomi Indonesia. Menghubungkan UMKM ke rantai pasok industri modern memperkuat fondasi ekonomi bangsa agar tidak rapuh dihantam guncangan eksternal."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='umkm_ketahanan'>UMKM</span> adalah tulang punggung ketahanan ekonomi Indonesia. Menghubungkan UMKM ke rantai pasok industri modern memperkuat fondasi ekonomi bangsa agar tidak rapuh dihantam guncangan eksternal."
             },
             {
                 "id": "s5_q28",
+                "theoryKey": "kemiskinan_stunting",
+                "theoryTitle": "Pengentasan Kemiskinan Ekstrem & Penurunan Stunting",
                 "scenario": "📈 Penurunan Kemiskinan Ekstrem & Stunting",
                 "question": "Mengapa target penghapusan kemiskinan ekstrem dan penurunan angka stunting gizi balita menjadi indikator makro prioritas dalam dokumen Rencana Pembangunan Jangka Panjang Nasional (RPJPN)?",
                 "options": [
@@ -2453,10 +2797,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Kekayaan terhebat bangsa bukan nikel atau batu bara di perut bumi, melainkan anak-anak Indonesia yang sehat, cerdas, dan siap memimpin dunia!",
-                "debrief": "Luar biasa! Investasi pada anak balita dan gizi ibu hamil adalah investasi makroekonomi dengan imbal hasil (Rate of Return) tertinggi dalam pembangunan peradaban bangsa."
+                "debrief": "Luar biasa! <span class='econ-jargon' data-term='kemiskinan_stunting'>Investasi pada anak balita</span> dan gizi ibu hamil adalah investasi makroekonomi dengan imbal hasil (Rate of Return) tertinggi dalam pembangunan peradaban bangsa."
             },
             {
                 "id": "s5_q29",
+                "theoryKey": "biaya_transaksi_eodb",
+                "theoryTitle": "Reformasi Birokrasi & Kemudahan Berusaha (EoDB)",
                 "scenario": "⚖️ Reformasi Birokrasi & Kemudahan Berusaha (EoDB)",
                 "question": "Banyak investor mengeluhkan tumpang tindih perizinan antara pemerintah pusat dan daerah. Mengapa reformasi birokrasi dan penyederhanaan regulasi izin usaha menjadi instrumen penarik investasi yang lebih ampuh dibanding sekadar obral diskon pajak?",
                 "options": [
@@ -2467,10 +2813,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Investor butuh kepastian hukum dan proses izin yang cepat tanpa suap; kepastian aturan jauh lebih berharga daripada iming-iming diskon pajak sesaat!",
-                "debrief": "Tepat! Efisiensi birokrasi memangkas biaya transaksi (Transaction Costs). Iklim investasi yang ramah dan berkepastian hukum adalah magnet penarik modal produktif jangka panjang."
+                "debrief": "Tepat! Efisiensi birokrasi memangkas <span class='econ-jargon' data-term='biaya_transaksi_eodb'>biaya transaksi (Transaction Costs)</span>. Iklim investasi yang ramah dan berkepastian hukum adalah magnet penarik modal produktif jangka panjang."
             },
             {
                 "id": "s5_q30",
+                "theoryKey": "dedolarisasi",
+                "theoryTitle": "Diversifikasi Cadangan Devisa & Dedolarisasi Multilateral",
                 "scenario": "🪙 Dedolarisasi & Ketahanan Finansial Multilateral",
                 "question": "Tren global terkini menunjukkan peningkatan diversifikasi cadangan devisa dunia dari Dolar AS ke mata uang lain (Euro, Yuan, Emas). Apa hikmah strategis dari diversifikasi aset cadangan devisa bagi Indonesia?",
                 "options": [
@@ -2481,10 +2829,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Jangan menaruh semua telur dalam satu keranjang: diversifikasi devisa dan mitra dagang membentengi bangsa dari gejolak satu negara adidaya!",
-                "debrief": "Benar! Diversifikasi cadangan devisa dan sistem pembayaran multilateral memperkokoh kedaulatan ekonomi nasional di tengah lanskap geopolitik multipolar global."
+                "debrief": "Benar! <span class='econ-jargon' data-term='dedolarisasi'>Diversifikasi cadangan devisa</span> dan sistem pembayaran multilateral memperkokoh kedaulatan ekonomi nasional di tengah lanskap geopolitik multipolar global."
             },
             {
                 "id": "s5_q31",
+                "theoryKey": "kemandirian_fiskal",
+                "theoryTitle": "Kemandirian Fiskal & Kedaulatan APBN Jangka Panjang",
                 "scenario": "🏛️ Kedaulatan Fiskal & Kemandirian APBN",
                 "question": "Dalam jangka panjang menuju Indonesia Emas 2045, mengapa ketergantungan APBN pada pembiayaan utang neto harus terus ditekan melalui peningkatan Tax Ratio dan efisiensi belanja?",
                 "options": [
@@ -2495,10 +2845,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Bangsa yang mandiri membiayai rumah tangganya sendiri adalah bangsa yang tegak berdiri berdaulat tanpa bisa didikte oleh siapa pun!",
-                "debrief": "Tepat sekali! Kemandirian fiskal adalah pilar kedaulatan bangsa. APBN yang sehat dan kokoh menjamin keberlanjutan pembangunan peradaban Indonesia lintas generasi."
+                "debrief": "Tepat sekali! <span class='econ-jargon' data-term='kemandirian_fiskal'>Kemandirian fiskal</span> adalah pilar kedaulatan bangsa. APBN yang sehat dan kokoh menjamin keberlanjutan pembangunan peradaban Indonesia lintas generasi."
             },
             {
                 "id": "s5_q32",
+                "theoryKey": "resiliensi_rantai_pasok",
+                "theoryTitle": "Resiliensi Rantai Pasok Global & Keamanan Industri",
                 "scenario": "🌐 Krisis Geopolitik & Rantai Pasok Chip Semikonduktor",
                 "question": "Ketegangan geopolitik global mengancam rantai pasok chip semikonduktor dunia yang memicu kelangkaan komponen industri otomotif dan elektronik. Bagaimana strategi makro mitigasi risiko rantai pasok industri ini?",
                 "options": [
@@ -2509,10 +2861,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Diversifikasi pemasok dan bangun ekosistem industri komponen di dalam negeri agar pabrik tidak mati kutu saat perang pecah di belahan dunia lain!",
-                "debrief": "Benar! Resiliensi rantai pasok (Supply Chain Resilience) kini menjadi pilar keamanan ekonomi nasional (Economic Security) di era fragmentasi geopolitik global."
+                "debrief": "Benar! <span class='econ-jargon' data-term='resiliensi_rantai_pasok'>Resiliensi rantai pasok</span> (Supply Chain Resilience) kini menjadi pilar keamanan ekonomi nasional (Economic Security) di era fragmentasi geopolitik global."
             },
             {
                 "id": "s5_q33",
+                "theoryKey": "peran_bumn",
+                "theoryTitle": "Peran BUMN sebagai Agen Pembangunan & Stabilisator",
                 "scenario": "💼 Peran BUMN sebagai Agen Pembangunan",
                 "question": "Badan Usaha Milik Negara (BUMN) di Indonesia mengemban peran ganda: sebagai entitas bisnis pencetak laba sekaligus Agen Pembangunan (Agent of Development). Mengapa peran ganda ini vital saat menghadapi krisis?",
                 "options": [
@@ -2523,10 +2877,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 0,
                 "hint": "Saat pihak swasta takut menanam modal di daerah terpencil yang belum untung, BUMN hadir membuka jalan tol dan listrik perintis demi kemajuan rakyat!",
-                "debrief": "Tepat! BUMN adalah tangan kanan pembangunan pemerintah. Keseimbangan antara profesionalisme tata kelola bisnis dan mandat pembangunan sosial menjadikannya lokomotif penggerak ekonomi nasional."
+                "debrief": "Tepat! <span class='econ-jargon' data-term='peran_bumn'>BUMN</span> adalah tangan kanan pembangunan pemerintah. Keseimbangan antara profesionalisme tata kelola bisnis dan mandat pembangunan sosial menjadikannya lokomotif penggerak ekonomi nasional."
             },
             {
                 "id": "s5_q34",
+                "theoryKey": "black_swan_resilience",
+                "theoryTitle": "Resiliensi Makroekonomi Menghadapi 'Black Swan'",
                 "scenario": "🌪️ Resiliensi Makroekonomi Menghadapi 'Black Swan'",
                 "question": "Peristiwa 'Black Swan' (kejadian langka berdampak dahsyat yang tidak terduga, seperti pandemi global atau krisis geopolitik besar) menuntut kapasitas resiliensi makro. Apa definisi sejati dari resiliensi ekonomi sebuah bangsa?",
                 "options": [
@@ -2537,10 +2893,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 2,
                 "hint": "Bukan berarti tidak pernah terkena badai, melainkan punya akar yang begitu kuat dan lentur sehingga saat badai menerpa kita tidak tumbang, dan begitu badai usai kita tegak kembali!",
-                "debrief": "Luar biasa! Resiliensi makroekonomi adalah kapasitas adaptasi dan daya lenting bangsa. Mengintegrasikan manajemen risiko ke dalam seluruh kebijakan publik menjamin kelangsungan hidup peradaban bangsa."
+                "debrief": "Luar biasa! <span class='econ-jargon' data-term='black_swan_resilience'>Resiliensi makroekonomi</span> adalah kapasitas adaptasi dan daya lenting bangsa. Mengintegrasikan manajemen risiko ke dalam seluruh kebijakan publik menjamin kelangsungan hidup peradaban bangsa."
             },
             {
                 "id": "s5_q35",
+                "theoryKey": "middle_income_trap",
+                "theoryTitle": "Jebakan Pendapatan Menengah (Middle-Income Trap)",
                 "scenario": "👥 Visi Indonesia Emas 2045: Menembus Middle-Income Trap",
                 "question": "Indonesia menargetkan keluar dari Jebakan Pendapatan Menengah (Middle-Income Trap) menjadi negara maju sebelum tahun 2045. Kunci transformasi struktural apakah yang mutlak harus dimenangkan?",
                 "options": [
@@ -2551,10 +2909,12 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Keluar dari jebakan negara berkembang butuh lompatan produktivitas: SDM yang pintar dan inovatif, industri berteknologi tinggi, serta hukum yang bersih dan adil!",
-                "debrief": "Sangat tepat! Lolos dari <em>Middle-Income Trap</em> menuntut transformasi dari ekonomi berbasis bahan mentah murah menjadi ekonomi berbasis inovasi, pengetahuan, dan industri berdaya saing global."
+                "debrief": "Sangat tepat! Lolos dari <em><span class='econ-jargon' data-term='middle_income_trap'>Middle-Income Trap</span></em> menuntut transformasi dari ekonomi berbasis bahan mentah murah menjadi ekonomi berbasis inovasi, pengetahuan, dan industri berdaya saing global."
             },
             {
                 "id": "s5_q36",
+                "theoryKey": "teknokrat_den",
+                "theoryTitle": "Kepemimpinan Teknokratik Dewan Ekonomi Nasional",
                 "scenario": "👑 Mahakarya Teknokrat Dewan Ekonomi Nasional",
                 "question": "Sebagai ujian pamungkas seluruh petualangan Trivia Quest, apakah warisan kepemimpinan teragung yang harus diperjuangkan oleh seorang Teknokrat Dewan Ekonomi Nasional bagi tumpah darah Indonesia?",
                 "options": [
@@ -2565,7 +2925,7 @@ const MACRO_TRIVIA_STAGES = [
                 ],
                 "correct": 1,
                 "hint": "Selamat Yang Mulia Teknokrat Dewan Ekonomi Nasional! Inilah sumpah pengabdian tertinggi: ilmu, nurani, dan dedikasi seutuhnya untuk kejayaan, kemakmuran, dan kedaulatan abadi Republik Indonesia!",
-                "debrief": "👑 MAHA KARYA CUM LAUDE TEKNOKRAT DEWAN EKONOMI NASIONAL! Anda telah berhasil menuntaskan seluruh 36 Soal Level 5! Seluruh penguasaan instrumen krisis, moneter, fiskal, dan bauran kebijakan kini ada di tangan Anda. Pintu Sidang Kabinet 7 Tuas, Krisis Sejarah, dan Lab Pasar kini TERBUKA PENUH untuk Anda pimpin!"
+                "debrief": "👑 MAHA KARYA CUM LAUDE <span class='econ-jargon' data-term='teknokrat_den'>TEKNOKRAT DEWAN EKONOMI NASIONAL</span>! Anda telah berhasil menuntaskan seluruh 36 Soal Level 5! Seluruh penguasaan instrumen krisis, moneter, fiskal, dan bauran kebijakan kini ada di tangan Anda. Pintu Sidang Kabinet 7 Tuas, Krisis Sejarah, dan Lab Pasar kini TERBUKA PENUH untuk Anda pimpin!"
             }
         ]
     }
@@ -3334,6 +3694,8 @@ class MacroTriviaEngine {
             correctIdx: q.correct,
             chosenIdx: chosenIdx,
             debrief: q.debrief,
+            theoryKey: q.theoryKey,
+            theoryTitle: q.theoryTitle,
             lives: this.lives,
             combo: this.combo,
             score: this.score,

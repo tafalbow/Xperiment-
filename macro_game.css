@@ -3354,3 +3354,70 @@ body.mode-trivia .macro-main-content {
     transform: translateY(-1px) !important;
     box-shadow: 0 4px 10px rgba(37,99,235,0.35) !important;
 }
+
+
+/* --- INTERACTIVE THEORY BADGES & BUTTON (i) STYLES --- */
+.trivia-theory-badge-row {
+    margin: 8px 0 12px 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.trivia-theory-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff !important;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 1px solid #38bdf8;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+}
+
+.trivia-theory-btn:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.45);
+    color: #ffffff !important;
+}
+
+.trivia-q-theory-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(2, 132, 199, 0.12);
+    color: #0284c7 !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(2, 132, 199, 0.35);
+    cursor: pointer;
+    margin-left: 8px;
+    vertical-align: middle;
+    transition: all 0.15s ease;
+}
+
+.trivia-q-theory-btn:hover {
+    background: #0284c7;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.kpi-label.econ-jargon {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.kpi-label.econ-jargon:hover {
+    color: var(--accent-cyan, #00f2fe);
+    text-decoration: underline;
+}
