@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="macro_game.css?v=2.6">
+    <link rel="stylesheet" href="macro_game.css?v=2.7">
 </head>
 <body class="mode-trivia">
     <div class="app-background-glow"></div>
@@ -73,8 +73,8 @@
 
             <!-- Header Action Controls -->
             <div class="header-actions">
-                <button id="btnOpenTrackRecord" class="btn-how-to-play" style="background:#eff6ff; border-color:#93c5fd; color:#1d4ed8;" title="Lihat Track Record Siapa Saja yang Pernah Main & Capaian Level">
-                    <span>📋</span> Track Record
+                <button id="btnOpenTrackRecord" class="btn-how-to-play" style="display:none; background:#eff6ff; border-color:#93c5fd; color:#1d4ed8;" title="Lihat Track Record & Bagan Detail Log Aktivitas (Khusus Admin: taniafatimahlubis@gmail.com)">
+                    <span>👑</span> Track Record (Admin)
                 </button>
                 <button id="btnAdvanceQuarter" class="btn-gavel-primary" title="Ketok Palu Sidang Kabinet & Jalankan Kuartal Ini">
                     <span>🔨</span> Ketok Palu Kuartal
@@ -1336,9 +1336,9 @@
                     <span style="font-size:0.75rem; color:#64748b;">
                         🔒 Data tersimpan otomatis di basis data per-user browser Anda.
                     </span>
-                    <button type="button" id="btnOpenTrackRecordFromAuth" class="btn-sidebar-icon" style="font-size:0.8rem; padding:6px 12px;">
-                        📋 Lihat Track Record Pemain
-                    </button>
+                    <span style="font-size:0.74rem; color:#94a3b8;">
+                        MacroMaster DEN v2.7
+                    </span>
                 </div>
             </div>
         </div>
@@ -1412,10 +1412,10 @@
                             </div>
                             <span id="webhookStatusIndicator" class="sync-badge badge-pending">⚡ Status: Antrean Lokal Siap</span>
                         </div>
-                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                            <input type="url" id="inputWebhookUrl" class="auth-input" style="flex:1; min-width:280px; padding:6px 12px; font-size:0.82rem;" placeholder="Tempel URL Webhook Google Apps Script di sini (akhiran /exec)...">
-                            <button type="button" id="btnSaveWebhookUrl" class="btn-sidebar-icon" style="font-size:0.82rem; padding:6px 14px;">💾 Simpan URL</button>
-                            <button type="button" id="btnSyncGoogleSheetsNow" class="btn-gavel-primary" style="font-size:0.82rem; padding:6px 16px;">🔄 Sinkronkan ke Google Sheet Sekarang</button>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                            <input type="url" id="inputWebhookUrl" class="auth-input" style="flex:1; min-width:280px; padding:8px 12px; font-size:0.82rem;" placeholder="Tempel URL Webhook Google Apps Script di sini (akhiran /exec)...">
+                            <button type="button" id="btnSaveWebhookUrl" class="btn-action-outline">💾 Simpan URL</button>
+                            <button type="button" id="btnSyncGoogleSheetsNow" class="btn-action-primary">🔄 Sinkronkan ke Google Sheet Sekarang</button>
                         </div>
                         <div id="syncFeedbackMsg" style="font-size:0.78rem; margin-top:6px; color:#64748b;">
                             Setiap pendaftaran, login, perpindahan halaman, jawaban, dan logout tercatat otomatis di antrean browser & siap disinkronkan ke Google Sheets.
@@ -1489,18 +1489,18 @@
                     </div>
                 </div>
 
-                <div class="modal-footer" style="justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                    <div style="font-size:0.8rem; color:#64748b;">
+                <div class="modal-footer" style="justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:14px 20px;">
+                    <div style="font-size:0.82rem; color:#64748b;">
                         Total Pemain: <strong id="trackRecordTotalCount">0</strong> orang | Total Log: <strong id="trackRecordTotalLogsCount">0</strong> entri
                     </div>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button type="button" id="btnExportTrackRecordCsv" class="btn-sidebar-icon" style="font-size:0.82rem; padding:8px 14px;">
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                        <button type="button" id="btnExportTrackRecordCsv" class="btn-action-outline">
                             <span>📥</span> Unduh Pemain (CSV)
                         </button>
-                        <button type="button" id="btnExportActivityLogsCsv" class="btn-sidebar-icon" style="font-size:0.82rem; padding:8px 14px;">
+                        <button type="button" id="btnExportActivityLogsCsv" class="btn-action-outline">
                             <span>📥</span> Unduh Log Aktivitas (CSV)
                         </button>
-                        <button type="button" id="btnCloseTrackRecordFooter" class="btn-gavel-primary" style="padding:8px 20px; font-size:0.88rem;">
+                        <button type="button" id="btnCloseTrackRecordFooter" class="btn-action-primary" style="background:#475569; padding:8px 22px;">
                             Tutup
                         </button>
                     </div>
@@ -1521,7 +1521,7 @@
     <script src="macro_engine.js?v=2.4"></script>
     <script src="macro_jargon.js?v=2.4"></script>
     <script src="macro_econ_games.js?v=2.4"></script>
-    <script src="macro_trivia.js?v=2.6"></script>
+    <script src="macro_trivia.js?v=2.7"></script>
     <script>
         /**
          * ======================================================================
@@ -2083,10 +2083,21 @@
 
                 // Tampilkan nama user aktif
                 const usernameEl = document.getElementById('playerUsernameDisplay');
+                const activeUser = (typeof window.MacroUserManager !== 'undefined') ? window.MacroUserManager.getActiveUser() : null;
                 if (usernameEl) {
-                    const activeUser = (typeof window.MacroUserManager !== 'undefined') ? window.MacroUserManager.getActiveUser() : null;
                     usernameEl.textContent = activeUser ? activeUser.username : 'Pemain Tamu';
                     usernameEl.title = activeUser ? `${activeUser.username} (${activeUser.email})` : 'Pemain Tamu';
+                }
+
+                // HANYA BISA DIBUKA DAN DILIHAT OLEH taniafatimahlubis@gmail.com
+                const btnTrack = document.getElementById('btnOpenTrackRecord');
+                if (btnTrack) {
+                    const isAdmin = Boolean(activeUser && activeUser.email && activeUser.email.trim().toLowerCase() === 'taniafatimahlubis@gmail.com');
+                    btnTrack.style.display = isAdmin ? 'inline-flex' : 'none';
+                    if (isAdmin) {
+                        btnTrack.innerHTML = '<span>👑</span> Track Record (Admin)';
+                        btnTrack.title = 'Bagan Detail Log Aktivitas & Track Record (Akses Khusus Admin)';
+                    }
                 }
             }
 
@@ -4088,8 +4099,21 @@
                 }
             }
 
+            const ADMIN_EMAIL = 'taniafatimahlubis@gmail.com';
+
             function openTrackRecordModal() {
                 if (!modalTrackRecord) return;
+
+                // VALIDASI AKSES: HANYA BISA DI BUKA DAN DI LIHAT OLEH taniafatimahlubis@gmail.com
+                const activeUser = (typeof window.MacroUserManager !== 'undefined') ? window.MacroUserManager.getActiveUser() : null;
+                const userEmail = (activeUser && activeUser.email) ? activeUser.email.trim().toLowerCase() : '';
+
+                if (userEmail !== ADMIN_EMAIL.toLowerCase()) {
+                    if (typeof audio !== 'undefined' && audio.playAlert) audio.playAlert();
+                    alert('🔒 Akses Terbatas:\nMenu Track Record & Bagan Detail Log Aktivitas ini hanya dapat dibuka dan dilihat oleh Administrator (taniafatimahlubis@gmail.com).\n\nAkun Anda: ' + (userEmail || 'Belum Login'));
+                    return;
+                }
+
                 audio.playClick();
                 updateWebhookUI();
 

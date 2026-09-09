@@ -3301,3 +3301,56 @@ body.mode-trivia .macro-main-content {
 .act-badge.act-idle-timeout { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
 .act-badge.act-browser-closed { background: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
 .act-badge.act-logout-manual { background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; }
+
+
+/* Action Buttons in Modal & Webhook Panel (No fixed 26px width) */
+.btn-action-outline {
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    padding: 7px 14px !important;
+    font-family: var(--font-heading) !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    width: auto !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    transition: all 0.18s ease !important;
+}
+.btn-action-outline:hover {
+    background: #f1f5f9 !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+.btn-action-primary {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    font-family: var(--font-heading) !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    width: auto !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    box-shadow: 0 2px 6px rgba(37,99,235,0.25) !important;
+    transition: all 0.18s ease !important;
+}
+.btn-action-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(37,99,235,0.35) !important;
+}
