@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="macro_game.css?v=2.7">
+    <link rel="stylesheet" href="macro_game.css?v=2.8">
 </head>
 <body class="mode-trivia">
     <div class="app-background-glow"></div>
@@ -1521,7 +1521,7 @@
     <script src="macro_engine.js?v=2.4"></script>
     <script src="macro_jargon.js?v=2.4"></script>
     <script src="macro_econ_games.js?v=2.4"></script>
-    <script src="macro_trivia.js?v=2.7"></script>
+    <script src="macro_trivia.js?v=2.8"></script>
     <script>
         /**
          * ======================================================================
@@ -3461,11 +3461,11 @@
                                     <button type="button" id="btnGoScenarios" class="btn-gavel-primary" style="background:#7c3aed;">
                                         ⚔️ Hadapi Badai Krisis Sejarah
                                     </button>
-                                    <button type="button" id="btnGoSandbox" class="btn-sidebar-icon">
+                                    <button type="button" id="btnGoSandbox" class="btn-action-outline">
                                         🧪 Lab Pasar & Eksperimen
                                     </button>
-                                    <button type="button" id="btnRestartAllTrivia" class="btn-sidebar-icon">
-                                        🔄 Main Ulang Trivia dari Stage 1
+                                    <button type="button" id="btnRestartAllTrivia" class="btn-action-outline" ${evalRes.scorePct >= 80 ? 'disabled style="opacity:0.45; cursor:not-allowed; background:#f1f5f9; color:#94a3b8;"' : ''} title="${evalRes.scorePct >= 80 ? 'Tombol Ulang dinonaktifkan karena Anda sudah lulus (nilai ≥ 80%). Hanya bisa dipencet ketika nilai jawaban < 80%.' : 'Ulang dari Stage 1'}">
+                                        ${evalRes.scorePct >= 80 ? '🔒 ' : '🔄 '}Ulang
                                     </button>
                                 `;
                                 document.getElementById('btnGoCockpit').onclick = () => {
@@ -3477,10 +3477,19 @@
                                 document.getElementById('btnGoSandbox').onclick = () => {
                                     document.querySelector('.nav-tab-btn[data-tab="tabEconGames"]').click();
                                 };
-                                document.getElementById('btnRestartAllTrivia').onclick = () => {
-                                    trivia.selectStage(1);
-                                    renderQuestion();
-                                };
+                                const btnRestartAll = document.getElementById('btnRestartAllTrivia');
+                                if (btnRestartAll) {
+                                    btnRestartAll.onclick = (e) => {
+                                        if (evalRes.scorePct >= 80) {
+                                            e.preventDefault();
+                                            if (typeof audio !== 'undefined' && audio.playAlert) audio.playAlert();
+                                            alert(`🔒 Anda telah LULUS seluruh stage dengan nilai ${evalRes.scorePct}% (≥ 80%).\nTombol "Ulang" hanya bisa dipencet ketika nilai jawaban < 80%.`);
+                                            return;
+                                        }
+                                        trivia.selectStage(1);
+                                        renderQuestion();
+                                    };
+                                }
                             }
                         } else {
                             // Stages 1-4 Lulus
@@ -3495,18 +3504,27 @@
                                     <button type="button" id="btnSummaryNextStage" class="btn-gavel-primary" style="padding:10px 22px; font-size:0.92rem;">
                                         🚀 Lanjut ke Stage ${evalRes.nextStageId} ➡️
                                     </button>
-                                    <button type="button" id="btnSummaryReplayStage" class="btn-sidebar-icon">
-                                        🔄 Main Ulang Stage Ini
+                                    <button type="button" id="btnSummaryReplayStage" class="btn-action-outline" ${evalRes.scorePct >= 80 ? 'disabled style="opacity:0.45; cursor:not-allowed; background:#f1f5f9; color:#94a3b8;"' : ''} title="${evalRes.scorePct >= 80 ? 'Tombol Ulang dinonaktifkan karena Anda sudah lulus (nilai ≥ 80%). Hanya bisa dipencet ketika nilai jawaban < 80%.' : 'Ulang Stage Ini'}">
+                                        ${evalRes.scorePct >= 80 ? '🔒 ' : '🔄 '}Ulang
                                     </button>
                                 `;
                                 document.getElementById('btnSummaryNextStage').onclick = () => {
                                     trivia.selectStage(evalRes.nextStageId);
                                     renderQuestion();
                                 };
-                                document.getElementById('btnSummaryReplayStage').onclick = () => {
-                                    trivia.restartStage();
-                                    renderQuestion();
-                                };
+                                const btnReplayStage = document.getElementById('btnSummaryReplayStage');
+                                if (btnReplayStage) {
+                                    btnReplayStage.onclick = (e) => {
+                                        if (evalRes.scorePct >= 80) {
+                                            e.preventDefault();
+                                            if (typeof audio !== 'undefined' && audio.playAlert) audio.playAlert();
+                                            alert(`🔒 Anda telah LULUS stage ini dengan nilai ${evalRes.scorePct}% (≥ 80%).\nTombol "Ulang" hanya bisa dipencet ketika nilai jawaban < 80%.\n\nSilakan lanjut ke Stage ${evalRes.nextStageId}!`);
+                                            return;
+                                        }
+                                        trivia.restartStage();
+                                        renderQuestion();
+                                    };
+                                }
                             }
                         }
                     } else {
@@ -3537,10 +3555,10 @@
                                 ? `🔄 Ulangi Stage Ini (Sisa: ${rem}x)` 
                                 : (curId > 1 ? `🔄 Kuota Habis: Ulangi Stage ${curId - 1}` : `🔄 Kuota Habis: Ulangi Stage 1`);
                             summaryActions.innerHTML = `
-                                <button type="button" id="btnSummaryRetryStage" class="btn-gavel-primary" style="background:${rem > 0 ? '#f59e0b' : '#ef4444'}; border-color:${rem > 0 ? '#d97706' : '#dc2626'}; padding:10px 22px;">
-                                    ${retryBtnText}
+                                <button type="button" id="btnSummaryRetryStage" class="btn-gavel-primary" style="background:${rem > 0 ? '#f59e0b' : '#ef4444'}; border-color:${rem > 0 ? '#d97706' : '#dc2626'}; padding:10px 22px;" title="Nilai < 80%: Klik untuk mengulang stage">
+                                    🔄 Ulang (Sisa: ${rem}x)
                                 </button>
-                                <button type="button" id="btnSummaryOpenGlosarium" class="btn-sidebar-icon">
+                                <button type="button" id="btnSummaryOpenGlosarium" class="btn-action-outline">
                                     📖 Baca Kitab Glosarium
                                 </button>
                             `;
