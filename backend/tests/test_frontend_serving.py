@@ -59,3 +59,15 @@ def test_index_has_weekly_tab():
     assert "tab-content-weekly" in response.text
     assert "Data Mingguan (Weekly)" in response.text
 
+def test_serve_custom_chart_studio_js():
+    response = client.get("/components/custom_chart_studio.js")
+    assert response.status_code == 200
+    assert "class CustomChartStudio" in response.text
+
+def test_index_has_custom_chart_tab():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "tab-btn-custom-chart" in response.text
+    assert "tab-content-custom-chart" in response.text
+    assert "Studio Custom Chart" in response.text
+

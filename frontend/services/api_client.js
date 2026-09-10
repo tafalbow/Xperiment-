@@ -187,6 +187,36 @@ export const ApiClient = {
     return `${API_BASE}/api/weekly/export?${query.toString()}`;
   },
 
+  async fetchCustomChartVariables() {
+    const res = await fetch(`${API_BASE}/api/custom-chart/variables`);
+    if (!res.ok) throw new Error('Gagal memuat katalog variabel Custom Chart.');
+    return await res.json();
+  },
+
+  async fetchCustomChartSeries(params = {}) {
+    const query = new URLSearchParams();
+    if (params.variable_id) query.append('variable_id', params.variable_id);
+    if (params.transformation) query.append('transformation', params.transformation);
+    if (params.start_year) query.append('start_year', params.start_year);
+    if (params.end_year) query.append('end_year', params.end_year);
+    const res = await fetch(`${API_BASE}/api/custom-chart/series?${query.toString()}`);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: 'Gagal memuat deret data custom chart.' }));
+      throw new Error(err.detail || 'Gagal memuat deret data custom chart.');
+    }
+    return await res.json();
+  },
+
+  async fetchCustomChartDriver(year, variableIds = []) {
+    const vIdsStr = Array.isArray(variableIds) ? variableIds.join(',') : variableIds;
+    const res = await fetch(`${API_BASE}/api/custom-chart/driver?year=${year}&variable_ids=${encodeURIComponent(vIdsStr)}`);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: 'Gagal memuat driver analisis kontekstual.' }));
+      throw new Error(err.detail || 'Gagal memuat driver analisis kontekstual.');
+    }
+    return await res.json();
+  },
+
   async fetchRevisionHistory(indicatorId = null) {
     const query = indicatorId ? `?indicator_id=${encodeURIComponent(indicatorId)}` : '';
     const res = await fetch(`${API_BASE}/api/revision-history${query}`);

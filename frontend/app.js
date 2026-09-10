@@ -19,6 +19,7 @@ import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js';
 import { WeeklyView } from './components/weekly_view.js';
+import { CustomChartStudio } from './components/custom_chart_studio.js';
 import { ModalManager } from './components/modals.js';
 
 class App {
@@ -36,6 +37,7 @@ class App {
     this.commodityTracker = null;
     this.lkppView = null;
     this.weeklyView = null;
+    this.customChartStudio = null;
     this.activeMainTab = 'home'; // 8 Primary Sections: 'home' | 'analytics' | 'agri' | 'calendar' | 'production' | 'lkpp' | 'inventory' | 'about'
 
     this.currentQueryState = {
@@ -213,6 +215,7 @@ class App {
     const btnProduction = document.getElementById('tab-btn-production');
     const btnLkpp = document.getElementById('tab-btn-lkpp');
     const btnWeekly = document.getElementById('tab-btn-weekly');
+    const btnCustomChart = document.getElementById('tab-btn-custom-chart');
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
 
@@ -223,6 +226,7 @@ class App {
     btnProduction?.addEventListener('click', () => this.switchMainTab('production'));
     btnLkpp?.addEventListener('click', () => this.switchMainTab('lkpp'));
     btnWeekly?.addEventListener('click', () => this.switchMainTab('weekly'));
+    btnCustomChart?.addEventListener('click', () => this.switchMainTab('custom-chart'));
     btnInventory?.addEventListener('click', () => this.switchMainTab('inventory'));
     btnAbout?.addEventListener('click', () => this.switchMainTab('about'));
   }
@@ -236,6 +240,7 @@ class App {
     const btnProduction = document.getElementById('tab-btn-production');
     const btnLkpp = document.getElementById('tab-btn-lkpp');
     const btnWeekly = document.getElementById('tab-btn-weekly');
+    const btnCustomChart = document.getElementById('tab-btn-custom-chart');
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
 
@@ -245,6 +250,7 @@ class App {
     const contentCalendar = document.getElementById('tab-content-calendar');
     const contentLkpp = document.getElementById('tab-content-lkpp');
     const contentWeekly = document.getElementById('tab-content-weekly');
+    const contentCustomChart = document.getElementById('tab-content-custom-chart');
     const contentInventory = document.getElementById('tab-content-inventory');
     const contentAbout = document.getElementById('tab-content-about');
 
@@ -261,8 +267,8 @@ class App {
     };
 
     // Hide all contents and reset all buttons
-    [contentHome, contentAnalytics, contentCommodities, contentCalendar, contentLkpp, contentWeekly, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
-    [btnHome, btnAnalytics, btnAgri, btnCalendar, btnProduction, btnLkpp, btnWeekly, btnInventory, btnAbout].forEach(b => resetBtn(b));
+    [contentHome, contentAnalytics, contentCommodities, contentCalendar, contentLkpp, contentWeekly, contentCustomChart, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
+    [btnHome, btnAnalytics, btnAgri, btnCalendar, btnProduction, btnLkpp, btnWeekly, btnCustomChart, btnInventory, btnAbout].forEach(b => resetBtn(b));
 
     if (tabName === 'home') {
       contentHome?.classList.remove('hidden');
@@ -330,6 +336,15 @@ class App {
         await this.weeklyView.init();
       } else {
         await this.weeklyView.loadAndRender();
+      }
+    } else if (tabName === 'custom-chart') {
+      contentCustomChart?.classList.remove('hidden');
+      activateBtn(btnCustomChart);
+      if (!this.customChartStudio) {
+        this.customChartStudio = new CustomChartStudio('custom-chart-container');
+        await this.customChartStudio.init();
+      } else {
+        await this.customChartStudio.refreshStudio();
       }
     } else if (tabName === 'inventory' || tabName === 'catalog') {
       contentInventory?.classList.remove('hidden');
