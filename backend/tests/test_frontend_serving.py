@@ -10,7 +10,8 @@ def test_serve_index_html():
     assert "INDOEKONOMI data — Indonesia Economic Data Observatory" in response.text
     assert "indoekonomi.data.go.id" in response.text
     assert "tab-btn-home" in response.text
-    assert "tab-btn-calendar" in response.text
+    assert "tab-btn-agri" in response.text
+    assert "agri-subtab-btn-calendar" in response.text
     assert "tab-btn-about" in response.text
 
 def test_serve_app_js():

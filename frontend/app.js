@@ -34,11 +34,15 @@ class App {
     this.dataGrid = null;
     this.contextualMap = null;
     this.variablesInventory = null;
+    this.agriCommodityTracker = null;
+    this.productionCommodityTracker = null;
     this.commodityTracker = null;
+    this.agriCalendar = null;
+    this.activeAgriSubTab = 'balance'; // 'balance' | 'calendar'
     this.lkppView = null;
     this.weeklyView = null;
     this.customChartStudio = null;
-    this.activeMainTab = 'home'; // 8 Primary Sections: 'home' | 'analytics' | 'agri' | 'calendar' | 'production' | 'lkpp' | 'inventory' | 'about'
+    this.activeMainTab = 'home'; // Primary Sections: 'home' | 'analytics' | 'agri' | 'production' | 'lkpp' | 'weekly' | 'custom-chart' | 'inventory' | 'about'
 
     this.currentQueryState = {
       sector: '',
@@ -211,7 +215,6 @@ class App {
     const btnHome = document.getElementById('tab-btn-home');
     const btnAnalytics = document.getElementById('tab-btn-analytics');
     const btnAgri = document.getElementById('tab-btn-agri');
-    const btnCalendar = document.getElementById('tab-btn-calendar');
     const btnProduction = document.getElementById('tab-btn-production');
     const btnLkpp = document.getElementById('tab-btn-lkpp');
     const btnWeekly = document.getElementById('tab-btn-weekly');
@@ -219,24 +222,82 @@ class App {
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
 
+    // Sub-tab buttons inside Pertanian & Peternakan
+    const btnAgriBalance = document.getElementById('agri-subtab-btn-balance');
+    const btnAgriCalendar = document.getElementById('agri-subtab-btn-calendar');
+
     btnHome?.addEventListener('click', () => this.switchMainTab('home'));
     btnAnalytics?.addEventListener('click', () => this.switchMainTab('analytics'));
     btnAgri?.addEventListener('click', () => this.switchMainTab('agri'));
-    btnCalendar?.addEventListener('click', () => this.switchMainTab('calendar'));
     btnProduction?.addEventListener('click', () => this.switchMainTab('production'));
     btnLkpp?.addEventListener('click', () => this.switchMainTab('lkpp'));
     btnWeekly?.addEventListener('click', () => this.switchMainTab('weekly'));
     btnCustomChart?.addEventListener('click', () => this.switchMainTab('custom-chart'));
     btnInventory?.addEventListener('click', () => this.switchMainTab('inventory'));
     btnAbout?.addEventListener('click', () => this.switchMainTab('about'));
+
+    btnAgriBalance?.addEventListener('click', () => this.switchAgriSubTab('balance'));
+    btnAgriCalendar?.addEventListener('click', () => this.switchAgriSubTab('calendar'));
   }
 
-  async switchMainTab(tabName, division = null) {
+  async switchAgriSubTab(subTabName) {
+    this.activeAgriSubTab = subTabName;
+    const btnBalance = document.getElementById('agri-subtab-btn-balance');
+    const btnCalendar = document.getElementById('agri-subtab-btn-calendar');
+    const contentBalance = document.getElementById('agri-subcontent-balance');
+    const contentCalendar = document.getElementById('agri-subcontent-calendar');
+
+    if (subTabName === 'balance') {
+      btnBalance?.classList.add('bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'border-[#DADCE0]');
+      btnBalance?.classList.remove('text-[#5F6368]', 'font-medium', 'border-transparent');
+      btnBalance?.setAttribute('aria-selected', 'true');
+
+      btnCalendar?.classList.remove('bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'border-[#DADCE0]');
+      btnCalendar?.classList.add('text-[#5F6368]', 'font-medium', 'border-transparent');
+      btnCalendar?.setAttribute('aria-selected', 'false');
+
+      contentBalance?.classList.remove('hidden');
+      contentCalendar?.classList.add('hidden');
+
+      if (!this.agriCommodityTracker) {
+        this.agriCommodityTracker = new CommodityTrackerComponent('agri-subcontent-balance');
+        await this.agriCommodityTracker.init();
+      }
+      await this.agriCommodityTracker.setDivision('PERTANIAN_PETERNAKAN');
+    } else if (subTabName === 'calendar') {
+      btnCalendar?.classList.add('bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'border-[#DADCE0]');
+      btnCalendar?.classList.remove('text-[#5F6368]', 'font-medium', 'border-transparent');
+      btnCalendar?.setAttribute('aria-selected', 'true');
+
+      btnBalance?.classList.remove('bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'border-[#DADCE0]');
+      btnBalance?.classList.add('text-[#5F6368]', 'font-medium', 'border-transparent');
+      btnBalance?.setAttribute('aria-selected', 'false');
+
+      contentCalendar?.classList.remove('hidden');
+      contentBalance?.classList.add('hidden');
+
+      if (!this.agriCalendar) {
+        this.agriCalendar = new AgriCalendarComponent('agri-calendar-container');
+      }
+      await this.agriCalendar.render();
+      setTimeout(() => {
+        if (this.agriCalendar && this.agriCalendar.mapInstance) {
+          this.agriCalendar.mapInstance.invalidateSize();
+        }
+      }, 200);
+    }
+  }
+
+  async switchMainTab(tabName, division = null, subTab = null) {
+    // Backward compatibility: If 'calendar' is requested, redirect to 'agri' with 'calendar' subtab
+    if (tabName === 'calendar') {
+      return this.switchMainTab('agri', null, 'calendar');
+    }
+
     this.activeMainTab = tabName;
     const btnHome = document.getElementById('tab-btn-home');
     const btnAnalytics = document.getElementById('tab-btn-analytics');
     const btnAgri = document.getElementById('tab-btn-agri');
-    const btnCalendar = document.getElementById('tab-btn-calendar');
     const btnProduction = document.getElementById('tab-btn-production');
     const btnLkpp = document.getElementById('tab-btn-lkpp');
     const btnWeekly = document.getElementById('tab-btn-weekly');
@@ -246,8 +307,8 @@ class App {
 
     const contentHome = document.getElementById('tab-content-home');
     const contentAnalytics = document.getElementById('tab-content-analytics');
-    const contentCommodities = document.getElementById('tab-content-commodities');
-    const contentCalendar = document.getElementById('tab-content-calendar');
+    const contentAgri = document.getElementById('tab-content-agri');
+    const contentProduction = document.getElementById('tab-content-production');
     const contentLkpp = document.getElementById('tab-content-lkpp');
     const contentWeekly = document.getElementById('tab-content-weekly');
     const contentCustomChart = document.getElementById('tab-content-custom-chart');
@@ -267,8 +328,8 @@ class App {
     };
 
     // Hide all contents and reset all buttons
-    [contentHome, contentAnalytics, contentCommodities, contentCalendar, contentLkpp, contentWeekly, contentCustomChart, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
-    [btnHome, btnAnalytics, btnAgri, btnCalendar, btnProduction, btnLkpp, btnWeekly, btnCustomChart, btnInventory, btnAbout].forEach(b => resetBtn(b));
+    [contentHome, contentAnalytics, contentAgri, contentProduction, contentLkpp, contentWeekly, contentCustomChart, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
+    [btnHome, btnAnalytics, btnAgri, btnProduction, btnLkpp, btnWeekly, btnCustomChart, btnInventory, btnAbout].forEach(b => resetBtn(b));
 
     if (tabName === 'home') {
       contentHome?.classList.remove('hidden');
@@ -293,32 +354,18 @@ class App {
         }, 400);
       }
     } else if (tabName === 'agri') {
-      contentCommodities?.classList.remove('hidden');
+      contentAgri?.classList.remove('hidden');
       activateBtn(btnAgri);
-      if (!this.commodityTracker) {
-        this.commodityTracker = new CommodityTrackerComponent('tab-content-commodities');
-        await this.commodityTracker.init();
-      }
-      await this.commodityTracker.setDivision('PERTANIAN_PETERNAKAN');
-    } else if (tabName === 'calendar') {
-      contentCalendar?.classList.remove('hidden');
-      activateBtn(btnCalendar);
-      if (this.agriCalendar) {
-        await this.agriCalendar.render();
-        setTimeout(() => {
-          if (this.agriCalendar.mapInstance) {
-            this.agriCalendar.mapInstance.invalidateSize();
-          }
-        }, 200);
-      }
+      const targetSub = subTab || this.activeAgriSubTab || 'balance';
+      await this.switchAgriSubTab(targetSub);
     } else if (tabName === 'production') {
-      contentCommodities?.classList.remove('hidden');
+      contentProduction?.classList.remove('hidden');
       activateBtn(btnProduction);
-      if (!this.commodityTracker) {
-        this.commodityTracker = new CommodityTrackerComponent('tab-content-commodities');
-        await this.commodityTracker.init();
+      if (!this.productionCommodityTracker) {
+        this.productionCommodityTracker = new CommodityTrackerComponent('production-commodities-container');
+        await this.productionCommodityTracker.init();
       }
-      await this.commodityTracker.setDivision('HASIL_BUMI');
+      await this.productionCommodityTracker.setDivision('HASIL_BUMI');
     } else if (tabName === 'lkpp') {
       contentLkpp?.classList.remove('hidden');
       activateBtn(btnLkpp);

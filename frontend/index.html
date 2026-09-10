@@ -69,18 +69,7 @@
           <span>Pertanian & Peternakan</span>
         </button>
 
-        <!-- 4. Agricultural Calendar -->
-        <button 
-          id="tab-btn-calendar" 
-          role="tab" 
-          aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
-        >
-          <span>📅</span>
-          <span>Kalender Pertanian</span>
-        </button>
-
-        <!-- 5. Production / Output -->
+        <!-- 4. Production / Output -->
         <button 
           id="tab-btn-production" 
           role="tab" 
@@ -202,14 +191,57 @@
 
     </div>
 
-    <!-- TAB 3 & 5: NERACA KOMODITAS, PERTANIAN, PETERNAKAN & HASIL BUMI -->
-    <div id="tab-content-commodities" class="hidden space-y-4">
-      <!-- Injected by CommodityTrackerComponent -->
+    <!-- TAB 3: PERTANIAN & PETERNAKAN (KOMPILASI TERPADU: NERACA KOMODITAS + KALENDER PERTANIAN) -->
+    <div id="tab-content-agri" class="hidden space-y-4">
+      
+      <!-- Sub-Navigation Header Bar -->
+      <div class="gov-card p-3 bg-white border border-[#DADCE0] rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-lg bg-[#E6F4EA] text-[#137333] flex items-center justify-center text-sm font-bold shadow-2xs">🌾</span>
+          <div>
+            <div class="text-xs font-bold text-[#202124] uppercase tracking-wide">OBSERVATORIUM PERTANIAN & PETERNAKAN NASIONAL</div>
+            <div class="text-[11px] text-[#5F6368] font-sans">Kompilasi Neraca Komoditas Pangan/Hortikultura/Peternakan/Perkebunan & Kalender Pola Musim Tanam/Panen</div>
+          </div>
+        </div>
+
+        <!-- Sub-Menu Navigation Pills -->
+        <div class="flex items-center gap-1.5 bg-[#F1F3F4] p-1 rounded-md border border-[#DADCE0] text-xs shrink-0" role="tablist">
+          <button 
+            id="agri-subtab-btn-balance" 
+            role="tab"
+            aria-selected="true"
+            class="px-3 py-1 font-bold rounded bg-white text-[#1A73E8] shadow-2xs flex items-center gap-1.5 transition cursor-pointer border border-[#DADCE0]"
+          >
+            <span>🌾</span>
+            <span>Neraca & Komoditas</span>
+          </button>
+          <button 
+            id="agri-subtab-btn-calendar" 
+            role="tab"
+            aria-selected="false"
+            class="px-3 py-1 font-medium rounded text-[#5F6368] hover:text-[#202124] hover:bg-white/60 flex items-center gap-1.5 transition cursor-pointer border border-transparent"
+          >
+            <span>📅</span>
+            <span>Kalender Pertanian</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sub-Content 1: Neraca Komoditas Pertanian & Peternakan -->
+      <div id="agri-subcontent-balance" class="space-y-4">
+        <!-- Rendered by CommodityTrackerComponent (PERTANIAN_PETERNAKAN) -->
+      </div>
+
+      <!-- Sub-Content 2: Kalender Pertanian (Musim Tanam, Pola Panen & Peta Spasial Kabupaten) -->
+      <div id="agri-subcontent-calendar" class="hidden space-y-4">
+        <section id="agri-calendar-container" aria-label="Kalender Pertanian Nasional"></section>
+      </div>
+
     </div>
 
-    <!-- TAB 4: KALENDER MUSIM TANAM & POLA PANEN -->
-    <div id="tab-content-calendar" class="hidden space-y-4">
-      <section id="agri-calendar-container" aria-label="Kalender Pertanian Nasional"></section>
+    <!-- TAB 4: PRODUKSI & HASIL BUMI (MINERBA & ENERGI) -->
+    <div id="tab-content-production" class="hidden space-y-4">
+      <div id="production-commodities-container"></div>
     </div>
 
     <!-- TAB: FINANCIAL OBSERVATORY (APBN, RAPBN & LKPP 1990 - 2026) -->
