@@ -5,9 +5,43 @@ from backend.database.connection import get_db
 class SearchService:
     """Provides high-performance national data filtering, multi-criteria search, and descriptive KPIs."""
 
-    @staticmethod
-    def get_filter_options() -> Dict[str, Any]:
-        """Returns cascading filter hierarchy: Sektor -> Kategori -> Subkategori -> Indikator, plus sources and periods."""
+    _FILTER_OPTIONS_CACHE: Optional[Dict[str, Any]] = None
+
+    @classmethod
+    def clear_filter_cache(cls):
+        """Invalidates in-memory filter options cache."""
+        cls._FILTER_OPTIONS_CACHE = None
+
+    @classmethod
+    def get_system_metrics(cls) -> Dict[str, int]:
+        """Fast, lightweight query for system health checks without joining 5 tables."""
+        if cls._FILTER_OPTIONS_CACHE is not None:
+            stats = cls._FILTER_OPTIONS_CACHE.get("statistics", {})
+            return {
+                "total_observations": stats.get("total_observations", 0),
+                "total_indicators": stats.get("total_indicators", 0),
+                "total_datasets": stats.get("total_datasets", 0)
+            }
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT COUNT(id) as c FROM observations")
+            total_obs = cur.fetchone()["c"]
+            cur.execute("SELECT COUNT(id) as c FROM indicators")
+            total_ind = cur.fetchone()["c"]
+            cur.execute("SELECT COUNT(id) as c FROM datasets")
+            total_ds = cur.fetchone()["c"]
+            return {
+                "total_observations": total_obs,
+                "total_indicators": total_ind,
+                "total_datasets": total_ds
+            }
+
+    @classmethod
+    def get_filter_options(cls, force_refresh: bool = False) -> Dict[str, Any]:
+        """Returns cascading filter hierarchy with high-performance in-memory caching."""
+        if cls._FILTER_OPTIONS_CACHE is not None and not force_refresh:
+            return cls._FILTER_OPTIONS_CACHE
+
         with get_db() as conn:
             cur = conn.cursor()
 
@@ -85,7 +119,7 @@ class SearchService:
             cur.execute("SELECT COUNT(DISTINCT id) as total_datasets FROM datasets")
             ds_stat = cur.fetchone()
 
-            return {
+            result = {
                 "hierarchy": sectors_map,
                 "indicators": flat_indicators,
                 "sources": sources,
@@ -97,6 +131,8 @@ class SearchService:
                     "total_datasets": ds_stat["total_datasets"] if ds_stat else 0
                 }
             }
+            cls._FILTER_OPTIONS_CACHE = result
+            return result
 
     @staticmethod
     def query_observations(

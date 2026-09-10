@@ -34,6 +34,7 @@ class LKPPService:
     # 1. TIMEFRAME METADATA & LEGAL STATUS (1990 – 2026)
     # --------------------------------------------------------------------------
     YEARS_METADATA: Dict[int, Dict[str, str]] = {}
+    _TABLE_ROWS_CACHE: Dict[str, List[Dict[str, Any]]] = {}
     
     @classmethod
     def _init_years_metadata(cls):
@@ -1519,28 +1520,34 @@ class LKPPService:
     # 5. GET TABLE ROWS DISPATCHER
     # --------------------------------------------------------------------------
     @classmethod
-    def get_table_rows(cls, table_id: str) -> List[Dict[str, Any]]:
+    def get_table_rows(cls, table_id: str, force_refresh: bool = False) -> List[Dict[str, Any]]:
         table_id = table_id.upper().strip()
+        if not force_refresh and table_id in cls._TABLE_ROWS_CACHE:
+            return cls._TABLE_ROWS_CACHE[table_id]
+
         if table_id == "LRA":
-            return cls._build_lra_data()
+            rows = cls._build_lra_data()
         elif table_id == "APBN":
-            return cls._build_apbn_data()
+            rows = cls._build_apbn_data()
         elif table_id == "RAPBN":
-            return cls._build_rapbn_data()
+            rows = cls._build_rapbn_data()
         elif table_id == "CUKAI":
-            return cls._build_cukai_data()
+            rows = cls._build_cukai_data()
         elif table_id == "LPSAL":
-            return cls._build_lpsal_data()
+            rows = cls._build_lpsal_data()
         elif table_id == "NERACA":
-            return cls._build_neraca_data()
+            rows = cls._build_neraca_data()
         elif table_id == "LO":
-            return cls._build_lo_data()
+            rows = cls._build_lo_data()
         elif table_id == "LAK":
-            return cls._build_lak_data()
+            rows = cls._build_lak_data()
         elif table_id == "LPE":
-            return cls._build_lpe_data()
+            rows = cls._build_lpe_data()
         else:
             raise ValueError(f"Tabel '{table_id}' tidak valid. Pilihan: LRA, APBN, RAPBN, CUKAI, LPSAL, NERACA, LO, LAK, LPE.")
+
+        cls._TABLE_ROWS_CACHE[table_id] = rows
+        return rows
 
     # --------------------------------------------------------------------------
     # 6. PIVOT MATRIX GENERATOR

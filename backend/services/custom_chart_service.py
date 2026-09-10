@@ -155,24 +155,30 @@ class CustomChartService:
         }
     }
 
+    _VARIABLES_CACHE: Optional[List[Dict[str, Any]]] = None
+    _VARIABLES_MAP_CACHE: Optional[Dict[str, Dict[str, Any]]] = None
+
     # --------------------------------------------------------------------------
-    # 2. VARIABLE REGISTRY COMPILER
+    # 2. VARIABLE REGISTRY COMPILER (WITH IN-MEMORY CACHING)
     # --------------------------------------------------------------------------
     @classmethod
-    def get_all_variables(cls) -> List[Dict[str, Any]]:
+    def get_all_variables(cls, force_refresh: bool = False) -> List[Dict[str, Any]]:
         """
         Gathers and returns all selectable variables from Trend Keuangan Negara (9 tables)
-        plus high-frequency Weekly indicators.
+        plus high-frequency Weekly indicators with instant in-memory memoization.
         """
+        if cls._VARIABLES_CACHE is not None and not force_refresh:
+            return cls._VARIABLES_CACHE
+
         variables = []
+        var_map = {}
 
         # From LKPP 9 Tables
         for table in LKPPService.TABLE_REGISTRY:
             t_id = table["id"]
             rows = LKPPService.get_table_rows(t_id)
             for r in rows:
-                # Add variable
-                variables.append({
+                item = {
                     "id": f"{t_id}__{r['id']}",
                     "raw_id": r["id"],
                     "code": r.get("code", ""),
@@ -187,12 +193,14 @@ class CustomChartService:
                     "default_chart_type": "line" if "DEFISIT" in r["id"] or "RASIO" in r["id"] else "bar",
                     "is_header": r.get("is_header", False),
                     "series_values": r["values"] # Dict { "1990": float, ..., "2026": float }
-                })
+                }
+                variables.append(item)
+                var_map[item["id"]] = item
+                var_map[item["raw_id"]] = item
 
         # From Weekly indicators
         weekly_indicators = WeeklyService._init_indicators()
         for w_ind in weekly_indicators:
-            # Build annual series average from weekly series
             annual_vals = {}
             for y_int in WeeklyService.YEARS:
                 y_str = str(y_int)
@@ -200,7 +208,7 @@ class CustomChartService:
                 vals = list(w_data.values())
                 annual_vals[y_str] = round(sum(vals) / len(vals), 2) if vals else 0.0
 
-            variables.append({
+            w_item = {
                 "id": f"WEEKLY__{w_ind['id']}",
                 "raw_id": w_ind["id"],
                 "code": w_ind["code"],
@@ -215,9 +223,21 @@ class CustomChartService:
                 "default_chart_type": "line",
                 "is_header": False,
                 "series_values": annual_vals
-            })
+            }
+            variables.append(w_item)
+            var_map[w_item["id"]] = w_item
+            var_map[w_item["raw_id"]] = w_item
 
-        return variables
+        cls._VARIABLES_CACHE = variables
+        cls._VARIABLES_MAP_CACHE = var_map
+        return cls._VARIABLES_CACHE
+
+    @classmethod
+    def get_variable_by_id(cls, variable_id: str) -> Optional[Dict[str, Any]]:
+        """O(1) instant dictionary lookup for a single variable."""
+        if cls._VARIABLES_MAP_CACHE is None:
+            cls.get_all_variables()
+        return cls._VARIABLES_MAP_CACHE.get(variable_id) if cls._VARIABLES_MAP_CACHE else None
 
     # --------------------------------------------------------------------------
     # 3. TRANSFORMATION ENGINE
@@ -225,10 +245,9 @@ class CustomChartService:
     @classmethod
     def calculate_series(cls, variable_id: str, transformation: str = "RAW", start_year: int = 1990, end_year: int = 2026) -> Dict[str, Any]:
         """
-        Calculates transformed series (RAW, YOY, AVG_3Y, BASE_100) for the given variable.
+        Calculates transformed series (RAW, YOY, AVG_3Y, BASE_100) for the given variable with O(1) variable lookup.
         """
-        all_vars = cls.get_all_variables()
-        var_meta = next((v for v in all_vars if v["id"] == variable_id or v["raw_id"] == variable_id), None)
+        var_meta = cls.get_variable_by_id(variable_id)
         if not var_meta:
             raise ValueError(f"Variabel '{variable_id}' tidak ditemukan.")
 
@@ -306,11 +325,10 @@ class CustomChartService:
             "tags": ["Fiskal", "APBN"]
         })
 
-        all_vars = cls.get_all_variables()
         var_drivers = []
 
         for vid in variable_ids:
-            v_meta = next((v for v in all_vars if v["id"] == vid or v["raw_id"] == vid), None)
+            v_meta = cls.get_variable_by_id(vid)
             if not v_meta:
                 continue
 

@@ -4,11 +4,15 @@ from typing import Generator
 from backend.config import DATABASE_PATH, SCHEMA_PATH
 
 def get_db_connection() -> sqlite3.Connection:
-    """Create a thread-safe SQLite connection with dict rows and foreign keys enabled."""
+    """Create a thread-safe, high-performance SQLite connection with dict rows, WAL mode, and memory tuning."""
     conn = sqlite3.connect(DATABASE_PATH, timeout=20.0)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON;")
     conn.execute("PRAGMA journal_mode = WAL;")
+    conn.execute("PRAGMA synchronous = NORMAL;")
+    conn.execute("PRAGMA cache_size = -64000;")   # 64MB memory page cache
+    conn.execute("PRAGMA temp_store = MEMORY;")
+    conn.execute("PRAGMA mmap_size = 268435456;") # 256MB memory-mapped I/O
     return conn
 
 @contextmanager
