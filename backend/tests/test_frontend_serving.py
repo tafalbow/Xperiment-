@@ -47,3 +47,15 @@ def test_index_has_lkpp_tab():
     assert "tab-content-lkpp" in response.text
     assert "Trend Keuangan Negara" in response.text
 
+def test_serve_weekly_view_js():
+    response = client.get("/components/weekly_view.js")
+    assert response.status_code == 200
+    assert "class WeeklyView" in response.text
+
+def test_index_has_weekly_tab():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "tab-btn-weekly" in response.text
+    assert "tab-content-weekly" in response.text
+    assert "Data Mingguan (Weekly)" in response.text
+

@@ -18,6 +18,7 @@ import { HomeView } from './components/home_view.js';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js';
+import { WeeklyView } from './components/weekly_view.js';
 import { ModalManager } from './components/modals.js';
 
 class App {
@@ -34,6 +35,7 @@ class App {
     this.variablesInventory = null;
     this.commodityTracker = null;
     this.lkppView = null;
+    this.weeklyView = null;
     this.activeMainTab = 'home'; // 8 Primary Sections: 'home' | 'analytics' | 'agri' | 'calendar' | 'production' | 'lkpp' | 'inventory' | 'about'
 
     this.currentQueryState = {
@@ -210,6 +212,7 @@ class App {
     const btnCalendar = document.getElementById('tab-btn-calendar');
     const btnProduction = document.getElementById('tab-btn-production');
     const btnLkpp = document.getElementById('tab-btn-lkpp');
+    const btnWeekly = document.getElementById('tab-btn-weekly');
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
 
@@ -219,6 +222,7 @@ class App {
     btnCalendar?.addEventListener('click', () => this.switchMainTab('calendar'));
     btnProduction?.addEventListener('click', () => this.switchMainTab('production'));
     btnLkpp?.addEventListener('click', () => this.switchMainTab('lkpp'));
+    btnWeekly?.addEventListener('click', () => this.switchMainTab('weekly'));
     btnInventory?.addEventListener('click', () => this.switchMainTab('inventory'));
     btnAbout?.addEventListener('click', () => this.switchMainTab('about'));
   }
@@ -231,6 +235,7 @@ class App {
     const btnCalendar = document.getElementById('tab-btn-calendar');
     const btnProduction = document.getElementById('tab-btn-production');
     const btnLkpp = document.getElementById('tab-btn-lkpp');
+    const btnWeekly = document.getElementById('tab-btn-weekly');
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
 
@@ -239,6 +244,7 @@ class App {
     const contentCommodities = document.getElementById('tab-content-commodities');
     const contentCalendar = document.getElementById('tab-content-calendar');
     const contentLkpp = document.getElementById('tab-content-lkpp');
+    const contentWeekly = document.getElementById('tab-content-weekly');
     const contentInventory = document.getElementById('tab-content-inventory');
     const contentAbout = document.getElementById('tab-content-about');
 
@@ -255,8 +261,8 @@ class App {
     };
 
     // Hide all contents and reset all buttons
-    [contentHome, contentAnalytics, contentCommodities, contentCalendar, contentLkpp, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
-    [btnHome, btnAnalytics, btnAgri, btnCalendar, btnProduction, btnLkpp, btnInventory, btnAbout].forEach(b => resetBtn(b));
+    [contentHome, contentAnalytics, contentCommodities, contentCalendar, contentLkpp, contentWeekly, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
+    [btnHome, btnAnalytics, btnAgri, btnCalendar, btnProduction, btnLkpp, btnWeekly, btnInventory, btnAbout].forEach(b => resetBtn(b));
 
     if (tabName === 'home') {
       contentHome?.classList.remove('hidden');
@@ -315,6 +321,15 @@ class App {
         await this.lkppView.init();
       } else {
         await this.lkppView.loadAndRender();
+      }
+    } else if (tabName === 'weekly') {
+      contentWeekly?.classList.remove('hidden');
+      activateBtn(btnWeekly);
+      if (!this.weeklyView) {
+        this.weeklyView = new WeeklyView('weekly-view-container');
+        await this.weeklyView.init();
+      } else {
+        await this.weeklyView.loadAndRender();
       }
     } else if (tabName === 'inventory' || tabName === 'catalog') {
       contentInventory?.classList.remove('hidden');

@@ -50,6 +50,10 @@ export class HomeView {
                 <span>🏛️</span>
                 <span>Trend Keuangan Negara (1990–2026)</span>
               </button>
+              <button id="home-btn-explore-weekly" class="px-3.5 py-1.5 rounded bg-[#FEF7E0] hover:bg-[#FEEFC3] text-[#B06000] border border-[#FEEFC3] font-semibold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer">
+                <span>⚡</span>
+                <span>Data Mingguan Lembaga (2014–2026)</span>
+              </button>
               <button id="home-btn-explore-crosswalk" class="px-3.5 py-1.5 rounded bg-white hover:bg-[#F1F3F4] text-[#5F6368] border border-[#DADCE0] font-medium transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer">
                 <span>ℹ️</span>
                 <span>Riwayat Klasifikasi APBN</span>
@@ -186,6 +190,9 @@ export class HomeView {
     });
     document.getElementById('home-btn-explore-lkpp')?.addEventListener('click', () => {
       if (this.options.onNavigate) this.options.onNavigate('lkpp');
+    });
+    document.getElementById('home-btn-explore-weekly')?.addEventListener('click', () => {
+      if (this.options.onNavigate) this.options.onNavigate('weekly');
     });
     document.getElementById('home-btn-lkpp-card')?.addEventListener('click', () => {
       if (this.options.onNavigate) this.options.onNavigate('lkpp');

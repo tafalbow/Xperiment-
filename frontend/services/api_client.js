@@ -146,6 +146,47 @@ export const ApiClient = {
     return `${API_BASE}/api/lkpp/export?${query.toString()}`;
   },
 
+  async fetchWeeklyInstitutions() {
+    const res = await fetch(`${API_BASE}/api/weekly/institutions`);
+    if (!res.ok) throw new Error('Gagal memuat daftar lembaga penerbit data mingguan.');
+    return await res.json();
+  },
+
+  async fetchWeeklyMatrix(params = {}) {
+    const query = new URLSearchParams();
+    if (params.institution_id) query.append('institution_id', params.institution_id);
+    if (params.view_mode) query.append('view_mode', params.view_mode);
+    if (params.year) query.append('year', params.year);
+    if (params.q) query.append('q', params.q);
+    const res = await fetch(`${API_BASE}/api/weekly/matrix?${query.toString()}`);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({ detail: 'Gagal memuat matriks data mingguan.' }));
+      throw new Error(errData.detail || 'Gagal memuat matriks data mingguan.');
+    }
+    return await res.json();
+  },
+
+  async fetchWeeklyTrend(params = {}) {
+    const query = new URLSearchParams();
+    if (params.indicator_id) query.append('indicator_id', params.indicator_id);
+    if (params.year) query.append('year', params.year);
+    const res = await fetch(`${API_BASE}/api/weekly/trend?${query.toString()}`);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({ detail: 'Gagal memuat tren mingguan indikator.' }));
+      throw new Error(errData.detail || 'Gagal memuat tren mingguan indikator.');
+    }
+    return await res.json();
+  },
+
+  getWeeklyExportUrl(params = {}) {
+    const query = new URLSearchParams();
+    if (params.institution_id) query.append('institution_id', params.institution_id);
+    if (params.view_mode) query.append('view_mode', params.view_mode);
+    if (params.year) query.append('year', params.year);
+    query.append('format', params.format || 'xlsx');
+    return `${API_BASE}/api/weekly/export?${query.toString()}`;
+  },
+
   async fetchRevisionHistory(indicatorId = null) {
     const query = indicatorId ? `?indicator_id=${encodeURIComponent(indicatorId)}` : '';
     const res = await fetch(`${API_BASE}/api/revision-history${query}`);
