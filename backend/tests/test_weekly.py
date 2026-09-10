@@ -75,7 +75,7 @@ def test_get_weekly_matrix_by_institution():
     assert res_bap.json()["total_rows"] == 11
 
 def test_get_weekly_trend():
-    """Verify weekly trend calculations, statistics, and 676 weekly points."""
+    """Verify weekly trend calculations, statistics, median trend olahan, and 676 weekly points."""
     res = client.get("/api/weekly/trend?indicator_id=BI_M0")
     assert res.status_code == 200
     data = res.json()
@@ -84,9 +84,23 @@ def test_get_weekly_trend():
     assert data["statistics"]["latest_value"] > 0
     assert data["statistics"]["min_value"] > 0
     assert data["statistics"]["max_value"] >= data["statistics"]["min_value"]
+    # New refined statistics (L3M, L12W, WoW, MoM, YoY, Median)
+    assert "average_l3m" in data["statistics"]
+    assert data["statistics"]["average_l3m"] > 0
+    assert "max_l12w" in data["statistics"]
+    assert "min_l12w" in data["statistics"]
+    assert data["statistics"]["max_l12w"] >= data["statistics"]["min_l12w"]
+    assert "wow_percent" in data["statistics"]
+    assert "mom_percent" in data["statistics"]
+    assert "yoy_percent" in data["statistics"]
+    assert "latest_median_trend" in data["statistics"]
     assert len(data["series"]) == 676
     assert data["series"][0]["period_label"] == "2014-W01"
     assert data["series"][-1]["period_label"] == "2026-W52"
+    # Series points contain median trend olahan & deviation
+    assert "median_trend" in data["series"][-1]
+    assert data["series"][-1]["median_trend"] > 0
+    assert "deviation_to_median_percent" in data["series"][-1]
 
 def test_export_weekly_excel_and_csv():
     """Verify Excel and CSV exports for weekly data."""

@@ -694,15 +694,49 @@ class WeeklyService:
                     "wow_percent": wow_pct
                 })
 
+        # ----------------------------------------------------------------------
+        # MEDIAN TREND BERDASARKAN NILAI OLAHAN (13-Week Moving Median Window)
+        # ----------------------------------------------------------------------
+        half_win = 6
+        median_trend_list = []
+        for i in range(len(val_list)):
+            w_start = max(0, i - half_win)
+            w_end = min(len(val_list), i + half_win + 1)
+            w_sorted = sorted(val_list[w_start:w_end])
+            nw = len(w_sorted)
+            if nw % 2 == 1:
+                med_val = w_sorted[nw // 2]
+            else:
+                med_val = (w_sorted[nw // 2 - 1] + w_sorted[nw // 2]) / 2.0
+            median_trend_list.append(round(med_val, 2))
+
+        for idx, pt in enumerate(all_points):
+            med = median_trend_list[idx]
+            pt["median_trend"] = med
+            v = pt["value"]
+            pt["deviation_to_median_percent"] = round(((v - med) / abs(med)) * 100.0, 2) if med != 0 else 0.0
+
         latest_val = val_list[-1] if val_list else 0.0
         start_val = val_list[0] if val_list else 0.0
         min_val = min(val_list) if val_list else 0.0
         max_val = max(val_list) if val_list else 0.0
         avg_val = round(sum(val_list) / len(val_list), 2) if val_list else 0.0
-        
-        change_4w = None
-        if len(val_list) >= 5 and val_list[-5] != 0:
-            change_4w = round(((val_list[-1] - val_list[-5]) / abs(val_list[-5])) * 100.0, 2)
+
+        # L12W Window (Kurun waktu 12 minggu kebelakang / ~L3M)
+        l12w_vals = val_list[-12:] if len(val_list) >= 12 else val_list
+        average_l3m = round(sum(l12w_vals) / len(l12w_vals), 2) if l12w_vals else 0.0
+        max_l12w = max(l12w_vals) if l12w_vals else 0.0
+        min_l12w = min(l12w_vals) if l12w_vals else 0.0
+
+        # Momentum Pertumbuhan: WoW (1-pekan), MoM (4-pekan), YoY (52-pekan)
+        wow_percent = round(((latest_val - val_list[-2]) / abs(val_list[-2])) * 100.0, 2) if len(val_list) >= 2 and val_list[-2] != 0 else None
+        mom_percent = round(((latest_val - val_list[-5]) / abs(val_list[-5])) * 100.0, 2) if len(val_list) >= 5 and val_list[-5] != 0 else None
+        yoy_percent = round(((latest_val - val_list[-53]) / abs(val_list[-53])) * 100.0, 2) if len(val_list) >= 53 and val_list[-53] != 0 else None
+
+        # Overall Median
+        sorted_all = sorted(val_list)
+        n_all = len(sorted_all)
+        overall_med = sorted_all[n_all // 2] if n_all % 2 == 1 else (sorted_all[n_all // 2 - 1] + sorted_all[n_all // 2]) / 2.0
 
         return {
             "indicator": {
@@ -724,7 +758,15 @@ class WeeklyService:
                 "min_value": min_val,
                 "max_value": max_val,
                 "average_value": avg_val,
-                "change_4w_percent": change_4w,
+                "average_l3m": average_l3m,
+                "max_l12w": max_l12w,
+                "min_l12w": min_l12w,
+                "wow_percent": wow_percent,
+                "mom_percent": mom_percent,
+                "yoy_percent": yoy_percent,
+                "change_4w_percent": mom_percent, # for backward compatibility
+                "median_value": round(overall_med, 2),
+                "latest_median_trend": median_trend_list[-1] if median_trend_list else 0.0,
                 "total_observations": len(all_points)
             },
             "series": all_points

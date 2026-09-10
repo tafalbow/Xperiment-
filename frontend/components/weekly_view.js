@@ -531,60 +531,94 @@ export class WeeklyView {
           <!-- Modal Body Scrollable -->
           <div class="p-6 overflow-y-auto space-y-5">
             
-            <!-- KPI Summary Cards -->
+            <!-- KPI Summary Cards (5 Kotak Refined) -->
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 font-mono">
               
+              <!-- Kotak 1: Nilai Terkini -->
               <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
-                <div class="text-[10px] text-[#5F6368] uppercase">Nilai Terkini</div>
+                <div class="text-[10px] text-[#5F6368] uppercase font-bold">Nilai Terkini</div>
                 <div class="text-base font-bold text-[#1A73E8]">
                   ${Number(stats.latest_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
                 </div>
-                <div class="text-[9px] text-[#5F6368]">${ind.unit_short}</div>
+                <div class="text-[9px] text-[#5F6368]">${ind.unit_short} (Pekan Berjalan)</div>
               </div>
 
+              <!-- Kotak 2: Average L3Months -->
               <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
-                <div class="text-[10px] text-[#5F6368] uppercase">Rata-rata 13 Thn</div>
+                <div class="text-[10px] text-[#5F6368] uppercase font-bold">Average L3Months</div>
                 <div class="text-base font-bold text-[#202124]">
-                  ${Number(stats.average_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
+                  ${Number(stats.average_l3m).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
                 </div>
-                <div class="text-[9px] text-[#5F6368]">${ind.unit_short}</div>
+                <div class="text-[9px] text-[#5F6368]">Rata-rata 12 Minggu Terakhir</div>
               </div>
 
+              <!-- Kotak 3: Max L12W -->
               <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
-                <div class="text-[10px] text-[#5F6368] uppercase">Puncak Tertinggi</div>
+                <div class="text-[10px] text-[#5F6368] uppercase font-bold">Max L12W</div>
                 <div class="text-base font-bold text-[#D93025]">
-                  ${Number(stats.max_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
+                  ${Number(stats.max_l12w).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
                 </div>
-                <div class="text-[9px] text-[#5F6368]">Maksimum</div>
+                <div class="text-[9px] text-[#5F6368]">Tertinggi 12 Minggu Terakhir</div>
               </div>
 
+              <!-- Kotak 4: Min L12W -->
               <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
-                <div class="text-[10px] text-[#5F6368] uppercase">Titik Terendah</div>
+                <div class="text-[10px] text-[#5F6368] uppercase font-bold">Min L12W</div>
                 <div class="text-base font-bold text-[#1E8E3E]">
-                  ${Number(stats.min_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
+                  ${Number(stats.min_l12w).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
                 </div>
-                <div class="text-[9px] text-[#5F6368]">Minimum</div>
+                <div class="text-[9px] text-[#5F6368]">Terendah 12 Minggu Terakhir</div>
               </div>
 
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
-                <div class="text-[10px] text-[#5F6368] uppercase">Perubahan 4-Pekan</div>
-                <div class="text-base font-bold ${stats.change_4w_percent >= 0 ? 'text-emerald-700' : 'text-rose-700'}">
-                  ${stats.change_4w_percent !== null ? `${stats.change_4w_percent > 0 ? '+' : ''}${stats.change_4w_percent}%` : '-'}
+              <!-- Kotak 5: 3 Info (WoW, MoM, YoY) -->
+              <div class="bg-[#F8F9FA] p-2.5 rounded-lg border border-[#DADCE0] flex flex-col justify-between space-y-1">
+                <div class="text-[9px] text-[#5F6368] uppercase font-bold border-b border-[#E8EAED] pb-0.5">Momentum Pertumbuhan</div>
+                <div class="space-y-0.5 text-[10px]">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[#5F6368]">WoW:</span>
+                    <strong class="${stats.wow_percent !== null && stats.wow_percent >= 0 ? 'text-emerald-700' : 'text-rose-700'}">
+                      ${stats.wow_percent !== null ? `${stats.wow_percent > 0 ? '+' : ''}${stats.wow_percent}%` : '-'}
+                    </strong>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[#5F6368]">MoM:</span>
+                    <strong class="${stats.mom_percent !== null && stats.mom_percent >= 0 ? 'text-emerald-700' : 'text-rose-700'}">
+                      ${stats.mom_percent !== null ? `${stats.mom_percent > 0 ? '+' : ''}${stats.mom_percent}%` : '-'}
+                    </strong>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[#5F6368]">YoY:</span>
+                    <strong class="${stats.yoy_percent !== null && stats.yoy_percent >= 0 ? 'text-emerald-700' : 'text-rose-700'}">
+                      ${stats.yoy_percent !== null ? `${stats.yoy_percent > 0 ? '+' : ''}${stats.yoy_percent}%` : '-'}
+                    </strong>
+                  </div>
                 </div>
-                <div class="text-[9px] text-[#5F6368]">4 Weeks Momentum</div>
               </div>
 
             </div>
 
-            <!-- Historical Canvas Chart -->
+            <!-- Historical Canvas Chart with Legend -->
             <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-2">
-              <div class="flex items-center justify-between text-xs font-mono">
-                <div class="font-bold text-[#202124] flex items-center gap-1.5">
-                  <span>📈</span>
-                  <span>Deret Waktu Mingguan (${ind.unit})</span>
+              <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                <div class="flex items-center gap-3">
+                  <div class="font-bold text-[#202124] flex items-center gap-1.5">
+                    <span>📈</span>
+                    <span>Deret Waktu Mingguan (${ind.unit})</span>
+                  </div>
+                  <!-- Visual Legend -->
+                  <div class="flex items-center gap-2 text-[10.5px]">
+                    <div class="flex items-center gap-1.5 bg-[#F1F3F4] px-2 py-0.5 rounded border border-[#DADCE0]">
+                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#1A73E8]"></span>
+                      <span class="text-[#202124] font-medium">Nilai Mingguan</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 bg-[#FEF7E0] px-2 py-0.5 rounded border border-[#FEEFC3]">
+                      <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#E37400]"></span>
+                      <span class="text-[#B06000] font-bold">Tren Median Olahan</span>
+                    </div>
+                  </div>
                 </div>
                 <div id="weekly-chart-hover-info" class="text-[11px] text-[#1A73E8] font-bold">
-                  Arahkan kursor ke grafik untuk info pekan
+                  Arahkan kursor ke grafik untuk info pekan & tren median
                 </div>
               </div>
               
@@ -619,11 +653,13 @@ export class WeeklyView {
               </div>
             </div>
 
-            <!-- Weekly Observations Breakdown Table -->
+            <!-- Weekly Observations Breakdown Table (Last 36 Weeks) -->
             <div class="space-y-2">
               <div class="text-xs font-mono font-bold text-[#202124] flex items-center justify-between">
                 <span>Rincian Observasi Mingguan & Pertumbuhan WoW (Week-on-Week %):</span>
-                <span class="text-[10.5px] font-normal text-[#5F6368]">50 Pekan Terakhir Disajikan</span>
+                <span class="text-[10.5px] font-semibold text-[#1A73E8] bg-[#E8F0FE] px-2 py-0.5 rounded border border-[#D2E3FC]">
+                  36 Pekan Terakhir Disajikan (Last 36 Weeks)
+                </span>
               </div>
               
               <div class="overflow-x-auto max-h-[220px] rounded border border-[#DADCE0] scrollbar-thin">
@@ -632,17 +668,25 @@ export class WeeklyView {
                     <tr>
                       <th class="py-1.5 px-3">PEKAN / PERIODE</th>
                       <th class="py-1.5 px-3 text-right">NILAI (${ind.unit_short})</th>
+                      <th class="py-1.5 px-3 text-right">TREN MEDIAN OLAHAN</th>
+                      <th class="py-1.5 px-3 text-right">DEVIASI MEDIAN</th>
                       <th class="py-1.5 px-3 text-right">PERTUMBUHAN WOW %</th>
                       <th class="py-1.5 px-3 text-center">ARAH TREN</th>
                       <th class="py-1.5 px-3">LEMBAGA PENERBIT</th>
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-[#E8EAED]">
-                    ${series.slice(-50).reverse().map(p => `
+                    ${series.slice(-36).reverse().map(p => `
                       <tr class="hover:bg-[#F8F9FA]">
                         <td class="py-1.5 px-3 font-bold text-[#202124]">${p.period_label}</td>
-                        <td class="py-1.5 px-3 text-right font-medium">
+                        <td class="py-1.5 px-3 text-right font-semibold text-[#1A73E8]">
                           ${Number(p.value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
+                        </td>
+                        <td class="py-1.5 px-3 text-right font-medium text-[#E37400]">
+                          ${p.median_trend !== undefined && p.median_trend !== null ? Number(p.median_trend).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 }) : '-'}
+                        </td>
+                        <td class="py-1.5 px-3 text-right font-medium ${p.deviation_to_median_percent !== undefined && p.deviation_to_median_percent !== null ? (p.deviation_to_median_percent >= 0 ? 'text-amber-700' : 'text-slate-600') : 'text-[#5F6368]'}">
+                          ${p.deviation_to_median_percent !== undefined && p.deviation_to_median_percent !== null ? `${p.deviation_to_median_percent > 0 ? '+' : ''}${p.deviation_to_median_percent}%` : '-'}
                         </td>
                         <td class="py-1.5 px-3 text-right font-medium ${p.wow_percent !== null ? (p.wow_percent >= 0 ? 'text-emerald-700' : 'text-rose-700') : 'text-[#5F6368]'}">
                           ${p.wow_percent !== null ? `${p.wow_percent > 0 ? '+' : ''}${p.wow_percent}%` : '-'}
@@ -652,7 +696,7 @@ export class WeeklyView {
                             ${p.wow_percent !== null ? (p.wow_percent > 0 ? '▲ NAIK' : (p.wow_percent < 0 ? '▼ TURUN' : '► TETAP')) : '—'}
                           </span>
                         </td>
-                        <td class="py-1.5 px-3 text-[10.5px] text-[#5F6368] truncate max-w-[240px]">
+                        <td class="py-1.5 px-3 text-[10.5px] text-[#5F6368] truncate max-w-[200px]">
                           ${ind.institution_name}
                         </td>
                       </tr>
@@ -716,9 +760,13 @@ export class WeeklyView {
 
     if (series.length < 2) return;
 
-    const vals = series.map(s => s.value);
-    const minVal = Math.min(...vals);
-    const maxVal = Math.max(...vals);
+    const allVals = [];
+    series.forEach(s => {
+      if (s.value !== undefined && s.value !== null) allVals.push(s.value);
+      if (s.median_trend !== undefined && s.median_trend !== null) allVals.push(s.median_trend);
+    });
+    const minVal = Math.min(...allVals);
+    const maxVal = Math.max(...allVals);
     const valRange = maxVal - minVal === 0 ? 1 : maxVal - minVal;
 
     // Grid lines (4 horizontal)
@@ -749,12 +797,14 @@ export class WeeklyView {
     const pts = series.map((s, idx) => {
       const x = padLeft + (idx / (series.length - 1)) * plotWidth;
       const y = padTop + plotHeight * (1 - (s.value - minVal) / valRange);
-      return { x, y, ...s };
+      const hasMed = s.median_trend !== undefined && s.median_trend !== null;
+      const yMed = hasMed ? padTop + plotHeight * (1 - (s.median_trend - minVal) / valRange) : null;
+      return { x, y, yMed, ...s };
     });
 
-    // Draw Gradient Area
+    // 1. Draw Gradient Area for Raw Weekly Values
     const grad = ctx.createLinearGradient(0, padTop, 0, padTop + plotHeight);
-    grad.addColorStop(0, 'rgba(26, 115, 232, 0.25)');
+    grad.addColorStop(0, 'rgba(26, 115, 232, 0.20)');
     grad.addColorStop(1, 'rgba(26, 115, 232, 0.01)');
 
     ctx.beginPath();
@@ -765,13 +815,24 @@ export class WeeklyView {
     ctx.fillStyle = grad;
     ctx.fill();
 
-    // Draw Main Trend Line
+    // 2. Draw Raw Weekly Value Line (Blue)
     ctx.beginPath();
     ctx.moveTo(pts[0].x, pts[0].y);
     pts.forEach(p => ctx.lineTo(p.x, p.y));
     ctx.strokeStyle = '#1A73E8';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.8;
     ctx.stroke();
+
+    // 3. Draw Median Trend Line (Amber / Orange: #E37400)
+    const validMedPts = pts.filter(p => p.yMed !== null);
+    if (validMedPts.length > 1) {
+      ctx.beginPath();
+      ctx.moveTo(validMedPts[0].x, validMedPts[0].yMed);
+      validMedPts.forEach(p => ctx.lineTo(p.x, p.yMed));
+      ctx.strokeStyle = '#E37400';
+      ctx.lineWidth = 2.4;
+      ctx.stroke();
+    }
 
     // Mousemove crosshair interaction
     const hoverInfo = document.getElementById('weekly-chart-hover-info');
@@ -794,45 +855,76 @@ export class WeeklyView {
       const p = pts[nearestIdx];
       if (!p) return;
 
-      // Redraw canvas
+      // Redraw canvas clean
       ctx.clearRect(0, 0, width, height);
 
       // Redraw grid
+      ctx.strokeStyle = '#E8EAED';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#5F6368';
+      ctx.font = '10px monospace';
+      ctx.textAlign = 'right';
       for (let i = 0; i <= 4; i++) {
         const yNorm = i / 4;
         const yPos = padTop + plotHeight * (1 - yNorm);
+        const gridVal = minVal + valRange * yNorm;
         ctx.beginPath();
-        ctx.strokeStyle = '#E8EAED';
         ctx.moveTo(padLeft, yPos);
         ctx.lineTo(width - padRight, yPos);
         ctx.stroke();
+        ctx.fillText(
+          gridVal >= 1000 ? (gridVal / 1000).toFixed(1) + 'k' : gridVal.toFixed(1),
+          padLeft - 8,
+          yPos + 3
+        );
       }
 
-      // Redraw line
+      // Redraw area
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, padTop + plotHeight);
+      pts.forEach(pt => ctx.lineTo(pt.x, pt.y));
+      ctx.lineTo(pts[pts.length - 1].x, padTop + plotHeight);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Redraw raw line
       ctx.beginPath();
       ctx.moveTo(pts[0].x, pts[0].y);
       pts.forEach(pt => ctx.lineTo(pt.x, pt.y));
       ctx.strokeStyle = '#1A73E8';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.8;
       ctx.stroke();
+
+      // Redraw median line
+      if (validMedPts.length > 1) {
+        ctx.beginPath();
+        ctx.moveTo(validMedPts[0].x, validMedPts[0].yMed);
+        validMedPts.forEach(pt => ctx.lineTo(pt.x, pt.yMed));
+        ctx.strokeStyle = '#E37400';
+        ctx.lineWidth = 2.4;
+        ctx.stroke();
+      }
 
       // Crosshair lines
       ctx.strokeStyle = '#9AA0A6';
       ctx.lineWidth = 1;
       ctx.setLineDash([3, 3]);
 
+      // Vertical crosshair
       ctx.beginPath();
       ctx.moveTo(p.x, padTop);
       ctx.lineTo(p.x, padTop + plotHeight);
       ctx.stroke();
 
+      // Horizontal crosshair to value
       ctx.beginPath();
       ctx.moveTo(padLeft, p.y);
       ctx.lineTo(width - padRight, p.y);
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Highlight active point
+      // Highlight active raw value point (Blue)
       ctx.beginPath();
       ctx.arc(p.x, p.y, 5, 0, 2 * Math.PI);
       ctx.fillStyle = '#1A73E8';
@@ -841,10 +933,28 @@ export class WeeklyView {
       ctx.lineWidth = 2;
       ctx.stroke();
 
+      // Highlight active median point (Amber) if exists
+      if (p.yMed !== null) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.yMed, 4.5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#E37400';
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
       // Update hover label
       if (hoverInfo) {
+        const valStr = Number(p.value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
         const wowStr = p.wow_percent !== null ? `(${p.wow_percent > 0 ? '+' : ''}${p.wow_percent}% WoW)` : '';
-        hoverInfo.innerHTML = `Pekan: <strong class="text-[#202124]">${p.period_label}</strong> | Nilai: <strong class="text-[#1A73E8]">${Number(p.value).toLocaleString('id-ID')} ${unitSymbol}</strong> ${wowStr}`;
+        const medStr = p.median_trend !== undefined && p.median_trend !== null
+          ? ` | Median Olahan: <strong class="text-[#E37400]">${Number(p.median_trend).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}</strong>`
+          : '';
+        const devStr = p.deviation_to_median_percent !== undefined && p.deviation_to_median_percent !== null
+          ? ` <span class="text-xs text-[#5F6368]">(${p.deviation_to_median_percent > 0 ? '+' : ''}${p.deviation_to_median_percent}% deviasi)</span>`
+          : '';
+        hoverInfo.innerHTML = `Pekan: <strong class="text-[#202124]">${p.period_label}</strong> | Nilai: <strong class="text-[#1A73E8]">${valStr} ${unitSymbol}</strong> ${wowStr}${medStr}${devStr}`;
       }
     };
 
@@ -852,7 +962,7 @@ export class WeeklyView {
       // Restore clean chart
       this.drawWeeklyCanvasChart(series, unitSymbol);
       if (hoverInfo) {
-        hoverInfo.textContent = 'Arahkan kursor ke grafik untuk info pekan';
+        hoverInfo.textContent = 'Arahkan kursor ke grafik untuk info pekan & tren median';
       }
     };
   }
