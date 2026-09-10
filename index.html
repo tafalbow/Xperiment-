@@ -2,29 +2,319 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=http://localhost:8028/">
-  <title>INDOEKONOMI data — Indonesia Economic Data Observatory</title>
-  <script>
-    if (window.location.port !== '8028') {
-      window.location.replace("http://" + window.location.hostname + ":8028/");
-    } else {
-      window.location.replace("/frontend/index.html");
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INDOEKONOMI data — Indonesia Economic Data Observatory | Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --primary-light: #e8f0fe;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --radius: 12px;
     }
-  </script>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    .container {
+      width: 100%;
+      max-width: 860px;
+      margin: auto;
+    }
+    .header-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #1a73e8, #34a853, #fbbc05, #ea4335);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      border: 1px solid #d2e3fc;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+    .tagline {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .status-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .status-checking { background: #f1f5f9; color: #64748b; }
+    .status-active { background: var(--success-light); color: #047857; border: 1px solid #a7f3d0; }
+    .status-offline { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+    }
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.25);
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 14px rgba(26, 115, 232, 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+    }
+    .btn-secondary:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .instructions-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.6;
+    }
+    .instructions-box code {
+      font-family: 'JetBrains Mono', monospace;
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 2rem;
+    }
+    .game-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+    }
+    .game-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -4px rgba(26, 115, 232, 0.12);
+    }
+    .game-icon {
+      font-size: 28px;
+      margin-bottom: 0.75rem;
+    }
+    .game-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.35rem;
+    }
+    .game-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      flex-grow: 1;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+      padding: 1rem 0;
+    }
+  </style>
 </head>
-<body style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8f9fa; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <div style="background: white; padding: 2.5rem; border-radius: 12px; border: 1px solid #dadce0; text-align: center; max-width: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏛️</div>
-    <h2 style="color: #1a73e8; margin: 0 0 0.5rem 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;">INDOEKONOMI data</h2>
-    <div style="display: inline-block; background: #e8f0fe; color: #1a73e8; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-bottom: 1rem; border: 1px solid #d2e3fc;">
-      DEWAN EKONOMI NASIONAL
+<body>
+  <div class="container">
+    <div class="header-card">
+      <div class="badge">🏛️ DEWAN EKONOMI NASIONAL</div>
+      <h1>INDOEKONOMI data</h1>
+      <p class="tagline">Pusat Basis Data Sekunder Ekonomi Nasional &middot; Indonesia Economic Data Observatory</p>
+      
+      <div id="statusBanner" class="status-banner status-checking">
+        <span class="pulse-dot"></span>
+        <span id="statusText">Memeriksa status server lokal (Port 8028)...</span>
+      </div>
+
+      <div class="cta-group">
+        <a id="btnDashboard" href="http://localhost:8028/" class="btn btn-primary">
+          🚀 Buka INDOEKONOMI Data (Port 8028) &rarr;
+        </a>
+        <a href="https://github.com/tafalbow/Xperiment-" target="_blank" rel="noopener" class="btn btn-secondary">
+          🐙 Repositori GitHub
+        </a>
+      </div>
+
+      <div class="instructions-box" id="guideBox">
+        <strong>💡 Tips Menjalankan di Laptop:</strong> Server telah didaftarkan pada <code>Startup Windows</code> dan otomatis berjalan di latar belakang (port 8028). Bila server belum menyala, dobel klik file <code>start_background.vbs</code> atau <code>run_server.bat</code> di folder proyek.
+      </div>
     </div>
-    <p style="color: #5f6368; font-size: 14px; line-height: 1.5; margin: 0 0 1.5rem 0;">
-      Mengarahkan ke <strong>Pusat Basis Data Sekunder Ekonomi Nasional</strong> di port khusus <strong>8028</strong>...
-    </p>
-    <a href="http://localhost:8028/" style="display: inline-block; padding: 10px 20px; background: #1a73e8; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; transition: background 0.2s;">
-      Buka INDOEKONOMI data (Port 8028) &rarr;
-    </a>
+
+    <div class="section-title">
+      🎮 Modul Simulasi & Permainan Edukasi (Jalankan Langsung di Browser)
+    </div>
+    <div class="grid">
+      <a href="cocok_tanam.html" class="game-card">
+        <div class="game-icon">🌾</div>
+        <div class="game-title">Simulator Cocok Tanam</div>
+        <div class="game-desc">Simulasi kalender pertanian interaktif, pola musim tanam & panen komoditas pangan di Indonesia.</div>
+      </a>
+      <a href="macro_game.html" class="game-card">
+        <div class="game-icon">📈</div>
+        <div class="game-title">Macroeconomic Policy Game</div>
+        <div class="game-desc">Simulasi bauran kebijakan moneter & fiskal dalam menjaga stabilitas inflasi dan pertumbuhan PDB.</div>
+      </a>
+      <a href="trade_game.html" class="game-card">
+        <div class="game-icon">🚢</div>
+        <div class="game-title">International Trade Simulator</div>
+        <div class="game-desc">Eksplorasi neraca dagang, ekspor-impor komoditas strategis dan dinamika devisa negara.</div>
+      </a>
+      <a href="math_tug.html" class="game-card">
+        <div class="game-icon">🎯</div>
+        <div class="game-title">Math Tug-of-War Battle</div>
+        <div class="game-desc">Tantangan kuis cepat kalkulasi ekonomi & matematika kuantitatif berbasis arena interaktif.</div>
+      </a>
+      <a href="mochi_game.html" class="game-card">
+        <div class="game-icon">🍡</div>
+        <div class="game-title">Game Mochi Edukatif</div>
+        <div class="game-desc">Permainan visual santai dengan gameplay interaktif untuk rekreasi dan pembelajaran.</div>
+      </a>
+    </div>
+
+    <div class="footer">
+      &copy; 2026 INDOEKONOMI data &middot; Republik Indonesia &middot; Dewan Ekonomi Nasional
+    </div>
   </div>
+
+  <script>
+    // Smart host detector & automatic redirection
+    (function() {
+      const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const isPort8028 = window.location.port === '8028';
+      
+      // If already served directly by FastAPI on port 8028
+      if (isPort8028) {
+        window.location.replace('/frontend/index.html');
+        return;
+      }
+
+      // Check if local server at 8028 is running
+      const banner = document.getElementById('statusBanner');
+      const text = document.getElementById('statusText');
+      const btn = document.getElementById('btnDashboard');
+
+      fetch('http://localhost:8028/api/health', { mode: 'cors', cache: 'no-store' })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.status === 'HEALTHY') {
+            banner.className = 'status-banner status-active';
+            text.textContent = '🟢 Server Lokal Aktif (Port 8028)';
+            btn.innerHTML = '🚀 Buka INDOEKONOMI Data (Online) &rarr;';
+            if (isLocalHost) {
+              window.location.replace('http://localhost:8028/');
+            }
+          }
+        })
+        .catch(() => {
+          banner.className = 'status-banner status-offline';
+          text.textContent = '🟡 Server Lokal Belum Berjalan di Port 8028';
+        });
+    })();
+  </script>
 </body>
 </html>
+
