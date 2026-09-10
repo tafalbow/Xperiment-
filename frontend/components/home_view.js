@@ -46,7 +46,11 @@ export class HomeView {
                 <span>🌾</span>
                 <span>Kalender Tanam & Panen</span>
               </button>
-              <button id="home-btn-explore-crosswalk" class="px-3.5 py-1.5 rounded bg-white hover:bg-[#F1F3F4] text-[#1A73E8] border border-[#DADCE0] font-medium transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer">
+              <button id="home-btn-explore-lkpp" class="px-3.5 py-1.5 rounded bg-[#E8F0FE] hover:bg-[#D2E3FC] text-[#1A73E8] border border-[#D2E3FC] font-semibold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer">
+                <span>🏛️</span>
+                <span>Tren Keuangan LKPP (1990–2026)</span>
+              </button>
+              <button id="home-btn-explore-crosswalk" class="px-3.5 py-1.5 rounded bg-white hover:bg-[#F1F3F4] text-[#5F6368] border border-[#DADCE0] font-medium transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer">
                 <span>ℹ️</span>
                 <span>Riwayat Klasifikasi APBN</span>
               </button>
@@ -161,7 +165,12 @@ export class HomeView {
               <p class="text-[11px] text-[#3C4043] font-sans">
                 Dokumen pertanggungjawaban APBN final yang diaudit oleh BPK RI. Mencakup LRA, Neraca, Laporan Arus Kas (LAK), dan Catatan atas Laporan Keuangan (CaLK).
               </p>
-              <div class="text-[10px] text-[#5F6368]">Terbit: Juni 2024 • Status: Realisasi Final Audited</div>
+              <div class="pt-1 flex items-center justify-between">
+                <div class="text-[10px] text-[#5F6368]">Terbit: Juni 2024 • Status: Realisasi Final Audited</div>
+                <button id="home-btn-lkpp-card" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-[#1A73E8] text-white hover:bg-[#174EA6] font-semibold flex items-center gap-1 cursor-pointer">
+                  <span>🏛️ Buka Matriks LKPP</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -174,6 +183,12 @@ export class HomeView {
     });
     document.getElementById('home-btn-explore-calendar')?.addEventListener('click', () => {
       if (this.options.onNavigate) this.options.onNavigate('calendar');
+    });
+    document.getElementById('home-btn-explore-lkpp')?.addEventListener('click', () => {
+      if (this.options.onNavigate) this.options.onNavigate('lkpp');
+    });
+    document.getElementById('home-btn-lkpp-card')?.addEventListener('click', () => {
+      if (this.options.onNavigate) this.options.onNavigate('lkpp');
     });
     document.getElementById('home-btn-explore-crosswalk')?.addEventListener('click', () => {
       if (this.options.onOpenCrosswalk) this.options.onOpenCrosswalk();

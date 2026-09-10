@@ -96,6 +96,56 @@ export const ApiClient = {
     return await res.json();
   },
 
+  async fetchLKPPTableList() {
+    const res = await fetch(`${API_BASE}/api/lkpp/tables`);
+    if (!res.ok) throw new Error('Gagal memuat daftar tabel LKPP.');
+    return await res.json();
+  },
+
+  async fetchLKPPMatrix(params = {}) {
+    const query = new URLSearchParams();
+    if (params.table_id) query.append('table_id', params.table_id);
+    if (params.start_year) query.append('start_year', params.start_year);
+    if (params.end_year) query.append('end_year', params.end_year);
+    if (params.unit) query.append('unit', params.unit);
+    if (params.q) query.append('q', params.q);
+    const res = await fetch(`${API_BASE}/api/lkpp/matrix?${query.toString()}`);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({ detail: 'Gagal memuat matriks LKPP.' }));
+      throw new Error(errData.detail || 'Gagal memuat matriks LKPP.');
+    }
+    return await res.json();
+  },
+
+  async fetchLKPPTrend(params = {}) {
+    const query = new URLSearchParams();
+    if (params.table_id) query.append('table_id', params.table_id);
+    if (params.item_id) query.append('item_id', params.item_id);
+    if (params.unit) query.append('unit', params.unit);
+    const res = await fetch(`${API_BASE}/api/lkpp/trend?${query.toString()}`);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({ detail: 'Gagal memuat analitik tren LKPP.' }));
+      throw new Error(errData.detail || 'Gagal memuat analitik tren LKPP.');
+    }
+    return await res.json();
+  },
+
+  async fetchLKPPGlossary() {
+    const res = await fetch(`${API_BASE}/api/lkpp/glossary`);
+    if (!res.ok) throw new Error('Gagal memuat glosari evolusi nomenklatur LKPP.');
+    return await res.json();
+  },
+
+  getLKPPExportUrl(params = {}) {
+    const query = new URLSearchParams();
+    if (params.table_id) query.append('table_id', params.table_id);
+    if (params.start_year) query.append('start_year', params.start_year);
+    if (params.end_year) query.append('end_year', params.end_year);
+    if (params.unit) query.append('unit', params.unit);
+    query.append('format', params.format || 'xlsx');
+    return `${API_BASE}/api/lkpp/export?${query.toString()}`;
+  },
+
   async fetchRevisionHistory(indicatorId = null) {
     const query = indicatorId ? `?indicator_id=${encodeURIComponent(indicatorId)}` : '';
     const res = await fetch(`${API_BASE}/api/revision-history${query}`);

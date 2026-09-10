@@ -17,6 +17,7 @@ import { CommodityTrackerComponent } from './components/commodity_tracker.js';
 import { HomeView } from './components/home_view.js';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
+import { LKPPView } from './components/lkpp_view.js';
 import { ModalManager } from './components/modals.js';
 
 class App {
@@ -32,7 +33,8 @@ class App {
     this.contextualMap = null;
     this.variablesInventory = null;
     this.commodityTracker = null;
-    this.activeMainTab = 'home'; // 7 Primary Sections: 'home' | 'analytics' | 'agri' | 'calendar' | 'production' | 'inventory' | 'about'
+    this.lkppView = null;
+    this.activeMainTab = 'home'; // 8 Primary Sections: 'home' | 'analytics' | 'agri' | 'calendar' | 'production' | 'lkpp' | 'inventory' | 'about'
 
     this.currentQueryState = {
       sector: '',
@@ -207,6 +209,7 @@ class App {
     const btnAgri = document.getElementById('tab-btn-agri');
     const btnCalendar = document.getElementById('tab-btn-calendar');
     const btnProduction = document.getElementById('tab-btn-production');
+    const btnLkpp = document.getElementById('tab-btn-lkpp');
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
 
@@ -215,6 +218,7 @@ class App {
     btnAgri?.addEventListener('click', () => this.switchMainTab('agri'));
     btnCalendar?.addEventListener('click', () => this.switchMainTab('calendar'));
     btnProduction?.addEventListener('click', () => this.switchMainTab('production'));
+    btnLkpp?.addEventListener('click', () => this.switchMainTab('lkpp'));
     btnInventory?.addEventListener('click', () => this.switchMainTab('inventory'));
     btnAbout?.addEventListener('click', () => this.switchMainTab('about'));
   }
@@ -226,6 +230,7 @@ class App {
     const btnAgri = document.getElementById('tab-btn-agri');
     const btnCalendar = document.getElementById('tab-btn-calendar');
     const btnProduction = document.getElementById('tab-btn-production');
+    const btnLkpp = document.getElementById('tab-btn-lkpp');
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
 
@@ -233,6 +238,7 @@ class App {
     const contentAnalytics = document.getElementById('tab-content-analytics');
     const contentCommodities = document.getElementById('tab-content-commodities');
     const contentCalendar = document.getElementById('tab-content-calendar');
+    const contentLkpp = document.getElementById('tab-content-lkpp');
     const contentInventory = document.getElementById('tab-content-inventory');
     const contentAbout = document.getElementById('tab-content-about');
 
@@ -249,8 +255,8 @@ class App {
     };
 
     // Hide all contents and reset all buttons
-    [contentHome, contentAnalytics, contentCommodities, contentCalendar, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
-    [btnHome, btnAnalytics, btnAgri, btnCalendar, btnProduction, btnInventory, btnAbout].forEach(b => resetBtn(b));
+    [contentHome, contentAnalytics, contentCommodities, contentCalendar, contentLkpp, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
+    [btnHome, btnAnalytics, btnAgri, btnCalendar, btnProduction, btnLkpp, btnInventory, btnAbout].forEach(b => resetBtn(b));
 
     if (tabName === 'home') {
       contentHome?.classList.remove('hidden');
@@ -301,6 +307,15 @@ class App {
         await this.commodityTracker.init();
       }
       await this.commodityTracker.setDivision('HASIL_BUMI');
+    } else if (tabName === 'lkpp') {
+      contentLkpp?.classList.remove('hidden');
+      activateBtn(btnLkpp);
+      if (!this.lkppView) {
+        this.lkppView = new LKPPView('lkpp-view-container');
+        await this.lkppView.init();
+      } else {
+        await this.lkppView.loadAndRender();
+      }
     } else if (tabName === 'inventory' || tabName === 'catalog') {
       contentInventory?.classList.remove('hidden');
       activateBtn(btnInventory);

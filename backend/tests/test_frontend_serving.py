@@ -34,3 +34,16 @@ def test_serve_about_view_js():
     response = client.get("/components/about_view.js")
     assert response.status_code == 200
     assert "class AboutView" in response.text
+
+def test_serve_lkpp_view_js():
+    response = client.get("/components/lkpp_view.js")
+    assert response.status_code == 200
+    assert "class LKPPView" in response.text
+
+def test_index_has_lkpp_tab():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "tab-btn-lkpp" in response.text
+    assert "tab-content-lkpp" in response.text
+    assert "Tren Keuangan LKPP" in response.text
+
