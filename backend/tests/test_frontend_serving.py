@@ -45,5 +45,5 @@ def test_index_has_lkpp_tab():
     assert response.status_code == 200
     assert "tab-btn-lkpp" in response.text
     assert "tab-content-lkpp" in response.text
-    assert "Tren Keuangan LKPP" in response.text
+    assert "Trend Keuangan Negara" in response.text
 

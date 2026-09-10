@@ -67,7 +67,7 @@ export class LKPPView {
       <div class="gov-card p-12 text-center space-y-3">
         <div class="inline-block w-8 h-8 border-3 border-[#1A73E8] border-t-transparent rounded-full animate-spin"></div>
         <div class="text-xs font-mono font-medium text-[#5F6368]">
-          Mengompilasi Data Statutori LKPP ${this.tableId} (${this.startYear} – ${this.endYear})...
+          Mengompilasi Data Trend Keuangan Negara ${this.tableId} (${this.startYear} – ${this.endYear})...
         </div>
       </div>
     `;
@@ -79,7 +79,7 @@ export class LKPPView {
     container.innerHTML = `
       <div class="gov-card p-8 text-center bg-rose-50 border border-rose-200 text-rose-800 space-y-3 font-mono text-xs">
         <div class="text-2xl">⚠️</div>
-        <div class="font-bold text-sm">Gagal Memuat Data LKPP</div>
+        <div class="font-bold text-sm">Gagal Memuat Data Trend Keuangan Negara</div>
         <p>${msg}</p>
         <button id="btn-lkpp-retry" class="gov-btn px-4 py-1.5 bg-rose-600 text-white hover:bg-rose-700 font-sans cursor-pointer">
           Coba Lagi
@@ -107,7 +107,7 @@ export class LKPPView {
             <div class="space-y-1">
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-semibold bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
-                  🏛️ Observatorium Statutori LKPP 1990 – 2026
+                  🏛️ Observatorium Trend Keuangan Negara (APBN, RAPBN & LKPP 1990 – 2026)
                 </span>
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
                   Standardisasi BAS PP 71/2010
@@ -169,7 +169,7 @@ export class LKPPView {
             <!-- Table Selector (5 cols) -->
             <div class="lg:col-span-4 space-y-1">
               <label class="block text-[11px] font-mono font-bold text-[#3C4043] uppercase tracking-wider">
-                1. Pilihan Tabel Statutori LKPP
+                1. Pilihan Tabel Keuangan Negara (APBN, RAPBN & LKPP)
               </label>
               <select id="sel-lkpp-table" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-[#DADCE0] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#1A73E8]">
                 ${this.tableList.map(t => `
@@ -304,7 +304,7 @@ export class LKPPView {
                   </th>
                   <!-- Sticky Column 2: Kelompok Biaya / Pos -->
                   <th scope="col" class="py-2.5 px-3 font-bold border-r border-[#DADCE0] sticky left-[70px] bg-[#F1F3F4] z-40 min-w-[280px]">
-                    KELOMPOK POS / BIAYA LKPP
+                    KELOMPOK POS / BIAYA KEUANGAN NEGARA
                   </th>
                   <!-- Sticky Column 3: Kategori -->
                   <th scope="col" class="py-2.5 px-3 font-bold border-r border-[#DADCE0] sticky left-[350px] bg-[#F1F3F4] z-40 min-w-[150px]">
@@ -344,7 +344,7 @@ export class LKPPView {
           <!-- Table Footer Strip -->
           <div class="p-3 bg-[#F8F9FA] border-t border-[#DADCE0] flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#5F6368] gap-2">
             <div>
-              Sumber: LKPP Audited 1990–2024 (BPK RI) • APBN KiTa 2025 • UU APBN 2026
+              Sumber: UU APBN • Nota Keuangan RAPBN • LKPP Audited BPK RI (1990–2024) • Realisasi Sementara APBN KiTa (2025)
             </div>
             <div>
               Satuan Data: <strong class="text-[#202124]">${filter.unit_label}</strong>
@@ -688,6 +688,10 @@ export class LKPPView {
                     <tr>
                       <th class="py-1.5 px-3">TAHUN</th>
                       <th class="py-1.5 px-3 text-right">NILAI (${tData.unit_symbol})</th>
+                      ${series.some(s => s.apbn_target !== null && s.apbn_target !== undefined) ? `
+                        <th class="py-1.5 px-3 text-right text-[#1A73E8]">TARGET APBN</th>
+                        <th class="py-1.5 px-3 text-right text-[#137333]">CAPAIAN %</th>
+                      ` : ''}
                       <th class="py-1.5 px-3 text-right">YOY %</th>
                       <th class="py-1.5 px-3 text-center">STATUS</th>
                       <th class="py-1.5 px-3">DOKUMEN STATUTORI SITASI</th>
@@ -700,6 +704,14 @@ export class LKPPView {
                         <td class="py-1.5 px-3 text-right font-medium">
                           ${Number(p.value).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </td>
+                        ${series.some(s => s.apbn_target !== null && s.apbn_target !== undefined) ? `
+                          <td class="py-1.5 px-3 text-right font-mono text-[#1A73E8]">
+                            ${p.apbn_target !== null && p.apbn_target !== undefined ? Number(p.apbn_target).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '-'}
+                          </td>
+                          <td class="py-1.5 px-3 text-right font-mono ${p.achievement_percent !== null && p.achievement_percent !== undefined ? (p.achievement_percent >= 100 ? 'text-emerald-700 font-bold' : 'text-amber-700') : 'text-[#5F6368]'}">
+                            ${p.achievement_percent !== null && p.achievement_percent !== undefined ? `${p.achievement_percent}%` : '-'}
+                          </td>
+                        ` : ''}
                         <td class="py-1.5 px-3 text-right font-medium ${p.yoy_percent !== null ? (p.yoy_percent >= 0 ? 'text-emerald-700' : 'text-rose-700') : 'text-[#5F6368]'}">
                           ${p.yoy_percent !== null ? `${p.yoy_percent > 0 ? '+' : ''}${p.yoy_percent}%` : '-'}
                         </td>
@@ -1006,7 +1018,7 @@ export class LKPPView {
                 <span class="text-xs text-[#5F6368] font-mono">Bagan Akun Standar (PP 71/2010)</span>
               </div>
               <h2 class="text-base font-bold text-[#202124]">
-                Rekam Jejak Evolusi Nomenklatur & Kelompok Biaya LKPP (1990 – 2026)
+                Rekam Jejak Evolusi Nomenklatur & Kelompok Biaya Keuangan Negara (1990 – 2026)
               </h2>
             </div>
             <button id="btn-close-glossary-modal" class="text-[#5F6368] hover:text-[#202124] text-xl font-bold cursor-pointer px-2">

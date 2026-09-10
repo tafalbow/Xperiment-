@@ -13,14 +13,14 @@ from backend.services.lkpp_service import LKPPService
 client = TestClient(app)
 
 def test_get_lkpp_tables():
-    """Verify registry returns all 6 statutory LKPP tables."""
+    """Verify registry returns all 9 statutory State Finance tables (APBN, RAPBN, CUKAI & LKPP)."""
     res = client.get("/api/lkpp/tables")
     assert res.status_code == 200
     data = res.json()
     assert data["status"] == "SUCCESS"
-    assert data["total_tables"] == 6
+    assert data["total_tables"] == 9
     table_ids = [t["id"] for t in data["tables"]]
-    for expected in ["LRA", "LPSAL", "NERACA", "LO", "LAK", "LPE"]:
+    for expected in ["LRA", "APBN", "RAPBN", "CUKAI", "LPSAL", "NERACA", "LO", "LAK", "LPE"]:
         assert expected in table_ids
 
 def test_get_lkpp_matrix_default():
@@ -43,14 +43,49 @@ def test_get_lkpp_matrix_default():
     assert "1990" in first_row["values"]
     assert "2026" in first_row["values"]
 
-def test_get_lkpp_matrix_all_six_tables():
-    """Verify each of the 6 statutory tables can be generated properly."""
-    for table_id in ["LRA", "LPSAL", "NERACA", "LO", "LAK", "LPE"]:
+def test_get_lkpp_matrix_all_nine_tables():
+    """Verify each of the 9 statutory tables can be generated properly."""
+    for table_id in ["LRA", "APBN", "RAPBN", "CUKAI", "LPSAL", "NERACA", "LO", "LAK", "LPE"]:
         res = client.get(f"/api/lkpp/matrix?table_id={table_id}")
         assert res.status_code == 200, f"Failed for table {table_id}"
         data = res.json()
         assert data["table_meta"]["id"] == table_id
         assert data["total_rows"] >= 5
+
+def test_cukai_detailed_breakdown():
+    """Verify detailed excise tax (cukai) breakdown and related transfers/expenses."""
+    res = client.get("/api/lkpp/matrix?table_id=CUKAI")
+    assert res.status_code == 200
+    data = res.json()
+    row_ids = [r["id"] for r in data["rows"]]
+    # Required excise sub-lines
+    assert "CUKAI_TOTAL" in row_ids
+    assert "CUKAI_CHT" in row_ids
+    assert "CUKAI_EA" in row_ids
+    assert "CUKAI_MMEA" in row_ids
+    assert "CUKAI_DENDA" in row_ids
+    assert "CUKAI_LAIN" in row_ids
+    # Required related cost groups / earmarks
+    assert "CUKAI_DBH_CHT" in row_ids
+    assert "CUKAI_ALOK_KESEHATAN" in row_ids
+    assert "CUKAI_ALOK_KESEJAHTERAAN" in row_ids
+    assert "CUKAI_ALOK_PENEGAKAN" in row_ids
+    assert "CUKAI_EXP_PENGAWASAN" in row_ids
+
+def test_apbn_and_rapbn_postures():
+    """Verify APBN and RAPBN statutory posture tables contain macro and excise items."""
+    for table_id in ["APBN", "RAPBN"]:
+        res = client.get(f"/api/lkpp/matrix?table_id={table_id}")
+        assert res.status_code == 200
+        data = res.json()
+        row_ids = [r["id"] for r in data["rows"]]
+        prefix = f"{table_id}_"
+        assert f"{prefix}REV_TOTAL" in row_ids
+        assert f"{prefix}REV_TAX" in row_ids
+        assert f"{prefix}CUKAI_TOTAL" in row_ids
+        assert f"{prefix}CUKAI_CHT" in row_ids
+        assert f"{prefix}EXP_TOTAL" in row_ids
+        assert f"{prefix}DEFISIT" in row_ids
 
 def test_get_lkpp_matrix_timeframe_filter():
     """Verify filtering from 2015 to 2026 (Full Accrual era)."""

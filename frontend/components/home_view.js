@@ -48,7 +48,7 @@ export class HomeView {
               </button>
               <button id="home-btn-explore-lkpp" class="px-3.5 py-1.5 rounded bg-[#E8F0FE] hover:bg-[#D2E3FC] text-[#1A73E8] border border-[#D2E3FC] font-semibold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer">
                 <span>🏛️</span>
-                <span>Tren Keuangan LKPP (1990–2026)</span>
+                <span>Trend Keuangan Negara (1990–2026)</span>
               </button>
               <button id="home-btn-explore-crosswalk" class="px-3.5 py-1.5 rounded bg-white hover:bg-[#F1F3F4] text-[#5F6368] border border-[#DADCE0] font-medium transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer">
                 <span>ℹ️</span>
