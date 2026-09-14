@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * MACROMASTER DEN - ECONOMICS-GAMES.COM SIMULATION EXPERIMENTS (macro_econ_games.js)
+ * DIVETOMAKRO - ECONOMICS-GAMES.COM SIMULATION EXPERIMENTS (macro_econ_games.js)
  * Fitur: Eksperimen Pasar Interaktif ala Economics-games.com:
  * 1. The Asset Bubble Game (Gelembung Spekulasi & Crash Finansial)
  * 2. The Market Competition & Capacity Game (Persaingan Pasar & Perang Harga)

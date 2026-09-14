@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * MACROMASTER DEN - INTERACTIVE Q&A & AI TUTOR ENGINE (macro_qa.js)
+ * DIVETOMAKRO - INTERACTIVE Q&A & AI TUTOR ENGINE (macro_qa.js)
  * Fitur: Asisten Cerdas Tanya Jawab Teori, Analogi Bisnis & Kebijakan Makro.
  * ==============================================================================
  */

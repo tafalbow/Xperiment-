@@ -1,5 +1,5 @@
 /**
- * MACROMASTER DEN - 5 LEVELS x 36 QUESTIONS = 180 QUESTIONS TOTAL
+ * DIVETOMAKRO - 5 LEVELS x 36 QUESTIONS = 180 QUESTIONS TOTAL
  * Random 6 questions per session with min 80% passing grade requirement.
  */
 
@@ -2960,7 +2960,36 @@ class MacroUserManager {
     static getUserMap() {
         try {
             const raw = localStorage.getItem(this.REGISTRY_KEY);
-            return raw ? JSON.parse(raw) : {};
+            if (raw) {
+                const map = JSON.parse(raw);
+                if (map && Object.keys(map).length > 0) return map;
+            }
+            // Seed data default agar akun pengguna dan progres tidak pernah hilang
+            const seed = {
+                "tafal.limited@gmail.com": {
+                    "username": "tafals",
+                    "usernameLower": "tafals",
+                    "email": "tafal.limited@gmail.com",
+                    "createdAt": "2026-09-09T07:18:57.266Z",
+                    "lastActive": "2026-09-09T08:23:19.651Z",
+                    "highestStage": 3,
+                    "totalScore": 2300,
+                    "progress": {
+                        "currentStageId": 3,
+                        "currentQuestionIdx": 1,
+                        "stageCorrectCount": 2,
+                        "score": 2300,
+                        "combo": 2,
+                        "lives": 5,
+                        "stageResetsRemaining": { "1": 3, "2": 3, "3": 3, "4": 3, "5": 3 },
+                        "unlockedStageIds": [1, 2, 3],
+                        "advanceUnlocked": { "econGames": false, "scenarios": false, "cockpit": false },
+                        "isStageComplete": false
+                    }
+                }
+            };
+            this.saveUserMap(seed);
+            return seed;
         } catch (e) {
             return {};
         }
@@ -3043,7 +3072,9 @@ class MacroUserManager {
                 return {
                     success: false,
                     error: 'username_mismatch',
-                    message: `Email '${cleanEmail}' sudah terdaftar dengan nama user '${existing.username}'. Silakan gunakan nama user tersebut atau periksa kembali email Anda.`
+                    matchedUsername: existing.username,
+                    user: existing,
+                    message: `Email '${cleanEmail}' sudah terdaftar dengan nama user '${existing.username}'. Silakan gunakan nama user tersebut atau klik tombol masuk langsung.`
                 };
             }
 
@@ -3142,6 +3173,101 @@ class MacroUserManager {
 
         map[email.toLowerCase()] = user;
         this.saveUserMap(map);
+    }
+
+    static findUserByEmail(email) {
+        if (!email) return null;
+        const cleanEmail = email.trim().toLowerCase();
+        const map = this.getUserMap();
+        return map[cleanEmail] || null;
+    }
+
+    static directLogin(email) {
+        const user = this.findUserByEmail(email);
+        if (!user) {
+            return { success: false, message: 'Email belum terdaftar di sistem divetomakro!' };
+        }
+        user.lastActive = new Date().toISOString();
+        const map = this.getUserMap();
+        map[email.trim().toLowerCase()] = user;
+        this.saveUserMap(map);
+        this.setActiveEmail(user.email);
+
+        const prog = user.progress || {};
+        const qIdx = Number(prog.currentQuestionIdx) || 0;
+        const stageNum = Number(prog.currentStageId) || 1;
+        const isMidLevel = Boolean(qIdx > 0 && qIdx < 6 && !prog.isStageComplete);
+
+        if (typeof MacroActivityLogger !== 'undefined') {
+            const entryDesc = `Stage ${stageNum} (Soal ${qIdx + 1}/6)`;
+            MacroActivityLogger.setEntryPage(entryDesc);
+            MacroActivityLogger.logActivity('LOGIN_RECOVERED', `Login pemulihan akun untuk ${user.username} (${user.email})`);
+        }
+
+        return {
+            success: true,
+            isNew: false,
+            hasMidLevelProgress: isMidLevel,
+            user: user
+        };
+    }
+
+    static requestPasswordReset(email) {
+        const cleanEmail = (email || '').trim().toLowerCase();
+        if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+            return { success: false, error: 'invalid_email', message: 'Format alamat email tidak valid!' };
+        }
+
+        const user = this.findUserByEmail(cleanEmail);
+        if (!user) {
+            const allUsers = this.getAllUsers();
+            return {
+                success: false,
+                error: 'not_found',
+                message: `Email '${cleanEmail}' belum terdaftar di permainan ini.`,
+                registeredUsers: allUsers.map(u => ({ username: u.username, email: u.email }))
+            };
+        }
+
+        const stageNames = {
+            1: 'Pasar & Warung',
+            2: 'Bank Sentral',
+            3: 'Kemenkeu & APBN',
+            4: 'Valas & Kurs',
+            5: 'Badai Krisis'
+        };
+        const currentStage = user.progress ? (user.progress.currentStageId || 1) : 1;
+        const currentQ = user.progress ? ((user.progress.currentQuestionIdx || 0) + 1) : 1;
+        const score = user.progress ? (user.progress.score || user.totalScore || 0) : (user.totalScore || 0);
+
+        const subject = `[divetomakro] Pemulihan Akses Akun & Detail Login (${user.username})`;
+        const body = `Halo ${user.username},\n\n` +
+            `Berikut adalah informasi pemulihan akun permainan divetomakro Anda:\n\n` +
+            `• Nama User / Username : ${user.username}\n` +
+            `• Alamat Email          : ${user.email}\n` +
+            `• Level / Stage         : Level ${currentStage} (${stageNames[currentStage] || 'Stage ' + currentStage})\n` +
+            `• Soal Terakhir         : Soal ke-${currentQ} dari 6\n` +
+            `• Total Skor (XP)       : ${score} XP\n\n` +
+            `Catatan: Sistem divetomakro menggunakan verifikasi tanpa password rumit. Anda cukup memasukkan Nama User dan Email di atas pada form login web untuk langsung melanjutkan permainan!\n\n` +
+            `Tautan Web Permainan:\n` +
+            `http://localhost:8000/macro_game.html\n\n` +
+            `Salam hormat,\n` +
+            `Tim Teknokrat divetomakro`;
+
+        const mailtoUrl = `mailto:${encodeURIComponent(user.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        if (typeof MacroActivityLogger !== 'undefined') {
+            MacroActivityLogger.logActivity('RESET_PASSWORD_REQUEST', `Permintaan pemulihan akun & kredensial untuk ${user.username} (${user.email})`);
+        }
+
+        return {
+            success: true,
+            user: user,
+            mailtoUrl: mailtoUrl,
+            subject: subject,
+            body: body,
+            message: `Detail akun untuk '${user.username}' (${user.email}) berhasil ditemukan!`
+        };
     }
 
     static logout(reason = 'LOGOUT_MANUAL', customExitPage = null) {
@@ -3459,7 +3585,7 @@ class MacroActivityLogger {
         const link = document.createElement('a');
         const url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
-        link.setAttribute('download', `macromaster_activity_logs_${Date.now()}.csv`);
+        link.setAttribute('download', `divetomakro_activity_logs_${Date.now()}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

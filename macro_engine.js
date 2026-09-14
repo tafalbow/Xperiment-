@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * MACROMASTER DEN - MESIN SIMULASI EKONOMI MAKRO (ENGINE)
+ * DIVETOMAKRO - MESIN SIMULASI EKONOMI MAKRO (ENGINE)
  * Model Matematika Kuantitatif: AD-AS, Transmisi Moneter, Efek Pengali Fiskal,
  * Kurva Phillips, Hukum Okun, Trilema Mundell-Fleming, & Canvas Visualizer.
  * ==============================================================================

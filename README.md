@@ -78,7 +78,7 @@ Tersedia berkas skrip siap pakai di direktori utama:
 ### 5. 🎮 Mini-Apps & Modul Edukasi Interaktif
 Dapat dijalankan langsung di browser tanpa instalasi tambahan:
 - [🌾 **Simulator Cocok Tanam** (`cocok_tanam.html`)](cocok_tanam.html) — Simulasi kalender pertanian dan strategi manajemen risiko iklim.
-- [📈 **Macroeconomic Policy Game** (`macro_game.html`)](macro_game.html) — Simulasi bauran kebijakan suku bunga BI-Rate dan stimulus fiskal APBN.
+- [📈 **divetomakro** (`macro_game.html`)](macro_game.html) — Simulasi bauran kebijakan suku bunga BI-Rate dan stimulus fiskal APBN.
 - [🚢 **International Trade Simulator** (`trade_game.html`)](trade_game.html) — Simulasi ekspor-impor, neraca perdagangan, dan cadangan devisa.
 - [🎯 **Math Tug-of-War Battle** (`math_tug.html`)](math_tug.html) — Arena kompetisi kuis kuantitatif dan analisis angka ekonomi.
 - [🍡 **Game Mochi** (`mochi_game.html`)](mochi_game.html) — Permainan interaktif edukatif santai.

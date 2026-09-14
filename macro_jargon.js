@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * MACROMASTER DEN - INTERACTIVE ECONOMIC JARGON & GLOSSARY INSPECTOR
+ * DIVETOMAKRO - INTERACTIVE ECONOMIC JARGON & GLOSSARY INSPECTOR
  * (macro_jargon.js)
  * Fitur: Mengubah setiap istilah/jargon ekonomi di seluruh game menjadi interaktif
  * dan dapat diklik. Saat diklik, muncul modal penjelasan bahasa sederhana,

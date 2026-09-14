@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * MACROMASTER DEN - TEORI & BASIS PENGETAHUAN EKONOMI MAKRO
+ * DIVETOMAKRO - TEORI & BASIS PENGETAHUAN EKONOMI MAKRO
  * Pustaka Data Teori, Skenario Krisis Bersejarah, Bank Soal Kuis,
  * Peristiwa Berita (Shocks), dan Glosarium Teori vs Praktek
  * ==============================================================================

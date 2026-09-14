@@ -6,12 +6,12 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>🏛️ MacroMaster: Simulasi Kebijakan Ekonomi Makro & DEN 📈⚖️</title>
+    <title>divetomakro: Simulasi Pola Pikir Kebijakan Ekonomi Makro</title>
     <!-- Google Fonts for playful gaming UI + high readability -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="macro_game.css?v=3.1">
+    <link rel="stylesheet" href="macro_game.css?v=3.2">
 </head>
 <body class="mode-trivia">
     <div class="app-background-glow"></div>
@@ -25,7 +25,7 @@
                 <span class="brand-icon">🏛️</span>
                 <div>
                     <h1 class="brand-title">
-                        MacroMaster DEN
+                        divetomakro
                         <span class="brand-badge">🎮 Macro Tycoon</span>
                     </h1>
                     <p class="brand-subtitle">Simulasi Mengelola Perekonomian Bangsa: Tumbuhkan PDB, Kendalikan Inflasi & Sejahterakan Rakyat!</p>
@@ -1171,7 +1171,7 @@
                         <span style="font-size: 1.6rem;">📖</span>
                         <div>
                             <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); font-family: var(--font-heading);">
-                                🎮 Panduan Petualangan MacroMaster DEN
+                                🎮 Panduan Petualangan divetomakro
                             </div>
                             <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">
                                 Taklukkan 5 Level Trivia (36 Soal/Level, 6 Acak/Sesi, Min. 80% Lulus), Rancang Formula di Lab, dan Pimpin Sidang Kabinet!
@@ -1290,7 +1290,7 @@
                         <span style="font-size:2.2rem; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15));">🏛️</span>
                         <div>
                             <h2 style="font-size:1.35rem; font-family:var(--font-heading); margin:0; color:#0f172a; font-weight:800;">
-                                Selamat Datang di MacroMaster DEN
+                                Selamat Datang di divetomakro
                             </h2>
                             <p style="margin:2px 0 0; font-size:0.85rem; color:#475569;">
                                 Registrasi Pemain & Rekam Jejak (Track Record) Teknokrat Ekonomi
@@ -1329,6 +1329,13 @@
                         <button type="submit" id="btnSubmitAuth" class="btn-gavel-primary auth-submit-btn">
                             <span>🚀</span> Masuk / Daftar Akun
                         </button>
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; padding-top:10px; border-top:1px dashed #e2e8f0; font-size:0.85rem;">
+                            <button type="button" id="btnOpenForgotPassword" style="background:none; border:none; color:#2563eb; text-decoration:underline; cursor:pointer; padding:4px 0; font-size:0.83rem; font-weight:600; display:inline-flex; align-items:center; gap:5px;">
+                                <span>🔑</span> Lupa Akun / Lupa Password? Klik di sini
+                            </button>
+                            <span style="font-size:0.75rem; color:#94a3b8;">Email Reset Tersedia</span>
+                        </div>
                     </form>
                 </div>
 
@@ -1337,8 +1344,63 @@
                         🔒 Data tersimpan otomatis di basis data per-user browser Anda.
                     </span>
                     <span style="font-size:0.74rem; color:#94a3b8;">
-                        MacroMaster DEN v2.7
+                        divetomakro v3.2
                     </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             MODAL 1B: PEMULIHAN AKUN / LUPA PASSWORD (EMAIL RESET & 1-CLICK LOGIN)
+             ================================================================ -->
+        <div id="modalForgotPassword" class="modal-overlay" style="display:none; z-index:100000; backdrop-filter:blur(10px); background:rgba(15,23,42,0.85);">
+            <div class="modal-card auth-gate-card" style="max-width:540px; border-radius:18px;">
+                <div class="modal-header auth-gate-header" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); border-bottom:1.5px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; padding:16px 20px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:2rem;">🔑</span>
+                        <div>
+                            <h2 style="font-size:1.25rem; font-family:var(--font-heading); margin:0; color:#0f172a; font-weight:800;">
+                                Pemulihan Akun / Reset Password
+                            </h2>
+                            <p style="margin:2px 0 0; font-size:0.82rem; color:#64748b;">
+                                Cari username terdaftar & kirim info akun ke email Anda
+                            </p>
+                        </div>
+                    </div>
+                    <button type="button" id="btnCloseForgotPassword" class="btn-secondary" style="padding:4px 10px; font-size:1rem; border-radius:8px; cursor:pointer; background:#fff; border:1px solid #cbd5e1;">✖</button>
+                </div>
+
+                <div class="modal-body auth-gate-body" style="padding:18px 22px;">
+                    <div class="auth-gate-info-banner" style="margin-bottom:14px; background:#eff6ff; border-left:4px solid #3b82f6; color:#1e40af; padding:10px 14px; border-radius:8px; font-size:0.84rem; line-height:1.45;">
+                        ℹ️ <strong>Catatan:</strong> divetomakro menggunakan verifikasi kombinasi <strong>Email & Username Unik</strong> (bebas ribet tanpa perlu mengingat password rumit). Masukkan email yang pernah Anda gunakan untuk menemukan username terdaftar, login instan 1-klik, atau mengirim surat pemulihan ke inbox email Anda.
+                    </div>
+
+                    <form id="formForgotPassword" onsubmit="return false;" style="display:flex; flex-direction:column; gap:12px;">
+                        <div class="auth-input-group">
+                            <label for="inputForgotEmail" class="auth-label" style="font-weight:700; font-size:0.88rem; color:#334155;">
+                                📧 Alamat Email Terdaftar:
+                            </label>
+                            <input type="email" id="inputForgotEmail" class="auth-input" placeholder="contoh: tafal.limited@gmail.com" required style="width:100%; padding:10px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-size:0.95rem;">
+                            <span class="auth-field-hint" style="font-size:0.75rem; color:#64748b; margin-top:3px;">Masukkan email yang Anda pakai saat pertama kali bermain.</span>
+                        </div>
+
+                        <div style="display:flex; gap:10px; margin-top:4px;">
+                            <button type="submit" id="btnSubmitForgotPassword" class="btn-gavel-primary" style="flex:1; padding:11px 16px; font-size:0.92rem; font-weight:700; border-radius:8px; cursor:pointer;">
+                                🔍 Cari Akun & Buat Email Reset
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="forgotPasswordResult" style="display:none; margin-top:16px;"></div>
+                </div>
+
+                <div class="modal-footer" style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:0.75rem; color:#64748b;">
+                        📄 Rekam jejak akun juga dicatat di Google Doc sistem.
+                    </span>
+                    <button type="button" id="btnBackToLoginFromForgot" class="btn-secondary" style="padding:6px 14px; font-size:0.84rem; border-radius:8px; cursor:pointer;">
+                        ⬅ Kembali ke Login
+                    </button>
                 </div>
             </div>
         </div>
@@ -1407,7 +1469,7 @@
                                 <span style="font-size:1.2rem;">📊</span>
                                 <strong style="font-size:0.88rem; color:#0f172a;">Google Spreadsheet Target:</strong>
                                 <a href="https://docs.google.com/spreadsheets/d/1Uk2CdmA9Z_atlVIcX-TZDwUaRgIFAo6QOa1W_M-Epoo/edit?usp=sharing" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline; font-size:0.82rem; font-weight:700;">
-                                    Buka Spreadsheet MacroMaster (1Uk2CdmA...) ↗
+                                    Buka Spreadsheet divetomakro (1Uk2CdmA...) ↗
                                 </a>
                             </div>
                             <span id="webhookStatusIndicator" class="sync-badge badge-pending">⚡ Status: Antrean Lokal Siap</span>
@@ -1516,16 +1578,16 @@
     <!-- --------------------------------------------------------------------
          SCRIPTS: THEORIES, AUDIO, ENGINE, QA & CONTROLLER
          -------------------------------------------------------------------- -->
-    <script src="macro_theory.js?v=3.1"></script>
-    <script src="macro_audio.js?v=3.1"></script>
-    <script src="macro_engine.js?v=3.1"></script>
-    <script src="macro_jargon.js?v=3.1"></script>
-    <script src="macro_econ_games.js?v=3.1"></script>
-    <script src="macro_trivia.js?v=3.1"></script>
+    <script src="macro_theory.js?v=3.2"></script>
+    <script src="macro_audio.js?v=3.2"></script>
+    <script src="macro_engine.js?v=3.2"></script>
+    <script src="macro_jargon.js?v=3.2"></script>
+    <script src="macro_econ_games.js?v=3.2"></script>
+    <script src="macro_trivia.js?v=3.2"></script>
     <script>
         /**
          * ======================================================================
-         * MACROMASTER CONTROLLER
+         * DIVETOMAKRO CONTROLLER
          * Menghubungkan UI DOM dengan MacroEngine, MacroTheory, dan Audio
          * ======================================================================
          */
@@ -3773,6 +3835,15 @@
             const btnExportTrackRecordCsv = document.getElementById('btnExportTrackRecordCsv');
             const btnSwitchAccount = document.getElementById('btnSwitchAccount');
 
+            const modalForgotPassword = document.getElementById('modalForgotPassword');
+            const btnOpenForgotPassword = document.getElementById('btnOpenForgotPassword');
+            const btnCloseForgotPassword = document.getElementById('btnCloseForgotPassword');
+            const btnBackToLoginFromForgot = document.getElementById('btnBackToLoginFromForgot');
+            const formForgotPassword = document.getElementById('formForgotPassword');
+            const inputForgotEmail = document.getElementById('inputForgotEmail');
+            const btnSubmitForgotPassword = document.getElementById('btnSubmitForgotPassword');
+            const forgotPasswordResult = document.getElementById('forgotPasswordResult');
+
             function showUserAuthGate() {
                 if (!modalUserAuthGate) return;
                 modalUserAuthGate.style.display = 'flex';
@@ -3798,7 +3869,34 @@
                 if (!result.success) {
                     audio.playAlert();
                     if (authErrorMessage) {
-                        authErrorMessage.textContent = result.message;
+                        if (result.error === 'username_mismatch' && result.matchedUsername) {
+                            authErrorMessage.innerHTML = `
+                                <div>${result.message}</div>
+                                <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                    <button type="button" id="btnAutoFixUsername" style="background:#2563eb; color:#fff; border:none; padding:7px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                                        ⚡ Masuk Langsung sebagai "${result.matchedUsername}"
+                                    </button>
+                                    <button type="button" id="btnForgotFromMismatch" style="background:#fff; color:#334155; border:1px solid #cbd5e1; padding:7px 10px; border-radius:6px; font-size:0.8rem; font-weight:600; cursor:pointer;">
+                                        🔑 Lupa Akun / Kirim Email Reset
+                                    </button>
+                                </div>
+                            `;
+                            const btnAutoFix = document.getElementById('btnAutoFixUsername');
+                            if (btnAutoFix) {
+                                btnAutoFix.onclick = () => {
+                                    if (inputAuthUsername) inputAuthUsername.value = result.matchedUsername;
+                                    handleAuthSubmit();
+                                };
+                            }
+                            const btnForgotMismatch = document.getElementById('btnForgotFromMismatch');
+                            if (btnForgotMismatch) {
+                                btnForgotMismatch.onclick = () => {
+                                    showForgotPasswordModal(email);
+                                };
+                            }
+                        } else {
+                            authErrorMessage.textContent = result.message;
+                        }
                         authErrorMessage.style.display = 'block';
                     }
                     return;
@@ -3909,6 +4007,209 @@
                 btnSubmitAuth.addEventListener('click', (e) => {
                     e.preventDefault();
                     handleAuthSubmit();
+                });
+            }
+
+            // ------------------------------------------------------------------
+            // PEMULIHAN AKUN / LUPA PASSWORD HANDLERS
+            // ------------------------------------------------------------------
+            function showForgotPasswordModal(prefilledEmail = '') {
+                if (!modalForgotPassword) return;
+                modalForgotPassword.style.display = 'flex';
+                if (inputForgotEmail) {
+                    inputForgotEmail.value = prefilledEmail || (inputAuthEmail ? inputAuthEmail.value : '');
+                    setTimeout(() => inputForgotEmail.focus(), 100);
+                }
+                if (forgotPasswordResult) {
+                    forgotPasswordResult.style.display = 'none';
+                    forgotPasswordResult.innerHTML = '';
+                }
+            }
+
+            function hideForgotPasswordModal() {
+                if (modalForgotPassword) modalForgotPassword.style.display = 'none';
+            }
+
+            function handleForgotPasswordSubmit() {
+                const email = inputForgotEmail ? inputForgotEmail.value.trim() : '';
+                if (!email) {
+                    alert('Mohon masukkan alamat email Anda.');
+                    return;
+                }
+                if (!window.MacroUserManager) return;
+
+                const res = window.MacroUserManager.requestPasswordReset(email);
+                if (!forgotPasswordResult) return;
+
+                forgotPasswordResult.style.display = 'block';
+
+                if (res.success) {
+                    audio.playClick();
+                    const stageNames = {
+                        1: 'Pasar & Warung',
+                        2: 'Bank Sentral',
+                        3: 'Kemenkeu & APBN',
+                        4: 'Valas & Kurs',
+                        5: 'Badai Krisis'
+                    };
+                    const u = res.user;
+                    const stageNum = u.progress ? (u.progress.currentStageId || 1) : (u.highestStage || 1);
+                    const qNum = u.progress ? ((u.progress.currentQuestionIdx || 0) + 1) : 1;
+                    const score = u.progress ? (u.progress.score || u.totalScore || 0) : (u.totalScore || 0);
+
+                    forgotPasswordResult.innerHTML = `
+                        <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:12px; padding:16px; margin-top:10px;">
+                            <div style="display:flex; align-items:center; gap:8px; color:#15803d; font-weight:800; font-size:0.96rem; margin-bottom:10px;">
+                                <span>✅</span> Akun Terdaftar Ditemukan!
+                            </div>
+                            <div style="font-size:0.88rem; color:#1e293b; line-height:1.65; background:#ffffff; padding:12px 14px; border-radius:8px; border:1px solid #bbf7d0;">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                    <span style="color:#64748b;">👤 Nama User:</span>
+                                    <strong style="color:#2563eb; font-size:1.05rem;">${u.username}</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                    <span style="color:#64748b;">📧 Email:</span>
+                                    <strong style="color:#0f172a;">${u.email}</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                    <span style="color:#64748b;">🏆 Progres:</span>
+                                    <strong>Stage ${stageNum} (${stageNames[stageNum] || 'Stage ' + stageNum})</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span style="color:#64748b;">⭐ Total XP:</span>
+                                    <strong style="color:#d97706;">${score} XP (Soal ke-${qNum}/6)</strong>
+                                </div>
+                            </div>
+                            <div style="margin-top:14px; display:flex; flex-direction:column; gap:8px;">
+                                <button type="button" id="btnForgotDirectLogin" class="btn-gavel-primary" style="width:100%; padding:11px; font-size:0.95rem; font-weight:800; border-radius:8px; cursor:pointer; background:#16a34a; border-color:#15803d;">
+                                    🚀 Langsung Masuk Sekarang (1-Klik)
+                                </button>
+                                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                    <a href="${res.mailtoUrl}" id="btnForgotMailto" class="btn-secondary" style="flex:1; min-width:180px; text-align:center; padding:9px 12px; font-size:0.83rem; font-weight:700; text-decoration:none; border-radius:8px; background:#e0e7ff; color:#3730a3; border:1px solid #c7d2fe; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+                                        <span>📨</span> Buka Aplikasi Email (Kirim ke ${u.email})
+                                    </a>
+                                    <button type="button" id="btnForgotCopyDetails" class="btn-secondary" style="padding:9px 14px; font-size:0.83rem; font-weight:700; border-radius:8px; cursor:pointer; background:#f1f5f9; border:1px solid #cbd5e1;">
+                                        📋 Salin
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    const btnForgotDirectLogin = document.getElementById('btnForgotDirectLogin');
+                    if (btnForgotDirectLogin) {
+                        btnForgotDirectLogin.onclick = () => {
+                            audio.playClick();
+                            hideForgotPasswordModal();
+                            const directRes = window.MacroUserManager.directLogin(u.email);
+                            if (directRes.success) {
+                                hideUserAuthGate();
+                                updateGamerHUD();
+                                if (directRes.hasMidLevelProgress) {
+                                    const user = directRes.user;
+                                    const sNum = Number(user.progress.currentStageId) || 1;
+                                    const nQ = (Number(user.progress.currentQuestionIdx) || 0) + 1;
+                                    if (resumeUserGreeting) resumeUserGreeting.textContent = `Selamat datang kembali, ${user.username}!`;
+                                    if (resumeMessage) {
+                                        resumeMessage.innerHTML = `Anda sebelumnya keluar saat sedang mengerjakan <strong>Stage ${sNum}</strong> di <strong>Soal ke-${nQ}</strong>.<br>Silakan tentukan apakah Anda ingin melanjutkan soal tersebut atau memulai ulang Stage ${sNum} dari awal.`;
+                                    }
+                                    if (resumeNextQNum) resumeNextQNum.textContent = nQ;
+                                    if (modalResumeChoice) modalResumeChoice.style.display = 'flex';
+                                } else {
+                                    const trivia = window.macroTriviaEngine;
+                                    if (trivia) trivia.loadActiveUserSession('continue');
+                                    if (typeof window._renderTriviaQuestion === 'function') window._renderTriviaQuestion();
+                                    updateGamerHUD();
+                                }
+                            }
+                        };
+                    }
+
+                    const btnForgotCopyDetails = document.getElementById('btnForgotCopyDetails');
+                    if (btnForgotCopyDetails) {
+                        btnForgotCopyDetails.onclick = () => {
+                            if (navigator.clipboard && navigator.clipboard.writeText) {
+                                navigator.clipboard.writeText(res.body);
+                                btnForgotCopyDetails.textContent = '✅ Tersalin!';
+                                setTimeout(() => { btnForgotCopyDetails.textContent = '📋 Salin'; }, 2500);
+                            } else {
+                                alert(`Informasi Akun:\n\n${res.body}`);
+                            }
+                        };
+                    }
+                } else {
+                    audio.playAlert();
+                    let suggestionsHtml = '';
+                    if (res.registeredUsers && res.registeredUsers.length > 0) {
+                        suggestionsHtml = `
+                            <div style="margin-top:10px; padding-top:8px; border-top:1px dashed #fca5a5; font-size:0.8rem; color:#475569;">
+                                <strong>Daftar Akun yang Terdaftar di Sistem:</strong>
+                                <div style="display:flex; flex-direction:column; gap:4px; margin-top:6px;">
+                                    ${res.registeredUsers.map(ru => `
+                                        <div style="display:flex; justify-content:space-between; align-items:center; background:#fff; padding:6px 10px; border-radius:6px; border:1px solid #fecaca;">
+                                            <span><strong>${ru.username}</strong> (${ru.email})</span>
+                                            <button type="button" class="btn-use-suggested-email" data-email="${ru.email}" style="background:#2563eb; color:#fff; border:none; padding:3px 8px; border-radius:4px; font-size:0.75rem; cursor:pointer;">Pilih</button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    forgotPasswordResult.innerHTML = `
+                        <div style="background:#fef2f2; border:1.5px solid #fca5a5; border-radius:12px; padding:16px; margin-top:10px; color:#991b1b;">
+                            <div style="display:flex; align-items:center; gap:8px; font-weight:800; font-size:0.92rem;">
+                                <span>⚠️</span> Email Belum Ditemukan
+                            </div>
+                            <p style="margin:6px 0 0; font-size:0.86rem; color:#7f1d1d; line-height:1.5;">
+                                ${res.message}
+                            </p>
+                            ${suggestionsHtml}
+                            <div style="margin-top:12px; font-size:0.82rem; color:#475569;">
+                                💡 Ingin membuat akun baru dengan email ini? Anda dapat kembali ke halaman login utama dan mendaftar dengan nama user baru.
+                            </div>
+                        </div>
+                    `;
+
+                    document.querySelectorAll('.btn-use-suggested-email').forEach(btn => {
+                        btn.onclick = () => {
+                            const em = btn.getAttribute('data-email');
+                            if (inputForgotEmail) inputForgotEmail.value = em;
+                            handleForgotPasswordSubmit();
+                        };
+                    });
+                }
+            }
+
+            if (btnOpenForgotPassword) {
+                btnOpenForgotPassword.onclick = () => {
+                    audio.playClick();
+                    showForgotPasswordModal();
+                };
+            }
+            if (btnCloseForgotPassword) {
+                btnCloseForgotPassword.onclick = () => {
+                    audio.playClick();
+                    hideForgotPasswordModal();
+                };
+            }
+            if (btnBackToLoginFromForgot) {
+                btnBackToLoginFromForgot.onclick = () => {
+                    audio.playClick();
+                    hideForgotPasswordModal();
+                    showUserAuthGate();
+                };
+            }
+            if (formForgotPassword) {
+                formForgotPassword.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    handleForgotPasswordSubmit();
+                });
+            }
+            if (btnSubmitForgotPassword) {
+                btnSubmitForgotPassword.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    handleForgotPasswordSubmit();
                 });
             }
 
@@ -4246,7 +4547,7 @@
                     const encodedUri = encodeURI(csvContent);
                     const link = document.createElement('a');
                     link.setAttribute('href', encodedUri);
-                    link.setAttribute('download', `track_record_macromaster_${new Date().toISOString().slice(0,10)}.csv`);
+                    link.setAttribute('download', `track_record_divetomakro_${new Date().toISOString().slice(0,10)}.csv`);
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);

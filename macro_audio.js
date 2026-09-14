@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * MACROMASTER DEN - AUDIO ENGINE (Mode Hening Total / 100% Visual Saja)
+ * DIVETOMAKRO - AUDIO ENGINE (Mode Hening Total / 100% Visual Saja)
  * Tidak ada audio atau suara sama sekali (Zero Sound Emission).
  * Seluruh metode didefinisikan aman sebagai no-op tanpa memicu Web Audio API.
  * Efek visual konfeti, animasi kartu, badge, dan transisi tetap aktif 100%.
