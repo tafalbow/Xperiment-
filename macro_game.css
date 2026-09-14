@@ -2749,6 +2749,40 @@ html, body {
     color: var(--text-main);
 }
 
+.debrief-why-correct {
+    background: rgba(34, 197, 94, 0.08);
+    border-left: 3.5px solid #16a34a;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.debrief-traps-block {
+    background: rgba(245, 158, 11, 0.07);
+    border-left: 3.5px solid #f59e0b;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.debrief-traps-block strong.traps-title {
+    color: #92400e;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.86rem;
+}
+
+.debrief-traps-block ul {
+    margin: 0 0 0 16px;
+    padding: 0;
+}
+
+.debrief-traps-block li {
+    margin-bottom: 4px;
+}
+
 /* Advance Lock Overlay */
 .advance-lock-box {
     background: #ffffff;

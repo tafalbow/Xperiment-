@@ -7,4 +7,5 @@ htmlcov/
 *.log
 .venv/
 venv/
+scratch/
 
