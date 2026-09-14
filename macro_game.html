@@ -1283,31 +1283,31 @@
         <!-- ================================================================
              MODAL 1: AUTHENTICATION / OPENING GATE (USER UNIK & EMAIL WAJIB)
              ================================================================ -->
-        <div id="modalUserAuthGate" class="modal-overlay" style="display:none; z-index:99999; backdrop-filter:blur(10px); background:rgba(15,23,42,0.85);">
+        <div id="modalUserAuthGate" class="modal-overlay" style="display:none; z-index:99999; backdrop-filter:blur(10px); background:rgba(15,23,42,0.85); overflow-y:auto; -webkit-overflow-scrolling:touch;">
             <div class="modal-card auth-gate-card">
-                <div class="modal-header auth-gate-header">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <span style="font-size:2.2rem; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15));">🏛️</span>
+                <div class="modal-header auth-gate-header" style="padding:14px 20px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:1.8rem; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.12));">🏛️</span>
                         <div>
-                            <h2 style="font-size:1.35rem; font-family:var(--font-heading); margin:0; color:#0f172a; font-weight:800;">
+                            <h2 style="font-size:1.2rem; font-family:var(--font-heading); margin:0; color:#0f172a; font-weight:800;">
                                 Selamat Datang di divetomakro
                             </h2>
-                            <p style="margin:2px 0 0; font-size:0.85rem; color:#475569;">
+                            <p style="margin:2px 0 0; font-size:0.8rem; color:#475569;">
                                 Registrasi Pemain & Rekam Jejak (Track Record) Teknokrat Ekonomi
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="modal-body auth-gate-body">
-                    <div class="auth-gate-info-banner">
-                        <span style="font-size:1.2rem;">🛡️</span>
+                <div class="modal-body auth-gate-body" style="padding:14px 20px;">
+                    <div class="auth-gate-info-banner" style="margin-bottom:10px; padding:8px 12px; font-size:0.81rem; line-height:1.45;">
+                        <span style="font-size:1.1rem;">🛡️</span>
                         <div>
-                            <strong>Wajib Daftar atau Login:</strong> Tentukan <strong>1 Nama User yang Unik</strong> (tidak boleh sama dengan pemain lain) dan <strong>Email Aktif</strong>. Jika Anda belum terdaftar di sistem / Google Spreadsheet, akun Anda akan <strong>otomatis didaftarkan</strong> sebagai pemain baru. Jika Anda sudah pernah mendaftar, Anda akan <strong>langsung login</strong> dan melanjutkan progres permainan Anda!
+                            <strong>Wajib Masuk / Daftar:</strong> Tentukan <strong>Username Unik</strong> dan <strong>Email Aktif</strong>. Akun baru otomatis didaftarkan, sedangkan akun terdaftar langsung melanjutkan progres permainan!
                         </div>
                     </div>
 
-                    <form id="formUserAuth" onsubmit="return false;" style="display:flex; flex-direction:column; gap:14px; margin-top:6px;">
+                    <form id="formUserAuth" onsubmit="return false;" style="display:flex; flex-direction:column; gap:10px; margin-top:4px;">
                         <div class="auth-input-group">
                             <label for="inputAuthUsername" class="auth-label">
                                 👤 Nama User / Username <span style="color:#dc2626;">* (Harus Unik)</span>
@@ -1330,7 +1330,7 @@
                             <span>🚀</span> Masuk / Daftar Akun
                         </button>
 
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; padding-top:10px; border-top:1px dashed #e2e8f0; font-size:0.85rem;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px; padding-top:8px; border-top:1px dashed #e2e8f0; font-size:0.85rem;">
                             <button type="button" id="btnOpenForgotPassword" style="background:none; border:none; color:#2563eb; text-decoration:underline; cursor:pointer; padding:4px 0; font-size:0.83rem; font-weight:600; display:inline-flex; align-items:center; gap:5px;">
                                 <span>🔑</span> Lupa Akun / Lupa Password? Klik di sini
                             </button>
@@ -1353,16 +1353,16 @@
         <!-- ================================================================
              MODAL 1B: PEMULIHAN AKUN / LUPA PASSWORD (EMAIL RESET & 1-CLICK LOGIN)
              ================================================================ -->
-        <div id="modalForgotPassword" class="modal-overlay" style="display:none; z-index:100000; backdrop-filter:blur(10px); background:rgba(15,23,42,0.85);">
-            <div class="modal-card auth-gate-card" style="max-width:540px; border-radius:18px;">
-                <div class="modal-header auth-gate-header" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); border-bottom:1.5px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; padding:16px 20px;">
+        <div id="modalForgotPassword" class="modal-overlay" style="display:none; z-index:100000; backdrop-filter:blur(10px); background:rgba(15,23,42,0.85); overflow-y:auto; -webkit-overflow-scrolling:touch;">
+            <div class="modal-card auth-gate-card" style="max-width:520px; border-radius:18px;">
+                <div class="modal-header auth-gate-header" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); border-bottom:1.5px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; padding:14px 20px;">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <span style="font-size:2rem;">🔑</span>
+                        <span style="font-size:1.8rem;">🔑</span>
                         <div>
-                            <h2 style="font-size:1.25rem; font-family:var(--font-heading); margin:0; color:#0f172a; font-weight:800;">
+                            <h2 style="font-size:1.2rem; font-family:var(--font-heading); margin:0; color:#0f172a; font-weight:800;">
                                 Pemulihan Akun / Reset Password
                             </h2>
-                            <p style="margin:2px 0 0; font-size:0.82rem; color:#64748b;">
+                            <p style="margin:2px 0 0; font-size:0.8rem; color:#64748b;">
                                 Cari username terdaftar & kirim info akun ke email Anda
                             </p>
                         </div>
@@ -1370,35 +1370,35 @@
                     <button type="button" id="btnCloseForgotPassword" class="btn-secondary" style="padding:4px 10px; font-size:1rem; border-radius:8px; cursor:pointer; background:#fff; border:1px solid #cbd5e1;">✖</button>
                 </div>
 
-                <div class="modal-body auth-gate-body" style="padding:18px 22px;">
-                    <div class="auth-gate-info-banner" style="margin-bottom:14px; background:#eff6ff; border-left:4px solid #3b82f6; color:#1e40af; padding:10px 14px; border-radius:8px; font-size:0.84rem; line-height:1.45;">
+                <div class="modal-body auth-gate-body" style="padding:16px 20px;">
+                    <div class="auth-gate-info-banner" style="margin-bottom:12px; background:#eff6ff; border-left:4px solid #3b82f6; color:#1e40af; padding:8px 12px; border-radius:8px; font-size:0.81rem; line-height:1.45;">
                         ℹ️ <strong>Catatan:</strong> divetomakro menggunakan verifikasi kombinasi <strong>Email & Username Unik</strong> (bebas ribet tanpa perlu mengingat password rumit). Masukkan email yang pernah Anda gunakan untuk menemukan username terdaftar, login instan 1-klik, atau mengirim surat pemulihan ke inbox email Anda.
                     </div>
 
-                    <form id="formForgotPassword" onsubmit="return false;" style="display:flex; flex-direction:column; gap:12px;">
+                    <form id="formForgotPassword" onsubmit="return false;" style="display:flex; flex-direction:column; gap:10px;">
                         <div class="auth-input-group">
-                            <label for="inputForgotEmail" class="auth-label" style="font-weight:700; font-size:0.88rem; color:#334155;">
+                            <label for="inputForgotEmail" class="auth-label" style="font-weight:700; font-size:0.85rem; color:#334155;">
                                 📧 Alamat Email Terdaftar:
                             </label>
-                            <input type="email" id="inputForgotEmail" class="auth-input" placeholder="contoh: tafal.limited@gmail.com" required style="width:100%; padding:10px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-size:0.95rem;">
-                            <span class="auth-field-hint" style="font-size:0.75rem; color:#64748b; margin-top:3px;">Masukkan email yang Anda pakai saat pertama kali bermain.</span>
+                            <input type="email" id="inputForgotEmail" class="auth-input" placeholder="contoh: tafal.limited@gmail.com" required style="width:100%; padding:9px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-size:0.9rem;">
+                            <span class="auth-field-hint" style="font-size:0.72rem; color:#64748b; margin-top:2px;">Masukkan email yang Anda pakai saat pertama kali bermain.</span>
                         </div>
 
                         <div style="display:flex; gap:10px; margin-top:4px;">
-                            <button type="submit" id="btnSubmitForgotPassword" class="btn-gavel-primary" style="flex:1; padding:11px 16px; font-size:0.92rem; font-weight:700; border-radius:8px; cursor:pointer;">
+                            <button type="submit" id="btnSubmitForgotPassword" class="btn-gavel-primary" style="flex:1; padding:10px 16px; font-size:0.92rem; font-weight:700; border-radius:8px; cursor:pointer;">
                                 🔍 Cari Akun & Buat Email Reset
                             </button>
                         </div>
                     </form>
 
-                    <div id="forgotPasswordResult" style="display:none; margin-top:16px;"></div>
+                    <div id="forgotPasswordResult" style="display:none; margin-top:14px;"></div>
                 </div>
 
-                <div class="modal-footer" style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+                <div class="modal-footer" style="padding:10px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
                     <span style="font-size:0.75rem; color:#64748b;">
                         📄 Rekam jejak akun juga dicatat di Google Doc sistem.
                     </span>
-                    <button type="button" id="btnBackToLoginFromForgot" class="btn-secondary" style="padding:6px 14px; font-size:0.84rem; border-radius:8px; cursor:pointer;">
+                    <button type="button" id="btnBackToLoginFromForgot" class="btn-secondary" style="padding:5px 12px; font-size:0.82rem; border-radius:8px; cursor:pointer;">
                         ⬅ Kembali ke Login
                     </button>
                 </div>
@@ -1408,7 +1408,7 @@
         <!-- ================================================================
              MODAL 2: PILIHAN MELANJUTKAN ATAU ULANG LEVEL (RESUME MID-LEVEL)
              ================================================================ -->
-        <div id="modalResumeChoice" class="modal-overlay" style="display:none; z-index:99998; backdrop-filter:blur(8px); background:rgba(15,23,42,0.8);">
+        <div id="modalResumeChoice" class="modal-overlay" style="display:none; z-index:99998; backdrop-filter:blur(8px); background:rgba(15,23,42,0.8); overflow-y:auto; -webkit-overflow-scrolling:touch;">
             <div class="modal-card" style="max-width:520px; border-radius:18px;">
                 <div class="modal-header" style="background:linear-gradient(135deg, #eff6ff, #dbeafe); border-bottom:1.5px solid #bfdbfe;">
                     <div style="display:flex; align-items:center; gap:10px;">
@@ -1444,7 +1444,7 @@
         <!-- ================================================================
              MODAL 3: TRACK RECORD PEMAIN & BAGAN DETAIL LOG AKTIVITAS (GOOGLE SHEETS)
              ================================================================ -->
-        <div id="modalTrackRecord" class="modal-overlay" style="display:none; z-index:99997; backdrop-filter:blur(6px); background:rgba(15,23,42,0.7);">
+        <div id="modalTrackRecord" class="modal-overlay" style="display:none; z-index:99997; backdrop-filter:blur(6px); background:rgba(15,23,42,0.7); overflow-y:auto; -webkit-overflow-scrolling:touch;">
             <div class="modal-card" style="max-width:1150px; width:95%; border-radius:18px;">
                 <div class="modal-header" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); justify-content:space-between; align-items:center;">
                     <div style="display:flex; align-items:center; gap:10px;">
