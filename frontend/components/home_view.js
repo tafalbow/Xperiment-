@@ -60,12 +60,12 @@ export class HomeView {
           </div>
         </div>
 
-        <!-- 2. EXPLORATION & DATA SERVICES STRIP (HORIZONTAL FLAT DESIGN - SEAMLESS WHITE) -->
-        <div class="bg-white border border-[#E5DACF] rounded-lg shadow-2xs overflow-hidden">
+        <!-- 2. EXPLORATION & DATA SERVICES STRIP (WARM PETAL SOFT-BEIGE DESIGN) -->
+        <div class="bg-[#FAF7F2] border border-[#E5DACF] rounded-lg shadow-2xs overflow-hidden">
           <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#E5DACF]">
             
             <!-- Left Column: Brand Statement & Access -->
-            <div class="lg:col-span-3 p-5 sm:p-6 flex flex-col justify-between bg-white">
+            <div class="lg:col-span-3 p-5 sm:p-6 flex flex-col justify-between bg-[#F5EBE1]/70">
               <div class="space-y-2">
                 <h2 class="text-2xl font-serif font-bold text-[#5D4037] tracking-tight leading-snug">
                   Layanan Data
@@ -79,7 +79,7 @@ export class HomeView {
               </div>
 
               <div class="pt-5">
-                <button id="home-btn-explore-guide" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#5D4037]/30 hover:border-[#0038A8] bg-white hover:bg-[#0038A8] text-[#5D4037] hover:text-white text-[11px] font-mono font-medium tracking-wide transition-all shadow-2xs cursor-pointer">
+                <button id="home-btn-explore-guide" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#5D4037]/30 hover:border-[#0038A8] bg-white/80 hover:bg-[#0038A8] text-[#5D4037] hover:text-white text-[11px] font-mono font-medium tracking-wide transition-all shadow-2xs cursor-pointer">
                   <span>Panduan & Metadata</span>
                   <span>↗</span>
                 </button>
@@ -87,12 +87,12 @@ export class HomeView {
             </div>
 
             <!-- Right Columns: 4 Flat Interactive Cards -->
-            <div class="lg:col-span-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#E5DACF] bg-white">
+            <div class="lg:col-span-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#E5DACF] bg-[#FAF7F2]">
               
               <!-- 1. Indikator Makro -->
-              <div id="home-card-indicators" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-[#F8F9FA] transition-all duration-150">
+              <div id="home-card-indicators" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-[#F5EBE1]/60 transition-all duration-150">
                 <div class="flex flex-col items-center space-y-3 w-full">
-                  <div class="w-12 h-12 rounded-full bg-white border border-[#E5DACF] flex items-center justify-center text-[#5D4037] group-hover:text-[#0038A8] group-hover:border-[#0038A8]/40 group-hover:bg-[#EBF1FC] transition-all shadow-2xs">
+                  <div class="w-12 h-12 rounded-full bg-white/90 border border-[#E5DACF] flex items-center justify-center text-[#5D4037] group-hover:text-[#0038A8] group-hover:border-[#0038A8]/40 group-hover:bg-[#EBF1FC] transition-all shadow-2xs">
                     <!-- Icon Peta Kepulauan Indonesia (Authentic High-Detail Archipelago Silhouette) -->
                     <svg class="w-9 h-5 fill-current transition-transform duration-150 group-hover:scale-105" viewBox="0 0 40 20">
                       <!-- Sumatra & Kepulauan Barat -->
@@ -145,9 +145,9 @@ export class HomeView {
               </div>
 
               <!-- 2. Pertanian & Hasil Bumi -->
-              <div id="home-card-agri" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-[#F8F9FA] transition-all duration-150">
+              <div id="home-card-agri" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-[#F5EBE1]/60 transition-all duration-150">
                 <div class="flex flex-col items-center space-y-3 w-full">
-                  <div class="w-12 h-12 rounded-full bg-white border border-[#E5DACF] flex items-center justify-center text-[#5D4037] group-hover:text-[#0038A8] group-hover:border-[#0038A8]/40 group-hover:bg-[#EBF1FC] transition-all shadow-2xs">
+                  <div class="w-12 h-12 rounded-full bg-white/90 border border-[#E5DACF] flex items-center justify-center text-[#5D4037] group-hover:text-[#0038A8] group-hover:border-[#0038A8]/40 group-hover:bg-[#EBF1FC] transition-all shadow-2xs">
                     <!-- Icon Pucuk Daun (Tender Leaf Sprout / Seedling) -->
                     <svg class="w-6 h-6 stroke-current fill-none stroke-[1.75]" viewBox="0 0 24 24">
                       <path d="M6 21H18" stroke-linecap="round" />
@@ -172,9 +172,9 @@ export class HomeView {
               </div>
 
               <!-- 3. Trend Keuangan Negara -->
-              <div id="home-card-lkpp" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-[#F8F9FA] transition-all duration-150">
+              <div id="home-card-lkpp" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-[#F5EBE1]/60 transition-all duration-150">
                 <div class="flex flex-col items-center space-y-3 w-full">
-                  <div class="w-12 h-12 rounded-full bg-white border border-[#E5DACF] flex items-center justify-center text-[#5D4037] group-hover:text-[#0038A8] group-hover:border-[#0038A8]/40 group-hover:bg-[#EBF1FC] transition-all shadow-2xs">
+                  <div class="w-12 h-12 rounded-full bg-white/90 border border-[#E5DACF] flex items-center justify-center text-[#5D4037] group-hover:text-[#0038A8] group-hover:border-[#0038A8]/40 group-hover:bg-[#EBF1FC] transition-all shadow-2xs">
                     <!-- Icon Panah Chart Ke Atas & Logo Rupiah (Rp) -->
                     <svg class="w-6 h-6 stroke-current fill-none stroke-[1.75]" viewBox="0 0 24 24">
                       <!-- Coin badge with Rupiah Logo -->
@@ -201,9 +201,9 @@ export class HomeView {
               </div>
 
               <!-- 4. Data Mingguan Lembaga -->
-              <div id="home-card-weekly" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-[#F8F9FA] transition-all duration-150">
+              <div id="home-card-weekly" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-[#F5EBE1]/60 transition-all duration-150">
                 <div class="flex flex-col items-center space-y-3 w-full">
-                  <div class="w-12 h-12 rounded-full bg-white border border-[#E5DACF] flex items-center justify-center text-[#5D4037] group-hover:text-[#0038A8] group-hover:border-[#0038A8]/40 group-hover:bg-[#EBF1FC] transition-all shadow-2xs">
+                  <div class="w-12 h-12 rounded-full bg-white/90 border border-[#E5DACF] flex items-center justify-center text-[#5D4037] group-hover:text-[#0038A8] group-hover:border-[#0038A8]/40 group-hover:bg-[#EBF1FC] transition-all shadow-2xs">
                     <!-- Icon Kalender (Weekly Frequency Calendar) -->
                     <svg class="w-6 h-6 stroke-current fill-none stroke-[1.75]" viewBox="0 0 24 24">
                       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-linecap="round" stroke-linejoin="round"></rect>
