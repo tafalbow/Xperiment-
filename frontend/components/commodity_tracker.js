@@ -658,15 +658,15 @@ export class CommodityTrackerComponent {
           </div>
         </div>
 
-        <!-- 3. MULTI-DIMENSIONAL FILTER CONTROLS -->
-        <div class="bg-white p-3 rounded-lg border border-slate-300 shadow-2xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <!-- 3. MULTI-DIMENSIONAL FILTER CONTROLS (Peach Muda #FDE2D2) -->
+        <div class="bg-[#FDE2D2] p-3 rounded-lg border border-[#F5C7B3] shadow-2xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
           
           <!-- Filter 1: Pilih Komoditas Aktif -->
           <div class="space-y-1">
-            <label class="font-bold text-slate-700 uppercase text-[10.5px]">
+            <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">
               ${isHasilBumi ? '⛏️ Komoditas / Komposisi Hasil Bumi:' : '🌾 Komoditas / Komposisi Terpilih:'}
             </label>
-            <select id="select-active-commodity" class="w-full bg-white border-2 border-slate-400 rounded px-2.5 py-1.5 font-bold text-slate-900 focus:outline-emerald-700 shadow-2xs cursor-pointer">
+            <select id="select-active-commodity" class="w-full bg-white border-2 border-[#F5C7B3] rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               ${renderAggregateOptions()}
               
               <optgroup label="📋 Daftar Komoditas Individu:">
@@ -682,24 +682,24 @@ export class CommodityTrackerComponent {
           <!-- Filter 2: Rentang Tahun & Presets (1990 - 2026) -->
           <div class="space-y-1">
             <div class="flex items-center justify-between">
-              <label class="font-bold text-slate-700 uppercase text-[10.5px]">📅 Rentang Tahun (1990-2026):</label>
+              <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">📅 Rentang Tahun (1990-2026):</label>
               <div class="flex items-center gap-1">
-                <button type="button" id="commodity-preset-5y" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded text-[9.5px] font-mono font-bold cursor-pointer">5 Thn</button>
-                <button type="button" id="commodity-preset-10y" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded text-[9.5px] font-mono font-bold cursor-pointer">10 Thn</button>
-                <button type="button" id="commodity-preset-all" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded text-[9.5px] font-mono font-bold cursor-pointer">1990-2026</button>
+                <button type="button" id="commodity-preset-5y" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] border border-[#F5C7B3] rounded text-[9.5px] font-mono font-bold cursor-pointer">5 Thn</button>
+                <button type="button" id="commodity-preset-10y" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] border border-[#F5C7B3] rounded text-[9.5px] font-mono font-bold cursor-pointer">10 Thn</button>
+                <button type="button" id="commodity-preset-all" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] border border-[#F5C7B3] rounded text-[9.5px] font-mono font-bold cursor-pointer">1990-2026</button>
               </div>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="number" id="commodity-start-year" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs font-mono font-bold text-slate-900 text-center" min="1990" max="2026" value="${this.startYear}">
-              <span class="text-slate-400 font-bold text-xs">s/d</span>
-              <input type="number" id="commodity-end-year" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs font-mono font-bold text-slate-900 text-center" min="1990" max="2026" value="${this.endYear}">
+              <input type="number" id="commodity-start-year" class="w-full bg-white border border-[#F5C7B3] rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.startYear}">
+              <span class="text-[#7D655C] font-bold text-xs">s/d</span>
+              <input type="number" id="commodity-end-year" class="w-full bg-white border border-[#F5C7B3] rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.endYear}">
             </div>
           </div>
 
           <!-- Filter 3: Sub-Kelompok Sektor -->
           <div class="space-y-1">
-            <label class="font-bold text-slate-700 uppercase text-[10.5px]">🏷️ Sub-Kelompok / Realm:</label>
-            <select id="select-filter-group" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 font-bold text-slate-900 focus:outline-emerald-700 shadow-2xs cursor-pointer">
+            <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">🏷️ Sub-Kelompok / Realm:</label>
+            <select id="select-filter-group" class="w-full bg-white border border-[#F5C7B3] rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Sub-Kelompok</option>
               ${this.categoriesData.divisions.find(d => d.id === this.activeDivision)?.groups.map(g => `
                 <option value="${g.id}" ${this.activeGroup === g.id ? 'selected' : ''}>${g.label}</option>
@@ -709,8 +709,8 @@ export class CommodityTrackerComponent {
 
           <!-- Filter 4: Bab HS Code -->
           <div class="space-y-1">
-            <label class="font-bold text-slate-700 uppercase text-[10.5px]">📑 Bab HS (BTKI):</label>
-            <select id="select-filter-hs" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 font-bold text-slate-900 focus:outline-emerald-700 shadow-2xs cursor-pointer">
+            <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">📑 Bab HS (BTKI):</label>
+            <select id="select-filter-hs" class="w-full bg-white border border-[#F5C7B3] rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Bab HS ${isHasilBumi ? 'Hasil Bumi' : 'Pertanian'}</option>
               ${scopedHsChapters.map(h => `
                 <option value="${h}" ${this.activeHsChapter === h ? 'selected' : ''}>${h}</option>
@@ -891,10 +891,10 @@ export class CommodityTrackerComponent {
           <div class="flex items-center gap-2 flex-wrap">
             <div class="flex items-center gap-1.5">
               <span class="text-slate-400 font-mono text-[9.5px] uppercase">RENTANG:</span>
-              <div class="inline-flex rounded-sm border border-slate-200 p-0.5 bg-slate-50 text-[10.5px] font-mono">
-                <button id="btn-chart-range-5y" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === '5y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">5 Thn</button>
-                <button id="btn-chart-range-10y" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === '10y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">10 Thn</button>
-                <button id="btn-chart-range-all" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === 'all' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">1990-2026</button>
+              <div class="inline-flex rounded-sm border border-[#F5C7B3] p-0.5 bg-[#FDE2D2] text-[10.5px] font-mono">
+                <button id="btn-chart-range-5y" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === '5y' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">5 Thn</button>
+                <button id="btn-chart-range-10y" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === '10y' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">10 Thn</button>
+                <button id="btn-chart-range-all" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === 'all' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">1990-2026</button>
               </div>
             </div>
 
@@ -1167,13 +1167,14 @@ export class CommodityTrackerComponent {
     });
 
     // 1. Series Tabs Strip with Integrated Axis Placement Menu (Maks. 3 Var Rule)
+    // Series Tabs Strip with Integrated Axis Placement Menu (Peach Muda #FDE2D2)
     let tabsHtml = `
-      <div class="flex items-center justify-between flex-wrap gap-1.5 bg-slate-50 p-1.5 rounded border border-slate-200">
+      <div class="flex items-center justify-between flex-wrap gap-1.5 bg-[#FDE2D2] p-1.5 rounded border border-[#F5C7B3]">
         <div class="flex items-center gap-1.5 flex-wrap">
           ${this.seriesConfigs.map((s, idx) => `
             <button 
               type="button"
-              class="btn-commodity-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-slate-400 shadow-xs ring-2 ring-[#1A73E8] border-[#1A73E8]' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}"
+              class="btn-commodity-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-[#0038A8] shadow-xs ring-2 ring-[#0038A8]' : 'bg-white/80 text-[#5D4037] border-[#F5C7B3] hover:bg-white'}"
               data-idx="${idx}"
             >
               <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
@@ -1188,7 +1189,7 @@ export class CommodityTrackerComponent {
           `).join('')}
 
           ${this.seriesConfigs.length < 3 ? `
-            <button type="button" id="btn-add-commodity-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-sky-50 text-sky-700 border border-dashed border-sky-400 font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
+            <button type="button" id="btn-add-commodity-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-white/90 text-[#0038A8] border border-dashed border-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
               <span class="font-bold">➕</span> Tambah Var ${this.seriesConfigs.length + 1}
             </button>
           ` : ''}
@@ -1197,12 +1198,12 @@ export class CommodityTrackerComponent {
         <!-- Axis Placement Menu for Active Variable -->
         <div class="flex items-center gap-2 font-mono text-[10.5px]">
           <div class="flex items-center gap-1">
-            <span class="text-slate-600 font-bold uppercase text-[9.5px]">SUMBU (VAR ${this.activeSeriesTab + 1}):</span>
-            <div class="inline-flex rounded border border-slate-300 p-0.5 bg-slate-200/80">
+            <span class="text-[#3E2723] font-bold uppercase text-[9.5px]">SUMBU (VAR ${this.activeSeriesTab + 1}):</span>
+            <div class="inline-flex rounded border border-[#F5C7B3] p-0.5 bg-white/70">
               <button 
                 type="button"
                 id="btn-commodity-axis-primary" 
-                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-300'}"
+                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
                 title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
               >
                 ← Sumbu Kiri
@@ -1210,35 +1211,35 @@ export class CommodityTrackerComponent {
               <button 
                 type="button"
                 id="btn-commodity-axis-secondary" 
-                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-300'}"
+                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
                 title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
               >
                 Sumbu Kanan →
               </button>
             </div>
           </div>
-          <span class="text-slate-300">|</span>
-          <span class="text-[9.5px] text-slate-400">Maks. 3 Var</span>
+          <span class="text-[#F5C7B3]">|</span>
+          <span class="text-[9.5px] text-[#7D655C]">Maks. 3 Var</span>
         </div>
       </div>
     `;
 
-    // 2. Active Series Parameter Control Panel
+    // 2. Active Series Parameter Control Panel (Peach Muda #FDE2D2)
     if (active) {
       const activeMeta = available.find(i => i.id === active.indicatorId);
       const availableTransformations = this.getAvailableTransformations(activeMeta, active.rawData);
 
       tabsHtml += `
-        <div class="bg-white p-2 rounded border border-slate-200 space-y-1.5 text-[11px] font-mono shadow-2xs">
+        <div class="bg-[#FDE2D2] p-2 rounded border border-[#F5C7B3] space-y-1.5 text-[11px] font-mono shadow-2xs">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
             
             <!-- A. Indicator Selector (6 Cols) -->
             <div class="md:col-span-6 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-slate-700 flex items-center gap-1.5">
+              <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full" style="background-color: ${active.color}"></span>
                 Indikator (Var ${this.activeSeriesTab + 1}):
               </label>
-              <select id="select-commodity-series-indicator" class="gov-select w-full text-[11px] font-mono py-1 font-medium bg-white border border-slate-300 rounded px-2 cursor-pointer">
+              <select id="select-commodity-series-indicator" class="gov-select w-full text-[11px] font-mono py-1 font-medium bg-white border border-[#F5C7B3] rounded px-2 cursor-pointer text-[#202124]">
                 ${Object.keys(grouped).map(grp => `
                   <optgroup label="${grp}">
                     ${grouped[grp].map(ind => `
@@ -1253,11 +1254,11 @@ export class CommodityTrackerComponent {
 
             <!-- B. Data Transformation Granularity (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-slate-700 flex items-center justify-between">
+              <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center justify-between">
                 <span>Granularitas Olahan:</span>
-                <span class="text-[8.5px] text-sky-700 bg-sky-50 px-1 rounded border border-sky-200">≥ 6 Titik</span>
+                <span class="text-[8.5px] text-sky-800 bg-white/80 px-1 rounded border border-[#F5C7B3]">≥ 6 Titik</span>
               </label>
-              <select id="select-commodity-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold border rounded px-2 cursor-pointer ${availableTransformations.length > 1 ? 'bg-amber-50/50 border-amber-300 text-slate-900' : 'bg-slate-50 text-slate-600'}">
+              <select id="select-commodity-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold border border-[#F5C7B3] rounded px-2 cursor-pointer bg-white text-[#202124]">
                 ${availableTransformations.map(t => `
                   <option value="${t.id}" ${t.id === (active.transformation || 'RAW') ? 'selected' : ''}>
                     ${t.label}
@@ -1268,21 +1269,21 @@ export class CommodityTrackerComponent {
 
             <!-- C. Visual Type: Line vs Bar (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-slate-700">
+              <label class="text-[9.5px] uppercase font-bold text-[#3E2723]">
                 Tipe Visual:
               </label>
-              <div class="inline-flex rounded border border-slate-300 p-0.5 bg-slate-100 w-full text-[10.5px]">
+              <div class="inline-flex rounded border border-[#F5C7B3] p-0.5 bg-white/80 w-full text-[10.5px]">
                 <button 
                   type="button" 
                   id="btn-commodity-series-type-line" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#1A73E8] text-white font-medium shadow-xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4]'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
                 >
                   📈 Line
                 </button>
                 <button 
                   type="button" 
                   id="btn-commodity-series-type-bar" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#1A73E8] text-white font-medium shadow-xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4]'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
                 >
                   📊 Bar
                 </button>

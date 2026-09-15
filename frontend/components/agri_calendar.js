@@ -101,14 +101,14 @@ export class AgriCalendarComponent {
             </p>
           </div>
 
-          <!-- 2. INTERACTIVE CONTROLS BAR -->
-          <div class="p-3 bg-white rounded border border-[#DADCE0] space-y-2.5">
-            <div class="flex items-center justify-between flex-wrap gap-2 border-b border-[#F1F3F4] pb-2">
-              <span class="text-xs font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
+          <!-- 2. INTERACTIVE CONTROLS BAR (Peach Muda #FDE2D2) -->
+          <div class="p-3 bg-[#FDE2D2] rounded-lg border border-[#F5C7B3] space-y-2.5">
+            <div class="flex items-center justify-between flex-wrap gap-2 border-b border-[#F5C7B3] pb-2">
+              <span class="text-xs font-mono font-bold text-[#3E2723] uppercase flex items-center gap-1.5">
                 <span>🎯</span>
                 <span>Filter Bahan Baku Komoditas & Wilayah Tanam</span>
               </span>
-              <span id="agri-active-criteria-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-[#E8F0FE] text-[#1A73E8] font-semibold">
+              <span id="agri-active-criteria-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-white text-[#0038A8] border border-[#F5C7B3] font-semibold">
                 Komoditas: Jagung Hibrida • Bulan: September
               </span>
             </div>
@@ -116,8 +116,8 @@ export class AgriCalendarComponent {
             <div class="flex items-center gap-3 flex-wrap text-xs font-mono">
               <!-- Filter: Bahan Baku / Komoditas -->
               <div class="flex items-center gap-1.5">
-                <label for="agri-cal-commodity-select" class="text-[#5F6368] font-medium">Bahan Baku Tanam:</label>
-                <select id="agri-cal-commodity-select" class="px-2.5 py-1.5 rounded border border-[#DADCE0] bg-white text-xs font-mono font-semibold text-[#202124] outline-none focus:border-[#1A73E8] shadow-2xs">
+                <label for="agri-cal-commodity-select" class="text-[#3E2723] font-bold">Bahan Baku Tanam:</label>
+                <select id="agri-cal-commodity-select" class="px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-xs font-mono font-semibold text-[#202124] outline-none focus:border-[#0038A8] shadow-2xs">
                   <option value="JAGUNG" selected>🌽 Jagung Pipil Hibrida (Zea mays)</option>
                   <option value="PADI_BERAS">🌾 Padi Sawah / Beras (Oryza sativa)</option>
                   <option value="CABAI_RAWIT">🌶️ Cabai Rawit & Keriting (Capsicum)</option>
@@ -133,8 +133,8 @@ export class AgriCalendarComponent {
 
               <!-- Filter: Bulan Tanam -->
               <div class="flex items-center gap-1.5">
-                <label for="agri-cal-month-select" class="text-[#5F6368] font-medium">Bulan Tanam:</label>
-                <select id="agri-cal-month-select" class="px-2.5 py-1.5 rounded border border-[#DADCE0] bg-white text-xs font-mono font-semibold text-[#202124] outline-none focus:border-[#1A73E8] shadow-2xs">
+                <label for="agri-cal-month-select" class="text-[#3E2723] font-bold">Bulan Tanam:</label>
+                <select id="agri-cal-month-select" class="px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-xs font-mono font-semibold text-[#202124] outline-none focus:border-[#0038A8] shadow-2xs">
                   <option value="1">Bulan 1 - Januari</option>
                   <option value="2">Bulan 2 - Februari</option>
                   <option value="3">Bulan 3 - Maret</option>
@@ -152,8 +152,8 @@ export class AgriCalendarComponent {
 
               <!-- Filter: Wilayah Pulau -->
               <div class="flex items-center gap-1.5">
-                <label for="agri-cal-island-select" class="text-[#5F6368] font-medium">Pulau:</label>
-                <select id="agri-cal-island-select" class="px-2.5 py-1.5 rounded border border-[#DADCE0] bg-white text-xs font-mono text-[#202124] outline-none focus:border-[#1A73E8]">
+                <label for="agri-cal-island-select" class="text-[#3E2723] font-bold">Pulau:</label>
+                <select id="agri-cal-island-select" class="px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-xs font-mono text-[#202124] outline-none focus:border-[#0038A8]">
                   <option value="SEMUA" selected>Semua Pulau (Nasional)</option>
                   <option value="JAWA">Pulau Jawa</option>
                   <option value="SUMATERA">Pulau Sumatera</option>
@@ -166,8 +166,8 @@ export class AgriCalendarComponent {
 
               <!-- Filter: Status Rekomendasi -->
               <div class="flex items-center gap-1.5">
-                <label for="agri-cal-status-select" class="text-[#5F6368] font-medium">Status Rekomendasi:</label>
-                <select id="agri-cal-status-select" class="px-2.5 py-1.5 rounded border border-[#DADCE0] bg-white text-xs font-mono text-[#202124] outline-none focus:border-[#1A73E8]">
+                <label for="agri-cal-status-select" class="text-[#3E2723] font-bold">Status Rekomendasi:</label>
+                <select id="agri-cal-status-select" class="px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-xs font-mono text-[#202124] outline-none focus:border-[#0038A8]">
                   <option value="SEMUA" selected>Semua Status</option>
                   <option value="RECOMMENDED_PRIME">🟢 Sangat Dianjurkan (Musim Utama)</option>
                   <option value="RECOMMENDED_CONDITIONAL">🟡 Dianjurkan Bersyarat (Pompanisasi)</option>
@@ -177,7 +177,7 @@ export class AgriCalendarComponent {
               </div>
 
               <!-- Reset Button -->
-              <button id="agri-cal-reset-btn" class="px-3 py-1.5 rounded bg-[#F1F3F4] hover:bg-[#E8EAED] text-[#3C4043] border border-[#DADCE0] text-xs font-mono cursor-pointer transition-colors shadow-2xs">
+              <button id="agri-cal-reset-btn" class="px-3 py-1.5 rounded bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] border border-[#F5C7B3] text-xs font-mono cursor-pointer transition-colors shadow-2xs">
                 Reset Filter
               </button>
             </div>

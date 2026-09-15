@@ -189,7 +189,7 @@ export class ContextualMap {
         return `
           <button 
             type="button"
-            class="btn-focus-series cursor-pointer px-2.5 py-1 rounded text-[11px] font-mono flex items-center gap-1.5 border transition-all ${isActive ? 'bg-[#1A73E8] text-white font-bold border-[#1A73E8] shadow-xs ring-2 ring-[#D2E3FC]' : 'bg-white text-[#3C4043] border-[#DADCE0] hover:bg-[#F8F9FA] hover:border-[#BDC1C6]'}"
+            class="btn-focus-series cursor-pointer px-2.5 py-1 rounded text-[11px] font-mono flex items-center gap-1.5 border transition-all ${isActive ? 'bg-[#0038A8] text-white font-bold border-[#0038A8] shadow-xs ring-2 ring-[#BCD0F7]' : 'bg-white text-[#5D4037] border-[#F5C7B3] hover:bg-[#FCD5C0]'}"
             data-idx="${i}"
             data-action="select"
             title="Pilih Penjelasan Geoekonomi untuk Variabel ${i + 1}: ${series.name || ''}"
@@ -202,7 +202,7 @@ export class ContextualMap {
         return `
           <button 
             type="button"
-            class="btn-focus-series cursor-pointer px-2 py-1 rounded text-[11px] font-mono flex items-center gap-1 border border-dashed border-slate-300 bg-slate-50 text-slate-500 hover:bg-sky-50 hover:text-sky-700 hover:border-[#1A73E8] transition-all"
+            class="btn-focus-series cursor-pointer px-2 py-1 rounded text-[11px] font-mono flex items-center gap-1 border border-dashed border-[#F5C7B3] bg-white/80 text-[#5D4037] hover:bg-[#FCD5C0] hover:text-[#0038A8] hover:border-[#0038A8] transition-all"
             data-idx="${i}"
             data-action="add"
             title="Klik untuk menambahkan dan menganalisis Variabel ${i + 1}"
@@ -232,18 +232,18 @@ export class ContextualMap {
           </span>
         </div>
 
-        <!-- 1. VARIABLE FOCUS SELECTOR (Var 1 / Var 2 / Var 3 Buttons) -->
-        <div class="flex items-center justify-between bg-slate-50 p-2 rounded border border-[#DADCE0] text-xs font-mono flex-wrap gap-2 shrink-0">
+        <!-- 1. VARIABLE FOCUS SELECTOR (Var 1 / Var 2 / Var 3 Buttons - Peach Muda #FDE2D2) -->
+        <div class="flex items-center justify-between bg-[#FDE2D2] p-2 rounded border border-[#F5C7B3] text-xs font-mono flex-wrap gap-2 shrink-0">
           <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-slate-600 text-[10px] uppercase font-bold tracking-wider">Penjelas untuk:</span>
+            <span class="text-[#3E2723] text-[10px] uppercase font-bold tracking-wider">Penjelas untuk:</span>
             <div class="flex items-center gap-1.5 flex-wrap" id="focus-series-container">
               ${slotPillsHtml}
             </div>
           </div>
 
-          <div class="text-[10px] font-mono text-slate-500 flex items-center gap-1 bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
+          <div class="text-[10px] font-mono text-[#5D4037] flex items-center gap-1 bg-white px-2 py-0.5 rounded border border-[#F5C7B3]">
             <span>📅</span>
-            <span>Titik Aktif: <strong id="gis-active-period-badge" class="text-slate-900">${this.focusedYear ? `TA ${this.focusedYear}` : 'Semua Periode'}</strong></span>
+            <span>Titik Aktif: <strong id="gis-active-period-badge" class="text-[#3E2723]">${this.focusedYear ? `TA ${this.focusedYear}` : 'Semua Periode'}</strong></span>
           </div>
         </div>
 

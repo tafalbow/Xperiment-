@@ -390,11 +390,11 @@ export class ChartModule {
           <div class="flex items-center gap-2 flex-wrap">
             <div class="flex items-center gap-1.5">
               <span class="text-slate-400 font-mono text-[9.5px] uppercase">Rentang:</span>
-              <div class="inline-flex rounded-sm border border-slate-200 p-0.5 bg-slate-50 text-[10.5px] font-mono">
-                <button id="btn-range-5y" class="px-1.5 py-0.5 ${this.activeRangePreset === '5y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">5 Thn</button>
-                <button id="btn-range-10y" class="px-1.5 py-0.5 ${this.activeRangePreset === '10y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">10 Thn</button>
-                <button id="btn-range-12y" class="px-1.5 py-0.5 ${this.activeRangePreset === '12y' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">12 Thn (Default)</button>
-                <button id="btn-range-all" class="px-1.5 py-0.5 ${this.activeRangePreset === 'all' ? 'bg-white font-semibold text-slate-900 shadow-xs border border-slate-200 rounded-sm' : 'text-slate-600 hover:text-slate-900'}">Max</button>
+              <div class="inline-flex rounded-sm border border-[#F5C7B3] p-0.5 bg-[#FDE2D2] text-[10.5px] font-mono">
+                <button id="btn-range-5y" class="px-1.5 py-0.5 ${this.activeRangePreset === '5y' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">5 Thn</button>
+                <button id="btn-range-10y" class="px-1.5 py-0.5 ${this.activeRangePreset === '10y' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">10 Thn</button>
+                <button id="btn-range-12y" class="px-1.5 py-0.5 ${this.activeRangePreset === '12y' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">12 Thn (Default)</button>
+                <button id="btn-range-all" class="px-1.5 py-0.5 ${this.activeRangePreset === 'all' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">Max</button>
               </div>
             </div>
 
@@ -452,14 +452,14 @@ export class ChartModule {
 
     const active = this.seriesConfigs[this.activeSeriesTab] || this.seriesConfigs[0];
 
-    // Series Tabs Strip with Integrated Axis Placement Menu
+    // Series Tabs Strip with Integrated Axis Placement Menu (Peach Muda #FDE2D2)
     let tabsHtml = `
-      <div class="flex items-center justify-between flex-wrap gap-1.5 bg-slate-50 p-1.5 rounded border border-slate-200">
+      <div class="flex items-center justify-between flex-wrap gap-1.5 bg-[#FDE2D2] p-1.5 rounded border border-[#F5C7B3]">
         <div class="flex items-center gap-1.5 flex-wrap">
           ${this.seriesConfigs.map((s, idx) => `
             <button 
               type="button"
-              class="btn-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-slate-400 shadow-xs ring-2 ring-[#1A73E8] border-[#1A73E8]' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}"
+              class="btn-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-[#0038A8] shadow-xs ring-2 ring-[#0038A8]' : 'bg-white/80 text-[#5D4037] border-[#F5C7B3] hover:bg-white'}"
               data-idx="${idx}"
             >
               <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
@@ -474,7 +474,7 @@ export class ChartModule {
           `).join('')}
 
           ${this.seriesConfigs.length < 3 ? `
-            <button type="button" id="btn-add-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-sky-50 text-sky-700 border border-dashed border-sky-400 font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
+            <button type="button" id="btn-add-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-white/90 text-[#0038A8] border border-dashed border-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
               <span class="font-bold">➕</span> Tambah Var ${this.seriesConfigs.length + 1}
             </button>
           ` : ''}
@@ -483,12 +483,12 @@ export class ChartModule {
         <!-- Axis Placement Menu Moved to Top Bar near Variable Selection -->
         <div class="flex items-center gap-2 font-mono text-[10.5px]">
           <div class="flex items-center gap-1">
-            <span class="text-slate-600 font-bold uppercase text-[9.5px]">Sumbu (Var ${this.activeSeriesTab + 1}):</span>
-            <div class="inline-flex rounded border border-slate-300 p-0.5 bg-slate-200/80">
+            <span class="text-[#3E2723] font-bold uppercase text-[9.5px]">Sumbu (Var ${this.activeSeriesTab + 1}):</span>
+            <div class="inline-flex rounded border border-[#F5C7B3] p-0.5 bg-white/70">
               <button 
                 type="button"
                 id="btn-axis-primary" 
-                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-300'}"
+                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
                 title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
               >
                 ← Sumbu Kiri
@@ -496,34 +496,34 @@ export class ChartModule {
               <button 
                 type="button"
                 id="btn-axis-secondary" 
-                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-300'}"
+                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
                 title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
               >
                 Sumbu Kanan →
               </button>
             </div>
           </div>
-          <span class="text-slate-300">|</span>
-          <span class="text-[9.5px] text-slate-400">Maks. 3 Var</span>
+          <span class="text-[#F5C7B3]">|</span>
+          <span class="text-[9.5px] text-[#7D655C]">Maks. 3 Var</span>
         </div>
       </div>
     `;
 
-    // Active Series Parameter Control Panel (Streamlined without Axis box)
+    // Active Series Parameter Control Panel (Peach Muda #FDE2D2)
     if (active) {
       const activeMeta = this.availableIndicators.find(i => i.id === active.indicatorId);
       const availableTransformations = this.getAvailableTransformations(activeMeta, active.rawData);
 
       tabsHtml += `
-        <div class="bg-white p-2 rounded border border-slate-200 space-y-1.5 text-[11px] font-mono shadow-2xs">
+        <div class="bg-[#FDE2D2] p-2 rounded border border-[#F5C7B3] space-y-1.5 text-[11px] font-mono shadow-2xs">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
             <!-- 1. Indicator Selector (6 Cols) -->
             <div class="md:col-span-6 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-slate-700 flex items-center gap-1.5">
+              <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full" style="background-color: ${active.color}"></span>
                 Indikator (Var ${this.activeSeriesTab + 1}):
               </label>
-              <select id="select-series-indicator" class="gov-select w-full text-[11px] font-mono py-1 font-medium">
+              <select id="select-series-indicator" class="gov-select w-full text-[11px] font-mono py-1 font-medium bg-white border border-[#F5C7B3] text-[#202124]">
                 ${this.availableIndicators.map(ind => `
                   <option value="${ind.id}" ${ind.id === active.indicatorId ? 'selected' : ''}>
                     ${ind.name} [${ind.unit}] (${ind.source_name || ind.sector || 'Nasional'})
@@ -534,11 +534,11 @@ export class ChartModule {
 
             <!-- 2. Data Transformation Granularity: RAW, YOY, MOM, AVG L3M/L6M/L3Y/L6Y (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-slate-700 flex items-center justify-between">
+              <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center justify-between">
                 <span>Granularitas Olahan:</span>
-                <span class="text-[8.5px] text-sky-700 bg-sky-50 px-1 rounded border border-sky-200">≥ 6 Titik</span>
+                <span class="text-[8.5px] text-sky-800 bg-white/80 px-1 rounded border border-[#F5C7B3]">≥ 6 Titik</span>
               </label>
-              <select id="select-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold ${availableTransformations.length > 1 ? 'bg-amber-50/50 border-amber-300 text-slate-900' : 'bg-slate-50 text-slate-600'}">
+              <select id="select-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold bg-white border border-[#F5C7B3] text-[#202124]">
                 ${availableTransformations.map(t => `
                   <option value="${t.id}" ${t.id === (active.transformation || 'RAW') ? 'selected' : ''}>
                     ${t.label}
@@ -549,21 +549,21 @@ export class ChartModule {
 
             <!-- 3. Visual Type: Line vs Bar (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-slate-700">
+              <label class="text-[9.5px] uppercase font-bold text-[#3E2723]">
                 Tipe Visual:
               </label>
-              <div class="inline-flex rounded border border-slate-300 p-0.5 bg-slate-100 w-full text-[10.5px]">
+              <div class="inline-flex rounded border border-[#F5C7B3] p-0.5 bg-white/80 w-full text-[10.5px]">
                 <button 
                   type="button"
                   id="btn-series-type-line" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#1A73E8] text-white font-medium shadow-xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4]'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
                 >
                   📈 Line
                 </button>
                 <button 
                   type="button"
                   id="btn-series-type-bar" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#1A73E8] text-white font-medium shadow-xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4]'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
                 >
                   📊 Bar
                 </button>
@@ -572,9 +572,9 @@ export class ChartModule {
           </div>
 
           ${active.type === 'bar' ? `
-            <div class="flex items-center gap-2 pt-1 border-t border-slate-100">
-              <span class="text-[9.5px] uppercase font-bold text-slate-700">Mode Bar:</span>
-              <select id="select-bar-mode" class="gov-select text-[11px] font-mono py-0.5 px-2">
+            <div class="flex items-center gap-2 pt-1 border-t border-[#F5C7B3]">
+              <span class="text-[9.5px] uppercase font-bold text-[#3E2723]">Mode Bar:</span>
+              <select id="select-bar-mode" class="gov-select text-[11px] font-mono py-0.5 px-2 bg-white border border-[#F5C7B3] text-[#202124]">
                 <option value="grouped" ${active.barMode === 'grouped' ? 'selected' : ''}>Normal Bar</option>
                 <option value="stacked100" ${active.barMode === 'stacked100' ? 'selected' : ''}>100% Stacked</option>
               </select>

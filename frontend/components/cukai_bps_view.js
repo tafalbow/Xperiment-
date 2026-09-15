@@ -73,21 +73,21 @@ export class CukaiBpsView {
         <!-- ROW 1: 2-COLUMN BALANCED MAIN LAYOUT (Similar to Indikator Ekonomi Tab) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
           
-          <!-- KOLOM KIRI (Sidebar Filtering & Metadata Indikator BPS) -->
+          <!-- KOLOM KIRI (Sidebar Filtering & Metadata Indikator BPS - Peach Muda #FDE2D2) -->
           <aside class="lg:col-span-4 xl:col-span-3.5 flex flex-col justify-between space-y-3 h-full">
-            <div class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg space-y-3.5 shadow-2xs">
-              <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2">
-                <span class="text-xs font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
+            <div class="gov-card p-4 bg-[#FDE2D2] border border-[#F5C7B3] rounded-lg space-y-3.5 shadow-2xs">
+              <div class="flex items-center justify-between border-b border-[#F5C7B3] pb-2">
+                <span class="text-xs font-mono font-bold text-[#3E2723] uppercase flex items-center gap-1.5">
                   <span>🔍</span>
                   <span>FILTER & PILIH INDIKATOR BPS</span>
                 </span>
-                <span class="text-[10px] font-mono text-[#5F6368]" id="bps-sidebar-count">25 Indikator</span>
+                <span class="text-[10px] font-mono text-[#7D655C]" id="bps-sidebar-count">25 Indikator</span>
               </div>
 
               <!-- 1. Kategori BPS Selector -->
               <div class="space-y-1 text-xs font-mono">
-                <label class="font-bold text-[#3C4043] text-[11px] block">Kategori Data BPS:</label>
-                <select id="bps-category-select" class="w-full p-2 border border-[#DADCE0] rounded bg-[#F8F9FA] text-xs text-[#202124] focus:bg-white focus:outline-none focus:border-[#1A73E8]">
+                <label class="font-bold text-[#3E2723] text-[11px] block">Kategori Data BPS:</label>
+                <select id="bps-category-select" class="w-full p-2 border border-[#F5C7B3] rounded bg-white text-xs text-[#202124] focus:outline-none focus:border-[#0038A8]">
                   <option value="ALL">Semua Kategori (25 Indikator)</option>
                   <option value="BPS_MAKRO">Asumsi Makro BPS</option>
                   <option value="BPS_SUSENAS">Konsumsi Susenas BPS</option>
@@ -101,33 +101,33 @@ export class CukaiBpsView {
 
               <!-- 2. Indikator Dropdown -->
               <div class="space-y-1 text-xs font-mono">
-                <label class="font-bold text-[#3C4043] text-[11px] block">Pilih Indikator BPS:</label>
-                <select id="bps-indicator-select" class="w-full p-2 border border-[#DADCE0] rounded bg-[#F8F9FA] text-xs text-[#202124] focus:bg-white focus:outline-none focus:border-[#1A73E8]">
+                <label class="font-bold text-[#3E2723] text-[11px] block">Pilih Indikator BPS:</label>
+                <select id="bps-indicator-select" class="w-full p-2 border border-[#F5C7B3] rounded bg-white text-xs text-[#202124] font-bold focus:outline-none focus:border-[#0038A8]">
                   <!-- Rendered dynamically -->
                 </select>
               </div>
 
               <!-- 3. Rentang Waktu (1990 - 2026) & Shortcut Range -->
-              <div class="space-y-1.5 text-xs font-mono pt-1 border-t border-[#DADCE0]">
-                <label class="font-bold text-[#3C4043] text-[11px] block">Rentang Waktu Analisis:</label>
+              <div class="space-y-1.5 text-xs font-mono pt-1 border-t border-[#F5C7B3]">
+                <label class="font-bold text-[#3E2723] text-[11px] block">Rentang Waktu Analisis:</label>
                 <div class="grid grid-cols-2 gap-1.5">
-                  <button data-range="all" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] font-bold cursor-pointer transition">
+                  <button data-range="all" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-[#0038A8] text-white border border-[#0038A8] font-bold cursor-pointer transition shadow-2xs">
                     Semua (1990–2026)
                   </button>
-                  <button data-range="10" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5F6368] border border-[#DADCE0] hover:bg-[#F1F3F4] cursor-pointer transition">
+                  <button data-range="10" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] border border-[#F5C7B3] hover:bg-[#FCD5C0] cursor-pointer transition">
                     10 Thn (2017–2026)
                   </button>
-                  <button data-range="5" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5F6368] border border-[#DADCE0] hover:bg-[#F1F3F4] cursor-pointer transition">
+                  <button data-range="5" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] border border-[#F5C7B3] hover:bg-[#FCD5C0] cursor-pointer transition">
                     5 Thn (2022–2026)
                   </button>
-                  <button data-range="3" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5F6368] border border-[#DADCE0] hover:bg-[#F1F3F4] cursor-pointer transition">
+                  <button data-range="3" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] border border-[#F5C7B3] hover:bg-[#FCD5C0] cursor-pointer transition">
                     3 Thn (2024–2026)
                   </button>
                 </div>
               </div>
 
               <!-- 4. Kartu Metadata Indikator Terpilih -->
-              <div id="bps-meta-card" class="bg-[#F8F9FA] p-3 rounded border border-[#DADCE0] space-y-1.5 text-[11px] font-mono">
+              <div id="bps-meta-card" class="bg-white/90 p-3 rounded border border-[#F5C7B3] space-y-1.5 text-[11px] font-mono">
                 <!-- Rendered dynamically -->
               </div>
             </div>
@@ -150,18 +150,18 @@ export class CukaiBpsView {
 
                 <!-- Chart Controls: Type & Transform -->
                 <div class="flex items-center gap-1.5 text-xs font-mono">
-                  <!-- Type Toggle -->
-                  <div class="inline-flex rounded border border-[#DADCE0] p-0.5 bg-[#F1F3F4]">
-                    <button id="btn-chart-line" class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-white text-[#1A73E8] shadow-2xs cursor-pointer">
+                  <!-- Type Toggle (Peach Muda #FDE2D2) -->
+                  <div class="inline-flex rounded border border-[#F5C7B3] p-0.5 bg-[#FDE2D2]">
+                    <button id="btn-chart-line" class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-white text-[#0038A8] shadow-2xs cursor-pointer">
                       Garis
                     </button>
-                    <button id="btn-chart-bar" class="px-2 py-0.5 rounded text-[10.5px] font-medium text-[#5F6368] hover:text-[#202124] cursor-pointer">
+                    <button id="btn-chart-bar" class="px-2 py-0.5 rounded text-[10.5px] font-medium text-[#5D4037] hover:text-[#3E2723] cursor-pointer">
                       Batang
                     </button>
                   </div>
 
                   <!-- Transform Toggle -->
-                  <select id="bps-transform-select" class="p-1 border border-[#DADCE0] rounded bg-[#F8F9FA] text-[10.5px] text-[#3C4043] focus:bg-white focus:outline-none">
+                  <select id="bps-transform-select" class="p-1 border border-[#F5C7B3] rounded bg-white text-[10.5px] text-[#3E2723] font-medium focus:outline-none">
                     <option value="raw">Nilai Asli (Level)</option>
                     <option value="yoy">Pertumbuhan YoY (%)</option>
                     <option value="index">Indeks (Tahun Awal = 100)</option>

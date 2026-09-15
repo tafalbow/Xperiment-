@@ -173,90 +173,91 @@ export class LKPPView {
             </div>
           </div>
 
-          <!-- 2. FILTER CONTROLS BAR -->
-          <div class="pt-4 border-t border-[#E8EAED] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
-            
-            <!-- Table Selector (5 cols) -->
-            <div class="lg:col-span-4 space-y-1">
-              <label class="block text-[11px] font-mono font-bold text-[#3C4043] uppercase tracking-wider">
-                1. Pilihan Tabel Keuangan Negara (APBN, RAPBN & LKPP)
-              </label>
-              <select id="sel-lkpp-table" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-[#DADCE0] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#1A73E8]">
-                ${this.tableList.map(t => `
-                  <option value="${t.id}" ${t.id === this.tableId ? 'selected' : ''}>
-                    ${t.number}. ${t.name} (${t.short_name})
-                  </option>
-                `).join('')}
-              </select>
-            </div>
-
-            <!-- Timeframe Filter (3 cols) -->
-            <div class="lg:col-span-3 space-y-1">
-              <label class="block text-[11px] font-mono font-bold text-[#3C4043] uppercase tracking-wider">
-                2. Kurun Waktu (Tahun)
-              </label>
-              <div class="flex items-center gap-2">
-                <select id="sel-lkpp-start-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-[#DADCE0] bg-white text-[#202124]">
-                  ${this.generateYearOptions(1990, 2026, this.startYear)}
-                </select>
-                <span class="text-xs font-mono text-[#5F6368]">s/d</span>
-                <select id="sel-lkpp-end-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-[#DADCE0] bg-white text-[#202124]">
-                  ${this.generateYearOptions(1990, 2026, this.endYear)}
+          <!-- 2. FILTER CONTROLS BAR (Peach Muda #FDE2D2) -->
+          <div class="p-3.5 bg-[#FDE2D2] border border-[#F5C7B3] rounded-lg space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
+              
+              <!-- Table Selector (5 cols) -->
+              <div class="lg:col-span-4 space-y-1">
+                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                  1. Pilihan Tabel Keuangan Negara (APBN, RAPBN & LKPP)
+                </label>
+                <select id="sel-lkpp-table" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
+                  ${this.tableList.map(t => `
+                    <option value="${t.id}" ${t.id === this.tableId ? 'selected' : ''}>
+                      ${t.number}. ${t.name} (${t.short_name})
+                    </option>
+                  `).join('')}
                 </select>
               </div>
-            </div>
 
-            <!-- Display Unit (2 cols) -->
-            <div class="lg:col-span-2 space-y-1">
-              <label class="block text-[11px] font-mono font-bold text-[#3C4043] uppercase tracking-wider">
-                3. Satuan Angka
-              </label>
-              <select id="sel-lkpp-unit" class="w-full text-xs font-sans px-2 py-1.5 rounded border border-[#DADCE0] bg-white text-[#202124]">
-                <option value="TRILLION" ${this.unit === 'TRILLION' ? 'selected' : ''}>Triliun Rp (Rp T)</option>
-                <option value="BILLION" ${this.unit === 'BILLION' ? 'selected' : ''}>Miliar Rp (Rp M)</option>
-                <option value="MILLION" ${this.unit === 'MILLION' ? 'selected' : ''}>Juta Rp (Rp Jt)</option>
-              </select>
-            </div>
-
-            <!-- Quick Search Row (3 cols) -->
-            <div class="lg:col-span-3 space-y-1">
-              <label class="block text-[11px] font-mono font-bold text-[#3C4043] uppercase tracking-wider">
-                4. Cari Kelompok Pos / Biaya
-              </label>
-              <div class="relative">
-                <input 
-                  type="text" 
-                  id="input-lkpp-search" 
-                  value="${this.searchKeyword}" 
-                  placeholder="Misal: Pegawai, Bunga, Modal, SAL..."
-                  class="w-full text-xs px-2.5 py-1.5 pl-7 rounded border border-[#DADCE0] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#1A73E8]"
-                />
-                <span class="absolute left-2.5 top-2 text-[11px] text-[#5F6368]">🔍</span>
-                ${this.searchKeyword ? `
-                  <button id="btn-lkpp-clear-search" class="absolute right-2 top-1.5 text-xs text-[#5F6368] hover:text-[#202124]">✕</button>
-                ` : ''}
+              <!-- Timeframe Filter (3 cols) -->
+              <div class="lg:col-span-3 space-y-1">
+                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                  2. Kurun Waktu (Tahun)
+                </label>
+                <div class="flex items-center gap-2">
+                  <select id="sel-lkpp-start-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124]">
+                    ${this.generateYearOptions(1990, 2026, this.startYear)}
+                  </select>
+                  <span class="text-xs font-mono text-[#7D655C] font-semibold">s/d</span>
+                  <select id="sel-lkpp-end-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124]">
+                    ${this.generateYearOptions(1990, 2026, this.endYear)}
+                  </select>
+                </div>
               </div>
+
+              <!-- Display Unit (2 cols) -->
+              <div class="lg:col-span-2 space-y-1">
+                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                  3. Satuan Angka
+                </label>
+                <select id="sel-lkpp-unit" class="w-full text-xs font-sans px-2 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124]">
+                  <option value="TRILLION" ${this.unit === 'TRILLION' ? 'selected' : ''}>Triliun Rp (Rp T)</option>
+                  <option value="BILLION" ${this.unit === 'BILLION' ? 'selected' : ''}>Miliar Rp (Rp M)</option>
+                  <option value="MILLION" ${this.unit === 'MILLION' ? 'selected' : ''}>Juta Rp (Rp Jt)</option>
+                </select>
+              </div>
+
+              <!-- Quick Search Row (3 cols) -->
+              <div class="lg:col-span-3 space-y-1">
+                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                  4. Cari Kelompok Pos / Biaya
+                </label>
+                <div class="relative">
+                  <input 
+                    type="text" 
+                    id="input-lkpp-search" 
+                    value="${this.searchKeyword}" 
+                    placeholder="Misal: Pegawai, Bunga, Modal, SAL..."
+                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded border border-[#F5C7B3] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
+                  />
+                  <span class="absolute left-2.5 top-2 text-[11px] text-[#7D655C]">🔍</span>
+                  ${this.searchKeyword ? `
+                    <button id="btn-lkpp-clear-search" class="absolute right-2 top-1.5 text-xs text-[#5D4037] hover:text-[#202124]">✕</button>
+                  ` : ''}
+                </div>
+              </div>
+
             </div>
 
+            <!-- Quick Era Preset Badges -->
+            <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono border-t border-[#F5C7B3]">
+              <span class="text-[#3E2723] font-bold">Preset Era:</span>
+              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="1990" data-end="2026">
+                🏛️ Semua Era (1990–2026)
+              </button>
+              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="2015" data-end="2026">
+                📊 SAP Akrual Penuh (2015–2026)
+              </button>
+              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="2005" data-end="2014">
+                ⚖️ Kas Menuju Akrual (2005–2014)
+              </button>
+              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="1990" data-end="2004">
+                📜 Dual Budgeting / PAN (1990–2004)
+              </button>
+            </div>
           </div>
-
-          <!-- Quick Era Preset Badges -->
-          <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono">
-            <span class="text-[#5F6368] font-bold">Preset Era:</span>
-            <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#DADCE0] hover:border-[#1A73E8] hover:bg-[#E8F0FE] text-[#3C4043] hover:text-[#1A73E8] cursor-pointer transition-all" data-start="1990" data-end="2026">
-              🏛️ Semua Era (1990–2026)
-            </button>
-            <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#DADCE0] hover:border-[#1A73E8] hover:bg-[#E8F0FE] text-[#3C4043] hover:text-[#1A73E8] cursor-pointer transition-all" data-start="2015" data-end="2026">
-              📊 SAP Akrual Penuh (2015–2026)
-            </button>
-            <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#DADCE0] hover:border-[#1A73E8] hover:bg-[#E8F0FE] text-[#3C4043] hover:text-[#1A73E8] cursor-pointer transition-all" data-start="2005" data-end="2014">
-              ⚖️ Kas Menuju Akrual (2005–2014)
-            </button>
-            <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#DADCE0] hover:border-[#1A73E8] hover:bg-[#E8F0FE] text-[#3C4043] hover:text-[#1A73E8] cursor-pointer transition-all" data-start="1990" data-end="2004">
-              📜 Dual Budgeting / PAN (1990–2004)
-            </button>
-          </div>
-        </div>
 
         <!-- 3. STATUTORY METADATA SUMMARY STRIP -->
         <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] text-xs flex flex-col md:flex-row md:items-center justify-between gap-3 font-mono">

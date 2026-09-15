@@ -254,43 +254,43 @@ export class CustomChartStudio {
             </div>
           </div>
 
-          <!-- TIME RANGE SELECTOR -->
-          <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono">
+          <!-- TIME RANGE SELECTOR (Peach Muda #FDE2D2) -->
+          <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono bg-[#FDE2D2] border border-[#F5C7B3] p-2 rounded">
             <div class="flex items-center gap-2">
-              <span class="text-[#5F6368] font-bold">Rentang Tahun:</span>
-              <select id="select-chart-start-year" class="px-2 py-1 bg-white border border-[#DADCE0] rounded text-xs">
+              <span class="text-[#3E2723] font-bold">Rentang Tahun:</span>
+              <select id="select-chart-start-year" class="px-2 py-1 bg-white border border-[#F5C7B3] rounded text-xs text-[#202124]">
                 ${Array.from({ length: 37 }, (_, i) => 1990 + i).map(y => `
                   <option value="${y}" ${y === this.startYear ? 'selected' : ''}>${y}</option>
                 `).join('')}
               </select>
-              <span class="text-[#5F6368]">s/d</span>
-              <select id="select-chart-end-year" class="px-2 py-1 bg-white border border-[#DADCE0] rounded text-xs">
+              <span class="text-[#7D655C] font-semibold">s/d</span>
+              <select id="select-chart-end-year" class="px-2 py-1 bg-white border border-[#F5C7B3] rounded text-xs text-[#202124]">
                 ${Array.from({ length: 37 }, (_, i) => 1990 + i).map(y => `
                   <option value="${y}" ${y === this.endYear ? 'selected' : ''}>${y}</option>
                 `).join('')}
               </select>
               <div class="flex items-center gap-1 ml-2">
-                <button data-range="1990-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-[#F1F3F4] hover:bg-[#E8F0FE] rounded border border-[#DADCE0] cursor-pointer">Semua</button>
-                <button data-range="2004-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-[#F1F3F4] hover:bg-[#E8F0FE] rounded border border-[#DADCE0] cursor-pointer">2004-2026</button>
-                <button data-range="2015-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-[#F1F3F4] hover:bg-[#E8F0FE] rounded border border-[#DADCE0] cursor-pointer">Akrual Penuh (2015+)</button>
-                <button data-range="2020-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-[#F1F3F4] hover:bg-[#E8F0FE] rounded border border-[#DADCE0] cursor-pointer">Pasca-Pandemi</button>
+                <button data-range="1990-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded border border-[#F5C7B3] cursor-pointer">Semua</button>
+                <button data-range="2004-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded border border-[#F5C7B3] cursor-pointer">2004-2026</button>
+                <button data-range="2015-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded border border-[#F5C7B3] cursor-pointer">Akrual Penuh (2015+)</button>
+                <button data-range="2020-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded border border-[#F5C7B3] cursor-pointer">Pasca-Pandemi</button>
               </div>
             </div>
 
-            <div class="text-[11px] text-[#5F6368] flex items-center gap-3">
+            <div class="text-[11px] text-[#7D655C] flex items-center gap-3">
               <span>💡 <em>Arahkan pointer ke titik chart mana saja untuk melihat analisis driver penyebabnya di bawah</em></span>
             </div>
           </div>
         </div>
 
-        <!-- 5 VARIABLE CONFIGURATION SLOTS -->
-        <div class="gov-card p-3 bg-[#F8F9FA] border border-[#DADCE0] rounded-lg shadow-sm space-y-2">
-          <div class="flex items-center justify-between text-xs font-mono font-bold text-[#202124] px-1">
+        <!-- 5 VARIABLE CONFIGURATION SLOTS (Peach Muda #FDE2D2) -->
+        <div class="gov-card p-3 bg-[#FDE2D2] border border-[#F5C7B3] rounded-lg shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs font-mono font-bold text-[#3E2723] px-1">
             <span class="flex items-center gap-2">
               <span>⚙️</span>
               <span>KONFIGURASI HINGGA 5 VARIABEL TREND</span>
             </span>
-            <span class="text-[11px] text-[#5F6368] font-normal">
+            <span class="text-[11px] text-[#7D655C] font-normal">
               Pilih Sumber Tabel, Transformasi (YoY, 3Y-MA, Base 100), Tipe Chart, dan Sumbu (Kiri / Kanan)
             </span>
           </div>
@@ -352,7 +352,7 @@ export class CustomChartStudio {
     }
 
     return `
-      <div class="p-2.5 rounded border ${slot.enabled ? 'bg-white border-[#DADCE0] shadow-2xs' : 'bg-[#F1F3F4] border-dashed border-[#DADCE0] opacity-75'} flex flex-col justify-between space-y-2" style="border-top: 3px solid ${color};">
+      <div class="p-2.5 rounded border ${slot.enabled ? 'bg-white border-[#F5C7B3] shadow-2xs' : 'bg-white/70 border-dashed border-[#F5C7B3] opacity-75'} flex flex-col justify-between space-y-2" style="border-top: 3px solid ${color};">
         
         <!-- Slot Header -->
         <div class="flex items-center justify-between">
@@ -367,8 +367,8 @@ export class CustomChartStudio {
 
         <!-- Variable Selector Dropdown -->
         <div class="space-y-1">
-          <label class="text-[10px] text-[#5F6368] block">Variabel:</label>
-          <select data-slot-id="${slot.id}" class="slot-var-select w-full px-1.5 py-1 text-[11px] bg-white border border-[#DADCE0] rounded text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1A73E8]" ${!slot.enabled ? 'disabled' : ''}>
+          <label class="text-[10px] text-[#3E2723] font-bold block">Variabel:</label>
+          <select data-slot-id="${slot.id}" class="slot-var-select w-full px-1.5 py-1 text-[11px] bg-white border border-[#F5C7B3] rounded text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1A73E8]" ${!slot.enabled ? 'disabled' : ''}>
             ${Object.keys(groups).map(grpName => `
               <optgroup label="${grpName}">
                 ${groups[grpName].map(v => `
@@ -380,10 +380,10 @@ export class CustomChartStudio {
         </div>
 
         <!-- Transformation & Chart Type & Axis Controls -->
-        <div class="grid grid-cols-3 gap-1 pt-1 border-t border-[#F1F3F4]">
+        <div class="grid grid-cols-3 gap-1 pt-1 border-t border-[#F5C7B3]">
           <div>
-            <label class="text-[9.5px] text-[#5F6368] block">Hitungan:</label>
-            <select data-slot-id="${slot.id}" class="slot-transform-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#DADCE0] rounded" ${!slot.enabled ? 'disabled' : ''}>
+            <label class="text-[9.5px] text-[#3E2723] block font-semibold">Hitungan:</label>
+            <select data-slot-id="${slot.id}" class="slot-transform-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#F5C7B3] rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
               <option value="RAW" ${slot.transformation === 'RAW' ? 'selected' : ''}>Asli</option>
               <option value="YOY" ${slot.transformation === 'YOY' ? 'selected' : ''}>YoY %</option>
               <option value="AVG_3Y" ${slot.transformation === 'AVG_3Y' ? 'selected' : ''}>3Y-MA</option>
@@ -392,8 +392,8 @@ export class CustomChartStudio {
           </div>
 
           <div>
-            <label class="text-[9.5px] text-[#5F6368] block">Bentuk:</label>
-            <select data-slot-id="${slot.id}" class="slot-type-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#DADCE0] rounded" ${!slot.enabled ? 'disabled' : ''}>
+            <label class="text-[9.5px] text-[#3E2723] block font-semibold">Bentuk:</label>
+            <select data-slot-id="${slot.id}" class="slot-type-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#F5C7B3] rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
               <option value="bar" ${slot.chart_type === 'bar' ? 'selected' : ''}>Bar</option>
               <option value="stacked_bar" ${slot.chart_type === 'stacked_bar' ? 'selected' : ''}>Stack</option>
               <option value="line" ${slot.chart_type === 'line' ? 'selected' : ''}>Line</option>
@@ -401,8 +401,8 @@ export class CustomChartStudio {
           </div>
 
           <div>
-            <label class="text-[9.5px] text-[#5F6368] block">Axis:</label>
-            <select data-slot-id="${slot.id}" class="slot-axis-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#DADCE0] rounded" ${!slot.enabled ? 'disabled' : ''}>
+            <label class="text-[9.5px] text-[#3E2723] block font-semibold">Axis:</label>
+            <select data-slot-id="${slot.id}" class="slot-axis-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#F5C7B3] rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
               <option value="left" ${slot.axis === 'left' ? 'selected' : ''}>Kiri</option>
               <option value="right" ${slot.axis === 'right' ? 'selected' : ''}>Kanan</option>
             </select>
