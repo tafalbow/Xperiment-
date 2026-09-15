@@ -109,7 +109,7 @@ export class ContextualMap {
       const isSelected = selected && selected.id === d.id;
       return `
         <div 
-          class="btn-select-driver cursor-pointer p-3 rounded-md border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-xs' : 'bg-slate-50 border-[#DADCE0] hover:bg-white hover:border-slate-300'}"
+          class="btn-select-driver cursor-pointer p-3 rounded-md border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-xs' : 'bg-white border-[#F5C7B3] hover:bg-[#FFF8F5] hover:border-[#E89E82]'}"
           data-driver-id="${d.id}"
           data-idx="${idx}"
           role="button"
@@ -118,7 +118,7 @@ export class ContextualMap {
         >
           <div class="flex items-start justify-between gap-2.5">
             <div class="flex items-start gap-2.5">
-              <span class="w-5 h-5 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-slate-200 text-slate-700'}">
+              <span class="w-5 h-5 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-[#FBE8DE] text-[#5D4037]'}">
                 ${idx + 1}
               </span>
               <div class="space-y-1">
@@ -126,7 +126,7 @@ export class ContextualMap {
                   <span class="font-bold text-xs ${isSelected ? 'text-[#1A73E8] font-mono underline decoration-[#1A73E8] decoration-2 underline-offset-2' : 'text-slate-900 font-mono hover:text-sky-700'}">
                     ${d.geo_target_name || d.province_name}
                   </span>
-                  <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded font-semibold ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-slate-200 text-slate-700'}">
+                  <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded font-semibold ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-[#FBE8DE] text-[#5D4037]'}">
                     ${d.province_name.toUpperCase()} (${d.geo_level || 'Provinsi'})
                   </span>
                 </div>
@@ -136,7 +136,7 @@ export class ContextualMap {
               </div>
             </div>
             <div class="shrink-0 text-right">
-              <span class="text-[10.5px] font-mono font-bold px-1.5 py-0.5 rounded ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-white text-slate-800 border border-slate-300'}">
+              <span class="text-[10.5px] font-mono font-bold px-1.5 py-0.5 rounded ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-white text-slate-800 border border-[#F5C7B3]'}">
                 TA ${d.period}
               </span>
             </div>
@@ -250,14 +250,14 @@ export class ContextualMap {
         <!-- 2. MAIN CONTENT AREA: SIDE-BY-SIDE (Left List vs Right Map) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
           
-          <!-- KOLOM KIRI: DAFTAR SENTRA PENDORONG (Numbered List OR Agregat Nasional) -->
-          <div class="lg:col-span-5 flex flex-col bg-white border border-[#DADCE0] rounded p-3.5 space-y-3 h-full">
-            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2 flex-wrap gap-1 shrink-0">
-              <div class="font-mono text-xs font-bold text-slate-800 flex items-center gap-1.5">
+          <!-- KOLOM KIRI: DAFTAR SENTRA PENDORONG (PEACH MUDA #FDE2D2) -->
+          <div class="lg:col-span-5 flex flex-col bg-[#FDE2D2] border border-[#F5C7B3] rounded p-3.5 space-y-3 h-full">
+            <div class="flex items-center justify-between border-b border-[#F5C7B3] pb-2 flex-wrap gap-1 shrink-0">
+              <div class="font-mono text-xs font-bold text-[#3E2723] flex items-center gap-1.5">
                 <span>📍</span>
                 <span>DAFTAR SENTRA PENDORONG (${hasDrivers ? `${this.drivers.length} Lokasi` : 'Cakupan Nasional'}):</span>
               </div>
-              <span class="text-[10px] font-mono text-slate-500">
+              <span class="text-[10px] font-mono text-[#7D655C]">
                 ${hasDrivers ? 'Klik item untuk fokus peta' : 'Konsolidasi 38 Provinsi'}
               </span>
             </div>
@@ -268,13 +268,13 @@ export class ContextualMap {
                 ${this.renderDriverNumberedListHtml(selected)}
               </div>
 
-              <div class="p-1.5 bg-slate-50 rounded border border-[#DADCE0] text-[9.5px] text-slate-500 font-mono text-center shrink-0">
+              <div class="p-1.5 bg-white/80 rounded border border-[#F5C7B3] text-[9.5px] text-[#5D4037] font-mono text-center shrink-0">
                 * Terhubung langsung dengan titik pergerakan ${activeSeries ? activeSeries.name : 'indikator nasional'}.
               </div>
             ` : `
               <!-- Tampilan saat Tidak Ada Driver / Cakupan Nasional Agregat -->
               <div class="space-y-3 flex-1 flex flex-col justify-center p-2">
-                <div class="p-4 bg-slate-50 border border-[#DADCE0] rounded-lg space-y-3 shadow-2xs">
+                <div class="p-4 bg-white border border-[#F5C7B3] rounded-lg space-y-3 shadow-2xs">
                   <div class="flex items-center justify-between gap-2 flex-wrap">
                     <span class="px-2.5 py-1 rounded bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3] text-[11px] font-mono font-bold flex items-center gap-1">
                       <span>📍</span>
@@ -291,14 +291,14 @@ export class ContextualMap {
                     Variabel <strong class="text-slate-900 font-mono">${activeSeries ? activeSeries.name : 'ini'}</strong> merupakan indikator makroekonomi/fiskal yang berlaku secara agregat nasional untuk seluruh 38 provinsi di Indonesia, tanpa konsentrasi pendorong spasial atau anomali regional khusus pada publikasi resmi pemerintah.
                   </p>
 
-                  <div class="pt-2 border-t border-[#DADCE0] flex items-center justify-between text-[10px] font-mono text-slate-600 flex-wrap gap-1">
+                  <div class="pt-2 border-t border-[#F5C7B3] flex items-center justify-between text-[10px] font-mono text-slate-600 flex-wrap gap-1">
                     <span>🏛️ Otoritas: BPS • Kemenkeu • Bank Indonesia</span>
                     <span class="font-bold text-[#1A73E8]">Sabang — Merauke</span>
                   </div>
                 </div>
               </div>
 
-              <div class="p-1.5 bg-slate-50 rounded border border-[#DADCE0] text-[9.5px] text-slate-500 font-mono text-center shrink-0">
+              <div class="p-1.5 bg-white/80 rounded border border-[#F5C7B3] text-[9.5px] text-[#5D4037] font-mono text-center shrink-0">
                 * Menampilkan seluruh peta kepulauan Indonesia secara konsolidasi nasional.
               </div>
             `}
