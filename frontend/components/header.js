@@ -30,40 +30,40 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
 
   container.innerHTML = `
     <!-- 1. TOP ACTION NAVIGATION TOOLBAR (FIX HEADER) -->
-    <header class="bg-[#F8A07A] px-[7px] pt-2.5 pb-1 flex items-center justify-end flex-wrap gap-2">
+    <header class="bg-[#F5EBE1] px-[7px] pt-2.5 pb-1 flex items-center justify-end flex-wrap gap-2">
       <!-- Action Navigation Buttons -->
       <div class="flex items-center gap-2 flex-wrap ml-auto">
-        <button id="btn-header-crosswalk-doc" class="gov-btn text-xs font-medium bg-white text-[#0038A8] border-white/60 hover:bg-white/90">
+        <button id="btn-header-crosswalk-doc" class="gov-btn text-xs font-medium bg-white text-[#0038A8] border-[#E5DACF] hover:bg-[#FAF7F2]">
           <span>ℹ️</span>
           <span>Riwayat Klasifikasi APBN</span>
         </button>
 
-        <button id="btn-header-dict" class="gov-btn text-xs font-medium bg-white border-white/60 text-[#2C2420] hover:bg-white/90">
+        <button id="btn-header-dict" class="gov-btn text-xs font-medium bg-white border-[#E5DACF] text-[#2C2420] hover:bg-[#FAF7F2]">
           <svg class="w-3.5 h-3.5 text-[#2C2420]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           <span>Kamus Metadata</span>
         </button>
 
-        <button id="btn-header-registry" class="gov-btn text-xs font-medium bg-white border-white/60 text-[#2C2420] hover:bg-white/90">
+        <button id="btn-header-registry" class="gov-btn text-xs font-medium bg-white border-[#E5DACF] text-[#2C2420] hover:bg-[#FAF7F2]">
           <svg class="w-3.5 h-3.5 text-[#2C2420]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
           <span>Source Registry</span>
         </button>
 
-        <button id="btn-header-crosswalk" class="gov-btn text-xs font-medium bg-white border-white/60 text-[#2C2420] hover:bg-white/90">
+        <button id="btn-header-crosswalk" class="gov-btn text-xs font-medium bg-white border-[#E5DACF] text-[#2C2420] hover:bg-[#FAF7F2]">
           <svg class="w-3.5 h-3.5 text-[#2C2420]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
           <span>Crosswalk</span>
         </button>
       </div>
     </header>
 
-    <!-- 2. OBSERVATORIUM STATUTORI & TATA KELOLA REPOSITORI (PEACH SUNSET #F8A07A) -->
-    <section class="bg-[#F8A07A] px-[7px] pt-1 pb-6 font-mono" aria-label="Observatorium Statutori & Tata Kelola Repositori">
+    <!-- 2. OBSERVATORIUM STATUTORI & TATA KELOLA REPOSITORI (SOFT BEIGE #F5EBE1) -->
+    <section class="bg-[#F5EBE1] px-[7px] pt-1 pb-6 font-mono" aria-label="Observatorium Statutori & Tata Kelola Repositori">
       <div class="w-full">
         <!-- 4-Column Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
           
           <!-- Col 1: Brand & Statutori Mission (Span 4) -->
           <div class="lg:col-span-4 space-y-2.5">
-            <div class="flex items-center gap-2 flex-wrap text-[10px] font-mono uppercase tracking-widest text-[#3E2723] font-bold">
+            <div class="flex items-center gap-2 flex-wrap text-[10px] font-mono uppercase tracking-widest text-[#8D6E63] font-bold">
               <span>STANDAR STATUTORI NASIONAL</span>
               <span>•</span>
               <span class="inline-flex items-center gap-1.5 text-[#1B4D3E] normal-case font-bold">
@@ -75,18 +75,18 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
               <h3 class="text-2xl font-serif font-bold text-[#0038A8] tracking-tight leading-snug">
                 INDOEKONOMI data
               </h3>
-              <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-white/90 text-[#0038A8] border border-white/60">
+              <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-white text-[#0038A8] border border-[#BCD0F7]">
                 indoekonomi.data.go.id
               </span>
-              <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-white/90 text-[#3E2723] border border-white/60 inline-flex items-center gap-1">
-                <span class="text-[#5D4037] font-normal lowercase">supported by</span>
+              <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-white text-[#5D4037] border border-[#E5DACF] inline-flex items-center gap-1">
+                <span class="text-[#7D655C] font-normal lowercase">supported by</span>
                 <span class="font-bold uppercase text-[#2C2420]">Dewan Ekonomi Nasional</span>
               </span>
             </div>
-            <p class="text-xs text-[#2C2420] font-sans leading-relaxed font-medium">
+            <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
               Repositori kompilasi dan harmonisasi statistik resmi pergerakan ekonomi Indonesia lintas institusi statutori untuk perumusan kebijakan publik dan riset kredibel.
             </p>
-            <div class="pt-1 text-[10.5px] text-[#3E2723]">
+            <div class="pt-1 text-[10.5px] text-[#7D655C]">
               Pengawasan & Kemitraan: <strong>Kementerian Keuangan RI • BPS • Bank Indonesia • BPK RI</strong>
             </div>
           </div>
@@ -96,7 +96,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
             <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420]">
               Otoritas Sumber Data
             </h4>
-            <ul class="text-xs text-[#2C2420] font-sans space-y-1.5 font-medium">
+            <ul class="text-xs text-[#5D4037] font-sans space-y-1.5 font-medium">
               <li><a href="https://kemenkeu.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Kementerian Keuangan RI</span></a></li>
               <li><a href="https://bps.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Badan Pusat Statistik (BPS)</span></a></li>
               <li><a href="https://bi.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Bank Indonesia (BI)</span></a></li>
@@ -110,10 +110,10 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
             <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420]">
               Tata Kelola & Batasan Akses
             </h4>
-            <p class="text-xs text-[#2C2420] font-sans leading-relaxed font-medium">
+            <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
               Penggunaan data dibatasi (<em>restricted</em>) untuk peruntukan analisis kebijakan publik, perumusan regulasi, dan riset resmi terdaftar. Wajib mencantumkan repositori ini sebagai sumber sitasi resmi.
             </p>
-            <p class="text-[11px] text-[#3E2723] font-sans font-medium">
+            <p class="text-[11px] text-[#8D6E63] font-sans font-medium">
               ⚠️ Dilarang menyalin, mendistribusikan ulang massal, atau mengkomersialkan data tanpa izin statutori tertulis.
             </p>
           </div>
@@ -124,13 +124,13 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
               <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420]">
                 Layanan Akses Data
               </h4>
-              <p class="text-xs text-[#2C2420] font-sans leading-relaxed font-medium">
+              <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
                 Pembaruan berkala tgl 8, 17, dan 28 setiap bulan. Validasi 100% data riil audited BPK & BRS BPS resmi.
               </p>
-              <div class="flex items-center gap-1.5 text-[11px] text-[#3E2723]">
+              <div class="flex items-center gap-1.5 text-[11px] text-[#7D655C]">
                 <span>🕒 Terakhir Diperbarui: <strong class="text-[#2C2420]">28 Januari 2025</strong></span>
               </div>
-              <div class="text-[11px] text-[#3E2723]">
+              <div class="text-[11px] text-[#7D655C]">
                 Helpdesk: <a href="mailto:lubis.tania@dewanekonomi.go.id" class="text-[#0038A8] hover:underline font-bold">lubis.tania@dewanekonomi.go.id</a>
               </div>
             </div>
@@ -139,7 +139,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
               <button 
                 type="button" 
                 id="btn-statutory-register" 
-                class="w-full sm:w-auto px-6 py-2.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] border border-[#F8A07A] font-bold' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] border border-[#B8D8BA]' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white')} text-xs font-mono font-medium tracking-wide transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer group"
+                class="w-full sm:w-auto px-6 py-2.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] border border-[#E5DACF] font-bold' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] border border-[#B8D8BA]' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white')} text-xs font-mono font-medium tracking-wide transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer group"
                 title="${isMasterAdmin ? 'Sesi Master Admin Aktif' : (registeredUser ? 'Akses Terdaftar' : 'Registrasi Akses Data atau Login Master Admin')}"
               >
                 ${isMasterAdmin ? `
