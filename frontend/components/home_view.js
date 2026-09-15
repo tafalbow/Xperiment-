@@ -4,6 +4,7 @@
 // ==============================================================================
 
 import { ApiClient } from '../services/api_client.js';
+import { INDONESIA_ARCHIPELAGO_PATH } from '../data/map_asset.js';
 
 export class HomeView {
   constructor(containerId, options = {}) {
@@ -93,40 +94,9 @@ export class HomeView {
               <div id="home-card-indicators" class="p-5 flex flex-col items-center text-center justify-between cursor-pointer group hover:bg-white/10 transition-all duration-150">
                 <div class="flex flex-col items-center space-y-3 w-full">
                   <div class="w-12 h-12 rounded-full bg-white border border-white/40 flex items-center justify-center text-[#4E878C] group-hover:text-[#244E51] group-hover:scale-105 transition-all shadow-2xs">
-                    <!-- Icon Peta Kepulauan Indonesia (Authentic High-Detail Archipelago Silhouette) -->
-                    <svg class="w-9 h-5 fill-current transition-transform duration-150 group-hover:scale-105" viewBox="0 0 40 20">
-                      <!-- Sumatra & Kepulauan Barat -->
-                      <path d="M 3,4 C 4,3.8 5.5,5.5 6.5,7 C 7.8,9 9.5,11.5 11.2,14 C 11.5,14.6 11,15.2 10.2,15 C 8,12 5.5,8.8 2.5,5.2 C 2.2,4.8 2.5,4.2 3,4 Z" />
-                      <circle cx="3.2" cy="8.2" r="0.6" />
-                      <circle cx="5.8" cy="12.2" r="0.6" />
-                      <circle cx="8" cy="15" r="0.6" />
-
-                      <!-- Bangka & Belitung -->
-                      <ellipse cx="11.5" cy="10.8" rx="0.8" ry="1.1" transform="rotate(15 11.5 10.8)" />
-                      <circle cx="13.2" cy="11.5" r="0.6" />
-
-                      <!-- Jawa -->
-                      <path d="M 12,16 C 14.5,15.5 17.5,15.7 20.8,16 C 21.2,16.6 20.5,17.2 18,17 C 15,16.8 13.2,17.2 12,16.8 C 11.6,16.6 11.7,16.2 12,16 Z" />
-                      <!-- Bali & Nusa Tenggara -->
-                      <circle cx="21.8" cy="16.3" r="0.6" />
-                      <circle cx="23.3" cy="16.4" r="0.6" />
-                      <path d="M 24.5,16.2 C 25.5,16 26.5,16.3 26.8,16.6 C 26,17 24.8,16.8 24.5,16.2 Z" />
-                      <path d="M 27.6,16.3 C 29,16.1 30.5,16.3 31,16.6 C 30,17 28.5,16.8 27.6,16.3 Z" />
-                      <path d="M 32,17.1 C 33.2,16.5 34.6,16.7 35.2,17.2 C 34.2,17.7 32.8,17.6 32,17.1 Z" />
-
-                      <!-- Kalimantan -->
-                      <path d="M 14,8 C 15,6 17.5,5.2 19.5,6 C 21,6.8 21.8,8.5 21.5,10.5 C 21.2,12 20,13.2 18.8,13.2 C 17.5,13.2 16.5,12 15.8,12 C 15,12 14.2,13 13.5,12.5 C 12.8,11.8 13.2,9.5 14,8 Z" />
-
-                      <!-- Sulawesi (Iconic K-Shape) -->
-                      <path d="M 23,9.5 C 23.2,8 24.5,7.2 26,6.8 C 27,6.5 27.5,7 26.5,7.8 C 25.2,8.8 24.5,9.2 24.5,10 C 25.2,10 26.5,10.2 27,10.8 C 26.5,11.4 25.2,11.2 24.5,11.5 C 24.5,12 25.5,13 26,14 C 25.2,14.4 24.2,13.5 23.8,12.5 C 23.5,13.2 23.8,14.2 23.2,14.2 C 22.5,14 22.8,12.5 23,11 C 22.8,10.2 22.8,9.8 23,9.5 Z" />
-
-                      <!-- Maluku (Halmahera & Seram) -->
-                      <path d="M 28.5,7 C 29,6.5 29.8,7 29.5,8 C 29.8,8.5 30.2,9 29.5,9.5 C 29,8.8 28.2,8.5 28.5,7 Z" />
-                      <circle cx="28" cy="11.8" r="0.7" />
-                      <path d="M 29.2,11.5 C 30.5,11.2 31.8,11.5 32,11.9 C 31,12.3 29.8,12.1 29.2,11.5 Z" />
-
-                      <!-- Papua (Kepala Burung & Daratan Papua) -->
-                      <path d="M 32.5,10.2 C 32,10.8 32.5,11.5 33.5,11.2 C 34.2,9.8 36.5,9.8 38.5,10.4 L 38.5,15.6 C 36.5,15.8 34.8,14.8 33.8,13.2 C 33,12 32.8,11.2 32.2,11 C 31.5,10.8 31.8,10 32.5,10.2 Z" />
+                    <!-- Icon Peta Kepulauan Indonesia (Authentic High-Detail Archipelago Vector) -->
+                    <svg class="w-[38px] fill-current transition-transform duration-150 group-hover:scale-105" viewBox="0 0 1000 368">
+                      <path d="${INDONESIA_ARCHIPELAGO_PATH}" />
                     </svg>
                   </div>
                   <div class="space-y-1">
