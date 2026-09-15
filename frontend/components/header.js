@@ -56,7 +56,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
     </header>
 
     <!-- 2. OBSERVATORIUM STATUTORI & TATA KELOLA REPOSITORI (SEAMLESS PURE WHITE) -->
-    <section class="bg-white border-b border-[#E5DACF] px-[7px] pt-1 pb-6 font-mono" aria-label="Observatorium Statutori & Tata Kelola Repositori">
+    <section class="bg-white px-[7px] pt-1 pb-6 font-mono" aria-label="Observatorium Statutori & Tata Kelola Repositori">
       <div class="w-full">
         <!-- 4-Column Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">

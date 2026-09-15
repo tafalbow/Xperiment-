@@ -17,10 +17,10 @@ export class HomeView {
 
     this.container.innerHTML = `
       <div class="space-y-6">
-        <!-- 1. MACROECONOMIC PULSE 5 KPI CARDS (TOP STRIP) -->
+        <!-- 1. MACROECONOMIC PULSE 5 KPI CARDS (TOP STRIP - SEAMLESS BORDERLESS) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3" id="home-pulse-cards">
           <!-- 1. PDB Growth -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg border border-[#E5DACF] space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
+          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pertumbuhan PDB</div>
             <div class="text-xl font-mono font-bold text-[#3D7B5E]">5.05%</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5.05% • QoQ: +0.72%</div>
@@ -28,7 +28,7 @@ export class HomeView {
           </div>
 
           <!-- 2. Inflasi IHK -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg border border-[#E5DACF] space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
+          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Inflasi IHK</div>
             <div class="text-xl font-mono font-bold text-[#0038A8]">1.55%</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 1.55% • MoM: +0.28%</div>
@@ -36,7 +36,7 @@ export class HomeView {
           </div>
 
           <!-- 3. BI-Rate -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg border border-[#E5DACF] space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
+          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">BI-Rate (7-Day RR)</div>
             <div class="text-xl font-mono font-bold text-[#2C2420]">6.00%</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 0 bps (Tetap) • MoM: 0 bps</div>
@@ -44,7 +44,7 @@ export class HomeView {
           </div>
 
           <!-- 4. Cadangan Devisa -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg border border-[#E5DACF] space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
+          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Cadangan Devisa</div>
             <div class="text-xl font-mono font-bold text-[#2C2420]">USD 150.2 M</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +3.52% • MoM: +0.20%</div>
@@ -52,7 +52,7 @@ export class HomeView {
           </div>
 
           <!-- 5. Pendapatan APBN -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg border border-[#E5DACF] space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
+          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pendapatan APBN 2024</div>
             <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 3.028 T</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +9.16% • MoM: +12.4%</div>
@@ -61,7 +61,7 @@ export class HomeView {
         </div>
 
         <!-- 2. EXPLORATION & DATA SERVICES STRIP (WARM PETAL SOFT-BEIGE DESIGN) -->
-        <div class="bg-[#FAF7F2] border border-[#E5DACF] rounded-lg shadow-2xs overflow-hidden">
+        <div class="bg-[#FAF7F2] rounded-lg shadow-2xs overflow-hidden">
           <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#E5DACF]">
             
             <!-- Left Column: Brand Statement & Access -->
@@ -239,8 +239,8 @@ export class HomeView {
         </div>
 
         <!-- 3. PLATFORM CORE PILLARS (EDITORIAL SEAMLESS QUOTE STRIP - POSISI 1 DI CAPTURE) -->
-        <div class="py-8 border-y border-[#E5DACF]">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 md:divide-x md:divide-[#E5DACF]">
+        <div class="py-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             
             <!-- Pillar 1 -->
             <div class="flex flex-col items-center text-center space-y-3 px-4">
@@ -292,7 +292,7 @@ export class HomeView {
 
         <!-- 4. RECENT STATUTORY PUBLICATIONS & DOCUMENT SERIES (SEAMLESS LAYOUT - POSISI 2 DI CAPTURE) -->
         <div class="space-y-3 pt-1">
-          <div class="flex items-center justify-between border-b border-[#E5DACF] pb-2">
+          <div class="flex items-center justify-between pb-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-mono font-bold uppercase text-[#2C2420] flex items-center gap-1.5">
                 <span>📚</span>
