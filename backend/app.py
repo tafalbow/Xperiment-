@@ -31,7 +31,9 @@ from backend.routers import (
     agri_calendar_router,
     crosswalk_router,
     audit_export_router,
-    ingestion_router
+    ingestion_router,
+    cukai_bps_router,
+    admin_router
 )
 
 # Application Factory
@@ -64,6 +66,9 @@ app.include_router(agri_calendar_router)
 app.include_router(crosswalk_router)
 app.include_router(audit_export_router)
 app.include_router(ingestion_router)
+app.include_router(cukai_bps_router)
+app.include_router(admin_router)
+
 
 # ------------------------------------------------------------------------------
 # Frontend Static Files & SPA Fallback Serving

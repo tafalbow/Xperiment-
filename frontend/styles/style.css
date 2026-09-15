@@ -7,68 +7,93 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Google Analytics Theme Tokens */
-  --bg-app: #F8F9FA;
+  /* ==============================================================================
+     FLOWER PETAL COLOR PALETTE & BIRU BENHUR TOKENS
+     Source: Petal illustration (Soft Beige, Cream White, Mocha Brown, Peach Sunset,
+     Dusty Rose, Blush Pink, Lavender Mist, Sky Blue, Ocean Teal, Mint Green) + Biru Benhur
+     ============================================================================== */
+  --petal-soft-beige: #F5EBE1;
+  --petal-cream-white: #FAF7F2;
+  --petal-mocha-brown: #5D4037;
+  --petal-mocha-dark: #3E2723;
+  --petal-mocha-light: #8D6E63;
+  --petal-peach-sunset: #F8A07A;
+  --petal-dusty-rose: #B76E79;
+  --petal-blush-pink: #E8B4B8;
+  --petal-lavender-mist: #C5B4E3;
+  --petal-sky-blue: #93B5E1;
+  --petal-ocean-teal: #4E878C;
+  --petal-mint-green: #B8D8BA;
+
+  /* Biru Benhur (Iconic Royal Blue) */
+  --biru-benhur: #0038A8;
+  --biru-benhur-hover: #002B82;
+  --biru-benhur-active: #002066;
+  --biru-benhur-light: #EBF1FC;
+  --biru-benhur-border: #BCD0F7;
+
+  /* Theme Canvas Tokens */
+  --bg-app: #FFFFFF;                 /* Pure White canvas background */
   --bg-surface: #FFFFFF;
-  --bg-surface-subtle: #F1F3F4;
+  --bg-surface-subtle: #F8F9FA;         /* Clean subtle background */
   --bg-surface-hover: #F8F9FA;
   
-  --border-subtle: #DADCE0;
-  --border-strong: #BDC1C6;
-  --border-focus: #1A73E8;
+  --border-subtle: #E5DACF;            /* Warm Petal Subtle Border */
+  --border-strong: #CBB9A8;
+  --border-focus: #0038A8;             /* Biru Benhur Focus */
 
-  --text-primary: #202124;
-  --text-body: #3C4043;
-  --text-secondary: #5F6368;
-  --text-muted: #80868B;
-  --text-dim: #9AA0A6;
+  --text-primary: #2C2420;             /* Warm Graphite / Dark Roast */
+  --text-body: #5D4037;                /* Mocha Brown Body */
+  --text-secondary: #7D655C;           /* Medium Mocha */
+  --text-muted: #9E8A82;
+  --text-dim: #BDB0A8;
 
-  /* Google Blue (Primary / Selection) */
-  --ga-blue: #1A73E8;
-  --ga-blue-hover: #174EA6;
-  --ga-blue-active: #185ABC;
-  --ga-blue-light: #E8F0FE;
-  --ga-blue-border: #D2E3FC;
+  /* Primary Action & Brand: Biru Benhur */
+  --ga-blue: #0038A8;
+  --ga-blue-hover: #002B82;
+  --ga-blue-active: #002066;
+  --ga-blue-light: #EBF1FC;
+  --ga-blue-border: #BCD0F7;
 
-  /* Google Green (Growth / Positive) */
-  --ga-green: #1E8E3E;
-  --ga-green-hover: #137333;
-  --ga-green-light: #E6F4EA;
-  --ga-green-border: #CEEAD6;
+  /* Green / Growth (Mint Green & Ocean Teal) */
+  --ga-green: #3D7B5E;
+  --ga-green-hover: #2F634B;
+  --ga-green-light: #EBF5EE;
+  --ga-green-border: #B8D8BA;
 
-  /* Google Yellow / Orange (Analytics Amber / Caution) */
-  --ga-orange: #E37400;
-  --ga-yellow: #F9AB00;
-  --ga-yellow-light: #FEF7E0;
-  --ga-yellow-border: #FEEFC3;
-  --ga-yellow-text: #B06000;
+  /* Amber / Caution (Peach Sunset) */
+  --ga-orange: #E06E3E;
+  --ga-yellow: #D77B26;
+  --ga-yellow-light: #FDF3E9;
+  --ga-yellow-border: #F8D1B3;
+  --ga-yellow-text: #8C4710;
 
-  /* Google Red (Alert / Negative) */
-  --ga-red: #D93025;
-  --ga-red-hover: #C5221F;
-  --ga-red-light: #FCE8E6;
-  --ga-red-border: #FAD2CF;
+  /* Red / Alert (Dusty Rose & Blush Pink) */
+  --ga-red: #B76E79;
+  --ga-red-hover: #9E5661;
+  --ga-red-light: #FBF0F2;
+  --ga-red-border: #E8B4B8;
 
-  /* Status Badges */
-  --badge-observed-bg: #E6F4EA;
-  --badge-observed-text: #137333;
-  --badge-observed-border: #CEEAD6;
+  /* Status Badges with Petal Tones */
+  --badge-observed-bg: #EBF5EE;
+  --badge-observed-text: #2D684C;
+  --badge-observed-border: #B8D8BA;
 
-  --badge-provisional-bg: #FEF7E0;
-  --badge-provisional-text: #B06000;
-  --badge-provisional-border: #FEEFC3;
+  --badge-provisional-bg: #FDF3E9;
+  --badge-provisional-text: #A45517;
+  --badge-provisional-border: #F8D1B3;
 
-  --badge-revised-bg: #E8F0FE;
-  --badge-revised-text: #1A73E8;
-  --badge-revised-border: #D2E3FC;
+  --badge-revised-bg: #EBF1FC;
+  --badge-revised-text: #0038A8;
+  --badge-revised-border: #BCD0F7;
 
-  --badge-na-bg: #F1F3F4;
-  --badge-na-text: #5F6368;
-  --badge-na-border: #DADCE0;
+  --badge-na-bg: #F5EBE1;
+  --badge-na-text: #7D655C;
+  --badge-na-border: #E5DACF;
 
-  --badge-failed-bg: #FCE8E6;
-  --badge-failed-text: #C5221F;
-  --badge-failed-border: #FAD2CF;
+  --badge-failed-bg: #FBF0F2;
+  --badge-failed-text: #B76E79;
+  --badge-failed-border: #E8B4B8;
 
   --font-sans: 'Google Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, Menlo, monospace;
@@ -371,3 +396,48 @@ button:focus-visible {
   background: transparent;
   border: none;
 }
+
+/* ==============================================================================
+   UNIVERSAL 7PX GUTTER ALIGNMENT ACROSS ALL PAGES
+   Sisi kiri dan kanan konsisten 7 pixel dari tepi layar
+   ============================================================================== */
+#app-header > header,
+#app-header > div,
+#app-main,
+footer {
+  padding-left: 7px !important;
+  padding-right: 7px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ==============================================================================
+   PETAL COLOR PALETTE & BIRU BENHUR UTILITY CLASSES
+   ============================================================================== */
+.bg-petal-beige { background-color: var(--petal-soft-beige) !important; }
+.bg-petal-cream { background-color: var(--petal-cream-white) !important; }
+.bg-petal-mocha { background-color: var(--petal-mocha-brown) !important; }
+.bg-petal-peach { background-color: var(--petal-peach-sunset) !important; }
+.bg-petal-rose { background-color: var(--petal-dusty-rose) !important; }
+.bg-petal-pink { background-color: var(--petal-blush-pink) !important; }
+.bg-petal-lavender { background-color: var(--petal-lavender-mist) !important; }
+.bg-petal-sky { background-color: var(--petal-sky-blue) !important; }
+.bg-petal-teal { background-color: var(--petal-ocean-teal) !important; }
+.bg-petal-mint { background-color: var(--petal-mint-green) !important; }
+
+.bg-benhur { background-color: var(--biru-benhur) !important; }
+.bg-benhur-hover:hover { background-color: var(--biru-benhur-hover) !important; }
+.bg-benhur-light { background-color: var(--biru-benhur-light) !important; }
+
+.text-petal-mocha { color: var(--petal-mocha-brown) !important; }
+.text-petal-rose { color: var(--petal-dusty-rose) !important; }
+.text-petal-teal { color: var(--petal-ocean-teal) !important; }
+.text-benhur { color: var(--biru-benhur) !important; }
+
+.border-petal-beige { border-color: var(--petal-soft-beige) !important; }
+.border-petal-border { border-color: var(--border-subtle) !important; }
+.border-benhur { border-color: var(--biru-benhur) !important; }
+.border-benhur-border { border-color: var(--biru-benhur-border) !important; }
+
+

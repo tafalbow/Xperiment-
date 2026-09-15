@@ -10,6 +10,7 @@
 // ==============================================================================
 
 import { ApiClient } from '../services/api_client.js';
+import { ModalManager } from './modals.js';
 
 export class LKPPView {
   constructor(containerId) {
@@ -126,6 +127,15 @@ export class LKPPView {
 
             <!-- Action Buttons -->
             <div class="flex items-center gap-2 flex-wrap shrink-0">
+              <button 
+                id="btn-lkpp-classification-history"
+                class="px-3 py-1.5 text-xs font-mono font-medium rounded border border-[#BCD0F7] bg-[#EBF1FC] hover:bg-[#D4E3FA] text-[#0038A8] flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                title="Buka Dokumen Riwayat Perubahan Klasifikasi APBN (T-Account, I-Account, Akrual, dll)"
+              >
+                <span>ℹ️</span>
+                <span class="font-semibold">Riwayat Klasifikasi APBN</span>
+              </button>
+
               <button 
                 id="btn-lkpp-glossary"
                 class="px-3 py-1.5 text-xs font-mono font-medium rounded border border-[#DADCE0] bg-white hover:bg-[#F8F9FA] text-[#202124] flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
@@ -511,6 +521,10 @@ export class LKPPView {
         format: 'csv'
       });
       window.location.href = url;
+    });
+
+    document.getElementById('btn-lkpp-classification-history')?.addEventListener('click', () => {
+      ModalManager.showClassificationDocumentModal();
     });
 
     document.getElementById('btn-lkpp-glossary')?.addEventListener('click', () => {

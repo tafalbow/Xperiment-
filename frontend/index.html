@@ -20,28 +20,28 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <!-- Custom GovTech Barely-There UI Stylesheet (Cache-Busted) -->
-  <link rel="stylesheet" href="/static/styles/style.css?v=7.1.0">
+  <link rel="stylesheet" href="/static/styles/style.css?v=7.4.0">
 </head>
-<body class="bg-[#F8F9FA] text-[#202124] min-h-screen flex flex-col antialiased selection:bg-[#E8F0FE] selection:text-[#1A73E8]">
+<body class="bg-white text-[#2C2420] min-h-screen flex flex-col antialiased selection:bg-[#EBF1FC] selection:text-[#0038A8]">
 
   <!-- 1. FIX HEADER: Website Name, Last Update Date, Restricted Notice, Email Access Tracking & Tools -->
   <div id="app-header"></div>
 
   <!-- Main Application Container -->
-  <main id="app-main" class="flex-1 max-w-7xl w-full mx-auto px-3 lg:px-5 py-3 space-y-3">
+  <main id="app-main" class="flex-1 w-full max-w-none px-[7px] py-3 space-y-3">
 
     <!-- 2. FIX SEARCH BAR: Persistent Full-Width Search & Quick Filter Pills -->
     <div id="global-search-container" class="w-full"></div>
 
-    <!-- MAIN APP NAVIGATION TABS (Section 3: 7 Primary Sections) -->
-    <div class="flex items-center justify-between border-b border-[#DADCE0] pb-1 flex-wrap gap-2">
-      <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-thin" role="tablist" aria-label="Navigasi Utama Basis Data">
+    <!-- MAIN APP NAVIGATION TABS (Section 3: Primary Sections) -->
+    <div class="flex items-center justify-between border-b border-[#E5DACF] pb-1 flex-wrap gap-1.5">
+      <div class="flex items-center flex-wrap gap-1" role="tablist" aria-label="Navigasi Utama Basis Data">
         <!-- 1. Home -->
         <button 
           id="tab-btn-home" 
           role="tab" 
           aria-selected="true"
-          class="px-3.5 py-1.5 text-xs font-mono font-bold rounded-t border-b-2 border-[#1A73E8] bg-white text-[#1A73E8] shadow-2xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-bold rounded-t border-b-2 border-[#0038A8] bg-white text-[#0038A8] shadow-2xs flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#BCD0F7]"
         >
           <span>🏠</span>
           <span>Home</span>
@@ -52,7 +52,7 @@
           id="tab-btn-analytics" 
           role="tab" 
           aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
         >
           <span>📊</span>
           <span>Indikator Ekonomi</span>
@@ -63,7 +63,7 @@
           id="tab-btn-agri" 
           role="tab" 
           aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
         >
           <span>🌾</span>
           <span>Pertanian & Peternakan</span>
@@ -74,73 +74,97 @@
           id="tab-btn-production" 
           role="tab" 
           aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
         >
           <span>⛏️</span>
           <span>Produksi & Hasil Bumi</span>
         </button>
 
-        <!-- 6. LKPP Financial Statements Observatory (1990 - 2026) -->
+        <!-- 5. LKPP Financial Statements Observatory (1990 - 2026) -->
         <button 
           id="tab-btn-lkpp" 
           role="tab" 
           aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
         >
           <span>🏛️</span>
-          <span>Trend Keuangan Negara</span>
+          <span>Keuangan Negara</span>
         </button>
 
-        <!-- 7. Weekly High-Frequency Observatory (BI, DJPb, OJK, Bapanas) -->
+        <!-- 6. Weekly High-Frequency Observatory (BI, DJPb, OJK, Bapanas) -->
         <button 
           id="tab-btn-weekly" 
           role="tab" 
           aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
         >
           <span>⚡</span>
-          <span>Data Mingguan (Weekly)</span>
+          <span>Data Mingguan</span>
         </button>
 
-        <!-- 8. Custom Chart Studio & Contextual Driver -->
+        <!-- 7. Custom Chart Studio & Contextual Driver -->
         <button 
           id="tab-btn-custom-chart" 
           role="tab" 
           aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
         >
           <span>🎨</span>
-          <span>Studio Custom Chart</span>
+          <span>Custom Chart</span>
         </button>
 
-        <!-- 6. Data Source Catalog -->
+        <!-- 8. Data BPS -->
+        <button 
+          id="tab-btn-cukai-bps" 
+          role="tab" 
+          aria-selected="false"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
+        >
+          <span>📋</span>
+          <span>Data BPS</span>
+        </button>
+
+        <!-- 9. Data Source Catalog -->
         <button 
           id="tab-btn-inventory" 
           role="tab" 
           aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
         >
           <span>📑</span>
-          <span>Katalog Sumber Data</span>
+          <span>Katalog Data</span>
         </button>
 
-        <!-- 7. About -->
+        <!-- 10. About -->
         <button 
           id="tab-btn-about" 
           role="tab" 
           aria-selected="false"
-          class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1.5 transition-all cursor-pointer shrink-0 outline-none focus:outline-none focus:ring-2 focus:ring-[#D2E3FC]"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
         >
           <span>ℹ️</span>
-          <span>Tentang (About)</span>
+          <span>Tentang</span>
+        </button>
+
+        <!-- 11. Master Admin (Hanya muncul jika Master Admin login) -->
+        <button 
+          id="tab-btn-admin" 
+          role="tab" 
+          aria-selected="false"
+          class="hidden px-2.5 py-1 text-xs font-mono font-bold rounded-t border-b-2 border-transparent text-amber-950 bg-amber-100 hover:bg-amber-200 flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-amber-400"
+        >
+          <span>🔐</span>
+          <span>Master Admin</span>
         </button>
       </div>
 
       <!-- Sync Status Pill -->
-      <div class="hidden xl:flex items-center gap-2 text-[10.5px] font-mono text-[#5F6368] bg-white px-2.5 py-1 rounded border border-[#DADCE0] shrink-0 shadow-2xs">
-        <span class="w-2 h-2 rounded-full bg-[#1E8E3E] animate-pulse"></span>
-        <span>Siklus Rilis Data: <strong class="text-[#202124]">Tanggal 8, 17, dan 28 Setiap Bulan</strong></span>
+      <div class="hidden 2xl:flex items-center gap-1.5 text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded border border-[#DADCE0] shrink-0 shadow-2xs">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#1E8E3E] animate-pulse"></span>
+        <span>Siklus Rilis: <strong class="text-[#202124]">Tgl 8, 17, 28 Bulanan</strong></span>
       </div>
+    </div>
+
     </div>
 
     <!-- TAB 1: HOME (Observatory Pulse, Headline Metrics & Quick Discovery) -->
@@ -259,6 +283,12 @@
       <section id="custom-chart-container" aria-label="Studio Custom Chart & Analisis Driver Kontekstual"></section>
     </div>
 
+    <!-- TAB: DATA BPS & ESTIMASI CUKAI (CHT & APBN 1990 - 2026) -->
+    <div id="tab-content-cukai-bps" class="hidden space-y-4">
+      <section id="cukai-bps-view-container" aria-label="Data BPS & Formula Estimasi Cukai (CHT & APBN)"></section>
+    </div>
+
+
     <!-- TAB 6: KATALOG INVENTORI VARIABEL & JADWAL RILIS -->
     <div id="tab-content-inventory" class="hidden space-y-4">
       <section id="variables-inventory-container" aria-label="Katalog Variabel & Jadwal Rilis Data"></section>
@@ -269,107 +299,33 @@
       <section id="about-view-container" aria-label="Tentang INDOEKONOMI data"></section>
     </div>
 
-    <!-- ============================================================== -->
-    <!-- PERSISTENT BOTTOM: INFO OWNERSHIP, TATA KELOLA & TATA KERJA -->
-    <!-- (Fixed across all tab pages - Google Analytics Style) -->
-    <!-- ============================================================== -->
-    <section class="mt-8 border-t border-[#DADCE0] pt-6 pb-2" aria-label="Info Ownership, Tata Kelola & Tata Kerja">
-      <div class="gov-card p-5 bg-white border border-[#DADCE0] rounded-lg space-y-4 shadow-sm">
-        <!-- Section Header -->
-        <div class="flex items-center justify-between border-b border-[#DADCE0] pb-3 flex-wrap gap-2">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#202124] flex items-center gap-2">
-              <span class="w-5 h-5 rounded bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center text-xs">🏛️</span>
-              <span>INFO OWNERSHIP, TATA KELOLA & TATA KERJA REPOSITORI</span>
-            </span>
-            <span class="text-[10px] font-mono bg-[#F1F3F4] text-[#5F6368] border border-[#DADCE0] px-2 py-0.5 rounded font-medium">
-              STANDAR STATUTORI NASIONAL
-            </span>
-          </div>
-          <span class="text-[10.5px] font-mono text-[#5F6368] bg-[#F8F9FA] px-2.5 py-1 rounded border border-[#DADCE0]">
-            Hak Cipta Pemerintah Republik Indonesia
-          </span>
-        </div>
+    <!-- TAB 11: MASTER ADMIN GOVERNANCE CONSOLE (Hanya muncul jika login) -->
+    <div id="tab-content-admin" class="hidden space-y-4">
+      <section id="admin-view-container" aria-label="Master Admin Console"></section>
+    </div>
 
-        <!-- 3-Column Structured Information -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
-          
-          <!-- Column 1: Ownership & Legal Authority -->
-          <div class="bg-[#F8F9FA] p-4 rounded-lg border border-[#DADCE0] space-y-2 flex flex-col justify-between">
-            <div class="space-y-1.5">
-              <div class="font-bold text-[#202124] flex items-center gap-1.5 text-xs">
-                <span>📑</span>
-                <span>Hak Cipta & Kepemilikan Data</span>
-              </div>
-              <p class="text-[11.5px] text-[#3C4043] font-sans leading-relaxed">
-                Hak Cipta Repositori <strong>Pusat Basis Data Data Sekunder: Pergerakan Ekonomi Indonesia</strong> dimiliki sepenuhnya oleh <strong>Pemerintah Republik Indonesia</strong>.
-              </p>
-            </div>
-            <div class="pt-2 border-t border-[#DADCE0] text-[10.5px] text-[#5F6368]">
-              Pengawasan: <strong>Kementerian Keuangan RI • BPS • Bank Indonesia</strong>
-            </div>
-          </div>
-
-          <!-- Column 2: Governance & Usage Policy -->
-          <div class="bg-[#F8F9FA] p-4 rounded-lg border border-[#DADCE0] space-y-2 flex flex-col justify-between">
-            <div class="space-y-1.5">
-              <div class="font-bold text-[#202124] flex items-center gap-1.5 text-xs">
-                <span>⚖️</span>
-                <span>Batasan Akses & Hak Penggunaan</span>
-              </div>
-              <p class="text-[11.5px] text-[#3C4043] font-sans leading-relaxed">
-                Penggunaan data dibatasi (<em>restricted</em>) untuk peruntukan analisis kebijakan publik, perumusan regulasi, dan riset resmi terdaftar. Wajib mencantumkan repositori ini sebagai sumber sitasi resmi.
-              </p>
-            </div>
-            <div class="p-2 rounded bg-[#FEF7E0] border border-[#FEEFC3] text-[#B06000] text-[10.5px]">
-              ⚠️ Dilarang menyalin atau mengkomersialkan data tanpa izin tertulis.
-            </div>
-          </div>
-
-          <!-- Column 3: Operational Framework & Helpdesk -->
-          <div class="bg-[#F8F9FA] p-4 rounded-lg border border-[#DADCE0] space-y-2 flex flex-col justify-between">
-            <div class="space-y-1.5">
-              <div class="font-bold text-[#202124] flex items-center gap-1.5 text-xs">
-                <span>⚙️</span>
-                <span>Tata Kerja & Jadwal Sinkronisasi</span>
-              </div>
-              <ul class="text-[11.5px] text-[#3C4043] font-sans space-y-1 leading-relaxed">
-                <li class="flex items-start gap-1.5">
-                  <span class="text-[#1E8E3E] font-bold">•</span>
-                  <span><strong>Siklus Rilis:</strong> Pembaruan berkala tgl 8, 17, dan 28 setiap bulan.</span>
-                </li>
-                <li class="flex items-start gap-1.5">
-                  <span class="text-[#1E8E3E] font-bold">•</span>
-                  <span><strong>Validasi:</strong> 100% Data Riil Audited BPK & BRS BPS Resmi.</span>
-                </li>
-              </ul>
-            </div>
-            <div class="pt-2 border-t border-[#DADCE0] text-[10.5px] text-[#3C4043]">
-              Helpdesk: <a href="mailto:lubis.tania@dewanekonomi.go.id" class="text-[#1A73E8] hover:underline font-medium">lubis.tania@dewanekonomi.go.id</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
+    </div>
   </main>
 
-  <!-- Google Analytics Clean White Minimalist Footer -->
-  <footer class="bg-white text-[#5F6368] text-xs py-4 px-4 lg:px-8 border-t border-[#DADCE0] font-mono mt-auto">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-      <div class="space-y-0.5">
-        <div class="font-bold text-[#202124]">Pusat Basis Data Data Sekunder — Pergerakan Ekonomi Indonesia</div>
-        <div class="text-[11px] text-[#5F6368]">Repositori Standar Statutori Nasional • Kementerian Keuangan RI • BPS • Bank Indonesia</div>
+  <!-- Persistent Bottom Footer Bar -->
+  <footer class="border-t border-[#E5DACF] py-4 px-[7px] bg-white text-[11px] text-[#7D655C] font-mono mt-auto">
+    <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span>Hak Cipta © 2026 Pemerintah Republik Indonesia</span>
+        <span>•</span>
+        <span>Pusat Basis Data Data Sekunder</span>
+        <span>•</span>
+        <span class="text-[#B76E79] font-semibold">DEMO DATA — PROTOTYPE EVALUATION</span>
       </div>
-      <div class="text-right text-[11px]">
-        <div>Cakupan Geografis: <strong class="text-[#202124]">Indonesia / National</strong></div>
-        <div class="text-[#D93025] font-semibold mt-0.5">DEMO DATA — NOT OFFICIAL DATA (PROTOTYPE EVALUATION)</div>
+      <div class="flex items-center gap-4 text-center sm:text-right">
+        <span class="font-medium text-[#5D4037]">Dewan Ekonomi Nasional RI</span>
+        <span>•</span>
+        <a href="#about" id="footer-link-about" class="text-[#0038A8] hover:underline">Statutori & Metadata ↗</a>
       </div>
     </div>
   </footer>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=11.0.0"></script>
+  <script type="module" src="/static/app.js?v=11.16.0"></script>
 </body>
 </html>

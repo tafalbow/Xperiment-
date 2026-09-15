@@ -14,6 +14,8 @@ from backend.routers.agri_calendar import router as agri_calendar_router
 from backend.routers.crosswalk import router as crosswalk_router
 from backend.routers.audit_export import router as audit_export_router
 from backend.routers.ingestion import router as ingestion_router
+from backend.routers.cukai_bps import router as cukai_bps_router
+from backend.routers.admin import router as admin_router
 
 __all__ = [
     "system_router",
@@ -26,5 +28,8 @@ __all__ = [
     "agri_calendar_router",
     "crosswalk_router",
     "audit_export_router",
-    "ingestion_router"
+    "ingestion_router",
+    "cukai_bps_router",
+    "admin_router"
 ]
+

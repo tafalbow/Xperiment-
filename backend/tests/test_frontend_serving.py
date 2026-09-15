@@ -58,7 +58,7 @@ def test_index_has_weekly_tab():
     assert response.status_code == 200
     assert "tab-btn-weekly" in response.text
     assert "tab-content-weekly" in response.text
-    assert "Data Mingguan (Weekly)" in response.text
+    assert "Data Mingguan" in response.text
 
 def test_serve_custom_chart_studio_js():
     response = client.get("/components/custom_chart_studio.js")
@@ -70,5 +70,31 @@ def test_index_has_custom_chart_tab():
     assert response.status_code == 200
     assert "tab-btn-custom-chart" in response.text
     assert "tab-content-custom-chart" in response.text
-    assert "Studio Custom Chart" in response.text
+    assert "Custom Chart" in response.text
+
+def test_serve_cukai_bps_view_js():
+    response = client.get("/components/cukai_bps_view.js")
+    assert response.status_code == 200
+    assert "class CukaiBpsView" in response.text
+
+def test_index_has_cukai_bps_tab():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "tab-btn-cukai-bps" in response.text
+    assert "tab-content-cukai-bps" in response.text
+    assert "Data BPS" in response.text
+
+def test_serve_admin_view_js():
+    response = client.get("/components/admin_view.js")
+    assert response.status_code == 200
+    assert "class AdminView" in response.text
+
+def test_index_has_admin_tab():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "tab-btn-admin" in response.text
+    assert "tab-content-admin" in response.text
+    assert "Master Admin" in response.text
+
+
 

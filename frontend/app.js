@@ -4,7 +4,7 @@
 // ==============================================================================
 
 import { ApiClient } from './services/api_client.js';
-import { renderHeader } from './components/header.js';
+import { renderHeader, openEmailRegistrationModal } from './components/header.js';
 import { SearchBar } from './components/search_bar.js';
 import { FilterPanel } from './components/filter_panel.js';
 import { SidebarExtras } from './components/sidebar_extras.js';
@@ -20,6 +20,8 @@ import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js';
 import { WeeklyView } from './components/weekly_view.js';
 import { CustomChartStudio } from './components/custom_chart_studio.js';
+import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.2.0';
+import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
 
 class App {
@@ -42,7 +44,10 @@ class App {
     this.lkppView = null;
     this.weeklyView = null;
     this.customChartStudio = null;
-    this.activeMainTab = 'home'; // Primary Sections: 'home' | 'analytics' | 'agri' | 'production' | 'lkpp' | 'weekly' | 'custom-chart' | 'inventory' | 'about'
+    this.cukaiBpsView = null;
+    this.adminView = null;
+    this.activeMainTab = 'home'; // Primary Sections: 'home' | 'analytics' | 'agri' | 'production' | 'lkpp' | 'weekly' | 'custom-chart' | 'cukai-bps' | 'inventory' | 'about' | 'admin'
+
 
     this.currentQueryState = {
       sector: '',
@@ -194,8 +199,32 @@ class App {
       // 15. Initial Data Fetch for Indicators
       await this.loadData();
 
+      // 16. Check Master Admin Session & Setup Reactive Listeners
+      this.checkAdminVisibility();
+      window.addEventListener('master-admin-login', () => {
+        this.checkAdminVisibility();
+        this.switchMainTab('admin');
+      });
+      window.addEventListener('master-admin-logout', () => {
+        this.checkAdminVisibility();
+        this.switchMainTab('home');
+      });
+
       // Set default landing tab to Home
       this.switchMainTab('home');
+
+      // 17. Persistent Statutory Section & Footer Listeners
+      window.openEmailRegistrationModal = openEmailRegistrationModal;
+      document.getElementById('btn-statutory-register')?.addEventListener('click', () => {
+        openEmailRegistrationModal(() => {
+          // Success callback
+        });
+      });
+      document.getElementById('footer-link-about')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.switchMainTab('about');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
 
     } catch (err) {
       console.error('App initialization error:', err);
@@ -211,6 +240,25 @@ class App {
     }
   }
 
+  checkAdminVisibility() {
+    const btnAdmin = document.getElementById('tab-btn-admin');
+    if (!btnAdmin) return;
+    let isMaster = false;
+    try {
+      const sess = JSON.parse(localStorage.getItem('master_admin_session') || '{}');
+      const email = sess.email?.trim().toLowerCase();
+      if (email === 'lubistaniafatimah@gmail.com' || email === 'lubis.tania@dewanekonomi.go.id') {
+        isMaster = true;
+      }
+    } catch (e) {}
+
+    if (isMaster) {
+      btnAdmin.classList.remove('hidden');
+    } else {
+      btnAdmin.classList.add('hidden');
+    }
+  }
+
   setupMainTabs() {
     const btnHome = document.getElementById('tab-btn-home');
     const btnAnalytics = document.getElementById('tab-btn-analytics');
@@ -219,6 +267,7 @@ class App {
     const btnLkpp = document.getElementById('tab-btn-lkpp');
     const btnWeekly = document.getElementById('tab-btn-weekly');
     const btnCustomChart = document.getElementById('tab-btn-custom-chart');
+    const btnCukaiBps = document.getElementById('tab-btn-cukai-bps');
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
 
@@ -233,8 +282,12 @@ class App {
     btnLkpp?.addEventListener('click', () => this.switchMainTab('lkpp'));
     btnWeekly?.addEventListener('click', () => this.switchMainTab('weekly'));
     btnCustomChart?.addEventListener('click', () => this.switchMainTab('custom-chart'));
+    btnCukaiBps?.addEventListener('click', () => this.switchMainTab('cukai-bps'));
     btnInventory?.addEventListener('click', () => this.switchMainTab('inventory'));
     btnAbout?.addEventListener('click', () => this.switchMainTab('about'));
+
+    const btnAdmin = document.getElementById('tab-btn-admin');
+    btnAdmin?.addEventListener('click', () => this.switchMainTab('admin'));
 
     btnAgriBalance?.addEventListener('click', () => this.switchAgriSubTab('balance'));
     btnAgriCalendar?.addEventListener('click', () => this.switchAgriSubTab('calendar'));
@@ -302,8 +355,10 @@ class App {
     const btnLkpp = document.getElementById('tab-btn-lkpp');
     const btnWeekly = document.getElementById('tab-btn-weekly');
     const btnCustomChart = document.getElementById('tab-btn-custom-chart');
+    const btnCukaiBps = document.getElementById('tab-btn-cukai-bps');
     const btnInventory = document.getElementById('tab-btn-inventory');
     const btnAbout = document.getElementById('tab-btn-about');
+    const btnAdmin = document.getElementById('tab-btn-admin');
 
     const contentHome = document.getElementById('tab-content-home');
     const contentAnalytics = document.getElementById('tab-content-analytics');
@@ -312,24 +367,26 @@ class App {
     const contentLkpp = document.getElementById('tab-content-lkpp');
     const contentWeekly = document.getElementById('tab-content-weekly');
     const contentCustomChart = document.getElementById('tab-content-custom-chart');
+    const contentCukaiBps = document.getElementById('tab-content-cukai-bps');
     const contentInventory = document.getElementById('tab-content-inventory');
     const contentAbout = document.getElementById('tab-content-about');
+    const contentAdmin = document.getElementById('tab-content-admin');
 
     const resetBtn = (btn) => {
-      btn?.classList.remove('border-[#1A73E8]', 'border-slate-900', 'bg-white', 'text-[#1A73E8]', 'text-slate-900', 'font-bold', 'shadow-2xs');
-      btn?.classList.add('border-transparent', 'text-[#5F6368]', 'font-medium');
+      btn?.classList.remove('border-[#1A73E8]', 'border-[#0038A8]', 'border-slate-900', 'bg-white', 'text-[#1A73E8]', 'text-[#0038A8]', 'text-slate-900', 'font-bold', 'shadow-2xs');
+      btn?.classList.add('border-transparent', 'text-[#5D4037]', 'font-medium');
       btn?.setAttribute('aria-selected', 'false');
     };
 
     const activateBtn = (btn) => {
-      btn?.classList.add('border-[#1A73E8]', 'bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'outline-none');
-      btn?.classList.remove('border-transparent', 'text-[#5F6368]', 'text-slate-600', 'font-medium');
+      btn?.classList.add('border-[#0038A8]', 'bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs', 'outline-none');
+      btn?.classList.remove('border-transparent', 'text-[#5D4037]', 'text-[#5F6368]', 'text-slate-600', 'font-medium');
       btn?.setAttribute('aria-selected', 'true');
     };
 
     // Hide all contents and reset all buttons
-    [contentHome, contentAnalytics, contentAgri, contentProduction, contentLkpp, contentWeekly, contentCustomChart, contentInventory, contentAbout].forEach(c => c?.classList.add('hidden'));
-    [btnHome, btnAnalytics, btnAgri, btnProduction, btnLkpp, btnWeekly, btnCustomChart, btnInventory, btnAbout].forEach(b => resetBtn(b));
+    [contentHome, contentAnalytics, contentAgri, contentProduction, contentLkpp, contentWeekly, contentCustomChart, contentCukaiBps, contentInventory, contentAbout, contentAdmin].forEach(c => c?.classList.add('hidden'));
+    [btnHome, btnAnalytics, btnAgri, btnProduction, btnLkpp, btnWeekly, btnCustomChart, btnCukaiBps, btnInventory, btnAbout, btnAdmin].forEach(b => resetBtn(b));
 
     if (tabName === 'home') {
       contentHome?.classList.remove('hidden');
@@ -393,6 +450,13 @@ class App {
       } else {
         await this.customChartStudio.refreshStudio();
       }
+    } else if (tabName === 'cukai-bps' || tabName === 'cukai') {
+      contentCukaiBps?.classList.remove('hidden');
+      activateBtn(btnCukaiBps);
+      if (!this.cukaiBpsView) {
+        this.cukaiBpsView = new CukaiBpsView('cukai-bps-view-container');
+        await this.cukaiBpsView.init();
+      }
     } else if (tabName === 'inventory' || tabName === 'catalog') {
       contentInventory?.classList.remove('hidden');
       activateBtn(btnInventory);
@@ -402,7 +466,19 @@ class App {
       if (this.aboutView) {
         this.aboutView.render();
       }
+    } else if (tabName === 'admin') {
+      contentAdmin?.classList.remove('hidden');
+      activateBtn(btnAdmin);
+      if (!this.adminView) {
+        this.adminView = new AdminView('admin-view-container');
+        await this.adminView.init();
+      } else {
+        await this.adminView.refresh();
+      }
     }
+
+    // Telemetry logging
+    ApiClient.logTraffic(tabName);
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
