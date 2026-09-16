@@ -257,13 +257,15 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
   document.getElementById('email-reg-modal')?.remove();
 
   const modalEl = document.createElement('div');
+  const pendingToken = localStorage.getItem('master_admin_pending_token') || 'ADM-CONFIRM-29ED9B2739A8';
+
   modalEl.id = 'email-reg-modal';
   modalEl.className = 'gov-modal-overlay';
   modalEl.innerHTML = `
-    <div class="gov-modal-content max-w-lg">
+    <div class="gov-modal-content max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
       
       <!-- Modal Header with Tab Navigation -->
-      <div style="background-color: #BEBEBE;" class="flex items-center justify-between px-6 py-3 border-b border-[#B0B0B0] rounded-t-[5px]">
+      <div style="background-color: #BEBEBE;" class="flex items-center justify-between px-6 py-3 border-b border-[#B0B0B0] rounded-t-[5px] shrink-0">
         <div class="flex items-center gap-2">
           <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-950">
             🔑 OTORISASI & REGISTRASI AKSES DATA
@@ -275,7 +277,7 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
       </div>
 
       <!-- Tab Buttons: Peneliti vs Master Admin -->
-      <div class="flex items-center border-b border-slate-200 bg-white px-6 pt-2 font-mono text-xs">
+      <div class="flex items-center border-b border-slate-200 bg-white px-6 pt-2 font-mono text-xs shrink-0">
         <button 
           id="tab-btn-modal-researcher" 
           type="button"
@@ -290,200 +292,246 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
           class="px-4 py-2 border-b-2 border-transparent font-medium text-slate-500 hover:text-slate-900 transition-all cursor-pointer flex items-center gap-1.5"
         >
           <span>🔐</span>
-          <span>Login Master Admin</span>
+          <span>Login & Otoritas Master Admin</span>
         </button>
       </div>
 
-      <!-- TAB 1: FORM PENELITI / ANALIS -->
-      <div id="modal-content-researcher" class="p-6 space-y-4 text-xs font-sans bg-slate-50 rounded-b-[5px]">
-        <div class="bg-amber-50 border border-amber-200 text-amber-900 rounded p-3 text-[11px] leading-relaxed">
-          <strong>${customNoticeText ? 'Verifikasi Akses Diperlukan:' : 'Kebijakan Penggunaan Data Terbatas:'}</strong> 
-          ${customNoticeText || 'Repositori ini menyediakan data sekunder resmi untuk analisa riset kebijakan. Seluruh aktivitas akses dicatat berdasarkan email dan waktu pengambilan data.'}
-        </div>
-
-        <form id="form-researcher-reg" class="space-y-3 font-mono">
-          <div>
-            <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-              Alamat Email Peneliti / Analis <span class="text-rose-600">*</span>
-            </label>
-            <input 
-              type="email" 
-              id="reg-email" 
-              required 
-              class="gov-input w-full text-xs font-mono" 
-              placeholder="nama@institusi.go.id / analis@univ.ac.id"
-              value="${existing?.email || ''}"
-              autofocus
-            />
+      <div class="overflow-y-auto flex-1 bg-slate-50">
+        <!-- TAB 1: FORM PENELITI / ANALIS -->
+        <div id="modal-content-researcher" class="p-5 sm:p-6 space-y-4 text-xs font-sans bg-slate-50 rounded-b-[5px]">
+          <div class="bg-amber-50 border border-amber-200 text-amber-900 rounded p-3 text-[11px] leading-relaxed">
+            <strong>${customNoticeText ? 'Verifikasi Akses Diperlukan:' : 'Kebijakan Penggunaan Data Terbatas:'}</strong> 
+            ${customNoticeText || 'Repositori ini menyediakan data sekunder resmi untuk analisa riset kebijakan. Seluruh aktivitas akses dicatat berdasarkan email dan waktu pengambilan data.'}
           </div>
 
-          <div>
-            <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-              Nama Lengkap & Instansi / Lembaga
-            </label>
-            <input 
-              type="text" 
-              id="reg-name" 
-              class="gov-input w-full text-xs font-mono" 
-              placeholder="Dr. Budi Santoso — Badan Riset Nasional"
-              value="${existing?.name || ''}"
-            />
-          </div>
-
-          <div>
-            <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-              Tujuan Penggunaan Data
-            </label>
-            <select id="reg-purpose" class="gov-select w-full text-xs font-mono">
-              <option value="Kajian Kebijakan Makroekonomi" ${existing?.purpose === 'Kajian Kebijakan Makroekonomi' ? 'selected' : ''}>Kajian Kebijakan Makroekonomi</option>
-              <option value="Riset Akademik & Publikasi Ilmiah" ${existing?.purpose === 'Riset Akademik & Publikasi Ilmiah' ? 'selected' : ''}>Riset Akademik & Publikasi Ilmiah</option>
-              <option value="Analisis Fiskal & Anggaran Negara" ${existing?.purpose === 'Analisis Fiskal & Anggaran Negara' ? 'selected' : ''}>Analisis Fiskal & Anggaran Negara</option>
-              <option value="Perencanaan Bisnis & Investasi Sektor Riil" ${existing?.purpose === 'Perencanaan Bisnis & Investasi Sektor Riil' ? 'selected' : ''}>Perencanaan Bisnis & Investasi Sektor Riil</option>
-              <option value="Lainnya" ${(existing?.purpose === 'Lainnya' || existing?.purpose_other || (existing?.purpose && !['Kajian Kebijakan Makroekonomi', 'Riset Akademik & Publikasi Ilmiah', 'Analisis Fiskal & Anggaran Negara', 'Perencanaan Bisnis & Investasi Sektor Riil'].includes(existing?.purpose))) ? 'selected' : ''}>Lainnya</option>
-            </select>
-          </div>
-
-          <div id="wrapper-purpose-other" class="${(existing?.purpose === 'Lainnya' || existing?.purpose_other || (existing?.purpose && !['Kajian Kebijakan Makroekonomi', 'Riset Akademik & Publikasi Ilmiah', 'Analisis Fiskal & Anggaran Negara', 'Perencanaan Bisnis & Investasi Sektor Riil'].includes(existing?.purpose))) ? '' : 'hidden'} space-y-1">
-            <div class="flex items-center justify-between">
-              <label class="block text-[10.5px] font-bold uppercase text-slate-700">
-                Uraian Alasan / Kebutuhan Lainnya <span class="text-rose-600">*</span>
-              </label>
-              <span id="purpose-other-counter" class="text-[10px] text-slate-400 font-mono">0 / 100</span>
-            </div>
-            <textarea 
-              id="reg-purpose-other" 
-              maxlength="100" 
-              rows="2" 
-              class="gov-input w-full text-xs font-mono py-1.5 resize-none" 
-              placeholder="Tuliskan alasan spesifik (maks. 100 karakter)..."
-            >${existing?.purpose_other || (existing?.purpose && !['Kajian Kebijakan Makroekonomi', 'Riset Akademik & Publikasi Ilmiah', 'Analisis Fiskal & Anggaran Negara', 'Perencanaan Bisnis & Investasi Sektor Riil'].includes(existing?.purpose) ? existing.purpose.replace(/^Lainnya:\s*/, '') : '')}</textarea>
-          </div>
-
-          <div class="pt-2 text-[10.5px] text-slate-500 font-mono">
-            <span>⏱️ Waktu Akses: <strong>${new Date().toLocaleString('id-ID')} WIB</strong></span>
-          </div>
-
-          <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-2">
-            <button type="button" id="btn-cancel-reg" class="gov-btn text-xs font-medium">Batal</button>
-            <button type="submit" class="gov-btn gov-btn-primary text-xs font-semibold px-4 shadow-sm">
-              ✓ Simpan & Lanjutkan
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <!-- TAB 2: MASTER ADMIN LOGIN & CONFIRMATION FLOW -->
-      <div id="modal-content-admin" class="hidden p-6 space-y-4 text-xs font-sans bg-slate-50 rounded-b-[5px]">
-        
-        <!-- Info Banner Master Admin -->
-        <div class="bg-blue-50 border border-blue-200 text-blue-900 rounded p-3 text-[11px] leading-relaxed">
-          <strong>Otoritas Master Admin:</strong> 
-          Hak akses tata kelola penuh diberikan khusus kepada alamat email resmi <strong>${MASTER_ADMIN_EMAIL}</strong> (Dewan Ekonomi Nasional).
-        </div>
-
-        <!-- Section 1: Confirmation Email & Password Setup -->
-        <div class="border border-slate-200 rounded p-3.5 bg-white space-y-3 font-mono">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-            <span class="font-bold text-slate-800 text-[11px]">1. Konfirmasi Email & Buat Kata Sandi</span>
-            <span class="text-[10px] bg-amber-100 text-amber-900 px-1.5 py-0.2 rounded font-semibold">Khusus Master Admin</span>
-          </div>
-
-          <p class="text-[10.5px] text-slate-600">
-            Pilih atau masukkan alamat email Master Admin Anda, lalu klik tombol di bawah untuk menerbitkan token konfirmasi resmi pembuatan kata sandi.
-          </p>
-
-          <div class="space-y-1">
-            <label class="block text-[10px] font-bold uppercase text-slate-700">Email Master Admin:</label>
-            <input 
-              type="email" 
-              id="admin-confirm-target-email" 
-              class="gov-input w-full text-xs font-mono bg-white" 
-              value="${MASTER_ADMIN_EMAIL}" 
-            />
-          </div>
-
-          <button 
-            type="button" 
-            id="btn-send-admin-confirmation" 
-            class="w-full py-1.5 px-3 rounded bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs"
-          >
-            <span>✉️</span>
-            <span>Terbitkan Token Konfirmasi & Setup Password</span>
-          </button>
-
-          <!-- Dynamic Notice after email sent -->
-          <div id="admin-confirm-result" class="hidden space-y-2 pt-2 border-t border-slate-100">
-            <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded p-2.5 text-[10.5px] leading-relaxed">
-              <div class="font-bold">✓ Token Konfirmasi Resmi Berhasil Diterbitkan!</div>
-              <div id="admin-confirm-msg" class="mt-0.5 text-slate-700"></div>
-            </div>
-
-            <!-- Password creation form -->
-            <form id="form-admin-set-password" class="space-y-2 pt-1">
+          <form id="form-researcher-reg" class="space-y-3 font-mono">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-[10.5px] font-bold text-slate-700 mb-0.5">Kode Token Konfirmasi</label>
-                <input type="text" id="admin-token-input" required class="gov-input w-full text-xs font-mono" placeholder="ADM-CONFIRM-XXXX" />
+                <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">
+                  Alamat Email Peneliti / Analis <span class="text-rose-600">*</span>
+                </label>
+                <input 
+                  type="email" 
+                  id="reg-email" 
+                  required 
+                  class="gov-input w-full text-xs font-mono" 
+                  placeholder="nama@institusi.go.id / analis@univ.ac.id"
+                  value="${existing?.email || ''}"
+                  autofocus
+                />
               </div>
-              <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <label class="block text-[10.5px] font-bold text-slate-700 mb-0.5">Kata Sandi Baru</label>
-                  <input type="password" id="admin-new-pw" required minlength="6" class="gov-input w-full text-xs font-mono" placeholder="Minimal 6 karakter" />
-                </div>
-                <div>
-                  <label class="block text-[10.5px] font-bold text-slate-700 mb-0.5">Konfirmasi Sandi</label>
-                  <input type="password" id="admin-confirm-pw" required minlength="6" class="gov-input w-full text-xs font-mono" placeholder="Ulangi kata sandi" />
-                </div>
+
+              <div>
+                <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">
+                  Nama Lengkap & Instansi / Lembaga
+                </label>
+                <input 
+                  type="text" 
+                  id="reg-name" 
+                  class="gov-input w-full text-xs font-mono" 
+                  placeholder="Dr. Budi Santoso — Badan Riset Nasional"
+                  value="${existing?.name || ''}"
+                />
               </div>
-              <button type="submit" class="w-full py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-xs transition-all cursor-pointer">
-                ✓ Simpan Kata Sandi & Konfirmasi Master Admin
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Section 2: Form Login Master Admin -->
-        <div class="border border-slate-200 rounded p-3.5 bg-white space-y-3 font-mono">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-            <span class="font-bold text-slate-800 text-[11px]">2. Masuk sebagai Master Admin</span>
-            <span class="text-[10px] text-emerald-700 font-semibold">● Akses Tata Kelola</span>
-          </div>
-
-          <form id="form-admin-login" class="space-y-3">
-            <div>
-              <label class="block text-[10.5px] font-bold uppercase text-slate-700 mb-1">
-                Alamat Email Master Admin
-              </label>
-              <input 
-                type="email" 
-                id="admin-login-email" 
-                required 
-                class="gov-input w-full text-xs font-mono bg-white" 
-                value="${MASTER_ADMIN_EMAIL}"
-              />
             </div>
 
             <div>
-              <label class="block text-[10.5px] font-bold uppercase text-slate-700 mb-1">
-                Kata Sandi Master Admin
+              <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">
+                Tujuan Penggunaan Data
               </label>
-              <input 
-                type="password" 
-                id="admin-login-password" 
-                required 
-                class="gov-input w-full text-xs font-mono" 
-                placeholder="Masukkan kata sandi..."
-              />
+              <select id="reg-purpose" class="gov-select w-full text-xs font-mono">
+                <option value="Kajian Kebijakan Makroekonomi" ${existing?.purpose === 'Kajian Kebijakan Makroekonomi' ? 'selected' : ''}>Kajian Kebijakan Makroekonomi</option>
+                <option value="Riset Akademik & Publikasi Ilmiah" ${existing?.purpose === 'Riset Akademik & Publikasi Ilmiah' ? 'selected' : ''}>Riset Akademik & Publikasi Ilmiah</option>
+                <option value="Analisis Fiskal & Anggaran Negara" ${existing?.purpose === 'Analisis Fiskal & Anggaran Negara' ? 'selected' : ''}>Analisis Fiskal & Anggaran Negara</option>
+                <option value="Perencanaan Bisnis & Investasi Sektor Riil" ${existing?.purpose === 'Perencanaan Bisnis & Investasi Sektor Riil' ? 'selected' : ''}>Perencanaan Bisnis & Investasi Sektor Riil</option>
+                <option value="Lainnya" ${(existing?.purpose === 'Lainnya' || existing?.purpose_other || (existing?.purpose && !['Kajian Kebijakan Makroekonomi', 'Riset Akademik & Publikasi Ilmiah', 'Analisis Fiskal & Anggaran Negara', 'Perencanaan Bisnis & Investasi Sektor Riil'].includes(existing?.purpose))) ? 'selected' : ''}>Lainnya</option>
+              </select>
             </div>
 
-            <div id="admin-login-error" class="hidden text-rose-600 bg-rose-50 border border-rose-200 rounded p-2 text-[10.5px]"></div>
+            <div id="wrapper-purpose-other" class="${(existing?.purpose === 'Lainnya' || existing?.purpose_other || (existing?.purpose && !['Kajian Kebijakan Makroekonomi', 'Riset Akademik & Publikasi Ilmiah', 'Analisis Fiskal & Anggaran Negara', 'Perencanaan Bisnis & Investasi Sektor Riil'].includes(existing?.purpose))) ? '' : 'hidden'} space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10.5px] font-bold uppercase text-slate-700">
+                  Uraian Alasan / Kebutuhan Lainnya <span class="text-rose-600">*</span>
+                </label>
+                <span id="purpose-other-counter" class="text-[10px] text-slate-400 font-mono">0 / 100</span>
+              </div>
+              <textarea 
+                id="reg-purpose-other" 
+                maxlength="100" 
+                rows="2" 
+                class="gov-input w-full text-xs font-mono py-1.5 resize-none" 
+                placeholder="Tuliskan alasan spesifik (maks. 100 karakter)..."
+              >${existing?.purpose_other || (existing?.purpose && !['Kajian Kebijakan Makroekonomi', 'Riset Akademik & Publikasi Ilmiah', 'Analisis Fiskal & Anggaran Negara', 'Perencanaan Bisnis & Investasi Sektor Riil'].includes(existing?.purpose) ? existing.purpose.replace(/^Lainnya:\s*/, '') : '')}</textarea>
+            </div>
 
-            <div class="pt-1 flex items-center justify-between">
-              <span class="text-[10px] text-slate-500">Otoritas: Dewan Ekonomi Nasional</span>
-              <button type="submit" class="gov-btn gov-btn-primary text-xs font-bold px-4 py-1.5 shadow-sm">
-                🔐 Masuk sebagai Master Admin
+            <div class="pt-2 text-[10.5px] text-slate-500 font-mono">
+              <span>⏱️ Waktu Akses: <strong>${new Date().toLocaleString('id-ID')} WIB</strong></span>
+            </div>
+
+            <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-2">
+              <button type="button" id="btn-cancel-reg" class="gov-btn text-xs font-medium">Batal</button>
+              <button type="submit" class="gov-btn gov-btn-primary text-xs font-semibold px-4 shadow-sm">
+                ✓ Simpan & Lanjutkan
               </button>
             </div>
           </form>
+        </div>
+
+        <!-- TAB 2: MASTER ADMIN LOGIN & CONFIRMATION FLOW (HORIZONTAL 2-COLUMN) -->
+        <div id="modal-content-admin" class="hidden p-5 sm:p-6 space-y-4 text-xs font-sans bg-slate-50 rounded-b-[5px]">
+          
+          <!-- Info Banner Master Admin -->
+          <div class="bg-blue-50 border border-blue-200 text-blue-900 rounded p-2.5 text-[11px] leading-relaxed flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <strong>Otoritas Master Admin:</strong> Hak akses tata kelola penuh diberikan khusus kepada alamat email resmi <strong>${MASTER_ADMIN_EMAIL}</strong> (Dewan Ekonomi Nasional).
+            </div>
+            <span class="text-[10px] font-mono font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded border border-blue-200 shrink-0">
+              Dewan Ekonomi Nasional RI
+            </span>
+          </div>
+
+          <!-- Horizontal 2-Column Grid: Section 1 & Section 2 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+            
+            <!-- Column 1 / Section 1: Confirmation Email & Password Setup -->
+            <div class="border border-slate-200 rounded p-4 bg-white space-y-3 font-mono shadow-2xs">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <span class="font-bold text-slate-800 text-[11.5px]">1. Konfirmasi & Buat Sandi</span>
+                <span class="text-[10px] bg-amber-100 text-amber-900 px-1.5 py-0.5 rounded font-semibold">Khusus Master Admin</span>
+              </div>
+
+              <div class="space-y-1">
+                <label class="block text-[10px] font-bold uppercase text-slate-700">Email Master Admin:</label>
+                <input 
+                  type="email" 
+                  id="admin-confirm-target-email" 
+                  class="gov-input w-full text-xs font-mono bg-white" 
+                  value="${MASTER_ADMIN_EMAIL}" 
+                />
+              </div>
+
+              <button 
+                type="button" 
+                id="btn-send-admin-confirmation" 
+                class="w-full py-1.5 px-3 rounded bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+              >
+                <span>✉️</span>
+                <span>Terbitkan / Kirim Ulang Token</span>
+              </button>
+
+              <!-- Notice and Password Setup Form (Always Ready and Visible) -->
+              <div id="admin-confirm-result" class="space-y-2 pt-2 border-t border-slate-100">
+                <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded p-2.5 text-[10.5px] leading-relaxed">
+                  <div class="font-bold">✓ Token Konfirmasi Resmi Aktif</div>
+                  <div id="admin-confirm-msg" class="mt-0.5 text-slate-700 font-mono text-[11px]">
+                    Token: <strong class="text-emerald-950 font-bold">${pendingToken}</strong>. Masukkan kata sandi baru Anda:
+                  </div>
+                </div>
+
+                <!-- Password creation form -->
+                <form id="form-admin-set-password" class="space-y-2.5 pt-1">
+                  <div>
+                    <label class="block text-[10.5px] font-bold text-slate-700 mb-0.5">Kode Token Konfirmasi</label>
+                    <input 
+                      type="text" 
+                      id="admin-token-input" 
+                      required 
+                      class="gov-input w-full text-xs font-mono uppercase font-bold text-[#2C2420]" 
+                      placeholder="ADM-CONFIRM-XXXX" 
+                      value="${pendingToken}"
+                    />
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-[10.5px] font-bold text-slate-700 mb-0.5">Kata Sandi Baru</label>
+                      <input 
+                        type="password" 
+                        id="admin-new-pw" 
+                        required 
+                        minlength="6" 
+                        class="gov-input w-full text-xs font-mono" 
+                        placeholder="Min. 6 karakter" 
+                      />
+                    </div>
+                    <div>
+                      <label class="block text-[10.5px] font-bold text-slate-700 mb-0.5">Konfirmasi Sandi</label>
+                      <input 
+                        type="password" 
+                        id="admin-confirm-pw" 
+                        required 
+                        minlength="6" 
+                        class="gov-input w-full text-xs font-mono" 
+                        placeholder="Ulangi sandi" 
+                      />
+                    </div>
+                  </div>
+                  <button 
+                    type="submit" 
+                    id="btn-admin-submit-set-pw"
+                    class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-xs transition-all cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
+                  >
+                    <span>✓</span>
+                    <span>Simpan Kata Sandi & Konfirmasi</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Column 2 / Section 2: Form Login Master Admin -->
+            <div class="border border-slate-200 rounded p-4 bg-white space-y-3 font-mono shadow-2xs">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <span class="font-bold text-slate-800 text-[11.5px]">2. Masuk sebagai Master Admin</span>
+                <span class="text-[10px] text-emerald-700 font-semibold">● Akses Tata Kelola</span>
+              </div>
+
+              <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                Jika sudah menetapkan kata sandi, silakan masuk langsung di bawah ini untuk membuka menu tata kelola.
+              </p>
+
+              <form id="form-admin-login" class="space-y-3">
+                <div>
+                  <label class="block text-[10.5px] font-bold uppercase text-slate-700 mb-1">
+                    Alamat Email Master Admin
+                  </label>
+                  <input 
+                    type="email" 
+                    id="admin-login-email" 
+                    required 
+                    class="gov-input w-full text-xs font-mono bg-white" 
+                    value="${MASTER_ADMIN_EMAIL}"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-[10.5px] font-bold uppercase text-slate-700 mb-1">
+                    Kata Sandi Master Admin
+                  </label>
+                  <input 
+                    type="password" 
+                    id="admin-login-password" 
+                    required 
+                    class="gov-input w-full text-xs font-mono" 
+                    placeholder="Masukkan kata sandi..."
+                  />
+                </div>
+
+                <div id="admin-login-error" class="hidden text-rose-600 bg-rose-50 border border-rose-200 rounded p-2 text-[10.5px]"></div>
+
+                <div class="pt-2 flex items-center justify-between flex-wrap gap-2">
+                  <span class="text-[10px] text-slate-500">Dewan Ekonomi Nasional RI</span>
+                  <button 
+                    type="submit" 
+                    id="btn-admin-submit-login"
+                    class="gov-btn gov-btn-primary text-xs font-bold px-4 py-2 shadow-sm flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>🔐</span>
+                    <span>Masuk sebagai Master Admin</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
         </div>
 
       </div>
@@ -634,13 +682,15 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
 
     try {
       const res = await ApiClient.setAdminPassword(token, pw1, targetEmail);
-      alert(res.message || 'Kata sandi berhasil disimpan! Silakan masuk pada form di bawah.');
       const loginEmailInput = document.getElementById('admin-login-email');
       if (loginEmailInput) loginEmailInput.value = targetEmail;
       const loginPwInput = document.getElementById('admin-login-password');
-      if (loginPwInput) {
-        loginPwInput.value = pw1;
-        loginPwInput.focus();
+      if (loginPwInput) loginPwInput.value = pw1;
+
+      // Auto login immediately
+      const formLogin = document.getElementById('form-admin-login');
+      if (formLogin) {
+        formLogin.requestSubmit();
       }
     } catch (err) {
       alert('Gagal mengatur kata sandi: ' + err.message);
@@ -693,5 +743,33 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
         errorDiv.classList.remove('hidden');
       }
     }
+  });
+
+  // Explicit Enter key submission support for all input fields in modal
+  ['admin-token-input', 'admin-new-pw', 'admin-confirm-pw'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('form-admin-set-password')?.requestSubmit();
+      }
+    });
+  });
+
+  ['admin-login-email', 'admin-login-password'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('form-admin-login')?.requestSubmit();
+      }
+    });
+  });
+
+  ['reg-email', 'reg-name'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('form-researcher-reg')?.requestSubmit();
+      }
+    });
   });
 }

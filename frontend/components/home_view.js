@@ -765,5 +765,24 @@ export class HomeView {
         this.render();
       }, null, 'researcher');
     });
+
+    // Enter key submit handling on frontpage
+    ['home-admin-login-email', 'home-admin-login-password'].forEach(id => {
+      document.getElementById(id)?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('home-form-admin-login')?.requestSubmit();
+        }
+      });
+    });
+
+    ['home-admin-token-input', 'home-admin-new-pw', 'home-admin-confirm-pw'].forEach(id => {
+      document.getElementById(id)?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('home-form-admin-setup-pw')?.requestSubmit();
+        }
+      });
+    });
   }
 }
