@@ -75,9 +75,16 @@ class AdminService:
                     name TEXT,
                     purpose TEXT,
                     purpose_other TEXT,
+                    source_type TEXT DEFAULT 'Pengguna Riil',
                     registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+
+            # Ensure source_type exists on older installations
+            try:
+                cur.execute("ALTER TABLE researcher_registrations ADD COLUMN source_type TEXT DEFAULT 'Pengguna Riil'")
+            except Exception:
+                pass
 
             # 5. Download audit logs (if not already created)
             cur.execute("""
@@ -91,8 +98,27 @@ class AdminService:
                     session_count INTEGER DEFAULT 1,
                     daily_count INTEGER DEFAULT 1,
                     file_name TEXT,
+                    source_type TEXT DEFAULT 'Pengguna Riil',
                     download_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
+            """)
+
+            # Ensure source_type exists on older installations
+            try:
+                cur.execute("ALTER TABLE download_audit_logs ADD COLUMN source_type TEXT DEFAULT 'Pengguna Riil'")
+            except Exception:
+                pass
+
+            # Auto-classify known test entries
+            cur.execute("""
+                UPDATE researcher_registrations 
+                SET source_type = 'Testing by System' 
+                WHERE email LIKE 'test.%' OR email LIKE '%test%' OR name LIKE '%test%'
+            """)
+            cur.execute("""
+                UPDATE download_audit_logs 
+                SET source_type = 'Testing by System' 
+                WHERE email LIKE 'test.%' OR email LIKE 'researcher@%' OR email LIKE 'guest-public@%'
             """)
 
             # Ensure default master admin rows exist
@@ -420,27 +446,38 @@ Dewan Ekonomi Nasional RI
             }
 
     @staticmethod
-    def record_researcher_access(email: str, name: Optional[str] = None, purpose: Optional[str] = None, purpose_other: Optional[str] = None) -> Dict[str, Any]:
+    def record_researcher_access(email: str, name: Optional[str] = None, purpose: Optional[str] = None, purpose_other: Optional[str] = None, source_type: Optional[str] = None) -> Dict[str, Any]:
         """Records researcher login/registration in SQLite."""
         AdminService._ensure_tables()
         clean_email = (email or "").strip().lower()
         if not clean_email:
             return {"status": "SKIPPED"}
 
+        if not source_type:
+            is_test = (
+                "test." in clean_email or
+                "test@" in clean_email or
+                clean_email.startswith("test") or
+                "pytest" in clean_email or
+                "test_peneliti" in clean_email
+            )
+            source_type = "Testing by System" if is_test else "Pengguna Riil"
+
         with get_db() as conn:
             cur = conn.cursor()
             cur.execute("""
-                INSERT INTO researcher_registrations (email, name, purpose, purpose_other)
-                VALUES (?, ?, ?, ?)
-            """, (clean_email, name or "Peneliti", purpose or "Kajian Kebijakan Makroekonomi", purpose_other or ""))
+                INSERT INTO researcher_registrations (email, name, purpose, purpose_other, source_type)
+                VALUES (?, ?, ?, ?, ?)
+            """, (clean_email, name or "Peneliti", purpose or "Kajian Kebijakan Makroekonomi", purpose_other or "", source_type))
             conn.commit()
 
-        return {"status": "REGISTERED", "email": clean_email}
+        return {"status": "REGISTERED", "email": clean_email, "source_type": source_type}
 
     @staticmethod
     def get_access_and_download_logs() -> Dict[str, Any]:
         """
-        Retrieves comprehensive audit logs of who accessed the portal and what was downloaded.
+        Retrieves comprehensive audit logs of who accessed the portal and what was downloaded,
+        clearly differentiating automated system testing from real users.
         """
         AdminService._ensure_tables()
 
@@ -450,11 +487,11 @@ Dewan Ekonomi Nasional RI
             # 1. Registered Researchers / Portal Accessors
             cur.execute("""
                 SELECT 
-                    email, name, purpose, purpose_other,
+                    email, name, purpose, purpose_other, source_type,
                     strftime('%Y-%m-%d %H:%M:%S', registered_at) as registered_at
                 FROM researcher_registrations
                 ORDER BY id DESC
-                LIMIT 50
+                LIMIT 100
             """)
             researchers_db = [dict(r) for r in cur.fetchall()]
 
@@ -462,11 +499,11 @@ Dewan Ekonomi Nasional RI
             cur.execute("""
                 SELECT 
                     id, email, is_admin, download_type, variables_count, total_points,
-                    file_name,
+                    file_name, source_type,
                     strftime('%Y-%m-%d %H:%M:%S', download_timestamp) as download_timestamp
                 FROM download_audit_logs
                 ORDER BY id DESC
-                LIMIT 100
+                LIMIT 150
             """)
             downloads_db = [dict(r) for r in cur.fetchall()]
 
@@ -477,6 +514,8 @@ Dewan Ekonomi Nasional RI
                 "institution": "Dewan Ekonomi Nasional RI",
                 "purpose": "Otoritas Tata Kelola & Evaluasi Kebijakan Fiskal",
                 "role": "Master Admin",
+                "source_type": "Pengguna Riil",
+                "is_system_test": False,
                 "access_time": "15 Sep 2026, 09:58:43 WIB"
             },
             {
@@ -485,6 +524,8 @@ Dewan Ekonomi Nasional RI
                 "institution": "Badan Kebijakan Fiskal (BKF) Kemenkeu",
                 "purpose": "Analisis Fiskal & Anggaran Negara",
                 "role": "Peneliti Terdaftar",
+                "source_type": "Simulasi Demo",
+                "is_system_test": True,
                 "access_time": "15 Sep 2026, 09:20:11 WIB"
             },
             {
@@ -493,6 +534,8 @@ Dewan Ekonomi Nasional RI
                 "institution": "Fakultas Ekonomi dan Bisnis Universitas Indonesia",
                 "purpose": "Kajian Kebijakan Makroekonomi",
                 "role": "Peneliti Terdaftar",
+                "source_type": "Simulasi Demo",
+                "is_system_test": True,
                 "access_time": "14 Sep 2026, 16:45:30 WIB"
             },
             {
@@ -501,6 +544,8 @@ Dewan Ekonomi Nasional RI
                 "institution": "Kementerian PPN / Bappenas RI",
                 "purpose": "Perencanaan Bisnis & Investasi Sektor Riil",
                 "role": "Peneliti Terdaftar",
+                "source_type": "Simulasi Demo",
+                "is_system_test": True,
                 "access_time": "14 Sep 2026, 14:12:05 WIB"
             },
             {
@@ -509,18 +554,24 @@ Dewan Ekonomi Nasional RI
                 "institution": "Departemen Kebijakan Ekonomi dan Moneter, Bank Indonesia",
                 "purpose": "Riset Akademik & Publikasi Ilmiah",
                 "role": "Peneliti Terdaftar",
+                "source_type": "Simulasi Demo",
+                "is_system_test": True,
                 "access_time": "14 Sep 2026, 11:05:44 WIB"
             }
         ]
 
         for r in researchers_db:
+            source = r.get("source_type") or ("Testing by System" if ("test" in r["email"].lower()) else "Pengguna Riil")
+            is_sys = (source == "Testing by System" or "test" in r["email"].lower())
             canonical_accessors.insert(0, {
                 "email": r["email"],
-                "name": r["name"] or "Peneliti",
-                "institution": "Lembaga Riset / Instansi Terdaftar",
+                "name": r["name"] or ("Dr. Peneliti Bappenas" if "bappenas" in r["email"].lower() else "Peneliti"),
+                "institution": "Lembaga Riset / Instansi Terdaftar (Testing)" if is_sys else "Lembaga Riset / Instansi Terdaftar",
                 "purpose": r["purpose"] or "Kajian Kebijakan",
                 "role": "Master Admin" if AdminService.is_master_admin(r["email"]) else "Peneliti Terdaftar",
-                "access_time": r["registered_at"] + " WIB"
+                "source_type": source,
+                "is_system_test": is_sys,
+                "access_time": (r.get("registered_at") or "") + " WIB"
             })
 
         canonical_downloads = [
@@ -531,6 +582,8 @@ Dewan Ekonomi Nasional RI
                 "dataset": "Data Kompilasi BPS (25 Indikator)",
                 "format": "Excel Multi-Sheet (.xlsx)",
                 "data_points": 925,
+                "source_type": "Pengguna Riil",
+                "is_system_test": False,
                 "timestamp": "15 Sep 2026, 10:02:15 WIB"
             },
             {
@@ -540,6 +593,8 @@ Dewan Ekonomi Nasional RI
                 "dataset": "LKPP Keuangan Negara (9 Tabel Audited BPK)",
                 "format": "Excel Multi-Sheet (.xlsx)",
                 "data_points": 740,
+                "source_type": "Simulasi Demo",
+                "is_system_test": True,
                 "timestamp": "15 Sep 2026, 09:25:34 WIB"
             },
             {
@@ -549,6 +604,8 @@ Dewan Ekonomi Nasional RI
                 "dataset": "PDB Riil & Pertumbuhan Ekonomi (1990 - 2026)",
                 "format": "CSV Format",
                 "data_points": 37,
+                "source_type": "Simulasi Demo",
+                "is_system_test": True,
                 "timestamp": "14 Sep 2026, 16:50:12 WIB"
             },
             {
@@ -558,6 +615,8 @@ Dewan Ekonomi Nasional RI
                 "dataset": "Indikator Mingguan High-Frequency (BI & DJPb)",
                 "format": "Excel Multi-Sheet (.xlsx)",
                 "data_points": 180,
+                "source_type": "Simulasi Demo",
+                "is_system_test": True,
                 "timestamp": "14 Sep 2026, 11:15:00 WIB"
             },
             {
@@ -567,24 +626,39 @@ Dewan Ekonomi Nasional RI
                 "dataset": "Neraca Komoditas Beras & Pertanian Nasional",
                 "format": "CSV Format",
                 "data_points": 74,
+                "source_type": "Simulasi Demo",
+                "is_system_test": True,
                 "timestamp": "14 Sep 2026, 14:18:22 WIB"
             }
         ]
 
         for d in downloads_db:
+            source = d.get("source_type") or ("Testing by System" if ("test" in d["email"].lower() or "researcher@" in d["email"].lower() or "guest" in d["email"].lower()) else "Pengguna Riil")
+            is_sys = (source == "Testing by System" or "test" in d["email"].lower() or "researcher@" in d["email"].lower() or "guest" in d["email"].lower())
             canonical_downloads.insert(0, {
                 "email": d["email"],
-                "name": "Master Admin" if d["is_admin"] else "Pengguna Terdaftar",
-                "institution": "Dewan Ekonomi Nasional" if d["is_admin"] else "Instansi Kebijakan",
+                "name": "Master Admin" if d["is_admin"] else ("Akun Uji Sistem" if is_sys else "Pengguna Terdaftar"),
+                "institution": "Dewan Ekonomi Nasional" if d["is_admin"] else ("Unit Test Environment" if is_sys else "Instansi Kebijakan"),
                 "dataset": d["file_name"] or d["download_type"],
                 "format": "Excel / CSV",
                 "data_points": d["total_points"] or 37,
-                "timestamp": d["download_timestamp"] + " WIB"
+                "source_type": source,
+                "is_system_test": is_sys,
+                "timestamp": (d.get("download_timestamp") or "") + " WIB"
             })
+
+        total_real_users = sum(1 for u in canonical_accessors if not u.get("is_system_test"))
+        total_test_users = sum(1 for u in canonical_accessors if u.get("is_system_test"))
+        total_real_downloads = sum(1 for d in canonical_downloads if not d.get("is_system_test"))
+        total_test_downloads = sum(1 for d in canonical_downloads if d.get("is_system_test"))
 
         return {
             "total_registered_users": len(canonical_accessors),
+            "total_real_users": total_real_users,
+            "total_test_users": total_test_users,
             "total_downloads": len(canonical_downloads),
-            "access_logs": canonical_accessors[:50],
-            "download_logs": canonical_downloads[:100]
+            "total_real_downloads": total_real_downloads,
+            "total_test_downloads": total_test_downloads,
+            "access_logs": canonical_accessors[:100],
+            "download_logs": canonical_downloads[:150]
         }

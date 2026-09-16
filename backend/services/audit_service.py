@@ -133,17 +133,29 @@ class AuditService:
                     session_count INTEGER DEFAULT 1,
                     daily_count INTEGER DEFAULT 1,
                     file_name TEXT,
+                    source_type TEXT DEFAULT 'Pengguna Riil',
                     download_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            try:
+                cur.execute("ALTER TABLE download_audit_logs ADD COLUMN source_type TEXT DEFAULT 'Pengguna Riil'")
+            except Exception:
+                pass
             
             email = (payload.get("email") or "taniafatimahlubis@gmail.com").strip().lower()
             is_admin = 1 if email in ("taniafatimahlubis@gmail.com", "lubistaniafatimah@gmail.com", "lubis.tania@dewanekonomi.go.id") else 0
             
+            source_type = payload.get("source_type")
+            if not source_type:
+                if any(k in email for k in ("test.", "test@", "pytest", "researcher@univ.ac.id", "guest-public@")):
+                    source_type = "Testing by System"
+                else:
+                    source_type = "Pengguna Riil"
+
             cur.execute("""
                 INSERT INTO download_audit_logs (
-                    email, is_admin, download_type, variables_count, total_points, session_count, daily_count, file_name
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    email, is_admin, download_type, variables_count, total_points, session_count, daily_count, file_name, source_type
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 email,
                 is_admin,
@@ -152,10 +164,11 @@ class AuditService:
                 payload.get("total_points", 0),
                 payload.get("session_count", 1),
                 payload.get("daily_count", 1),
-                payload.get("file_name", "")
+                payload.get("file_name", ""),
+                source_type
             ))
             conn.commit()
-            return {"status": "RECORDED", "log_id": cur.lastrowid, "is_admin": bool(is_admin)}
+            return {"status": "RECORDED", "log_id": cur.lastrowid, "is_admin": bool(is_admin), "source_type": source_type}
 
     @staticmethod
     def get_download_logs(limit: int = 50) -> List[Dict[str, Any]]:
@@ -173,9 +186,14 @@ class AuditService:
                     session_count INTEGER DEFAULT 1,
                     daily_count INTEGER DEFAULT 1,
                     file_name TEXT,
+                    source_type TEXT DEFAULT 'Pengguna Riil',
                     download_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            try:
+                cur.execute("ALTER TABLE download_audit_logs ADD COLUMN source_type TEXT DEFAULT 'Pengguna Riil'")
+            except Exception:
+                pass
             cur.execute("SELECT * FROM download_audit_logs ORDER BY download_timestamp DESC LIMIT ?", (limit,))
             return [dict(r) for r in cur.fetchall()]
 

@@ -33,6 +33,7 @@ class ResearcherRecordRequest(BaseModel):
     name: Optional[str] = None
     purpose: Optional[str] = None
     purpose_other: Optional[str] = None
+    source_type: Optional[str] = None
 
 
 @router.post("/admin/send-confirmation")
@@ -113,5 +114,6 @@ async def record_researcher(payload: ResearcherRecordRequest):
         email=payload.email,
         name=payload.name,
         purpose=payload.purpose,
-        purpose_other=payload.purpose_other
+        purpose_other=payload.purpose_other,
+        source_type=payload.source_type
     )

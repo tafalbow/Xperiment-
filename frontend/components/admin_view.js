@@ -489,34 +489,62 @@ export class AdminView {
   renderAccessView(container) {
     const data = this.auditData || {
       total_registered_users: 5,
+      total_real_users: 1,
+      total_test_users: 4,
       total_downloads: 5,
+      total_real_downloads: 1,
+      total_test_downloads: 4,
       access_logs: [],
       download_logs: []
     };
 
+    const realUsersCount = data.total_real_users ?? data.access_logs.filter(u => !u.is_system_test && u.source_type !== 'Testing by System').length;
+    const testUsersCount = data.total_test_users ?? data.access_logs.filter(u => u.is_system_test || u.source_type === 'Testing by System').length;
+    const realDlCount = data.total_real_downloads ?? data.download_logs.filter(d => !d.is_system_test && d.source_type !== 'Testing by System').length;
+    const testDlCount = data.total_test_downloads ?? data.download_logs.filter(d => d.is_system_test || d.source_type === 'Testing by System').length;
+
     container.innerHTML = `
       <div class="space-y-4 font-sans">
         
-        <!-- Summary Stats Banner -->
+        <!-- Summary Stats Banner with Test vs Real Breakdown -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div class="gov-card p-4 space-y-1">
+          <div class="gov-card p-4 space-y-1.5">
             <span class="text-[10.5px] font-mono text-slate-500 uppercase">Total Peneliti / Pengguna Terdaftar</span>
             <div class="text-2xl font-mono font-bold text-slate-800">${data.total_registered_users} Peneliti</div>
-            <span class="text-[10.5px] text-slate-500 font-mono">Tercatat dalam audit sistem</span>
+            <div class="flex items-center gap-1.5 pt-0.5 flex-wrap font-mono">
+              <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                👤 ${realUsersCount} Pengguna Riil
+              </span>
+              <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-800 border border-purple-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                🤖 ${testUsersCount} Testing by System
+              </span>
+            </div>
           </div>
 
-          <div class="gov-card p-4 space-y-1">
+          <div class="gov-card p-4 space-y-1.5">
             <span class="text-[10.5px] font-mono text-slate-500 uppercase">Total Data Diunduh</span>
             <div class="text-2xl font-mono font-bold text-[#1A73E8]">${data.total_downloads} Transaksi Unduhan</div>
-            <span class="text-[10.5px] text-slate-500 font-mono">Format Excel & CSV</span>
+            <div class="flex items-center gap-1.5 pt-0.5 flex-wrap font-mono">
+              <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                👤 ${realDlCount} Riil
+              </span>
+              <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-800 border border-purple-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                🤖 ${testDlCount} Testing by System
+              </span>
+            </div>
           </div>
 
           <div class="gov-card p-4 flex items-center justify-between">
             <div class="space-y-1">
               <span class="text-[10.5px] font-mono text-slate-500 uppercase">Ekspor Audit Log</span>
               <div class="text-xs font-mono font-bold text-slate-800">Arsip Resmi Dewan Ekonomi Nasional</div>
+              <p class="text-[10px] font-mono text-slate-500">Mencakup kolom status Testing vs Riil</p>
             </div>
-            <button id="btn-admin-export-audit" class="gov-btn bg-[#0038A8] hover:bg-[#002B82] text-white text-xs font-bold px-3 py-1.5 shadow-sm cursor-pointer transition-all">
+            <button id="btn-admin-export-audit" class="gov-btn bg-[#0038A8] hover:bg-[#002B82] text-white text-xs font-bold px-3 py-1.5 shadow-sm cursor-pointer transition-all flex items-center gap-1.5">
               <span>📥</span>
               <span>Unduh Log (.xlsx)</span>
             </button>
@@ -532,12 +560,21 @@ export class AdminView {
                 <span>DAFTAR PENGGUNA YANG TELAH MENGAKSES / REGISTRASI DATA</span>
               </h3>
               <p class="text-[11px] text-slate-500 font-mono mt-0.5">
-                Pelacakan identitas, instansi, dan tujuan penggunaan data sekunder resmi
+                Pelacakan identitas, instansi, tujuan, dan klasifikasi Testing by System vs Pengguna Riil
               </p>
             </div>
-            <span class="text-[11px] font-mono bg-blue-50 text-[#1A73E8] border border-blue-200 px-2 py-0.5 rounded font-bold">
-              ${data.access_logs.length} Peneliti Terdaftar
-            </span>
+            <!-- Interactive Filter Buttons -->
+            <div class="flex items-center gap-1 text-[11px] font-mono">
+              <button id="btn-filter-users-all" class="filter-user-btn px-2.5 py-1 rounded font-bold border transition-colors bg-[#0038A8] text-white border-[#0038A8]">
+                Semua (${data.access_logs.length})
+              </button>
+              <button id="btn-filter-users-real" class="filter-user-btn px-2.5 py-1 rounded font-bold border transition-colors bg-white text-emerald-800 border-emerald-300 hover:bg-emerald-50">
+                👤 Pengguna Riil (${realUsersCount})
+              </button>
+              <button id="btn-filter-users-test" class="filter-user-btn px-2.5 py-1 rounded font-bold border transition-colors bg-white text-purple-800 border-purple-300 hover:bg-purple-50">
+                🤖 Testing by System (${testUsersCount})
+              </button>
+            </div>
           </div>
 
           <div class="overflow-x-auto">
@@ -548,25 +585,58 @@ export class AdminView {
                   <th class="py-2.5 px-3">Nama Lengkap</th>
                   <th class="py-2.5 px-3">Instansi / Lembaga</th>
                   <th class="py-2.5 px-3">Tujuan Penggunaan Data</th>
+                  <th class="py-2.5 px-3">Kategori Akses</th>
                   <th class="py-2.5 px-3">Peran</th>
                   <th class="py-2.5 px-3">Waktu Akses (WIB)</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-200 text-[11px]">
-                ${data.access_logs.map(u => `
-                  <tr class="hover:bg-slate-50">
-                    <td class="py-2 px-3 font-semibold text-slate-900">${u.email}</td>
-                    <td class="py-2 px-3 text-slate-800">${u.name || '-'}</td>
-                    <td class="py-2 px-3 text-slate-600">${u.institution || '-'}</td>
-                    <td class="py-2 px-3 text-slate-700">${u.purpose || '-'}</td>
-                    <td class="py-2 px-3">
-                      <span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${u.role === 'Master Admin' ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-blue-100 text-blue-800'}">
-                        ${u.role}
+              <tbody id="tbody-admin-users" class="divide-y divide-slate-200 text-[11px]">
+                ${data.access_logs.map(u => {
+                  const isTest = u.is_system_test || u.source_type === 'Testing by System';
+                  const isDemo = u.source_type === 'Simulasi Demo';
+                  let categoryBadge = '';
+                  if (isTest && !isDemo) {
+                    categoryBadge = `
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-900 border border-purple-300">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-600"></span>
+                        🤖 Testing by System
                       </span>
-                    </td>
-                    <td class="py-2 px-3 text-slate-600">${u.access_time}</td>
-                  </tr>
-                `).join('')}
+                    `;
+                  } else if (isDemo) {
+                    categoryBadge = `
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-900 border border-blue-300">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                        📋 Mock Demo Seed
+                      </span>
+                    `;
+                  } else {
+                    categoryBadge = `
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                        👤 Pengguna Riil
+                      </span>
+                    `;
+                  }
+
+                  return `
+                    <tr class="user-row hover:bg-slate-50 ${isTest ? 'bg-purple-50/20' : ''}" data-type="${isTest ? 'test' : 'real'}">
+                      <td class="py-2 px-3 font-semibold text-slate-900">
+                        ${u.email}
+                        ${isTest ? '<div class="text-[9.5px] text-purple-700 font-normal">Automated Test Execution</div>' : ''}
+                      </td>
+                      <td class="py-2 px-3 text-slate-800">${u.name || '-'}</td>
+                      <td class="py-2 px-3 text-slate-600">${u.institution || '-'}</td>
+                      <td class="py-2 px-3 text-slate-700">${u.purpose || '-'}</td>
+                      <td class="py-2 px-3">${categoryBadge}</td>
+                      <td class="py-2 px-3">
+                        <span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${u.role === 'Master Admin' ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-blue-100 text-blue-800'}">
+                          ${u.role}
+                        </span>
+                      </td>
+                      <td class="py-2 px-3 text-slate-600">${u.access_time}</td>
+                    </tr>
+                  `;
+                }).join('')}
               </tbody>
             </table>
           </div>
@@ -581,12 +651,21 @@ export class AdminView {
                 <span>RIWAYAT PENGUNDUHAN DATA (WHO DOWNLOADED WHAT & WHEN)</span>
               </h3>
               <p class="text-[11px] text-slate-500 font-mono mt-0.5">
-                Audit trail lengkap data apa saja yang diunduh, format berkas, jumlah observasi, dan waktu pengambilan (WIB)
+                Audit trail lengkap pengunduhan data sekunder beserta status pengujian sistem vs aktivitas nyata
               </p>
             </div>
-            <span class="text-[11px] font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold">
-              ${data.download_logs.length} Riwayat Unduh
-            </span>
+            <!-- Interactive Filter Buttons for Downloads -->
+            <div class="flex items-center gap-1 text-[11px] font-mono">
+              <button id="btn-filter-dl-all" class="filter-dl-btn px-2.5 py-1 rounded font-bold border transition-colors bg-[#0038A8] text-white border-[#0038A8]">
+                Semua (${data.download_logs.length})
+              </button>
+              <button id="btn-filter-dl-real" class="filter-dl-btn px-2.5 py-1 rounded font-bold border transition-colors bg-white text-emerald-800 border-emerald-300 hover:bg-emerald-50">
+                👤 Pengguna Riil (${realDlCount})
+              </button>
+              <button id="btn-filter-dl-test" class="filter-dl-btn px-2.5 py-1 rounded font-bold border transition-colors bg-white text-purple-800 border-purple-300 hover:bg-purple-50">
+                🤖 Testing by System (${testDlCount})
+              </button>
+            </div>
           </div>
 
           <div class="overflow-x-auto">
@@ -596,22 +675,54 @@ export class AdminView {
                   <th class="py-2.5 px-3">Waktu Unduh (WIB)</th>
                   <th class="py-2.5 px-3">Email Pengunduh</th>
                   <th class="py-2.5 px-3">Nama / Instansi</th>
+                  <th class="py-2.5 px-3">Kategori</th>
                   <th class="py-2.5 px-3">Dataset / Variabel yang Diunduh</th>
                   <th class="py-2.5 px-3">Format Berkas</th>
                   <th class="py-2.5 px-3">Jumlah Titik Data</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-200 text-[11px]">
-                ${data.download_logs.map(d => `
-                  <tr class="hover:bg-slate-50">
-                    <td class="py-2 px-3 text-slate-600 font-medium">${d.timestamp}</td>
-                    <td class="py-2 px-3 font-semibold text-slate-900">${d.email}</td>
-                    <td class="py-2 px-3 text-slate-700">${d.name} (${d.institution})</td>
-                    <td class="py-2 px-3 font-bold text-[#1A73E8]">${d.dataset}</td>
-                    <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 text-[10px] font-bold">${d.format}</span></td>
-                    <td class="py-2 px-3 text-slate-800 font-bold">${d.data_points} titik</td>
-                  </tr>
-                `).join('')}
+              <tbody id="tbody-admin-downloads" class="divide-y divide-slate-200 text-[11px]">
+                ${data.download_logs.map(d => {
+                  const isTest = d.is_system_test || d.source_type === 'Testing by System';
+                  const isDemo = d.source_type === 'Simulasi Demo';
+                  let dlBadge = '';
+                  if (isTest && !isDemo) {
+                    dlBadge = `
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-900 border border-purple-300">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-600"></span>
+                        🤖 Testing
+                      </span>
+                    `;
+                  } else if (isDemo) {
+                    dlBadge = `
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-900 border border-blue-300">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                        📋 Demo Seed
+                      </span>
+                    `;
+                  } else {
+                    dlBadge = `
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                        👤 Riil
+                      </span>
+                    `;
+                  }
+
+                  return `
+                    <tr class="dl-row hover:bg-slate-50 ${isTest ? 'bg-purple-50/20' : ''}" data-type="${isTest ? 'test' : 'real'}">
+                      <td class="py-2 px-3 text-slate-600 font-medium">${d.timestamp}</td>
+                      <td class="py-2 px-3 font-semibold text-slate-900">
+                        ${d.email}
+                      </td>
+                      <td class="py-2 px-3 text-slate-700">${d.name} (${d.institution})</td>
+                      <td class="py-2 px-3">${dlBadge}</td>
+                      <td class="py-2 px-3 font-bold text-[#1A73E8]">${d.dataset}</td>
+                      <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 text-[10px] font-bold">${d.format}</span></td>
+                      <td class="py-2 px-3 text-slate-800 font-bold">${d.data_points} titik</td>
+                    </tr>
+                  `;
+                }).join('')}
               </tbody>
             </table>
           </div>
@@ -619,6 +730,83 @@ export class AdminView {
 
       </div>
     `;
+
+    // Filter Listeners for Users Table
+    const setupUserFilters = () => {
+      const btns = {
+        all: document.getElementById('btn-filter-users-all'),
+        real: document.getElementById('btn-filter-users-real'),
+        test: document.getElementById('btn-filter-users-test')
+      };
+      const rows = document.querySelectorAll('.user-row');
+
+      const applyFilter = (filterType) => {
+        rows.forEach(r => {
+          const type = r.getAttribute('data-type');
+          if (filterType === 'all') {
+            r.style.display = '';
+          } else if (filterType === 'real') {
+            r.style.display = type === 'real' ? '' : 'none';
+          } else if (filterType === 'test') {
+            r.style.display = type === 'test' ? '' : 'none';
+          }
+        });
+
+        // Update button active styles
+        Object.entries(btns).forEach(([k, btn]) => {
+          if (!btn) return;
+          if (k === filterType) {
+            btn.className = 'filter-user-btn px-2.5 py-1 rounded font-bold border transition-colors bg-[#0038A8] text-white border-[#0038A8]';
+          } else {
+            btn.className = 'filter-user-btn px-2.5 py-1 rounded font-bold border transition-colors bg-white text-slate-700 border-slate-300 hover:bg-slate-50';
+          }
+        });
+      };
+
+      btns.all?.addEventListener('click', () => applyFilter('all'));
+      btns.real?.addEventListener('click', () => applyFilter('real'));
+      btns.test?.addEventListener('click', () => applyFilter('test'));
+    };
+
+    // Filter Listeners for Downloads Table
+    const setupDlFilters = () => {
+      const btns = {
+        all: document.getElementById('btn-filter-dl-all'),
+        real: document.getElementById('btn-filter-dl-real'),
+        test: document.getElementById('btn-filter-dl-test')
+      };
+      const rows = document.querySelectorAll('.dl-row');
+
+      const applyFilter = (filterType) => {
+        rows.forEach(r => {
+          const type = r.getAttribute('data-type');
+          if (filterType === 'all') {
+            r.style.display = '';
+          } else if (filterType === 'real') {
+            r.style.display = type === 'real' ? '' : 'none';
+          } else if (filterType === 'test') {
+            r.style.display = type === 'test' ? '' : 'none';
+          }
+        });
+
+        // Update button active styles
+        Object.entries(btns).forEach(([k, btn]) => {
+          if (!btn) return;
+          if (k === filterType) {
+            btn.className = 'filter-dl-btn px-2.5 py-1 rounded font-bold border transition-colors bg-[#0038A8] text-white border-[#0038A8]';
+          } else {
+            btn.className = 'filter-dl-btn px-2.5 py-1 rounded font-bold border transition-colors bg-white text-slate-700 border-slate-300 hover:bg-slate-50';
+          }
+        });
+      };
+
+      btns.all?.addEventListener('click', () => applyFilter('all'));
+      btns.real?.addEventListener('click', () => applyFilter('real'));
+      btns.test?.addEventListener('click', () => applyFilter('test'));
+    };
+
+    setupUserFilters();
+    setupDlFilters();
 
     // Export button listener
     document.getElementById('btn-admin-export-audit')?.addEventListener('click', () => {
@@ -641,8 +829,16 @@ export class AdminView {
         ['Otoritas: Dewan Ekonomi Nasional RI'],
         ['Waktu Ekspor: ' + new Date().toLocaleString('id-ID') + ' WIB'],
         [],
-        ['Email Pengguna', 'Nama Lengkap', 'Instansi / Lembaga', 'Tujuan Penggunaan Data', 'Peran', 'Waktu Akses (WIB)'],
-        ...data.access_logs.map(u => [u.email, u.name, u.institution, u.purpose, u.role, u.access_time])
+        ['Email Pengguna', 'Nama Lengkap', 'Instansi / Lembaga', 'Tujuan Penggunaan Data', 'Kategori Akses (Testing vs Riil)', 'Peran', 'Waktu Akses (WIB)'],
+        ...data.access_logs.map(u => [
+          u.email,
+          u.name,
+          u.institution,
+          u.purpose,
+          u.source_type || (u.is_system_test ? 'Testing by System' : 'Pengguna Riil'),
+          u.role,
+          u.access_time
+        ])
       ];
       const wsAccess = window.XLSX.utils.aoa_to_sheet(accessRows);
       window.XLSX.utils.book_append_sheet(wb, wsAccess, 'Daftar Pengakses');
@@ -653,8 +849,17 @@ export class AdminView {
         ['Otoritas: Dewan Ekonomi Nasional RI'],
         ['Waktu Ekspor: ' + new Date().toLocaleString('id-ID') + ' WIB'],
         [],
-        ['Waktu Unduh (WIB)', 'Email Pengunduh', 'Nama', 'Instansi', 'Dataset yang Diunduh', 'Format Berkas', 'Jumlah Titik Data'],
-        ...data.download_logs.map(d => [d.timestamp, d.email, d.name, d.institution, d.dataset, d.format, d.data_points])
+        ['Waktu Unduh (WIB)', 'Email Pengunduh', 'Nama', 'Instansi', 'Kategori Unduhan (Testing vs Riil)', 'Dataset yang Diunduh', 'Format Berkas', 'Jumlah Titik Data'],
+        ...data.download_logs.map(d => [
+          d.timestamp,
+          d.email,
+          d.name,
+          d.institution,
+          d.source_type || (d.is_system_test ? 'Testing by System' : 'Pengguna Riil'),
+          d.dataset,
+          d.format,
+          d.data_points
+        ])
       ];
       const wsDownload = window.XLSX.utils.aoa_to_sheet(downloadRows);
       window.XLSX.utils.book_append_sheet(wb, wsDownload, 'Riwayat Unduhan');
