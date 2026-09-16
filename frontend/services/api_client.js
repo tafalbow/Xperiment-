@@ -299,6 +299,19 @@ export const ApiClient = {
     return await res.json();
   },
 
+  async fetchCommodityInvestments(params = {}) {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && v !== '' && v !== 'ALL') {
+        query.append(k, v);
+      }
+    });
+    const qs = query.toString() ? `?${query.toString()}` : '';
+    const res = await fetch(`${API_BASE}/api/commodities/investments${qs}`);
+    if (!res.ok) throw new Error('Gagal memuat data realisasi investasi komoditas & hilirisasi.');
+    return await res.json();
+  },
+
   async fetchGlobalSearch(query, limit = 15) {
     const res = await fetch(`${API_BASE}/api/search/global?q=${encodeURIComponent(query)}&limit=${limit}`);
     if (!res.ok) throw new Error('Gagal melakukan pencarian global.');

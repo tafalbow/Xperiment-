@@ -12275,3 +12275,376 @@ class CommodityService:
             "points": data,
             "total_points": len(data)
         }
+
+    INVESTMENT_PROJECTS = [
+        {
+            "id": "INV-MINE-001",
+            "name": "Smelter Tembaga Single-Line Manyar & Precious Metal Refinery (PMR)",
+            "company": "PT Freeport Indonesia (PTFI)",
+            "location": "KEK JIIPE (Java Integrated Industrial and Port Estate), Manyar, Gresik",
+            "province": "Jawa Timur",
+            "island": "Jawa",
+            "country_origin": "Amerika Serikat & Indonesia",
+            "investor_details": "Freeport-McMoRan (AS, 49%) & PT Mineral Industri Indonesia / MIND ID (BUMN, 51%)",
+            "investment_type": "PMA / Joint Venture BUMN",
+            "duration": "Konstruksi 2020-2024 (Operasi Komersial Juni 2024), Konsesi IUPK Operasi hingga 2041 (dapat diperpanjang hingga 2061)",
+            "investment_value_usd_billion": 3.7,
+            "investment_value_idr_trillion": 58.0,
+            "form_and_product": "Smelter tembaga single-line terbesar di dunia dengan kapasitas input 1,7 juta ton konsentrat tembaga/tahun, memproduksi 600.000 ton katoda tembaga murni/tahun, serta fasilitas PMR pemurnian 50-60 ton emas murni dan 200-240 ton perak murni/tahun.",
+            "sector": "Tembaga & Logam Mulia",
+            "sector_icon": "🥉",
+            "labor_impact_direct": 1500,
+            "labor_impact_indirect": 38500,
+            "labor_impact_total": 40000,
+            "labor_details": "Menyerap 40.000 tenaga kerja selama puncak konstruksi; mempekerjakan 1.500 tenaga kerja operasional tetap di mana 98% adalah WNI dan memprioritaskan putra-putri daerah Gresik & Jawa Timur.",
+            "status": "Operasi Komersial",
+            "lat": -7.1189,
+            "lng": 112.5892
+        },
+        {
+            "id": "INV-MINE-002",
+            "name": "Ekosistem Baterai Kendaraan Listrik Terintegrasi Titan Project",
+            "company": "Konsorsium LG Energy Solution - IBC - Antam",
+            "location": "Buli (Halmahera Timur), KITB Batang (Jawa Tengah) & Karawang (Jawa Barat)",
+            "province": "Maluku Utara & Jawa Barat",
+            "island": "Maluku & Jawa",
+            "country_origin": "Korea Selatan & Indonesia",
+            "investor_details": "LG Consortium (LG Energy Solution, LG Chem, POSCO, LX International - Korsel) & PT Industri Baterai Indonesia / IBC & PT Antam Tbk (Indonesia)",
+            "investment_type": "PMA / Joint Venture BUMN",
+            "duration": "30 Tahun (Konstruksi Bertahap 2021-2024, Masa Operasi Komersial 2024-2054+)",
+            "investment_value_usd_billion": 9.8,
+            "investment_value_idr_trillion": 142.0,
+            "form_and_product": "Ekosistem rantai pasok baterai EV end-to-end terintegrasi: tambang nikel laterit & HPAL (Buli), pengolahan prekursor & katoda (Batang), hingga pabrik sel baterai lithium-ion 10 GWh (PT HLI Green Power di Karawang).",
+            "sector": "Nikel & Baterai EV",
+            "sector_icon": "⚡",
+            "labor_impact_direct": 20000,
+            "labor_impact_indirect": 45000,
+            "labor_impact_total": 65000,
+            "labor_details": "Menyerap 20.000 tenaga kerja langsung di seluruh rantai industri hulu tambang hingga hilir sel baterai, serta menciptakan 45.000 tenaga kerja tidak langsung pada sektor logistik, utilitas dan industri pendukung.",
+            "status": "Operasi & Konstruksi Bertahap",
+            "lat": 0.8872,
+            "lng": 128.2915
+        },
+        {
+            "id": "INV-MINE-003",
+            "name": "Proyek Hilirisasi Baterai Terpadu Dragon Project (CBL)",
+            "company": "Konsorsium Contemporary Amperex Technology (CATL) - CBL - Antam - IBC",
+            "location": "FHT Industrial Park Halmahera Timur & KEK Sei Mangkei / Karawang",
+            "province": "Maluku Utara & Sumatera Utara",
+            "island": "Maluku & Sumatera",
+            "country_origin": "Tiongkok & Indonesia",
+            "investor_details": "Ningbo Contemporary Brunp Lygend / CBL (CATL Group - Tiongkok) bersama PT Antam Tbk & PT Industri Baterai Indonesia / IBC",
+            "investment_type": "PMA / Joint Venture BUMN",
+            "duration": "30 Tahun (Masa Konstruksi 2022-2026, Operasional Berkelanjutan hingga 2055+)",
+            "investment_value_usd_billion": 5.97,
+            "investment_value_idr_trillion": 86.5,
+            "form_and_product": "6 proyek terintegrasi: penambangan bijih nikel laterit, pengolahan RKEF & HPAL, bahan baterai (prekursor & katoda), manufaktur sel baterai 15 GWh, dan fasilitas daur ulang baterai (battery recycling).",
+            "sector": "Nikel & Baterai EV",
+            "sector_icon": "🔋",
+            "labor_impact_direct": 18500,
+            "labor_impact_indirect": 30000,
+            "labor_impact_total": 48500,
+            "labor_details": "Menciptakan 18.500 lapangan kerja langsung bagi tenaga teknis, operator smelter, dan kimiawan lokal, serta 30.000 pekerja tidak langsung di rantai pasok daerah.",
+            "status": "Konstruksi & Pra-Operasi",
+            "lat": 0.8750,
+            "lng": 128.3200
+        },
+        {
+            "id": "INV-MINE-004",
+            "name": "Kawasan Industri Hilirisasi Terpadu Morowali (IMIP)",
+            "company": "PT Indonesia Morowali Industrial Park (IMIP)",
+            "location": "Kawasan Industri Bahodopi, Kabupaten Morowali",
+            "province": "Sulawesi Tengah",
+            "island": "Sulawesi",
+            "country_origin": "Tiongkok & Indonesia",
+            "investor_details": "Tsingshan Holding Group, Ruipu Technology, GEM Co. Ltd (Tiongkok) & Bintangdelapan Group (Indonesia)",
+            "investment_type": "PMA / PMDN Terintegrasi",
+            "duration": "50 Tahun (Hak Pengelolaan Kawasan Industri 2013-2063+)",
+            "investment_value_usd_billion": 18.5,
+            "investment_value_idr_trillion": 280.0,
+            "form_and_product": "Kompleks 3.000 Ha mencakup 50+ tungku smelter RKEF Ferronickel/NPI, pabrik Stainless Steel 3 juta ton/tahun, Carbon Steel, serta 3 fasilitas HPAL (PT QMB New Energy, PT Huayue, PT Jingwei) berkapasitas >100.000 ton nikel MHP.",
+            "sector": "Nikel & Baterai EV",
+            "sector_icon": "🏭",
+            "labor_impact_direct": 85000,
+            "labor_impact_indirect": 120000,
+            "labor_impact_total": 205000,
+            "labor_details": "Menyerap 85.000+ tenaga kerja langsung (92% WNI/pekerja lokal Indonesia), serta menggerakkan perputaran ekonomi UMKM dan kontraktor lokal bagi lebih dari 120.000 penduduk Morowali.",
+            "status": "Operasi Komersial Penuh",
+            "lat": -2.8312,
+            "lng": 122.1581
+        },
+        {
+            "id": "INV-MINE-005",
+            "name": "Kawasan Industri Hilirisasi Nikel Weda Bay (IWIP)",
+            "company": "PT Indonesia Weda Bay Industrial Park (IWIP)",
+            "location": "Teluk Weda, Kabupaten Halmahera Tengah",
+            "province": "Maluku Utara",
+            "island": "Maluku",
+            "country_origin": "Tiongkok & Prancis",
+            "investor_details": "Tsingshan Holding Group, Huayou Cobalt, Zhenshi Group (Tiongkok) & Eramet SA (Prancis)",
+            "investment_type": "PMA",
+            "duration": "50 Tahun (Masa Izin Operasional Kawasan Industri 2018-2068+)",
+            "investment_value_usd_billion": 11.0,
+            "investment_value_idr_trillion": 168.0,
+            "form_and_product": "Smelter terpadu RKEF NPI/Ferronickel puluhan lini, fasilitas pembangkit listrik mandiri captive power, pelabuhan kargo laut dalam, serta proyek HPAL PT Halmahera Persada Lygend (HPL) penghasil nikel sulfat dan kobalt sulfat kelas baterai.",
+            "sector": "Nikel & Baterai EV",
+            "sector_icon": "⛏️",
+            "labor_impact_direct": 65000,
+            "labor_impact_indirect": 40000,
+            "labor_impact_total": 105000,
+            "labor_details": "Mempekerjakan lebih dari 65.000 tenaga kerja langsung (lebih dari 90% pekerja lokal Maluku Utara dan nasional), serta memacu ekonomi bagi 40.000 tenaga kerja sektor logistik dan jasa sekitar.",
+            "status": "Operasi Komersial & Ekspansi",
+            "lat": 0.4939,
+            "lng": 127.9712
+        },
+        {
+            "id": "INV-MINE-006",
+            "name": "Smelter Konsentrat Tembaga & PMR Sumbawa Barat",
+            "company": "PT Amman Mineral Industri (AMNT/AMMN)",
+            "location": "Maluk, Kabupaten Sumbawa Barat",
+            "province": "Nusa Tenggara Barat",
+            "island": "Nusa Tenggara",
+            "country_origin": "Indonesia",
+            "investor_details": "Konsorsium PMDN Indonesia: Medco Energi Group, AP Investment & Pemegang Saham Publik Global (AMMN)",
+            "investment_type": "PMDN",
+            "duration": "Konstruksi 2021-2024 (Commissioning 2024), Konsesi Tambang Batu Hijau & Elang hingga 2040+",
+            "investment_value_usd_billion": 1.4,
+            "investment_value_idr_trillion": 21.5,
+            "form_and_product": "Fasilitas smelter tembaga berkapasitas input 900.000 ton konsentrat tembaga/tahun, memproduksi 222.000 ton katoda tembaga murni, 830.000 ton asam sulfat, dan fasilitas PMR (18 ton emas murni serta 55 ton perak murni/tahun).",
+            "sector": "Tembaga & Logam Mulia",
+            "sector_icon": "🥇",
+            "labor_impact_direct": 2000,
+            "labor_impact_indirect": 12000,
+            "labor_impact_total": 14000,
+            "labor_details": "Menyerap 12.000 pekerja selama puncak konstruksi EPC, serta mempekerjakan 2.000 karyawan operasional tetap dengan target 70%+ tenaga kerja lokal Sumbawa Barat dan NTB.",
+            "status": "Commissioning & Pra-Operasi",
+            "lat": -8.9321,
+            "lng": 116.7820
+        },
+        {
+            "id": "INV-MINE-007",
+            "name": "Ekspansi Kilang Gas Alam Cair Tangguh LNG Train 3",
+            "company": "BP Berau Ltd (Tangguh PSC Partners)",
+            "location": "Teluk Bintuni, Papua Barat",
+            "province": "Papua Barat",
+            "island": "Papua",
+            "country_origin": "Inggris, Jepang & Tiongkok",
+            "investor_details": "BP Berau Ltd (Inggris, Operator 40,22%), MI Berau (Jepang, 16,3%), CNOOC (Tiongkok, 13,9%), Nippon Oil, KG Berau, LNG Japan",
+            "investment_type": "PMA (Kontrak Kerja Sama PSC Migas)",
+            "duration": "Masa Kontrak PSC Tangguh Diperpanjang hingga 2055 (30+ Tahun Masa Operasional Berkelanjutan)",
+            "investment_value_usd_billion": 4.83,
+            "investment_value_idr_trillion": 72.5,
+            "form_and_product": "Pembangunan Train 3 LNG berkapasitas 3,8 juta ton LNG/tahun (menjadikan kapasitas total Tangguh 11,4 juta ton/tahun), 2 anjungan gas lepas pantai, 13 sumur produksi, serta integrasi teknologi penangkapan karbon CCUS.",
+            "sector": "Minyak, Gas & Petrokimia",
+            "sector_icon": "🔥",
+            "labor_impact_direct": 1500,
+            "labor_impact_indirect": 13500,
+            "labor_impact_total": 15000,
+            "labor_details": "Melibatkan 13.500 pekerja saat puncak konstruksi, dengan implementasi komitmen 85% tenaga kerja operasional permanen berasal dari putra-putri asli Papua (Papuan workforce requirement).",
+            "status": "Operasi Komersial Resmi",
+            "lat": -2.4310,
+            "lng": 133.1480
+        },
+        {
+            "id": "INV-MINE-008",
+            "name": "Smelter HPAL Pomalaa & Kemitraan EV Ford Motor Co.",
+            "company": "PT Vale Indonesia Tbk - Huayou Cobalt - Ford Motor",
+            "location": "Blok Pomalaa, Kabupaten Kolaka",
+            "province": "Sulawesi Tenggara",
+            "island": "Sulawesi",
+            "country_origin": "Amerika Serikat, Tiongkok & Brasil",
+            "investor_details": "Ford Motor Company (AS), Zhejiang Huayou Cobalt (Tiongkok), Vale Base Metals (Brasil/Kanada) & MIND ID (Indonesia)",
+            "investment_type": "PMA / Kemitraan Strategis Global",
+            "duration": "30 Tahun (Konstruksi 2022-2026, Masa Izin Usaha Tambang IUPK hingga 2050+)",
+            "investment_value_usd_billion": 4.5,
+            "investment_value_idr_trillion": 67.5,
+            "form_and_product": "Smelter High Pressure Acid Leach (HPAL) berkapasitas 120.000 ton nikel dalam bentuk Mixed Hydroxide Precipitate (MHP) per tahun untuk memasok langsung bahan baku baterai mobil listrik Ford di pasar global.",
+            "sector": "Nikel & Baterai EV",
+            "sector_icon": "🚗",
+            "labor_impact_direct": 3500,
+            "labor_impact_indirect": 12000,
+            "labor_impact_total": 15500,
+            "labor_details": "Menyerap 12.000 tenaga kerja selama fase EPC/konstruksi dan 3.500 tenaga kerja operasional teknis tetap di Kolaka, memprioritaskan masyarakat lokal Sulawesi Tenggara.",
+            "status": "Konstruksi Lanjutan",
+            "lat": -4.1845,
+            "lng": 121.6110
+        },
+        {
+            "id": "INV-MINE-009",
+            "name": "Smelter Grade Alumina Refinery (SGAR) Mempawah",
+            "company": "PT Borneo Alumina Indonesia (PT Inalum & PT Antam Tbk)",
+            "location": "Bukit Batu, Sungai Kunyit, Kabupaten Mempawah",
+            "province": "Kalimantan Barat",
+            "island": "Kalimantan",
+            "country_origin": "Indonesia",
+            "investor_details": "Konsorsium BUMN MIND ID: PT Inalum (60%) & PT Antam Tbk (40%) didukung EPC kontraktor Chalieco & PT PP",
+            "investment_type": "PMDN (BUMN Holding Industri Pertambangan)",
+            "duration": "30+ Tahun (Fase I Operasi 2024, dilanjutkan Rencana Ekspansi Fase II 2025-2028)",
+            "investment_value_usd_billion": 0.83,
+            "investment_value_idr_trillion": 12.5,
+            "form_and_product": "Fasilitas pemurnian bauksit mentah menjadi Smelter Grade Alumina (SGA) berkapasitas 1 juta ton alumina/tahun untuk menjamin kemandirian bahan baku pabrik peleburan aluminium Inalum Kuala Tanjung tanpa impor.",
+            "sector": "Bauksit & Alumina",
+            "sector_icon": "🧱",
+            "labor_impact_direct": 1200,
+            "labor_impact_indirect": 4500,
+            "labor_impact_total": 5700,
+            "labor_details": "Menyerap 4.500 tenaga kerja proyek konstruksi dan 1.200 tenaga kerja operasional permanen, dengan prioritas rekrutmen putra-putri daerah Mempawah dan Kalimantan Barat.",
+            "status": "Commissioning & Commercial Ramp-up",
+            "lat": 0.3540,
+            "lng": 108.9610
+        },
+        {
+            "id": "INV-MINE-010",
+            "name": "Kompleks Petrokimia & Naphtha Cracker Terpadu (CAP 2)",
+            "company": "PT Chandra Asri Pacific Tbk & Thai Oil PTT Group",
+            "location": "Ciwandan, Kota Cilegon",
+            "province": "Banten",
+            "island": "Jawa",
+            "country_origin": "Thailand & Indonesia",
+            "investor_details": "Thai Oil Public Company Limited / PTT Group (Thailand) & Barito Pacific Group (Indonesia)",
+            "investment_type": "PMA / PMDN",
+            "duration": "40+ Tahun (Konstruksi Bertahap, Masa Operasi Fasilitas Jangka Panjang)",
+            "investment_value_usd_billion": 5.0,
+            "investment_value_idr_trillion": 76.0,
+            "form_and_product": "Kompleks pabrik petrokimia skala dunia generasi kedua: unit Naphtha Cracker berkapasitas 1,1 juta ton Ethylene, Propylene, Butadiene, serta turunan Polyethylene dan Polypropylene untuk substitusi impor bahan baku industri nasional.",
+            "sector": "Minyak, Gas & Petrokimia",
+            "sector_icon": "🧪",
+            "labor_impact_direct": 3000,
+            "labor_impact_indirect": 25000,
+            "labor_impact_total": 28000,
+            "labor_details": "Menciptakan 25.000 lapangan kerja saat masa puncak konstruksi proyek dan 3.000 tenaga ahli kimia dan operasional industri terampil saat operasional penuh.",
+            "status": "Konstruksi & Persiapan Engineering",
+            "lat": -6.0420,
+            "lng": 105.9750
+        },
+        {
+            "id": "INV-MINE-011",
+            "name": "Pengembangan Lapangan Gas Abadi Blok Masela",
+            "company": "Inpex Masela Ltd - PT Pertamina Hulu Energi - Petronas",
+            "location": "Laut Arafura & Kepulauan Tanimbar (Saumlaki)",
+            "province": "Maluku",
+            "island": "Maluku",
+            "country_origin": "Jepang, Indonesia & Malaysia",
+            "investor_details": "Inpex Corporation (Jepang, Operator 65%), PT Pertamina Hulu Energi Masela (BUMN, 20%), Petronas Masela Sdn Bhd (Malaysia, 15%)",
+            "investment_type": "PMA (Kontrak Kerja Sama PSC Migas)",
+            "duration": "Masa Kontrak PSC Berlaku hingga 2055 (30 Tahun Siklus Operasional Produksi)",
+            "investment_value_usd_billion": 20.9,
+            "investment_value_idr_trillion": 324.0,
+            "form_and_product": "Fasilitas gas terapung FPSO, pipa transmisi laut dalam, dan kilang LNG darat (Onshore LNG) berkapasitas 9,5 juta ton LNG/tahun, 150 MMSCFD gas pipa lokal, serta fasilitas injeksi dekarbonisasi Carbon Capture and Storage (CCS).",
+            "sector": "Minyak, Gas & Petrokimia",
+            "sector_icon": "⚓",
+            "labor_impact_direct": 3500,
+            "labor_impact_indirect": 30000,
+            "labor_impact_total": 33500,
+            "labor_details": "Estimasi penyerapan 30.000 pekerja selama rekayasa dan konstruksi fasilitas lepas pantai & darat, serta 3.500 tenaga operasional langsung dengan multiplier effect signifikan bagi Maluku.",
+            "status": "Tahap Front-End Engineering Design (FEED)",
+            "lat": -8.0800,
+            "lng": 131.2800
+        },
+        {
+            "id": "INV-MINE-012",
+            "name": "Kawasan Industri Bahan Baku Baterai (IKIP) & Smelter HPAL",
+            "company": "PT Merdeka Battery Materials Tbk (MBMA)",
+            "location": "Konawe Industrial Park, Kabupaten Konawe",
+            "province": "Sulawesi Tenggara",
+            "island": "Sulawesi",
+            "country_origin": "Indonesia & Tiongkok",
+            "investor_details": "Merdeka Copper Gold Group (Indonesia), Brunp CATL & Tsingshan Group (Tiongkok)",
+            "investment_type": "PMDN / PMA Konsorsium",
+            "duration": "30+ Tahun (IUP Operasi Tambang SCM & Fasilitas Kawasan Industri 2022-2052+)",
+            "investment_value_usd_billion": 2.5,
+            "investment_value_idr_trillion": 38.0,
+            "form_and_product": "Pengembangan tambang nikel SCM (sumber daya nikel terbesar Indonesia), smelter Rotary Kiln Electric Furnace (RKEF), konverter nikel matte berkadar tinggi, dan proyek pengolahan HPAL 120.000 ton nikel ekuivalen per tahun.",
+            "sector": "Nikel & Baterai EV",
+            "sector_icon": "🔋",
+            "labor_impact_direct": 8000,
+            "labor_impact_indirect": 15000,
+            "labor_impact_total": 23000,
+            "labor_details": "Menyerap 8.000 tenaga kerja operasional langsung pabrik dan tambang serta 15.000 pekerja pada jasa logistik, kontraktor, dan UMKM sekitar kawasan industri.",
+            "status": "Operasi Komersial Sebagian & Ekspansi HPAL",
+            "lat": -3.8820,
+            "lng": 122.5280
+        }
+    ]
+
+    @classmethod
+    def get_incoming_investments(
+        cls,
+        sector: Optional[str] = None,
+        country: Optional[str] = None,
+        province: Optional[str] = None,
+        search: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Returns verified strategic incoming investments into Indonesia (Hasil Bumi, Minerba, Energi & Hilirisasi),
+        complete with location, company/project name, investor origin, duration, investment value, product form, and labor impact.
+        """
+        projects = list(cls.INVESTMENT_PROJECTS)
+
+        if sector and sector != "ALL":
+            projects = [p for p in projects if p.get("sector") == sector]
+
+        if country and country != "ALL":
+            projects = [p for p in projects if country.lower() in p.get("country_origin", "").lower()]
+
+        if province and province != "ALL":
+            projects = [
+                p for p in projects if (
+                    province.lower() in p.get("province", "").lower() or
+                    province.lower() in p.get("island", "").lower()
+                )
+            ]
+
+        if search:
+            q = search.lower().strip()
+            projects = [
+                p for p in projects if (
+                    q in p.get("name", "").lower() or
+                    q in p.get("company", "").lower() or
+                    q in p.get("location", "").lower() or
+                    q in p.get("province", "").lower() or
+                    q in p.get("country_origin", "").lower() or
+                    q in p.get("sector", "").lower() or
+                    q in p.get("form_and_product", "").lower()
+                )
+            ]
+
+        all_projects = cls.INVESTMENT_PROJECTS
+        total_inv_usd = sum(p.get("investment_value_usd_billion", 0) for p in all_projects)
+        total_inv_idr = sum(p.get("investment_value_idr_trillion", 0) for p in all_projects)
+        total_labor_direct = sum(p.get("labor_impact_direct", 0) for p in all_projects)
+        total_labor_indirect = sum(p.get("labor_impact_indirect", 0) for p in all_projects)
+        total_labor_impact = sum(p.get("labor_impact_total", 0) for p in all_projects)
+
+        available_sectors = sorted(list(set(p.get("sector") for p in all_projects if p.get("sector"))))
+        available_provinces = sorted(list(set(p.get("province") for p in all_projects if p.get("province"))))
+        available_islands = sorted(list(set(p.get("island") for p in all_projects if p.get("island"))))
+
+        filtered_inv_usd = sum(p.get("investment_value_usd_billion", 0) for p in projects)
+        filtered_inv_idr = sum(p.get("investment_value_idr_trillion", 0) for p in projects)
+        filtered_labor_total = sum(p.get("labor_impact_total", 0) for p in projects)
+
+        return {
+            "total_projects_count": len(all_projects),
+            "filtered_projects_count": len(projects),
+            "summary_kpis": {
+                "total_investment_usd_billion": round(total_inv_usd, 2),
+                "total_investment_idr_trillion": round(total_inv_idr, 1),
+                "total_labor_impact": total_labor_impact,
+                "total_labor_direct": total_labor_direct,
+                "total_labor_indirect": total_labor_indirect,
+                "total_strategic_projects": len(all_projects),
+                "filtered_investment_usd_billion": round(filtered_inv_usd, 2),
+                "filtered_investment_idr_trillion": round(filtered_inv_idr, 1),
+                "filtered_labor_impact": filtered_labor_total
+            },
+            "filters_metadata": {
+                "available_sectors": available_sectors,
+                "available_provinces": available_provinces,
+                "available_islands": available_islands,
+                "available_countries": [
+                    "Tiongkok", "Korea Selatan", "Amerika Serikat", "Jepang", "Inggris", "Prancis", "Thailand", "Indonesia"
+                ]
+            },
+            "projects": projects
+        }

@@ -46,6 +46,21 @@ export class CommodityTrackerComponent {
     this.commodityActiveCircle = null;
     this.commodityMarkersMap = new Map();
     this.isTableExpanded = false;
+
+    // Incoming Investments (PMA & PMDN Hilirisasi) State
+    this.investmentData = null;
+    this.investmentFilters = {
+      sector: 'ALL',
+      country: 'ALL',
+      province: 'ALL',
+      search: ''
+    };
+    this.selectedInvestmentProject = null;
+    this.investmentMapInstance = null;
+    this.investmentMarkersLayer = null;
+    this.investmentActiveCircle = null;
+    this.investmentMarkersMap = new Map();
+    this.isInvestmentTableExpanded = false;
   }
 
   id(name) {
@@ -75,6 +90,11 @@ export class CommodityTrackerComponent {
         this.commodityMapInstance.invalidateSize();
       } catch (e) {}
     }
+    if (this.investmentMapInstance) {
+      try {
+        this.investmentMapInstance.invalidateSize();
+      } catch (e) {}
+    }
   }
 
   async init() {
@@ -94,6 +114,9 @@ export class CommodityTrackerComponent {
 
       await this.loadBalanceData(this.selectedCommodityId);
       await this.loadSpatialData(this.selectedCommodityId);
+      if (this.activeDivision === 'HASIL_BUMI') {
+        await this.loadInvestmentData();
+      }
       this.initSeriesConfigs();
       await this.ensureAllSeriesDataLoaded();
       this.isLoading = false;
@@ -220,8 +243,12 @@ export class CommodityTrackerComponent {
 
     if (division === 'HASIL_BUMI') {
       this.selectedCommodityId = 'ALL_HASIL_BUMI';
+      await this.loadInvestmentData();
     } else {
       this.selectedCommodityId = 'AGG_PERTANIAN';
+      if (this.activeViewMode === 'INVESTMENT') {
+        this.activeViewMode = 'DETAIL';
+      }
     }
 
     if (!this.categoriesData) {
@@ -235,8 +262,65 @@ export class CommodityTrackerComponent {
     await this.ensureAllSeriesDataLoaded();
     if (this.activeViewMode === 'MATRIX') {
       await this.loadMatrixData();
+    } else if (this.activeViewMode === 'INVESTMENT') {
+      await this.loadInvestmentData();
     }
     this.render();
+  }
+
+  async loadInvestmentData() {
+    try {
+      const params = {};
+      if (this.investmentFilters.sector && this.investmentFilters.sector !== 'ALL') {
+        params.sector = this.investmentFilters.sector;
+      }
+      if (this.investmentFilters.country && this.investmentFilters.country !== 'ALL') {
+        params.country = this.investmentFilters.country;
+      }
+      if (this.investmentFilters.province && this.investmentFilters.province !== 'ALL') {
+        params.province = this.investmentFilters.province;
+      }
+      if (this.investmentFilters.search && this.investmentFilters.search.trim()) {
+        params.search = this.investmentFilters.search.trim();
+      }
+
+      this.investmentData = await ApiClient.fetchCommodityInvestments(params);
+      const projects = this.investmentData?.projects || [];
+      if (projects.length > 0) {
+        if (!this.selectedInvestmentProject || !projects.find(p => p.id === this.selectedInvestmentProject.id)) {
+          this.selectedInvestmentProject = projects[0];
+        } else {
+          this.selectedInvestmentProject = projects.find(p => p.id === this.selectedInvestmentProject.id) || projects[0];
+        }
+      } else {
+        this.selectedInvestmentProject = null;
+      }
+    } catch (err) {
+      console.warn('Gagal memuat data investasi komoditas:', err);
+      this.investmentData = {
+        total_projects_count: 0,
+        filtered_projects_count: 0,
+        summary_kpis: {
+          total_investment_usd_billion: 0,
+          total_investment_idr_trillion: 0,
+          total_labor_impact: 0,
+          total_labor_direct: 0,
+          total_labor_indirect: 0,
+          total_strategic_projects: 0,
+          filtered_investment_usd_billion: 0,
+          filtered_investment_idr_trillion: 0,
+          filtered_labor_impact: 0
+        },
+        filters_metadata: {
+          available_sectors: [],
+          available_provinces: [],
+          available_islands: [],
+          available_countries: []
+        },
+        projects: []
+      };
+      this.selectedInvestmentProject = null;
+    }
   }
 
   // Generate standard list of indicators/variables available for comparison
@@ -753,9 +837,19 @@ export class CommodityTrackerComponent {
             >
               📋 Matriks Sektor
             </button>
+            ${isHasilBumi ? `
+            <button 
+              type="button" 
+              class="btn-view-mode px-3 py-1.5 rounded-md font-medium transition-all cursor-pointer ${this.activeViewMode === 'INVESTMENT' ? 'bg-[#E8F0FE] text-[#0038A8] font-bold shadow-2xs' : 'bg-white text-[#5F6368] hover:bg-[#F1F3F4]'}"
+              data-mode="INVESTMENT"
+            >
+              💼 Investasi Masuk (PMA/PMDN)
+            </button>
+            ` : ''}
           </div>
         </div>
 
+        ${this.activeViewMode !== 'INVESTMENT' ? `
         <!-- 3. MULTI-DIMENSIONAL FILTER CONTROLS (White background) -->
         <div class="bg-white p-3 rounded-lg shadow-2xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
           
@@ -816,9 +910,14 @@ export class CommodityTrackerComponent {
             </select>
           </div>
         </div>
+        ` : ''}
 
-        <!-- MAIN VIEW (DETAIL OR MATRIX) -->
-        ${this.activeViewMode === 'DETAIL' ? this.renderDetailView(comm, kpis, records, availableCommodities, isAggregate, renderAggregateOptions) : this.renderMatrixView()}
+        <!-- MAIN VIEW (DETAIL, MATRIX, OR INVESTMENT) -->
+        ${this.activeViewMode === 'DETAIL' 
+          ? this.renderDetailView(comm, kpis, records, availableCommodities, isAggregate, renderAggregateOptions) 
+          : (this.activeViewMode === 'MATRIX' 
+              ? this.renderMatrixView() 
+              : this.renderInvestmentView())}
 
       </div>
     `;
@@ -834,6 +933,10 @@ export class CommodityTrackerComponent {
         }
         this.drawChart();
       });
+    } else if (this.activeViewMode === 'INVESTMENT') {
+      setTimeout(() => {
+        this.initInvestmentLeafletMap(this.selectedInvestmentProject);
+      }, 70);
     }
   }
 
@@ -841,6 +944,29 @@ export class CommodityTrackerComponent {
     const latest = records.length ? records[records.length - 1] : {};
 
     return `
+      ${this.activeDivision === 'HASIL_BUMI' ? `
+      <!-- Gateway Banner to Incoming Investment Observatory -->
+      <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-emerald-50 border border-blue-200 rounded-lg p-4 shadow-2xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#0038A8] text-white">OBSERVATORIUM INVESTASI</span>
+            <span class="font-bold text-xs sm:text-sm text-slate-950 font-mono">💼 Realisasi Investasi Masuk PMA & PMDN Hilirisasi Hasil Bumi</span>
+          </div>
+          <p class="text-xs text-slate-600 font-sans max-w-2xl leading-relaxed">
+            Pantau 12 mega-proyek hilirisasi strategis (Smelter Manyar, Baterai EV Titan LG & Dragon CATL, IMIP Morowali, IWIP Weda Bay, Blok Masela, Tangguh LNG 3, CAP 2, dsb.) dengan komitmen <strong>US$ 88.93 Miliar (~Rp 1.346,5 Triliun)</strong> dan <strong>598.200 lapangan kerja</strong>.
+          </p>
+        </div>
+        <button 
+          type="button" 
+          id="${this.id('btn-goto-investment-view')}"
+          class="px-4 py-2 bg-[#0038A8] hover:bg-[#002B82] text-white rounded-md text-xs font-mono font-bold shrink-0 shadow-2xs cursor-pointer flex items-center gap-1.5 transition-all"
+        >
+          <span>Buka Observatorium Investasi</span>
+          <span>➔</span>
+        </button>
+      </div>
+      ` : ''}
+
       <!-- 4. SELECTED COMMODITY STATUTORY SPECIFICATION & PROVENANCE -->
       <div class="bg-slate-50 rounded-lg p-4 border border-slate-300 space-y-3">
         <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 border-b border-slate-200 pb-3">
@@ -1565,16 +1691,26 @@ export class CommodityTrackerComponent {
   attachEvents() {
     const root = this.getContainer() || document;
 
-    // 1. View Mode Switcher (Detail vs Matrix)
+    // 1. View Mode Switcher (Detail vs Matrix vs Investment)
     root.querySelectorAll('.btn-view-mode').forEach(btn => {
       btn.addEventListener('click', async () => {
         const mode = btn.getAttribute('data-mode');
         this.activeViewMode = mode;
         if (mode === 'MATRIX') {
           await this.loadMatrixData();
+        } else if (mode === 'INVESTMENT') {
+          await this.loadInvestmentData();
         }
         this.render();
       });
+    });
+
+    // 1b. Gateway Banner button to open Investment Observatory
+    this.el('btn-goto-investment-view')?.addEventListener('click', async () => {
+      this.activeViewMode = 'INVESTMENT';
+      await this.loadInvestmentData();
+      this.render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // 2. Main Commodity Dropdown Selection
@@ -1773,6 +1909,113 @@ export class CommodityTrackerComponent {
       setTimeout(() => {
         this.initCommodityLeafletMap(this.selectedSpatialPoint);
       }, 70);
+    }
+
+    // 17. Investment Observatory Event Handlers
+    if (this.activeViewMode === 'INVESTMENT') {
+      // Sector Filter
+      this.el('select-investment-sector')?.addEventListener('change', async (e) => {
+        this.investmentFilters.sector = e.target.value;
+        await this.loadInvestmentData();
+        this.render();
+      });
+
+      // Country Origin Filter
+      this.el('select-investment-country')?.addEventListener('change', async (e) => {
+        this.investmentFilters.country = e.target.value;
+        await this.loadInvestmentData();
+        this.render();
+      });
+
+      // Province/Island Filter
+      this.el('select-investment-province')?.addEventListener('change', async (e) => {
+        this.investmentFilters.province = e.target.value;
+        await this.loadInvestmentData();
+        this.render();
+      });
+
+      // Search Filter
+      let searchTimeout = null;
+      this.el('input-investment-search')?.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(async () => {
+          this.investmentFilters.search = e.target.value;
+          await this.loadInvestmentData();
+          this.render();
+        }, 300);
+      });
+
+      this.el('btn-clear-investment-search')?.addEventListener('click', async () => {
+        this.investmentFilters.search = '';
+        await this.loadInvestmentData();
+        this.render();
+      });
+
+      // Reset All Filters
+      this.el('btn-reset-investment-filters')?.addEventListener('click', async () => {
+        this.investmentFilters = { sector: 'ALL', country: 'ALL', province: 'ALL', search: '' };
+        await this.loadInvestmentData();
+        this.render();
+      });
+
+      // Reset Investment Map Zoom
+      this.el('btn-reset-investment-map-zoom')?.addEventListener('click', () => {
+        if (this.investmentMapInstance) {
+          this.investmentMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+        }
+      });
+
+      // Project Item Selection in Left Column of GeoMap
+      root.querySelectorAll('.btn-select-investment-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pId = btn.getAttribute('data-id');
+          const projects = this.investmentData?.projects || [];
+          const match = projects.find(p => p.id === pId);
+          if (match) {
+            this.selectInvestmentProject(match);
+          }
+        });
+      });
+
+      // "Lihat Lokasi di Peta" button on Dossier Cards
+      root.querySelectorAll('.btn-focus-investment-map').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pId = btn.getAttribute('data-id');
+          const projects = this.investmentData?.projects || [];
+          const match = projects.find(p => p.id === pId);
+          if (match) {
+            this.selectInvestmentProject(match);
+            const mapSection = this.el('investment-geomap-section');
+            if (mapSection) {
+              mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
+
+      // Toggle Investment Comparison Table
+      this.el('btn-toggle-investment-table')?.addEventListener('click', () => {
+        this.isInvestmentTableExpanded = !this.isInvestmentTableExpanded;
+        const tableBox = this.el('investment-full-table-container');
+        const label = this.el('label-toggle-investment-table');
+        if (tableBox) {
+          if (this.isInvestmentTableExpanded) {
+            tableBox.classList.remove('hidden');
+            if (label) label.textContent = 'Sembunyikan Tabel Komparasi';
+          } else {
+            tableBox.classList.add('hidden');
+            if (label) label.textContent = 'Tampilkan Tabel Komparasi Lengkap (12 Proyek)';
+          }
+        }
+      });
+
+      // Export Investment Data to CSV (Both top and table buttons)
+      this.el('btn-export-investment-csv')?.addEventListener('click', () => {
+        this.exportInvestmentToCsv();
+      });
+      this.el('btn-export-investment-csv-2')?.addEventListener('click', () => {
+        this.exportInvestmentToCsv();
+      });
     }
   }
 
@@ -3087,6 +3330,899 @@ export class CommodityTrackerComponent {
     } catch (err) {
       console.error('Error exporting commodity balance Excel:', err);
       alert('Gagal mengekspor data Excel neraca komoditas.');
+    }
+  }
+
+  // ==============================================================================
+  // OBSERVATORIUM INVESTASI MASUK (PMA & PMDN HILIRISASI HASIL BUMI & ENERGI)
+  // Menampilkan 7 Atribut Wajib:
+  // 1. Dimana (Lokasi, KEK/Kawasan Industri, Kabupaten/Kota, Provinsi, Koordinat)
+  // 2. Namanya Apa (Nama Proyek, Fasilitas & Konsorsium / Perusahaan Pelaksana)
+  // 3. Dari Mana (Negara Asal Investor, Komposisi Saham & Bentuk Kemitraan PMA/PMDN/BUMN)
+  // 4. Untuk Berapa Lama (Masa Konstruksi, Periode Operasional & Masa Izin Konsesi/IUPK/PSC)
+  // 5. Berapa Besar Investasinya (Nilai Total Investasi dalam USD Miliar & Rp Triliun)
+  // 6. Berupa Apa (Bentuk Fisik Fasilitas, Teknologi HPAL/RKEF/LNG/Cracker & Produk Output)
+  // 7. Impact Menciptakan Tenaga Kerja Berapa (Tenaga Kerja Tetap, Multiplier Konstruksi/Daerah & Catatan Rekrutmen)
+  // ==============================================================================
+
+  renderInvestmentView() {
+    const data = this.investmentData || {
+      summary_kpis: {},
+      filters_metadata: {},
+      projects: []
+    };
+    const summary = data.summary_kpis || {};
+    const meta = data.filters_metadata || {};
+    const projects = data.projects || [];
+    const selected = this.selectedInvestmentProject || (projects.length ? projects[0] : null);
+
+    const availableSectors = meta.available_sectors || [
+      'Nikel & Baterai EV',
+      'Tembaga & Logam Mulia',
+      'Minyak, Gas & Petrokimia',
+      'Bauksit & Alumina'
+    ];
+    const availableCountries = meta.available_countries || [
+      'Tiongkok', 'Korea Selatan', 'Amerika Serikat', 'Jepang', 'Inggris', 'Prancis', 'Thailand', 'Indonesia'
+    ];
+    const availableProvinces = meta.available_provinces || [];
+    const availableIslands = meta.available_islands || ['Jawa', 'Sulawesi', 'Maluku', 'Papua', 'Kalimantan', 'Nusa Tenggara', 'Sumatera'];
+
+    const isFiltered = (this.investmentFilters.sector !== 'ALL') || 
+                       (this.investmentFilters.country !== 'ALL') || 
+                       (this.investmentFilters.province !== 'ALL') || 
+                       (this.investmentFilters.search && this.investmentFilters.search.trim() !== '');
+
+    return `
+      <div class="space-y-4 font-sans text-slate-900">
+
+        <!-- 1. OBSERVATORY HEADER BANNER -->
+        <div class="bg-white p-4 sm:p-5 rounded-lg shadow-sm border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <span class="w-8 h-8 rounded-lg bg-[#E8F0FE] text-[#0038A8] flex items-center justify-center text-lg shrink-0 shadow-2xs font-bold">
+                💼
+              </span>
+              <div>
+                <h2 class="text-base sm:text-lg font-bold tracking-tight font-mono text-[#202124]">
+                  OBSERVATORIUM INVESTASI MASUK PMA & PMDN (HILIRISASI HASIL BUMI & ENERGI)
+                </h2>
+                <div class="flex items-center gap-2 flex-wrap text-[11px] font-mono text-slate-500 mt-0.5">
+                  <span class="px-2 py-0.5 rounded bg-blue-50 text-[#0038A8] font-bold border border-blue-200">12 Mega-Proyek Hilirisasi</span>
+                  <span>•</span>
+                  <span>Harmonisasi Data BKPM, Ditjen Minerba ESDM & SKK Migas (2024-2026)</span>
+                </div>
+              </div>
+            </div>
+            <p class="text-xs text-[#5F6368] font-sans max-w-4xl leading-relaxed">
+              Pusat observasi realisasi investasi modal asing (PMA) dan penanaman modal dalam negeri (PMDN) hilirisasi minerba & energi di Indonesia. Memantau 7 parameter strategis per proyek: lokasi geografis, nama proyek/konsorsium, negara asal investor, durasi izin konsesi, besaran investasi (USD/IDR), wujud fasilitas hilirisasi & teknologi, serta dampak penyerapan tenaga kerja langsung maupun multiplier efek daerah.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button 
+              type="button" 
+              id="${this.id('btn-export-investment-csv')}" 
+              class="px-4 py-2 bg-[#0038A8] hover:bg-[#002B82] text-white rounded-md text-xs font-mono font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+              title="Unduh seluruh dataset komparasi 12 mega-proyek investasi hilirisasi dalam format Excel (.csv)"
+            >
+              <span>📥</span>
+              <span>Unduh Data Investasi (.csv)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. TOP 4 KPI CARDS BANNER -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          
+          <!-- Card 1: Total Nilai Investasi -->
+          <div class="bg-white p-4 rounded-lg shadow-2xs border-l-4 border-[#0038A8] border border-slate-200 space-y-1">
+            <div class="text-[10.5px] font-mono text-slate-500 font-bold uppercase tracking-wider flex items-center justify-between">
+              <span>Total Nilai Investasi</span>
+              <span class="text-base">💰</span>
+            </div>
+            <div class="text-xl sm:text-2xl font-mono font-bold text-[#0038A8]">
+              US$ ${Number(summary.total_investment_usd_billion || 88.93).toLocaleString('id-ID', { minimumFractionDigits: 2 })} B
+            </div>
+            <div class="text-xs font-mono font-semibold text-emerald-800">
+              Setara ~ Rp ${Number(summary.total_investment_idr_trillion || 1346.5).toLocaleString('id-ID', { minimumFractionDigits: 1 })} Triliun
+            </div>
+            <div class="text-[10px] text-slate-400 font-sans pt-1 border-t border-slate-100">
+              ${isFiltered ? `Filter Terpilih: US$ ${Number(summary.filtered_investment_usd_billion || 0).toFixed(2)} B (~Rp ${Number(summary.filtered_investment_idr_trillion || 0).toFixed(1)} T)` : 'Total komitmen 12 mega-proyek hilirisasi'}
+            </div>
+          </div>
+
+          <!-- Card 2: Serapan Tenaga Kerja -->
+          <div class="bg-white p-4 rounded-lg shadow-2xs border-l-4 border-emerald-600 border border-slate-200 space-y-1">
+            <div class="text-[10.5px] font-mono text-slate-500 font-bold uppercase tracking-wider flex items-center justify-between">
+              <span>Total Lapangan Kerja Tercipta</span>
+              <span class="text-base">👥</span>
+            </div>
+            <div class="text-xl sm:text-2xl font-mono font-bold text-emerald-700">
+              ${Number(summary.total_labor_impact || 598200).toLocaleString('id-ID')}
+            </div>
+            <div class="text-xs font-mono font-semibold text-slate-600">
+              ${Number(summary.total_labor_direct || 218700).toLocaleString('id-ID')} Tetap • ${Number(summary.total_labor_indirect || 379500).toLocaleString('id-ID')} Ekosistem
+            </div>
+            <div class="text-[10px] text-slate-400 font-sans pt-1 border-t border-slate-100">
+              ${isFiltered ? `Filter Terpilih: ${Number(summary.filtered_labor_impact || 0).toLocaleString('id-ID')} Pekerja` : 'Pekerja operasional tetap & konstruksi daerah'}
+            </div>
+          </div>
+
+          <!-- Card 3: Jumlah Proyek Hilirisasi -->
+          <div class="bg-white p-4 rounded-lg shadow-2xs border-l-4 border-amber-500 border border-slate-200 space-y-1">
+            <div class="text-[10.5px] font-mono text-slate-500 font-bold uppercase tracking-wider flex items-center justify-between">
+              <span>Proyek Strategis Hilirisasi</span>
+              <span class="text-base">🏭</span>
+            </div>
+            <div class="text-xl sm:text-2xl font-mono font-bold text-slate-900">
+              ${projects.length} Proyek Terpilih
+            </div>
+            <div class="text-xs font-mono font-semibold text-slate-600">
+              Smelter Tembaga, HPAL Nikel, Baterai, LNG & Cracker
+            </div>
+            <div class="text-[10px] text-slate-400 font-sans pt-1 border-t border-slate-100">
+              Dari total 12 mega-proyek strategis terdaftar
+            </div>
+          </div>
+
+          <!-- Card 4: Kemitraan Global -->
+          <div class="bg-white p-4 rounded-lg shadow-2xs border-l-4 border-purple-600 border border-slate-200 space-y-1">
+            <div class="text-[10.5px] font-mono text-slate-500 font-bold uppercase tracking-wider flex items-center justify-between">
+              <span>Negara Mitra & Asal Investor</span>
+              <span class="text-base">🌍</span>
+            </div>
+            <div class="text-xl sm:text-2xl font-mono font-bold text-purple-800">
+              8 Negara Mitra
+            </div>
+            <div class="text-xs font-mono font-semibold text-slate-600">
+              PMA Joint Venture BUMN (MIND ID, Antam, IBC) & PMDN
+            </div>
+            <div class="text-[10px] text-slate-400 font-sans pt-1 border-t border-slate-100">
+              AS, Tiongkok, Korsel, Jepang, Inggris, Prancis, Thai, RI
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. MULTI-DIMENSIONAL INVESTMENT FILTER DECK (White background strictly maintained) -->
+        <div class="bg-white p-3.5 rounded-lg shadow-2xs border border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+          
+          <!-- Filter 1: Sektor Hilirisasi -->
+          <div class="space-y-1">
+            <label class="font-bold text-slate-800 uppercase text-[10.5px] flex items-center gap-1">
+              <span>⛏️</span> <span>Sektor Hilirisasi:</span>
+            </label>
+            <select id="${this.id('select-investment-sector')}" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+              <option value="ALL">Semua Sektor Hilirisasi</option>
+              ${availableSectors.map(s => `
+                <option value="${s}" ${this.investmentFilters.sector === s ? 'selected' : ''}>${s}</option>
+              `).join('')}
+            </select>
+          </div>
+
+          <!-- Filter 2: Asal Negara Investor -->
+          <div class="space-y-1">
+            <label class="font-bold text-slate-800 uppercase text-[10.5px] flex items-center gap-1">
+              <span>🌍</span> <span>Negara Asal Investor:</span>
+            </label>
+            <select id="${this.id('select-investment-country')}" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+              <option value="ALL">Semua Asal Negara</option>
+              ${availableCountries.map(c => `
+                <option value="${c}" ${this.investmentFilters.country === c ? 'selected' : ''}>${c}</option>
+              `).join('')}
+            </select>
+          </div>
+
+          <!-- Filter 3: Wilayah / Pulau / Provinsi -->
+          <div class="space-y-1">
+            <label class="font-bold text-slate-800 uppercase text-[10.5px] flex items-center gap-1">
+              <span>📍</span> <span>Wilayah / Pulau / Provinsi:</span>
+            </label>
+            <select id="${this.id('select-investment-province')}" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+              <option value="ALL">Seluruh Wilayah Indonesia</option>
+              <optgroup label="Kepulauan:">
+                ${availableIslands.map(isl => `
+                  <option value="${isl}" ${this.investmentFilters.province === isl ? 'selected' : ''}>Pulau ${isl}</option>
+                `).join('')}
+              </optgroup>
+              <optgroup label="Provinsi:">
+                ${availableProvinces.map(prov => `
+                  <option value="${prov}" ${this.investmentFilters.province === prov ? 'selected' : ''}>${prov}</option>
+                `).join('')}
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- Filter 4: Pencarian Bebas -->
+          <div class="space-y-1">
+            <label class="font-bold text-slate-800 uppercase text-[10.5px] flex items-center gap-1">
+              <span>🔍</span> <span>Cari Proyek / Kawasan / Produk:</span>
+            </label>
+            <div class="relative">
+              <input 
+                type="text" 
+                id="${this.id('input-investment-search')}" 
+                placeholder="Cth: Freeport, LG, Morowali, HPAL..." 
+                value="${this.investmentFilters.search || ''}" 
+                class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 text-xs text-[#202124] font-medium focus:outline-[#0038A8] shadow-2xs"
+              />
+              ${this.investmentFilters.search ? `
+                <button type="button" id="${this.id('btn-clear-investment-search')}" class="absolute right-2 top-1.5 text-slate-400 hover:text-slate-600 font-bold text-xs cursor-pointer" title="Hapus pencarian">✕</button>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- Action: Reset Filter -->
+          <div class="space-y-1 flex flex-col justify-end">
+            <button 
+              type="button" 
+              id="${this.id('btn-reset-investment-filters')}" 
+              class="w-full px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono font-bold rounded text-xs transition-all cursor-pointer shadow-2xs flex items-center justify-center gap-1.5"
+              title="Kembalikan semua filter ke kondisi awal"
+            >
+              <span>🔄</span>
+              <span>Reset Filter</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- 4. INTERACTIVE GEOSPATIAL GIS MAP (Leaflet Integration) -->
+        <div id="${this.id('investment-geomap-section')}" class="bg-white rounded-lg border border-slate-200 p-4 shadow-sm space-y-3">
+          
+          <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-100 pb-3">
+            <div>
+              <h3 class="font-bold text-xs sm:text-sm text-slate-900 font-mono flex items-center gap-2">
+                <span>🗺️</span>
+                <span>Peta Geospasial Sebaran Mega-Proyek Hilirisasi & Investasi Masuk</span>
+              </h3>
+              <p class="text-[11px] text-slate-500 font-sans mt-0.5">
+                Klik pin lokasi pada peta atau daftar proyek di sebelah kiri untuk melihat rincian 7 parameter investasi.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-blue-50 text-[#0038A8] border border-blue-200">
+                ${projects.length} Titik Proyek Terpetakan
+              </span>
+              <button 
+                type="button" 
+                id="${this.id('btn-reset-investment-map-zoom')}" 
+                class="px-2.5 py-1 bg-white hover:bg-slate-50 text-[#0038A8] border border-slate-200 rounded-md shadow-2xs font-mono font-bold text-[10.5px] cursor-pointer transition-all flex items-center gap-1.5"
+                title="Kembalikan peta ke seluruh kepulauan Indonesia"
+              >
+                <span>🇮🇩</span>
+                <span>Zoom Nusantara Penuh</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+            
+            <!-- Left Column: List of Projects (Scrollable) -->
+            <div class="lg:col-span-5 flex flex-col space-y-2 max-h-[480px] overflow-y-auto pr-1">
+              ${projects.length > 0 ? projects.map((p, idx) => {
+                const isSelected = selected && selected.id === p.id;
+                return `
+                  <div 
+                    class="btn-select-investment-item cursor-pointer p-3 rounded-lg border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#0038A8] ring-2 ring-[#D2E3FC] shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300'}"
+                    data-id="${p.id}"
+                    title="Arahkan kamera peta ke ${p.name}"
+                  >
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="flex items-start gap-2">
+                        <span class="w-6 h-6 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 ${isSelected ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-slate-100 text-slate-800'}">
+                          ${idx + 1}
+                        </span>
+                        <div>
+                          <strong class="text-xs font-mono font-bold ${isSelected ? 'text-[#0038A8]' : 'text-slate-900'} block leading-snug">
+                            ${p.name}
+                          </strong>
+                          <div class="text-[11px] text-slate-600 font-sans mt-0.5">
+                            🏢 ${p.company}
+                          </div>
+                        </div>
+                      </div>
+                      <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold shrink-0 ${isSelected ? 'bg-[#0038A8] text-white' : 'bg-blue-50 text-blue-800'}">
+                        US$ ${p.investment_value_usd_billion} B
+                      </span>
+                    </div>
+
+                    <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10.5px] font-mono text-slate-500 flex-wrap gap-1">
+                      <span>📍 ${p.province}</span>
+                      <span>👥 ${Number(p.labor_impact_total).toLocaleString('id-ID')} Naker</span>
+                      <span class="text-emerald-700 font-bold">Rp ${Number(p.investment_value_idr_trillion).toLocaleString('id-ID')} T</span>
+                    </div>
+                  </div>
+                `;
+              }).join('') : `
+                <div class="p-8 text-center text-slate-500 font-mono text-xs bg-slate-50 rounded-lg border border-slate-200">
+                  Tidak ada proyek investasi yang memenuhi kriteria filter saat ini.
+                </div>
+              `}
+            </div>
+
+            <!-- Right Column: Leaflet GIS Map Container -->
+            <div class="lg:col-span-7 flex flex-col bg-white rounded-lg p-2.5 border border-slate-200 space-y-2 h-full min-h-[480px]">
+              
+              <!-- Map Top Status Bar -->
+              <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono">
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 bg-[#F8F9FA] px-2.5 py-1 rounded-md text-[10.5px] border border-slate-200">
+                    <span class="w-2 h-2 rounded-full bg-[#0038A8] animate-pulse"></span>
+                    <span>Fokus: <strong id="${this.id('investment-map-active-title')}" class="text-[#202124]">${selected ? selected.name : 'Seluruh Indonesia'}</strong></span>
+                  </span>
+                  <span class="text-slate-500 text-[10.5px] hidden sm:inline" id="${this.id('investment-map-coords')}">
+                    ${selected ? `${selected.lat.toFixed(4)}°, ${selected.lng.toFixed(4)}°` : ''}
+                  </span>
+                </div>
+                <span class="text-[10px] font-mono text-slate-500">
+                  Lokasi: <strong id="${this.id('investment-map-location')}" class="text-slate-800">${selected ? selected.location : 'Indonesia'}</strong>
+                </span>
+              </div>
+
+              <!-- Leaflet Map Box -->
+              <div id="${this.id('investment-leaflet-container')}" class="w-full flex-1 min-h-[400px] rounded-lg bg-[#F8F9FA] overflow-hidden relative z-0 border border-slate-200"></div>
+
+              <!-- Map Footer Legend -->
+              <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1 px-1 flex-wrap gap-2 border-t border-slate-100">
+                <div class="flex items-center gap-3 flex-wrap">
+                  <span class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#1E8E3E]"></span>
+                    <span>Nikel & Baterai EV</span>
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#D93025]"></span>
+                    <span>Tembaga & Logam Mulia</span>
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#1A73E8]"></span>
+                    <span>Migas & Petrokimia</span>
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#E37400]"></span>
+                    <span>Bauksit & Alumina</span>
+                  </span>
+                </div>
+                <span>Sumber: Kementerian ESDM, BKPM & SKK Migas (2024-2026)</span>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 5. DETAILED PROJECT DOSSIER CARDS (Mencakup 7 Atribut Lengkap) -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h3 class="font-bold text-xs sm:text-sm text-slate-950 font-mono flex items-center gap-2">
+                <span>📑</span>
+                <span>Kartu Profil Detail 7 Atribut Wajib Investasi Masuk (${projects.length} Proyek)</span>
+              </h3>
+              <p class="text-[11px] text-slate-500 font-sans mt-0.5">
+                Setiap kartu menyajikan: Dimana, Namanya Apa, Dari Mana, Untuk Berapa Lama, Berapa Besar Investasinya, Berupa Apa, dan Impact Menciptakan Tenaga Kerja Berapa.
+              </p>
+            </div>
+            <span class="text-xs font-mono text-slate-500">
+              Format: Dossier Standar Kebijakan Industri & Hilirisasi
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            ${projects.map((p, idx) => `
+              <div 
+                class="bg-white rounded-lg border border-slate-200 p-4 shadow-2xs space-y-3.5 hover:border-[#0038A8] transition-all"
+                id="investment-card-${p.id}"
+              >
+                <!-- Card Top: Namanya Apa + Status -->
+                <div class="flex items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="w-6 h-6 rounded-md bg-[#E8F0FE] text-[#0038A8] flex items-center justify-center font-bold text-xs shrink-0">
+                        ${p.sector_icon || '🏭'}
+                      </span>
+                      <h4 class="font-bold text-sm text-slate-950 font-mono">
+                        ${p.name}
+                      </h4>
+                    </div>
+                    <div class="text-xs text-slate-600 font-sans">
+                      🏢 <strong>Konsorsium / Pelaksana:</strong> ${p.company}
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-bold ${p.status.includes('Operasi') ? 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]' : 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]'}">
+                      ${p.status}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- 7 Atribut Grid (2x2) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-sans">
+                  
+                  <!-- 1. DIMANA -->
+                  <div class="bg-[#F8F9FA] p-2.5 rounded border border-slate-100 space-y-1">
+                    <div class="text-[10px] font-mono font-bold text-slate-500 uppercase flex items-center gap-1">
+                      <span>📍</span> <span>1. Dimana (Lokasi Proyek):</span>
+                    </div>
+                    <div class="font-bold text-slate-900">${p.location}</div>
+                    <div class="text-[11px] text-slate-600">${p.province} • Pulau ${p.island}</div>
+                    <div class="text-[10px] font-mono text-slate-400">Koordinat: ${p.lat.toFixed(4)}°, ${p.lng.toFixed(4)}°</div>
+                  </div>
+
+                  <!-- 2. DARI MANA -->
+                  <div class="bg-[#F8F9FA] p-2.5 rounded border border-slate-100 space-y-1">
+                    <div class="text-[10px] font-mono font-bold text-slate-500 uppercase flex items-center gap-1">
+                      <span>🌍</span> <span>2. Dari Mana (Asal Investor):</span>
+                    </div>
+                    <div class="font-bold text-[#0038A8] flex items-center gap-1 flex-wrap">
+                      <span>${p.country_origin}</span>
+                      <span class="text-[10px] font-mono px-1.5 py-0.2 bg-blue-100 text-blue-800 rounded font-bold">${p.investment_type}</span>
+                    </div>
+                    <div class="text-[11px] text-slate-600 leading-snug">${p.investor_details}</div>
+                  </div>
+
+                  <!-- 3. BERAPA BESAR INVESTASINYA -->
+                  <div class="bg-[#F8F9FA] p-2.5 rounded border border-slate-100 space-y-1">
+                    <div class="text-[10px] font-mono font-bold text-slate-500 uppercase flex items-center gap-1">
+                      <span>💰</span> <span>3. Berapa Besar Investasinya:</span>
+                    </div>
+                    <div class="text-base font-mono font-bold text-[#0038A8]">
+                      US$ ${p.investment_value_usd_billion} Miliar
+                    </div>
+                    <div class="text-xs font-mono font-semibold text-emerald-800">
+                      ~ Rp ${Number(p.investment_value_idr_trillion).toLocaleString('id-ID')} Triliun
+                    </div>
+                  </div>
+
+                  <!-- 4. UNTUK BERAPA LAMA -->
+                  <div class="bg-[#F8F9FA] p-2.5 rounded border border-slate-100 space-y-1">
+                    <div class="text-[10px] font-mono font-bold text-slate-500 uppercase flex items-center gap-1">
+                      <span>⏱️</span> <span>4. Untuk Berapa Lama (Durasi / Izin):</span>
+                    </div>
+                    <div class="font-bold text-slate-900">${p.duration}</div>
+                    <div class="text-[10px] text-slate-500">Masa konsesi operasi & siklus produksi fasilitas</div>
+                  </div>
+
+                </div>
+
+                <!-- 5. BERUPA APA (Bentuk Fisik Fasilitas, Teknologi & Produk Output) -->
+                <div class="bg-[#F8F9FA] p-3 rounded border border-slate-100 space-y-1 text-xs">
+                  <div class="text-[10px] font-mono font-bold text-slate-500 uppercase flex items-center gap-1">
+                    <span>🏭</span> <span>5. Berupa Apa (Wujud Fasilitas, Teknologi & Produk Output):</span>
+                  </div>
+                  <p class="text-slate-800 font-sans leading-relaxed">
+                    ${p.form_and_product}
+                  </p>
+                </div>
+
+                <!-- 6. IMPACT MENCIPTAKAN TENAGA KERJA BERAPA -->
+                <div class="bg-emerald-50/50 p-3 rounded border border-emerald-200/60 space-y-1.5 text-xs">
+                  <div class="flex items-center justify-between flex-wrap gap-1">
+                    <span class="text-[10px] font-mono font-bold text-emerald-800 uppercase flex items-center gap-1">
+                      <span>👥</span> <span>6. Impact Menciptakan Tenaga Kerja Berapa:</span>
+                    </span>
+                    <span class="px-2 py-0.5 rounded font-mono font-bold text-[11px] bg-emerald-100 text-emerald-900">
+                      Total ${Number(p.labor_impact_total).toLocaleString('id-ID')} Pekerja
+                    </span>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+                    <div class="bg-white p-2 rounded border border-emerald-100">
+                      <span class="text-[10px] text-slate-500 block">Tenaga Kerja Tetap (Operasional):</span>
+                      <strong class="text-emerald-800 text-sm">${Number(p.labor_impact_direct).toLocaleString('id-ID')} Orang</strong>
+                    </div>
+                    <div class="bg-white p-2 rounded border border-emerald-100">
+                      <span class="text-[10px] text-slate-500 block">Konstruksi & Rantai Pasok Daerah:</span>
+                      <strong class="text-slate-800 text-sm">${Number(p.labor_impact_indirect).toLocaleString('id-ID')} Orang</strong>
+                    </div>
+                  </div>
+                  <p class="text-[11px] text-slate-600 font-sans leading-snug pt-1">
+                    ${p.labor_details}
+                  </p>
+                </div>
+
+                <!-- Card Footer Actions -->
+                <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+                  <span class="text-[10.5px] font-mono text-slate-400">Kode Proyek: ${p.id}</span>
+                  <button 
+                    type="button" 
+                    class="btn-focus-investment-map px-3 py-1.5 bg-[#E8F0FE] hover:bg-[#D2E3FC] text-[#0038A8] font-mono font-bold rounded text-xs transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                    data-id="${p.id}"
+                  >
+                    <span>📍</span>
+                    <span>Lihat Lokasi di Peta</span>
+                  </button>
+                </div>
+
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- 6. FULL COMPARISON TABLE & EXPORT SECTION -->
+        <div class="bg-white rounded-lg border border-slate-200 p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h3 class="font-bold text-xs sm:text-sm text-slate-900 font-mono flex items-center gap-2">
+                <span>📑</span>
+                <span>Matriks Komparasi 12 Mega-Proyek Hilirisasi & Investasi Masuk</span>
+              </h3>
+              <p class="text-[11px] text-slate-500 font-sans mt-0.5">
+                Struktur data tabular terstandarisasi untuk kebutuhan analisis kebijakan ekonomi dan komparasi multivariabel.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button 
+                type="button" 
+                id="${this.id('btn-export-investment-csv-2')}" 
+                class="px-3.5 py-1.5 bg-[#0038A8] hover:bg-[#002B82] text-white rounded-md text-xs font-mono font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                title="Unduh tabel komparasi dalam format Excel (.csv)"
+              >
+                <span>📥</span>
+                <span>Unduh Data (.csv)</span>
+              </button>
+
+              <button 
+                type="button" 
+                id="${this.id('btn-toggle-investment-table')}" 
+                class="px-3 py-1.5 bg-white hover:bg-slate-50 text-[#0038A8] border border-slate-200 rounded-md text-xs font-mono font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                title="Tampilkan atau sembunyikan tabel komparasi proyek"
+              >
+                <span>📊</span>
+                <span id="${this.id('label-toggle-investment-table')}">${this.isInvestmentTableExpanded ? 'Sembunyikan Tabel' : 'Tampilkan Tabel Komparasi Lengkap (12 Proyek)'}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Collapsible Table Content -->
+          <div id="${this.id('investment-full-table-container')}" class="${this.isInvestmentTableExpanded ? '' : 'hidden'} pt-2">
+            <div class="overflow-x-auto max-h-[520px]">
+              <table class="w-full text-left border-collapse text-[11px] font-mono">
+                <thead class="sticky top-0 z-10 shadow-2xs bg-[#F8F9FA] text-[#5F6368] border-b border-slate-200">
+                  <tr>
+                    <th class="py-2.5 px-3 font-bold">No</th>
+                    <th class="py-2.5 px-3 font-bold">Nama Proyek & Pelaksana</th>
+                    <th class="py-2.5 px-3 font-bold">Sektor Hilirisasi</th>
+                    <th class="py-2.5 px-3 font-bold">Lokasi & Provinsi</th>
+                    <th class="py-2.5 px-3 font-bold">Asal Negara & Tipe</th>
+                    <th class="py-2.5 px-3 text-right font-bold text-[#0038A8]">Nilai (USD B)</th>
+                    <th class="py-2.5 px-3 text-right font-bold text-emerald-700">Nilai (Rp T)</th>
+                    <th class="py-2.5 px-3 text-right font-bold">Naker Tetap</th>
+                    <th class="py-2.5 px-3 text-right font-bold">Total Naker</th>
+                    <th class="py-2.5 px-3 font-bold">Durasi / Konsesi</th>
+                    <th class="py-2.5 px-3 font-bold">Wujud Fasilitas & Produk Output</th>
+                    <th class="py-2.5 px-3 text-center font-bold">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  ${projects.map((p, idx) => `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                      <td class="py-2.5 px-3 font-bold text-slate-500 text-center">${idx + 1}</td>
+                      <td class="py-2.5 px-3">
+                        <div class="font-bold text-slate-900">${p.name}</div>
+                        <div class="text-[10px] text-slate-500">${p.company}</div>
+                      </td>
+                      <td class="py-2.5 px-3">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-900 border border-blue-200">
+                          ${p.sector_icon || ''} ${p.sector}
+                        </span>
+                      </td>
+                      <td class="py-2.5 px-3">
+                        <div class="font-bold text-slate-800">${p.location}</div>
+                        <div class="text-[10px] text-slate-500">${p.province}</div>
+                      </td>
+                      <td class="py-2.5 px-3">
+                        <div class="font-bold text-[#0038A8]">${p.country_origin}</div>
+                        <div class="text-[10px] text-slate-500">${p.investment_type}</div>
+                      </td>
+                      <td class="py-2.5 px-3 text-right font-bold text-[#0038A8]">
+                        $${p.investment_value_usd_billion} B
+                      </td>
+                      <td class="py-2.5 px-3 text-right font-bold text-emerald-700">
+                        Rp ${Number(p.investment_value_idr_trillion).toLocaleString('id-ID')} T
+                      </td>
+                      <td class="py-2.5 px-3 text-right font-semibold text-emerald-800">
+                        ${Number(p.labor_impact_direct).toLocaleString('id-ID')}
+                      </td>
+                      <td class="py-2.5 px-3 text-right font-bold text-slate-900">
+                        ${Number(p.labor_impact_total).toLocaleString('id-ID')}
+                      </td>
+                      <td class="py-2.5 px-3 text-[10px] max-w-[150px] truncate" title="${p.duration}">
+                        ${p.duration}
+                      </td>
+                      <td class="py-2.5 px-3 text-[10.5px] font-sans max-w-[220px] truncate" title="${p.form_and_product}">
+                        ${p.form_and_product}
+                      </td>
+                      <td class="py-2.5 px-3 text-center">
+                        <span class="px-1.5 py-0.5 rounded text-[9.5px] font-bold ${p.status.includes('Operasi') ? 'bg-[#E6F4EA] text-[#137333]' : 'bg-[#FEF7E0] text-[#B06000]'}">
+                          ${p.status}
+                        </span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
+  initInvestmentLeafletMap(activeProject = null) {
+    const mapContainer = this.el('investment-leaflet-container');
+    if (!mapContainer) return;
+
+    if (typeof L === 'undefined') {
+      console.warn('Leaflet library is still loading...');
+      return;
+    }
+
+    if (this.investmentMapInstance) {
+      try {
+        this.investmentMapInstance.remove();
+      } catch (e) {}
+      this.investmentMapInstance = null;
+    }
+
+    this.investmentMarkersMap.clear();
+
+    const defaultCenter = [-2.2, 118.0];
+    const defaultZoom = 4.5;
+
+    this.investmentMapInstance = L.map(mapContainer, {
+      center: defaultCenter,
+      zoom: defaultZoom,
+      minZoom: 3.5,
+      maxZoom: 14,
+      zoomControl: true,
+      attributionControl: false
+    });
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19
+    }).addTo(this.investmentMapInstance);
+
+    this.investmentMarkersLayer = L.layerGroup().addTo(this.investmentMapInstance);
+
+    this.updateInvestmentMapMarkers(activeProject);
+
+    setTimeout(() => {
+      if (this.investmentMapInstance) {
+        this.investmentMapInstance.invalidateSize();
+      }
+    }, 150);
+  }
+
+  updateInvestmentMapMarkers(activeProject = null) {
+    if (!this.investmentMapInstance || !this.investmentMarkersLayer) return;
+
+    this.investmentMarkersLayer.clearLayers();
+    this.investmentMarkersMap.clear();
+
+    const projects = this.investmentData?.projects || [];
+    if (projects.length > 0) {
+      projects.forEach(p => {
+        if (!p.lat || !p.lng) return;
+
+        const isSelected = activeProject && activeProject.id === p.id;
+
+        let markerBg = 'bg-[#1A73E8]';
+        let markerIcon = p.sector_icon || '🏭';
+        if (p.sector === 'Nikel & Baterai EV') {
+          markerBg = 'bg-[#1E8E3E]';
+        } else if (p.sector === 'Tembaga & Logam Mulia') {
+          markerBg = 'bg-[#D93025]';
+        } else if (p.sector === 'Minyak, Gas & Petrokimia') {
+          markerBg = 'bg-[#1A73E8]';
+        } else if (p.sector === 'Bauksit & Alumina') {
+          markerBg = 'bg-[#E37400]';
+        }
+
+        const iconHtml = `
+          <div class="relative flex items-center justify-center">
+            <div class="w-7 h-7 rounded-full ${isSelected ? `${markerBg} ring-4 ring-[#D2E3FC] shadow-lg scale-110` : `${markerBg} ring-2 ring-white shadow`} flex items-center justify-center text-white text-xs font-bold transition-transform">
+              ${markerIcon}
+            </div>
+            ${isSelected ? '<div class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-amber-400 animate-ping"></div>' : ''}
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: 'custom-investment-marker',
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
+
+        const marker = L.marker([p.lat, p.lng], { icon: customIcon }).addTo(this.investmentMarkersLayer);
+        this.investmentMarkersMap.set(p.id, marker);
+
+        const popupContent = `
+          <div class="p-2.5 font-sans text-xs space-y-1.5 bg-white text-[#202124] rounded-lg max-w-[280px] shadow-sm">
+            <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+              <strong class="font-mono text-xs text-[#0038A8]">${p.name}</strong>
+              <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-blue-50 text-[#0038A8] font-bold">US$ ${p.investment_value_usd_billion} B</span>
+            </div>
+            <div class="text-[11px] text-slate-600 font-sans">
+              🏢 <strong>Konsorsium:</strong> ${p.company}
+            </div>
+            <div class="text-[11px] text-slate-600 font-sans">
+              📍 <strong>Lokasi:</strong> ${p.location}, ${p.province}
+            </div>
+            <div class="text-[11px] text-[#0038A8] font-sans">
+              🌍 <strong>Asal Investor:</strong> ${p.country_origin} (${p.investment_type})
+            </div>
+            <div class="text-[11px] text-emerald-800 font-mono font-bold">
+              👥 <strong>Tenaga Kerja:</strong> ${Number(p.labor_impact_total).toLocaleString('id-ID')} Orang (${Number(p.labor_impact_direct).toLocaleString('id-ID')} Tetap)
+            </div>
+            <div class="text-[10.5px] text-slate-500 font-sans pt-1 border-t border-slate-100 line-clamp-2">
+              🏭 ${p.form_and_product}
+            </div>
+          </div>
+        `;
+        marker.bindPopup(popupContent);
+
+        marker.on('click', () => {
+          this.selectInvestmentProject(p);
+        });
+      });
+
+      if (activeProject && activeProject.lat && activeProject.lng) {
+        this.focusInvestmentMapOnProject(activeProject);
+      } else {
+        this.investmentMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+      }
+    } else {
+      this.investmentMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
+    }
+  }
+
+  selectInvestmentProject(project) {
+    if (!project) return;
+    this.selectedInvestmentProject = project;
+    this.focusInvestmentMapOnProject(project);
+
+    // Update list item highlights in left column
+    const root = this.getContainer() || document;
+    root.querySelectorAll('.btn-select-investment-item').forEach(item => {
+      const pId = item.getAttribute('data-id');
+      const isSelected = pId === project.id;
+      if (isSelected) {
+        item.className = 'btn-select-investment-item cursor-pointer p-3 rounded-lg border transition-all bg-[#E8F0FE] border-[#0038A8] ring-2 ring-[#D2E3FC] shadow-sm';
+        item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        item.className = 'btn-select-investment-item cursor-pointer p-3 rounded-lg border transition-all bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300';
+      }
+    });
+
+    // Update top status labels
+    const titleLabel = this.el('investment-map-active-title');
+    const coordsLabel = this.el('investment-map-coords');
+    const locationLabel = this.el('investment-map-location');
+    if (titleLabel) titleLabel.textContent = project.name;
+    if (coordsLabel) coordsLabel.textContent = `${project.lat.toFixed(4)}°, ${project.lng.toFixed(4)}°`;
+    if (locationLabel) locationLabel.textContent = project.location;
+  }
+
+  focusInvestmentMapOnProject(project) {
+    if (!this.investmentMapInstance || !project || !project.lat || !project.lng) return;
+
+    this.investmentMapInstance.flyTo([project.lat, project.lng], 8.5, {
+      duration: 1.2,
+      easeLinearity: 0.25
+    });
+
+    const marker = this.investmentMarkersMap.get(project.id);
+    if (marker) {
+      setTimeout(() => {
+        marker.openPopup();
+      }, 400);
+    }
+
+    // Add pulsating circle
+    if (this.investmentActiveCircle) {
+      try {
+        this.investmentMapInstance.removeLayer(this.investmentActiveCircle);
+      } catch (e) {}
+    }
+
+    this.investmentActiveCircle = L.circle([project.lat, project.lng], {
+      radius: 65000,
+      color: '#0038A8',
+      fillColor: '#0038A8',
+      fillOpacity: 0.15,
+      weight: 2,
+      dashArray: '4, 4'
+    }).addTo(this.investmentMapInstance);
+  }
+
+  async exportInvestmentToCsv() {
+    try {
+      const user = JSON.parse(localStorage.getItem('den_researcher_user') || 'null');
+      if (!user) {
+        if (window.openEmailRegistrationModal) {
+          window.openEmailRegistrationModal('Verifikasi Email Peneliti diperlukan sebelum mengunduh Data Investasi Hilirisasi.');
+        } else {
+          alert('Silakan daftarkan email peneliti terlebih dahulu di menu registrasi.');
+        }
+        return;
+      }
+
+      const quotaCheck = ExcelExporter.checkAndConsumeDownloadQuota(user.email);
+      if (!quotaCheck.allowed) {
+        ExcelExporter.showQuotaExceededModal(quotaCheck);
+        return;
+      }
+
+      const projects = this.investmentData?.projects || [];
+      const shortTs = ExcelExporter.getShortTimestamp();
+
+      const rows = [
+        ['PUSAT BASIS DATA DATA SEKUNDER: PERGERAKAN EKONOMI INDONESIA'],
+        ['OBSERVATORIUM INVESTASI MASUK PMA & PMDN HILIRISASI HASIL BUMI & ENERGI'],
+        ['Harmonisasi Data: Kementerian Investasi / BKPM, Ditjen Minerba ESDM & SKK Migas (2024-2026)'],
+        [],
+        [
+          'KODE PROYEK',
+          'NAMA PROYEK (NAMANYA APA)',
+          'KONSORSIUM / PERUSAHAAN INVESTOR',
+          'SEKTOR HILIRISASI',
+          'LOKASI KAWASAN INDUSTRI (DIMANA)',
+          'KABUPATEN / KOTA',
+          'PROVINSI',
+          'PULAU',
+          'LATITUDE',
+          'LONGITUDE',
+          'NEGARA ASAL INVESTOR (DARI MANA)',
+          'RINCIAN INVESTOR & MITRA BUMN',
+          'TIPE INVESTASI (PMA / PMDN)',
+          'DURASI & MASA KONSESI (UNTUK BERAPA LAMA)',
+          'NILAI INVESTASI (USD MILIAR)',
+          'NILAI INVESTASI (RP TRILIUN)',
+          'BENTUK FASILITAS, TEKNOLOGI & PRODUK OUTPUT (BERUPA APA)',
+          'TENAGA KERJA LANGSUNG TETAP (IMPACT NAKER)',
+          'TENAGA KERJA KONSTRUKSI & EKOSISTEM (IMPACT NAKER)',
+          'TOTAL PENYERAPAN TENAGA KERJA (IMPACT NAKER)',
+          'CATATAN TENAGA KERJA LOKAL & TRANSFER TEKNOLOGI',
+          'STATUS OPERASIONAL'
+        ]
+      ];
+
+      projects.forEach(p => {
+        rows.push([
+          p.id,
+          p.name,
+          p.company,
+          p.sector,
+          p.location,
+          p.location.split(',')[0] || '',
+          p.province,
+          p.island,
+          p.lat,
+          p.lng,
+          p.country_origin,
+          p.investor_details,
+          p.investment_type,
+          p.duration,
+          p.investment_value_usd_billion,
+          p.investment_value_idr_trillion,
+          p.form_and_product,
+          p.labor_impact_direct,
+          p.labor_impact_indirect,
+          p.labor_impact_total,
+          p.labor_details,
+          p.status
+        ]);
+      });
+
+      ExcelExporter.downloadCSV(`Realisasi_Investasi_Hilirisasi_Indonesia_PMA_PMDN_${shortTs}.csv`, rows);
+    } catch (err) {
+      console.error('Error exporting investment CSV:', err);
+      alert('Gagal mengekspor data CSV investasi masuk.');
     }
   }
 }

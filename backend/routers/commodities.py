@@ -58,3 +58,18 @@ def get_commodity_spatial_distribution(
     if not spatial:
         raise HTTPException(status_code=404, detail=f"Spatial data for commodity '{commodity_id}' not found.")
     return spatial
+
+
+@router.get("/api/commodities/investments", tags=["Commodity Tracking & Investments"])
+def get_commodity_investments(
+    sector: Optional[str] = Query(None, description="Filter sector e.g. 'Nikel & Baterai EV'"),
+    country: Optional[str] = Query(None, description="Filter country of origin e.g. 'Tiongkok' or 'Amerika Serikat'"),
+    province: Optional[str] = Query(None, description="Filter province or island e.g. 'Sulawesi' or 'Jawa Timur'"),
+    search: Optional[str] = Query(None, description="Search query for project, company, or location")
+):
+    """
+    Returns verified strategic incoming investments into Indonesia (Minerba, Energi & Hilirisasi Hasil Bumi),
+    including project name, location, investor origin, duration, investment value, product form, and employment impact.
+    """
+    return CommodityService.get_incoming_investments(sector, country, province, search)
+
