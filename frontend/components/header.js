@@ -31,21 +31,20 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
   container.innerHTML = `
     <!-- 1. TOP ACTION NAVIGATION TOOLBAR (FIX HEADER) -->
     <header class="bg-[#F5EBE1] px-[7px] pt-2.5 pb-1 flex items-center justify-between flex-wrap gap-2">
-      <!-- Website Monogram Logo Icon (Replacing text name in header) -->
-      <a href="#" class="flex items-center gap-2 group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
-        <svg class="h-8 w-auto text-[#0038A8] transition-transform group-hover:scale-105" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="INDOEKONOMI data">
-          <text x="10" y="66" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">19</text>
-          <text x="10" y="74" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">90</text>
-          <text x="82" y="15" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">20</text>
-          <text x="82" y="23" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">26</text>
-          <path d="M26 56 C20 40 26 24 40 17 C54 10 72 13 80 22 C88 31 87 41 78 47 C69 52 57 49 48 47" stroke="#0038A8" stroke-width="2.8" stroke-linecap="round" fill="none"/>
-          <path d="M48 47 C60 50 78 52 83 60 C88 68 81 74 68 74 C50 74 34 66 28 52" stroke="#0038A8" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-          <path d="M54 43 C62 43 70 41 74 39" stroke="#0038A8" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M37 14 H59" stroke="#0038A8" stroke-width="3.2" stroke-linecap="square"/>
-          <path d="M37 73 H59" stroke="#0038A8" stroke-width="3.2" stroke-linecap="square"/>
-          <rect x="45.5" y="14" width="5" height="59" fill="#0038A8"/>
-        </svg>
-      </a>
+      <!-- Website Monogram Logo Icon + Status Line -->
+      <div class="flex items-center gap-3">
+        <a href="#" class="flex items-center group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
+          <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-8 w-8 object-contain bg-white rounded shadow-2xs">
+        </a>
+        <div class="flex items-center gap-2 flex-wrap text-[11px] font-mono uppercase tracking-widest text-[#5D4037] font-bold">
+          <span>STANDAR STATUTORI NASIONAL</span>
+          <span>•</span>
+          <span class="inline-flex items-center gap-1.5 text-[#1B4D3E] normal-case font-bold">
+            <span class="inline-block w-2 h-2 rounded-full bg-[#1B4D3E] animate-pulse"></span>
+            <span>Status: Online</span>
+          </span>
+        </div>
+      </div>
 
       <!-- Action Navigation Buttons -->
       <div class="flex items-center gap-2 flex-wrap ml-auto">
@@ -79,38 +78,21 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
           
           <!-- Col 1: Brand & Statutori Mission (Span 4) -->
           <div class="lg:col-span-4 space-y-2.5">
-            <div class="flex items-center gap-2 flex-wrap text-[10px] font-mono uppercase tracking-widest text-[#8D6E63] font-bold">
-              <span>STANDAR STATUTORI NASIONAL</span>
-              <span>•</span>
-              <span class="inline-flex items-center gap-1.5 text-[#1B4D3E] normal-case font-bold">
-                <span class="inline-block w-2 h-2 rounded-full bg-[#1B4D3E] animate-pulse"></span>
-                <span>Status: Online</span>
-              </span>
-            </div>
-            <div class="flex items-center gap-3 flex-wrap">
-              <!-- Website Monogram Logo Icon (Replacing text name in front page) -->
-              <div class="flex items-center shrink-0" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
-                <svg class="h-11 w-auto text-[#0038A8]" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="INDOEKONOMI data">
-                  <text x="10" y="66" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">19</text>
-                  <text x="10" y="74" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">90</text>
-                  <text x="82" y="15" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">20</text>
-                  <text x="82" y="23" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">26</text>
-                  <path d="M26 56 C20 40 26 24 40 17 C54 10 72 13 80 22 C88 31 87 41 78 47 C69 52 57 49 48 47" stroke="#0038A8" stroke-width="2.8" stroke-linecap="round" fill="none"/>
-                  <path d="M48 47 C60 50 78 52 83 60 C88 68 81 74 68 74 C50 74 34 66 28 52" stroke="#0038A8" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-                  <path d="M54 43 C62 43 70 41 74 39" stroke="#0038A8" stroke-width="2.5" stroke-linecap="round"/>
-                  <path d="M37 14 H59" stroke="#0038A8" stroke-width="3.2" stroke-linecap="square"/>
-                  <path d="M37 73 H59" stroke="#0038A8" stroke-width="3.2" stroke-linecap="square"/>
-                  <rect x="45.5" y="14" width="5" height="59" fill="#0038A8"/>
-                </svg>
-              </div>
-              <div class="flex flex-col gap-1">
-                <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-white text-[#0038A8] shadow-2xs w-fit">
-                  indoekonomi.data.go.id
-                </span>
-                <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-white text-[#5D4037] inline-flex items-center gap-1 shadow-2xs w-fit">
+            <div class="flex items-center gap-3.5">
+              <!-- Website Monogram Logo Icon -->
+              <a href="#" class="flex items-center shrink-0 group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
+                <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-16 w-16 sm:h-20 sm:w-20 object-contain bg-white rounded-md shadow-xs p-1">
+              </a>
+              <div class="flex flex-col gap-1.5 justify-center">
+                <div class="px-3.5 py-1 rounded-md bg-white shadow-xs inline-flex items-center">
+                  <span class="text-base sm:text-lg font-mono font-black text-[#0038A8] tracking-widest uppercase">
+                    INDOEKONOMI.DATA.GO.ID
+                  </span>
+                </div>
+                <div class="px-2.5 py-0.5 rounded bg-white shadow-2xs text-[10px] font-mono font-semibold inline-flex items-center gap-1 text-[#5D4037] w-fit">
                   <span class="text-[#7D655C] font-normal lowercase">supported by</span>
                   <span class="font-bold uppercase text-[#2C2420]">Dewan Ekonomi Nasional</span>
-                </span>
+                </div>
               </div>
             </div>
             <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
