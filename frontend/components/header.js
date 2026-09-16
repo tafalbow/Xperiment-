@@ -34,7 +34,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
       <!-- Website Monogram Logo Icon + Status Line -->
       <div class="flex items-center gap-3">
         <a href="#" class="flex items-center group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
-          <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-8 w-8 object-contain bg-white rounded shadow-2xs">
+          <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-8 w-8 object-contain">
         </a>
         <div class="flex items-center gap-2 flex-wrap text-[11px] font-mono uppercase tracking-widest text-[#5D4037] font-bold">
           <span>STANDAR STATUTORI NASIONAL</span>
@@ -81,7 +81,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
             <div class="flex items-center gap-3.5">
               <!-- Website Monogram Logo Icon -->
               <a href="#" class="flex items-center shrink-0 group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
-                <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-16 w-16 sm:h-20 sm:w-20 object-contain bg-white rounded-md shadow-xs p-1">
+                <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-16 w-16 sm:h-20 sm:w-20 object-contain">
               </a>
               <div class="flex flex-col gap-1.5 justify-center">
                 <div class="px-3.5 py-1 rounded-md bg-white shadow-xs inline-flex items-center">
