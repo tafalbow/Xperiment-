@@ -137,8 +137,8 @@ class AuditService:
                 )
             """)
             
-            email = (payload.get("email") or "lubistaniafatimah@gmail.com").strip().lower()
-            is_admin = 1 if email in ("lubistaniafatimah@gmail.com", "lubis.tania@dewanekonomi.go.id") else 0
+            email = (payload.get("email") or "taniafatimahlubis@gmail.com").strip().lower()
+            is_admin = 1 if email in ("taniafatimahlubis@gmail.com", "lubistaniafatimah@gmail.com", "lubis.tania@dewanekonomi.go.id") else 0
             
             cur.execute("""
                 INSERT INTO download_audit_logs (

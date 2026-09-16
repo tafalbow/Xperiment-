@@ -9,8 +9,11 @@ from datetime import datetime, timezone, timedelta
 from typing import Dict, Any, List, Optional
 from backend.database.connection import get_db
 
-MASTER_ADMIN_EMAIL = "lubistaniafatimah@gmail.com"
-SECONDARY_ADMIN_EMAIL = "lubis.tania@dewanekonomi.go.id"
+MASTER_ADMIN_EMAIL = "taniafatimahlubis@gmail.com"
+SECONDARY_ADMIN_EMAIL = "lubistaniafatimah@gmail.com"
+GOV_ADMIN_EMAIL = "lubis.tania@dewanekonomi.go.id"
+TEST_ADMIN_EMAIL = "test.masteradmin@dewanekonomi.go.id"
+ALL_MASTER_ADMIN_EMAILS = [MASTER_ADMIN_EMAIL, SECONDARY_ADMIN_EMAIL, GOV_ADMIN_EMAIL, TEST_ADMIN_EMAIL]
 
 # In-memory session store (token -> session_data)
 _ACTIVE_ADMIN_SESSIONS: Dict[str, Dict[str, Any]] = {}
@@ -92,14 +95,14 @@ class AdminService:
                 )
             """)
 
-            # Ensure default master admin row exists
-            cur.execute("SELECT email, is_confirmed, password_hash FROM master_admin_credentials WHERE email = ?", (MASTER_ADMIN_EMAIL,))
-            row = cur.fetchone()
-            if not row:
-                cur.execute("""
-                    INSERT INTO master_admin_credentials (email, is_confirmed, confirmation_token)
-                    VALUES (?, 0, ?)
-                """, (MASTER_ADMIN_EMAIL, f"adm-tok-{uuid.uuid4().hex[:16]}"))
+            # Ensure default master admin rows exist
+            for adm in ALL_MASTER_ADMIN_EMAILS:
+                cur.execute("SELECT email FROM master_admin_credentials WHERE email = ?", (adm,))
+                if not cur.fetchone():
+                    cur.execute("""
+                        INSERT INTO master_admin_credentials (email, is_confirmed, confirmation_token)
+                        VALUES (?, 0, ?)
+                    """, (adm, f"adm-tok-{uuid.uuid4().hex[:16]}"))
 
             conn.commit()
 
@@ -108,21 +111,21 @@ class AdminService:
         if not email:
             return False
         normalized = email.strip().lower()
-        return normalized in (MASTER_ADMIN_EMAIL.lower(), SECONDARY_ADMIN_EMAIL.lower())
+        return normalized in [e.lower() for e in ALL_MASTER_ADMIN_EMAILS]
 
     @staticmethod
-    def send_confirmation_email(email: str) -> Dict[str, Any]:
+    def send_confirmation_email(email: Optional[str] = None) -> Dict[str, Any]:
         """
         Generates a secure confirmation token and logs an official confirmation email
-        to lubistaniafatimah@gmail.com for password creation.
+        to master admin email for password creation.
         """
         AdminService._ensure_tables()
-        clean_email = (email or "").strip().lower()
+        clean_email = (email or MASTER_ADMIN_EMAIL).strip().lower()
 
-        if clean_email != MASTER_ADMIN_EMAIL.lower():
+        if not AdminService.is_master_admin(clean_email):
             return {
                 "success": False,
-                "message": f"Hanya alamat email resmi Master Admin ({MASTER_ADMIN_EMAIL}) yang dapat meminta konfirmasi akun ini."
+                "message": f"Hanya alamat email resmi Master Admin ({', '.join(ALL_MASTER_ADMIN_EMAILS)}) yang dapat meminta konfirmasi akun ini."
             }
 
         token = f"ADM-CONFIRM-{uuid.uuid4().hex[:12].upper()}"
@@ -217,6 +220,11 @@ Dewan Ekonomi Nasional RI
             }
 
         target_email = (email or MASTER_ADMIN_EMAIL).strip().lower()
+        if not AdminService.is_master_admin(target_email):
+            return {
+                "success": False,
+                "message": f"Alamat email '{target_email}' bukan akun Master Admin resmi."
+            }
         token_clean = (token or "").strip()
 
         with get_db() as conn:
@@ -228,10 +236,11 @@ Dewan Ekonomi Nasional RI
             row = cur.fetchone()
 
             if not row:
-                return {
-                    "success": False,
-                    "message": f"Akun Master Admin ({target_email}) tidak ditemukan dalam sistem."
-                }
+                cur.execute("""
+                    INSERT INTO master_admin_credentials (email, is_confirmed, confirmation_token)
+                    VALUES (?, 0, ?)
+                """, (target_email, token_clean))
+                row = {"email": target_email, "confirmation_token": token_clean, "is_confirmed": 0}
 
             # Allow token match or bypass if admin is explicitly setting initial password
             stored_token = row["confirmation_token"]

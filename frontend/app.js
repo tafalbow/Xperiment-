@@ -247,7 +247,7 @@ class App {
     try {
       const sess = JSON.parse(localStorage.getItem('master_admin_session') || '{}');
       const email = sess.email?.trim().toLowerCase();
-      if (email === 'lubistaniafatimah@gmail.com' || email === 'lubis.tania@dewanekonomi.go.id') {
+      if (email === 'taniafatimahlubis@gmail.com' || email === 'lubistaniafatimah@gmail.com' || email === 'lubis.tania@dewanekonomi.go.id') {
         isMaster = true;
       }
     } catch (e) {}

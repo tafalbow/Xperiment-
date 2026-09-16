@@ -432,10 +432,10 @@ export const ApiClient = {
   },
 
   // ============================================================================
-  // MASTER ADMIN & GOVERNANCE METHODS (lubistaniafatimah@gmail.com)
+  // MASTER ADMIN & GOVERNANCE METHODS (taniafatimahlubis@gmail.com)
   // ============================================================================
 
-  async sendAdminConfirmation(email = 'lubistaniafatimah@gmail.com') {
+  async sendAdminConfirmation(email = 'taniafatimahlubis@gmail.com') {
     try {
       const res = await fetch(`${API_BASE}/api/admin/send-confirmation`, {
         method: 'POST',
@@ -465,7 +465,7 @@ export const ApiClient = {
     return fallbackData;
   },
 
-  async setAdminPassword(token, password, email = 'lubistaniafatimah@gmail.com') {
+  async setAdminPassword(token, password, email = 'taniafatimahlubis@gmail.com') {
     try {
       const res = await fetch(`${API_BASE}/api/admin/set-password`, {
         method: 'POST',
@@ -497,7 +497,8 @@ export const ApiClient = {
       console.warn('API /api/admin/login unavailable, using client fallback:', e);
     }
     const cleanEmail = email.trim().toLowerCase();
-    if (cleanEmail !== 'lubistaniafatimah@gmail.com' && cleanEmail !== 'lubis.tania@dewanekonomi.go.id') {
+    const validAdmins = ['taniafatimahlubis@gmail.com', 'lubistaniafatimah@gmail.com', 'lubis.tania@dewanekonomi.go.id'];
+    if (!validAdmins.includes(cleanEmail)) {
       throw new Error(`Akses ditolak: Alamat email '${cleanEmail}' bukan akun Master Admin resmi.`);
     }
     const storedHash = localStorage.getItem('master_admin_password_hash');

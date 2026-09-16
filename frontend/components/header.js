@@ -1,8 +1,13 @@
 import { ModalManager } from './modals.js';
 import { ApiClient } from '../services/api_client.js';
 
-export const MASTER_ADMIN_EMAIL = 'lubistaniafatimah@gmail.com';
-export const SOLE_ADMIN_EMAIL = 'lubistaniafatimah@gmail.com'; // Backward compatibility
+export const MASTER_ADMIN_EMAIL = 'taniafatimahlubis@gmail.com';
+export const SOLE_ADMIN_EMAIL = 'taniafatimahlubis@gmail.com'; // Backward compatibility
+export const ALL_ADMIN_EMAILS = [
+  'taniafatimahlubis@gmail.com',
+  'lubistaniafatimah@gmail.com',
+  'lubis.tania@dewanekonomi.go.id'
+];
 
 export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, onOpenCrosswalk, onOpenIngestion }) {
   const container = document.getElementById(containerId);
@@ -24,8 +29,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
 
   const isMasterAdmin = Boolean(
     masterAdminSession && 
-    (masterAdminSession.email?.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase() || 
-     masterAdminSession.email?.toLowerCase() === 'lubis.tania@dewanekonomi.go.id')
+    ALL_ADMIN_EMAILS.map(e => e.toLowerCase()).includes(masterAdminSession.email?.toLowerCase())
   );
 
   container.innerHTML = `
@@ -355,8 +359,18 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
           </div>
 
           <p class="text-[10.5px] text-slate-600">
-            Klik tombol di bawah untuk meminta pengiriman email konfirmasi resmi dan kode token pembuatan kata sandi ke <strong>${MASTER_ADMIN_EMAIL}</strong>.
+            Pilih atau masukkan alamat email Master Admin Anda, lalu klik tombol di bawah untuk menerbitkan token konfirmasi resmi pembuatan kata sandi.
           </p>
+
+          <div class="space-y-1">
+            <label class="block text-[10px] font-bold uppercase text-slate-700">Email Master Admin:</label>
+            <input 
+              type="email" 
+              id="admin-confirm-target-email" 
+              class="gov-input w-full text-xs font-mono bg-white" 
+              value="${MASTER_ADMIN_EMAIL}" 
+            />
+          </div>
 
           <button 
             type="button" 
@@ -364,13 +378,13 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
             class="w-full py-1.5 px-3 rounded bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs"
           >
             <span>✉️</span>
-            <span>Kirim Email Konfirmasi & Setup Password ke ${MASTER_ADMIN_EMAIL}</span>
+            <span>Terbitkan Token Konfirmasi & Setup Password</span>
           </button>
 
           <!-- Dynamic Notice after email sent -->
           <div id="admin-confirm-result" class="hidden space-y-2 pt-2 border-t border-slate-100">
             <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded p-2.5 text-[10.5px] leading-relaxed">
-              <div class="font-bold">✓ Email Konfirmasi Resmi Terkirim!</div>
+              <div class="font-bold">✓ Token Konfirmasi Resmi Berhasil Diterbitkan!</div>
               <div id="admin-confirm-msg" class="mt-0.5 text-slate-700"></div>
             </div>
 
@@ -413,9 +427,8 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
                 type="email" 
                 id="admin-login-email" 
                 required 
-                class="gov-input w-full text-xs font-mono bg-slate-50" 
+                class="gov-input w-full text-xs font-mono bg-white" 
                 value="${MASTER_ADMIN_EMAIL}"
-                readonly
               />
             </div>
 
@@ -545,10 +558,11 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
   // 2. Trigger Send Admin Confirmation Email
   document.getElementById('btn-send-admin-confirmation')?.addEventListener('click', async () => {
     const btn = document.getElementById('btn-send-admin-confirmation');
-    if (btn) btn.innerHTML = '<span>⏳</span><span>Mengirim email konfirmasi...</span>';
+    const targetEmail = document.getElementById('admin-confirm-target-email')?.value?.trim() || MASTER_ADMIN_EMAIL;
+    if (btn) btn.innerHTML = '<span>⏳</span><span>Menerbitkan token konfirmasi...</span>';
 
     try {
-      const res = await ApiClient.sendAdminConfirmation(MASTER_ADMIN_EMAIL);
+      const res = await ApiClient.sendAdminConfirmation(targetEmail);
       const resultDiv = document.getElementById('admin-confirm-result');
       const msgDiv = document.getElementById('admin-confirm-msg');
       const tokenInput = document.getElementById('admin-token-input');
@@ -556,23 +570,25 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
       if (resultDiv && msgDiv) {
         resultDiv.classList.remove('hidden');
         msgDiv.innerHTML = `
-          Surat resmi telah diterbitkan ke <strong>${res.recipient}</strong>.<br/>
-          Kode Token: <strong class="text-emerald-950 font-mono bg-white px-1.5 py-0.5 rounded border border-emerald-300">${res.token}</strong>
+          Surat keputusan otoritas telah diterbitkan untuk <strong>${res.recipient}</strong>.<br/>
+          Kode Token Anda: <strong class="text-emerald-950 font-mono bg-white px-2 py-0.5 rounded border border-emerald-300 text-xs">${res.token}</strong><br/>
+          <span class="text-[10px] text-slate-500 mt-1 block">Silakan masukkan kata sandi baru Anda pada formulir di bawah ini lalu klik tombol simpan.</span>
         `;
       }
       if (tokenInput && res.token) {
         tokenInput.value = res.token;
       }
-      if (btn) btn.innerHTML = '<span>✓</span><span>Email Konfirmasi Terkirim</span>';
+      if (btn) btn.innerHTML = '<span>✓</span><span>Token Berhasil Diterbitkan</span>';
     } catch (err) {
-      alert('Gagal mengirim konfirmasi: ' + err.message);
-      if (btn) btn.innerHTML = '<span>✉️</span><span>Kirim Ulang Konfirmasi</span>';
+      alert('Gagal menerbitkan konfirmasi: ' + err.message);
+      if (btn) btn.innerHTML = '<span>✉️</span><span>Terbitkan Ulang Token</span>';
     }
   });
 
   // 3. Set Master Admin Password
   document.getElementById('form-admin-set-password')?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const targetEmail = document.getElementById('admin-confirm-target-email')?.value?.trim() || MASTER_ADMIN_EMAIL;
     const token = document.getElementById('admin-token-input')?.value?.trim();
     const pw1 = document.getElementById('admin-new-pw')?.value;
     const pw2 = document.getElementById('admin-confirm-pw')?.value;
@@ -583,8 +599,10 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
     }
 
     try {
-      const res = await ApiClient.setAdminPassword(token, pw1, MASTER_ADMIN_EMAIL);
+      const res = await ApiClient.setAdminPassword(token, pw1, targetEmail);
       alert(res.message || 'Kata sandi berhasil disimpan! Silakan masuk pada form di bawah.');
+      const loginEmailInput = document.getElementById('admin-login-email');
+      if (loginEmailInput) loginEmailInput.value = targetEmail;
       const loginPwInput = document.getElementById('admin-login-password');
       if (loginPwInput) {
         loginPwInput.value = pw1;

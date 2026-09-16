@@ -6,7 +6,12 @@
 
 import { ApiClient } from './api_client.js';
 
-export const SOLE_ADMIN_EMAIL = 'lubis.tania@dewanekonomi.go.id';
+export const SOLE_ADMIN_EMAIL = 'taniafatimahlubis@gmail.com';
+export const ADMIN_EMAILS = [
+  'taniafatimahlubis@gmail.com',
+  'lubistaniafatimah@gmail.com',
+  'lubis.tania@dewanekonomi.go.id'
+];
 
 export class DownloadQuotaManager {
   static getTodayKey() {
@@ -18,11 +23,11 @@ export class DownloadQuotaManager {
    * Check if user is allowed to download under quota policy:
    * - Max 3 downloads per session
    * - Max 5 downloads per day
-   * - Sole Admin (lubis.tania@dewanekonomi.go.id) is completely exempted (Unlimited)
+   * - Master Admin is completely exempted (Unlimited)
    */
   static checkQuota(email) {
     const cleanEmail = (email || '').trim().toLowerCase();
-    const isAdmin = cleanEmail === SOLE_ADMIN_EMAIL.toLowerCase();
+    const isAdmin = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(cleanEmail);
 
     if (isAdmin) {
       return {

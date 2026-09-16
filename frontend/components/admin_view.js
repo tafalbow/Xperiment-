@@ -43,7 +43,7 @@ export class AdminView {
   render() {
     if (!this.container) return;
 
-    let adminEmail = 'lubistaniafatimah@gmail.com';
+    let adminEmail = 'taniafatimahlubis@gmail.com';
     try {
       const sess = JSON.parse(localStorage.getItem('master_admin_session') || '{}');
       if (sess.email) adminEmail = sess.email;

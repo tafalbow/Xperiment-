@@ -4,10 +4,9 @@ Verifying authentication, confirmation email outbox, password setting,
 web traffic logging, and access/download audit trails for lubistaniafatimah@gmail.com
 """
 
-import pytest
 from fastapi.testclient import TestClient
 from backend.app import app
-from backend.services.admin_service import AdminService, MASTER_ADMIN_EMAIL
+from backend.services.admin_service import AdminService, TEST_ADMIN_EMAIL
 
 client = TestClient(app)
 
@@ -17,11 +16,11 @@ def test_admin_email_confirmation_flow():
     assert unauth_res.status_code == 400
 
     # 2. Accept Master Admin email
-    res = client.post("/api/admin/send-confirmation", json={"email": MASTER_ADMIN_EMAIL})
+    res = client.post("/api/admin/send-confirmation", json={"email": TEST_ADMIN_EMAIL})
     assert res.status_code == 200
     data = res.json()
     assert data["success"] is True
-    assert data["recipient"] == MASTER_ADMIN_EMAIL
+    assert data["recipient"] == TEST_ADMIN_EMAIL
     assert "token" in data
     token = data["token"]
 
@@ -29,7 +28,7 @@ def test_admin_email_confirmation_flow():
     short_pw = client.post("/api/admin/set-password", json={
         "token": token,
         "password": "123",
-        "email": MASTER_ADMIN_EMAIL
+        "email": TEST_ADMIN_EMAIL
     })
     assert short_pw.status_code == 400
 
@@ -37,27 +36,27 @@ def test_admin_email_confirmation_flow():
     valid_pw = client.post("/api/admin/set-password", json={
         "token": token,
         "password": "MasterAdminSecurePass2026!",
-        "email": MASTER_ADMIN_EMAIL
+        "email": TEST_ADMIN_EMAIL
     })
     assert valid_pw.status_code == 200
     assert valid_pw.json()["success"] is True
 
     # 5. Login with wrong password
     wrong_login = client.post("/api/admin/login", json={
-        "email": MASTER_ADMIN_EMAIL,
+        "email": TEST_ADMIN_EMAIL,
         "password": "WrongPassword999"
     })
     assert wrong_login.status_code == 401
 
     # 6. Login with correct password
     correct_login = client.post("/api/admin/login", json={
-        "email": MASTER_ADMIN_EMAIL,
+        "email": TEST_ADMIN_EMAIL,
         "password": "MasterAdminSecurePass2026!"
     })
     assert correct_login.status_code == 200
     login_data = correct_login.json()
     assert login_data["success"] is True
-    assert login_data["email"] == MASTER_ADMIN_EMAIL
+    assert login_data["email"] == TEST_ADMIN_EMAIL
     assert login_data["role"] == "MASTER_ADMIN"
     assert "token" in login_data
 
