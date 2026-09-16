@@ -71,6 +71,19 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
           <svg class="w-3.5 h-3.5 text-[#2C2420]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
           <span>Crosswalk</span>
         </button>
+
+        <!-- Direct Login / Admin Access Button in Top Toolbar -->
+        ${isMasterAdmin ? `
+          <button id="btn-header-login-quick" class="gov-btn text-xs font-bold bg-[#FDF3E9] text-[#8C4710] hover:bg-[#FBE8D5] border border-[#F0D5BE] shadow-xs flex items-center gap-1.5 cursor-pointer" title="Sesi Master Admin Aktif: ${masterAdminSession.email}">
+            <span>👑</span>
+            <span class="truncate max-w-[140px]">Master Admin</span>
+          </button>
+        ` : `
+          <button id="btn-header-login-quick" class="gov-btn text-xs font-bold bg-[#0038A8] text-white hover:bg-[#002B82] shadow-xs flex items-center gap-1.5 cursor-pointer" title="Masuk sebagai Master Admin atau Registrasi Peneliti">
+            <span>🔐</span>
+            <span>Masuk / Login</span>
+          </button>
+        `}
       </div>
     </header>
 
@@ -166,7 +179,8 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
                   <span>🟢</span>
                   <span>Akses Terdaftar: <strong class="truncate max-w-[140px] inline-block align-bottom">${registeredUser.email}</strong></span>
                 ` : `
-                  <span>Registrasi Akses Data</span>
+                  <span>🔑</span>
+                  <span>Masuk / Registrasi Akses</span>
                   <span class="group-hover:translate-x-0.5 transition-transform">→</span>
                 `)}
               </button>
@@ -184,6 +198,21 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
   document.getElementById('btn-header-dict')?.addEventListener('click', onOpenDictionary);
   document.getElementById('btn-header-registry')?.addEventListener('click', onOpenRegistry);
   document.getElementById('btn-header-crosswalk')?.addEventListener('click', onOpenCrosswalk);
+
+  // Direct login / admin quick trigger in top toolbar
+  document.getElementById('btn-header-login-quick')?.addEventListener('click', () => {
+    if (isMasterAdmin) {
+      const adminTabBtn = document.getElementById('tab-btn-admin');
+      if (adminTabBtn) {
+        adminTabBtn.classList.remove('hidden');
+        adminTabBtn.click();
+      }
+    } else {
+      openEmailRegistrationModal(() => {
+        renderHeader(containerId, { onOpenDictionary, onOpenRegistry, onOpenCrosswalk, onOpenIngestion });
+      }, null, 'admin');
+    }
+  });
 
   // Single registration button trigger in Statutory Section
   document.getElementById('btn-statutory-register')?.addEventListener('click', (e) => {
@@ -210,7 +239,8 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
   });
 }
 
-export function openEmailRegistrationModal(onSuccessCallback, customNoticeText = null) {
+export function openEmailRegistrationModal(onSuccessCallback, customNoticeText = null, initialTab = 'researcher') {
+  window.openEmailRegistrationModal = openEmailRegistrationModal;
   let existing = null;
   try {
     const raw = localStorage.getItem('registered_researcher_access');
@@ -490,6 +520,10 @@ export function openEmailRegistrationModal(onSuccessCallback, customNoticeText =
     contentAdmin?.classList.remove('hidden');
     contentResearcher?.classList.add('hidden');
   });
+
+  if (initialTab === 'admin') {
+    tabBtnAdmin?.click();
+  }
 
   // Purpose 'Lainnya' dynamic counter
   const selectPurpose = document.getElementById('reg-purpose');

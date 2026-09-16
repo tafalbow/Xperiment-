@@ -210,7 +210,23 @@ class App {
         this.switchMainTab('home');
       });
 
-      // Set default landing tab to Home
+      // Set default landing tab to Home and check Master Admin visibility
+      this.checkAdminVisibility();
+
+      window.addEventListener('auth-updated', () => {
+        this.checkAdminVisibility();
+        if (this.activeMainTab === 'home' && this.homeView) {
+          this.homeView.render();
+        }
+      });
+
+      window.addEventListener('master-admin-login', () => {
+        this.checkAdminVisibility();
+        if (this.activeMainTab === 'home' && this.homeView) {
+          this.homeView.render();
+        }
+      });
+
       this.switchMainTab('home');
 
       // 17. Persistent Statutory Section & Footer Listeners
