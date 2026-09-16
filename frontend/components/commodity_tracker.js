@@ -9,18 +9,19 @@ import { ExcelExporter } from '../services/excel_exporter.js';
 import { openEmailRegistrationModal } from './header.js';
 
 export class CommodityTrackerComponent {
-  constructor(containerId = 'tab-content-commodities') {
+  constructor(containerId = 'tab-content-commodities', defaultDivision = 'PERTANIAN_PETERNAKAN') {
     this.containerId = containerId;
+    this.idPrefix = containerId ? `${containerId}-` : '';
     this.container = document.getElementById(containerId);
 
     // State
     this.categoriesData = null;
-    this.activeDivision = 'PERTANIAN_PETERNAKAN'; // 'PERTANIAN_PETERNAKAN' | 'HASIL_BUMI'
+    this.activeDivision = defaultDivision; // 'PERTANIAN_PETERNAKAN' | 'HASIL_BUMI'
     this.activeGroup = 'ALL';
     this.activeHsChapter = 'ALL';
     this.activeApbnCategory = 'ALL';
     this.activeViewMode = 'DETAIL'; // 'DETAIL' | 'MATRIX'
-    this.selectedCommodityId = 'COM-AGRI-001-BERAS';
+    this.selectedCommodityId = defaultDivision === 'HASIL_BUMI' ? 'ALL_HASIL_BUMI' : 'COM-AGRI-001-BERAS';
     this.selectedYear = '2024';
     this.activeRangePreset = 'all'; // '5y' | '10y' | 'all'
     this.startYear = 1990;
@@ -47,8 +48,38 @@ export class CommodityTrackerComponent {
     this.isTableExpanded = false;
   }
 
+  id(name) {
+    return `${this.idPrefix}${name}`;
+  }
+
+  getContainer() {
+    if (!this.container || !document.contains(this.container)) {
+      this.container = document.getElementById(this.containerId);
+    }
+    return this.container;
+  }
+
+  el(name) {
+    const prefixedId = this.id(name);
+    const container = this.getContainer();
+    if (container) {
+      const found = container.querySelector(`#${prefixedId}`) || container.querySelector(`#${name}`);
+      if (found) return found;
+    }
+    return document.getElementById(prefixedId) || document.getElementById(name);
+  }
+
+  invalidateMapSize() {
+    if (this.commodityMapInstance) {
+      try {
+        this.commodityMapInstance.invalidateSize();
+      } catch (e) {}
+    }
+  }
+
   async init() {
-    if (!this.container) return;
+    const container = this.getContainer();
+    if (!container) return;
     try {
       this.isLoading = true;
       this.renderSkeleton();
@@ -74,7 +105,9 @@ export class CommodityTrackerComponent {
   }
 
   renderSkeleton() {
-    this.container.innerHTML = `
+    const container = this.getContainer();
+    if (!container) return;
+    container.innerHTML = `
       <div class="p-8 text-center space-y-3 font-mono text-slate-500">
         <div class="inline-block w-8 h-8 border-4 border-slate-300 border-t-emerald-700 rounded-full animate-spin"></div>
         <div class="text-xs">Memuat Basis Data Neraca Komoditas, Kode HS & Pemetaan APBN/LKPP (1990 - 2026)...</div>
@@ -83,14 +116,16 @@ export class CommodityTrackerComponent {
   }
 
   renderError(msg) {
-    this.container.innerHTML = `
+    const container = this.getContainer();
+    if (!container) return;
+    container.innerHTML = `
       <div class="p-6 bg-rose-50 border border-rose-200 rounded-lg text-rose-800 text-xs font-mono">
         <div class="font-bold mb-1">❌ Gagal Memuat Data Neraca Komoditas</div>
         <div>${msg}</div>
-        <button id="btn-retry-commodity" class="mt-3 px-3 py-1 bg-rose-700 text-white rounded text-xs font-bold">Coba Lagi</button>
+        <button id="${this.id('btn-retry-commodity')}" class="mt-3 px-3 py-1 bg-rose-700 text-white rounded text-xs font-bold">Coba Lagi</button>
       </div>
     `;
-    document.getElementById('btn-retry-commodity')?.addEventListener('click', () => this.init());
+    this.el('btn-retry-commodity')?.addEventListener('click', () => this.init());
   }
 
   async loadBalanceData(commodityId) {
@@ -251,6 +286,67 @@ export class CommodityTrackerComponent {
   initSeriesConfigs() {
     const available = this.getAvailableIndicatorsList();
     const isHasilBumi = this.activeDivision === 'HASIL_BUMI';
+
+    if (isHasilBumi && (this.selectedCommodityId.startsWith('AGG_') || this.selectedCommodityId.startsWith('ALL_'))) {
+      const metaAll = available.find(i => i.id === 'ALL_HASIL_BUMI::apbn_realization_idr_billion') || available[0];
+      const metaTambang = available.find(i => i.id === 'AGG_TAMBANG::apbn_realization_idr_billion') || available[1];
+      const metaNonTambang = available.find(i => i.id === 'AGG_NON_TAMBANG::apbn_realization_idr_billion') || available[2];
+
+      this.seriesConfigs = [
+        {
+          id: 'series-1',
+          indicatorId: metaAll.id,
+          commodityId: metaAll.commodityId,
+          metricKey: metaAll.metricKey,
+          name: '⭐ Semua Hasil Bumi - Realisasi PNBP SDA',
+          unit: metaAll.unit,
+          effectiveUnit: metaAll.unit,
+          color: '#1A73E8', // Google Blue
+          axis: 'primary',
+          type: 'bar',
+          barMode: 'grouped',
+          transformation: 'RAW',
+          rawData: [],
+          data: []
+        },
+        {
+          id: 'series-2',
+          indicatorId: metaTambang.id,
+          commodityId: metaTambang.commodityId,
+          metricKey: metaTambang.metricKey,
+          name: '⛏️ Komposisi Komoditas Tambang - PNBP SDA',
+          unit: metaTambang.unit,
+          effectiveUnit: metaTambang.unit,
+          color: '#E37400', // Google Orange
+          axis: 'primary',
+          type: 'line',
+          barMode: 'grouped',
+          transformation: 'RAW',
+          rawData: [],
+          data: []
+        },
+        {
+          id: 'series-3',
+          indicatorId: metaNonTambang.id,
+          commodityId: metaNonTambang.commodityId,
+          metricKey: metaNonTambang.metricKey,
+          name: '🌿 Komposisi Non-Tambang - PNBP Kehutanan/EBT',
+          unit: metaNonTambang.unit,
+          effectiveUnit: metaNonTambang.unit,
+          color: '#1E8E3E', // Google Green
+          axis: 'secondary',
+          type: 'line',
+          barMode: 'grouped',
+          transformation: 'RAW',
+          rawData: [],
+          data: []
+        }
+      ];
+
+      this.activeSeriesTab = 0;
+      this.seriesConfigs.forEach(s => this.recalculateSeriesData(s));
+      return;
+    }
 
     if (!isHasilBumi && (this.selectedCommodityId.startsWith('AGG_') || this.selectedCommodityId.startsWith('ALL_'))) {
       // 3 VAR UTAMA UNTUK HALAMAN PERTANIAN, PERKEBUNAN & PETERNAKAN
@@ -554,6 +650,8 @@ export class CommodityTrackerComponent {
   }
 
   render() {
+    const container = this.getContainer();
+    if (!container) return;
     if (!this.categoriesData || !this.balanceData) return;
 
     const comm = this.balanceData.commodity;
@@ -618,7 +716,7 @@ export class CommodityTrackerComponent {
       }
     };
 
-    this.container.innerHTML = `
+    container.innerHTML = `
       <div class="space-y-4 font-sans text-slate-900">
         
         <!-- 1. HEADER TITLE BANNER (Google Analytics Clean Style - No Dark/Black Background) -->
@@ -666,13 +764,13 @@ export class CommodityTrackerComponent {
             <label class="font-bold text-slate-800 uppercase text-[10.5px]">
               ${isHasilBumi ? '⛏️ Komoditas / Komposisi Hasil Bumi:' : '🌾 Komoditas / Komposisi Terpilih:'}
             </label>
-            <select id="select-active-commodity" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+            <select id="${this.id('select-active-commodity')}" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               ${renderAggregateOptions()}
               
               <optgroup label="📋 Daftar Komoditas Individu:">
                 ${availableCommodities.map(c => `
                   <option value="${c.id}" ${c.id === this.selectedCommodityId ? 'selected' : ''}>
-                    ${c.name} (${c.hs_code.split('(')[0].trim()}) [${c.unit}]
+                    ${c.name} (${c.hs_code ? c.hs_code.split('(')[0].trim() : ''}) [${c.unit}]
                   </option>
                 `).join('')}
               </optgroup>
@@ -684,22 +782,22 @@ export class CommodityTrackerComponent {
             <div class="flex items-center justify-between">
               <label class="font-bold text-slate-800 uppercase text-[10.5px]">📅 Rentang Tahun (1990-2026):</label>
               <div class="flex items-center gap-1">
-                <button type="button" id="commodity-preset-5y" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">5 Thn</button>
-                <button type="button" id="commodity-preset-10y" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">10 Thn</button>
-                <button type="button" id="commodity-preset-all" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">1990-2026</button>
+                <button type="button" id="${this.id('commodity-preset-5y')}" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">5 Thn</button>
+                <button type="button" id="${this.id('commodity-preset-10y')}" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">10 Thn</button>
+                <button type="button" id="${this.id('commodity-preset-all')}" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">1990-2026</button>
               </div>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="number" id="commodity-start-year" class="w-full bg-white border border-slate-200 rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.startYear}">
+              <input type="number" id="${this.id('commodity-start-year')}" class="w-full bg-white border border-slate-200 rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.startYear}">
               <span class="text-[#7D655C] font-bold text-xs">s/d</span>
-              <input type="number" id="commodity-end-year" class="w-full bg-white border border-slate-200 rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.endYear}">
+              <input type="number" id="${this.id('commodity-end-year')}" class="w-full bg-white border border-slate-200 rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.endYear}">
             </div>
           </div>
 
           <!-- Filter 3: Sub-Kelompok Sektor -->
           <div class="space-y-1">
             <label class="font-bold text-slate-800 uppercase text-[10.5px]">🏷️ Sub-Kelompok / Realm:</label>
-            <select id="select-filter-group" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+            <select id="${this.id('select-filter-group')}" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Sub-Kelompok</option>
               ${(this.categoriesData.divisions?.find(d => d.id === this.activeDivision)?.groups || []).map(g => `
                 <option value="${g.id}" ${this.activeGroup === g.id ? 'selected' : ''}>${g.label}</option>
@@ -710,7 +808,7 @@ export class CommodityTrackerComponent {
           <!-- Filter 4: Bab HS Code -->
           <div class="space-y-1">
             <label class="font-bold text-slate-800 uppercase text-[10.5px]">📦 Bab BTKI / Klasifikasi HS:</label>
-            <select id="select-filter-hs" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+            <select id="${this.id('select-filter-hs')}" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Klasifikasi HS Bab</option>
               ${scopedHsChapters.map(ch => `
                 <option value="${ch}" ${this.activeHsChapter === ch ? 'selected' : ''}>${ch}</option>
@@ -890,7 +988,7 @@ export class CommodityTrackerComponent {
           <!-- Single-Click Excel Download Button (Biru Benhur #0038A8) -->
           <button 
             type="button" 
-            id="btn-chart-download-excel-xlsx" 
+            id="${this.id('btn-chart-download-excel-xlsx')}" 
             class="px-3.5 py-1.5 rounded bg-[#0038A8] hover:bg-[#002B82] text-white font-mono text-[11px] font-bold flex items-center gap-1.5 shadow-2xs transition-all cursor-pointer"
             title="Unduh Data Mentah & Keterangan Lineage sebagai File Excel (.xlsx) (Max 3 Variabel)"
           >
@@ -900,17 +998,17 @@ export class CommodityTrackerComponent {
         </div>
 
         <!-- Series Configuration Deck: (1) Berapa Variabel, (2) Rentang Waktu Otomatis, (3) Tipe Bentuk Chart -->
-        <div id="commodity-chart-series-deck" class="space-y-1.5 shrink-0"></div>
+        <div id="${this.id('commodity-chart-series-deck')}" class="space-y-1.5 shrink-0"></div>
 
         <!-- 4. Section Tampilan Chartnya (Canvas & Interactive Hover Tooltip Container) -->
-        <div class="relative w-full h-[270px] min-h-[270px] max-h-[270px] flex items-center justify-center select-none bg-white rounded p-1.5 overflow-hidden shrink-0 shadow-xs" id="commodity-chart-wrapper">
-          <canvas id="commodity-analytics-canvas" class="cursor-crosshair block w-full h-full"></canvas>
-          <div id="commodity-chart-tooltip" class="hidden absolute pointer-events-none z-50 transition-opacity duration-75"></div>
+        <div class="relative w-full h-[270px] min-h-[270px] max-h-[270px] flex items-center justify-center select-none bg-white rounded p-1.5 overflow-hidden shrink-0 shadow-xs" id="${this.id('commodity-chart-wrapper')}">
+          <canvas id="${this.id('commodity-analytics-canvas')}" class="cursor-crosshair block w-full h-full"></canvas>
+          <div id="${this.id('commodity-chart-tooltip')}" class="hidden absolute pointer-events-none z-50 transition-opacity duration-75"></div>
         </div>
 
         <!-- Dual-Axis Legend Strip & Footnote -->
         <div class="flex items-center justify-between text-[9.5px] text-slate-500 font-mono pt-1 flex-wrap gap-2 shrink-0">
-          <div id="commodity-chart-legend-strip" class="flex items-center gap-2 flex-wrap"></div>
+          <div id="${this.id('commodity-chart-legend-strip')}" class="flex items-center gap-2 flex-wrap"></div>
           <div>
             * Sumbu Kiri (Utama) • Sumbu Kanan (Sekunder) • Arahkan kursor untuk komparasi pergerakan YoY
           </div>
@@ -1140,12 +1238,17 @@ export class CommodityTrackerComponent {
   }
 
   renderControls() {
-    const deck = document.getElementById('commodity-chart-series-deck');
-    const legendStrip = document.getElementById('commodity-chart-legend-strip');
+    const deck = this.el('commodity-chart-series-deck');
+    const legendStrip = this.el('commodity-chart-legend-strip');
     if (!deck) return;
 
-    const active = this.seriesConfigs[this.activeSeriesTab] || this.seriesConfigs[0];
+    let active = this.seriesConfigs[this.activeSeriesTab] || this.seriesConfigs[0];
     const available = this.getAvailableIndicatorsList();
+
+    if (!active && available.length > 0) {
+      this.initSeriesConfigs();
+      active = this.seriesConfigs[this.activeSeriesTab] || this.seriesConfigs[0];
+    }
 
     // Group indicators by group name for clean <optgroup>
     const grouped = {};
@@ -1182,7 +1285,7 @@ export class CommodityTrackerComponent {
             `).join('')}
 
             ${this.seriesConfigs.length < 3 ? `
-              <button type="button" id="btn-add-commodity-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-slate-100 hover:bg-slate-200 text-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
+              <button type="button" id="${this.id('btn-add-commodity-series')}" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-slate-100 hover:bg-slate-200 text-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
                 <span class="font-bold">➕</span> Tambah Var ${this.seriesConfigs.length + 1}
               </button>
             ` : ''}
@@ -1195,16 +1298,16 @@ export class CommodityTrackerComponent {
               <div class="inline-flex rounded p-0.5 bg-slate-100 gap-0.5">
                 <button 
                   type="button"
-                  id="btn-commodity-axis-primary" 
-                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
+                  id="${this.id('btn-commodity-axis-primary')}" 
+                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${(active && active.axis === 'primary') ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                   title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
                 >
                   ← Sumbu Kiri
                 </button>
                 <button 
                   type="button"
-                  id="btn-commodity-axis-secondary" 
-                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
+                  id="${this.id('btn-commodity-axis-secondary')}" 
+                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${(active && active.axis === 'secondary') ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                   title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
                 >
                   Sumbu Kanan →
@@ -1223,9 +1326,9 @@ export class CommodityTrackerComponent {
               <span>Rentang Waktu Otomatis:</span>
             </span>
             <div class="inline-flex rounded p-0.5 bg-slate-100 gap-0.5 shadow-2xs">
-              <button type="button" id="btn-chart-range-5y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '5y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">5 Thn</button>
-              <button type="button" id="btn-chart-range-10y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '10y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">10 Thn</button>
-              <button type="button" id="btn-chart-range-all" class="px-2 py-0.5 rounded ${this.activeRangePreset === 'all' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">1990-2026</button>
+              <button type="button" id="${this.id('btn-chart-range-5y')}" class="px-2 py-0.5 rounded ${this.activeRangePreset === '5y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">5 Thn</button>
+              <button type="button" id="${this.id('btn-chart-range-10y')}" class="px-2 py-0.5 rounded ${this.activeRangePreset === '10y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">10 Thn</button>
+              <button type="button" id="${this.id('btn-chart-range-all')}" class="px-2 py-0.5 rounded ${this.activeRangePreset === 'all' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">1990-2026</button>
             </div>
           </div>
           <span class="text-[9.5px] text-slate-500">Sinkronisasi Otomatis Seluruh Variabel</span>
@@ -1235,7 +1338,7 @@ export class CommodityTrackerComponent {
 
     // 3. Section tipe bentuk chart tiap variabel (White background)
     if (active) {
-      const activeMeta = available.find(i => i.id === active.indicatorId);
+      const activeMeta = available.find(i => i.id === active.indicatorId) || available[0] || { id: active.indicatorId, name: active.name || '', unit: active.unit || '' };
       const availableTransformations = this.getAvailableTransformations(activeMeta, active.rawData);
 
       tabsHtml += `
@@ -1248,7 +1351,7 @@ export class CommodityTrackerComponent {
                 <span class="w-2 h-2 rounded-full" style="background-color: ${active.color}"></span>
                 Indikator (Var ${this.activeSeriesTab + 1}):
               </label>
-              <select id="select-commodity-series-indicator" class="gov-select w-full text-[11px] font-mono py-1 font-medium bg-white border border-slate-200 rounded px-2 cursor-pointer text-[#202124]">
+              <select id="${this.id('select-commodity-series-indicator')}" class="gov-select w-full text-[11px] font-mono py-1 font-medium bg-white border border-slate-200 rounded px-2 cursor-pointer text-[#202124]">
                 ${Object.keys(grouped).map(grp => `
                   <optgroup label="${grp}">
                     ${grouped[grp].map(ind => `
@@ -1267,7 +1370,7 @@ export class CommodityTrackerComponent {
                 <span>Granularitas Olahan:</span>
                 <span class="text-[8.5px] text-sky-800 bg-sky-50 px-1 rounded">≥ 6 Titik</span>
               </label>
-              <select id="select-commodity-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold border border-slate-200 rounded px-2 cursor-pointer bg-white text-[#202124]">
+              <select id="${this.id('select-commodity-series-transformation')}" class="gov-select w-full text-[11px] font-mono py-1 font-semibold border border-slate-200 rounded px-2 cursor-pointer bg-white text-[#202124]">
                 ${availableTransformations.map(t => `
                   <option value="${t.id}" ${t.id === (active.transformation || 'RAW') ? 'selected' : ''}>
                     ${t.label}
@@ -1284,14 +1387,14 @@ export class CommodityTrackerComponent {
               <div class="inline-flex rounded p-0.5 bg-slate-100 w-full text-[10.5px]">
                 <button 
                   type="button" 
-                  id="btn-commodity-series-type-line" 
+                  id="${this.id('btn-commodity-series-type-line')}" 
                   class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                 >
                   📈 Line
                 </button>
                 <button 
                   type="button" 
-                  id="btn-commodity-series-type-bar" 
+                  id="${this.id('btn-commodity-series-type-bar')}" 
                   class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                 >
                   📊 Bar
@@ -1342,8 +1445,10 @@ export class CommodityTrackerComponent {
   }
 
   attachDynamicControlsEvents() {
+    const root = this.getContainer() || document;
+
     // 1. Switch series tab
-    this.container.querySelectorAll('.btn-commodity-series-tab').forEach(btn => {
+    root.querySelectorAll('.btn-commodity-series-tab').forEach(btn => {
       btn.addEventListener('click', (e) => {
         if (e.target.classList.contains('btn-remove-commodity-series')) return;
         const idx = parseInt(btn.getAttribute('data-idx'), 10);
@@ -1354,7 +1459,7 @@ export class CommodityTrackerComponent {
     });
 
     // 2. Remove series button
-    this.container.querySelectorAll('.btn-remove-commodity-series').forEach(btn => {
+    root.querySelectorAll('.btn-remove-commodity-series').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const idx = parseInt(btn.getAttribute('data-idx'), 10);
@@ -1363,17 +1468,17 @@ export class CommodityTrackerComponent {
     });
 
     // 3. Add series button (Max 3)
-    document.getElementById('btn-add-commodity-series')?.addEventListener('click', () => {
+    this.el('btn-add-commodity-series')?.addEventListener('click', () => {
       this.addComparisonSeries();
     });
 
     // 4. Select indicator for active series
-    document.getElementById('select-commodity-series-indicator')?.addEventListener('change', (e) => {
+    this.el('select-commodity-series-indicator')?.addEventListener('change', (e) => {
       this.updateSeriesIndicator(this.activeSeriesTab, e.target.value);
     });
 
     // 5. Select transformation for active series
-    document.getElementById('select-commodity-series-transformation')?.addEventListener('change', (e) => {
+    this.el('select-commodity-series-transformation')?.addEventListener('change', (e) => {
       const activeSeries = this.seriesConfigs[this.activeSeriesTab];
       if (activeSeries) {
         activeSeries.transformation = e.target.value;
@@ -1384,7 +1489,7 @@ export class CommodityTrackerComponent {
     });
 
     // 6. Axis buttons for active series
-    document.getElementById('btn-commodity-axis-primary')?.addEventListener('click', () => {
+    this.el('btn-commodity-axis-primary')?.addEventListener('click', () => {
       if (this.seriesConfigs[this.activeSeriesTab]) {
         this.seriesConfigs[this.activeSeriesTab].axis = 'primary';
         this.renderControls();
@@ -1392,7 +1497,7 @@ export class CommodityTrackerComponent {
       }
     });
 
-    document.getElementById('btn-commodity-axis-secondary')?.addEventListener('click', () => {
+    this.el('btn-commodity-axis-secondary')?.addEventListener('click', () => {
       if (this.seriesConfigs[this.activeSeriesTab]) {
         this.seriesConfigs[this.activeSeriesTab].axis = 'secondary';
         this.renderControls();
@@ -1400,8 +1505,22 @@ export class CommodityTrackerComponent {
       }
     });
 
+    // Range buttons in series deck
+    const updateTimeRange = async (preset, sYear, eYear) => {
+      this.activeRangePreset = preset;
+      this.startYear = sYear;
+      this.endYear = eYear;
+      await this.loadBalanceData(this.selectedCommodityId);
+      this.seriesConfigs.forEach(s => this.recalculateSeriesData(s));
+      this.render();
+    };
+
+    this.el('btn-chart-range-5y')?.addEventListener('click', () => updateTimeRange('5y', 2021, 2026));
+    this.el('btn-chart-range-10y')?.addEventListener('click', () => updateTimeRange('10y', 2016, 2026));
+    this.el('btn-chart-range-all')?.addEventListener('click', () => updateTimeRange('all', 1990, 2026));
+
     // 7. Visual type buttons (Line vs Bar)
-    document.getElementById('btn-commodity-series-type-line')?.addEventListener('click', () => {
+    this.el('btn-commodity-series-type-line')?.addEventListener('click', () => {
       if (this.seriesConfigs[this.activeSeriesTab]) {
         this.seriesConfigs[this.activeSeriesTab].type = 'line';
         this.renderControls();
@@ -1409,7 +1528,7 @@ export class CommodityTrackerComponent {
       }
     });
 
-    document.getElementById('btn-commodity-series-type-bar')?.addEventListener('click', () => {
+    this.el('btn-commodity-series-type-bar')?.addEventListener('click', () => {
       if (this.seriesConfigs[this.activeSeriesTab]) {
         this.seriesConfigs[this.activeSeriesTab].type = 'bar';
         this.renderControls();
@@ -1418,7 +1537,7 @@ export class CommodityTrackerComponent {
     });
 
     // 8. Legend strip direct toggles
-    this.container.querySelectorAll('.btn-commodity-toggle-axis').forEach(btn => {
+    root.querySelectorAll('.btn-commodity-toggle-axis').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const idx = parseInt(btn.getAttribute('data-idx'), 10);
@@ -1430,7 +1549,7 @@ export class CommodityTrackerComponent {
       });
     });
 
-    this.container.querySelectorAll('.btn-commodity-toggle-type').forEach(btn => {
+    root.querySelectorAll('.btn-commodity-toggle-type').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const idx = parseInt(btn.getAttribute('data-idx'), 10);
@@ -1444,8 +1563,10 @@ export class CommodityTrackerComponent {
   }
 
   attachEvents() {
+    const root = this.getContainer() || document;
+
     // 1. View Mode Switcher (Detail vs Matrix)
-    this.container.querySelectorAll('.btn-view-mode').forEach(btn => {
+    root.querySelectorAll('.btn-view-mode').forEach(btn => {
       btn.addEventListener('click', async () => {
         const mode = btn.getAttribute('data-mode');
         this.activeViewMode = mode;
@@ -1477,7 +1598,7 @@ export class CommodityTrackerComponent {
       this.render();
     };
 
-    document.getElementById('select-active-commodity')?.addEventListener('change', (e) => {
+    this.el('select-active-commodity')?.addEventListener('change', (e) => {
       handleCommoditySelection(e.target.value);
     });
 
@@ -1491,16 +1612,16 @@ export class CommodityTrackerComponent {
       this.render();
     };
 
-    document.getElementById('commodity-preset-5y')?.addEventListener('click', () => updateTimeRange('5y', 2021, 2026));
-    document.getElementById('commodity-preset-10y')?.addEventListener('click', () => updateTimeRange('10y', 2016, 2026));
-    document.getElementById('commodity-preset-all')?.addEventListener('click', () => updateTimeRange('all', 1990, 2026));
+    this.el('commodity-preset-5y')?.addEventListener('click', () => updateTimeRange('5y', 2021, 2026));
+    this.el('commodity-preset-10y')?.addEventListener('click', () => updateTimeRange('10y', 2016, 2026));
+    this.el('commodity-preset-all')?.addEventListener('click', () => updateTimeRange('all', 1990, 2026));
 
-    document.getElementById('btn-chart-range-5y')?.addEventListener('click', () => updateTimeRange('5y', 2021, 2026));
-    document.getElementById('btn-chart-range-10y')?.addEventListener('click', () => updateTimeRange('10y', 2016, 2026));
-    document.getElementById('btn-chart-range-all')?.addEventListener('click', () => updateTimeRange('all', 1990, 2026));
+    this.el('btn-chart-range-5y')?.addEventListener('click', () => updateTimeRange('5y', 2021, 2026));
+    this.el('btn-chart-range-10y')?.addEventListener('click', () => updateTimeRange('10y', 2016, 2026));
+    this.el('btn-chart-range-all')?.addEventListener('click', () => updateTimeRange('all', 1990, 2026));
 
     // 4. Download Excel (.xlsx) button matching Indikator Ekonomi
-    document.getElementById('btn-chart-download-excel-xlsx')?.addEventListener('click', () => {
+    this.el('btn-chart-download-excel-xlsx')?.addEventListener('click', () => {
       const tabName = this.activeDivision === 'HASIL_BUMI' ? 'Hasil_Bumi' : 'Pertanian_Peternakan';
       const raw = localStorage.getItem('registered_researcher_access');
       if (!raw) {
@@ -1525,16 +1646,16 @@ export class CommodityTrackerComponent {
       }
     };
 
-    document.getElementById('commodity-start-year')?.addEventListener('change', (e) => {
+    this.el('commodity-start-year')?.addEventListener('change', (e) => {
       handleYearInputChange(e.target.value, this.endYear);
     });
 
-    document.getElementById('commodity-end-year')?.addEventListener('change', (e) => {
+    this.el('commodity-end-year')?.addEventListener('change', (e) => {
       handleYearInputChange(this.startYear, e.target.value);
     });
 
     // 6. Sub-Kelompok Filter
-    document.getElementById('select-filter-group')?.addEventListener('change', async (e) => {
+    this.el('select-filter-group')?.addEventListener('change', async (e) => {
       this.activeGroup = e.target.value;
       if (this.activeGroup !== 'ALL' && this.categoriesData) {
         const match = this.categoriesData.commodities.find(c => c.division === this.activeDivision && c.group === this.activeGroup);
@@ -1552,7 +1673,7 @@ export class CommodityTrackerComponent {
     });
 
     // 7. Bab HS Filter
-    document.getElementById('select-filter-hs')?.addEventListener('change', async (e) => {
+    this.el('select-filter-hs')?.addEventListener('change', async (e) => {
       this.activeHsChapter = e.target.value;
       if (this.activeHsChapter !== 'ALL' && this.categoriesData) {
         const match = this.categoriesData.commodities.find(c => c.division === this.activeDivision && c.hs_chapter === this.activeHsChapter);
@@ -1574,14 +1695,14 @@ export class CommodityTrackerComponent {
     });
 
     // 8. Matrix Year Selector
-    document.getElementById('select-matrix-year')?.addEventListener('change', async (e) => {
+    this.el('select-matrix-year')?.addEventListener('change', async (e) => {
       this.selectedYear = e.target.value;
       await this.loadMatrixData();
       this.render();
     });
 
     // 9. Inspect from matrix
-    this.container.querySelectorAll('.btn-inspect-commodity').forEach(btn => {
+    root.querySelectorAll('.btn-inspect-commodity').forEach(btn => {
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         this.activeViewMode = 'DETAIL';
@@ -1592,12 +1713,12 @@ export class CommodityTrackerComponent {
     });
 
     // 10. Table Export CSV/Excel
-    document.getElementById('btn-export-commodity-excel')?.addEventListener('click', () => {
+    this.el('btn-export-commodity-excel')?.addEventListener('click', () => {
       this.handleExportExcel();
     });
 
     // 11. Spatial Map Variable / Layer Selectors (Smooth In-Place Transition)
-    this.container.querySelectorAll('.btn-spatial-var').forEach(btn => {
+    root.querySelectorAll('.btn-spatial-var').forEach(btn => {
       btn.addEventListener('click', async () => {
         const v = btn.getAttribute('data-var');
         if (v) {
@@ -1607,7 +1728,7 @@ export class CommodityTrackerComponent {
     });
 
     // 12. Spatial Point Item Selection in Left Column
-    this.container.querySelectorAll('.btn-select-spatial-point').forEach(btn => {
+    root.querySelectorAll('.btn-select-spatial-point').forEach(btn => {
       btn.addEventListener('click', () => {
         const pIdx = parseInt(btn.getAttribute('data-point-idx'), 10);
         const pts = this.spatialData?.points || [];
@@ -1618,17 +1739,17 @@ export class CommodityTrackerComponent {
     });
 
     // 13. Reset Map Zoom
-    document.getElementById('btn-reset-commodity-map-zoom')?.addEventListener('click', () => {
+    this.el('btn-reset-commodity-map-zoom')?.addEventListener('click', () => {
       if (this.commodityMapInstance) {
         this.commodityMapInstance.fitBounds([[-10.5, 95.0], [5.8, 141.0]]);
       }
     });
 
     // 14. Collapsible Table Toggle
-    document.getElementById('btn-toggle-commodity-table')?.addEventListener('click', () => {
+    this.el('btn-toggle-commodity-table')?.addEventListener('click', () => {
       this.isTableExpanded = !this.isTableExpanded;
-      const tableBox = document.getElementById('commodity-full-table-container');
-      const label = document.getElementById('label-toggle-table');
+      const tableBox = this.el('commodity-full-table-container');
+      const label = this.el('label-toggle-table');
       if (tableBox) {
         if (this.isTableExpanded) {
           tableBox.classList.remove('hidden');
@@ -1641,7 +1762,7 @@ export class CommodityTrackerComponent {
     });
 
     // 15. Canvas Interaction Events (MouseMove & MouseLeave)
-    const canvas = document.getElementById('commodity-analytics-canvas');
+    const canvas = this.el('commodity-analytics-canvas');
     if (canvas) {
       canvas.addEventListener('mousemove', (e) => this.handleCanvasMouseMove(e));
       canvas.addEventListener('mouseleave', () => this.handleCanvasMouseLeave());
@@ -1656,8 +1777,8 @@ export class CommodityTrackerComponent {
   }
 
   handleCanvasMouseMove(e) {
-    const canvas = document.getElementById('commodity-analytics-canvas');
-    const tooltip = document.getElementById('commodity-chart-tooltip');
+    const canvas = this.el('commodity-analytics-canvas');
+    const tooltip = this.el('commodity-chart-tooltip');
     if (!canvas || !tooltip || this.timeSlots.length === 0) return;
 
     const rect = canvas.getBoundingClientRect();
@@ -1685,7 +1806,7 @@ export class CommodityTrackerComponent {
   }
 
   handleCanvasMouseLeave() {
-    const tooltip = document.getElementById('commodity-chart-tooltip');
+    const tooltip = this.el('commodity-chart-tooltip');
     if (tooltip) tooltip.classList.add('hidden');
     if (this.hoveredYear !== null) {
       this.hoveredYear = null;
@@ -1694,7 +1815,7 @@ export class CommodityTrackerComponent {
   }
 
   showComparativeTooltip(mouseX, mouseY, year, canvasRect) {
-    const tooltip = document.getElementById('commodity-chart-tooltip');
+    const tooltip = this.el('commodity-chart-tooltip');
     if (!tooltip) return;
 
     const seriesRows = this.seriesConfigs.map((s, idx) => {
@@ -1818,10 +1939,10 @@ export class CommodityTrackerComponent {
   }
 
   drawChart() {
-    const canvas = document.getElementById('commodity-analytics-canvas');
+    const canvas = this.el('commodity-analytics-canvas');
     if (!canvas) return;
 
-    const wrapper = document.getElementById('commodity-chart-wrapper') || canvas.parentElement;
+    const wrapper = this.el('commodity-chart-wrapper') || canvas.parentElement;
     const width = Math.max(Math.floor(wrapper.clientWidth) - 16, 400);
     const height = 260;
 
@@ -2134,7 +2255,7 @@ export class CommodityTrackerComponent {
 
     return `
       <!-- Explanatory Context Banner: Scope of Commodities & Volume Ranking -->
-      <div id="spatial-variable-explanation-box" class="bg-[#F8F9FA]  rounded-lg p-3 space-y-2">
+      <div id="${this.id('spatial-variable-explanation-box')}" class="bg-[#F8F9FA]  rounded-lg p-3 space-y-2">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2  pb-2">
           <div class="flex items-center gap-2">
             <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${meta.badgeColor} border">
@@ -2223,7 +2344,7 @@ export class CommodityTrackerComponent {
           </div>
 
           <!-- Variable / Layer Filter Chips (The 4 Top-Right Buttons) -->
-          <div id="spatial-var-buttons-group" class="flex items-center gap-1.5 flex-wrap font-mono text-xs">
+          <div id="${this.id('spatial-var-buttons-group')}" class="flex items-center gap-1.5 flex-wrap font-mono text-xs">
             ${varLabels.map(vl => `
               <button 
                 type="button" 
@@ -2249,14 +2370,14 @@ export class CommodityTrackerComponent {
             <div class="flex items-center justify-between  pb-2">
               <span class="text-xs font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
                 <span>📍</span>
-                <span>DAFTAR SENTRA WILAYAH (<span id="spatial-points-count-badge">${points.length} Titik</span>)</span>
+                <span>DAFTAR SENTRA WILAYAH (<span id="${this.id('spatial-points-count-badge')}">${points.length} Titik</span>)</span>
               </span>
-              <span id="spatial-active-var-label" class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded ">
+              <span id="${this.id('spatial-active-var-label')}" class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded ">
                 ${currentVarObj.label}
               </span>
             </div>
 
-            <div id="commodity-spatial-points-list" class="space-y-2 overflow-y-auto max-h-[440px] pr-1 scrollbar-thin">
+            <div id="${this.id('commodity-spatial-points-list')}" class="space-y-2 overflow-y-auto max-h-[440px] pr-1 scrollbar-thin">
               ${points.length > 0 ? points.map((p, idx) => {
                 const isSelected = selected && selected.province === p.province;
                 return `
@@ -2308,15 +2429,15 @@ export class CommodityTrackerComponent {
               <div class="flex items-center gap-2">
                 <span class="inline-flex items-center gap-1.5 bg-[#F8F9FA]  px-2.5 py-1 rounded-md text-[10.5px]">
                   <span class="w-2 h-2 rounded-full bg-[#1A73E8] animate-pulse"></span>
-                  <span>Fokus Lokasi: <strong id="commodity-map-active-point" class="text-[#202124]">${selected ? selected.province : 'Seluruh Indonesia'}</strong></span>
+                  <span>Fokus Lokasi: <strong id="${this.id('commodity-map-active-point')}" class="text-[#202124]">${selected ? selected.province : 'Seluruh Indonesia'}</strong></span>
                 </span>
-                <span class="text-[#5F6368] text-[10.5px] hidden sm:inline" id="commodity-map-coords">
+                <span class="text-[#5F6368] text-[10.5px] hidden sm:inline" id="${this.id('commodity-map-coords')}">
                   ${selected ? `${selected.lat.toFixed(2)}°, ${selected.lng.toFixed(2)}°` : 'Koordinat Wilayah'}
                 </span>
               </div>
 
               <button 
-                id="btn-reset-commodity-map-zoom" 
+                id="${this.id('btn-reset-commodity-map-zoom')}" 
                 class="px-2.5 py-1 bg-white hover:bg-[#F8F9FA] text-[#1A73E8]  rounded-md shadow-2xs font-medium flex items-center gap-1.5 text-[10.5px] cursor-pointer transition-all"
                 title="Kembalikan tampilan peta ke seluruh kepulauan Indonesia"
               >
@@ -2326,7 +2447,7 @@ export class CommodityTrackerComponent {
             </div>
 
             <!-- Leaflet Container -->
-            <div id="commodity-leaflet-container" class="w-full flex-1 min-h-[400px] rounded-lg bg-[#F8F9FA] overflow-hidden relative z-0 "></div>
+            <div id="${this.id('commodity-leaflet-container')}" class="w-full flex-1 min-h-[400px] rounded-lg bg-[#F8F9FA] overflow-hidden relative z-0 "></div>
 
             <!-- Map Footer Legend -->
             <div class="flex items-center justify-between text-[10px] font-mono text-[#5F6368] pt-1 px-1  flex-wrap gap-2">
@@ -2371,7 +2492,7 @@ export class CommodityTrackerComponent {
 
           <div class="flex items-center gap-2">
             <button 
-              id="btn-export-commodity-excel" 
+              id="${this.id('btn-export-commodity-excel')}" 
               class="px-3.5 py-1.5 bg-[#0038A8] hover:bg-[#002B82] text-white rounded-md text-xs font-mono font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
               title="Unduh seluruh baris data neraca komoditas dalam format Excel (.csv)"
             >
@@ -2380,18 +2501,18 @@ export class CommodityTrackerComponent {
             </button>
 
             <button 
-              id="btn-toggle-commodity-table" 
+              id="${this.id('btn-toggle-commodity-table')}" 
               class="px-3 py-1.5 bg-white hover:bg-[#F8F9FA] text-[#0038A8] rounded-md text-xs font-mono font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
               title="Tampilkan atau sembunyikan tabel rincian angka historis 1990-2026"
             >
               <span>📊</span>
-              <span id="label-toggle-table">${this.isTableExpanded ? 'Sembunyikan Tabel Historis' : 'Tampilkan Tabel Historis (1990 - 2026)'}</span>
+              <span id="${this.id('label-toggle-table')}">${this.isTableExpanded ? 'Sembunyikan Tabel Historis' : 'Tampilkan Tabel Historis (1990 - 2026)'}</span>
             </button>
           </div>
         </div>
 
         <!-- Collapsible Content -->
-        <div id="commodity-full-table-container" class="${this.isTableExpanded ? '' : 'hidden'} pt-3">
+        <div id="${this.id('commodity-full-table-container')}" class="${this.isTableExpanded ? '' : 'hidden'} pt-3">
           <div class="overflow-x-auto max-h-[480px]">
             <table class="w-full text-left border-collapse text-[11px] font-mono">
               <thead class="sticky top-0 z-10 shadow-2xs">
@@ -2465,8 +2586,10 @@ export class CommodityTrackerComponent {
     this.activeSpatialVariable = variableId;
     await this.loadSpatialData(this.selectedCommodityId, variableId);
 
+    const root = this.getContainer() || document;
+
     // 1. Update Buttons active styling
-    this.container.querySelectorAll('.btn-spatial-var').forEach(btn => {
+    root.querySelectorAll('.btn-spatial-var').forEach(btn => {
       const v = btn.getAttribute('data-var');
       if (v === variableId) {
         btn.className = 'btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer border bg-[#E8F0FE] text-[#1A73E8] border-[#1A73E8] shadow-2xs';
@@ -2476,15 +2599,15 @@ export class CommodityTrackerComponent {
     });
 
     // 2. Update Explanatory Context Banner
-    const explanationBox = document.getElementById('spatial-variable-explanation-box');
+    const explanationBox = this.el('spatial-variable-explanation-box');
     if (explanationBox) {
       explanationBox.outerHTML = this.renderSpatialExplanationBox(this.selectedCommodityId, variableId);
     }
 
     // 3. Update Points List in Left Column
-    const listContainer = document.getElementById('commodity-spatial-points-list');
-    const countBadge = document.getElementById('spatial-points-count-badge');
-    const varLabelBadge = document.getElementById('spatial-active-var-label');
+    const listContainer = this.el('commodity-spatial-points-list');
+    const countBadge = this.el('spatial-points-count-badge');
+    const varLabelBadge = this.el('spatial-active-var-label');
     const points = this.spatialData?.points || [];
     const selected = points.length ? points[0] : null;
     this.selectedSpatialPoint = selected;
@@ -2625,7 +2748,7 @@ export class CommodityTrackerComponent {
   }
 
   initCommodityLeafletMap(activePoint = null) {
-    const mapContainer = document.getElementById('commodity-leaflet-container');
+    const mapContainer = this.el('commodity-leaflet-container');
     if (!mapContainer) return;
 
     if (typeof L === 'undefined') {
@@ -2645,7 +2768,7 @@ export class CommodityTrackerComponent {
     const defaultCenter = [-2.2, 118.0];
     const defaultZoom = 4.5;
 
-    this.commodityMapInstance = L.map('commodity-leaflet-container', {
+    this.commodityMapInstance = L.map(mapContainer, {
       center: defaultCenter,
       zoom: defaultZoom,
       minZoom: 3.5,
@@ -2742,7 +2865,7 @@ export class CommodityTrackerComponent {
     this.focusMapOnPoint(point);
 
     // Update list highlight in DOM
-    const listContainer = document.getElementById('commodity-spatial-points-list');
+    const listContainer = this.el('commodity-spatial-points-list');
     if (listContainer) {
       const items = listContainer.querySelectorAll('.btn-select-spatial-point');
       const points = this.spatialData?.points || [];
@@ -2759,8 +2882,8 @@ export class CommodityTrackerComponent {
     }
 
     // Update top status bar
-    const activeLabel = document.getElementById('commodity-map-active-point');
-    const coordsLabel = document.getElementById('commodity-map-coords');
+    const activeLabel = this.el('commodity-map-active-point');
+    const coordsLabel = this.el('commodity-map-coords');
     if (activeLabel) activeLabel.textContent = point.province;
     if (coordsLabel) coordsLabel.textContent = `${point.lat.toFixed(2)}°, ${point.lng.toFixed(2)}°`;
   }
@@ -2820,7 +2943,7 @@ export class CommodityTrackerComponent {
 
           <div class="flex items-center gap-2">
             <label class="text-[10.5px] font-bold text-slate-700 uppercase">Tahun:</label>
-            <select id="select-matrix-year" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs font-bold text-slate-900">
+            <select id="${this.id('select-matrix-year')}" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs font-bold text-slate-900">
               ${yearsList.map(y => `
                 <option value="${y}" ${this.selectedYear === y ? 'selected' : ''}>${y} ${y === '2026' ? '(Sementara)' : ''}</option>
               `).join('')}

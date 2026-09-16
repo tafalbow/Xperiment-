@@ -313,10 +313,15 @@ class App {
       contentCalendar?.classList.add('hidden');
 
       if (!this.agriCommodityTracker) {
-        this.agriCommodityTracker = new CommodityTrackerComponent('agri-subcontent-balance');
+        this.agriCommodityTracker = new CommodityTrackerComponent('agri-subcontent-balance', 'PERTANIAN_PETERNAKAN');
         await this.agriCommodityTracker.init();
+      } else {
+        await this.agriCommodityTracker.setDivision('PERTANIAN_PETERNAKAN');
       }
-      await this.agriCommodityTracker.setDivision('PERTANIAN_PETERNAKAN');
+      setTimeout(() => {
+        this.agriCommodityTracker?.drawChart();
+        this.agriCommodityTracker?.invalidateMapSize();
+      }, 70);
     } else if (subTabName === 'calendar') {
       btnCalendar?.classList.add('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
       btnCalendar?.classList.remove('text-[#5F6368]', 'font-medium');
@@ -419,10 +424,15 @@ class App {
       contentProduction?.classList.remove('hidden');
       activateBtn(btnProduction);
       if (!this.productionCommodityTracker) {
-        this.productionCommodityTracker = new CommodityTrackerComponent('production-commodities-container');
+        this.productionCommodityTracker = new CommodityTrackerComponent('production-commodities-container', 'HASIL_BUMI');
         await this.productionCommodityTracker.init();
+      } else {
+        await this.productionCommodityTracker.setDivision('HASIL_BUMI');
       }
-      await this.productionCommodityTracker.setDivision('HASIL_BUMI');
+      setTimeout(() => {
+        this.productionCommodityTracker?.drawChart();
+        this.productionCommodityTracker?.invalidateMapSize();
+      }, 70);
     } else if (tabName === 'lkpp') {
       contentLkpp?.classList.remove('hidden');
       activateBtn(btnLkpp);
