@@ -544,12 +544,12 @@ export class CommodityTrackerComponent {
   }
 
   getDivisionHsChapters() {
-    if (!this.categoriesData) return [];
-    const divComms = this.categoriesData.commodities.filter(c => {
+    if (!this.categoriesData || !this.categoriesData.commodities) return [];
+    const divComms = (this.categoriesData.commodities || []).filter(c => {
       if (this.activeDivision === 'ALL') return true;
       return c.division === this.activeDivision;
     });
-    const chapters = [...new Set(divComms.map(c => c.hs_chapter))];
+    const chapters = [...new Set(divComms.map(c => c.hs_chapter))].filter(Boolean);
     return chapters.sort();
   }
 
@@ -701,9 +701,9 @@ export class CommodityTrackerComponent {
             <label class="font-bold text-slate-800 uppercase text-[10.5px]">🏷️ Sub-Kelompok / Realm:</label>
             <select id="select-filter-group" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Sub-Kelompok</option>
-              ${this.categoriesData.divisions.find(d => d.id === this.activeDivision)?.groups.map(g => `
+              ${(this.categoriesData.divisions?.find(d => d.id === this.activeDivision)?.groups || []).map(g => `
                 <option value="${g.id}" ${this.activeGroup === g.id ? 'selected' : ''}>${g.label}</option>
-              `).join('') || ''}
+              `).join('')}
             </select>
           </div>
 
@@ -712,9 +712,9 @@ export class CommodityTrackerComponent {
             <label class="font-bold text-slate-800 uppercase text-[10.5px]">📦 Bab BTKI / Klasifikasi HS:</label>
             <select id="select-filter-hs" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Klasifikasi HS Bab</option>
-              ${this.categoriesData.divisions.find(d => d.id === this.activeDivision)?.hs_chapters.map(h => `
-                <option value="${h.chapter}" ${this.activeHsChapter === h.chapter ? 'selected' : ''}>${h.label}</option>
-              `).join('') || ''}
+              ${scopedHsChapters.map(ch => `
+                <option value="${ch}" ${this.activeHsChapter === ch ? 'selected' : ''}>${ch}</option>
+              `).join('')}
             </select>
           </div>
         </div>
