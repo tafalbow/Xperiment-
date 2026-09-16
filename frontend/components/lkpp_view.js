@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // LKPP TIME-SERIES STATUTORY STATEMENTS OBSERVATORY (1990 – 2026)
 // Kompilasi 6 Laporan Keuangan Pokok Republik Indonesia:
 // 1. Laporan Realisasi Anggaran (LRA)
@@ -103,14 +103,14 @@ export class LKPPView {
       <div class="space-y-4 font-sans">
         
         <!-- 1. HEADER BANNER & ACTION TOOLBAR -->
-        <div class="gov-card p-5 bg-white border border-[#DADCE0] shadow-2xs space-y-4">
+        <div class="gov-card p-5 bg-white  shadow-2xs space-y-4">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="space-y-1">
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-semibold bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
                   🏛️ Observatorium Trend Keuangan Negara (APBN, RAPBN & LKPP 1990 – 2026)
                 </span>
-                <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+                <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E6F4EA] text-[#137333] ">
                   Standardisasi BAS PP 71/2010
                 </span>
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#F1F3F4] text-[#5F6368]">
@@ -138,7 +138,7 @@ export class LKPPView {
 
               <button 
                 id="btn-lkpp-glossary"
-                class="px-3 py-1.5 text-xs font-mono font-medium rounded border border-[#DADCE0] bg-white hover:bg-[#F8F9FA] text-[#202124] flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                class="px-3 py-1.5 text-xs font-mono font-medium rounded  bg-white hover:bg-[#F8F9FA] text-[#202124] flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
                 title="Buka kamus perbandingan perubahan nama pos akun lintas era"
               >
                 <span>📖</span>
@@ -147,7 +147,7 @@ export class LKPPView {
 
               <button 
                 id="btn-lkpp-export-excel"
-                class="px-3 py-1.5 text-xs font-mono font-medium rounded border border-[#34A853] bg-[#E6F4EA] hover:bg-[#CEEAD6] text-[#137333] flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                class="px-3 py-1.5 text-xs font-mono font-bold rounded bg-[#0038A8] hover:bg-[#002B82] text-white flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
                 title="Unduh data tabel matriks dalam format Excel (.xlsx)"
               >
                 <span>📥</span>
@@ -156,7 +156,7 @@ export class LKPPView {
 
               <button 
                 id="btn-lkpp-export-csv"
-                class="px-3 py-1.5 text-xs font-mono font-medium rounded border border-[#DADCE0] bg-white hover:bg-[#F8F9FA] text-[#3C4043] flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                class="px-3 py-1.5 text-xs font-mono font-medium rounded bg-[#002B82] hover:bg-[#001D5A] text-white flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
                 title="Unduh data tabel matriks dalam format CSV"
               >
                 <span>📄</span>
@@ -165,7 +165,7 @@ export class LKPPView {
 
               <button 
                 id="btn-lkpp-refresh"
-                class="p-1.5 text-xs rounded border border-[#DADCE0] bg-white hover:bg-[#F8F9FA] text-[#5F6368] cursor-pointer"
+                class="p-1.5 text-xs rounded  bg-white hover:bg-[#F8F9FA] text-[#5F6368] cursor-pointer"
                 title="Muat Ulang"
               >
                 🔄
@@ -174,7 +174,7 @@ export class LKPPView {
           </div>
 
           <!-- 2. FILTER CONTROLS BAR (Peach Muda #FDE2D2) -->
-          <div class="p-3.5 bg-[#FDE2D2] border border-[#F5C7B3] rounded-lg space-y-3">
+          <div class="p-3.5 bg-[#FDE2D2]  rounded-lg space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
               
               <!-- Table Selector (5 cols) -->
@@ -182,7 +182,7 @@ export class LKPPView {
                 <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
                   1. Pilihan Tabel Keuangan Negara (APBN, RAPBN & LKPP)
                 </label>
-                <select id="sel-lkpp-table" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
+                <select id="sel-lkpp-table" class="w-full text-xs font-sans px-2.5 py-1.5 rounded  bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
                   ${this.tableList.map(t => `
                     <option value="${t.id}" ${t.id === this.tableId ? 'selected' : ''}>
                       ${t.number}. ${t.name} (${t.short_name})
@@ -197,11 +197,11 @@ export class LKPPView {
                   2. Kurun Waktu (Tahun)
                 </label>
                 <div class="flex items-center gap-2">
-                  <select id="sel-lkpp-start-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124]">
+                  <select id="sel-lkpp-start-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded  bg-white text-[#202124]">
                     ${this.generateYearOptions(1990, 2026, this.startYear)}
                   </select>
                   <span class="text-xs font-mono text-[#7D655C] font-semibold">s/d</span>
-                  <select id="sel-lkpp-end-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124]">
+                  <select id="sel-lkpp-end-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded  bg-white text-[#202124]">
                     ${this.generateYearOptions(1990, 2026, this.endYear)}
                   </select>
                 </div>
@@ -212,7 +212,7 @@ export class LKPPView {
                 <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
                   3. Satuan Angka
                 </label>
-                <select id="sel-lkpp-unit" class="w-full text-xs font-sans px-2 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124]">
+                <select id="sel-lkpp-unit" class="w-full text-xs font-sans px-2 py-1.5 rounded  bg-white text-[#202124]">
                   <option value="TRILLION" ${this.unit === 'TRILLION' ? 'selected' : ''}>Triliun Rp (Rp T)</option>
                   <option value="BILLION" ${this.unit === 'BILLION' ? 'selected' : ''}>Miliar Rp (Rp M)</option>
                   <option value="MILLION" ${this.unit === 'MILLION' ? 'selected' : ''}>Juta Rp (Rp Jt)</option>
@@ -230,7 +230,7 @@ export class LKPPView {
                     id="input-lkpp-search" 
                     value="${this.searchKeyword}" 
                     placeholder="Misal: Pegawai, Bunga, Modal, SAL..."
-                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded border border-[#F5C7B3] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
+                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded  bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
                   />
                   <span class="absolute left-2.5 top-2 text-[11px] text-[#7D655C]">🔍</span>
                   ${this.searchKeyword ? `
@@ -242,25 +242,25 @@ export class LKPPView {
             </div>
 
             <!-- Quick Era Preset Badges -->
-            <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono border-t border-[#F5C7B3]">
+            <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono ">
               <span class="text-[#3E2723] font-bold">Preset Era:</span>
-              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="1990" data-end="2026">
+              <button class="btn-era-preset px-2.5 py-0.5 rounded  bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="1990" data-end="2026">
                 🏛️ Semua Era (1990–2026)
               </button>
-              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="2015" data-end="2026">
+              <button class="btn-era-preset px-2.5 py-0.5 rounded  bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="2015" data-end="2026">
                 📊 SAP Akrual Penuh (2015–2026)
               </button>
-              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="2005" data-end="2014">
+              <button class="btn-era-preset px-2.5 py-0.5 rounded  bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="2005" data-end="2014">
                 ⚖️ Kas Menuju Akrual (2005–2014)
               </button>
-              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="1990" data-end="2004">
+              <button class="btn-era-preset px-2.5 py-0.5 rounded  bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="1990" data-end="2004">
                 📜 Dual Budgeting / PAN (1990–2004)
               </button>
             </div>
           </div>
 
         <!-- 3. STATUTORY METADATA SUMMARY STRIP -->
-        <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] text-xs flex flex-col md:flex-row md:items-center justify-between gap-3 font-mono">
+        <div class="bg-[#F8F9FA] p-3 rounded-lg  text-xs flex flex-col md:flex-row md:items-center justify-between gap-3 font-mono">
           <div class="space-y-0.5">
             <div>
               <span class="text-[#5F6368]">Dasar Hukum:</span> 
@@ -292,8 +292,8 @@ export class LKPPView {
         </div>
 
         <!-- 4. PIVOT MATRIX DATA TABLE (HORIZONTAL SCROLL) -->
-        <div class="gov-card bg-white border border-[#DADCE0] shadow-2xs overflow-hidden">
-          <div class="p-3 bg-[#F8F9FA] border-b border-[#DADCE0] flex items-center justify-between text-xs font-mono">
+        <div class="gov-card bg-white  shadow-2xs overflow-hidden">
+          <div class="p-3 bg-[#F8F9FA]  flex items-center justify-between text-xs font-mono">
             <div class="flex items-center gap-2">
               <span class="font-bold text-[#202124]">Tabel Matriks Deret Waktu:</span>
               <span class="text-[#5F6368]">${meta.short_name} (${rows.length} Pos / Akun Terdaftar)</span>
@@ -308,27 +308,27 @@ export class LKPPView {
               
               <!-- Table Headers -->
               <thead class="bg-[#F1F3F4] text-[#202124] font-mono sticky top-0 z-30 shadow-2xs">
-                <tr class="border-b border-[#DADCE0]">
+                <tr class="">
                   <!-- Sticky Column 1: Akun -->
-                  <th scope="col" class="py-2.5 px-3 font-bold text-center border-r border-[#DADCE0] sticky left-0 bg-[#F1F3F4] z-40 min-w-[70px]">
+                  <th scope="col" class="py-2.5 px-3 font-bold text-center  sticky left-0 bg-[#F1F3F4] z-40 min-w-[70px]">
                     KODE
                   </th>
                   <!-- Sticky Column 2: Kelompok Biaya / Pos -->
-                  <th scope="col" class="py-2.5 px-3 font-bold border-r border-[#DADCE0] sticky left-[70px] bg-[#F1F3F4] z-40 min-w-[280px]">
+                  <th scope="col" class="py-2.5 px-3 font-bold  sticky left-[70px] bg-[#F1F3F4] z-40 min-w-[280px]">
                     KELOMPOK POS / BIAYA KEUANGAN NEGARA
                   </th>
                   <!-- Sticky Column 3: Kategori -->
-                  <th scope="col" class="py-2.5 px-3 font-bold border-r border-[#DADCE0] sticky left-[350px] bg-[#F1F3F4] z-40 min-w-[150px]">
+                  <th scope="col" class="py-2.5 px-3 font-bold  sticky left-[350px] bg-[#F1F3F4] z-40 min-w-[150px]">
                     KLASIFIKASI
                   </th>
                   <!-- Sticky Column 4: Aksi Tren -->
-                  <th scope="col" class="py-2.5 px-2 font-bold text-center border-r border-[#DADCE0] sticky left-[500px] bg-[#F1F3F4] z-40 min-w-[70px]">
+                  <th scope="col" class="py-2.5 px-2 font-bold text-center  sticky left-[500px] bg-[#F1F3F4] z-40 min-w-[70px]">
                     TREN
                   </th>
 
                   <!-- Dynamic Year Columns (1990 to 2026) -->
                   ${years.map(y => `
-                    <th scope="col" class="py-2 px-3 text-right font-mono border-r border-[#DADCE0] min-w-[120px]">
+                    <th scope="col" class="py-2 px-3 text-right font-mono  min-w-[120px]">
                       <div class="font-bold text-xs text-[#202124]">${y.year}</div>
                       <div class="text-[9px] font-normal px-1 py-0.2 rounded inline-block mt-0.5 border ${y.badge_class}">
                         ${y.status === 'audited' ? 'Audited' : (y.status === 'provisional' ? 'Sementara' : 'Pagu UU')}
@@ -353,7 +353,7 @@ export class LKPPView {
           </div>
 
           <!-- Table Footer Strip -->
-          <div class="p-3 bg-[#F8F9FA] border-t border-[#DADCE0] flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#5F6368] gap-2">
+          <div class="p-3 bg-[#F8F9FA]  flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#5F6368] gap-2">
             <div>
               Sumber: UU APBN • Nota Keuangan RAPBN • LKPP Audited BPK RI (1990–2024) • Realisasi Sementara APBN KiTa (2025)
             </div>
@@ -390,12 +390,12 @@ export class LKPPView {
       <tr class="${rowBg} cursor-pointer transition-colors group lkpp-table-row" data-item-id="${row.id}">
         
         <!-- Sticky Col 1: Code -->
-        <td class="py-2 px-3 text-center border-r border-[#DADCE0] sticky left-0 ${stickyBg} group-hover:bg-[#E8F0FE] z-20 font-bold text-[11px] text-[#1A73E8]">
+        <td class="py-2 px-3 text-center  sticky left-0 ${stickyBg} group-hover:bg-[#E8F0FE] z-20 font-bold text-[11px] text-[#1A73E8]">
           ${row.code || '-'}
         </td>
 
         <!-- Sticky Col 2: Name -->
-        <td class="py-2 px-3 border-r border-[#DADCE0] sticky left-[70px] ${stickyBg} group-hover:bg-[#E8F0FE] z-20 ${indentClass}">
+        <td class="py-2 px-3  sticky left-[70px] ${stickyBg} group-hover:bg-[#E8F0FE] z-20 ${indentClass}">
           <div class="flex items-center gap-1.5">
             ${isHdr ? '<span class="text-[#1A73E8]">▪</span>' : '<span class="text-[#BDC1C6]">•</span>'}
             <span class="${isHdr ? 'font-bold text-[#202124]' : 'font-medium'}">${row.name}</span>
@@ -403,14 +403,14 @@ export class LKPPView {
         </td>
 
         <!-- Sticky Col 3: Category -->
-        <td class="py-2 px-3 border-r border-[#DADCE0] sticky left-[350px] ${stickyBg} group-hover:bg-[#E8F0FE] z-20 text-[11px] text-[#5F6368] truncate max-w-[150px]">
+        <td class="py-2 px-3  sticky left-[350px] ${stickyBg} group-hover:bg-[#E8F0FE] z-20 text-[11px] text-[#5F6368] truncate max-w-[150px]">
           ${row.category || '-'}
         </td>
 
         <!-- Sticky Col 4: Trend Button -->
-        <td class="py-2 px-2 text-center border-r border-[#DADCE0] sticky left-[500px] ${stickyBg} group-hover:bg-[#E8F0FE] z-20">
+        <td class="py-2 px-2 text-center  sticky left-[500px] ${stickyBg} group-hover:bg-[#E8F0FE] z-20">
           <button 
-            class="btn-view-trend px-2 py-0.5 rounded text-[10.5px] font-mono font-medium border border-[#DADCE0] bg-white hover:bg-[#E8F0FE] hover:text-[#1A73E8] hover:border-[#1A73E8] text-[#3C4043] cursor-pointer transition-all"
+            class="btn-view-trend px-2 py-0.5 rounded text-[10.5px] font-mono font-medium  bg-white hover:bg-[#E8F0FE] hover:text-[#1A73E8] hover:border-[#1A73E8] text-[#3C4043] cursor-pointer transition-all"
             data-item-id="${row.id}"
             title="Lihat Grafik Tren Deret Waktu"
           >
@@ -429,7 +429,7 @@ export class LKPPView {
           const numColor = isNegative ? 'text-rose-600 font-semibold' : (isHdr ? 'text-[#202124]' : 'text-[#3C4043]');
 
           return `
-            <td class="py-2 px-3 text-right border-r border-[#DADCE0] ${numColor}">
+            <td class="py-2 px-3 text-right  ${numColor}">
               ${valStr}
             </td>
           `;
@@ -595,7 +595,7 @@ export class LKPPView {
         <div class="gov-modal-content max-w-4xl w-full bg-white rounded-lg shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
           
           <!-- Modal Header -->
-          <div class="px-6 py-4 bg-[#F8F9FA] border-b border-[#DADCE0] flex items-center justify-between">
+          <div class="px-6 py-4 bg-[#F8F9FA]  flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="flex items-center gap-2">
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#1A73E8]">
@@ -618,7 +618,7 @@ export class LKPPView {
             <!-- KPI Summary Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
               
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
+              <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1">
                 <div class="text-[10.5px] font-mono text-[#5F6368] uppercase">Nilai Terkini (2026)</div>
                 <div class="text-base font-bold text-[#1A73E8] font-mono">
                   ${Number(stats.latest_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
@@ -627,7 +627,7 @@ export class LKPPView {
                 <div class="text-[9.5px] font-mono text-[#1E8E3E]">Target Pagu APBN 2026</div>
               </div>
 
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
+              <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1">
                 <div class="text-[10.5px] font-mono text-[#5F6368] uppercase">Nilai Awal (1990)</div>
                 <div class="text-base font-bold text-[#202124] font-mono">
                   ${Number(stats.start_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
@@ -636,7 +636,7 @@ export class LKPPView {
                 <div class="text-[9.5px] font-mono text-[#5F6368]">Era Dual Budgeting (PAN)</div>
               </div>
 
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
+              <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1">
                 <div class="text-[10.5px] font-mono text-[#5F6368] uppercase">CAGR Historis</div>
                 <div class="text-base font-bold ${stats.cagr_percent >= 0 ? 'text-emerald-700' : 'text-rose-700'} font-mono">
                   ${stats.cagr_percent !== null ? `${stats.cagr_percent > 0 ? '+' : ''}${stats.cagr_percent}%` : 'N/A'}
@@ -644,7 +644,7 @@ export class LKPPView {
                 <div class="text-[9.5px] font-mono text-[#5F6368]">Compound Annual Growth</div>
               </div>
 
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
+              <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1">
                 <div class="text-[10.5px] font-mono text-[#5F6368] uppercase">Nilai Puncak (Maks)</div>
                 <div class="text-base font-bold text-[#D93025] font-mono">
                   ${Number(stats.max_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
@@ -656,7 +656,7 @@ export class LKPPView {
             </div>
 
             <!-- Historical Canvas Chart -->
-            <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-2">
+            <div class="bg-white p-4 rounded-lg  space-y-2">
               <div class="flex items-center justify-between text-xs font-mono">
                 <div class="font-bold text-[#202124] flex items-center gap-1.5">
                   <span>📈</span>
@@ -697,9 +697,9 @@ export class LKPPView {
                 <span class="text-[10.5px] font-normal text-[#5F6368]">Total ${series.length} Observasi</span>
               </div>
               
-              <div class="overflow-x-auto max-h-[220px] rounded border border-[#DADCE0] scrollbar-thin">
+              <div class="overflow-x-auto max-h-[220px] rounded  scrollbar-thin">
                 <table class="w-full text-xs text-left border-collapse font-mono">
-                  <thead class="bg-[#F1F3F4] text-[#202124] sticky top-0 border-b border-[#DADCE0]">
+                  <thead class="bg-[#F1F3F4] text-[#202124] sticky top-0 ">
                     <tr>
                       <th class="py-1.5 px-3">TAHUN</th>
                       <th class="py-1.5 px-3 text-right">NILAI (${tData.unit_symbol})</th>
@@ -748,11 +748,11 @@ export class LKPPView {
           </div>
 
           <!-- Modal Footer -->
-          <div class="px-6 py-3 bg-[#F8F9FA] border-t border-[#DADCE0] flex items-center justify-between">
+          <div class="px-6 py-3 bg-[#F8F9FA]  flex items-center justify-between">
             <span class="text-[11px] font-mono text-[#5F6368]">
               Data Sumber Resmi Kementerian Keuangan RI & BPK RI
             </span>
-            <button id="btn-close-trend-footer" class="px-4 py-1.5 rounded text-xs font-mono font-medium border border-[#DADCE0] bg-white hover:bg-[#F1F3F4] text-[#202124] cursor-pointer">
+            <button id="btn-close-trend-footer" class="px-4 py-1.5 rounded text-xs font-mono font-medium  bg-white hover:bg-[#F1F3F4] text-[#202124] cursor-pointer">
               Tutup
             </button>
           </div>
@@ -1024,7 +1024,7 @@ export class LKPPView {
         <div class="gov-modal-content max-w-5xl w-full bg-white rounded-lg shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
           
           <!-- Modal Header -->
-          <div class="px-6 py-4 bg-[#F8F9FA] border-b border-[#DADCE0] flex items-center justify-between">
+          <div class="px-6 py-4 bg-[#F8F9FA]  flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="flex items-center gap-2">
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#1A73E8]">
@@ -1051,7 +1051,7 @@ export class LKPPView {
               </div>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 ${eras.map((era, idx) => `
-                  <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1.5 flex flex-col justify-between">
+                  <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1.5 flex flex-col justify-between">
                     <div class="space-y-1">
                       <div class="flex items-center gap-1.5">
                         <span class="w-5 h-5 rounded-full bg-[#E8F0FE] text-[#1A73E8] font-bold text-[10px] flex items-center justify-center font-mono">
@@ -1081,41 +1081,41 @@ export class LKPPView {
                   type="text" 
                   id="input-glossary-filter" 
                   placeholder="Filter nama pos, kode, regulasi..."
-                  class="w-full text-xs px-3 py-1.5 rounded border border-[#DADCE0] bg-white text-[#202124] font-mono focus:outline-none focus:ring-2 focus:ring-[#1A73E8]"
+                  class="w-full text-xs px-3 py-1.5 rounded  bg-white text-[#202124] font-mono focus:outline-none focus:ring-2 focus:ring-[#1A73E8]"
                 />
               </div>
             </div>
 
             <!-- Glossary Comparison Table -->
-            <div class="overflow-x-auto rounded border border-[#DADCE0] scrollbar-thin">
+            <div class="overflow-x-auto rounded  scrollbar-thin">
               <table class="w-full text-xs text-left border-collapse font-sans" id="table-glossary-items">
-                <thead class="bg-[#F1F3F4] text-[#202124] font-mono sticky top-0 border-b border-[#DADCE0]">
+                <thead class="bg-[#F1F3F4] text-[#202124] font-mono sticky top-0 ">
                   <tr>
-                    <th class="py-2.5 px-3 border-r border-[#DADCE0] min-w-[60px] text-center">KODE</th>
-                    <th class="py-2.5 px-3 border-r border-[#DADCE0] min-w-[200px]">ISTILAH BAS TERBARU (PP 71/2010)</th>
-                    <th class="py-2.5 px-3 border-r border-[#DADCE0] min-w-[170px]">ERA DUAL BUDGETING (1990-2004)</th>
-                    <th class="py-2.5 px-3 border-r border-[#DADCE0] min-w-[170px]">ERA CTA (2005-2014)</th>
-                    <th class="py-2.5 px-3 border-r border-[#DADCE0] min-w-[180px]">DASAR HUKUM</th>
+                    <th class="py-2.5 px-3  min-w-[60px] text-center">KODE</th>
+                    <th class="py-2.5 px-3  min-w-[200px]">ISTILAH BAS TERBARU (PP 71/2010)</th>
+                    <th class="py-2.5 px-3  min-w-[170px]">ERA DUAL BUDGETING (1990-2004)</th>
+                    <th class="py-2.5 px-3  min-w-[170px]">ERA CTA (2005-2014)</th>
+                    <th class="py-2.5 px-3  min-w-[180px]">DASAR HUKUM</th>
                     <th class="py-2.5 px-3 min-w-[280px]">CATATAN EVOLUSI & REKONSILIASI</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E8EAED] font-mono">
                   ${terms.map(t => `
                     <tr class="hover:bg-[#F8F9FA] glossary-item-row" data-search="${(t.modern_term + ' ' + t.modern_code + ' ' + t.era_1990_2004 + ' ' + t.legal_basis + ' ' + t.evolution_summary).toLowerCase()}">
-                      <td class="py-2 px-3 text-center border-r border-[#DADCE0] font-bold text-[#1A73E8]">
+                      <td class="py-2 px-3 text-center  font-bold text-[#1A73E8]">
                         ${t.modern_code}
                       </td>
-                      <td class="py-2 px-3 border-r border-[#DADCE0]">
+                      <td class="py-2 px-3 ">
                         <div class="font-bold text-[#202124]">${t.modern_term}</div>
                         <div class="text-[10px] text-[#5F6368]">${t.statement}</div>
                       </td>
-                      <td class="py-2 px-3 border-r border-[#DADCE0] text-[#5F6368] text-[11px]">
+                      <td class="py-2 px-3  text-[#5F6368] text-[11px]">
                         ${t.era_1990_2004}
                       </td>
-                      <td class="py-2 px-3 border-r border-[#DADCE0] text-[#5F6368] text-[11px]">
+                      <td class="py-2 px-3  text-[#5F6368] text-[11px]">
                         ${t.era_2005_2014}
                       </td>
-                      <td class="py-2 px-3 border-r border-[#DADCE0] text-[10.5px] text-[#137333] font-medium">
+                      <td class="py-2 px-3  text-[10.5px] text-[#137333] font-medium">
                         ${t.legal_basis}
                       </td>
                       <td class="py-2 px-3 text-[11px] text-[#3C4043] leading-relaxed font-sans">
@@ -1130,11 +1130,11 @@ export class LKPPView {
           </div>
 
           <!-- Modal Footer -->
-          <div class="px-6 py-3 bg-[#F8F9FA] border-t border-[#DADCE0] flex items-center justify-between">
+          <div class="px-6 py-3 bg-[#F8F9FA]  flex items-center justify-between">
             <span class="text-[11px] font-mono text-[#5F6368]">
               Disusun berdasarkan Bagan Akun Standar (BAS) Peraturan Menteri Keuangan RI
             </span>
-            <button id="btn-close-glossary-footer" class="px-4 py-1.5 rounded text-xs font-mono font-medium border border-[#DADCE0] bg-white hover:bg-[#F1F3F4] text-[#202124] cursor-pointer">
+            <button id="btn-close-glossary-footer" class="px-4 py-1.5 rounded text-xs font-mono font-medium  bg-white hover:bg-[#F1F3F4] text-[#202124] cursor-pointer">
               Tutup Glosari
             </button>
           </div>

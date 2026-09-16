@@ -38,8 +38,8 @@
   --bg-surface-subtle: #F8F9FA;         /* Clean subtle background */
   --bg-surface-hover: #F8F9FA;
   
-  --border-subtle: #E5DACF;            /* Warm Petal Subtle Border */
-  --border-strong: #CBB9A8;
+  --border-subtle: #E2E8F0;            /* Neutral Subtle Border */
+  --border-strong: #CBD5E1;
   --border-focus: #0038A8;             /* Biru Benhur Focus */
 
   --text-primary: #2C2420;             /* Warm Graphite / Dark Roast */
@@ -123,17 +123,16 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Google Analytics Card Aesthetics */
+/* Seamless Card Aesthetics (Border-free by default) */
 .gov-card {
   background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  border: none;
   border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.04);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .gov-card:hover {
-  border-color: var(--border-strong);
   box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.12), 0 4px 8px 3px rgba(60, 64, 67, 0.06);
 }
 

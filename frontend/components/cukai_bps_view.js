@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // DATA BPS VIEW COMPONENT
 // INDOEKONOMI data — Indonesia Economic Data Observatory
 // Layout & Compilations Styled Exactly Like the "Indikator Ekonomi" Tab
@@ -41,7 +41,7 @@ export class CukaiBpsView {
       <div class="space-y-4">
         
         <!-- HEADER: Title & Download Actions -->
-        <div class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg shadow-2xs">
+        <div class="gov-card p-4 bg-white  rounded-lg shadow-2xs">
           <div class="flex items-center justify-between flex-wrap gap-2">
             <div class="space-y-0.5">
               <div class="flex items-center gap-2">
@@ -49,7 +49,7 @@ export class CukaiBpsView {
                 <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-[#202124]">
                   DATA BPS — KOMPILASI INDIKATOR STATUTORI BADAN PUSAT STATISTIK (1990 – 2026)
                 </h2>
-                <span class="text-[10px] font-mono bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6] px-2 py-0.5 rounded font-bold">
+                <span class="text-[10px] font-mono bg-[#E6F4EA] text-[#137333]  px-2 py-0.5 rounded font-bold">
                   25 INDIKATOR &middot; 37 TAHUNAN
                 </span>
               </div>
@@ -58,11 +58,11 @@ export class CukaiBpsView {
               </p>
             </div>
             <div class="flex items-center gap-2 text-xs font-mono">
-              <button id="btn-export-bps-excel" class="px-3 py-1.5 bg-[#1E8E3E] text-white rounded hover:bg-[#137333] font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition">
+              <button id="btn-export-bps-excel" class="px-3 py-1.5 bg-[#0038A8] text-white rounded hover:bg-[#002B82] font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition">
                 <span>📊</span>
                 <span>Unduh Excel (.xlsx)</span>
               </button>
-              <button id="btn-export-bps-csv" class="px-3 py-1.5 bg-white border border-[#DADCE0] text-[#3C4043] rounded hover:bg-[#F1F3F4] font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition">
+              <button id="btn-export-bps-csv" class="px-3 py-1.5 bg-[#002B82] text-white rounded hover:bg-[#001D5A] font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition">
                 <span>📑</span>
                 <span>Unduh CSV</span>
               </button>
@@ -75,8 +75,8 @@ export class CukaiBpsView {
           
           <!-- KOLOM KIRI (Sidebar Filtering & Metadata Indikator BPS - Peach Muda #FDE2D2) -->
           <aside class="lg:col-span-4 xl:col-span-3.5 flex flex-col justify-between space-y-3 h-full">
-            <div class="gov-card p-4 bg-[#FDE2D2] border border-[#F5C7B3] rounded-lg space-y-3.5 shadow-2xs">
-              <div class="flex items-center justify-between border-b border-[#F5C7B3] pb-2">
+            <div class="p-4 bg-[#FDE2D2] rounded-lg space-y-3.5 shadow-2xs">
+              <div class="flex items-center justify-between pb-1.5">
                 <span class="text-xs font-mono font-bold text-[#3E2723] uppercase flex items-center gap-1.5">
                   <span>🔍</span>
                   <span>FILTER & PILIH INDIKATOR BPS</span>
@@ -87,7 +87,7 @@ export class CukaiBpsView {
               <!-- 1. Kategori BPS Selector -->
               <div class="space-y-1 text-xs font-mono">
                 <label class="font-bold text-[#3E2723] text-[11px] block">Kategori Data BPS:</label>
-                <select id="bps-category-select" class="w-full p-2 border border-[#F5C7B3] rounded bg-white text-xs text-[#202124] focus:outline-none focus:border-[#0038A8]">
+                <select id="bps-category-select" class="w-full p-2 border border-slate-200 rounded bg-white text-xs text-[#202124] focus:outline-none focus:border-[#0038A8]">
                   <option value="ALL">Semua Kategori (25 Indikator)</option>
                   <option value="BPS_MAKRO">Asumsi Makro BPS</option>
                   <option value="BPS_SUSENAS">Konsumsi Susenas BPS</option>
@@ -102,32 +102,32 @@ export class CukaiBpsView {
               <!-- 2. Indikator Dropdown -->
               <div class="space-y-1 text-xs font-mono">
                 <label class="font-bold text-[#3E2723] text-[11px] block">Pilih Indikator BPS:</label>
-                <select id="bps-indicator-select" class="w-full p-2 border border-[#F5C7B3] rounded bg-white text-xs text-[#202124] font-bold focus:outline-none focus:border-[#0038A8]">
+                <select id="bps-indicator-select" class="w-full p-2 border border-slate-200 rounded bg-white text-xs text-[#202124] font-bold focus:outline-none focus:border-[#0038A8]">
                   <!-- Rendered dynamically -->
                 </select>
               </div>
 
               <!-- 3. Rentang Waktu (1990 - 2026) & Shortcut Range -->
-              <div class="space-y-1.5 text-xs font-mono pt-1 border-t border-[#F5C7B3]">
+              <div class="space-y-1.5 text-xs font-mono pt-1">
                 <label class="font-bold text-[#3E2723] text-[11px] block">Rentang Waktu Analisis:</label>
                 <div class="grid grid-cols-2 gap-1.5">
-                  <button data-range="all" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-[#0038A8] text-white border border-[#0038A8] font-bold cursor-pointer transition shadow-2xs">
+                  <button data-range="all" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-[#0038A8] text-white font-bold cursor-pointer transition shadow-2xs">
                     Semua (1990–2026)
                   </button>
-                  <button data-range="10" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] border border-[#F5C7B3] hover:bg-[#FCD5C0] cursor-pointer transition">
+                  <button data-range="10" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] hover:bg-white cursor-pointer transition">
                     10 Thn (2017–2026)
                   </button>
-                  <button data-range="5" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] border border-[#F5C7B3] hover:bg-[#FCD5C0] cursor-pointer transition">
+                  <button data-range="5" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] hover:bg-white cursor-pointer transition">
                     5 Thn (2022–2026)
                   </button>
-                  <button data-range="3" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] border border-[#F5C7B3] hover:bg-[#FCD5C0] cursor-pointer transition">
+                  <button data-range="3" class="bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5D4037] hover:bg-white cursor-pointer transition">
                     3 Thn (2024–2026)
                   </button>
                 </div>
               </div>
 
               <!-- 4. Kartu Metadata Indikator Terpilih -->
-              <div id="bps-meta-card" class="bg-white/90 p-3 rounded border border-[#F5C7B3] space-y-1.5 text-[11px] font-mono">
+              <div id="bps-meta-card" class="bg-white/90 p-3 rounded space-y-1.5 text-[11px] font-mono shadow-2xs">
                 <!-- Rendered dynamically -->
               </div>
             </div>
@@ -137,8 +137,8 @@ export class CukaiBpsView {
           <div class="lg:col-span-8 xl:col-span-8.5 flex flex-col justify-between space-y-3 h-full">
             
             <!-- 1. Chart Area Module -->
-            <div class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg space-y-3 shadow-2xs">
-              <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2.5 flex-wrap gap-2">
+            <div class="p-4 bg-white rounded-lg space-y-3 shadow-2xs">
+              <div class="flex items-center justify-between pb-2 flex-wrap gap-2">
                 <div>
                   <h3 id="bps-chart-title" class="text-xs font-mono font-bold text-[#202124] uppercase">
                     Grafik Tren Indikator BPS (1990–2026)
@@ -151,7 +151,7 @@ export class CukaiBpsView {
                 <!-- Chart Controls: Type & Transform -->
                 <div class="flex items-center gap-1.5 text-xs font-mono">
                   <!-- Type Toggle (Peach Muda #FDE2D2) -->
-                  <div class="inline-flex rounded border border-[#F5C7B3] p-0.5 bg-[#FDE2D2]">
+                  <div class="inline-flex rounded p-0.5 bg-[#FDE2D2]">
                     <button id="btn-chart-line" class="px-2 py-0.5 rounded text-[10.5px] font-bold bg-white text-[#0038A8] shadow-2xs cursor-pointer">
                       Garis
                     </button>
@@ -161,7 +161,7 @@ export class CukaiBpsView {
                   </div>
 
                   <!-- Transform Toggle -->
-                  <select id="bps-transform-select" class="p-1 border border-[#F5C7B3] rounded bg-white text-[10.5px] text-[#3E2723] font-medium focus:outline-none">
+                  <select id="bps-transform-select" class="p-1 border border-slate-200 rounded bg-white text-[10.5px] text-[#3E2723] font-medium focus:outline-none">
                     <option value="raw">Nilai Asli (Level)</option>
                     <option value="yoy">Pertumbuhan YoY (%)</option>
                     <option value="index">Indeks (Tahun Awal = 100)</option>
@@ -177,7 +177,7 @@ export class CukaiBpsView {
 
             <!-- 2. RINGKASAN METRIK DESKRIPTIF BPS (5 Kotak KPI) -->
             <div class="space-y-1.5 mt-auto">
-              <div class="flex items-center justify-between border-b border-slate-200 pb-1">
+              <div class="flex items-center justify-between pb-1">
                 <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <span>📊</span>
                   <span>RINGKASAN METRIK DESKRIPTIF STATUTORI BPS</span>
@@ -196,8 +196,8 @@ export class CukaiBpsView {
         </div>
 
         <!-- ROW 2: TABEL MATRIKS KOMPILASI SELURUH INDIKATOR BPS (1990 - 2026) -->
-        <div class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg space-y-3 shadow-2xs">
-          <div class="flex items-center justify-between flex-wrap gap-2 border-b border-[#DADCE0] pb-2.5">
+        <div class="p-4 bg-white rounded-lg space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between flex-wrap gap-2 pb-2">
             <div class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-[#1A73E8]"></span>
               <h3 class="text-xs font-mono font-bold text-[#202124] uppercase">
@@ -211,16 +211,16 @@ export class CukaiBpsView {
                 type="text" 
                 id="bps-search-input" 
                 placeholder="Cari indikator BPS..." 
-                class="px-3 py-1 border border-[#DADCE0] rounded bg-[#F8F9FA] text-xs text-[#202124] focus:bg-white focus:outline-none focus:border-[#1A73E8] w-48 sm:w-64"
+                class="px-3 py-1 border border-slate-200 rounded bg-[#F8F9FA] text-xs text-[#202124] focus:bg-white focus:outline-none focus:border-[#1A73E8] w-48 sm:w-64"
               >
             </div>
           </div>
 
           <!-- Responsive Data Matrix Table -->
-          <div class="border border-[#DADCE0] rounded-lg overflow-hidden bg-white">
+          <div class="rounded-lg overflow-hidden bg-white">
             <div class="overflow-x-auto max-h-[480px] scrollbar-thin">
               <table class="w-full text-left text-xs font-mono border-collapse" id="bps-matrix-table">
-                <thead class="sticky top-0 bg-[#F8F9FA] text-[#5F6368] border-b border-[#DADCE0] z-10 shadow-2xs" id="bps-table-head">
+                <thead class="sticky top-0 bg-[#F8F9FA] text-[#5F6368]  z-10 shadow-2xs" id="bps-table-head">
                   <!-- Rendered dynamically -->
                 </thead>
                 <tbody class="divide-y divide-[#E8EAED]" id="bps-table-body">
@@ -287,7 +287,7 @@ export class CukaiBpsView {
     rangeBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         rangeBtns.forEach(b => {
-          b.className = 'bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5F6368] border border-[#DADCE0] hover:bg-[#F1F3F4] cursor-pointer transition';
+          b.className = 'bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-white text-[#5F6368]  hover:bg-[#F1F3F4] cursor-pointer transition';
         });
         btn.className = 'bps-range-btn px-2 py-1 text-[10.5px] font-mono rounded bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] font-bold cursor-pointer transition';
 
@@ -492,14 +492,14 @@ export class CukaiBpsView {
     const metaCard = document.getElementById('bps-meta-card');
     if (metaCard) {
       metaCard.innerHTML = `
-        <div class="flex items-center justify-between border-b border-[#DADCE0] pb-1">
+        <div class="flex items-center justify-between  pb-1">
           <span class="text-[#1A73E8] font-bold text-xs">${ind.name}</span>
-          <span class="px-1.5 py-0.2 rounded bg-white border border-[#DADCE0] text-[10px] text-[#5F6368]">${ind.unit}</span>
+          <span class="px-1.5 py-0.2 rounded bg-white  text-[10px] text-[#5F6368]">${ind.unit}</span>
         </div>
         <div class="text-[10.5px] text-[#3C4043] leading-relaxed pt-0.5">
           ${ind.description || ind.statutory_note || 'Indikator resmi BPS Indonesia.'}
         </div>
-        <div class="pt-1 border-t border-[#DADCE0] text-[10px] text-[#5F6368] flex items-center justify-between">
+        <div class="pt-1  text-[10px] text-[#5F6368] flex items-center justify-between">
           <span>Sumber: <strong>${ind.source}</strong></span>
           <span>Frekuensi: <strong>Tahunan</strong></span>
         </div>
@@ -536,7 +536,7 @@ export class CukaiBpsView {
 
     kpiContainer.innerHTML = `
       <!-- Kotak 1: Nilai Terkini -->
-      <div class="bg-white p-2.5 rounded border border-[#DADCE0] shadow-2xs space-y-1">
+      <div class="bg-white p-2.5 rounded  shadow-2xs space-y-1">
         <div class="text-[10px] text-[#5F6368] uppercase font-bold">Nilai Terkini (${this.state.endYear})</div>
         <div class="text-sm sm:text-base font-bold text-[#1A73E8] truncate">
           ${fmt(ind.latest_val)}
@@ -545,7 +545,7 @@ export class CukaiBpsView {
       </div>
 
       <!-- Kotak 2: Rata-rata 3 Tahun Terakhir -->
-      <div class="bg-white p-2.5 rounded border border-[#DADCE0] shadow-2xs space-y-1">
+      <div class="bg-white p-2.5 rounded  shadow-2xs space-y-1">
         <div class="text-[10px] text-[#5F6368] uppercase font-bold">Rata-rata L3Y</div>
         <div class="text-sm sm:text-base font-bold text-[#202124] truncate">
           ${fmt(ind.l3y_avg)}
@@ -554,7 +554,7 @@ export class CukaiBpsView {
       </div>
 
       <!-- Kotak 3: Nilai Terendah -->
-      <div class="bg-white p-2.5 rounded border border-[#DADCE0] shadow-2xs space-y-1">
+      <div class="bg-white p-2.5 rounded  shadow-2xs space-y-1">
         <div class="text-[10px] text-[#5F6368] uppercase font-bold">Nilai Min</div>
         <div class="text-sm sm:text-base font-bold text-[#B06000] truncate">
           ${fmt(ind.min_val)}
@@ -563,7 +563,7 @@ export class CukaiBpsView {
       </div>
 
       <!-- Kotak 4: Nilai Tertinggi -->
-      <div class="bg-white p-2.5 rounded border border-[#DADCE0] shadow-2xs space-y-1">
+      <div class="bg-white p-2.5 rounded  shadow-2xs space-y-1">
         <div class="text-[10px] text-[#5F6368] uppercase font-bold">Nilai Max</div>
         <div class="text-sm sm:text-base font-bold text-[#137333] truncate">
           ${fmt(ind.max_val)}
@@ -572,7 +572,7 @@ export class CukaiBpsView {
       </div>
 
       <!-- Kotak 5: Pertumbuhan Terakhir YoY -->
-      <div class="bg-white p-2.5 rounded border border-[#DADCE0] shadow-2xs space-y-1 col-span-2 sm:col-span-1">
+      <div class="bg-white p-2.5 rounded  shadow-2xs space-y-1 col-span-2 sm:col-span-1">
         <div class="text-[10px] text-[#5F6368] uppercase font-bold">Pertumbuhan YoY</div>
         <div class="text-sm sm:text-base font-bold ${yoyColor} truncate">
           ${yoyGrowthText}
@@ -743,7 +743,7 @@ export class CukaiBpsView {
             <div class="text-[10px] text-[#5F6368] line-clamp-1">${ind.description || ind.statutory_note}</div>
           </td>
           <td class="p-2.5 font-mono text-[11px]">
-            <span class="px-2 py-0.5 rounded bg-[#F1F3F4] text-[#3C4043] border border-[#DADCE0]">
+            <span class="px-2 py-0.5 rounded bg-[#F1F3F4] text-[#3C4043] ">
               ${ind.category_label}
             </span>
           </td>

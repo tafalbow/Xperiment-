@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // ABOUT VIEW COMPONENT (TENTANG INDOEKONOMI DATA)
 // Ownership, Statutory Governance, Classification Evolution Access & Helpdesk
 // ==============================================================================
@@ -16,8 +16,8 @@ export class AboutView {
     this.container.innerHTML = `
       <div class="space-y-4">
         <!-- 1. HEADER & MISSION -->
-        <div class="bg-white p-5 rounded-lg border border-[#DADCE0] space-y-3 shadow-2xs">
-          <div class="flex items-center justify-between border-b border-[#DADCE0] pb-3 flex-wrap gap-2">
+        <div class="bg-white p-5 rounded-lg  space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between  pb-3 flex-wrap gap-2">
             <div class="flex items-center gap-2.5">
               <span class="w-8 h-8 rounded-lg bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center text-lg">🏛️</span>
               <div>
@@ -29,7 +29,7 @@ export class AboutView {
                 </div>
               </div>
             </div>
-            <span class="text-[10.5px] font-mono bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6] px-2.5 py-1 rounded font-semibold">
+            <span class="text-[10.5px] font-mono bg-[#E6F4EA] text-[#137333]  px-2.5 py-1 rounded font-semibold">
               STANDAR STATUTORI REPUBLIK INDONESIA
             </span>
           </div>
@@ -38,7 +38,7 @@ export class AboutView {
             <strong>INDOEKONOMI data</strong> dibangun sebagai observatorium data ekonomi nasional satu pintu yang menjembatani informasi ekonomi publik Indonesia yang tersebar di berbagai kementerian dan lembaga. Melalui arsitektur deret waktu berbasis observasi (<em>observation-based time series</em>), setiap angka dihubungkan secara utuh dengan dokumen publikasi kanonikal, nomor tabel, nomor halaman, dan institusi penerbit aslinya.
           </p>
 
-          <div class="p-3 bg-[#F8F9FA] rounded border border-[#DADCE0] flex items-center justify-between flex-wrap gap-3">
+          <div class="p-3 bg-[#F8F9FA] rounded  flex items-center justify-between flex-wrap gap-3">
             <div class="space-y-0.5 text-xs font-mono">
               <div class="font-bold text-[#202124]">Prinsip Produk:</div>
               <div class="text-[#5F6368] text-[11px]">
@@ -57,8 +57,8 @@ export class AboutView {
         <!-- 2. GOVERNANCE, COPYRIGHT & ACCESS MATRIX -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Column 1: Ownership & Legal Basis -->
-          <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-3 shadow-2xs">
-            <h3 class="text-xs font-mono font-bold uppercase text-[#202124] flex items-center gap-2 border-b border-[#DADCE0] pb-2">
+          <div class="bg-white p-4 rounded-lg  space-y-3 shadow-2xs">
+            <h3 class="text-xs font-mono font-bold uppercase text-[#202124] flex items-center gap-2  pb-2">
               <span>⚖️</span>
               <span>Hak Cipta & Landasan Hukum</span>
             </h3>
@@ -85,26 +85,26 @@ export class AboutView {
           </div>
 
           <!-- Column 2: 8 Access Statuses -->
-          <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-3 shadow-2xs">
-            <h3 class="text-xs font-mono font-bold uppercase text-[#202124] flex items-center gap-2 border-b border-[#DADCE0] pb-2">
+          <div class="bg-white p-4 rounded-lg  space-y-3 shadow-2xs">
+            <h3 class="text-xs font-mono font-bold uppercase text-[#202124] flex items-center gap-2  pb-2">
               <span>🛡️</span>
               <span>Matriks Tata Kelola Akses Data (8 Status)</span>
             </h3>
 
             <div class="space-y-1.5 text-[11px] font-mono">
-              <div class="flex items-center justify-between p-1.5 rounded bg-[#F8F9FA] border border-[#DADCE0]">
+              <div class="flex items-center justify-between p-1.5 rounded bg-[#F8F9FA] ">
                 <span class="font-bold text-[#1E8E3E]">PUBLIC_DOWNLOAD_OPEN</span>
                 <span class="text-[#5F6368]">Dapat ditemukan, dilihat & diunduh langsung</span>
               </div>
-              <div class="flex items-center justify-between p-1.5 rounded bg-[#F8F9FA] border border-[#DADCE0]">
+              <div class="flex items-center justify-between p-1.5 rounded bg-[#F8F9FA] ">
                 <span class="font-bold text-[#1A73E8]">PUBLIC_DOWNLOAD_AFTER_LOGIN</span>
                 <span class="text-[#5F6368]">Wajib verifikasi sesi pengguna terdaftar</span>
               </div>
-              <div class="flex items-center justify-between p-1.5 rounded bg-[#F8F9FA] border border-[#DADCE0]">
+              <div class="flex items-center justify-between p-1.5 rounded bg-[#F8F9FA] ">
                 <span class="font-bold text-[#B06000]">PUBLIC_VIEW_ONLY</span>
                 <span class="text-[#5F6368]">Grafik & tabel dapat dilihat, unduh dilarang</span>
               </div>
-              <div class="flex items-center justify-between p-1.5 rounded bg-[#F8F9FA] border border-[#DADCE0]">
+              <div class="flex items-center justify-between p-1.5 rounded bg-[#F8F9FA] ">
                 <span class="font-bold text-[#5F6368]">LINK_TO_ORIGINAL_ONLY</span>
                 <span class="text-[#5F6368]">Tautan langsung ke repositori resmi instansi</span>
               </div>
@@ -113,8 +113,8 @@ export class AboutView {
         </div>
 
         <!-- 3. HELPDESK & CONTACT -->
-        <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-2.5 shadow-2xs">
-          <h3 class="text-xs font-mono font-bold uppercase text-[#202124] flex items-center gap-2 border-b border-[#DADCE0] pb-2">
+        <div class="bg-white p-4 rounded-lg  space-y-2.5 shadow-2xs">
+          <h3 class="text-xs font-mono font-bold uppercase text-[#202124] flex items-center gap-2  pb-2">
             <span>📞</span>
             <span>Kontak Helpdesk & Pertanyaan Metodologi</span>
           </h3>

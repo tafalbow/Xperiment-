@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // MODALS COMPONENT (Data Provenance, Kamus Metadata, Registry, Crosswalk, Ingestion)
 // ==============================================================================
 
@@ -32,7 +32,7 @@ export class ModalManager {
 
         <!-- Modal Footer -->
         <div style="background-color: #BEBEBE;" class="px-6 py-3 border-t border-[#B0B0B0] flex items-center justify-end rounded-b-[5px]">
-          <button id="btn-modal-dismiss" class="gov-btn text-xs font-semibold bg-white hover:bg-slate-100 text-slate-900 border border-[#DADCE0] shadow-2xs">Tutup</button>
+          <button id="btn-modal-dismiss" class="gov-btn text-xs font-semibold bg-white hover:bg-slate-100 text-slate-900  shadow-2xs">Tutup</button>
         </div>
       </div>
     `;
@@ -383,7 +383,7 @@ export class ModalManager {
       const content = `
         <div class="space-y-4 font-sans text-xs">
           <!-- Banner & Action Controls (Updated to #CDCDCD Gray) -->
-          <div class="bg-white text-[#202124] rounded-lg p-4 flex items-center justify-between flex-wrap gap-3 border border-[#DADCE0] shadow-sm">
+          <div class="bg-white text-[#202124] rounded-lg p-4 flex items-center justify-between flex-wrap gap-3  shadow-sm">
             <div>
               <div class="flex items-center gap-2">
                 <span class="text-[#1A73E8] font-mono font-bold text-xs uppercase tracking-wider">HARMONISASI BAGAN AKUN STANDAR (BAS) & LAPORAN KEUANGAN LKPP AUDITED</span>
@@ -393,15 +393,15 @@ export class ModalManager {
                 Penyesuaian nomor biaya & pos historis ke nomor akun LKPP terbaru (PMK 214/2013 & PMK 102/2020) terintegrasi 1 file buku kerja.
               </p>
             </div>
-            <button id="btn-export-crosswalk-excel" class="gov-btn bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-xs font-bold flex items-center gap-2 px-3.5 py-2 rounded shadow-md transition-all cursor-pointer">
+            <button id="btn-export-crosswalk-excel" class="gov-btn bg-[#0038A8] hover:bg-[#002B82] text-white font-mono text-xs font-bold flex items-center gap-2 px-3.5 py-2 rounded shadow-md transition-all cursor-pointer">
               <span>📥</span>
               <span>Download Buku LKPP & Crosswalk (.xlsx)</span>
             </button>
           </div>
 
           <!-- Sub-Tab Navigation -->
-          <div class="flex items-center gap-2 border-b border-slate-200 pb-2 flex-wrap font-mono text-xs">
-            <button class="cw-tab-btn px-3 py-1.5 rounded font-bold bg-[#E8F0FE] text-[#1A73E8] shadow-xs border border-[#DADCE0]" data-target="cw-tab-rules">
+          <div class="flex items-center gap-2 pb-2 flex-wrap font-mono text-xs">
+            <button class="cw-tab-btn px-3 py-1.5 rounded font-bold bg-[#E8F0FE] text-[#0038A8] shadow-xs" data-target="cw-tab-rules">
               🔀 1. Harmonisasi Crosswalk BAS
             </button>
             <button class="cw-tab-btn px-3 py-1.5 rounded font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors" data-target="cw-tab-lra">
@@ -511,7 +511,7 @@ export class ModalManager {
                   ${neraca.map(r => {
                     const indentClass = r.level === 1 ? 'font-bold text-[#1A73E8] bg-slate-100 text-xs' : (r.level === 2 ? 'font-bold text-slate-900 pl-3 bg-slate-50' : (r.level === 3 ? 'font-semibold text-slate-800 pl-6' : 'pl-9 text-slate-600'));
                     return `
-                      <tr class="${r.level === 1 ? 'border-t-2 border-[#DADCE0] font-bold' : ''}">
+                      <tr class="${r.level === 1 ? 'border-t-2  font-bold' : ''}">
                         <td class="font-bold">${r.kode_akun}</td>
                         <td class="${indentClass} font-sans">${r.uraian}</td>
                         <td class="text-center text-slate-500">${r.catatan}</td>
@@ -738,8 +738,8 @@ export class ModalManager {
       const doc = await ApiClient.fetchClassificationDocument();
 
       const erasHtml = doc.eras.map(era => `
-        <div class="p-3.5 rounded-lg border border-[#DADCE0] bg-white space-y-2 shadow-2xs">
-          <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2">
+        <div class="p-3.5 rounded-lg  bg-white space-y-2 shadow-2xs">
+          <div class="flex items-center justify-between  pb-2">
             <div class="font-mono font-bold text-[#1A73E8] text-xs flex items-center gap-2">
               <span class="px-2 py-0.5 rounded bg-[#E8F0FE] text-[#1A73E8]">${era.era_id}</span>
               <span>${era.title}</span>
@@ -766,11 +766,11 @@ export class ModalManager {
 
       const rulesHtml = doc.crosswalk_rules.map(r => `
         <tr class="hover:bg-slate-50 transition-colors">
-          <td class="p-2 border-r border-[#DADCE0] font-bold text-[#1A73E8]">${r.sector}</td>
-          <td class="p-2 border-r border-[#DADCE0] font-sans text-[#D93025]">${r.original_classification}</td>
-          <td class="p-2 border-r border-[#DADCE0] font-sans text-[#1E8E3E] font-semibold">${r.standardized_classification}</td>
-          <td class="p-2 border-r border-[#DADCE0] font-sans text-[10.5px]">${r.mapping_rule}</td>
-          <td class="p-2 border-r border-[#DADCE0] text-center font-mono text-[10.5px]">${r.effective_start_year}–${r.effective_end_year}</td>
+          <td class="p-2  font-bold text-[#1A73E8]">${r.sector}</td>
+          <td class="p-2  font-sans text-[#D93025]">${r.original_classification}</td>
+          <td class="p-2  font-sans text-[#1E8E3E] font-semibold">${r.standardized_classification}</td>
+          <td class="p-2  font-sans text-[10.5px]">${r.mapping_rule}</td>
+          <td class="p-2  text-center font-mono text-[10.5px]">${r.effective_start_year}–${r.effective_end_year}</td>
           <td class="p-2 font-sans text-[11px] text-[#5F6368]">${r.transformation_note}</td>
         </tr>
       `).join('');
@@ -778,8 +778,8 @@ export class ModalManager {
       const content = `
         <div class="space-y-4">
           <!-- Document Header -->
-          <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-2">
-            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2 flex-wrap gap-2">
+          <div class="bg-white p-4 rounded-lg  space-y-2">
+            <div class="flex items-center justify-between  pb-2 flex-wrap gap-2">
               <div class="flex items-center gap-2">
                 <span class="w-6 h-6 rounded bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center font-bold text-xs">ℹ️</span>
                 <span class="font-mono font-bold text-[#202124] text-xs uppercase">
@@ -812,8 +812,8 @@ export class ModalManager {
           </div>
 
           <!-- Crosswalk Table -->
-          <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-2">
-            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2">
+          <div class="bg-white p-4 rounded-lg  space-y-2">
+            <div class="flex items-center justify-between  pb-2">
               <span class="text-xs font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
                 <span>🔄</span>
                 <span>TABEL JEMBATAN (CROSSWALK MATRIX) KLASIFIKASI HISTORIS KE BAGAN AKUN STANDAR MODERN</span>
@@ -821,15 +821,15 @@ export class ModalManager {
               <span class="text-[10px] font-mono text-[#5F6368]">${doc.crosswalk_rules.length} Aturan Penyesuaian</span>
             </div>
 
-            <div class="overflow-x-auto max-h-[40vh] scrollbar-thin border border-[#DADCE0]">
+            <div class="overflow-x-auto max-h-[40vh] scrollbar-thin ">
               <table class="w-full text-[11px] font-mono border-collapse">
-                <thead class="bg-[#F8F9FA] text-[#3C4043] border-b border-[#DADCE0] sticky top-0">
+                <thead class="bg-[#F8F9FA] text-[#3C4043]  sticky top-0">
                   <tr>
-                    <th class="p-2 text-left border-r border-[#DADCE0] w-32">Sektor Anggaran</th>
-                    <th class="p-2 text-left border-r border-[#DADCE0] w-48">Klasifikasi Sumber Lama</th>
-                    <th class="p-2 text-left border-r border-[#DADCE0] w-52">Klasifikasi Standar Modern</th>
-                    <th class="p-2 text-left border-r border-[#DADCE0] w-40">Regulasi Pemetaan</th>
-                    <th class="p-2 text-center border-r border-[#DADCE0] w-24">Tahun Berlaku</th>
+                    <th class="p-2 text-left  w-32">Sektor Anggaran</th>
+                    <th class="p-2 text-left  w-48">Klasifikasi Sumber Lama</th>
+                    <th class="p-2 text-left  w-52">Klasifikasi Standar Modern</th>
+                    <th class="p-2 text-left  w-40">Regulasi Pemetaan</th>
+                    <th class="p-2 text-center  w-24">Tahun Berlaku</th>
                     <th class="p-2 text-left">Catatan Metodologi Transformasi</th>
                   </tr>
                 </thead>
@@ -863,7 +863,7 @@ export class ModalManager {
             id="modal-global-search-input" 
             placeholder="Cari indikator, dataset, publikasi resmi, nomor dokumen, atau lembaga sumber..." 
             value="${initialQuery}"
-            class="w-full px-4 py-2.5 pl-10 rounded-lg border border-[#DADCE0] text-sm font-sans bg-white outline-none focus:border-[#1A73E8] focus:ring-2 focus:ring-[#D2E3FC] shadow-2xs"
+            class="w-full px-4 py-2.5 pl-10 rounded-lg  text-sm font-sans bg-white outline-none focus:border-[#1A73E8] focus:ring-2 focus:ring-[#D2E3FC] shadow-2xs"
             autofocus
           />
           <span class="absolute left-3.5 top-3 text-slate-400">🔍</span>
@@ -922,13 +922,13 @@ export class ModalManager {
         if (res.datasets.length > 0) {
           out += `
             <div class="space-y-1.5">
-              <div class="text-[11px] font-mono font-bold text-[#1A73E8] uppercase flex items-center gap-1.5 border-b border-[#DADCE0] pb-1">
+              <div class="text-[11px] font-mono font-bold text-[#1A73E8] uppercase flex items-center gap-1.5  pb-1">
                 <span>📁</span>
                 <span>DATASETS (${res.datasets.length})</span>
               </div>
               <div class="grid grid-cols-1 gap-1.5">
                 ${res.datasets.map(d => `
-                  <div class="p-2.5 rounded border border-[#DADCE0] bg-white hover:border-[#1A73E8] cursor-pointer transition-colors" data-type="dataset" data-id="${d.id}">
+                  <div class="p-2.5 rounded  bg-white hover:border-[#1A73E8] cursor-pointer transition-colors" data-type="dataset" data-id="${d.id}">
                     <div class="flex items-center justify-between">
                       <div class="font-bold text-[#202124] text-xs">${d.title}</div>
                       <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#E8F0FE] text-[#1A73E8]">${d.access_status}</span>
@@ -946,13 +946,13 @@ export class ModalManager {
         if (res.indicators.length > 0) {
           out += `
             <div class="space-y-1.5 pt-2">
-              <div class="text-[11px] font-mono font-bold text-[#1E8E3E] uppercase flex items-center gap-1.5 border-b border-[#DADCE0] pb-1">
+              <div class="text-[11px] font-mono font-bold text-[#1E8E3E] uppercase flex items-center gap-1.5  pb-1">
                 <span>📊</span>
                 <span>INDIKATOR EKONOMI (${res.indicators.length})</span>
               </div>
               <div class="grid grid-cols-1 gap-1.5">
                 ${res.indicators.map(i => `
-                  <div class="p-2.5 rounded border border-[#DADCE0] bg-white hover:border-[#1E8E3E] cursor-pointer transition-colors search-ind-item" data-id="${i.id}">
+                  <div class="p-2.5 rounded  bg-white hover:border-[#1E8E3E] cursor-pointer transition-colors search-ind-item" data-id="${i.id}">
                     <div class="flex items-center justify-between">
                       <div class="font-bold text-[#202124] text-xs">${i.title}</div>
                       <span class="text-[10px] font-mono text-[#5F6368]">${i.sector || ''}</span>
@@ -970,13 +970,13 @@ export class ModalManager {
         if (res.publications.length > 0) {
           out += `
             <div class="space-y-1.5 pt-2">
-              <div class="text-[11px] font-mono font-bold text-[#B06000] uppercase flex items-center gap-1.5 border-b border-[#DADCE0] pb-1">
+              <div class="text-[11px] font-mono font-bold text-[#B06000] uppercase flex items-center gap-1.5  pb-1">
                 <span>📑</span>
                 <span>PUBLIKASI & DOKUMEN RESMI (${res.publications.length})</span>
               </div>
               <div class="grid grid-cols-1 gap-1.5">
                 ${res.publications.map(p => `
-                  <div class="p-2.5 rounded border border-[#DADCE0] bg-white hover:border-[#B06000] transition-colors">
+                  <div class="p-2.5 rounded  bg-white hover:border-[#B06000] transition-colors">
                     <div class="font-bold text-[#202124] text-xs">${p.title}</div>
                     <div class="text-[10.5px] font-mono text-[#5F6368] mt-0.5">${p.subtitle || ''} • Penerbit: ${p.institution}</div>
                     <div class="text-[10.5px] text-[#1A73E8] mt-1 flex items-center gap-2">
@@ -996,13 +996,13 @@ export class ModalManager {
         if (res.institutions.length > 0) {
           out += `
             <div class="space-y-1.5 pt-2">
-              <div class="text-[11px] font-mono font-bold text-slate-700 uppercase flex items-center gap-1.5 border-b border-[#DADCE0] pb-1">
+              <div class="text-[11px] font-mono font-bold text-slate-700 uppercase flex items-center gap-1.5  pb-1">
                 <span>🏛️</span>
                 <span>INSTITUSI PENERBIT (${res.institutions.length})</span>
               </div>
               <div class="grid grid-cols-1 gap-1.5">
                 ${res.institutions.map(inst => `
-                  <div class="p-2.5 rounded border border-[#DADCE0] bg-white">
+                  <div class="p-2.5 rounded  bg-white">
                     <div class="font-bold text-[#202124] text-xs">${inst.title}</div>
                     <div class="text-[10.5px] text-[#5F6368] font-mono">${inst.subtitle}</div>
                     <div class="text-[11px] text-[#3C4043] font-sans mt-0.5">${inst.snippet}</div>

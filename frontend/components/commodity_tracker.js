@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // NERACA KOMODITAS, PANGAN & HASIL BUMI TRACKER COMPONENT
 // Multi-Variable Comparative Chart Engine (1-3 Series, Dual Y-Axis, Granularity, Line/Bar)
 // Tracking Produksi, Konsumsi, Ekspor, Impor, Kode HS & Klasifikasi APBN/LKPP (1990 - 2026)
@@ -622,10 +622,10 @@ export class CommodityTrackerComponent {
       <div class="space-y-4 font-sans text-slate-900">
         
         <!-- 1. HEADER TITLE BANNER (Google Analytics Clean Style - No Dark/Black Background) -->
-        <div class="gov-card bg-white p-4 sm:p-5 rounded-lg border border-[#DADCE0] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="gov-card bg-white p-4 sm:p-5 rounded-lg shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div class="space-y-1">
             <div class="flex items-center gap-2.5">
-              <span class="w-8 h-8 rounded-lg ${isHasilBumi ? 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]' : 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]'} flex items-center justify-center text-base shrink-0 shadow-2xs">
+              <span class="w-8 h-8 rounded-lg ${isHasilBumi ? 'bg-[#FEF7E0] text-[#B06000]' : 'bg-[#E6F4EA] text-[#137333]'} flex items-center justify-center text-base shrink-0 shadow-2xs">
                 ${isHasilBumi ? '⛏️' : '🌾'}
               </span>
               <h2 class="text-base sm:text-lg font-bold tracking-tight font-mono text-[#202124]">
@@ -640,17 +640,17 @@ export class CommodityTrackerComponent {
           </div>
 
           <!-- View Mode Toggle Buttons -->
-          <div class="flex items-center gap-1.5 bg-[#F8F9FA] p-1 rounded-lg border border-[#DADCE0] shrink-0 font-mono text-xs">
+          <div class="flex items-center gap-1.5 bg-[#F8F9FA] p-1 rounded-lg shrink-0 font-mono text-xs shadow-2xs">
             <button 
               type="button" 
-              class="btn-view-mode px-3 py-1.5 rounded-md font-medium transition-all cursor-pointer border ${this.activeViewMode === 'DETAIL' ? 'bg-[#E8F0FE] text-[#1A73E8] border-[#1A73E8] font-bold shadow-2xs' : 'bg-white text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}"
+              class="btn-view-mode px-3 py-1.5 rounded-md font-medium transition-all cursor-pointer ${this.activeViewMode === 'DETAIL' ? 'bg-[#E8F0FE] text-[#0038A8] font-bold shadow-2xs' : 'bg-white text-[#5F6368] hover:bg-[#F1F3F4]'}"
               data-mode="DETAIL"
             >
               🔍 Detail Neraca
             </button>
             <button 
               type="button" 
-              class="btn-view-mode px-3 py-1.5 rounded-md font-medium transition-all cursor-pointer border ${this.activeViewMode === 'MATRIX' ? 'bg-[#E8F0FE] text-[#1A73E8] border-[#1A73E8] font-bold shadow-2xs' : 'bg-white text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}"
+              class="btn-view-mode px-3 py-1.5 rounded-md font-medium transition-all cursor-pointer ${this.activeViewMode === 'MATRIX' ? 'bg-[#E8F0FE] text-[#0038A8] font-bold shadow-2xs' : 'bg-white text-[#5F6368] hover:bg-[#F1F3F4]'}"
               data-mode="MATRIX"
             >
               📋 Matriks Sektor
@@ -659,14 +659,14 @@ export class CommodityTrackerComponent {
         </div>
 
         <!-- 3. MULTI-DIMENSIONAL FILTER CONTROLS (Peach Muda #FDE2D2) -->
-        <div class="bg-[#FDE2D2] p-3 rounded-lg border border-[#F5C7B3] shadow-2xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <div class="bg-[#FDE2D2] p-3 rounded-lg shadow-2xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
           
           <!-- Filter 1: Pilih Komoditas Aktif -->
           <div class="space-y-1">
             <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">
               ${isHasilBumi ? '⛏️ Komoditas / Komposisi Hasil Bumi:' : '🌾 Komoditas / Komposisi Terpilih:'}
             </label>
-            <select id="select-active-commodity" class="w-full bg-white border-2 border-[#F5C7B3] rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+            <select id="select-active-commodity" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               ${renderAggregateOptions()}
               
               <optgroup label="📋 Daftar Komoditas Individu:">
@@ -684,22 +684,22 @@ export class CommodityTrackerComponent {
             <div class="flex items-center justify-between">
               <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">📅 Rentang Tahun (1990-2026):</label>
               <div class="flex items-center gap-1">
-                <button type="button" id="commodity-preset-5y" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] border border-[#F5C7B3] rounded text-[9.5px] font-mono font-bold cursor-pointer">5 Thn</button>
-                <button type="button" id="commodity-preset-10y" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] border border-[#F5C7B3] rounded text-[9.5px] font-mono font-bold cursor-pointer">10 Thn</button>
-                <button type="button" id="commodity-preset-all" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] border border-[#F5C7B3] rounded text-[9.5px] font-mono font-bold cursor-pointer">1990-2026</button>
+                <button type="button" id="commodity-preset-5y" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">5 Thn</button>
+                <button type="button" id="commodity-preset-10y" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">10 Thn</button>
+                <button type="button" id="commodity-preset-all" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">1990-2026</button>
               </div>
             </div>
             <div class="flex items-center gap-1.5">
-              <input type="number" id="commodity-start-year" class="w-full bg-white border border-[#F5C7B3] rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.startYear}">
+              <input type="number" id="commodity-start-year" class="w-full bg-white border border-slate-200 rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.startYear}">
               <span class="text-[#7D655C] font-bold text-xs">s/d</span>
-              <input type="number" id="commodity-end-year" class="w-full bg-white border border-[#F5C7B3] rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.endYear}">
+              <input type="number" id="commodity-end-year" class="w-full bg-white border border-slate-200 rounded px-2 py-1.5 text-xs font-mono font-bold text-[#202124] text-center" min="1990" max="2026" value="${this.endYear}">
             </div>
           </div>
 
           <!-- Filter 3: Sub-Kelompok Sektor -->
           <div class="space-y-1">
             <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">🏷️ Sub-Kelompok / Realm:</label>
-            <select id="select-filter-group" class="w-full bg-white border border-[#F5C7B3] rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+            <select id="select-filter-group" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Sub-Kelompok</option>
               ${this.categoriesData.divisions.find(d => d.id === this.activeDivision)?.groups.map(g => `
                 <option value="${g.id}" ${this.activeGroup === g.id ? 'selected' : ''}>${g.label}</option>
@@ -709,12 +709,12 @@ export class CommodityTrackerComponent {
 
           <!-- Filter 4: Bab HS Code -->
           <div class="space-y-1">
-            <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">📑 Bab HS (BTKI):</label>
-            <select id="select-filter-hs" class="w-full bg-white border border-[#F5C7B3] rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
-              <option value="ALL">Semua Bab HS ${isHasilBumi ? 'Hasil Bumi' : 'Pertanian'}</option>
-              ${scopedHsChapters.map(h => `
-                <option value="${h}" ${this.activeHsChapter === h ? 'selected' : ''}>${h}</option>
-              `).join('')}
+            <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">📦 Bab BTKI / Klasifikasi HS:</label>
+            <select id="select-filter-hs" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
+              <option value="ALL">Semua Klasifikasi HS Bab</option>
+              ${this.categoriesData.divisions.find(d => d.id === this.activeDivision)?.hs_chapters.map(h => `
+                <option value="${h.chapter}" ${this.activeHsChapter === h.chapter ? 'selected' : ''}>${h.label}</option>
+              `).join('') || ''}
             </select>
           </div>
         </div>
@@ -871,57 +871,45 @@ export class CommodityTrackerComponent {
   renderComparativeChartCard() {
     return `
       <!-- CHART CARD (HARMONIZED EXACTLY WITH INDIKATOR EKONOMI) -->
-      <div class="gov-card p-3.5 space-y-2.5 min-h-[430px] h-auto flex flex-col justify-between overflow-visible shadow-xs bg-white rounded-lg border border-[#DADCE0]">
+      <div class="gov-card p-3.5 space-y-2.5 min-h-[430px] h-auto flex flex-col justify-between overflow-visible shadow-xs bg-white rounded-lg">
         
-        <!-- Main Top Bar: Title & Range Preset Buttons & Excel Download -->
-        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 pb-1.5 shrink-0">
+        <!-- Main Top Bar: Judul Tabel & Keterangan + Keterangan Berapa Variabel + Download Button (Biru Benhur) -->
+        <div class="flex items-center justify-between flex-wrap gap-2 pb-1 shrink-0">
           <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">TREN & DISTRIBUSI DESKRIPTIF TINGKAT NASIONAL</span>
-              <span class="text-[9.5px] font-mono bg-sky-50 text-sky-700 border border-sky-200 px-1.5 py-0.5 rounded font-bold">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800">TREN & DISTRIBUSI DESKRIPTIF TINGKAT NASIONAL</span>
+              <span class="text-[9.5px] font-mono bg-sky-50 text-sky-700 px-1.5 py-0.5 rounded font-bold">
                 ${this.seriesConfigs.length > 1 ? `Mode Komparasi (${this.seriesConfigs.length} Variabel)` : 'Mode Tunggal'}
               </span>
             </div>
-            <p class="text-[10.5px] text-slate-500 mt-0.5">
-              Bandingkan 1 hingga 3 variabel data lintas lembaga dengan konfigurasi Sumbu Y Kiri/Kanan, Line, Bar, dan 100% Stacked Bar.
+            <p class="text-[10.5px] text-slate-500 mt-0.5 font-sans">
+              Bisa membandingkan 1 hingga 3 variabel data lintas lembaga dengan konfigurasi Sumbu Y Kiri/Kanan, Line, Bar, dan 100% Stacked Bar.
             </p>
           </div>
 
-          <!-- Time Range Presets & Download Excel Button (Max 3 Vars, Max 12 Years / 37 Years Policy) -->
-          <div class="flex items-center gap-2 flex-wrap">
-            <div class="flex items-center gap-1.5">
-              <span class="text-slate-400 font-mono text-[9.5px] uppercase">RENTANG:</span>
-              <div class="inline-flex rounded-sm border border-[#F5C7B3] p-0.5 bg-[#FDE2D2] text-[10.5px] font-mono">
-                <button id="btn-chart-range-5y" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === '5y' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">5 Thn</button>
-                <button id="btn-chart-range-10y" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === '10y' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">10 Thn</button>
-                <button id="btn-chart-range-all" class="px-2 py-0.5 cursor-pointer ${this.activeRangePreset === 'all' ? 'bg-white font-bold text-[#0038A8] shadow-xs border border-[#F5C7B3] rounded-sm' : 'text-[#5D4037] hover:text-[#3E2723]'}">1990-2026</button>
-              </div>
-            </div>
-
-            <!-- Single-Click Excel Download Button with Quota Protection -->
-            <button 
-              type="button" 
-              id="btn-chart-download-excel-xlsx" 
-              class="px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-[10.5px] font-bold flex items-center gap-1.5 shadow-xs border border-emerald-600 transition-all cursor-pointer"
-              title="Unduh Data Mentah & Keterangan Lineage sebagai File Excel (.xlsx) (Max 3 Variabel)"
-            >
-              <span>📥</span>
-              <span>Download Excel (.xlsx)</span>
-            </button>
-          </div>
+          <!-- Single-Click Excel Download Button (Biru Benhur #0038A8) -->
+          <button 
+            type="button" 
+            id="btn-chart-download-excel-xlsx" 
+            class="px-3.5 py-1.5 rounded bg-[#0038A8] hover:bg-[#002B82] text-white font-mono text-[11px] font-bold flex items-center gap-1.5 shadow-2xs transition-all cursor-pointer"
+            title="Unduh Data Mentah & Keterangan Lineage sebagai File Excel (.xlsx) (Max 3 Variabel)"
+          >
+            <span>📥</span>
+            <span>Download Excel (.xlsx)</span>
+          </button>
         </div>
 
-        <!-- Series Configuration Deck (Tabs + Axis Menu + Indikator Selector + Granularitas + Visual Type) -->
+        <!-- Series Configuration Deck: (1) Berapa Variabel, (2) Rentang Waktu Otomatis, (3) Tipe Bentuk Chart -->
         <div id="commodity-chart-series-deck" class="space-y-1.5 shrink-0"></div>
 
-        <!-- Canvas & Interactive Hover Tooltip Container -->
-        <div class="relative w-full h-[270px] min-h-[270px] max-h-[270px] flex items-center justify-center select-none bg-white rounded border border-slate-200 p-1.5 overflow-hidden shrink-0" id="commodity-chart-wrapper">
+        <!-- 4. Section Tampilan Chartnya (Canvas & Interactive Hover Tooltip Container) -->
+        <div class="relative w-full h-[270px] min-h-[270px] max-h-[270px] flex items-center justify-center select-none bg-white rounded p-1.5 overflow-hidden shrink-0 shadow-xs" id="commodity-chart-wrapper">
           <canvas id="commodity-analytics-canvas" class="cursor-crosshair block w-full h-full"></canvas>
           <div id="commodity-chart-tooltip" class="hidden absolute pointer-events-none z-50 transition-opacity duration-75"></div>
         </div>
 
         <!-- Dual-Axis Legend Strip & Footnote -->
-        <div class="flex items-center justify-between text-[9.5px] text-slate-500 font-mono pt-1 border-t border-slate-100 flex-wrap gap-2 shrink-0">
+        <div class="flex items-center justify-between text-[9.5px] text-slate-500 font-mono pt-1 flex-wrap gap-2 shrink-0">
           <div id="commodity-chart-legend-strip" class="flex items-center gap-2 flex-wrap"></div>
           <div>
             * Sumbu Kiri (Utama) • Sumbu Kanan (Sekunder) • Arahkan kursor untuk komparasi pergerakan YoY
@@ -940,8 +928,8 @@ export class CommodityTrackerComponent {
     if (isHasilBumi) {
       return `
         <!-- GLOSSARY FOOTNOTE (HALAMAN PERTAMBANGAN & HASIL BUMI: 3 KELOMPOK GABUNGAN) -->
-        <div class="mt-2 pt-2.5 border-t border-[#DADCE0] bg-[#F8F9FA] rounded-lg p-3 space-y-2.5 shrink-0">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-[#DADCE0] pb-2">
+        <div class="mt-2 pt-2.5  bg-[#F8F9FA] rounded-lg p-3 space-y-2.5 shrink-0">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5  pb-2">
             <div class="flex items-center gap-2">
               <span class="w-5 h-5 rounded-md bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] flex items-center justify-center text-xs font-bold shadow-2xs">
                 📖
@@ -950,7 +938,7 @@ export class CommodityTrackerComponent {
                 GLOSARIUM KOMPOSISI INDIKATOR PERTAMBANGAN & HASIL BUMI (DETAIL GABUNGAN VARIABEL)
               </span>
             </div>
-            <span class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
+            <span class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded ">
               Akun BAS LKPP Audited BPK RI & Ditjen Anggaran Kemenkeu
             </span>
           </div>
@@ -958,14 +946,14 @@ export class CommodityTrackerComponent {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
             
             <!-- KELOMPOK 1: ⭐ SEMUA HASIL BUMI -->
-            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+            <div class="bg-white p-3 rounded-lg  space-y-1.5 shadow-2xs flex flex-col justify-between">
               <div class="space-y-1.5">
                 <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
                   <div class="flex items-center gap-1.5">
                     <span class="w-2.5 h-2.5 rounded-full bg-[#1E8E3E] shrink-0"></span>
                     <strong class="text-xs font-mono font-bold text-[#202124]">⭐ Semua Hasil Bumi</strong>
                   </div>
-                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] ">
                     TOTAL KONSOLIDASI
                   </span>
                 </div>
@@ -985,7 +973,7 @@ export class CommodityTrackerComponent {
             </div>
 
             <!-- KELOMPOK 2: ⛏️ KOMPOSISI KOMODITAS TAMBANG -->
-            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+            <div class="bg-white p-3 rounded-lg  space-y-1.5 shadow-2xs flex flex-col justify-between">
               <div class="space-y-1.5">
                 <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
                   <div class="flex items-center gap-1.5">
@@ -1012,7 +1000,7 @@ export class CommodityTrackerComponent {
             </div>
 
             <!-- KELOMPOK 3: 🌿 KOMPOSISI NON-TAMBANG -->
-            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+            <div class="bg-white p-3 rounded-lg  space-y-1.5 shadow-2xs flex flex-col justify-between">
               <div class="space-y-1.5">
                 <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
                   <div class="flex items-center gap-1.5">
@@ -1045,17 +1033,17 @@ export class CommodityTrackerComponent {
     } else {
       return `
         <!-- GLOSSARY FOOTNOTE: 3 VARIABEL AKUMULASI UTAMA (PERTANIAN, PERKEBUNAN & PETERNAKAN) -->
-        <div class="mt-2 pt-2.5 border-t border-[#DADCE0] bg-[#F8F9FA] rounded-lg p-3 space-y-2.5 shrink-0">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-[#DADCE0] pb-2">
+        <div class="mt-2 pt-2.5  bg-[#F8F9FA] rounded-lg p-3 space-y-2.5 shrink-0">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5  pb-2">
             <div class="flex items-center gap-2">
-              <span class="w-5 h-5 rounded-md bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6] flex items-center justify-center text-xs font-bold shadow-2xs">
+              <span class="w-5 h-5 rounded-md bg-[#E6F4EA] text-[#137333]  flex items-center justify-center text-xs font-bold shadow-2xs">
                 📖
               </span>
               <span class="text-xs font-mono font-bold text-[#202124] uppercase tracking-wide">
                 GLOSARIUM METODOLOGI: DETAIL AKUMULASI 3 VARIABEL UTAMA (PERTANIAN, PERKEBUNAN & PETERNAKAN)
               </span>
             </div>
-            <span class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
+            <span class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded ">
               Akun APBN Ketahanan Pangan, BPDPKS, Cukai CHT & LKPP Audited
             </span>
           </div>
@@ -1063,14 +1051,14 @@ export class CommodityTrackerComponent {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
             
             <!-- VARIABEL 1: 🌾 PERTANIAN -->
-            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+            <div class="bg-white p-3 rounded-lg  space-y-1.5 shadow-2xs flex flex-col justify-between">
               <div class="space-y-1.5">
                 <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
                   <div class="flex items-center gap-1.5">
                     <span class="w-2.5 h-2.5 rounded-full bg-[#1E8E3E] shrink-0"></span>
                     <strong class="text-xs font-mono font-bold text-[#202124]">🌾 1. PERTANIAN</strong>
                   </div>
-                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+                  <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] ">
                     4 KOMODITAS PANGAN
                   </span>
                 </div>
@@ -1092,7 +1080,7 @@ export class CommodityTrackerComponent {
             </div>
 
             <!-- VARIABEL 2: 🌴 PERKEBUNAN -->
-            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+            <div class="bg-white p-3 rounded-lg  space-y-1.5 shadow-2xs flex flex-col justify-between">
               <div class="space-y-1.5">
                 <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
                   <div class="flex items-center gap-1.5">
@@ -1119,7 +1107,7 @@ export class CommodityTrackerComponent {
             </div>
 
             <!-- VARIABEL 3: 🥩 PETERNAKAN -->
-            <div class="bg-white p-3 rounded-lg border border-[#DADCE0] space-y-1.5 shadow-2xs flex flex-col justify-between">
+            <div class="bg-white p-3 rounded-lg  space-y-1.5 shadow-2xs flex flex-col justify-between">
               <div class="space-y-1.5">
                 <div class="flex items-center justify-between gap-1.5 border-b border-[#E8EAED] pb-1.5">
                   <div class="flex items-center gap-1.5">
@@ -1166,71 +1154,92 @@ export class CommodityTrackerComponent {
       grouped[ind.group].push(ind);
     });
 
-    // 1. Series Tabs Strip with Integrated Axis Placement Menu (Maks. 3 Var Rule)
-    // Series Tabs Strip with Integrated Axis Placement Menu (Peach Muda #FDE2D2)
+    // 1. Series Tabs Strip with Integrated Axis Placement Menu (Peach Muda #FDE2D2)
     let tabsHtml = `
-      <div class="flex items-center justify-between flex-wrap gap-1.5 bg-[#FDE2D2] p-1.5 rounded border border-[#F5C7B3]">
-        <div class="flex items-center gap-1.5 flex-wrap">
-          ${this.seriesConfigs.map((s, idx) => `
-            <button 
-              type="button"
-              class="btn-commodity-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 border transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 border-[#0038A8] shadow-xs ring-2 ring-[#0038A8]' : 'bg-white/80 text-[#5D4037] border-[#F5C7B3] hover:bg-white'}"
-              data-idx="${idx}"
-            >
-              <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
-              <span>Var ${idx + 1}: <strong class="truncate max-w-[120px] inline-block align-bottom">${s.name || 'Pilih Indikator'}</strong></span>
-              <span class="text-[8.5px] px-1 py-0.2 rounded font-semibold ${s.axis === 'primary' ? 'bg-sky-100 text-sky-800' : 'bg-emerald-100 text-emerald-800'}">
-                ${s.axis === 'primary' ? 'Kiri' : 'Kanan'}
-              </span>
-              ${idx > 0 ? `
-                <span class="btn-remove-commodity-series text-slate-400 hover:text-rose-600 font-bold ml-0.5 text-xs" data-idx="${idx}" title="Hapus Variabel Ini">✕</span>
-              ` : ''}
-            </button>
-          `).join('')}
+      <div class="space-y-1.5 shrink-0">
+        <!-- 1. Section berapa variabel yang dibandingkan -->
+        <div class="flex items-center justify-between flex-wrap gap-1.5 bg-[#FDE2D2] p-2 rounded shadow-2xs">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-[#3E2723] font-bold uppercase text-[9.5px] mr-1 flex items-center gap-1">
+              <span>📊</span>
+              <span>Variabel Komparasi:</span>
+            </span>
+            ${this.seriesConfigs.map((s, idx) => `
+              <button 
+                type="button"
+                class="btn-commodity-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 shadow-xs ring-2 ring-[#0038A8]' : 'bg-white/80 text-[#5D4037] hover:bg-white'}"
+                data-idx="${idx}"
+              >
+                <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
+                <span>Var ${idx + 1}: <strong class="truncate max-w-[120px] inline-block align-bottom">${s.name || 'Pilih Indikator'}</strong></span>
+                <span class="text-[8.5px] px-1 py-0.2 rounded font-semibold ${s.axis === 'primary' ? 'bg-sky-100 text-sky-800' : 'bg-emerald-100 text-emerald-800'}">
+                  ${s.axis === 'primary' ? 'Kiri' : 'Kanan'}
+                </span>
+                ${idx > 0 ? `
+                  <span class="btn-remove-commodity-series text-slate-400 hover:text-rose-600 font-bold ml-0.5 text-xs" data-idx="${idx}" title="Hapus Variabel Ini">✕</span>
+                ` : ''}
+              </button>
+            `).join('')}
 
-          ${this.seriesConfigs.length < 3 ? `
-            <button type="button" id="btn-add-commodity-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-white/90 text-[#0038A8] border border-dashed border-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
-              <span class="font-bold">➕</span> Tambah Var ${this.seriesConfigs.length + 1}
-            </button>
-          ` : ''}
+            ${this.seriesConfigs.length < 3 ? `
+              <button type="button" id="btn-add-commodity-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-white/90 text-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
+                <span class="font-bold">➕</span> Tambah Var ${this.seriesConfigs.length + 1}
+              </button>
+            ` : ''}
+          </div>
+
+          <!-- Axis Placement Menu for Active Variable -->
+          <div class="flex items-center gap-2 font-mono text-[10.5px]">
+            <div class="flex items-center gap-1">
+              <span class="text-[#3E2723] font-bold uppercase text-[9.5px]">SUMBU (VAR ${this.activeSeriesTab + 1}):</span>
+              <div class="inline-flex rounded p-0.5 bg-white/70 gap-0.5">
+                <button 
+                  type="button"
+                  id="btn-commodity-axis-primary" 
+                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
+                >
+                  ← Sumbu Kiri
+                </button>
+                <button 
+                  type="button"
+                  id="btn-commodity-axis-secondary" 
+                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
+                >
+                  Sumbu Kanan →
+                </button>
+              </div>
+            </div>
+            <span class="text-[9.5px] text-[#7D655C]">Maks. 3 Var</span>
+          </div>
         </div>
 
-        <!-- Axis Placement Menu for Active Variable -->
-        <div class="flex items-center gap-2 font-mono text-[10.5px]">
-          <div class="flex items-center gap-1">
-            <span class="text-[#3E2723] font-bold uppercase text-[9.5px]">SUMBU (VAR ${this.activeSeriesTab + 1}):</span>
-            <div class="inline-flex rounded border border-[#F5C7B3] p-0.5 bg-white/70">
-              <button 
-                type="button"
-                id="btn-commodity-axis-primary" 
-                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
-                title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
-              >
-                ← Sumbu Kiri
-              </button>
-              <button 
-                type="button"
-                id="btn-commodity-axis-secondary" 
-                class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
-                title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
-              >
-                Sumbu Kanan →
-              </button>
+        <!-- 2. Section rentang waktu otomatis -->
+        <div class="flex items-center justify-between flex-wrap gap-2 bg-[#FDE2D2] px-2.5 py-1.5 rounded shadow-2xs font-mono text-[10.5px]">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-[#3E2723] font-bold uppercase text-[9.5px] flex items-center gap-1">
+              <span>⏱️</span>
+              <span>Rentang Waktu Otomatis:</span>
+            </span>
+            <div class="inline-flex rounded p-0.5 bg-white/80 gap-0.5 shadow-2xs">
+              <button type="button" id="btn-chart-range-5y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '5y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">5 Thn</button>
+              <button type="button" id="btn-chart-range-10y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '10y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">10 Thn</button>
+              <button type="button" id="btn-chart-range-all" class="px-2 py-0.5 rounded ${this.activeRangePreset === 'all' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">1990-2026</button>
             </div>
           </div>
-          <span class="text-[#F5C7B3]">|</span>
-          <span class="text-[9.5px] text-[#7D655C]">Maks. 3 Var</span>
+          <span class="text-[9.5px] text-[#7D655C]">Sinkronisasi Otomatis Seluruh Variabel</span>
         </div>
       </div>
     `;
 
-    // 2. Active Series Parameter Control Panel (Peach Muda #FDE2D2)
+    // 3. Section tipe bentuk chart tiap variabel (Peach Muda #FDE2D2)
     if (active) {
       const activeMeta = available.find(i => i.id === active.indicatorId);
       const availableTransformations = this.getAvailableTransformations(activeMeta, active.rawData);
 
       tabsHtml += `
-        <div class="bg-[#FDE2D2] p-2 rounded border border-[#F5C7B3] space-y-1.5 text-[11px] font-mono shadow-2xs">
+        <div class="bg-[#FDE2D2] p-2 rounded space-y-1.5 text-[11px] font-mono shadow-2xs">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
             
             <!-- A. Indicator Selector (6 Cols) -->
@@ -1239,7 +1248,7 @@ export class CommodityTrackerComponent {
                 <span class="w-2 h-2 rounded-full" style="background-color: ${active.color}"></span>
                 Indikator (Var ${this.activeSeriesTab + 1}):
               </label>
-              <select id="select-commodity-series-indicator" class="gov-select w-full text-[11px] font-mono py-1 font-medium bg-white border border-[#F5C7B3] rounded px-2 cursor-pointer text-[#202124]">
+              <select id="select-commodity-series-indicator" class="gov-select w-full text-[11px] font-mono py-1 font-medium bg-white border border-slate-200 rounded px-2 cursor-pointer text-[#202124]">
                 ${Object.keys(grouped).map(grp => `
                   <optgroup label="${grp}">
                     ${grouped[grp].map(ind => `
@@ -1256,9 +1265,9 @@ export class CommodityTrackerComponent {
             <div class="md:col-span-3 space-y-0.5">
               <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center justify-between">
                 <span>Granularitas Olahan:</span>
-                <span class="text-[8.5px] text-sky-800 bg-white/80 px-1 rounded border border-[#F5C7B3]">≥ 6 Titik</span>
+                <span class="text-[8.5px] text-sky-800 bg-white/80 px-1 rounded">≥ 6 Titik</span>
               </label>
-              <select id="select-commodity-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold border border-[#F5C7B3] rounded px-2 cursor-pointer bg-white text-[#202124]">
+              <select id="select-commodity-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold border border-slate-200 rounded px-2 cursor-pointer bg-white text-[#202124]">
                 ${availableTransformations.map(t => `
                   <option value="${t.id}" ${t.id === (active.transformation || 'RAW') ? 'selected' : ''}>
                     ${t.label}
@@ -1272,7 +1281,7 @@ export class CommodityTrackerComponent {
               <label class="text-[9.5px] uppercase font-bold text-[#3E2723]">
                 Tipe Visual:
               </label>
-              <div class="inline-flex rounded border border-[#F5C7B3] p-0.5 bg-white/80 w-full text-[10.5px]">
+              <div class="inline-flex rounded p-0.5 bg-white/80 w-full text-[10.5px]">
                 <button 
                   type="button" 
                   id="btn-commodity-series-type-line" 
@@ -1734,7 +1743,7 @@ export class CommodityTrackerComponent {
     });
 
     tooltip.innerHTML = `
-      <div class="bg-white text-[#202124] border border-[#DADCE0] shadow-xl rounded-lg p-3.5 max-w-[360px] space-y-2">
+      <div class="bg-white text-[#202124]  shadow-xl rounded-lg p-3.5 max-w-[360px] space-y-2">
         <div class="flex items-center justify-between border-b border-slate-400 pb-1.5">
           <div class="font-mono font-bold text-[11px] text-slate-950 flex items-center gap-1">
             <span>📅</span> TA: ${year} [Nasional]
@@ -2125,8 +2134,8 @@ export class CommodityTrackerComponent {
 
     return `
       <!-- Explanatory Context Banner: Scope of Commodities & Volume Ranking -->
-      <div id="spatial-variable-explanation-box" class="bg-[#F8F9FA] border border-[#DADCE0] rounded-lg p-3 space-y-2">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#DADCE0] pb-2">
+      <div id="spatial-variable-explanation-box" class="bg-[#F8F9FA]  rounded-lg p-3 space-y-2">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2  pb-2">
           <div class="flex items-center gap-2">
             <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${meta.badgeColor} border">
               ${meta.badge}
@@ -2140,7 +2149,7 @@ export class CommodityTrackerComponent {
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
           <!-- Col 1: Scope of commodities included -->
-          <div class="md:col-span-2 bg-white p-2.5 rounded border border-[#DADCE0] space-y-1">
+          <div class="md:col-span-2 bg-white p-2.5 rounded  space-y-1">
             <div class="text-[10px] font-mono font-bold text-[#5F6368] uppercase flex items-center gap-1">
               <span>📋</span>
               <span>Cakupan Komoditas & Wilayah Terkait dalam Tombol Ini:</span>
@@ -2154,7 +2163,7 @@ export class CommodityTrackerComponent {
           </div>
 
           <!-- Col 2: Top Rank #1 Summary -->
-          <div class="bg-white p-2.5 rounded border border-[#DADCE0] flex flex-col justify-between space-y-1">
+          <div class="bg-white p-2.5 rounded  flex flex-col justify-between space-y-1">
             <div>
               <div class="text-[10px] font-mono font-bold text-[#1A73E8] uppercase flex items-center gap-1">
                 <span>🥇</span>
@@ -2193,9 +2202,9 @@ export class CommodityTrackerComponent {
 
     return `
       <!-- 7. PETA GEOSPASIAL SENTRA TAMBANG & HILIRISASI NASIONAL -->
-      <div class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg shadow-sm space-y-3.5">
+      <div class="gov-card p-4 bg-white  rounded-lg shadow-sm space-y-3.5">
         <!-- Section Header -->
-        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 border-b border-[#DADCE0] pb-3">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3  pb-3">
           <div class="space-y-1">
             <div class="flex items-center gap-2 flex-wrap">
               <span class="w-7 h-7 rounded-lg bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] flex items-center justify-center text-sm font-bold shadow-2xs">
@@ -2218,7 +2227,7 @@ export class CommodityTrackerComponent {
             ${varLabels.map(vl => `
               <button 
                 type="button" 
-                class="btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer border ${this.activeSpatialVariable === vl.id ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}"
+                class="btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer border ${this.activeSpatialVariable === vl.id ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs' : 'bg-[#F8F9FA] text-[#5F6368]  hover:bg-[#F1F3F4]'}"
                 data-var="${vl.id}"
                 title="Tampilkan sebaran geospasial: ${vl.label}"
               >
@@ -2236,13 +2245,13 @@ export class CommodityTrackerComponent {
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
           
           <!-- Left Column: Numbered List of Mining Hubs -->
-          <div class="lg:col-span-5 flex flex-col justify-between space-y-2 bg-[#F8F9FA] border border-[#DADCE0] rounded-lg p-3">
-            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2">
+          <div class="lg:col-span-5 flex flex-col justify-between space-y-2 bg-[#F8F9FA]  rounded-lg p-3">
+            <div class="flex items-center justify-between  pb-2">
               <span class="text-xs font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
                 <span>📍</span>
                 <span>DAFTAR SENTRA WILAYAH (<span id="spatial-points-count-badge">${points.length} Titik</span>)</span>
               </span>
-              <span id="spatial-active-var-label" class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded border border-[#DADCE0]">
+              <span id="spatial-active-var-label" class="text-[10px] font-mono text-[#5F6368] bg-white px-2 py-0.5 rounded ">
                 ${currentVarObj.label}
               </span>
             </div>
@@ -2252,7 +2261,7 @@ export class CommodityTrackerComponent {
                 const isSelected = selected && selected.province === p.province;
                 return `
                   <div 
-                    class="btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-sm' : 'bg-white border-[#DADCE0] hover:bg-[#F8F9FA] hover:border-[#BDC1C6]'}"
+                    class="btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-sm' : 'bg-white  hover:bg-[#F8F9FA] hover:border-[#BDC1C6]'}"
                     data-point-idx="${idx}"
                     title="Arahkan peta ke ${p.province}"
                   >
@@ -2270,7 +2279,7 @@ export class CommodityTrackerComponent {
                           </div>
                         </div>
                       </div>
-                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold shrink-0 ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]'}">
+                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold shrink-0 ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-[#E6F4EA] text-[#137333] '}">
                         Pangsa ${p.percentage_share}%
                       </span>
                     </div>
@@ -2286,18 +2295,18 @@ export class CommodityTrackerComponent {
               `}
             </div>
 
-            <div class="p-2 bg-white rounded-md border border-[#DADCE0] text-[10px] text-[#5F6368] font-mono text-center">
+            <div class="p-2 bg-white rounded-md  text-[10px] text-[#5F6368] font-mono text-center">
               💡 <em>Klik nama wilayah di atas untuk mengarahkan kamera peta secara instan.</em>
             </div>
           </div>
 
           <!-- Right Column: Leaflet GIS Map Container -->
-          <div class="lg:col-span-7 flex flex-col bg-white border border-[#DADCE0] rounded-lg p-3 space-y-2.5 h-full min-h-[480px]">
+          <div class="lg:col-span-7 flex flex-col bg-white  rounded-lg p-3 space-y-2.5 h-full min-h-[480px]">
             
             <!-- Map Top Status Header -->
             <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono">
               <div class="flex items-center gap-2">
-                <span class="inline-flex items-center gap-1.5 bg-[#F8F9FA] border border-[#DADCE0] px-2.5 py-1 rounded-md text-[10.5px]">
+                <span class="inline-flex items-center gap-1.5 bg-[#F8F9FA]  px-2.5 py-1 rounded-md text-[10.5px]">
                   <span class="w-2 h-2 rounded-full bg-[#1A73E8] animate-pulse"></span>
                   <span>Fokus Lokasi: <strong id="commodity-map-active-point" class="text-[#202124]">${selected ? selected.province : 'Seluruh Indonesia'}</strong></span>
                 </span>
@@ -2308,7 +2317,7 @@ export class CommodityTrackerComponent {
 
               <button 
                 id="btn-reset-commodity-map-zoom" 
-                class="px-2.5 py-1 bg-white hover:bg-[#F8F9FA] text-[#1A73E8] border border-[#DADCE0] rounded-md shadow-2xs font-medium flex items-center gap-1.5 text-[10.5px] cursor-pointer transition-all"
+                class="px-2.5 py-1 bg-white hover:bg-[#F8F9FA] text-[#1A73E8]  rounded-md shadow-2xs font-medium flex items-center gap-1.5 text-[10.5px] cursor-pointer transition-all"
                 title="Kembalikan tampilan peta ke seluruh kepulauan Indonesia"
               >
                 <span>🇮🇩</span>
@@ -2317,10 +2326,10 @@ export class CommodityTrackerComponent {
             </div>
 
             <!-- Leaflet Container -->
-            <div id="commodity-leaflet-container" class="w-full flex-1 min-h-[400px] rounded-lg bg-[#F8F9FA] overflow-hidden relative z-0 border border-[#DADCE0]"></div>
+            <div id="commodity-leaflet-container" class="w-full flex-1 min-h-[400px] rounded-lg bg-[#F8F9FA] overflow-hidden relative z-0 "></div>
 
             <!-- Map Footer Legend -->
-            <div class="flex items-center justify-between text-[10px] font-mono text-[#5F6368] pt-1 px-1 border-t border-[#DADCE0] flex-wrap gap-2">
+            <div class="flex items-center justify-between text-[10px] font-mono text-[#5F6368] pt-1 px-1  flex-wrap gap-2">
               <div class="flex items-center gap-3 flex-wrap">
                 <span class="flex items-center gap-1">
                   <span class="w-2.5 h-2.5 rounded-full bg-[#1A73E8]"></span>
@@ -2348,14 +2357,14 @@ export class CommodityTrackerComponent {
   renderCollapsibleTableCard(comm, records, isAggregate = false) {
     return `
       <!-- 8. COLLAPSIBLE DATA TABLE & EXPORT CONTROLS -->
-      <div class="gov-card p-3.5 bg-white border border-[#DADCE0] rounded-lg shadow-sm space-y-3">
+      <div class="gov-card p-3.5 bg-white rounded-lg shadow-sm space-y-3">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div class="flex items-center gap-2">
             <span class="font-bold text-xs text-[#202124] flex items-center gap-1.5">
               <span>📑</span>
               <span>Dataset Neraca & Realisasi Anggaran APBN (1990 - 2026): ${comm.name}</span>
             </span>
-            <span class="text-[10px] text-[#5F6368] font-mono bg-[#F8F9FA] px-2 py-0.5 rounded border border-[#DADCE0]">
+            <span class="text-[10px] text-[#5F6368] font-mono bg-[#F8F9FA] px-2 py-0.5 rounded shadow-2xs">
               Pos LKPP: ${comm.lkpp_account_code}
             </span>
           </div>
@@ -2363,7 +2372,7 @@ export class CommodityTrackerComponent {
           <div class="flex items-center gap-2">
             <button 
               id="btn-export-commodity-excel" 
-              class="px-3 py-1.5 bg-[#1E8E3E] hover:bg-[#137333] text-white rounded-md text-xs font-mono font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+              class="px-3.5 py-1.5 bg-[#0038A8] hover:bg-[#002B82] text-white rounded-md text-xs font-mono font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
               title="Unduh seluruh baris data neraca komoditas dalam format Excel (.csv)"
             >
               <span>📥</span>
@@ -2372,7 +2381,7 @@ export class CommodityTrackerComponent {
 
             <button 
               id="btn-toggle-commodity-table" 
-              class="px-3 py-1.5 bg-white hover:bg-[#F8F9FA] text-[#1A73E8] border border-[#DADCE0] rounded-md text-xs font-mono font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+              class="px-3 py-1.5 bg-white hover:bg-[#F8F9FA] text-[#0038A8] rounded-md text-xs font-mono font-medium flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
               title="Tampilkan atau sembunyikan tabel rincian angka historis 1990-2026"
             >
               <span>📊</span>
@@ -2382,11 +2391,11 @@ export class CommodityTrackerComponent {
         </div>
 
         <!-- Collapsible Content -->
-        <div id="commodity-full-table-container" class="${this.isTableExpanded ? '' : 'hidden'} border-t border-[#DADCE0] pt-3">
+        <div id="commodity-full-table-container" class="${this.isTableExpanded ? '' : 'hidden'} pt-3">
           <div class="overflow-x-auto max-h-[480px]">
             <table class="w-full text-left border-collapse text-[11px] font-mono">
               <thead class="sticky top-0 z-10 shadow-2xs">
-                <tr class="bg-[#F8F9FA] border-b border-[#DADCE0] text-[#5F6368]">
+                <tr class="bg-[#F8F9FA]  text-[#5F6368]">
                   <th class="py-2.5 px-3 font-bold">Tahun</th>
                   <th class="py-2.5 px-3 text-left font-bold">Dasar UU APBN</th>
                   <th class="py-2.5 px-3 text-right font-bold text-[#1A73E8]">Target APBN (Rp M)</th>
@@ -2420,7 +2429,7 @@ export class CommodityTrackerComponent {
                       Rp ${Number(r.apbn_realization_idr_billion || 0).toLocaleString('id-ID')} M
                     </td>
                     <td class="py-2 px-3 text-center font-bold">
-                      <span class="px-1.5 py-0.5 rounded text-[10px] ${r.apbn_achievement_rate_percent >= 95 ? 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]' : (r.apbn_achievement_rate_percent >= 80 ? 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]' : 'bg-[#F1F3F4] text-[#5F6368]')}">
+                      <span class="px-1.5 py-0.5 rounded text-[10px] ${r.apbn_achievement_rate_percent >= 95 ? 'bg-[#E6F4EA] text-[#137333] ' : (r.apbn_achievement_rate_percent >= 80 ? 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]' : 'bg-[#F1F3F4] text-[#5F6368]')}">
                         ${r.apbn_achievement_rate_percent || 0}%
                       </span>
                     </td>
@@ -2438,7 +2447,7 @@ export class CommodityTrackerComponent {
                       <td class="py-2 px-3 text-center font-bold text-[#5F6368]">${r.breakdown?.length || 0} Komoditas</td>
                     `}
                     <td class="py-2 px-3 text-center">
-                      <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${r.status === 'SURPLUS' ? 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]' : 'bg-[#FCE8E6] text-[#C5221F] border border-[#FAD2CF]'}">
+                      <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${r.status === 'SURPLUS' ? 'bg-[#E6F4EA] text-[#137333] ' : 'bg-[#FCE8E6] text-[#C5221F] border border-[#FAD2CF]'}">
                         ${r.status}
                       </span>
                     </td>
@@ -2462,7 +2471,7 @@ export class CommodityTrackerComponent {
       if (v === variableId) {
         btn.className = 'btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer border bg-[#E8F0FE] text-[#1A73E8] border-[#1A73E8] shadow-2xs';
       } else {
-        btn.className = 'btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer border bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]';
+        btn.className = 'btn-spatial-var px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer border bg-[#F8F9FA] text-[#5F6368]  hover:bg-[#F1F3F4]';
       }
     });
 
@@ -2488,7 +2497,7 @@ export class CommodityTrackerComponent {
         const isSelected = selected && selected.province === p.province;
         return `
           <div 
-            class="btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-sm' : 'bg-white border-[#DADCE0] hover:bg-[#F8F9FA] hover:border-[#BDC1C6]'}"
+            class="btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-sm' : 'bg-white  hover:bg-[#F8F9FA] hover:border-[#BDC1C6]'}"
             data-point-idx="${idx}"
             title="Arahkan peta ke ${p.province}"
           >
@@ -2506,7 +2515,7 @@ export class CommodityTrackerComponent {
                   </div>
                 </div>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold shrink-0 ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]'}">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold shrink-0 ${isSelected ? 'bg-[#D2E3FC] text-[#174EA6]' : 'bg-[#E6F4EA] text-[#137333] '}">
                 Pangsa ${p.percentage_share}%
               </span>
             </div>
@@ -2585,7 +2594,7 @@ export class CommodityTrackerComponent {
 
         const popupContent = `
           <div class="p-2.5 font-sans text-xs space-y-1.5 bg-white text-[#202124] rounded-lg max-w-[260px] shadow-sm">
-            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-1">
+            <div class="flex items-center justify-between  pb-1">
               <strong class="font-mono text-xs text-[#1A73E8]">${p.province}</strong>
               <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] font-bold">Rank ${p.rank || 1}</span>
             </div>
@@ -2692,7 +2701,7 @@ export class CommodityTrackerComponent {
 
         const popupContent = `
           <div class="p-2.5 font-sans text-xs space-y-1.5 bg-white text-[#202124] rounded-lg max-w-[260px] shadow-sm">
-            <div class="flex items-center justify-between border-b border-[#DADCE0] pb-1">
+            <div class="flex items-center justify-between  pb-1">
               <strong class="font-mono text-xs text-[#1A73E8]">${p.province}</strong>
               <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333] font-bold">Rank ${p.rank || 1}</span>
             </div>
@@ -2744,7 +2753,7 @@ export class CommodityTrackerComponent {
           item.className = 'btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-sm';
           item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         } else {
-          item.className = 'btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all bg-white border-[#DADCE0] hover:bg-[#F8F9FA] hover:border-[#BDC1C6]';
+          item.className = 'btn-select-spatial-point cursor-pointer p-3 rounded-lg border transition-all bg-white  hover:bg-[#F8F9FA] hover:border-[#BDC1C6]';
         }
       });
     }

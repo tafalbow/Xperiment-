@@ -30,25 +30,41 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
 
   container.innerHTML = `
     <!-- 1. TOP ACTION NAVIGATION TOOLBAR (FIX HEADER) -->
-    <header class="bg-[#F5EBE1] px-[7px] pt-2.5 pb-1 flex items-center justify-end flex-wrap gap-2">
+    <header class="bg-[#F5EBE1] px-[7px] pt-2.5 pb-1 flex items-center justify-between flex-wrap gap-2">
+      <!-- Website Monogram Logo Icon (Replacing text name in header) -->
+      <a href="#" class="flex items-center gap-2 group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
+        <svg class="h-8 w-auto text-[#0038A8] transition-transform group-hover:scale-105" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="INDOEKONOMI data">
+          <text x="10" y="66" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">19</text>
+          <text x="10" y="74" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">90</text>
+          <text x="82" y="15" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">20</text>
+          <text x="82" y="23" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">26</text>
+          <path d="M26 56 C20 40 26 24 40 17 C54 10 72 13 80 22 C88 31 87 41 78 47 C69 52 57 49 48 47" stroke="#0038A8" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+          <path d="M48 47 C60 50 78 52 83 60 C88 68 81 74 68 74 C50 74 34 66 28 52" stroke="#0038A8" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M54 43 C62 43 70 41 74 39" stroke="#0038A8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M37 14 H59" stroke="#0038A8" stroke-width="3.2" stroke-linecap="square"/>
+          <path d="M37 73 H59" stroke="#0038A8" stroke-width="3.2" stroke-linecap="square"/>
+          <rect x="45.5" y="14" width="5" height="59" fill="#0038A8"/>
+        </svg>
+      </a>
+
       <!-- Action Navigation Buttons -->
       <div class="flex items-center gap-2 flex-wrap ml-auto">
-        <button id="btn-header-crosswalk-doc" class="gov-btn text-xs font-medium bg-white text-[#0038A8] border-[#E5DACF] hover:bg-[#FAF7F2]">
+        <button id="btn-header-crosswalk-doc" class="gov-btn text-xs font-medium bg-white text-[#0038A8] hover:bg-[#FAF7F2]">
           <span>ℹ️</span>
           <span>Riwayat Klasifikasi APBN</span>
         </button>
 
-        <button id="btn-header-dict" class="gov-btn text-xs font-medium bg-white border-[#E5DACF] text-[#2C2420] hover:bg-[#FAF7F2]">
+        <button id="btn-header-dict" class="gov-btn text-xs font-medium bg-white text-[#2C2420] hover:bg-[#FAF7F2]">
           <svg class="w-3.5 h-3.5 text-[#2C2420]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           <span>Kamus Metadata</span>
         </button>
 
-        <button id="btn-header-registry" class="gov-btn text-xs font-medium bg-white border-[#E5DACF] text-[#2C2420] hover:bg-[#FAF7F2]">
+        <button id="btn-header-registry" class="gov-btn text-xs font-medium bg-white text-[#2C2420] hover:bg-[#FAF7F2]">
           <svg class="w-3.5 h-3.5 text-[#2C2420]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
           <span>Source Registry</span>
         </button>
 
-        <button id="btn-header-crosswalk" class="gov-btn text-xs font-medium bg-white border-[#E5DACF] text-[#2C2420] hover:bg-[#FAF7F2]">
+        <button id="btn-header-crosswalk" class="gov-btn text-xs font-medium bg-white text-[#2C2420] hover:bg-[#FAF7F2]">
           <svg class="w-3.5 h-3.5 text-[#2C2420]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
           <span>Crosswalk</span>
         </button>
@@ -71,17 +87,31 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
                 <span>Status: Online</span>
               </span>
             </div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <h3 class="text-2xl font-serif font-bold text-[#0038A8] tracking-tight leading-snug">
-                INDOEKONOMI data
-              </h3>
-              <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-white text-[#0038A8] border border-[#BCD0F7]">
-                indoekonomi.data.go.id
-              </span>
-              <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-white text-[#5D4037] border border-[#E5DACF] inline-flex items-center gap-1">
-                <span class="text-[#7D655C] font-normal lowercase">supported by</span>
-                <span class="font-bold uppercase text-[#2C2420]">Dewan Ekonomi Nasional</span>
-              </span>
+            <div class="flex items-center gap-3 flex-wrap">
+              <!-- Website Monogram Logo Icon (Replacing text name in front page) -->
+              <div class="flex items-center shrink-0" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
+                <svg class="h-11 w-auto text-[#0038A8]" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="INDOEKONOMI data">
+                  <text x="10" y="66" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">19</text>
+                  <text x="10" y="74" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">90</text>
+                  <text x="82" y="15" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">20</text>
+                  <text x="82" y="23" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8D6E63" font-weight="700">26</text>
+                  <path d="M26 56 C20 40 26 24 40 17 C54 10 72 13 80 22 C88 31 87 41 78 47 C69 52 57 49 48 47" stroke="#0038A8" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                  <path d="M48 47 C60 50 78 52 83 60 C88 68 81 74 68 74 C50 74 34 66 28 52" stroke="#0038A8" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                  <path d="M54 43 C62 43 70 41 74 39" stroke="#0038A8" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M37 14 H59" stroke="#0038A8" stroke-width="3.2" stroke-linecap="square"/>
+                  <path d="M37 73 H59" stroke="#0038A8" stroke-width="3.2" stroke-linecap="square"/>
+                  <rect x="45.5" y="14" width="5" height="59" fill="#0038A8"/>
+                </svg>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-white text-[#0038A8] shadow-2xs w-fit">
+                  indoekonomi.data.go.id
+                </span>
+                <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-white text-[#5D4037] inline-flex items-center gap-1 shadow-2xs w-fit">
+                  <span class="text-[#7D655C] font-normal lowercase">supported by</span>
+                  <span class="font-bold uppercase text-[#2C2420]">Dewan Ekonomi Nasional</span>
+                </span>
+              </div>
             </div>
             <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
               Repositori kompilasi dan harmonisasi statistik resmi pergerakan ekonomi Indonesia lintas institusi statutori untuk perumusan kebijakan publik dan riset kredibel.
@@ -139,7 +169,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
               <button 
                 type="button" 
                 id="btn-statutory-register" 
-                class="w-full sm:w-auto px-6 py-2.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] border border-[#E5DACF] font-bold' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] border border-[#B8D8BA]' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white')} text-xs font-mono font-medium tracking-wide transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer group"
+                class="w-full sm:w-auto px-6 py-2.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] font-bold shadow-xs' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] shadow-xs font-semibold' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white shadow-xs')} text-xs font-mono font-medium tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer group"
                 title="${isMasterAdmin ? 'Sesi Master Admin Aktif' : (registeredUser ? 'Akses Terdaftar' : 'Registrasi Akses Data atau Login Master Admin')}"
               >
                 ${isMasterAdmin ? `

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * INDOEKONOMI data — Indonesia Economic Data Observatory
  * Component: AgriCalendarComponent (Kalender Musim Tanam, Pola Panen & Peta Rekomendasi Spasial Kabupaten)
  * ==============================================================================
@@ -69,8 +69,8 @@ export class AgriCalendarComponent {
     this.container.innerHTML = `
       <div class="space-y-4">
         <!-- 1. HEADER & OFFICIAL CONTEXT -->
-        <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-3 shadow-2xs">
-          <div class="flex items-center justify-between flex-wrap gap-2 border-b border-[#DADCE0] pb-2.5">
+        <div class="bg-white p-4 rounded-lg  space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between flex-wrap gap-2  pb-2.5">
             <div class="flex items-center gap-2">
               <span class="w-8 h-8 rounded bg-[#E6F4EA] text-[#1E8E3E] flex items-center justify-center text-lg shadow-2xs">🌾</span>
               <div>
@@ -91,7 +91,7 @@ export class AgriCalendarComponent {
           </div>
 
           <!-- SUMMARY NARRATIVE BANNER -->
-          <div id="agri-calendar-summary-box" class="p-3 bg-[#F8F9FA] rounded border border-[#DADCE0] text-xs space-y-1">
+          <div id="agri-calendar-summary-box" class="p-3 bg-[#F8F9FA] rounded  text-xs space-y-1">
             <div class="text-[10.5px] font-mono font-bold text-[#202124] uppercase flex items-center gap-1.5">
               <span>📌</span>
               <span>Konteks Agroklimat & Dinamika Musim Berjalan</span>
@@ -102,13 +102,13 @@ export class AgriCalendarComponent {
           </div>
 
           <!-- 2. INTERACTIVE CONTROLS BAR (Peach Muda #FDE2D2) -->
-          <div class="p-3 bg-[#FDE2D2] rounded-lg border border-[#F5C7B3] space-y-2.5">
-            <div class="flex items-center justify-between flex-wrap gap-2 border-b border-[#F5C7B3] pb-2">
+          <div class="p-3 bg-[#FDE2D2] rounded-lg  space-y-2.5">
+            <div class="flex items-center justify-between flex-wrap gap-2  pb-2">
               <span class="text-xs font-mono font-bold text-[#3E2723] uppercase flex items-center gap-1.5">
                 <span>🎯</span>
                 <span>Filter Bahan Baku Komoditas & Wilayah Tanam</span>
               </span>
-              <span id="agri-active-criteria-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-white text-[#0038A8] border border-[#F5C7B3] font-semibold">
+              <span id="agri-active-criteria-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-white text-[#0038A8]  font-semibold">
                 Komoditas: Jagung Hibrida • Bulan: September
               </span>
             </div>
@@ -117,7 +117,7 @@ export class AgriCalendarComponent {
               <!-- Filter: Bahan Baku / Komoditas -->
               <div class="flex items-center gap-1.5">
                 <label for="agri-cal-commodity-select" class="text-[#3E2723] font-bold">Bahan Baku Tanam:</label>
-                <select id="agri-cal-commodity-select" class="px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-xs font-mono font-semibold text-[#202124] outline-none focus:border-[#0038A8] shadow-2xs">
+                <select id="agri-cal-commodity-select" class="px-2.5 py-1.5 rounded  bg-white text-xs font-mono font-semibold text-[#202124] outline-none focus:border-[#0038A8] shadow-2xs">
                   <option value="JAGUNG" selected>🌽 Jagung Pipil Hibrida (Zea mays)</option>
                   <option value="PADI_BERAS">🌾 Padi Sawah / Beras (Oryza sativa)</option>
                   <option value="CABAI_RAWIT">🌶️ Cabai Rawit & Keriting (Capsicum)</option>
@@ -134,7 +134,7 @@ export class AgriCalendarComponent {
               <!-- Filter: Bulan Tanam -->
               <div class="flex items-center gap-1.5">
                 <label for="agri-cal-month-select" class="text-[#3E2723] font-bold">Bulan Tanam:</label>
-                <select id="agri-cal-month-select" class="px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-xs font-mono font-semibold text-[#202124] outline-none focus:border-[#0038A8] shadow-2xs">
+                <select id="agri-cal-month-select" class="px-2.5 py-1.5 rounded  bg-white text-xs font-mono font-semibold text-[#202124] outline-none focus:border-[#0038A8] shadow-2xs">
                   <option value="1">Bulan 1 - Januari</option>
                   <option value="2">Bulan 2 - Februari</option>
                   <option value="3">Bulan 3 - Maret</option>
@@ -153,7 +153,7 @@ export class AgriCalendarComponent {
               <!-- Filter: Wilayah Pulau -->
               <div class="flex items-center gap-1.5">
                 <label for="agri-cal-island-select" class="text-[#3E2723] font-bold">Pulau:</label>
-                <select id="agri-cal-island-select" class="px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-xs font-mono text-[#202124] outline-none focus:border-[#0038A8]">
+                <select id="agri-cal-island-select" class="px-2.5 py-1.5 rounded  bg-white text-xs font-mono text-[#202124] outline-none focus:border-[#0038A8]">
                   <option value="SEMUA" selected>Semua Pulau (Nasional)</option>
                   <option value="JAWA">Pulau Jawa</option>
                   <option value="SUMATERA">Pulau Sumatera</option>
@@ -167,7 +167,7 @@ export class AgriCalendarComponent {
               <!-- Filter: Status Rekomendasi -->
               <div class="flex items-center gap-1.5">
                 <label for="agri-cal-status-select" class="text-[#3E2723] font-bold">Status Rekomendasi:</label>
-                <select id="agri-cal-status-select" class="px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-xs font-mono text-[#202124] outline-none focus:border-[#0038A8]">
+                <select id="agri-cal-status-select" class="px-2.5 py-1.5 rounded  bg-white text-xs font-mono text-[#202124] outline-none focus:border-[#0038A8]">
                   <option value="SEMUA" selected>Semua Status</option>
                   <option value="RECOMMENDED_PRIME">🟢 Sangat Dianjurkan (Musim Utama)</option>
                   <option value="RECOMMENDED_CONDITIONAL">🟡 Dianjurkan Bersyarat (Pompanisasi)</option>
@@ -177,7 +177,7 @@ export class AgriCalendarComponent {
               </div>
 
               <!-- Reset Button -->
-              <button id="agri-cal-reset-btn" class="px-3 py-1.5 rounded bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] border border-[#F5C7B3] text-xs font-mono cursor-pointer transition-colors shadow-2xs">
+              <button id="agri-cal-reset-btn" class="px-3 py-1.5 rounded bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723]  text-xs font-mono cursor-pointer transition-colors shadow-2xs">
                 Reset Filter
               </button>
             </div>
@@ -187,7 +187,7 @@ export class AgriCalendarComponent {
         <!-- 3. KPI INFOGRAPHIC METRICS BANNER -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
           <!-- KPI 1 -->
-          <div class="bg-white p-3.5 rounded-lg border border-[#DADCE0] shadow-2xs space-y-1">
+          <div class="bg-white p-3.5 rounded-lg  shadow-2xs space-y-1">
             <div class="text-[10.5px] font-mono text-[#5F6368] uppercase flex items-center justify-between">
               <span>Kabupaten Dianjurkan</span>
               <span>📍</span>
@@ -201,7 +201,7 @@ export class AgriCalendarComponent {
           </div>
 
           <!-- KPI 2 -->
-          <div class="bg-white p-3.5 rounded-lg border border-[#DADCE0] shadow-2xs space-y-1">
+          <div class="bg-white p-3.5 rounded-lg  shadow-2xs space-y-1">
             <div class="text-[10.5px] font-mono text-[#5F6368] uppercase flex items-center justify-between">
               <span>Estimasi Luas Tanam</span>
               <span>📐</span>
@@ -215,7 +215,7 @@ export class AgriCalendarComponent {
           </div>
 
           <!-- KPI 3 -->
-          <div class="bg-white p-3.5 rounded-lg border border-[#DADCE0] shadow-2xs space-y-1">
+          <div class="bg-white p-3.5 rounded-lg  shadow-2xs space-y-1">
             <div class="text-[10.5px] font-mono text-[#5F6368] uppercase flex items-center justify-between">
               <span>Proyeksi Produksi</span>
               <span>🎯</span>
@@ -229,7 +229,7 @@ export class AgriCalendarComponent {
           </div>
 
           <!-- KPI 4 -->
-          <div class="bg-white p-3.5 rounded-lg border border-[#DADCE0] shadow-2xs space-y-1">
+          <div class="bg-white p-3.5 rounded-lg  shadow-2xs space-y-1">
             <div class="text-[10.5px] font-mono text-[#5F6368] uppercase flex items-center justify-between">
               <span>Siklus Tanam ➔ Panen</span>
               <span>⏱️</span>
@@ -244,8 +244,8 @@ export class AgriCalendarComponent {
         </div>
 
         <!-- 4. SPATIAL MAP & INFOGRAPHIC DETAIL PANEL -->
-        <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-3 shadow-2xs">
-          <div class="flex items-center justify-between flex-wrap gap-2 border-b border-[#DADCE0] pb-2.5">
+        <div class="bg-white p-4 rounded-lg  space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between flex-wrap gap-2  pb-2.5">
             <div>
               <h3 class="text-xs font-mono font-bold uppercase text-[#202124] flex items-center gap-1.5">
                 <span>🗺️</span>
@@ -258,7 +258,7 @@ export class AgriCalendarComponent {
 
             <!-- View Action Controls -->
             <div class="flex items-center gap-2 text-xs font-mono">
-              <button id="agri-map-reset-zoom-btn" class="px-2.5 py-1 rounded bg-[#F1F3F4] hover:bg-[#E8EAED] text-[#3C4043] border border-[#DADCE0] text-[11px] font-mono flex items-center gap-1 cursor-pointer">
+              <button id="agri-map-reset-zoom-btn" class="px-2.5 py-1 rounded bg-[#F1F3F4] hover:bg-[#E8EAED] text-[#3C4043]  text-[11px] font-mono flex items-center gap-1 cursor-pointer">
                 <span>🔍</span>
                 <span>Reset Peta Nasional</span>
               </button>
@@ -269,12 +269,12 @@ export class AgriCalendarComponent {
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
             <!-- Left: Leaflet Interactive Map Container (8 cols) -->
             <div class="lg:col-span-8 flex flex-col space-y-2">
-              <div id="agri-map-container" class="w-full h-[520px] rounded-lg bg-[#F8F9FA] border border-[#DADCE0] overflow-hidden relative z-0 shadow-inner">
+              <div id="agri-map-container" class="w-full h-[520px] rounded-lg bg-[#F8F9FA]  overflow-hidden relative z-0 shadow-inner">
                 <!-- Map Canvas rendered by Leaflet -->
               </div>
 
               <!-- Map Legend Bar -->
-              <div class="p-2.5 bg-[#F8F9FA] rounded border border-[#DADCE0] flex items-center justify-between flex-wrap gap-2 text-[11px] font-mono">
+              <div class="p-2.5 bg-[#F8F9FA] rounded  flex items-center justify-between flex-wrap gap-2 text-[11px] font-mono">
                 <div class="flex items-center gap-1 text-[#5F6368] font-bold uppercase text-[10px]">
                   <span>Legenda Status:</span>
                 </div>
@@ -302,7 +302,7 @@ export class AgriCalendarComponent {
             <!-- Right: Detailed Infographic Panel & Regency List (4 cols) -->
             <div class="lg:col-span-4 flex flex-col space-y-3">
               <!-- Selected Regency Detailed Card -->
-              <div id="agri-regency-detail-panel" class="p-4 bg-white rounded-lg border border-[#DADCE0] shadow-sm space-y-3 min-h-[320px]">
+              <div id="agri-regency-detail-panel" class="p-4 bg-white rounded-lg  shadow-sm space-y-3 min-h-[320px]">
                 <div class="text-center py-12 text-[#5F6368] font-sans text-xs space-y-2">
                   <div class="text-2xl">🌾</div>
                   <p class="font-medium">Pilih salah satu kabupaten pada peta atau dari daftar di bawah untuk melihat rincian infografis tanam.</p>
@@ -310,8 +310,8 @@ export class AgriCalendarComponent {
               </div>
 
               <!-- Fast Regency Picker List -->
-              <div class="p-3 bg-[#F8F9FA] rounded-lg border border-[#DADCE0] space-y-2 flex-1 flex flex-col">
-                <div class="flex items-center justify-between border-b border-[#DADCE0] pb-1.5">
+              <div class="p-3 bg-[#F8F9FA] rounded-lg  space-y-2 flex-1 flex flex-col">
+                <div class="flex items-center justify-between  pb-1.5">
                   <span class="text-[11px] font-mono font-bold text-[#202124] uppercase flex items-center gap-1">
                     <span>📋</span>
                     <span>Daftar Kabupaten Terpilih</span>
@@ -330,8 +330,8 @@ export class AgriCalendarComponent {
         </div>
 
         <!-- 5. CALENDAR MATRIX GRID (TABEL POLA RITME NASIONAL) -->
-        <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-3 shadow-2xs">
-          <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2">
+        <div class="bg-white p-4 rounded-lg  space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between  pb-2">
             <span class="text-xs font-mono font-bold uppercase text-[#202124] flex items-center gap-1.5">
               <span>📅</span>
               <span>MATRIKS RITME MUSIM & TAHAPAN PANEN NASIONAL (STATUTORI 12 BULAN)</span>
@@ -342,15 +342,15 @@ export class AgriCalendarComponent {
           </div>
 
           <div class="overflow-x-auto scrollbar-thin">
-            <table class="w-full text-xs font-mono border border-[#DADCE0] border-collapse">
-              <thead class="bg-[#F8F9FA] text-[#3C4043] border-b border-[#DADCE0]">
+            <table class="w-full text-xs font-mono  border-collapse">
+              <thead class="bg-[#F8F9FA] text-[#3C4043] ">
                 <tr>
-                  <th class="p-2.5 text-left border-r border-[#DADCE0] w-24">Bulan</th>
-                  <th class="p-2.5 text-left border-r border-[#DADCE0] w-44">Komoditas</th>
-                  <th class="p-2.5 text-left border-r border-[#DADCE0] w-48">Tahapan Musim</th>
-                  <th class="p-2.5 text-center border-r border-[#DADCE0] w-28">Intensitas</th>
-                  <th class="p-2.5 text-right border-r border-[#DADCE0] w-24">Porsi Output</th>
-                  <th class="p-2.5 text-left border-r border-[#DADCE0]">Sentra Wilayah Produksi</th>
+                  <th class="p-2.5 text-left  w-24">Bulan</th>
+                  <th class="p-2.5 text-left  w-44">Komoditas</th>
+                  <th class="p-2.5 text-left  w-48">Tahapan Musim</th>
+                  <th class="p-2.5 text-center  w-28">Intensitas</th>
+                  <th class="p-2.5 text-right  w-24">Porsi Output</th>
+                  <th class="p-2.5 text-left ">Sentra Wilayah Produksi</th>
                   <th class="p-2.5 text-left">Catatan Agroklimat & Sitasi</th>
                 </tr>
               </thead>
@@ -526,7 +526,7 @@ export class AgriCalendarComponent {
     container.innerHTML = regencies.map((r, idx) => {
       const isSelected = this.activeRegency && this.activeRegency.id === r.id;
       return `
-        <div class="regency-list-item p-2 rounded border ${isSelected ? 'border-[#1A73E8] bg-[#F1F3F4]' : 'border-[#DADCE0] bg-white hover:bg-[#F8F9FA]'} cursor-pointer transition-all flex items-center justify-between" data-regency-id="${r.id}">
+        <div class="regency-list-item p-2 rounded border ${isSelected ? 'border-[#1A73E8] bg-[#F1F3F4]' : ' bg-white hover:bg-[#F8F9FA]'} cursor-pointer transition-all flex items-center justify-between" data-regency-id="${r.id}">
           <div class="flex items-center gap-2 truncate">
             <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${r.marker_color};"></span>
             <div class="truncate">
@@ -629,7 +629,7 @@ export class AgriCalendarComponent {
           <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-md border-2 border-white transition-transform transform group-hover:scale-125" style="background-color: ${r.marker_color};">
             <span>${commodity.icon || '🌾'}</span>
           </div>
-          <div class="absolute top-8 left-1/2 -translate-x-1/2 bg-white/95 text-[#202124] text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded shadow border border-[#DADCE0] whitespace-nowrap pointer-events-none opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all">
+          <div class="absolute top-8 left-1/2 -translate-x-1/2 bg-white/95 text-[#202124] text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded shadow  whitespace-nowrap pointer-events-none opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all">
             ${r.name.replace('Kab. ', '')}
           </div>
         </div>
@@ -648,7 +648,7 @@ export class AgriCalendarComponent {
       // Popup Content
       const popupHtml = `
         <div class="p-3 font-sans text-xs space-y-2 bg-white text-[#202124] rounded-lg max-w-[270px] shadow-sm">
-          <div class="border-b border-[#DADCE0] pb-1.5">
+          <div class=" pb-1.5">
             <div class="flex items-center justify-between gap-1">
               <strong class="font-mono text-xs text-[#202124]">${r.name}</strong>
               <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded font-bold" style="background-color: ${r.badge_bg}; color: ${r.badge_text};">
@@ -713,7 +713,7 @@ export class AgriCalendarComponent {
     detailPanel.innerHTML = `
       <div class="space-y-3">
         <!-- Header Info -->
-        <div class="border-b border-[#DADCE0] pb-2">
+        <div class=" pb-2">
           <div class="flex items-center justify-between gap-1">
             <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-[#E8F0FE] text-[#1A73E8] font-bold">
               ${regency.island}
@@ -742,19 +742,19 @@ export class AgriCalendarComponent {
 
         <!-- Metrics Grid -->
         <div class="grid grid-cols-2 gap-2 text-xs font-mono">
-          <div class="p-2 bg-[#F8F9FA] rounded border border-[#DADCE0]">
+          <div class="p-2 bg-[#F8F9FA] rounded ">
             <div class="text-[10px] text-[#5F6368]">Kesiapan Lahan</div>
             <div class="font-bold text-[#202124] text-xs">${regency.potential_land_ha.toLocaleString('id-ID')} Ha</div>
           </div>
-          <div class="p-2 bg-[#F8F9FA] rounded border border-[#DADCE0]">
+          <div class="p-2 bg-[#F8F9FA] rounded ">
             <div class="text-[10px] text-[#5F6368]">Target Produktivitas</div>
             <div class="font-bold text-[#1E8E3E] text-xs">${regency.projected_yield_ton_ha} Ton / Ha</div>
           </div>
-          <div class="p-2 bg-[#F8F9FA] rounded border border-[#DADCE0]">
+          <div class="p-2 bg-[#F8F9FA] rounded ">
             <div class="text-[10px] text-[#5F6368]">Proyeksi Panen</div>
             <div class="font-bold text-[#1A73E8] text-xs">Bulan ${regency.projected_harvest_month}</div>
           </div>
-          <div class="p-2 bg-[#F8F9FA] rounded border border-[#DADCE0]">
+          <div class="p-2 bg-[#F8F9FA] rounded ">
             <div class="text-[10px] text-[#5F6368]">Estimasi Output Bruto</div>
             <div class="font-bold text-[#B06000] text-xs truncate">Rp ${(regency.gross_economic_value_rp / 1000000000).toFixed(1)} M</div>
           </div>
@@ -788,10 +788,10 @@ export class AgriCalendarComponent {
     document.querySelectorAll('.regency-list-item').forEach(el => {
       if (el.getAttribute('data-regency-id') === regency.id) {
         el.classList.add('border-[#1A73E8]', 'bg-[#F1F3F4]');
-        el.classList.remove('border-[#DADCE0]', 'bg-white');
+        el.classList.remove('', 'bg-white');
       } else {
         el.classList.remove('border-[#1A73E8]', 'bg-[#F1F3F4]');
-        el.classList.add('border-[#DADCE0]', 'bg-white');
+        el.classList.add('', 'bg-white');
       }
     });
 
@@ -845,7 +845,7 @@ export class AgriCalendarComponent {
     tbody.innerHTML = items.map(item => {
       let intensityBadge = 'bg-slate-100 text-slate-700';
       if (item.activity_intensity === 'Puncak Panen') {
-        intensityBadge = 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6] font-bold';
+        intensityBadge = 'bg-[#E6F4EA] text-[#137333]  font-bold';
       } else if (item.activity_intensity === 'Tinggi') {
         intensityBadge = 'bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] font-semibold';
       } else if (item.activity_intensity === 'Rendah') {
@@ -854,25 +854,25 @@ export class AgriCalendarComponent {
 
       return `
         <tr class="hover:bg-[#F8F9FA] transition-colors">
-          <td class="p-2.5 border-r border-[#DADCE0] font-bold text-[#202124]">
+          <td class="p-2.5  font-bold text-[#202124]">
             ${item.month_name}
           </td>
-          <td class="p-2.5 border-r border-[#DADCE0] font-semibold text-[#1A73E8]">
+          <td class="p-2.5  font-semibold text-[#1A73E8]">
             ${item.commodity_name}
             <div class="text-[10px] text-[#5F6368] font-normal">${item.crop_category}</div>
           </td>
-          <td class="p-2.5 border-r border-[#DADCE0] text-[#202124] font-medium">
+          <td class="p-2.5  text-[#202124] font-medium">
             ${item.season_stage}
           </td>
-          <td class="p-2.5 border-r border-[#DADCE0] text-center">
+          <td class="p-2.5  text-center">
             <span class="px-2 py-0.5 rounded text-[10px] ${intensityBadge}">
               ${item.activity_intensity}
             </span>
           </td>
-          <td class="p-2.5 border-r border-[#DADCE0] text-right font-bold text-[#202124]">
+          <td class="p-2.5  text-right font-bold text-[#202124]">
             ${item.production_share_pct ? item.production_share_pct + '%' : '-'}
           </td>
-          <td class="p-2.5 border-r border-[#DADCE0] text-[#3C4043] font-sans text-[11px] leading-relaxed">
+          <td class="p-2.5  text-[#3C4043] font-sans text-[11px] leading-relaxed">
             ${item.key_regions}
           </td>
           <td class="p-2.5 text-[#5F6368] font-sans text-[11px] leading-relaxed">

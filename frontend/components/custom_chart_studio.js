@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // INDOEKONOMI data — Studio Custom Chart & Analisis Driver Kontekstual (1990 – 2026)
 // Memungkinkan kombinasi hingga 5 variabel trend keuangan negara & indikator mingguan,
 // dual vertical axis (Sumbu Kiri & Kanan), hitungan kustom (YoY %, 3Y-MA, Base 100, Raw),
@@ -183,7 +183,7 @@ export class CustomChartStudio {
     const el = document.getElementById(this.containerId);
     if (!el) return;
     el.innerHTML = `
-      <div class="gov-card p-8 bg-white border border-[#DADCE0] rounded-lg text-center font-mono space-y-3">
+      <div class="gov-card p-8 bg-white  rounded-lg text-center font-mono space-y-3">
         <div class="inline-block w-8 h-8 border-3 border-[#1A73E8] border-t-transparent rounded-full animate-spin"></div>
         <div class="text-sm font-bold text-[#202124]">Memuat Studio Custom Chart & Analisis Driver...</div>
         <div class="text-xs text-[#5F6368]">Mengkombinasikan 130 variabel dari 9 Tabel Keuangan Negara & Indikator Mingguan</div>
@@ -217,8 +217,8 @@ export class CustomChartStudio {
       <div class="space-y-4">
         
         <!-- HEADER & PRESETS BAR -->
-        <div class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg shadow-sm space-y-3">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#DADCE0] pb-3">
+        <div class="gov-card p-4 bg-white  rounded-lg shadow-sm space-y-3">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3  pb-3">
             <div>
               <div class="flex items-center gap-2">
                 <span class="px-2 py-0.5 text-[11px] font-mono font-bold bg-[#E8F0FE] text-[#1A73E8] rounded border border-[#D2E3FC]">
@@ -236,44 +236,44 @@ export class CustomChartStudio {
             <!-- Curated Presets Buttons -->
             <div class="flex items-center gap-1.5 flex-wrap">
               <span class="text-[11px] font-mono text-[#5F6368] font-semibold">Preset Cepat:</span>
-              <button data-preset="POSTUR_APBN" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8] border border-[#DADCE0] rounded font-medium transition cursor-pointer">
+              <button data-preset="POSTUR_APBN" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8]  rounded font-medium transition cursor-pointer">
                 Postur APBN
               </button>
-              <button data-preset="CUKAI_BREAKDOWN" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8] border border-[#DADCE0] rounded font-medium transition cursor-pointer">
+              <button data-preset="CUKAI_BREAKDOWN" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8]  rounded font-medium transition cursor-pointer">
                 Cukai & DBH
               </button>
-              <button data-preset="YOY_GROWTH_DUAL" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8] border border-[#DADCE0] rounded font-medium transition cursor-pointer">
+              <button data-preset="YOY_GROWTH_DUAL" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8]  rounded font-medium transition cursor-pointer">
                 Dual Axis YoY %
               </button>
-              <button data-preset="NERACA_SOLVABILITAS" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8] border border-[#DADCE0] rounded font-medium transition cursor-pointer">
+              <button data-preset="NERACA_SOLVABILITAS" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8]  rounded font-medium transition cursor-pointer">
                 Neraca Negara
               </button>
-              <button data-preset="FISKAL_MONETER" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8] border border-[#DADCE0] rounded font-medium transition cursor-pointer">
+              <button data-preset="FISKAL_MONETER" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8]  rounded font-medium transition cursor-pointer">
                 Fiskal + Moneter
               </button>
             </div>
           </div>
 
           <!-- TIME RANGE SELECTOR (Peach Muda #FDE2D2) -->
-          <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono bg-[#FDE2D2] border border-[#F5C7B3] p-2 rounded">
+          <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono bg-[#FDE2D2]  p-2 rounded">
             <div class="flex items-center gap-2">
               <span class="text-[#3E2723] font-bold">Rentang Tahun:</span>
-              <select id="select-chart-start-year" class="px-2 py-1 bg-white border border-[#F5C7B3] rounded text-xs text-[#202124]">
+              <select id="select-chart-start-year" class="px-2 py-1 bg-white  rounded text-xs text-[#202124]">
                 ${Array.from({ length: 37 }, (_, i) => 1990 + i).map(y => `
                   <option value="${y}" ${y === this.startYear ? 'selected' : ''}>${y}</option>
                 `).join('')}
               </select>
               <span class="text-[#7D655C] font-semibold">s/d</span>
-              <select id="select-chart-end-year" class="px-2 py-1 bg-white border border-[#F5C7B3] rounded text-xs text-[#202124]">
+              <select id="select-chart-end-year" class="px-2 py-1 bg-white  rounded text-xs text-[#202124]">
                 ${Array.from({ length: 37 }, (_, i) => 1990 + i).map(y => `
                   <option value="${y}" ${y === this.endYear ? 'selected' : ''}>${y}</option>
                 `).join('')}
               </select>
               <div class="flex items-center gap-1 ml-2">
-                <button data-range="1990-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded border border-[#F5C7B3] cursor-pointer">Semua</button>
-                <button data-range="2004-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded border border-[#F5C7B3] cursor-pointer">2004-2026</button>
-                <button data-range="2015-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded border border-[#F5C7B3] cursor-pointer">Akrual Penuh (2015+)</button>
-                <button data-range="2020-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded border border-[#F5C7B3] cursor-pointer">Pasca-Pandemi</button>
+                <button data-range="1990-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded  cursor-pointer">Semua</button>
+                <button data-range="2004-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded  cursor-pointer">2004-2026</button>
+                <button data-range="2015-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded  cursor-pointer">Akrual Penuh (2015+)</button>
+                <button data-range="2020-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded  cursor-pointer">Pasca-Pandemi</button>
               </div>
             </div>
 
@@ -284,7 +284,7 @@ export class CustomChartStudio {
         </div>
 
         <!-- 5 VARIABLE CONFIGURATION SLOTS (Peach Muda #FDE2D2) -->
-        <div class="gov-card p-3 bg-[#FDE2D2] border border-[#F5C7B3] rounded-lg shadow-sm space-y-2">
+        <div class="gov-card p-3 bg-[#FDE2D2]  rounded-lg shadow-sm space-y-2">
           <div class="flex items-center justify-between text-xs font-mono font-bold text-[#3E2723] px-1">
             <span class="flex items-center gap-2">
               <span>⚙️</span>
@@ -301,7 +301,7 @@ export class CustomChartStudio {
         </div>
 
         <!-- MAIN CHART CONTAINER (DUAL Y-AXIS CANVAS) -->
-        <div class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg shadow-sm space-y-3">
+        <div class="gov-card p-4 bg-white  rounded-lg shadow-sm space-y-3">
           <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono">
             <div class="flex items-center gap-2" id="chart-legend-container">
               <!-- Active Legend Badges -->
@@ -329,7 +329,7 @@ export class CustomChartStudio {
         </div>
 
         <!-- CONTEXTUAL DRIVER ANALYSIS PANEL (DIRECTLY BELOW CHART) -->
-        <div id="contextual-driver-container" class="gov-card p-4 bg-white border border-[#DADCE0] rounded-lg shadow-sm space-y-3">
+        <div id="contextual-driver-container" class="gov-card p-4 bg-white  rounded-lg shadow-sm space-y-3">
           ${this.renderDriverPanelHtml()}
         </div>
 
@@ -352,7 +352,7 @@ export class CustomChartStudio {
     }
 
     return `
-      <div class="p-2.5 rounded border ${slot.enabled ? 'bg-white border-[#F5C7B3] shadow-2xs' : 'bg-white/70 border-dashed border-[#F5C7B3] opacity-75'} flex flex-col justify-between space-y-2" style="border-top: 3px solid ${color};">
+      <div class="p-2.5 rounded border ${slot.enabled ? 'bg-white  shadow-2xs' : 'bg-white/70 border-dashed  opacity-75'} flex flex-col justify-between space-y-2" style="border-top: 3px solid ${color};">
         
         <!-- Slot Header -->
         <div class="flex items-center justify-between">
@@ -368,7 +368,7 @@ export class CustomChartStudio {
         <!-- Variable Selector Dropdown -->
         <div class="space-y-1">
           <label class="text-[10px] text-[#3E2723] font-bold block">Variabel:</label>
-          <select data-slot-id="${slot.id}" class="slot-var-select w-full px-1.5 py-1 text-[11px] bg-white border border-[#F5C7B3] rounded text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1A73E8]" ${!slot.enabled ? 'disabled' : ''}>
+          <select data-slot-id="${slot.id}" class="slot-var-select w-full px-1.5 py-1 text-[11px] bg-white  rounded text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1A73E8]" ${!slot.enabled ? 'disabled' : ''}>
             ${Object.keys(groups).map(grpName => `
               <optgroup label="${grpName}">
                 ${groups[grpName].map(v => `
@@ -380,10 +380,10 @@ export class CustomChartStudio {
         </div>
 
         <!-- Transformation & Chart Type & Axis Controls -->
-        <div class="grid grid-cols-3 gap-1 pt-1 border-t border-[#F5C7B3]">
+        <div class="grid grid-cols-3 gap-1 pt-1 ">
           <div>
             <label class="text-[9.5px] text-[#3E2723] block font-semibold">Hitungan:</label>
-            <select data-slot-id="${slot.id}" class="slot-transform-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#F5C7B3] rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
+            <select data-slot-id="${slot.id}" class="slot-transform-select w-full px-1 py-0.5 text-[10px] bg-white  rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
               <option value="RAW" ${slot.transformation === 'RAW' ? 'selected' : ''}>Asli</option>
               <option value="YOY" ${slot.transformation === 'YOY' ? 'selected' : ''}>YoY %</option>
               <option value="AVG_3Y" ${slot.transformation === 'AVG_3Y' ? 'selected' : ''}>3Y-MA</option>
@@ -393,7 +393,7 @@ export class CustomChartStudio {
 
           <div>
             <label class="text-[9.5px] text-[#3E2723] block font-semibold">Bentuk:</label>
-            <select data-slot-id="${slot.id}" class="slot-type-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#F5C7B3] rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
+            <select data-slot-id="${slot.id}" class="slot-type-select w-full px-1 py-0.5 text-[10px] bg-white  rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
               <option value="bar" ${slot.chart_type === 'bar' ? 'selected' : ''}>Bar</option>
               <option value="stacked_bar" ${slot.chart_type === 'stacked_bar' ? 'selected' : ''}>Stack</option>
               <option value="line" ${slot.chart_type === 'line' ? 'selected' : ''}>Line</option>
@@ -402,7 +402,7 @@ export class CustomChartStudio {
 
           <div>
             <label class="text-[9.5px] text-[#3E2723] block font-semibold">Axis:</label>
-            <select data-slot-id="${slot.id}" class="slot-axis-select w-full px-1 py-0.5 text-[10px] bg-white border border-[#F5C7B3] rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
+            <select data-slot-id="${slot.id}" class="slot-axis-select w-full px-1 py-0.5 text-[10px] bg-white  rounded text-[#202124]" ${!slot.enabled ? 'disabled' : ''}>
               <option value="left" ${slot.axis === 'left' ? 'selected' : ''}>Kiri</option>
               <option value="right" ${slot.axis === 'right' ? 'selected' : ''}>Kanan</option>
             </select>
@@ -425,7 +425,7 @@ export class CustomChartStudio {
       const unit = data ? data.unit : '';
       const transformLabel = slot.transformation !== 'RAW' ? ` (${slot.transformation})` : '';
       return `
-        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-[#DADCE0] bg-[#F8F9FA] text-[#202124]">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded  bg-[#F8F9FA] text-[#202124]">
           <span class="inline-block w-2.5 h-2.5 rounded" style="background-color: ${slot.color};"></span>
           <span class="font-bold">${name}${transformLabel}</span>
           <span class="text-[#5F6368] text-[10px]">[${unit}]</span>
@@ -451,7 +451,7 @@ export class CustomChartStudio {
     return `
       <div class="space-y-3">
         <!-- Driver Header -->
-        <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2 flex-wrap gap-2">
+        <div class="flex items-center justify-between  pb-2 flex-wrap gap-2">
           <div class="flex items-center gap-2">
             <span class="px-2.5 py-1 text-xs font-mono font-bold bg-[#202124] text-white rounded">
               TAHUN ${d.year}
@@ -469,12 +469,12 @@ export class CustomChartStudio {
         </div>
 
         <!-- Macro Context Summary -->
-        <div class="bg-[#F8F9FA] p-3 rounded border border-[#DADCE0] text-xs font-sans text-[#3C4043] leading-relaxed">
+        <div class="bg-[#F8F9FA] p-3 rounded  text-xs font-sans text-[#3C4043] leading-relaxed">
           <strong>Konteks Makro & Kebijakan Fiskal TA ${d.year}:</strong> ${macro.summary || 'Pelaksanaan APBN berjalan sesuai dengan kerangka makroekonomi dan undang-undang anggaran terkait.'}
           ${macro.tags && macro.tags.length ? `
             <div class="flex items-center gap-1 mt-2">
               <span class="text-[10.5px] font-mono text-[#5F6368]">Fokus:</span>
-              ${macro.tags.map(t => `<span class="text-[10px] font-mono bg-white border border-[#DADCE0] px-1.5 py-0.2 rounded text-[#5F6368]">${t}</span>`).join('')}
+              ${macro.tags.map(t => `<span class="text-[10px] font-mono bg-white  px-1.5 py-0.2 rounded text-[#5F6368]">${t}</span>`).join('')}
             </div>
           ` : ''}
         </div>
@@ -490,13 +490,13 @@ export class CustomChartStudio {
               const isUp = v.direction === 'NAIK';
               const isDown = v.direction === 'TURUN';
               const dirBadge = isUp 
-                ? `<span class="text-[#137333] bg-[#E6F4EA] border border-[#CEEAD6] px-1.5 py-0.2 rounded font-bold">▲ Naik +${v.yoy_change_percent}%</span>`
+                ? `<span class="text-[#137333] bg-[#E6F4EA]  px-1.5 py-0.2 rounded font-bold">▲ Naik +${v.yoy_change_percent}%</span>`
                 : isDown
                 ? `<span class="text-[#D93025] bg-[#FCE8E6] border border-[#FAD2CF] px-1.5 py-0.2 rounded font-bold">▼ Turun ${v.yoy_change_percent}%</span>`
                 : `<span class="text-[#5F6368] bg-[#F1F3F4] px-1.5 py-0.2 rounded font-bold">● Stabil</span>`;
 
               return `
-                <div class="p-3 bg-white rounded border border-[#DADCE0] space-y-1.5 flex flex-col justify-between">
+                <div class="p-3 bg-white rounded  space-y-1.5 flex flex-col justify-between">
                   <div>
                     <div class="flex items-start justify-between gap-2">
                       <span class="font-bold text-[#202124] text-[11.5px]">${v.name}</span>

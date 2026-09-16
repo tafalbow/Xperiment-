@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // CONTEXTUAL MAP COMPONENT (Connected to Chart Multi-Series & Hover Points)
 // Explanatory Regional Drivers ground-truthed from Official Publications
 // ==============================================================================
@@ -109,7 +109,7 @@ export class ContextualMap {
       const isSelected = selected && selected.id === d.id;
       return `
         <div 
-          class="btn-select-driver cursor-pointer p-3 rounded-md border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-xs' : 'bg-white border-[#F5C7B3] hover:bg-[#FFF8F5] hover:border-[#E89E82]'}"
+          class="btn-select-driver cursor-pointer p-3 rounded-md border transition-all ${isSelected ? 'bg-[#E8F0FE] border-[#1A73E8] ring-2 ring-[#D2E3FC] shadow-xs' : 'bg-white  hover:bg-[#FFF8F5] hover:border-[#E89E82]'}"
           data-driver-id="${d.id}"
           data-idx="${idx}"
           role="button"
@@ -136,7 +136,7 @@ export class ContextualMap {
               </div>
             </div>
             <div class="shrink-0 text-right">
-              <span class="text-[10.5px] font-mono font-bold px-1.5 py-0.5 rounded ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-white text-slate-800 border border-[#F5C7B3]'}">
+              <span class="text-[10.5px] font-mono font-bold px-1.5 py-0.5 rounded ${isSelected ? 'bg-[#1A73E8] text-white shadow-2xs' : 'bg-white text-slate-800 '}">
                 TA ${d.period}
               </span>
             </div>
@@ -189,7 +189,7 @@ export class ContextualMap {
         return `
           <button 
             type="button"
-            class="btn-focus-series cursor-pointer px-2.5 py-1 rounded text-[11px] font-mono flex items-center gap-1.5 border transition-all ${isActive ? 'bg-[#0038A8] text-white font-bold border-[#0038A8] shadow-xs ring-2 ring-[#BCD0F7]' : 'bg-white text-[#5D4037] border-[#F5C7B3] hover:bg-[#FCD5C0]'}"
+            class="btn-focus-series cursor-pointer px-2.5 py-1 rounded text-[11px] font-mono flex items-center gap-1.5 border transition-all ${isActive ? 'bg-[#0038A8] text-white font-bold border-[#0038A8] shadow-xs ring-2 ring-[#BCD0F7]' : 'bg-white text-[#5D4037]  hover:bg-[#FCD5C0]'}"
             data-idx="${i}"
             data-action="select"
             title="Pilih Penjelasan Geoekonomi untuk Variabel ${i + 1}: ${series.name || ''}"
@@ -202,7 +202,7 @@ export class ContextualMap {
         return `
           <button 
             type="button"
-            class="btn-focus-series cursor-pointer px-2 py-1 rounded text-[11px] font-mono flex items-center gap-1 border border-dashed border-[#F5C7B3] bg-white/80 text-[#5D4037] hover:bg-[#FCD5C0] hover:text-[#0038A8] hover:border-[#0038A8] transition-all"
+            class="btn-focus-series cursor-pointer px-2 py-1 rounded text-[11px] font-mono flex items-center gap-1 border border-dashed  bg-white/80 text-[#5D4037] hover:bg-[#FCD5C0] hover:text-[#0038A8] hover:border-[#0038A8] transition-all"
             data-idx="${i}"
             data-action="add"
             title="Klik untuk menambahkan dan menganalisis Variabel ${i + 1}"
@@ -217,7 +217,7 @@ export class ContextualMap {
     this.container.innerHTML = `
       <div class="gov-card p-4 space-y-3 flex flex-col justify-between overflow-hidden shadow-xs">
         <!-- Section Header -->
-        <div class="flex items-center justify-between border-b border-[#DADCE0] pb-2.5 flex-wrap gap-2 shrink-0">
+        <div class="flex items-center justify-between  pb-2.5 flex-wrap gap-2 shrink-0">
           <div>
             <div class="flex items-center gap-2">
               <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">INFORMASI PENDORONG KONTEKSTUAL (GIS CONTEXT)</span>
@@ -227,13 +227,13 @@ export class ContextualMap {
               Penjelasan pendorong geoekonomi resmi yang terhubung dengan variabel dan titik data grafik di sebelah kiri.
             </p>
           </div>
-          <span class="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded border border-[#DADCE0]">
+          <span class="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded ">
             Bukan Basis Data Provinsi
           </span>
         </div>
 
         <!-- 1. VARIABLE FOCUS SELECTOR (Var 1 / Var 2 / Var 3 Buttons - Peach Muda #FDE2D2) -->
-        <div class="flex items-center justify-between bg-[#FDE2D2] p-2 rounded border border-[#F5C7B3] text-xs font-mono flex-wrap gap-2 shrink-0">
+        <div class="flex items-center justify-between bg-[#FDE2D2] p-2 rounded  text-xs font-mono flex-wrap gap-2 shrink-0">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="text-[#3E2723] text-[10px] uppercase font-bold tracking-wider">Penjelas untuk:</span>
             <div class="flex items-center gap-1.5 flex-wrap" id="focus-series-container">
@@ -241,7 +241,7 @@ export class ContextualMap {
             </div>
           </div>
 
-          <div class="text-[10px] font-mono text-[#5D4037] flex items-center gap-1 bg-white px-2 py-0.5 rounded border border-[#F5C7B3]">
+          <div class="text-[10px] font-mono text-[#5D4037] flex items-center gap-1 bg-white px-2 py-0.5 rounded ">
             <span>📅</span>
             <span>Titik Aktif: <strong id="gis-active-period-badge" class="text-[#3E2723]">${this.focusedYear ? `TA ${this.focusedYear}` : 'Semua Periode'}</strong></span>
           </div>
@@ -251,8 +251,8 @@ export class ContextualMap {
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
           
           <!-- KOLOM KIRI: DAFTAR SENTRA PENDORONG (PEACH MUDA #FDE2D2) -->
-          <div class="lg:col-span-5 flex flex-col bg-[#FDE2D2] border border-[#F5C7B3] rounded p-3.5 space-y-3 h-full">
-            <div class="flex items-center justify-between border-b border-[#F5C7B3] pb-2 flex-wrap gap-1 shrink-0">
+          <div class="lg:col-span-5 flex flex-col bg-[#FDE2D2]  rounded p-3.5 space-y-3 h-full">
+            <div class="flex items-center justify-between  pb-2 flex-wrap gap-1 shrink-0">
               <div class="font-mono text-xs font-bold text-[#3E2723] flex items-center gap-1.5">
                 <span>📍</span>
                 <span>DAFTAR SENTRA PENDORONG (${hasDrivers ? `${this.drivers.length} Lokasi` : 'Cakupan Nasional'}):</span>
@@ -268,13 +268,13 @@ export class ContextualMap {
                 ${this.renderDriverNumberedListHtml(selected)}
               </div>
 
-              <div class="p-1.5 bg-white/80 rounded border border-[#F5C7B3] text-[9.5px] text-[#5D4037] font-mono text-center shrink-0">
+              <div class="p-1.5 bg-white/80 rounded  text-[9.5px] text-[#5D4037] font-mono text-center shrink-0">
                 * Terhubung langsung dengan titik pergerakan ${activeSeries ? activeSeries.name : 'indikator nasional'}.
               </div>
             ` : `
               <!-- Tampilan saat Tidak Ada Driver / Cakupan Nasional Agregat -->
               <div class="space-y-3 flex-1 flex flex-col justify-center p-2">
-                <div class="p-4 bg-white border border-[#F5C7B3] rounded-lg space-y-3 shadow-2xs">
+                <div class="p-4 bg-white  rounded-lg space-y-3 shadow-2xs">
                   <div class="flex items-center justify-between gap-2 flex-wrap">
                     <span class="px-2.5 py-1 rounded bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3] text-[11px] font-mono font-bold flex items-center gap-1">
                       <span>📍</span>
@@ -291,26 +291,26 @@ export class ContextualMap {
                     Variabel <strong class="text-slate-900 font-mono">${activeSeries ? activeSeries.name : 'ini'}</strong> merupakan indikator makroekonomi/fiskal yang berlaku secara agregat nasional untuk seluruh 38 provinsi di Indonesia, tanpa konsentrasi pendorong spasial atau anomali regional khusus pada publikasi resmi pemerintah.
                   </p>
 
-                  <div class="pt-2 border-t border-[#F5C7B3] flex items-center justify-between text-[10px] font-mono text-slate-600 flex-wrap gap-1">
+                  <div class="pt-2  flex items-center justify-between text-[10px] font-mono text-slate-600 flex-wrap gap-1">
                     <span>🏛️ Otoritas: BPS • Kemenkeu • Bank Indonesia</span>
                     <span class="font-bold text-[#1A73E8]">Sabang — Merauke</span>
                   </div>
                 </div>
               </div>
 
-              <div class="p-1.5 bg-white/80 rounded border border-[#F5C7B3] text-[9.5px] text-[#5D4037] font-mono text-center shrink-0">
+              <div class="p-1.5 bg-white/80 rounded  text-[9.5px] text-[#5D4037] font-mono text-center shrink-0">
                 * Menampilkan seluruh peta kepulauan Indonesia secara konsolidasi nasional.
               </div>
             `}
           </div>
 
           <!-- KOLOM KANAN: MAP AREA -->
-          <div class="lg:col-span-7 flex flex-col bg-slate-50 border border-[#DADCE0] rounded p-2.5 space-y-2 h-full min-h-[440px]">
+          <div class="lg:col-span-7 flex flex-col bg-slate-50  rounded p-2.5 space-y-2 h-full min-h-[440px]">
             <!-- Leaflet Container -->
-            <div id="gis-leaflet-container" class="w-full flex-1 min-h-[380px] rounded bg-slate-100 overflow-hidden relative z-0 border border-[#DADCE0]">
+            <div id="gis-leaflet-container" class="w-full flex-1 min-h-[380px] rounded bg-slate-100 overflow-hidden relative z-0 ">
               ${!hasDrivers ? `
                 <!-- Floating Overlay: Tidak Ada Daerah Spesifik -->
-                <div id="gis-no-specific-badge" class="absolute top-3 right-3 z-[1000] bg-white/95 backdrop-blur-xs border border-[#DADCE0] shadow-md rounded-lg p-2.5 max-w-[270px] pointer-events-auto">
+                <div id="gis-no-specific-badge" class="absolute top-3 right-3 z-[1000] bg-white/95 backdrop-blur-xs  shadow-md rounded-lg p-2.5 max-w-[270px] pointer-events-auto">
                   <div class="flex items-center gap-1.5 text-xs font-mono font-bold text-[#202124]">
                     <span class="w-2.5 h-2.5 rounded-full bg-[#E37400]"></span>
                     <span>Tidak Ada Daerah Spesifik</span>
@@ -328,7 +328,7 @@ export class ContextualMap {
             <!-- Map Controls Overlay -->
             <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 pt-1 px-1 shrink-0 flex-wrap gap-2">
               <div class="flex items-center gap-2">
-                <span class="inline-flex items-center gap-1 bg-white border border-[#DADCE0] px-2 py-0.5 rounded shadow-2xs text-[10px]">
+                <span class="inline-flex items-center gap-1 bg-white  px-2 py-0.5 rounded shadow-2xs text-[10px]">
                   <span class="w-2 h-2 rounded-full ${hasDrivers ? 'bg-[#1A73E8] animate-pulse' : 'bg-[#E37400]'}"></span>
                   <span id="gis-active-level">${hasDrivers ? (selected ? (selected.geo_level || 'Level Provinsi') : 'Nasional') : 'Seluruh Kepulauan Indonesia'}</span>
                 </span>

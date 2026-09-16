@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // VARIABLES INVENTORY & RELEASE SCHEDULE COMPONENT (Jadwal Update Tgl 8, 17, 28)
 // Pusat Basis Data Data Sekunder: Pergerakan Ekonomi Indonesia
 // ==============================================================================
@@ -86,12 +86,12 @@ export class VariablesInventory {
     this.container.innerHTML = `
       <div class="space-y-6">
         <!-- 1. OFFICIAL RELEASE SCHEDULE POLICY BANNER (Google Analytics Clean Style) -->
-        <div class="gov-card p-5 bg-white border border-[#DADCE0] rounded-lg shadow-sm text-[#202124]">
+        <div class="gov-card p-5 bg-white  rounded-lg shadow-sm text-[#202124]">
           <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
             <div class="space-y-2.5 max-w-3xl">
               <!-- Highlight Badges (Google Clean Tints) -->
               <div class="flex items-center gap-2 flex-wrap">
-                <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide flex items-center gap-1.5 bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+                <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide flex items-center gap-1.5 bg-[#E6F4EA] text-[#137333] ">
                   <span class="w-2 h-2 rounded-full bg-[#1E8E3E] animate-pulse"></span>
                   Siklus Pembaruan: Tanggal 8, 17, dan 28 Setiap Bulan
                 </span>
@@ -113,7 +113,7 @@ export class VariablesInventory {
             </div>
 
             <!-- Next Scheduled Release Box (Clean Google Surface) -->
-            <div class="p-4 rounded-lg text-right shrink-0 w-full lg:w-72 shadow-sm bg-[#F8F9FA] border border-[#DADCE0]">
+            <div class="p-4 rounded-lg text-right shrink-0 w-full lg:w-72 shadow-sm bg-[#F8F9FA] ">
               <div class="text-[10px] font-mono uppercase font-bold text-[#5F6368] tracking-wider">
                 JADWAL RILIS TERDEKAT:
               </div>
@@ -123,7 +123,7 @@ export class VariablesInventory {
               <div class="text-xs font-mono font-medium mt-1 text-[#1A73E8]">
                 ${policy.next_focus_sector || 'Sektor Makroekonomi & PDB'}
               </div>
-              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md mt-2.5 font-mono text-[11px] font-medium bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md mt-2.5 font-mono text-[11px] font-medium bg-[#E6F4EA] text-[#137333] ">
                 <span>⏳</span>
                 <span>Hitung Mundur: <strong class="font-bold">${policy.days_until_next_release || 1} Hari Lagi</strong></span>
               </div>
@@ -134,7 +134,7 @@ export class VariablesInventory {
         <!-- 2. SUMMARY METRIC CARDS GRID (Google Analytics Color Tone) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Total Variables Card -->
-          <div class="gov-card p-4 flex flex-col justify-between border border-[#DADCE0] border-l-4 border-l-[#1A73E8] bg-white rounded-lg shadow-sm">
+          <div class="gov-card p-4 flex flex-col justify-between  border-l-4 border-l-[#1A73E8] bg-white rounded-lg shadow-sm">
             <div class="flex items-center justify-between text-[#5F6368] text-xs font-mono">
               <span class="font-bold">TOTAL VARIABEL RESMI</span>
               <span class="text-base">📊</span>
@@ -146,7 +146,7 @@ export class VariablesInventory {
           </div>
 
           <!-- Batch Tgl 8 Card -->
-          <div class="gov-card p-4 flex flex-col justify-between border border-[#DADCE0] border-l-4 border-l-[#1E8E3E] bg-white rounded-lg shadow-sm">
+          <div class="gov-card p-4 flex flex-col justify-between  border-l-4 border-l-[#1E8E3E] bg-white rounded-lg shadow-sm">
             <div class="flex items-center justify-between text-[#5F6368] text-xs font-mono">
               <span class="font-bold">RILIS TANGGAL 8</span>
               <span class="text-base">🏦</span>
@@ -158,7 +158,7 @@ export class VariablesInventory {
           </div>
 
           <!-- Batch Tgl 17 Card -->
-          <div class="gov-card p-4 flex flex-col justify-between border border-[#DADCE0] border-l-4 border-l-[#1A73E8] bg-white rounded-lg shadow-sm">
+          <div class="gov-card p-4 flex flex-col justify-between  border-l-4 border-l-[#1A73E8] bg-white rounded-lg shadow-sm">
             <div class="flex items-center justify-between text-[#5F6368] text-xs font-mono">
               <span class="font-bold">RILIS TANGGAL 17</span>
               <span class="text-base">🏛️</span>
@@ -170,7 +170,7 @@ export class VariablesInventory {
           </div>
 
           <!-- Batch Tgl 28 Card -->
-          <div class="gov-card p-4 flex flex-col justify-between border border-[#DADCE0] border-l-4 border-l-[#E37400] bg-white rounded-lg shadow-sm">
+          <div class="gov-card p-4 flex flex-col justify-between  border-l-4 border-l-[#E37400] bg-white rounded-lg shadow-sm">
             <div class="flex items-center justify-between text-[#5F6368] text-xs font-mono">
               <span class="font-bold">RILIS TANGGAL 28</span>
               <span class="text-base">📈</span>
@@ -183,7 +183,7 @@ export class VariablesInventory {
         </div>
 
         <!-- 3. SEARCH & FILTER TOOLBAR (Google Analytics Design System) -->
-        <div class="gov-card p-4 space-y-3 bg-white border border-[#DADCE0] rounded-lg shadow-sm">
+        <div class="gov-card p-4 space-y-3 bg-white  rounded-lg shadow-sm">
           <div class="flex flex-col md:flex-row items-center justify-between gap-3">
             <!-- Search Box -->
             <div class="relative w-full md:w-96">
@@ -193,7 +193,7 @@ export class VariablesInventory {
               <input 
                 type="text" 
                 id="inventory-search-input" 
-                class="gov-input pl-8 w-full text-xs font-mono border-[#DADCE0] focus:border-[#1A73E8]" 
+                class="gov-input pl-8 w-full text-xs font-mono  focus:border-[#1A73E8]" 
                 placeholder="Cari nama variabel, kode VAR_..., sektor, atau dokumen..."
                 value="${this.currentSearchKeyword}"
               />
@@ -208,7 +208,7 @@ export class VariablesInventory {
           <!-- Quick Filter Buttons (Google Chips) -->
           <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-mono scrollbar-thin">
             <span class="text-[#5F6368] uppercase text-[10px] font-bold shrink-0">Filter Rilis:</span>
-            <button class="btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'ALL' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="ALL">
+            <button class="btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'ALL' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8] shadow-2xs' : 'bg-[#F8F9FA] text-[#5F6368]  hover:bg-[#F1F3F4]'}" data-cat="ALL">
               Semua (${stats.total_variables || 47})
             </button>
             <button class="btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border ${this.activeFilterCategory === 'TGL_8' ? 'bg-[#E6F4EA] text-[#137333] font-bold border-[#1E8E3E]' : 'bg-white text-[#137333] border-[#CEEAD6] hover:bg-[#E6F4EA]'}" data-cat="TGL_8">
@@ -223,15 +223,15 @@ export class VariablesInventory {
             
             <span class="text-[#DADCE0] shrink-0">|</span>
             <span class="text-[#5F6368] uppercase text-[10px] font-bold shrink-0">Level:</span>
-            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_1' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="LVL_1">Lvl 1 (Sektor)</button>
-            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_2' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="LVL_2">Lvl 2 (Kategori)</button>
-            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_3' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="LVL_3">Lvl 3 (Jenis)</button>
-            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_4' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]'}" data-cat="LVL_4">Lvl 4 (Rincian)</button>
+            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_1' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368]  hover:bg-[#F1F3F4]'}" data-cat="LVL_1">Lvl 1 (Sektor)</button>
+            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_2' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368]  hover:bg-[#F1F3F4]'}" data-cat="LVL_2">Lvl 2 (Kategori)</button>
+            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_3' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368]  hover:bg-[#F1F3F4]'}" data-cat="LVL_3">Lvl 3 (Jenis)</button>
+            <button class="btn-inv-filter px-2 py-0.5 rounded-md text-[11px] transition-all shrink-0 border ${this.activeFilterCategory === 'LVL_4' ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold border-[#1A73E8]' : 'bg-[#F8F9FA] text-[#5F6368]  hover:bg-[#F1F3F4]'}" data-cat="LVL_4">Lvl 4 (Rincian)</button>
           </div>
         </div>
 
         <!-- 4. DETAILED VARIABLES INVENTORY DATA TABLE CONTAINER -->
-        <div class="gov-card overflow-hidden bg-white shadow-sm border border-[#DADCE0] rounded-lg" id="inventory-table-container">
+        <div class="gov-card overflow-hidden bg-white shadow-sm  rounded-lg" id="inventory-table-container">
           ${this.getTableHtml()}
         </div>
       </div>
@@ -254,7 +254,7 @@ export class VariablesInventory {
       <div class="overflow-x-auto">
         <table class="gov-table w-full text-left text-xs font-mono">
           <thead>
-            <tr class="bg-[#F8F9FA] border-b border-[#DADCE0] text-[#5F6368] uppercase tracking-wider text-[10px]">
+            <tr class="bg-[#F8F9FA]  text-[#5F6368] uppercase tracking-wider text-[10px]">
               <th class="py-3 px-3 w-12 text-center font-bold">No</th>
               <th class="py-3 px-3 font-bold">Kode & Nama Variabel</th>
               <th class="py-3 px-3 font-bold">Klasifikasi & Level</th>
@@ -367,7 +367,7 @@ export class VariablesInventory {
                       </button>
                       <button 
                         type="button" 
-                        class="btn-view-inv-meta px-2 py-1 bg-white hover:bg-[#F1F3F4] text-[#5F6368] border border-[#DADCE0] rounded-md text-[10.5px] font-medium shadow-2xs transition-all"
+                        class="btn-view-inv-meta px-2 py-1 bg-white hover:bg-[#F1F3F4] text-[#5F6368]  rounded-md text-[10.5px] font-medium shadow-2xs transition-all"
                         data-ind-id="${v.indicator_id}"
                         title="Lihat 24 Atribut Kamus Metadata Resmi"
                       >
@@ -412,7 +412,7 @@ export class VariablesInventory {
 
         // Update active style to Google Analytics palette
         filterBtns.forEach(b => {
-          b.className = 'btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border bg-[#F8F9FA] text-[#5F6368] border-[#DADCE0] hover:bg-[#F1F3F4]';
+          b.className = 'btn-inv-filter px-2.5 py-1 rounded-md text-xs transition-all shrink-0 border bg-[#F8F9FA] text-[#5F6368]  hover:bg-[#F1F3F4]';
         });
 
         if (cat === 'ALL') {

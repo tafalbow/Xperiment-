@@ -516,7 +516,7 @@ export class AdminView {
               <span class="text-[10.5px] font-mono text-slate-500 uppercase">Ekspor Audit Log</span>
               <div class="text-xs font-mono font-bold text-slate-800">Arsip Resmi Dewan Ekonomi Nasional</div>
             </div>
-            <button id="btn-admin-export-audit" class="gov-btn gov-btn-primary text-xs font-semibold px-3 py-1.5 shadow-sm">
+            <button id="btn-admin-export-audit" class="gov-btn bg-[#0038A8] hover:bg-[#002B82] text-white text-xs font-bold px-3 py-1.5 shadow-sm cursor-pointer transition-all">
               <span>📥</span>
               <span>Unduh Log (.xlsx)</span>
             </button>

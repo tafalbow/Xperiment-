@@ -1,4 +1,4 @@
-// ==============================================================================
+﻿// ==============================================================================
 // WEEKLY HIGH-FREQUENCY DATA OBSERVATORY (2014 – 2026)
 // Kompilasi Data Mingguan Resmi Kementerian & Lembaga Republik Indonesia:
 // 1. Bank Indonesia (BI): ITEMs — Indikator Terpilih Moneter & Sistem Pembayaran
@@ -96,7 +96,7 @@ export class WeeklyView {
       <div class="space-y-4 font-sans">
         
         <!-- 1. HEADER BANNER & ACTION TOOLBAR -->
-        <div class="gov-card p-5 bg-white border border-[#DADCE0] shadow-2xs space-y-4">
+        <div class="gov-card p-5 bg-white  shadow-2xs space-y-4">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="space-y-1">
               <div class="flex items-center gap-2 flex-wrap">
@@ -106,7 +106,7 @@ export class WeeklyView {
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
                   Tracking 13 Tahun (2014 – 2026)
                 </span>
-                <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]">
+                <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E6F4EA] text-[#137333] ">
                   4 Kementerian & Lembaga
                 </span>
               </div>
@@ -124,7 +124,7 @@ export class WeeklyView {
             <div class="flex items-center gap-2 flex-wrap shrink-0">
               <button 
                 id="btn-weekly-export-excel"
-                class="px-3 py-1.5 text-xs font-mono font-medium rounded border border-[#34A853] bg-[#E6F4EA] hover:bg-[#CEEAD6] text-[#137333] flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                class="px-3 py-1.5 text-xs font-mono font-bold rounded bg-[#0038A8] hover:bg-[#002B82] text-white flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
                 title="Unduh data tabel dalam format Excel (.xlsx)"
               >
                 <span>📥</span>
@@ -133,7 +133,7 @@ export class WeeklyView {
 
               <button 
                 id="btn-weekly-export-csv"
-                class="px-3 py-1.5 text-xs font-mono font-medium rounded border border-[#DADCE0] bg-white hover:bg-[#F8F9FA] text-[#3C4043] flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                class="px-3 py-1.5 text-xs font-mono font-medium rounded bg-[#002B82] hover:bg-[#001D5A] text-white flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
                 title="Unduh data tabel dalam format CSV"
               >
                 <span>📄</span>
@@ -142,7 +142,7 @@ export class WeeklyView {
 
               <button 
                 id="btn-weekly-refresh"
-                class="p-1.5 text-xs rounded border border-[#DADCE0] bg-white hover:bg-[#F8F9FA] text-[#5F6368] cursor-pointer"
+                class="p-1.5 text-xs rounded  bg-white hover:bg-[#F8F9FA] text-[#5F6368] cursor-pointer"
                 title="Muat Ulang"
               >
                 🔄
@@ -151,7 +151,7 @@ export class WeeklyView {
           </div>
 
           <!-- 2. FILTER CONTROLS BAR (Peach Muda #FDE2D2) -->
-          <div class="p-3.5 bg-[#FDE2D2] border border-[#F5C7B3] rounded-lg space-y-3">
+          <div class="p-3.5 bg-[#FDE2D2]  rounded-lg space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
               
               <!-- Institution Selector (4 cols) -->
@@ -159,7 +159,7 @@ export class WeeklyView {
                 <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
                   1. Lembaga / Sumber Data
                 </label>
-                <select id="sel-weekly-inst" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
+                <select id="sel-weekly-inst" class="w-full text-xs font-sans px-2.5 py-1.5 rounded  bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
                   ${this.institutions.map(inst => `
                     <option value="${inst.id}" ${inst.id === this.institutionId ? 'selected' : ''}>
                       ${inst.short_name} ${inst.frequency ? `(${inst.frequency})` : ''}
@@ -176,13 +176,13 @@ export class WeeklyView {
                 <div class="flex items-center gap-1.5">
                   <button 
                     id="btn-mode-annual" 
-                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'annual' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : 'border-[#F5C7B3] bg-white text-[#5D4037] hover:bg-[#FCD5C0]'} cursor-pointer transition-all text-center"
+                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'annual' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-white text-[#5D4037] hover:bg-[#FCD5C0]'} cursor-pointer transition-all text-center"
                   >
                     📅 13 Thn (2014–2026)
                   </button>
                   <button 
                     id="btn-mode-weekly" 
-                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'weekly' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : 'border-[#F5C7B3] bg-white text-[#5D4037] hover:bg-[#FCD5C0]'} cursor-pointer transition-all text-center"
+                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'weekly' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-white text-[#5D4037] hover:bg-[#FCD5C0]'} cursor-pointer transition-all text-center"
                   >
                     ⏱️ 52 Minggu (Per Tahun)
                   </button>
@@ -194,7 +194,7 @@ export class WeeklyView {
                 <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
                   3. Tahun Observasi
                 </label>
-                <select id="sel-weekly-year" class="w-full text-xs font-mono px-2 py-1.5 rounded border border-[#F5C7B3] bg-white text-[#202124] ${this.viewMode === 'annual' ? 'opacity-50 cursor-not-allowed' : ''}" ${this.viewMode === 'annual' ? 'disabled' : ''}>
+                <select id="sel-weekly-year" class="w-full text-xs font-mono px-2 py-1.5 rounded  bg-white text-[#202124] ${this.viewMode === 'annual' ? 'opacity-50 cursor-not-allowed' : ''}" ${this.viewMode === 'annual' ? 'disabled' : ''}>
                   ${Array.from({ length: 13 }, (_, i) => 2026 - i).map(y => `
                     <option value="${y}" ${y === this.year ? 'selected' : ''}>${y}</option>
                   `).join('')}
@@ -212,7 +212,7 @@ export class WeeklyView {
                     id="input-weekly-search" 
                     value="${this.searchKeyword}" 
                     placeholder="Misal: RTGS, M0, Beras, IHSG, SBN..."
-                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded border border-[#F5C7B3] bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
+                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded  bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
                   />
                   <span class="absolute left-2.5 top-2 text-[11px] text-[#7D655C]">🔍</span>
                   ${this.searchKeyword ? `
@@ -224,58 +224,58 @@ export class WeeklyView {
             </div>
 
             <!-- Quick Preset Badges for 4 Institutions -->
-            <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono border-t border-[#F5C7B3]">
+            <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono ">
               <span class="text-[#3E2723] font-bold">Pilihan Cepat Lembaga:</span>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'ALL' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : 'border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="ALL">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'ALL' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="ALL">
                 🌐 Semua Lembaga (29 Indikator)
               </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BI' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : 'border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="BI">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BI' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="BI">
                 🏛️ Bank Indonesia (ITEMs Moneter & RTGS)
               </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'DJPB' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : 'border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="DJPB">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'DJPB' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="DJPB">
                 💰 Kemenkeu DJPb (Kinerja APBN & SBN)
               </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'OJK' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : 'border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="OJK">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'OJK' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="OJK">
                 📈 OJK (Pasar Modal & IHSG)
               </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BAPANAS' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : 'border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="BAPANAS">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BAPANAS' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="BAPANAS">
                 🌾 Bapanas (Harga Pangan Strategis)
               </button>
             </div>
           </div>
 
         <!-- 3. MAIN DATA TABLE MATRIKS (Google Analytics & Financial Terminal Style) -->
-        <div class="gov-card bg-white border border-[#DADCE0] rounded-lg shadow-2xs overflow-hidden">
+        <div class="gov-card bg-white  rounded-lg shadow-2xs overflow-hidden">
           <div class="overflow-x-auto max-h-[640px] relative scrollbar-thin">
             <table class="w-full text-xs text-left border-collapse">
               
               <!-- Sticky Table Header -->
               <thead class="bg-[#F1F3F4] text-[#202124] font-mono text-[11px] sticky top-0 z-30 shadow-xs">
-                <tr class="border-b border-[#DADCE0]">
+                <tr class="">
                   <!-- Sticky Column 1: Kode -->
-                  <th scope="col" class="py-2.5 px-3 font-bold text-center border-r border-[#DADCE0] sticky left-0 bg-[#F1F3F4] z-40 min-w-[90px]">
+                  <th scope="col" class="py-2.5 px-3 font-bold text-center  sticky left-0 bg-[#F1F3F4] z-40 min-w-[90px]">
                     KODE
                   </th>
                   <!-- Sticky Column 2: Indikator -->
-                  <th scope="col" class="py-2.5 px-3 font-bold border-r border-[#DADCE0] sticky left-[90px] bg-[#F1F3F4] z-40 min-w-[280px]">
+                  <th scope="col" class="py-2.5 px-3 font-bold  sticky left-[90px] bg-[#F1F3F4] z-40 min-w-[280px]">
                     NAMA INDIKATOR MINGGUAN
                   </th>
                   <!-- Sticky Column 3: Lembaga -->
-                  <th scope="col" class="py-2.5 px-3 font-bold border-r border-[#DADCE0] sticky left-[370px] bg-[#F1F3F4] z-40 min-w-[150px]">
+                  <th scope="col" class="py-2.5 px-3 font-bold  sticky left-[370px] bg-[#F1F3F4] z-40 min-w-[150px]">
                     LEMBAGA
                   </th>
                   <!-- Sticky Column 4: Satuan -->
-                  <th scope="col" class="py-2.5 px-2 font-bold text-center border-r border-[#DADCE0] sticky left-[520px] bg-[#F1F3F4] z-40 min-w-[90px]">
+                  <th scope="col" class="py-2.5 px-2 font-bold text-center  sticky left-[520px] bg-[#F1F3F4] z-40 min-w-[90px]">
                     SATUAN
                   </th>
                   <!-- Sticky Column 5: Aksi Tren -->
-                  <th scope="col" class="py-2.5 px-2 font-bold text-center border-r border-[#DADCE0] sticky left-[610px] bg-[#F1F3F4] z-40 min-w-[70px]">
+                  <th scope="col" class="py-2.5 px-2 font-bold text-center  sticky left-[610px] bg-[#F1F3F4] z-40 min-w-[70px]">
                     TREN
                   </th>
 
                   <!-- Dynamic Columns (Years or Weeks) -->
                   ${cols.map(c => `
-                    <th scope="col" class="py-2 px-3 text-right font-mono border-r border-[#DADCE0] min-w-[100px]">
+                    <th scope="col" class="py-2 px-3 text-right font-mono  min-w-[100px]">
                       <div class="font-bold text-xs text-[#202124]">${c.label}</div>
                       <div class="text-[9px] font-normal text-[#5F6368] truncate">${c.sublabel}</div>
                     </th>
@@ -298,7 +298,7 @@ export class WeeklyView {
           </div>
 
           <!-- Table Footer Strip -->
-          <div class="p-3 bg-[#F8F9FA] border-t border-[#DADCE0] flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#5F6368] gap-2">
+          <div class="p-3 bg-[#F8F9FA]  flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#5F6368] gap-2">
             <div>
               Sumber Resmi: 
               <a href="https://www.bi.go.id/id/statistik/ekonomi-keuangan/items/default.aspx" target="_blank" class="text-[#1A73E8] hover:underline">BI ITEMs</a> • 
@@ -325,12 +325,12 @@ export class WeeklyView {
     return `
       <tr class="hover:bg-[#F8F9FA] cursor-pointer transition-colors group weekly-table-row" data-ind-id="${row.id}">
         <!-- Sticky Col 1: Kode -->
-        <td class="py-2 px-3 text-center font-bold text-[#5F6368] group-hover:text-[#1A73E8] border-r border-[#DADCE0] sticky left-0 bg-white group-hover:bg-[#F8F9FA] z-20">
+        <td class="py-2 px-3 text-center font-bold text-[#5F6368] group-hover:text-[#1A73E8]  sticky left-0 bg-white group-hover:bg-[#F8F9FA] z-20">
           ${row.code}
         </td>
 
         <!-- Sticky Col 2: Nama Indikator -->
-        <td class="py-2 px-3 border-r border-[#DADCE0] sticky left-[90px] bg-white group-hover:bg-[#F8F9FA] z-20">
+        <td class="py-2 px-3  sticky left-[90px] bg-white group-hover:bg-[#F8F9FA] z-20">
           <div class="font-bold text-[#202124] group-hover:text-[#1A73E8] transition-colors">
             ${row.name}
           </div>
@@ -340,19 +340,19 @@ export class WeeklyView {
         </td>
 
         <!-- Sticky Col 3: Lembaga -->
-        <td class="py-2 px-3 border-r border-[#DADCE0] sticky left-[370px] bg-white group-hover:bg-[#F8F9FA] z-20">
-          <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium ${row.institution_id === 'BI' ? 'bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]' : (row.institution_id === 'DJPB' ? 'bg-[#E6F4EA] text-[#137333] border border-[#CEEAD6]' : (row.institution_id === 'OJK' ? 'bg-[#FCE8E6] text-[#C5221F] border border-[#FAD2CF]' : 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]'))}">
+        <td class="py-2 px-3  sticky left-[370px] bg-white group-hover:bg-[#F8F9FA] z-20">
+          <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium ${row.institution_id === 'BI' ? 'bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]' : (row.institution_id === 'DJPB' ? 'bg-[#E6F4EA] text-[#137333] ' : (row.institution_id === 'OJK' ? 'bg-[#FCE8E6] text-[#C5221F] border border-[#FAD2CF]' : 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]'))}">
             ${row.institution_name}
           </span>
         </td>
 
         <!-- Sticky Col 4: Satuan -->
-        <td class="py-2 px-2 text-center text-[#5F6368] text-[11px] border-r border-[#DADCE0] sticky left-[520px] bg-white group-hover:bg-[#F8F9FA] z-20">
+        <td class="py-2 px-2 text-center text-[#5F6368] text-[11px]  sticky left-[520px] bg-white group-hover:bg-[#F8F9FA] z-20">
           ${row.unit_short}
         </td>
 
         <!-- Sticky Col 5: Aksi Grafik -->
-        <td class="py-2 px-2 text-center border-r border-[#DADCE0] sticky left-[610px] bg-white group-hover:bg-[#F8F9FA] z-20">
+        <td class="py-2 px-2 text-center  sticky left-[610px] bg-white group-hover:bg-[#F8F9FA] z-20">
           <button class="btn-view-weekly-trend px-2 py-0.5 rounded text-[10.5px] bg-[#E8F0FE] text-[#1A73E8] hover:bg-[#1A73E8] hover:text-white transition-colors cursor-pointer" title="Lihat Grafik Tren Mingguan">
             📈 Tren
           </button>
@@ -512,7 +512,7 @@ export class WeeklyView {
         <div class="gov-modal-content max-w-4xl w-full bg-white rounded-lg shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
           
           <!-- Modal Header -->
-          <div class="px-6 py-4 bg-[#F8F9FA] border-b border-[#DADCE0] flex items-center justify-between">
+          <div class="px-6 py-4 bg-[#F8F9FA]  flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="flex items-center gap-2">
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#1A73E8]">
@@ -536,7 +536,7 @@ export class WeeklyView {
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 font-mono">
               
               <!-- Kotak 1: Nilai Terkini -->
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
+              <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1">
                 <div class="text-[10px] text-[#5F6368] uppercase font-bold">Nilai Terkini</div>
                 <div class="text-base font-bold text-[#1A73E8]">
                   ${Number(stats.latest_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
@@ -545,7 +545,7 @@ export class WeeklyView {
               </div>
 
               <!-- Kotak 2: Average L3Months -->
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
+              <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1">
                 <div class="text-[10px] text-[#5F6368] uppercase font-bold">Average L3Months</div>
                 <div class="text-base font-bold text-[#202124]">
                   ${Number(stats.average_l3m).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
@@ -554,7 +554,7 @@ export class WeeklyView {
               </div>
 
               <!-- Kotak 3: Max L12W -->
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
+              <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1">
                 <div class="text-[10px] text-[#5F6368] uppercase font-bold">Max L12W</div>
                 <div class="text-base font-bold text-[#D93025]">
                   ${Number(stats.max_l12w).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
@@ -563,7 +563,7 @@ export class WeeklyView {
               </div>
 
               <!-- Kotak 4: Min L12W -->
-              <div class="bg-[#F8F9FA] p-3 rounded-lg border border-[#DADCE0] space-y-1">
+              <div class="bg-[#F8F9FA] p-3 rounded-lg  space-y-1">
                 <div class="text-[10px] text-[#5F6368] uppercase font-bold">Min L12W</div>
                 <div class="text-base font-bold text-[#1E8E3E]">
                   ${Number(stats.min_l12w).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
@@ -572,7 +572,7 @@ export class WeeklyView {
               </div>
 
               <!-- Kotak 5: 3 Info (WoW, MoM, YoY) -->
-              <div class="bg-[#F8F9FA] p-2.5 rounded-lg border border-[#DADCE0] flex flex-col justify-between space-y-1">
+              <div class="bg-[#F8F9FA] p-2.5 rounded-lg  flex flex-col justify-between space-y-1">
                 <div class="text-[9px] text-[#5F6368] uppercase font-bold border-b border-[#E8EAED] pb-0.5">Momentum Pertumbuhan</div>
                 <div class="space-y-0.5 text-[10px]">
                   <div class="flex items-center justify-between">
@@ -599,7 +599,7 @@ export class WeeklyView {
             </div>
 
             <!-- Historical Canvas Chart with Legend -->
-            <div class="bg-white p-4 rounded-lg border border-[#DADCE0] space-y-2">
+            <div class="bg-white p-4 rounded-lg  space-y-2">
               <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
                 <div class="flex items-center gap-3">
                   <div class="font-bold text-[#202124] flex items-center gap-1.5">
@@ -608,7 +608,7 @@ export class WeeklyView {
                   </div>
                   <!-- Visual Legend -->
                   <div class="flex items-center gap-2 text-[10.5px]">
-                    <div class="flex items-center gap-1.5 bg-[#F1F3F4] px-2 py-0.5 rounded border border-[#DADCE0]">
+                    <div class="flex items-center gap-1.5 bg-[#F1F3F4] px-2 py-0.5 rounded ">
                       <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#1A73E8]"></span>
                       <span class="text-[#202124] font-medium">Nilai Mingguan</span>
                     </div>
@@ -663,9 +663,9 @@ export class WeeklyView {
                 </span>
               </div>
               
-              <div class="overflow-x-auto max-h-[220px] rounded border border-[#DADCE0] scrollbar-thin">
+              <div class="overflow-x-auto max-h-[220px] rounded  scrollbar-thin">
                 <table class="w-full text-xs text-left border-collapse font-mono">
-                  <thead class="bg-[#F1F3F4] text-[#202124] sticky top-0 border-b border-[#DADCE0]">
+                  <thead class="bg-[#F1F3F4] text-[#202124] sticky top-0 ">
                     <tr>
                       <th class="py-1.5 px-3">PEKAN / PERIODE</th>
                       <th class="py-1.5 px-3 text-right">NILAI (${ind.unit_short})</th>
@@ -710,11 +710,11 @@ export class WeeklyView {
           </div>
 
           <!-- Modal Footer -->
-          <div class="px-6 py-3 bg-[#F8F9FA] border-t border-[#DADCE0] flex items-center justify-between">
+          <div class="px-6 py-3 bg-[#F8F9FA]  flex items-center justify-between">
             <span class="text-[11px] font-mono text-[#5F6368]">
               Diseminasi Resmi: Sesuai Siklus Kalender Rilis Lembaga 2026
             </span>
-            <button id="btn-close-weekly-footer" class="px-4 py-1.5 rounded text-xs font-mono font-medium border border-[#DADCE0] bg-white hover:bg-[#F1F3F4] text-[#202124] cursor-pointer">
+            <button id="btn-close-weekly-footer" class="px-4 py-1.5 rounded text-xs font-mono font-medium  bg-white hover:bg-[#F1F3F4] text-[#202124] cursor-pointer">
               Tutup
             </button>
           </div>

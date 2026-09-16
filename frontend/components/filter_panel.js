@@ -96,9 +96,9 @@ export class FilterPanel {
     );
 
     this.container.innerHTML = `
-      <div class="gov-card p-3.5 space-y-2.5 bg-[#FDE2D2] border border-[#F5C7B3] rounded-lg shadow-sm">
+      <div class="p-3.5 space-y-2.5 bg-[#FDE2D2] rounded-lg shadow-sm">
         <!-- Panel Header -->
-        <div class="flex items-center justify-between border-b border-[#F5C7B3] pb-2">
+        <div class="flex items-center justify-between pb-1.5">
           <div class="flex items-center gap-1.5">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#3E2723] flex items-center gap-1.5">
               <span>🎛️</span>
@@ -107,7 +107,7 @@ export class FilterPanel {
           </div>
           <button 
             id="btn-reset-filter" 
-            class="gov-btn gov-btn-sm text-[10.5px] py-0.5 px-2 text-[#5D4037] hover:text-[#3E2723] border-[#F5C7B3] bg-white hover:bg-[#FCD5C0] flex items-center gap-1 shadow-2xs transition-colors cursor-pointer" 
+            class="gov-btn gov-btn-sm text-[10.5px] py-0.5 px-2 text-[#5D4037] hover:text-[#3E2723] bg-white hover:bg-[#FCD5C0] flex items-center gap-1 shadow-2xs transition-colors cursor-pointer" 
             title="Reset Semua Filter ke Pengaturan Awal"
           >
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -122,7 +122,7 @@ export class FilterPanel {
             <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
               1. Sektor / Kegiatan Utama
             </label>
-            <select id="filter-sector" class="gov-select w-full text-xs font-mono py-1 bg-white border border-[#F5C7B3] text-[#202124]">
+            <select id="filter-sector" class="gov-select w-full text-xs font-mono py-1 bg-white border border-slate-200 text-[#202124]">
               <option value="">-- Semua Sektor / Kegiatan --</option>
               ${sectors.map(s => `<option value="${s}" ${this.state.sector === s ? 'selected' : ''}>${s}</option>`).join('')}
             </select>
@@ -133,7 +133,7 @@ export class FilterPanel {
             <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
               2. Kategori / Kelompok Akun
             </label>
-            <select id="filter-category" class="gov-select w-full text-xs font-mono py-1 bg-white border border-[#F5C7B3] text-[#202124]" ${categories.length === 0 ? 'disabled' : ''}>
+            <select id="filter-category" class="gov-select w-full text-xs font-mono py-1 bg-white border border-slate-200 text-[#202124]" ${categories.length === 0 ? 'disabled' : ''}>
               <option value="">-- Semua Kategori / Kelompok --</option>
               ${categories.map(c => `<option value="${c}" ${this.state.category === c ? 'selected' : ''}>${c}</option>`).join('')}
             </select>
@@ -144,7 +144,7 @@ export class FilterPanel {
             <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
               3. Sub-Kategori / Jenis Pos
             </label>
-            <select id="filter-subcategory" class="gov-select w-full text-xs font-mono py-1 bg-white border border-[#F5C7B3] text-[#202124]" ${subcategories.length === 0 ? 'disabled' : ''}>
+            <select id="filter-subcategory" class="gov-select w-full text-xs font-mono py-1 bg-white border border-slate-200 text-[#202124]" ${subcategories.length === 0 ? 'disabled' : ''}>
               <option value="">-- Semua Sub-Kategori --</option>
               ${subcategories.map(sc => `<option value="${sc}" ${this.state.subcategory === sc ? 'selected' : ''}>${sc}</option>`).join('')}
             </select>
@@ -155,7 +155,7 @@ export class FilterPanel {
             <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
               4. Indikator Spesifik (${uniqueIndicators.length} Pilihan)
             </label>
-            <select id="filter-indicator" class="gov-select w-full text-xs font-mono py-1 font-bold bg-white border border-[#F5C7B3] text-[#202124]">
+            <select id="filter-indicator" class="gov-select w-full text-xs font-mono py-1 font-bold bg-white border border-slate-200 text-[#202124]">
               <option value="">-- Pilih Indikator Spesifik --</option>
               ${uniqueIndicators.map(i => `<option value="${i.id}" ${this.state.indicator_id === i.id ? 'selected' : ''}>${i.name} (${i.unit})</option>`).join('')}
             </select>
@@ -163,44 +163,44 @@ export class FilterPanel {
         </div>
 
         <!-- Filter Sumber Data Resmi -->
-        <div class="pt-1.5 border-t border-[#F5C7B3]">
+        <div class="pt-1.5">
           <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
             Sumber Data Statutori:
           </label>
-          <select id="filter-source" class="gov-select w-full text-xs font-mono py-1 bg-white border border-[#F5C7B3] text-[#202124]">
+          <select id="filter-source" class="gov-select w-full text-xs font-mono py-1 bg-white border border-slate-200 text-[#202124]">
             <option value="">-- Seluruh Lembaga Pemerintah --</option>
             ${this.sources.map(s => `<option value="${s.id}" ${this.state.source_id === s.id ? 'selected' : ''}>${s.institution_name}</option>`).join('')}
           </select>
         </div>
 
         <!-- Rentang Tahun & Quick Presets -->
-        <div class="pt-1.5 border-t border-[#F5C7B3] space-y-1.5">
+        <div class="pt-1.5 space-y-1.5">
           <div class="flex items-center justify-between">
             <label class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723]">
               Rentang Tahun:
             </label>
             <div class="flex items-center gap-1">
-              <button type="button" id="filter-preset-5y" class="px-2 py-0.5 rounded text-[10px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2021 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white border-[#0038A8] font-bold shadow-2xs' : 'bg-white text-[#5D4037] border-[#F5C7B3] hover:bg-[#FCD5C0]'}">
+              <button type="button" id="filter-preset-5y" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 2021 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-white text-[#5D4037] hover:bg-white'}">
                 5 Thn
               </button>
-              <button type="button" id="filter-preset-10y" class="px-2 py-0.5 rounded text-[10px] font-mono border transition-all cursor-pointer ${this.state.start_year === 2016 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white border-[#0038A8] font-bold shadow-2xs' : 'bg-white text-[#5D4037] border-[#F5C7B3] hover:bg-[#FCD5C0]'}">
+              <button type="button" id="filter-preset-10y" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 2016 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-white text-[#5D4037] hover:bg-white'}">
                 10 Thn
               </button>
-              <button type="button" id="filter-preset-all" class="px-2 py-0.5 rounded text-[10px] font-mono border transition-all cursor-pointer ${this.state.start_year === 1990 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white border-[#0038A8] font-bold shadow-2xs' : 'bg-white text-[#5D4037] border-[#F5C7B3] hover:bg-[#FCD5C0]'}">
+              <button type="button" id="filter-preset-all" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 1990 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-white text-[#5D4037] hover:bg-white'}">
                 1990-2026
               </button>
             </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <input type="number" id="filter-start-year" class="gov-input text-xs font-mono text-center w-full py-0.5 bg-white border border-[#F5C7B3] text-[#202124]" min="1990" max="2026" value="${this.state.start_year}">
+            <input type="number" id="filter-start-year" class="gov-input text-xs font-mono text-center w-full py-0.5 bg-white border border-slate-200 text-[#202124]" min="1990" max="2026" value="${this.state.start_year}">
             <span class="text-[#7D655C] text-xs font-mono font-medium">s/d</span>
-            <input type="number" id="filter-end-year" class="gov-input text-xs font-mono text-center w-full py-0.5 bg-white border border-[#F5C7B3] text-[#202124]" min="1990" max="2026" value="${this.state.end_year}">
+            <input type="number" id="filter-end-year" class="gov-input text-xs font-mono text-center w-full py-0.5 bg-white border border-slate-200 text-[#202124]" min="1990" max="2026" value="${this.state.end_year}">
           </div>
         </div>
 
         <!-- Metadata Footnote -->
-        <div class="pt-1.5 border-t border-[#F5C7B3] flex items-center justify-between text-[9.5px] font-mono text-[#7D655C]">
+        <div class="pt-1.5 flex items-center justify-between text-[9.5px] font-mono text-[#7D655C]">
           <span>Cakupan: <strong class="text-[#3E2723]">1990 - 2026 (Angka Sementara 2026)</strong></span>
           <span>Granularitas: <strong class="text-[#3E2723]">Nasional</strong></span>
         </div>

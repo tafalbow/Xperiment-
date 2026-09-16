@@ -301,12 +301,12 @@ class App {
     const contentCalendar = document.getElementById('agri-subcontent-calendar');
 
     if (subTabName === 'balance') {
-      btnBalance?.classList.add('bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'border-[#DADCE0]');
-      btnBalance?.classList.remove('text-[#5F6368]', 'font-medium', 'border-transparent');
+      btnBalance?.classList.add('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnBalance?.classList.remove('text-[#5F6368]', 'font-medium');
       btnBalance?.setAttribute('aria-selected', 'true');
 
-      btnCalendar?.classList.remove('bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'border-[#DADCE0]');
-      btnCalendar?.classList.add('text-[#5F6368]', 'font-medium', 'border-transparent');
+      btnCalendar?.classList.remove('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnCalendar?.classList.add('text-[#5F6368]', 'font-medium');
       btnCalendar?.setAttribute('aria-selected', 'false');
 
       contentBalance?.classList.remove('hidden');
@@ -318,12 +318,12 @@ class App {
       }
       await this.agriCommodityTracker.setDivision('PERTANIAN_PETERNAKAN');
     } else if (subTabName === 'calendar') {
-      btnCalendar?.classList.add('bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'border-[#DADCE0]');
-      btnCalendar?.classList.remove('text-[#5F6368]', 'font-medium', 'border-transparent');
+      btnCalendar?.classList.add('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnCalendar?.classList.remove('text-[#5F6368]', 'font-medium');
       btnCalendar?.setAttribute('aria-selected', 'true');
 
-      btnBalance?.classList.remove('bg-white', 'text-[#1A73E8]', 'font-bold', 'shadow-2xs', 'border-[#DADCE0]');
-      btnBalance?.classList.add('text-[#5F6368]', 'font-medium', 'border-transparent');
+      btnBalance?.classList.remove('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnBalance?.classList.add('text-[#5F6368]', 'font-medium');
       btnBalance?.setAttribute('aria-selected', 'false');
 
       contentCalendar?.classList.remove('hidden');
