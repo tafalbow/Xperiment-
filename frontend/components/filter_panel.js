@@ -96,18 +96,18 @@ export class FilterPanel {
     );
 
     this.container.innerHTML = `
-      <div class="p-3.5 space-y-2.5 bg-[#FDE2D2] rounded-lg shadow-sm">
+      <div class="p-3.5 space-y-2.5 bg-white rounded-lg shadow-sm">
         <!-- Panel Header -->
         <div class="flex items-center justify-between pb-1.5">
           <div class="flex items-center gap-1.5">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#3E2723] flex items-center gap-1.5">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
               <span>🎛️</span>
               <span>FILTERING SECTION</span>
             </span>
           </div>
           <button 
             id="btn-reset-filter" 
-            class="gov-btn gov-btn-sm text-[10.5px] py-0.5 px-2 text-[#5D4037] hover:text-[#3E2723] bg-white hover:bg-[#FCD5C0] flex items-center gap-1 shadow-2xs transition-colors cursor-pointer" 
+            class="gov-btn gov-btn-sm text-[10.5px] py-0.5 px-2 text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 flex items-center gap-1 shadow-2xs transition-colors cursor-pointer" 
             title="Reset Semua Filter ke Pengaturan Awal"
           >
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -119,7 +119,7 @@ export class FilterPanel {
         <div class="space-y-1.5">
           <!-- Level 1: Sektor Utama -->
           <div>
-            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
+            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
               1. Sektor / Kegiatan Utama
             </label>
             <select id="filter-sector" class="gov-select w-full text-xs font-mono py-1 bg-white border border-slate-200 text-[#202124]">
@@ -130,7 +130,7 @@ export class FilterPanel {
 
           <!-- Level 2: Kategori Akun -->
           <div>
-            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
+            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
               2. Kategori / Kelompok Akun
             </label>
             <select id="filter-category" class="gov-select w-full text-xs font-mono py-1 bg-white border border-slate-200 text-[#202124]" ${categories.length === 0 ? 'disabled' : ''}>
@@ -141,7 +141,7 @@ export class FilterPanel {
 
           <!-- Level 3: Sub-Kategori -->
           <div>
-            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
+            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
               3. Sub-Kategori / Jenis Pos
             </label>
             <select id="filter-subcategory" class="gov-select w-full text-xs font-mono py-1 bg-white border border-slate-200 text-[#202124]" ${subcategories.length === 0 ? 'disabled' : ''}>
@@ -152,7 +152,7 @@ export class FilterPanel {
 
           <!-- Level 4: Indikator Spesifik -->
           <div>
-            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
+            <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
               4. Indikator Spesifik (${uniqueIndicators.length} Pilihan)
             </label>
             <select id="filter-indicator" class="gov-select w-full text-xs font-mono py-1 font-bold bg-white border border-slate-200 text-[#202124]">
@@ -164,7 +164,7 @@ export class FilterPanel {
 
         <!-- Filter Sumber Data Resmi -->
         <div class="pt-1.5">
-          <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723] mb-0.5">
+          <label class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-0.5">
             Sumber Data Statutori:
           </label>
           <select id="filter-source" class="gov-select w-full text-xs font-mono py-1 bg-white border border-slate-200 text-[#202124]">
@@ -176,17 +176,17 @@ export class FilterPanel {
         <!-- Rentang Tahun & Quick Presets -->
         <div class="pt-1.5 space-y-1.5">
           <div class="flex items-center justify-between">
-            <label class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#3E2723]">
+            <label class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700">
               Rentang Tahun:
             </label>
             <div class="flex items-center gap-1">
-              <button type="button" id="filter-preset-5y" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 2021 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-white text-[#5D4037] hover:bg-white'}">
+              <button type="button" id="filter-preset-5y" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 2021 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
                 5 Thn
               </button>
-              <button type="button" id="filter-preset-10y" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 2016 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-white text-[#5D4037] hover:bg-white'}">
+              <button type="button" id="filter-preset-10y" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 2016 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
                 10 Thn
               </button>
-              <button type="button" id="filter-preset-all" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 1990 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-white text-[#5D4037] hover:bg-white'}">
+              <button type="button" id="filter-preset-all" class="px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${this.state.start_year === 1990 && this.state.end_year === 2026 ? 'bg-[#0038A8] text-white font-bold shadow-2xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
                 1990-2026
               </button>
             </div>

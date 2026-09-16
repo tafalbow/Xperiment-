@@ -1,4 +1,4 @@
-﻿// ==============================================================================
+// ==============================================================================
 // NERACA KOMODITAS, PANGAN & HASIL BUMI TRACKER COMPONENT
 // Multi-Variable Comparative Chart Engine (1-3 Series, Dual Y-Axis, Granularity, Line/Bar)
 // Tracking Produksi, Konsumsi, Ekspor, Impor, Kode HS & Klasifikasi APBN/LKPP (1990 - 2026)
@@ -658,12 +658,12 @@ export class CommodityTrackerComponent {
           </div>
         </div>
 
-        <!-- 3. MULTI-DIMENSIONAL FILTER CONTROLS (Peach Muda #FDE2D2) -->
-        <div class="bg-[#FDE2D2] p-3 rounded-lg shadow-2xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <!-- 3. MULTI-DIMENSIONAL FILTER CONTROLS (White background) -->
+        <div class="bg-white p-3 rounded-lg shadow-2xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
           
           <!-- Filter 1: Pilih Komoditas Aktif -->
           <div class="space-y-1">
-            <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">
+            <label class="font-bold text-slate-800 uppercase text-[10.5px]">
               ${isHasilBumi ? '⛏️ Komoditas / Komposisi Hasil Bumi:' : '🌾 Komoditas / Komposisi Terpilih:'}
             </label>
             <select id="select-active-commodity" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
@@ -682,11 +682,11 @@ export class CommodityTrackerComponent {
           <!-- Filter 2: Rentang Tahun & Presets (1990 - 2026) -->
           <div class="space-y-1">
             <div class="flex items-center justify-between">
-              <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">📅 Rentang Tahun (1990-2026):</label>
+              <label class="font-bold text-slate-800 uppercase text-[10.5px]">📅 Rentang Tahun (1990-2026):</label>
               <div class="flex items-center gap-1">
-                <button type="button" id="commodity-preset-5y" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">5 Thn</button>
-                <button type="button" id="commodity-preset-10y" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">10 Thn</button>
-                <button type="button" id="commodity-preset-all" class="px-1.5 py-0.2 bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">1990-2026</button>
+                <button type="button" id="commodity-preset-5y" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">5 Thn</button>
+                <button type="button" id="commodity-preset-10y" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">10 Thn</button>
+                <button type="button" id="commodity-preset-all" class="px-1.5 py-0.2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[9.5px] font-mono font-bold cursor-pointer shadow-2xs">1990-2026</button>
               </div>
             </div>
             <div class="flex items-center gap-1.5">
@@ -698,7 +698,7 @@ export class CommodityTrackerComponent {
 
           <!-- Filter 3: Sub-Kelompok Sektor -->
           <div class="space-y-1">
-            <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">🏷️ Sub-Kelompok / Realm:</label>
+            <label class="font-bold text-slate-800 uppercase text-[10.5px]">🏷️ Sub-Kelompok / Realm:</label>
             <select id="select-filter-group" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Sub-Kelompok</option>
               ${this.categoriesData.divisions.find(d => d.id === this.activeDivision)?.groups.map(g => `
@@ -709,7 +709,7 @@ export class CommodityTrackerComponent {
 
           <!-- Filter 4: Bab HS Code -->
           <div class="space-y-1">
-            <label class="font-bold text-[#3E2723] uppercase text-[10.5px]">📦 Bab BTKI / Klasifikasi HS:</label>
+            <label class="font-bold text-slate-800 uppercase text-[10.5px]">📦 Bab BTKI / Klasifikasi HS:</label>
             <select id="select-filter-hs" class="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 font-bold text-[#202124] focus:outline-[#0038A8] shadow-2xs cursor-pointer">
               <option value="ALL">Semua Klasifikasi HS Bab</option>
               ${this.categoriesData.divisions.find(d => d.id === this.activeDivision)?.hs_chapters.map(h => `
@@ -1154,20 +1154,20 @@ export class CommodityTrackerComponent {
       grouped[ind.group].push(ind);
     });
 
-    // 1. Series Tabs Strip with Integrated Axis Placement Menu (Peach Muda #FDE2D2)
+    // 1. Series Tabs Strip with Integrated Axis Placement Menu (White background)
     let tabsHtml = `
       <div class="space-y-1.5 shrink-0">
         <!-- 1. Section berapa variabel yang dibandingkan -->
-        <div class="flex items-center justify-between flex-wrap gap-1.5 bg-[#FDE2D2] p-2 rounded shadow-2xs">
+        <div class="flex items-center justify-between flex-wrap gap-1.5 bg-white p-2 rounded shadow-2xs">
           <div class="flex items-center gap-1.5 flex-wrap">
-            <span class="text-[#3E2723] font-bold uppercase text-[9.5px] mr-1 flex items-center gap-1">
+            <span class="text-slate-800 font-bold uppercase text-[9.5px] mr-1 flex items-center gap-1">
               <span>📊</span>
               <span>Variabel Komparasi:</span>
             </span>
             ${this.seriesConfigs.map((s, idx) => `
               <button 
                 type="button"
-                class="btn-commodity-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 shadow-xs ring-2 ring-[#0038A8]' : 'bg-white/80 text-[#5D4037] hover:bg-white'}"
+                class="btn-commodity-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 shadow-xs ring-2 ring-[#0038A8]' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}"
                 data-idx="${idx}"
               >
                 <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
@@ -1182,7 +1182,7 @@ export class CommodityTrackerComponent {
             `).join('')}
 
             ${this.seriesConfigs.length < 3 ? `
-              <button type="button" id="btn-add-commodity-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-white/90 text-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
+              <button type="button" id="btn-add-commodity-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-slate-100 hover:bg-slate-200 text-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
                 <span class="font-bold">➕</span> Tambah Var ${this.seriesConfigs.length + 1}
               </button>
             ` : ''}
@@ -1191,12 +1191,12 @@ export class CommodityTrackerComponent {
           <!-- Axis Placement Menu for Active Variable -->
           <div class="flex items-center gap-2 font-mono text-[10.5px]">
             <div class="flex items-center gap-1">
-              <span class="text-[#3E2723] font-bold uppercase text-[9.5px]">SUMBU (VAR ${this.activeSeriesTab + 1}):</span>
-              <div class="inline-flex rounded p-0.5 bg-white/70 gap-0.5">
+              <span class="text-slate-800 font-bold uppercase text-[9.5px]">SUMBU (VAR ${this.activeSeriesTab + 1}):</span>
+              <div class="inline-flex rounded p-0.5 bg-slate-100 gap-0.5">
                 <button 
                   type="button"
                   id="btn-commodity-axis-primary" 
-                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                   title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
                 >
                   ← Sumbu Kiri
@@ -1204,47 +1204,47 @@ export class CommodityTrackerComponent {
                 <button 
                   type="button"
                   id="btn-commodity-axis-secondary" 
-                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                   title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
                 >
                   Sumbu Kanan →
                 </button>
               </div>
             </div>
-            <span class="text-[9.5px] text-[#7D655C]">Maks. 3 Var</span>
+            <span class="text-[9.5px] text-slate-500">Maks. 3 Var</span>
           </div>
         </div>
 
         <!-- 2. Section rentang waktu otomatis -->
-        <div class="flex items-center justify-between flex-wrap gap-2 bg-[#FDE2D2] px-2.5 py-1.5 rounded shadow-2xs font-mono text-[10.5px]">
+        <div class="flex items-center justify-between flex-wrap gap-2 bg-white px-2.5 py-1.5 rounded shadow-2xs font-mono text-[10.5px]">
           <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-[#3E2723] font-bold uppercase text-[9.5px] flex items-center gap-1">
+            <span class="text-slate-800 font-bold uppercase text-[9.5px] flex items-center gap-1">
               <span>⏱️</span>
               <span>Rentang Waktu Otomatis:</span>
             </span>
-            <div class="inline-flex rounded p-0.5 bg-white/80 gap-0.5 shadow-2xs">
-              <button type="button" id="btn-chart-range-5y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '5y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">5 Thn</button>
-              <button type="button" id="btn-chart-range-10y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '10y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">10 Thn</button>
-              <button type="button" id="btn-chart-range-all" class="px-2 py-0.5 rounded ${this.activeRangePreset === 'all' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">1990-2026</button>
+            <div class="inline-flex rounded p-0.5 bg-slate-100 gap-0.5 shadow-2xs">
+              <button type="button" id="btn-chart-range-5y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '5y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">5 Thn</button>
+              <button type="button" id="btn-chart-range-10y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '10y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">10 Thn</button>
+              <button type="button" id="btn-chart-range-all" class="px-2 py-0.5 rounded ${this.activeRangePreset === 'all' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">1990-2026</button>
             </div>
           </div>
-          <span class="text-[9.5px] text-[#7D655C]">Sinkronisasi Otomatis Seluruh Variabel</span>
+          <span class="text-[9.5px] text-slate-500">Sinkronisasi Otomatis Seluruh Variabel</span>
         </div>
       </div>
     `;
 
-    // 3. Section tipe bentuk chart tiap variabel (Peach Muda #FDE2D2)
+    // 3. Section tipe bentuk chart tiap variabel (White background)
     if (active) {
       const activeMeta = available.find(i => i.id === active.indicatorId);
       const availableTransformations = this.getAvailableTransformations(activeMeta, active.rawData);
 
       tabsHtml += `
-        <div class="bg-[#FDE2D2] p-2 rounded space-y-1.5 text-[11px] font-mono shadow-2xs">
+        <div class="bg-white p-2 rounded space-y-1.5 text-[11px] font-mono shadow-2xs">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
             
             <!-- A. Indicator Selector (6 Cols) -->
             <div class="md:col-span-6 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center gap-1.5">
+              <label class="text-[9.5px] uppercase font-bold text-slate-800 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full" style="background-color: ${active.color}"></span>
                 Indikator (Var ${this.activeSeriesTab + 1}):
               </label>
@@ -1263,9 +1263,9 @@ export class CommodityTrackerComponent {
 
             <!-- B. Data Transformation Granularity (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center justify-between">
+              <label class="text-[9.5px] uppercase font-bold text-slate-800 flex items-center justify-between">
                 <span>Granularitas Olahan:</span>
-                <span class="text-[8.5px] text-sky-800 bg-white/80 px-1 rounded">≥ 6 Titik</span>
+                <span class="text-[8.5px] text-sky-800 bg-sky-50 px-1 rounded">≥ 6 Titik</span>
               </label>
               <select id="select-commodity-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold border border-slate-200 rounded px-2 cursor-pointer bg-white text-[#202124]">
                 ${availableTransformations.map(t => `
@@ -1278,21 +1278,21 @@ export class CommodityTrackerComponent {
 
             <!-- C. Visual Type: Line vs Bar (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-[#3E2723]">
+              <label class="text-[9.5px] uppercase font-bold text-slate-800">
                 Tipe Visual:
               </label>
-              <div class="inline-flex rounded p-0.5 bg-white/80 w-full text-[10.5px]">
+              <div class="inline-flex rounded p-0.5 bg-slate-100 w-full text-[10.5px]">
                 <button 
                   type="button" 
                   id="btn-commodity-series-type-line" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                 >
                   📈 Line
                 </button>
                 <button 
                   type="button" 
                   id="btn-commodity-series-type-bar" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                 >
                   📊 Bar
                 </button>

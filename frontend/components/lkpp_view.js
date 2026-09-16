@@ -1,4 +1,4 @@
-﻿// ==============================================================================
+// ==============================================================================
 // LKPP TIME-SERIES STATUTORY STATEMENTS OBSERVATORY (1990 – 2026)
 // Kompilasi 6 Laporan Keuangan Pokok Republik Indonesia:
 // 1. Laporan Realisasi Anggaran (LRA)
@@ -173,16 +173,16 @@ export class LKPPView {
             </div>
           </div>
 
-          <!-- 2. FILTER CONTROLS BAR (Peach Muda #FDE2D2) -->
-          <div class="p-3.5 bg-[#FDE2D2]  rounded-lg space-y-3">
+          <!-- 2. FILTER CONTROLS BAR (White background) -->
+          <div class="p-3.5 bg-white rounded-lg shadow-sm space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
               
               <!-- Table Selector (5 cols) -->
               <div class="lg:col-span-4 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
                   1. Pilihan Tabel Keuangan Negara (APBN, RAPBN & LKPP)
                 </label>
-                <select id="sel-lkpp-table" class="w-full text-xs font-sans px-2.5 py-1.5 rounded  bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
+                <select id="sel-lkpp-table" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-slate-200 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
                   ${this.tableList.map(t => `
                     <option value="${t.id}" ${t.id === this.tableId ? 'selected' : ''}>
                       ${t.number}. ${t.name} (${t.short_name})
@@ -193,15 +193,15 @@ export class LKPPView {
 
               <!-- Timeframe Filter (3 cols) -->
               <div class="lg:col-span-3 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
                   2. Kurun Waktu (Tahun)
                 </label>
                 <div class="flex items-center gap-2">
-                  <select id="sel-lkpp-start-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded  bg-white text-[#202124]">
+                  <select id="sel-lkpp-start-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-200 bg-white text-[#202124]">
                     ${this.generateYearOptions(1990, 2026, this.startYear)}
                   </select>
-                  <span class="text-xs font-mono text-[#7D655C] font-semibold">s/d</span>
-                  <select id="sel-lkpp-end-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded  bg-white text-[#202124]">
+                  <span class="text-xs font-mono text-slate-500 font-semibold">s/d</span>
+                  <select id="sel-lkpp-end-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-200 bg-white text-[#202124]">
                     ${this.generateYearOptions(1990, 2026, this.endYear)}
                   </select>
                 </div>
@@ -209,10 +209,10 @@ export class LKPPView {
 
               <!-- Display Unit (2 cols) -->
               <div class="lg:col-span-2 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
                   3. Satuan Angka
                 </label>
-                <select id="sel-lkpp-unit" class="w-full text-xs font-sans px-2 py-1.5 rounded  bg-white text-[#202124]">
+                <select id="sel-lkpp-unit" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-slate-200 bg-white text-[#202124]">
                   <option value="TRILLION" ${this.unit === 'TRILLION' ? 'selected' : ''}>Triliun Rp (Rp T)</option>
                   <option value="BILLION" ${this.unit === 'BILLION' ? 'selected' : ''}>Miliar Rp (Rp M)</option>
                   <option value="MILLION" ${this.unit === 'MILLION' ? 'selected' : ''}>Juta Rp (Rp Jt)</option>
@@ -221,7 +221,7 @@ export class LKPPView {
 
               <!-- Quick Search Row (3 cols) -->
               <div class="lg:col-span-3 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
                   4. Cari Kelompok Pos / Biaya
                 </label>
                 <div class="relative">
@@ -230,11 +230,11 @@ export class LKPPView {
                     id="input-lkpp-search" 
                     value="${this.searchKeyword}" 
                     placeholder="Misal: Pegawai, Bunga, Modal, SAL..."
-                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded  bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
+                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded border border-slate-200 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
                   />
                   <span class="absolute left-2.5 top-2 text-[11px] text-[#7D655C]">🔍</span>
                   ${this.searchKeyword ? `
-                    <button id="btn-lkpp-clear-search" class="absolute right-2 top-1.5 text-xs text-[#5D4037] hover:text-[#202124]">✕</button>
+                    <button id="btn-lkpp-clear-search" class="absolute right-2 top-1.5 text-xs text-slate-500 hover:text-slate-800">✕</button>
                   ` : ''}
                 </div>
               </div>
@@ -243,17 +243,17 @@ export class LKPPView {
 
             <!-- Quick Era Preset Badges -->
             <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono ">
-              <span class="text-[#3E2723] font-bold">Preset Era:</span>
-              <button class="btn-era-preset px-2.5 py-0.5 rounded  bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="1990" data-end="2026">
+              <span class="text-slate-800 font-bold">Preset Era:</span>
+              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer transition-all" data-start="1990" data-end="2026">
                 🏛️ Semua Era (1990–2026)
               </button>
-              <button class="btn-era-preset px-2.5 py-0.5 rounded  bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="2015" data-end="2026">
+              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer transition-all" data-start="2015" data-end="2026">
                 📊 SAP Akrual Penuh (2015–2026)
               </button>
-              <button class="btn-era-preset px-2.5 py-0.5 rounded  bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="2005" data-end="2014">
+              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer transition-all" data-start="2005" data-end="2014">
                 ⚖️ Kas Menuju Akrual (2005–2014)
               </button>
-              <button class="btn-era-preset px-2.5 py-0.5 rounded  bg-white hover:bg-[#FCD5C0] text-[#5D4037] hover:text-[#3E2723] cursor-pointer transition-all" data-start="1990" data-end="2004">
+              <button class="btn-era-preset px-2.5 py-0.5 rounded border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer transition-all" data-start="1990" data-end="2004">
                 📜 Dual Budgeting / PAN (1990–2004)
               </button>
             </div>

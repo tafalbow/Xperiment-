@@ -448,20 +448,20 @@ export class ChartModule {
 
     const active = this.seriesConfigs[this.activeSeriesTab] || this.seriesConfigs[0];
 
-    // 1. SECTION BERAPA VARIABEL YANG DIBANDINGKAN (Peach Muda #FDE2D2, seamless no-border)
+    // 1. SECTION BERAPA VARIABEL YANG DIBANDINGKAN (White background, seamless no-border)
     let tabsHtml = `
       <div class="space-y-1.5 shrink-0">
         <!-- 1. Section berapa variabel yang dibandingkan -->
-        <div class="flex items-center justify-between flex-wrap gap-1.5 bg-[#FDE2D2] p-2 rounded shadow-2xs">
+        <div class="flex items-center justify-between flex-wrap gap-1.5 bg-white p-2 rounded shadow-2xs">
           <div class="flex items-center gap-1.5 flex-wrap">
-            <span class="text-[#3E2723] font-bold uppercase text-[9.5px] mr-1 flex items-center gap-1">
+            <span class="text-slate-800 font-bold uppercase text-[9.5px] mr-1 flex items-center gap-1">
               <span>📊</span>
               <span>Variabel Komparasi:</span>
             </span>
             ${this.seriesConfigs.map((s, idx) => `
               <button 
                 type="button"
-                class="btn-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 shadow-xs ring-2 ring-[#0038A8]' : 'bg-white/80 text-[#5D4037] hover:bg-white'}"
+                class="btn-series-tab px-2 py-0.5 text-[11px] font-mono rounded flex items-center gap-1.5 transition-all cursor-pointer ${this.activeSeriesTab === idx ? 'bg-white font-bold text-slate-900 shadow-xs ring-2 ring-[#0038A8]' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}"
                 data-idx="${idx}"
               >
                 <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${s.color}"></span>
@@ -476,7 +476,7 @@ export class ChartModule {
             `).join('')}
 
             ${this.seriesConfigs.length < 3 ? `
-              <button type="button" id="btn-add-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-white hover:bg-white/90 text-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
+              <button type="button" id="btn-add-series" class="px-2 py-0.5 text-[10.5px] font-mono rounded bg-slate-100 hover:bg-slate-200 text-[#0038A8] font-semibold flex items-center gap-1 shadow-2xs cursor-pointer">
                 <span class="font-bold">➕</span> Tambah Var ${this.seriesConfigs.length + 1}
               </button>
             ` : ''}
@@ -485,12 +485,12 @@ export class ChartModule {
           <!-- Sumbu Penempatan Variabel Aktif -->
           <div class="flex items-center gap-2 font-mono text-[10.5px]">
             <div class="flex items-center gap-1">
-              <span class="text-[#3E2723] font-bold uppercase text-[9.5px]">Sumbu (Var ${this.activeSeriesTab + 1}):</span>
-              <div class="inline-flex rounded p-0.5 bg-white/70 gap-0.5">
+              <span class="text-slate-800 font-bold uppercase text-[9.5px]">Sumbu (Var ${this.activeSeriesTab + 1}):</span>
+              <div class="inline-flex rounded p-0.5 bg-slate-100 gap-0.5">
                 <button 
                   type="button"
                   id="btn-axis-primary" 
-                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'primary' ? 'bg-sky-700 text-white font-bold shadow-xs ring-1 ring-sky-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                   title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kiri (Utama)"
                 >
                   ← Sumbu Kiri
@@ -498,32 +498,32 @@ export class ChartModule {
                 <button 
                   type="button"
                   id="btn-axis-secondary" 
-                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  class="py-0.5 px-2 text-center rounded transition-all cursor-pointer text-[10px] ${active.axis === 'secondary' ? 'bg-emerald-700 text-white font-bold shadow-xs ring-1 ring-emerald-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                   title="Tempatkan Variabel ${this.activeSeriesTab + 1} pada Sumbu Kanan (Sekunder)"
                 >
                   Sumbu Kanan →
                 </button>
               </div>
             </div>
-            <span class="text-[9.5px] text-[#7D655C]">Maks. 3 Var</span>
+            <span class="text-[9.5px] text-slate-500">Maks. 3 Var</span>
           </div>
         </div>
 
         <!-- 2. Section rentang waktu otomatis -->
-        <div class="flex items-center justify-between flex-wrap gap-2 bg-[#FDE2D2] px-2.5 py-1.5 rounded shadow-2xs font-mono text-[10.5px]">
+        <div class="flex items-center justify-between flex-wrap gap-2 bg-white px-2.5 py-1.5 rounded shadow-2xs font-mono text-[10.5px]">
           <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-[#3E2723] font-bold uppercase text-[9.5px] flex items-center gap-1">
+            <span class="text-slate-800 font-bold uppercase text-[9.5px] flex items-center gap-1">
               <span>⏱️</span>
               <span>Rentang Waktu Otomatis:</span>
             </span>
-            <div class="inline-flex rounded p-0.5 bg-white/80 gap-0.5 shadow-2xs">
-              <button type="button" id="btn-range-5y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '5y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">5 Thn</button>
-              <button type="button" id="btn-range-10y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '10y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">10 Thn</button>
-              <button type="button" id="btn-range-12y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '12y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">12 Thn (Default)</button>
-              <button type="button" id="btn-range-all" class="px-2 py-0.5 rounded ${this.activeRangePreset === 'all' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-white'} transition-all cursor-pointer">Max</button>
+            <div class="inline-flex rounded p-0.5 bg-slate-100 gap-0.5 shadow-2xs">
+              <button type="button" id="btn-range-5y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '5y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">5 Thn</button>
+              <button type="button" id="btn-range-10y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '10y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">10 Thn</button>
+              <button type="button" id="btn-range-12y" class="px-2 py-0.5 rounded ${this.activeRangePreset === '12y' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">12 Thn (Default)</button>
+              <button type="button" id="btn-range-all" class="px-2 py-0.5 rounded ${this.activeRangePreset === 'all' ? 'bg-[#0038A8] text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white'} transition-all cursor-pointer">Max</button>
             </div>
           </div>
-          <span class="text-[9.5px] text-[#7D655C]">Sinkronisasi Otomatis Seluruh Variabel</span>
+          <span class="text-[9.5px] text-slate-500">Sinkronisasi Otomatis Seluruh Variabel</span>
         </div>
     `;
 
@@ -533,11 +533,11 @@ export class ChartModule {
       const availableTransformations = this.getAvailableTransformations(activeMeta, active.rawData);
 
       tabsHtml += `
-        <div class="bg-[#FDE2D2] p-2 rounded space-y-1.5 text-[11px] font-mono shadow-2xs">
+        <div class="bg-white p-2 rounded space-y-1.5 text-[11px] font-mono shadow-2xs">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
             <!-- 1. Indicator Selector (6 Cols) -->
             <div class="md:col-span-6 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center gap-1.5">
+              <label class="text-[9.5px] uppercase font-bold text-slate-800 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full" style="background-color: ${active.color}"></span>
                 Indikator (Var ${this.activeSeriesTab + 1}):
               </label>
@@ -552,9 +552,9 @@ export class ChartModule {
 
             <!-- 2. Data Transformation Granularity: RAW, YOY, MOM, AVG L3M/L6M/L3Y/L6Y (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-[#3E2723] flex items-center justify-between">
+              <label class="text-[9.5px] uppercase font-bold text-slate-800 flex items-center justify-between">
                 <span>Granularitas Olahan:</span>
-                <span class="text-[8.5px] text-sky-800 bg-white/80 px-1 rounded">≥ 6 Titik</span>
+                <span class="text-[8.5px] text-sky-800 bg-sky-50 px-1 rounded">≥ 6 Titik</span>
               </label>
               <select id="select-series-transformation" class="gov-select w-full text-[11px] font-mono py-1 font-semibold bg-white border border-slate-200 text-[#202124]">
                 ${availableTransformations.map(t => `
@@ -567,21 +567,21 @@ export class ChartModule {
 
             <!-- 3. Visual Type: Line vs Bar (3 Cols) -->
             <div class="md:col-span-3 space-y-0.5">
-              <label class="text-[9.5px] uppercase font-bold text-[#3E2723]">
+              <label class="text-[9.5px] uppercase font-bold text-slate-800">
                 Tipe Visual:
               </label>
-              <div class="inline-flex rounded p-0.5 bg-white/80 w-full text-[10.5px]">
+              <div class="inline-flex rounded p-0.5 bg-slate-100 w-full text-[10.5px]">
                 <button 
                   type="button"
                   id="btn-series-type-line" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'line' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                 >
                   📈 Line
                 </button>
                 <button 
                   type="button"
                   id="btn-series-type-bar" 
-                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-[#5D4037] hover:text-[#3E2723] hover:bg-[#FCD5C0]'}"
+                  class="flex-1 py-0.5 text-center rounded transition-all cursor-pointer ${active.type === 'bar' ? 'bg-[#0038A8] text-white font-medium shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}"
                 >
                   📊 Bar
                 </button>
@@ -591,7 +591,7 @@ export class ChartModule {
 
           ${active.type === 'bar' ? `
             <div class="flex items-center gap-2 pt-1">
-              <span class="text-[9.5px] uppercase font-bold text-[#3E2723]">Mode Bar:</span>
+              <span class="text-[9.5px] uppercase font-bold text-slate-800">Mode Bar:</span>
               <select id="select-bar-mode" class="gov-select text-[11px] font-mono py-0.5 px-2 bg-white border border-slate-200 text-[#202124]">
                 <option value="grouped" ${active.barMode === 'grouped' ? 'selected' : ''}>Normal Bar</option>
                 <option value="stacked100" ${active.barMode === 'stacked100' ? 'selected' : ''}>100% Stacked</option>

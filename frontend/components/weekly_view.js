@@ -1,4 +1,4 @@
-﻿// ==============================================================================
+// ==============================================================================
 // WEEKLY HIGH-FREQUENCY DATA OBSERVATORY (2014 – 2026)
 // Kompilasi Data Mingguan Resmi Kementerian & Lembaga Republik Indonesia:
 // 1. Bank Indonesia (BI): ITEMs — Indikator Terpilih Moneter & Sistem Pembayaran
@@ -150,16 +150,16 @@ export class WeeklyView {
             </div>
           </div>
 
-          <!-- 2. FILTER CONTROLS BAR (Peach Muda #FDE2D2) -->
-          <div class="p-3.5 bg-[#FDE2D2]  rounded-lg space-y-3">
+          <!-- 2. FILTER CONTROLS BAR (White background) -->
+          <div class="p-3.5 bg-white rounded-lg shadow-sm space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
               
               <!-- Institution Selector (4 cols) -->
               <div class="lg:col-span-4 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
                   1. Lembaga / Sumber Data
                 </label>
-                <select id="sel-weekly-inst" class="w-full text-xs font-sans px-2.5 py-1.5 rounded  bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
+                <select id="sel-weekly-inst" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-slate-200 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
                   ${this.institutions.map(inst => `
                     <option value="${inst.id}" ${inst.id === this.institutionId ? 'selected' : ''}>
                       ${inst.short_name} ${inst.frequency ? `(${inst.frequency})` : ''}
@@ -170,19 +170,19 @@ export class WeeklyView {
 
               <!-- View Mode (Annual vs 52 Weeks) (3 cols) -->
               <div class="lg:col-span-3 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
                   2. Mode Tampilan
                 </label>
                 <div class="flex items-center gap-1.5">
                   <button 
                     id="btn-mode-annual" 
-                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'annual' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-white text-[#5D4037] hover:bg-[#FCD5C0]'} cursor-pointer transition-all text-center"
+                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'annual' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-slate-100 text-slate-700 hover:bg-slate-200'} cursor-pointer transition-all text-center"
                   >
                     📅 13 Thn (2014–2026)
                   </button>
                   <button 
                     id="btn-mode-weekly" 
-                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'weekly' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-white text-[#5D4037] hover:bg-[#FCD5C0]'} cursor-pointer transition-all text-center"
+                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'weekly' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-slate-100 text-slate-700 hover:bg-slate-200'} cursor-pointer transition-all text-center"
                   >
                     ⏱️ 52 Minggu (Per Tahun)
                   </button>
@@ -191,10 +191,10 @@ export class WeeklyView {
 
               <!-- Target Year for Weekly Mode (2 cols) -->
               <div class="lg:col-span-2 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
                   3. Tahun Observasi
                 </label>
-                <select id="sel-weekly-year" class="w-full text-xs font-mono px-2 py-1.5 rounded  bg-white text-[#202124] ${this.viewMode === 'annual' ? 'opacity-50 cursor-not-allowed' : ''}" ${this.viewMode === 'annual' ? 'disabled' : ''}>
+                <select id="sel-weekly-year" class="w-full text-xs font-mono px-2 py-1.5 rounded border border-slate-200 bg-white text-[#202124] ${this.viewMode === 'annual' ? 'opacity-50 cursor-not-allowed' : ''}" ${this.viewMode === 'annual' ? 'disabled' : ''}>
                   ${Array.from({ length: 13 }, (_, i) => 2026 - i).map(y => `
                     <option value="${y}" ${y === this.year ? 'selected' : ''}>${y}</option>
                   `).join('')}
@@ -203,7 +203,7 @@ export class WeeklyView {
 
               <!-- Quick Search Input (3 cols) -->
               <div class="lg:col-span-3 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-[#3E2723] uppercase tracking-wider">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
                   4. Cari Indikator
                 </label>
                 <div class="relative">
@@ -212,11 +212,11 @@ export class WeeklyView {
                     id="input-weekly-search" 
                     value="${this.searchKeyword}" 
                     placeholder="Misal: RTGS, M0, Beras, IHSG, SBN..."
-                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded  bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
+                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded border border-slate-200 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
                   />
                   <span class="absolute left-2.5 top-2 text-[11px] text-[#7D655C]">🔍</span>
                   ${this.searchKeyword ? `
-                    <button id="btn-weekly-clear-search" class="absolute right-2 top-1.5 text-xs text-[#5D4037] hover:text-[#202124]">✕</button>
+                    <button id="btn-weekly-clear-search" class="absolute right-2 top-1.5 text-xs text-slate-500 hover:text-slate-800">✕</button>
                   ` : ''}
                 </div>
               </div>
@@ -225,20 +225,20 @@ export class WeeklyView {
 
             <!-- Quick Preset Badges for 4 Institutions -->
             <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono ">
-              <span class="text-[#3E2723] font-bold">Pilihan Cepat Lembaga:</span>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'ALL' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="ALL">
+              <span class="text-slate-800 font-bold">Pilihan Cepat Lembaga:</span>
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'ALL' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="ALL">
                 🌐 Semua Lembaga (29 Indikator)
               </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BI' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="BI">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BI' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="BI">
                 🏛️ Bank Indonesia (ITEMs Moneter & RTGS)
               </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'DJPB' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="DJPB">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'DJPB' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="DJPB">
                 💰 Kemenkeu DJPb (Kinerja APBN & SBN)
               </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'OJK' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="OJK">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'OJK' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="OJK">
                 📈 OJK (Pasar Modal & IHSG)
               </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BAPANAS' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-white hover:bg-[#FCD5C0] text-[#5D4037]'} cursor-pointer transition-all" data-inst="BAPANAS">
+              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BAPANAS' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="BAPANAS">
                 🌾 Bapanas (Harga Pangan Strategis)
               </button>
             </div>

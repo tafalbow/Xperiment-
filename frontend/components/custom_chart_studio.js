@@ -1,4 +1,4 @@
-﻿// ==============================================================================
+// ==============================================================================
 // INDOEKONOMI data — Studio Custom Chart & Analisis Driver Kontekstual (1990 – 2026)
 // Memungkinkan kombinasi hingga 5 variabel trend keuangan negara & indikator mingguan,
 // dual vertical axis (Sumbu Kiri & Kanan), hitungan kustom (YoY %, 3Y-MA, Base 100, Raw),
@@ -254,43 +254,43 @@ export class CustomChartStudio {
             </div>
           </div>
 
-          <!-- TIME RANGE SELECTOR (Peach Muda #FDE2D2) -->
-          <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono bg-[#FDE2D2]  p-2 rounded">
+          <!-- TIME RANGE SELECTOR (White background) -->
+          <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono bg-white p-2 rounded shadow-2xs">
             <div class="flex items-center gap-2">
-              <span class="text-[#3E2723] font-bold">Rentang Tahun:</span>
-              <select id="select-chart-start-year" class="px-2 py-1 bg-white  rounded text-xs text-[#202124]">
+              <span class="text-slate-800 font-bold">Rentang Tahun:</span>
+              <select id="select-chart-start-year" class="px-2 py-1 bg-white border border-slate-200 rounded text-xs text-[#202124]">
                 ${Array.from({ length: 37 }, (_, i) => 1990 + i).map(y => `
                   <option value="${y}" ${y === this.startYear ? 'selected' : ''}>${y}</option>
                 `).join('')}
               </select>
-              <span class="text-[#7D655C] font-semibold">s/d</span>
-              <select id="select-chart-end-year" class="px-2 py-1 bg-white  rounded text-xs text-[#202124]">
+              <span class="text-slate-500 font-semibold">s/d</span>
+              <select id="select-chart-end-year" class="px-2 py-1 bg-white border border-slate-200 rounded text-xs text-[#202124]">
                 ${Array.from({ length: 37 }, (_, i) => 1990 + i).map(y => `
                   <option value="${y}" ${y === this.endYear ? 'selected' : ''}>${y}</option>
                 `).join('')}
               </select>
               <div class="flex items-center gap-1 ml-2">
-                <button data-range="1990-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded  cursor-pointer">Semua</button>
-                <button data-range="2004-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded  cursor-pointer">2004-2026</button>
-                <button data-range="2015-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded  cursor-pointer">Akrual Penuh (2015+)</button>
-                <button data-range="2020-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-white hover:bg-[#FCD5C0] text-[#5D4037] rounded  cursor-pointer">Pasca-Pandemi</button>
+                <button data-range="1990-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-slate-100 hover:bg-slate-200 text-slate-700 rounded cursor-pointer">Semua</button>
+                <button data-range="2004-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-slate-100 hover:bg-slate-200 text-slate-700 rounded cursor-pointer">2004-2026</button>
+                <button data-range="2015-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-slate-100 hover:bg-slate-200 text-slate-700 rounded cursor-pointer">Akrual Penuh (2015+)</button>
+                <button data-range="2020-2026" class="btn-range-quick px-2 py-0.5 text-[10.5px] bg-slate-100 hover:bg-slate-200 text-slate-700 rounded cursor-pointer">Pasca-Pandemi</button>
               </div>
             </div>
 
-            <div class="text-[11px] text-[#7D655C] flex items-center gap-3">
+            <div class="text-[11px] text-slate-500 flex items-center gap-3">
               <span>💡 <em>Arahkan pointer ke titik chart mana saja untuk melihat analisis driver penyebabnya di bawah</em></span>
             </div>
           </div>
         </div>
 
-        <!-- 5 VARIABLE CONFIGURATION SLOTS (Peach Muda #FDE2D2) -->
-        <div class="gov-card p-3 bg-[#FDE2D2]  rounded-lg shadow-sm space-y-2">
-          <div class="flex items-center justify-between text-xs font-mono font-bold text-[#3E2723] px-1">
+        <!-- 5 VARIABLE CONFIGURATION SLOTS (White background) -->
+        <div class="gov-card p-3 bg-white rounded-lg shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs font-mono font-bold text-slate-800 px-1">
             <span class="flex items-center gap-2">
               <span>⚙️</span>
               <span>KONFIGURASI HINGGA 5 VARIABEL TREND</span>
             </span>
-            <span class="text-[11px] text-[#7D655C] font-normal">
+            <span class="text-[11px] text-slate-500 font-normal">
               Pilih Sumber Tabel, Transformasi (YoY, 3Y-MA, Base 100), Tipe Chart, dan Sumbu (Kiri / Kanan)
             </span>
           </div>

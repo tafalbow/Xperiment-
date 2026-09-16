@@ -1,4 +1,4 @@
-﻿// ==============================================================================
+// ==============================================================================
 // CONTEXTUAL MAP COMPONENT (Connected to Chart Multi-Series & Hover Points)
 // Explanatory Regional Drivers ground-truthed from Official Publications
 // ==============================================================================
@@ -232,18 +232,18 @@ export class ContextualMap {
           </span>
         </div>
 
-        <!-- 1. VARIABLE FOCUS SELECTOR (Var 1 / Var 2 / Var 3 Buttons - Peach Muda #FDE2D2) -->
-        <div class="flex items-center justify-between bg-[#FDE2D2] p-2 rounded  text-xs font-mono flex-wrap gap-2 shrink-0">
+        <!-- 1. VARIABLE FOCUS SELECTOR (Var 1 / Var 2 / Var 3 Buttons - White background) -->
+        <div class="flex items-center justify-between bg-white p-2 rounded shadow-2xs text-xs font-mono flex-wrap gap-2 shrink-0">
           <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-[#3E2723] text-[10px] uppercase font-bold tracking-wider">Penjelas untuk:</span>
+            <span class="text-slate-800 text-[10px] uppercase font-bold tracking-wider">Penjelas untuk:</span>
             <div class="flex items-center gap-1.5 flex-wrap" id="focus-series-container">
               ${slotPillsHtml}
             </div>
           </div>
 
-          <div class="text-[10px] font-mono text-[#5D4037] flex items-center gap-1 bg-white px-2 py-0.5 rounded ">
+          <div class="text-[10px] font-mono text-slate-600 flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
             <span>📅</span>
-            <span>Titik Aktif: <strong id="gis-active-period-badge" class="text-[#3E2723]">${this.focusedYear ? `TA ${this.focusedYear}` : 'Semua Periode'}</strong></span>
+            <span>Titik Aktif: <strong id="gis-active-period-badge" class="text-slate-800">${this.focusedYear ? `TA ${this.focusedYear}` : 'Semua Periode'}</strong></span>
           </div>
         </div>
 
