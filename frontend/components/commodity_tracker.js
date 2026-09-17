@@ -2308,7 +2308,7 @@ export class CommodityTrackerComponent {
     // 3. Draw Grid Lines & Ticks
     ctx.strokeStyle = '#e2e8f0';
     ctx.lineWidth = 1;
-    ctx.font = '9px monospace';
+    ctx.font = "9px 'Calibri Light', Calibri, sans-serif";
     ctx.fillStyle = '#64748b';
 
     for (let i = 0; i <= 4; i++) {
@@ -2337,7 +2337,7 @@ export class CommodityTrackerComponent {
 
     // Draw X-Axis Year Labels
     ctx.fillStyle = '#0f172a';
-    ctx.font = '9px monospace';
+    ctx.font = "9px 'Calibri Light', Calibri, sans-serif";
     ctx.textAlign = 'center';
     const skipStep = sortedYears.length > 20 ? 3 : (sortedYears.length > 10 ? 2 : 1);
 

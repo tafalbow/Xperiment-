@@ -1202,7 +1202,7 @@ export class ChartModule {
     ctx.strokeStyle = '#E2E8F0';
     ctx.lineWidth = 1;
     ctx.fillStyle = '#64748B';
-    ctx.font = '10px JetBrains Mono, monospace';
+    ctx.font = "10px 'Calibri Light', Calibri, sans-serif";
     ctx.textAlign = 'right';
 
     for (let i = 0; i <= yTicks; i++) {
@@ -1233,7 +1233,7 @@ export class ChartModule {
     }
 
     // Axis Title Headers
-    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.font = "9px 'Calibri Light', Calibri, sans-serif";
     ctx.fillStyle = '#0284C7';
     ctx.textAlign = 'left';
     const leftUnit = primarySeries[0] 
@@ -1251,7 +1251,7 @@ export class ChartModule {
     // 6. Draw X-Axis Year Labels (Non-overlapping)
     ctx.fillStyle = '#64748B';
     ctx.textAlign = 'center';
-    ctx.font = '10px JetBrains Mono, monospace';
+    ctx.font = "10px 'Calibri Light', Calibri, sans-serif";
 
     const minLabelSpacing = 44;
     let lastDrawnX = -Infinity;
@@ -1450,7 +1450,7 @@ export class ChartModule {
         registerAnchor(maxPt, 'Max', true);
         registerAnchor(lastPt, 'Akhir', true);
 
-        ctx.font = 'bold 9px JetBrains Mono, monospace';
+        ctx.font = "bold 9px 'Calibri Light', Calibri, sans-serif";
 
         anchorMap.forEach(({ pt, roles, isTop }) => {
           const roleText = roles.join('/');
@@ -1595,7 +1595,7 @@ export class ChartModule {
       ctx.fill();
 
       // Badge Text
-      ctx.font = 'bold 9px JetBrains Mono, monospace';
+      ctx.font = "bold 9px 'Calibri Light', Calibri, sans-serif";
       ctx.fillStyle = '#0F172A';
       ctx.textAlign = 'left';
       ctx.fillText(b.text, b.x + 11, b.y + b.h - 4);

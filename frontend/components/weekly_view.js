@@ -773,7 +773,7 @@ export class WeeklyView {
     ctx.strokeStyle = '#E8EAED';
     ctx.lineWidth = 1;
     ctx.fillStyle = '#5F6368';
-    ctx.font = '10px monospace';
+    ctx.font = "10px 'Calibri Light', Calibri, sans-serif";
     ctx.textAlign = 'right';
 
     for (let i = 0; i <= 4; i++) {
@@ -862,7 +862,7 @@ export class WeeklyView {
       ctx.strokeStyle = '#E8EAED';
       ctx.lineWidth = 1;
       ctx.fillStyle = '#5F6368';
-      ctx.font = '10px monospace';
+      ctx.font = "10px 'Calibri Light', Calibri, sans-serif";
       ctx.textAlign = 'right';
       for (let i = 0; i <= 4; i++) {
         const yNorm = i / 4;

@@ -820,7 +820,7 @@ export class LKPPView {
     const getY = (val) => padTop + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
 
     // 1. Draw horizontal grid lines & Y labels
-    ctx.font = '10px monospace';
+    ctx.font = "10px 'Calibri Light', Calibri, sans-serif";
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#5F6368';
