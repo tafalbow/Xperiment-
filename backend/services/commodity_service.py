@@ -11356,11 +11356,11 @@ class CommodityService:
             "apbn_categories": apbn_categories,
             "commodities": commodities_summary,
             "total_commodities": len(cls.COMMODITIES),
-            "years_available": [str(y) for y in range(2000, 2026)]
+            "years_available": [str(y) for y in range(1990, 2027)]
         }
 
     @classmethod
-    def get_commodity_balance(cls, commodity_id: str, start_year: int = 2000, end_year: int = 2025) -> Optional[Dict[str, Any]]:
+    def get_commodity_balance(cls, commodity_id: str, start_year: int = 1990, end_year: int = 2026) -> Optional[Dict[str, Any]]:
         """Calculates and returns full annual balance rows, KPIs, and statutory metadata for a specific commodity or aggregated classification (1990-2026)."""
         # ==============================================================================
         # 1. AGGREGATE COMMODITY BALANCE ROUTING (STACKING BAR YOY)

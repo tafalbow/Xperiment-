@@ -275,7 +275,7 @@ export const ApiClient = {
     return await res.json();
   },
 
-  async fetchCommodityBalance(commodityId = 'COM-AGRI-001-BERAS', startYear = 2018, endYear = 2024) {
+  async fetchCommodityBalance(commodityId = 'COM-AGRI-001-BERAS', startYear = 1990, endYear = 2026) {
     const res = await fetch(`${API_BASE}/api/commodities/balance?commodity_id=${encodeURIComponent(commodityId)}&start_year=${startYear}&end_year=${endYear}`);
     if (!res.ok) throw new Error('Gagal memuat data neraca komoditas.');
     return await res.json();

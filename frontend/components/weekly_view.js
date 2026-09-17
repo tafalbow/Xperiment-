@@ -1,5 +1,4 @@
-// ==============================================================================
-// WEEKLY HIGH-FREQUENCY DATA OBSERVATORY (2014 – 2026)
+// WEEKLY HIGH-FREQUENCY DATA OBSERVATORY (1990 – 2026)
 // Kompilasi Data Mingguan Resmi Kementerian & Lembaga Republik Indonesia:
 // 1. Bank Indonesia (BI): ITEMs — Indikator Terpilih Moneter & Sistem Pembayaran
 // 2. Kementerian Keuangan RI (DJPb): Laporan Kinerja APBN Mingguan & Kas BUN
@@ -13,7 +12,7 @@ export class WeeklyView {
   constructor(containerId) {
     this.containerId = containerId;
     this.institutionId = 'ALL'; // ALL | BI | DJPB | OJK | BAPANAS
-    this.viewMode = 'annual'; // 'annual' (2014-2026) | 'weekly' (W01-W52)
+    this.viewMode = 'annual'; // 'annual' (1990-2026) | 'weekly' (W01-W52)
     this.year = 2026;
     this.searchKeyword = '';
 
@@ -104,14 +103,14 @@ export class WeeklyView {
                   ⚡ Data Frekuensi Tinggi (High-Frequency Weekly)
                 </span>
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
-                  Tracking 13 Tahun (2014 – 2026)
+                  Tracking 37 Tahun (1990 – 2026)
                 </span>
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E6F4EA] text-[#137333] ">
                   4 Kementerian & Lembaga
                 </span>
               </div>
               <h1 class="text-base sm:text-lg font-bold text-[#202124] tracking-tight">
-                Observatorium Data Mingguan Lembaga & Kementerian Indonesia (2014 – 2026)
+                Observatorium Data Mingguan Lembaga & Kementerian Indonesia (1990 – 2026)
               </h1>
               <p class="text-xs text-[#5F6368] leading-relaxed max-w-4xl font-mono">
                 Kompilasi pemantauan reguler mingguan: <strong>Bank Indonesia</strong> (ITEMs Moneter & RTGS), 
@@ -178,7 +177,7 @@ export class WeeklyView {
                     id="btn-mode-annual" 
                     class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'annual' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-slate-100 text-slate-700 hover:bg-slate-200'} cursor-pointer transition-all text-center"
                   >
-                    📅 13 Thn (2014–2026)
+                    📅 37 Thn (1990–2026)
                   </button>
                   <button 
                     id="btn-mode-weekly" 
@@ -195,7 +194,7 @@ export class WeeklyView {
                   3. Tahun Observasi
                 </label>
                 <select id="sel-weekly-year" class="w-full text-xs font-mono px-2 py-1.5 rounded border border-slate-200 bg-white text-[#202124] ${this.viewMode === 'annual' ? 'opacity-50 cursor-not-allowed' : ''}" ${this.viewMode === 'annual' ? 'disabled' : ''}>
-                  ${Array.from({ length: 13 }, (_, i) => 2026 - i).map(y => `
+                  ${Array.from({ length: 37 }, (_, i) => 2026 - i).map(y => `
                     <option value="${y}" ${y === this.year ? 'selected' : ''}>${y}</option>
                   `).join('')}
                 </select>
@@ -307,7 +306,7 @@ export class WeeklyView {
               <a href="https://badanpangan.go.id/" target="_blank" class="text-[#1A73E8] hover:underline">Bapanas SPHT</a>
             </div>
             <div>
-              Mode Aktif: <strong class="text-[#202124]">${isWeekly ? `52 Minggu Kalender Tahun ${this.year}` : 'Deret Rata-rata 13 Tahun (2014–2026)'}</strong>
+              Mode Aktif: <strong class="text-[#202124]">${isWeekly ? `52 Minggu Kalender Tahun ${this.year}` : 'Deret Rata-rata 37 Tahun (1990–2026)'}</strong>
             </div>
           </div>
         </div>
@@ -628,7 +627,7 @@ export class WeeklyView {
               </div>
 
               <div class="flex items-center justify-between text-[10.5px] font-mono text-[#5F6368] pt-1">
-                <span>${series[0]?.period_label || '2014-W01'}</span>
+                <span>${series[0]?.period_label || '1990-W01'}</span>
                 <span>Total ${stats.total_observations} Pekan Observasi</span>
                 <span>${series[series.length - 1]?.period_label || '2026-W52'}</span>
               </div>

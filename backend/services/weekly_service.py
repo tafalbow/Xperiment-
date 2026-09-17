@@ -74,7 +74,7 @@ class WeeklyService:
         }
     ]
 
-    YEARS = list(range(2014, 2027)) # 2014 s/d 2026 (13 tahun)
+    YEARS = list(range(1990, 2027)) # 1990 s/d 2026 (37 tahun)
     WEEKS = [f"W{w:02d}" for w in range(1, 53)] # W01 s/d W52
 
     _DATA_CACHE = None
@@ -82,19 +82,32 @@ class WeeklyService:
     @classmethod
     def _generate_weekly_series(cls, base_val: float, growth_annual: float, seasonal_amp: float, phase: float, trend_noise: float, round_dec: int = 2) -> Dict[str, Dict[str, float]]:
         """
-        Generates realistic chronological weekly time series 2014-2026 (13 years x 52 weeks = 676 points).
+        Generates realistic chronological weekly time series 1990-2026 (37 years x 52 weeks = 1924 points).
         Includes annual structural macro trends, seasonal patterns, and short-term volatility.
+        Preserves exact 2014-2026 values via calibration index relative to 2014.
         """
         data: Dict[str, Dict[str, float]] = {}
-        total_years = len(cls.YEARS)
         
-        for y_idx, year in enumerate(cls.YEARS):
+        for year in cls.YEARS:
             y_str = str(year)
             data[y_str] = {}
-            year_factor = 1.0 + (growth_annual * y_idx)
+            y_offset = year - 2014
+            
+            if y_offset >= 0:
+                year_factor = 1.0 + (growth_annual * y_offset)
+                micro_seed = y_offset
+            else:
+                year_factor = math.pow(1.0 / (1.0 + growth_annual), abs(y_offset))
+                micro_seed = y_offset
             
             event_multiplier = 1.0
-            if year == 2020:
+            if year == 1998:
+                event_multiplier = 0.72 # Krismon 1998
+            elif year == 1999:
+                event_multiplier = 0.82 # Post-krismon
+            elif year == 2008:
+                event_multiplier = 0.94 # Global financial crisis
+            elif year == 2020:
                 event_multiplier = 0.92
             elif year in [2021, 2022]:
                 event_multiplier = 1.08
@@ -109,7 +122,7 @@ class WeeklyService:
                 seasonal = seasonal_amp * math.sin(rad)
                 progress = w / 52.0
                 weekly_trend = (growth_annual / 52.0) * w
-                micro = math.sin((w * 3.7) + y_idx) * trend_noise
+                micro = math.sin((w * 3.7) + micro_seed) * trend_noise
                 
                 val = base_val * year_factor * event_multiplier * (1.0 + seasonal + weekly_trend * 0.5 + micro)
                 data[y_str][w_str] = round(max(val, 0.01), round_dec)
@@ -576,7 +589,7 @@ class WeeklyService:
             ]
 
         if view_mode == "weekly":
-            target_year = max(2014, min(2026, year))
+            target_year = max(1990, min(2026, year))
             columns = [
                 {
                     "id": w,
@@ -652,7 +665,7 @@ class WeeklyService:
             return {
                 "institution_id": institution_id,
                 "view_mode": "annual",
-                "year_range": "2014–2026",
+                "year_range": "1990–2026",
                 "columns": columns,
                 "total_columns": len(columns),
                 "total_rows": len(rows),
@@ -662,7 +675,7 @@ class WeeklyService:
     @classmethod
     def get_weekly_trend(cls, indicator_id: str, year: Optional[int] = None) -> Dict[str, Any]:
         """
-        Returns full weekly chronological trend for an indicator (52 weeks for a year, or full 13-year series).
+        Returns full weekly chronological trend for an indicator (52 weeks for a year, or full 37-year series).
         """
         indicators = cls._init_indicators()
         ind = next((i for i in indicators if i["id"].upper() == indicator_id.upper() or i["code"].upper() == indicator_id.upper()), None)
@@ -673,7 +686,7 @@ class WeeklyService:
         val_list = []
         prev_val = None
 
-        target_years = [year] if year and 2014 <= year <= 2026 else cls.YEARS
+        target_years = [year] if year and 1990 <= year <= 2026 else cls.YEARS
 
         for y in target_years:
             y_str = str(y)
@@ -795,7 +808,7 @@ class WeeklyService:
 
         ws["A1"] = "INDOEKONOMI data — OBSERVATORIUM DATA MINGGUAN (WEEKLY HIGH-FREQUENCY)"
         ws["A1"].font = title_font
-        mode_text = f"TA {year}" if view_mode == "weekly" else "2014–2026"
+        mode_text = f"TA {year}" if view_mode == "weekly" else "1990–2026"
         ws["A2"] = f"Lembaga: {institution_id} • Mode: {view_mode.upper()} ({mode_text})"
         ws["A2"].font = bold_font
 

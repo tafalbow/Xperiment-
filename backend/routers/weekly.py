@@ -1,12 +1,12 @@
 """
-Weekly High-Frequency Observatory Router (2014 - 2026)
+Weekly High-Frequency Observatory Router (1990 - 2026)
 """
 
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Query, Response
 from backend.services.weekly_service import WeeklyService
 
-router = APIRouter(tags=["Weekly High-Frequency Observatory (2014 - 2026)"])
+router = APIRouter(tags=["Weekly High-Frequency Observatory (1990 - 2026)"])
 
 
 @router.get("/api/weekly/institutions")
@@ -28,8 +28,8 @@ def get_weekly_institutions():
 @router.get("/api/weekly/matrix")
 def get_weekly_matrix(
     institution_id: str = Query("ALL", description="ALL | BI | DJPB | OJK | BAPANAS"),
-    view_mode: str = Query("annual", description="annual (2014-2026) | weekly (W01-W52)"),
-    year: int = Query(2026, ge=2014, le=2026, description="Tahun untuk mode weekly"),
+    view_mode: str = Query("annual", description="annual (1990-2026) | weekly (W01-W52)"),
+    year: int = Query(2026, ge=1990, le=2026, description="Tahun untuk mode weekly"),
     q: Optional[str] = Query(None, description="Pencarian nama atau kode indikator")
 ):
     """
@@ -49,7 +49,7 @@ def get_weekly_matrix(
 @router.get("/api/weekly/trend")
 def get_weekly_trend(
     indicator_id: str = Query(..., description="Kode indikator mingguan (misal: BI_M0, OJK_IHSG_CLOSE)"),
-    year: Optional[int] = Query(None, ge=2014, le=2026, description="Filter tahun spesifik (opsional)")
+    year: Optional[int] = Query(None, ge=1990, le=2026, description="Filter tahun spesifik (opsional)")
 ):
     """
     Returns chronological time series, WoW changes, median trend olahan, and descriptive stats for a weekly indicator.
@@ -66,14 +66,14 @@ def get_weekly_trend(
 def export_weekly_matrix(
     institution_id: str = Query("ALL", description="ALL | BI | DJPB | OJK | BAPANAS"),
     view_mode: str = Query("annual", description="annual | weekly"),
-    year: int = Query(2026, ge=2014, le=2026),
+    year: int = Query(2026, ge=1990, le=2026),
     format: str = Query("xlsx", description="Format file: xlsx atau csv")
 ):
     """
     Downloads weekly data matrix in Excel (.xlsx) or CSV format.
     """
     clean_fmt = format.lower().strip()
-    filename_base = f"INDOEKONOMI_WEEKLY_{institution_id}_{view_mode}_{year if view_mode == 'weekly' else '2014-2026'}"
+    filename_base = f"INDOEKONOMI_WEEKLY_{institution_id}_{view_mode}_{year if view_mode == 'weekly' else '1990-2026'}"
     
     if clean_fmt == "csv":
         csv_text = WeeklyService.export_csv(institution_id=institution_id, view_mode=view_mode, year=year)

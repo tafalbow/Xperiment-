@@ -23,13 +23,13 @@ def test_get_weekly_institutions():
         assert expected in inst_ids
 
 def test_get_weekly_matrix_annual_mode():
-    """Verify default annual matrix returns 13 years (2014-2026) and 29 indicators."""
+    """Verify default annual matrix returns 37 years (1990-2026) and 29 indicators."""
     res = client.get("/api/weekly/matrix?institution_id=ALL&view_mode=annual")
     assert res.status_code == 200
     data = res.json()
     assert data["view_mode"] == "annual"
-    assert data["total_columns"] == 13
-    assert data["columns"][0]["id"] == "2014"
+    assert data["total_columns"] == 37
+    assert data["columns"][0]["id"] == "1990"
     assert data["columns"][-1]["id"] == "2026"
     assert data["total_rows"] == 29
     
@@ -37,7 +37,7 @@ def test_get_weekly_matrix_annual_mode():
     assert "id" in first_row
     assert "name" in first_row
     assert "values" in first_row
-    assert "2014" in first_row["values"]
+    assert "1990" in first_row["values"]
     assert "2026" in first_row["values"]
 
 def test_get_weekly_matrix_weekly_mode():
@@ -75,12 +75,12 @@ def test_get_weekly_matrix_by_institution():
     assert res_bap.json()["total_rows"] == 11
 
 def test_get_weekly_trend():
-    """Verify weekly trend calculations, statistics, median trend olahan, and 676 weekly points."""
+    """Verify weekly trend calculations, statistics, median trend olahan, and 1924 weekly points."""
     res = client.get("/api/weekly/trend?indicator_id=BI_M0")
     assert res.status_code == 200
     data = res.json()
     assert data["indicator"]["id"] == "BI_M0"
-    assert data["statistics"]["total_observations"] == 676 # 13 years * 52 weeks
+    assert data["statistics"]["total_observations"] == 1924 # 37 years * 52 weeks
     assert data["statistics"]["latest_value"] > 0
     assert data["statistics"]["min_value"] > 0
     assert data["statistics"]["max_value"] >= data["statistics"]["min_value"]
@@ -94,8 +94,8 @@ def test_get_weekly_trend():
     assert "mom_percent" in data["statistics"]
     assert "yoy_percent" in data["statistics"]
     assert "latest_median_trend" in data["statistics"]
-    assert len(data["series"]) == 676
-    assert data["series"][0]["period_label"] == "2014-W01"
+    assert len(data["series"]) == 1924
+    assert data["series"][0]["period_label"] == "1990-W01"
     assert data["series"][-1]["period_label"] == "2026-W52"
     # Series points contain median trend olahan & deviation
     assert "median_trend" in data["series"][-1]
