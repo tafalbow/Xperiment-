@@ -32,13 +32,16 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
     ALL_ADMIN_EMAILS.map(e => e.toLowerCase()).includes(masterAdminSession.email?.toLowerCase())
   );
 
+  // Retrieve saved collapse state for fix drop down header (default: expanded / visible)
+  const isDropdownHidden = localStorage.getItem('indoekonomi_fix_dropdown_hidden') === 'true';
+
   container.innerHTML = `
-    <!-- 1. TOP ACTION NAVIGATION TOOLBAR (FIX HEADER) -->
-    <header class="bg-[#F5EBE1] px-[7px] pt-2.5 pb-1 flex items-center justify-between flex-wrap gap-2">
-      <!-- Website Monogram Logo Icon + Status Line -->
-      <div class="flex items-center gap-3">
+    <!-- 1. @FIXHEADER: TOP ACTION NAVIGATION TOOLBAR (STICKY TOP) -->
+    <header id="fixheader" class="bg-[#F5EBE1] px-[7px] py-2 flex items-center justify-between flex-wrap gap-2 select-none border-b border-[#E8DCCF]/80">
+      <!-- Website Monogram Logo Icon + Status Line + Fix Drop Down Toggle Button -->
+      <div class="flex items-center gap-2.5 flex-wrap">
         <a href="#" class="flex items-center group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
-          <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-8 w-8 object-contain">
+          <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-7 w-7 sm:h-8 sm:w-8 object-contain">
         </a>
         <div class="flex items-center gap-2 flex-wrap text-[11px] font-mono uppercase tracking-widest text-[#5D4037] font-bold">
           <span>STANDAR STATUTORI NASIONAL</span>
@@ -48,6 +51,21 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
             <span>Status: Online</span>
           </span>
         </div>
+
+        <!-- FIX DROP DOWN HEADER TOGGLE BUTTON WITH STATE ICON (▲ = Dropped / ▼ = Hidden) -->
+        <button 
+          id="btn-toggle-fix-dropdown" 
+          type="button"
+          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-[#D5C2B1] bg-white text-[#5D4037] hover:bg-[#FAF7F2] hover:text-[#0038A8] text-[11px] font-mono font-bold shadow-2xs cursor-pointer transition-all ml-1 group"
+          title="${isDropdownHidden ? 'Tampilkan Fix Drop Down Header (Show)' : 'Sembunyikan Fix Drop Down Header (Hide)'}"
+          aria-expanded="${!isDropdownHidden}"
+          aria-controls="fix-dropdown-header"
+        >
+          <span id="label-toggle-fix-dropdown">Info Tata Kelola</span>
+          <span id="icon-toggle-fix-dropdown" class="inline-flex items-center justify-center w-4 h-4 rounded bg-[#F5EBE1] text-[#0038A8] text-[10px] font-bold transition-transform duration-200 group-hover:scale-110">
+            ${isDropdownHidden ? '▼' : '▲'}
+          </span>
+        </button>
       </div>
 
       <!-- Action Navigation Buttons -->
@@ -87,110 +105,167 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
       </div>
     </header>
 
-    <!-- 2. OBSERVATORIUM STATUTORI & TATA KELOLA REPOSITORI (SOFT BEIGE #F5EBE1) -->
-    <section class="bg-[#F5EBE1] px-[7px] pt-1 pb-6 font-mono" aria-label="Observatorium Statutori & Tata Kelola Repositori">
-      <div class="w-full">
-        <!-- 4-Column Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
-          
-          <!-- Col 1: Brand & Statutori Mission (Span 4) -->
-          <div class="lg:col-span-4 space-y-2.5">
-            <div class="flex items-center gap-3.5">
-              <!-- Website Monogram Logo Icon -->
-              <a href="#" class="flex items-center shrink-0 group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
-                <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-16 w-16 sm:h-20 sm:w-20 object-contain">
-              </a>
-              <div class="flex flex-col gap-1.5 justify-center">
-                <div class="px-3.5 py-1 rounded-md bg-white shadow-xs inline-flex items-center">
-                  <span class="text-base sm:text-lg font-mono font-black text-[#0038A8] tracking-widest uppercase">
-                    INDOEKONOMI.DATA.GO.ID
-                  </span>
-                </div>
-                <div class="px-2.5 py-0.5 rounded bg-white shadow-2xs text-[10px] font-mono font-semibold inline-flex items-center gap-1 text-[#5D4037] w-fit">
-                  <span class="text-[#7D655C] font-normal lowercase">supported by</span>
-                  <span class="font-bold uppercase text-[#2C2420]">Dewan Ekonomi Nasional</span>
+    <!-- 2. FIX DROP DOWN HEADER: OBSERVATORIUM STATUTORI & TATA KELOLA REPOSITORI (SOFT BEIGE #F5EBE1) -->
+    <div id="fix-dropdown-header" class="${isDropdownHidden ? 'is-hidden' : 'is-open'}">
+      <section class="bg-[#F5EBE1] px-[7px] pt-1.5 pb-4 font-mono" aria-label="Observatorium Statutori & Tata Kelola Repositori">
+        <div class="w-full">
+          <!-- 4-Column Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
+            
+            <!-- Col 1: Brand & Statutori Mission (Span 4) -->
+            <div class="lg:col-span-4 space-y-2.5">
+              <div class="flex items-center gap-3.5">
+                <!-- Website Monogram Logo Icon -->
+                <a href="#" class="flex items-center shrink-0 group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
+                  <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-16 w-16 sm:h-20 sm:w-20 object-contain">
+                </a>
+                <div class="flex flex-col gap-1.5 justify-center">
+                  <div class="px-3.5 py-1 rounded-md bg-white shadow-xs inline-flex items-center">
+                    <span class="text-base sm:text-lg font-mono font-black text-[#0038A8] tracking-widest uppercase">
+                      INDOEKONOMI.DATA.GO.ID
+                    </span>
+                  </div>
+                  <div class="px-2.5 py-0.5 rounded bg-white shadow-2xs text-[10px] font-mono font-semibold inline-flex items-center gap-1 text-[#5D4037] w-fit">
+                    <span class="text-[#7D655C] font-normal lowercase">supported by</span>
+                    <span class="font-bold uppercase text-[#2C2420]">Dewan Ekonomi Nasional</span>
+                  </div>
                 </div>
               </div>
+              <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
+                Repositori kompilasi dan harmonisasi statistik resmi pergerakan ekonomi Indonesia lintas institusi statutori untuk perumusan kebijakan publik dan riset kredibel.
+              </p>
+              <div class="pt-1 text-[10.5px] text-[#7D655C]">
+                Pengawasan & Kemitraan: <strong>Kementerian Keuangan RI • BPS • Bank Indonesia • BPK RI</strong>
+              </div>
             </div>
-            <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
-              Repositori kompilasi dan harmonisasi statistik resmi pergerakan ekonomi Indonesia lintas institusi statutori untuk perumusan kebijakan publik dan riset kredibel.
-            </p>
-            <div class="pt-1 text-[10.5px] text-[#7D655C]">
-              Pengawasan & Kemitraan: <strong>Kementerian Keuangan RI • BPS • Bank Indonesia • BPK RI</strong>
-            </div>
-          </div>
 
-          <!-- Col 2: Otoritas Sumber Data (Span 2) -->
-          <div class="lg:col-span-2 space-y-2.5">
-            <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420]">
-              Otoritas Sumber Data
-            </h4>
-            <ul class="text-xs text-[#5D4037] font-sans space-y-1.5 font-medium">
-              <li><a href="https://kemenkeu.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Kementerian Keuangan RI</span></a></li>
-              <li><a href="https://bps.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Badan Pusat Statistik (BPS)</span></a></li>
-              <li><a href="https://bi.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Bank Indonesia (BI)</span></a></li>
-              <li><a href="https://bpk.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>BPK Republik Indonesia</span></a></li>
-              <li><a href="https://satudata.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Portal Satu Data Indonesia</span></a></li>
-            </ul>
-          </div>
-
-          <!-- Col 3: Tata Kelola & Batasan Akses (Span 3) -->
-          <div class="lg:col-span-3 space-y-2.5">
-            <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420]">
-              Tata Kelola & Batasan Akses
-            </h4>
-            <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
-              Penggunaan data dibatasi (<em>restricted</em>) untuk peruntukan analisis kebijakan publik, perumusan regulasi, dan riset resmi terdaftar. Wajib mencantumkan repositori ini sebagai sumber sitasi resmi.
-            </p>
-            <p class="text-[11px] text-[#8D6E63] font-sans font-medium">
-              ⚠️ Dilarang menyalin, mendistribusikan ulang massal, atau mengkomersialkan data tanpa izin statutori tertulis.
-            </p>
-          </div>
-
-          <!-- Col 4: Layanan Akses Data (Span 3) -->
-          <div class="lg:col-span-3 space-y-2.5 flex flex-col justify-between">
-            <div class="space-y-1.5">
+            <!-- Col 2: Otoritas Sumber Data (Span 2) -->
+            <div class="lg:col-span-2 space-y-2.5">
               <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420]">
-                Layanan Akses Data
+                Otoritas Sumber Data
+              </h4>
+              <ul class="text-xs text-[#5D4037] font-sans space-y-1.5 font-medium">
+                <li><a href="https://kemenkeu.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Kementerian Keuangan RI</span></a></li>
+                <li><a href="https://bps.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Badan Pusat Statistik (BPS)</span></a></li>
+                <li><a href="https://bi.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Bank Indonesia (BI)</span></a></li>
+                <li><a href="https://bpk.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>BPK Republik Indonesia</span></a></li>
+                <li><a href="https://satudata.go.id" target="_blank" rel="noreferrer" class="hover:text-[#0038A8] hover:underline transition-colors flex items-center gap-1.5"><span>Portal Satu Data Indonesia</span></a></li>
+              </ul>
+            </div>
+
+            <!-- Col 3: Tata Kelola & Batasan Akses (Span 3) -->
+            <div class="lg:col-span-3 space-y-2.5">
+              <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420]">
+                Tata Kelola & Batasan Akses
               </h4>
               <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
-                Pembaruan berkala tgl 8, 17, dan 28 setiap bulan. Validasi 100% data riil audited BPK & BRS BPS resmi.
+                Penggunaan data dibatasi (<em>restricted</em>) untuk peruntukan analisis kebijakan publik, perumusan regulasi, dan riset resmi terdaftar. Wajib mencantumkan repositori ini sebagai sumber sitasi resmi.
               </p>
-              <div class="flex items-center gap-1.5 text-[11px] text-[#7D655C]">
-                <span>🕒 Terakhir Diperbarui: <strong class="text-[#2C2420]">28 Januari 2025</strong></span>
+              <p class="text-[11px] text-[#8D6E63] font-sans font-medium">
+                ⚠️ Dilarang menyalin, mendistribusikan ulang massal, atau mengkomersialkan data tanpa izin statutori tertulis.
+              </p>
+            </div>
+
+            <!-- Col 4: Layanan Akses Data (Span 3) -->
+            <div class="lg:col-span-3 space-y-2.5 flex flex-col justify-between">
+              <div class="space-y-1.5">
+                <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420]">
+                  Layanan Akses Data
+                </h4>
+                <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
+                  Pembaruan berkala tgl 8, 17, dan 28 setiap bulan. Validasi 100% data riil audited BPK & BRS BPS resmi.
+                </p>
+                <div class="flex items-center gap-1.5 text-[11px] text-[#7D655C]">
+                  <span>🕒 Terakhir Diperbarui: <strong class="text-[#2C2420]">28 Januari 2025</strong></span>
+                </div>
+                <div class="text-[11px] text-[#7D655C]">
+                  Helpdesk: <a href="mailto:lubis.tania@dewanekonomi.go.id" class="text-[#0038A8] hover:underline font-bold">lubis.tania@dewanekonomi.go.id</a>
+                </div>
               </div>
-              <div class="text-[11px] text-[#7D655C]">
-                Helpdesk: <a href="mailto:lubis.tania@dewanekonomi.go.id" class="text-[#0038A8] hover:underline font-bold">lubis.tania@dewanekonomi.go.id</a>
+
+              <div class="pt-2">
+                <button 
+                  type="button" 
+                  id="btn-statutory-register" 
+                  class="w-full sm:w-auto px-6 py-2.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] font-bold shadow-xs' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] shadow-xs font-semibold' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white shadow-xs')} text-xs font-mono font-medium tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer group"
+                  title="${isMasterAdmin ? 'Sesi Master Admin Aktif' : (registeredUser ? 'Akses Terdaftar' : 'Registrasi Akses Data atau Login Master Admin')}"
+                >
+                  ${isMasterAdmin ? `
+                    <span>👑</span>
+                    <span>Master Admin: <strong class="truncate max-w-[160px] inline-block align-bottom text-amber-950">${masterAdminSession.email}</strong></span>
+                    <span id="btn-admin-statutory-logout" class="ml-1 text-[10px] underline text-amber-800 hover:text-rose-700" title="Keluar dari Master Admin">[Keluar]</span>
+                  ` : (registeredUser ? `
+                    <span>🟢</span>
+                    <span>Akses Terdaftar: <strong class="truncate max-w-[140px] inline-block align-bottom">${registeredUser.email}</strong></span>
+                  ` : `
+                    <span>🔑</span>
+                    <span>Masuk / Registrasi Akses</span>
+                    <span class="group-hover:translate-x-0.5 transition-transform">→</span>
+                  `)}
+                </button>
               </div>
             </div>
 
-            <div class="pt-2">
-              <button 
-                type="button" 
-                id="btn-statutory-register" 
-                class="w-full sm:w-auto px-6 py-2.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] font-bold shadow-xs' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] shadow-xs font-semibold' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white shadow-xs')} text-xs font-mono font-medium tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer group"
-                title="${isMasterAdmin ? 'Sesi Master Admin Aktif' : (registeredUser ? 'Akses Terdaftar' : 'Registrasi Akses Data atau Login Master Admin')}"
-              >
-                ${isMasterAdmin ? `
-                  <span>👑</span>
-                  <span>Master Admin: <strong class="truncate max-w-[160px] inline-block align-bottom text-amber-950">${masterAdminSession.email}</strong></span>
-                  <span id="btn-admin-statutory-logout" class="ml-1 text-[10px] underline text-amber-800 hover:text-rose-700" title="Keluar dari Master Admin">[Keluar]</span>
-                ` : (registeredUser ? `
-                  <span>🟢</span>
-                  <span>Akses Terdaftar: <strong class="truncate max-w-[140px] inline-block align-bottom">${registeredUser.email}</strong></span>
-                ` : `
-                  <span>🔑</span>
-                  <span>Masuk / Registrasi Akses</span>
-                  <span class="group-hover:translate-x-0.5 transition-transform">→</span>
-                `)}
-              </button>
-            </div>
           </div>
 
+          <!-- Bottom Bar with Collapse Action and Indicator Icon -->
+          <div class="mt-4 pt-2 border-t border-[#E8DCCF]/80 flex items-center justify-between flex-wrap gap-2 text-[11px] font-mono text-[#7D655C]">
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#0038A8]"></span>
+              <span class="font-sans">Observatorium Statutori & Tata Kelola Repositori Data Nasional (Dewan Ekonomi Nasional)</span>
+            </div>
+            <button 
+              type="button" 
+              id="btn-hide-dropdown-bottom" 
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white hover:bg-[#FAF7F2] text-[#5D4037] hover:text-[#0038A8] border border-[#D5C2B1] shadow-2xs text-[11px] font-mono font-bold cursor-pointer transition-all group"
+              title="Sembunyikan panel drop down ini"
+            >
+              <span>Sembunyikan Panel (Hide)</span>
+              <span class="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-[#F5EBE1] text-[#0038A8] text-[9px] group-hover:-translate-y-0.5 transition-transform">▲</span>
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   `;
+
+  // Fix Drop Down Header Toggle Logic & Listeners
+  const dropdownSection = document.getElementById('fix-dropdown-header');
+  const toggleBtn = document.getElementById('btn-toggle-fix-dropdown');
+  const hideBottomBtn = document.getElementById('btn-hide-dropdown-bottom');
+  const iconToggle = document.getElementById('icon-toggle-fix-dropdown');
+  const labelToggle = document.getElementById('label-toggle-fix-dropdown');
+
+  function updateDropdownUI(hidden) {
+    if (!dropdownSection) return;
+    if (hidden) {
+      dropdownSection.classList.remove('is-open');
+      dropdownSection.classList.add('is-hidden');
+      if (iconToggle) iconToggle.textContent = '▼';
+      toggleBtn?.setAttribute('title', 'Tampilkan Fix Drop Down Header (Show)');
+      toggleBtn?.setAttribute('aria-expanded', 'false');
+    } else {
+      dropdownSection.classList.remove('is-hidden');
+      dropdownSection.classList.add('is-open');
+      if (iconToggle) iconToggle.textContent = '▲';
+      toggleBtn?.setAttribute('title', 'Sembunyikan Fix Drop Down Header (Hide)');
+      toggleBtn?.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  toggleBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const currentlyHidden = dropdownSection?.classList.contains('is-hidden');
+    const newStateHidden = !currentlyHidden;
+    localStorage.setItem('indoekonomi_fix_dropdown_hidden', newStateHidden ? 'true' : 'false');
+    updateDropdownUI(newStateHidden);
+  });
+
+  hideBottomBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.setItem('indoekonomi_fix_dropdown_hidden', 'true');
+    updateDropdownUI(true);
+  });
 
   document.getElementById('btn-header-crosswalk-doc')?.addEventListener('click', () => {
     ModalManager.showClassificationDocumentModal();

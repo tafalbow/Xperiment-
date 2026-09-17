@@ -439,4 +439,46 @@ footer {
 .border-benhur { border-color: var(--biru-benhur) !important; }
 .border-benhur-border { border-color: var(--biru-benhur-border) !important; }
 
+/* ==============================================================================
+   @FIXHEADER & FIX DROP DOWN HEADER
+   Sticky top navigation with collapsible multi-column institutional dropdown
+   ============================================================================== */
+#app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--petal-soft-beige);
+  box-shadow: 0 1px 4px 0 rgba(44, 36, 32, 0.08);
+}
+
+#fixheader {
+  background-color: var(--petal-soft-beige);
+  border-bottom: 1px solid rgba(232, 220, 207, 0.85);
+}
+
+#fix-dropdown-header {
+  background-color: var(--petal-soft-beige);
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, visibility 0.25s ease;
+  will-change: max-height, opacity;
+}
+
+#fix-dropdown-header.is-hidden {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  border-bottom: none !important;
+  pointer-events: none !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+#fix-dropdown-header.is-open {
+  max-height: 800px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  border-bottom: 1px solid #E2D2C3 !important;
+  pointer-events: auto !important;
+}
+
+
 
