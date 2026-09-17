@@ -1,4 +1,4 @@
-﻿// ==============================================================================
+// ==============================================================================
 // SIDEBAR EXTRAS COMPONENT (Tab Sumber Data, Contact Person, Ownership & Upgrade Space)
 // ==============================================================================
 
@@ -21,50 +21,9 @@ export class SidebarExtras {
     this.container.innerHTML = `
       <div class="space-y-3 font-mono text-xs flex flex-col justify-between h-full">
         
-        <!-- 1. TAB KE KOMPILASI SUMBER DATA & JADWAL RILIS (Google Analytics Style) -->
-        <div class="gov-card p-3.5 bg-white  shadow-sm space-y-2 rounded-lg">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold text-[#1A73E8] tracking-wider uppercase flex items-center gap-1.5">
-              <span>📅</span> SIKLUS RILIS TGL 8, 17, 28
-            </span>
-            <span class="text-[9px] px-1.5 py-0.2 rounded bg-[#E6F4EA] text-[#137333]  font-bold">
-              ${this.totalVariables} Variabel
-            </span>
-          </div>
-
-          <div>
-            <h3 class="font-bold text-xs text-[#202124] leading-snug">
-              Kompilasi Sumber Data & Jadwal Rilis
-            </h3>
-            <p class="text-[11px] text-[#5F6368] font-sans mt-0.5 leading-relaxed">
-              Daftar inventori 47 variabel data resmi, dasar hukum UU, dan jadwal update berkala.
-            </p>
-          </div>
-
-          <div class="pt-1 space-y-1.5">
-            <button 
-              type="button" 
-              id="btn-sidebar-open-inventory" 
-              class="w-full py-1.5 px-3 rounded bg-[#1A73E8] hover:bg-[#174EA6] text-white font-medium text-xs font-mono flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
-            >
-              <span>📑</span>
-              <span>Katalog Sumber Data ➔</span>
-            </button>
-
-            <button 
-              type="button" 
-              id="btn-sidebar-open-commodities" 
-              class="w-full py-1.5 px-3 rounded bg-[#1E8E3E] hover:bg-[#137333] text-white font-medium text-xs font-mono flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
-            >
-              <span>🌾</span>
-              <span>Neraca Komoditas & Hasil Bumi ➔</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 2. CONTACT PERSON & SERVICE DESK (Aligned with Ringkasan Metrik Deskriptif) -->
-        <div class="gov-card p-3.5 bg-white  shadow-2xs space-y-2 rounded-lg mt-auto">
-          <div class="flex items-center justify-between  pb-1.5">
+        <!-- CONTACT PERSON & SERVICE DESK (Aligned with Ringkasan Metrik Deskriptif) -->
+        <div class="gov-card p-3.5 bg-white shadow-2xs space-y-2 rounded-lg mt-auto">
+          <div class="flex items-center justify-between pb-1.5">
             <div class="flex items-center gap-1.5 text-[11px] font-bold text-[#202124] uppercase">
               <span>👤</span>
               <span>Contact Person & Helpdesk</span>
@@ -98,12 +57,6 @@ export class SidebarExtras {
   }
 
   attachEvents() {
-    document.getElementById('btn-sidebar-open-inventory')?.addEventListener('click', () => {
-      this.onSwitchToInventory();
-    });
-
-    document.getElementById('btn-sidebar-open-commodities')?.addEventListener('click', () => {
-      window.__govApp?.switchMainTab('commodities');
-    });
+    // No shortcuts remaining in sidebar
   }
 }

@@ -6,9 +6,10 @@
 import { ApiClient } from '../services/api_client.js';
 
 export class ContextualMap {
-  constructor(containerId, onSelectSeriesCallback = () => {}) {
+  constructor(containerId, onSelectSeriesCallback = () => {}, options = {}) {
     this.container = document.getElementById(containerId);
     this.onSelectSeriesCallback = onSelectSeriesCallback;
+    this.onSwitchToInventory = options.onSwitchToInventory || null;
 
     this.activeSeriesList = [
       { id: 'series-1', indicatorId: 'IND-GDP-GROWTH-YOY', name: 'Laju Pertumbuhan PDB Riil', color: '#1A73E8' }
@@ -217,17 +218,29 @@ export class ContextualMap {
     this.container.innerHTML = `
       <div class="gov-card p-4 space-y-3 flex flex-col justify-between overflow-hidden shadow-xs">
         <!-- Section Header -->
-        <div class="flex items-center justify-between  pb-2.5 flex-wrap gap-2 shrink-0">
+        <div class="flex items-center justify-between pb-2.5 flex-wrap gap-2 shrink-0">
           <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">INFORMASI PENDORONG KONTEKSTUAL (GIS CONTEXT)</span>
-              <span class="text-[10px] font-mono bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] px-1.5 py-0.5 rounded">TERHUBUNG KE GRAFIK</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 shrink-0">INFORMASI PENDORONG KONTEKSTUAL (GIS CONTEXT)</span>
+              
+              <!-- Shortcut A: Katalog Sumber Data (Posisi Fix di Samping Header GIS Context) -->
+              <button 
+                type="button" 
+                id="btn-gis-open-inventory" 
+                class="px-2.5 py-0.5 rounded bg-[#1A73E8] hover:bg-[#174EA6] text-white font-mono text-[11px] font-bold flex items-center gap-1.5 shadow-2xs transition-all cursor-pointer shrink-0"
+                title="Buka Katalog Sumber Data & Jadwal Rilis (Tab Inventori)"
+              >
+                <span>📑</span>
+                <span>Katalog Sumber Data ➔</span>
+              </button>
+
+              <span class="text-[10px] font-mono bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC] px-1.5 py-0.5 rounded font-semibold shrink-0">TERHUBUNG KE GRAFIK</span>
             </div>
             <p class="text-[11px] text-slate-500 mt-0.5">
               Penjelasan pendorong geoekonomi resmi yang terhubung dengan variabel dan titik data grafik di sebelah kiri.
             </p>
           </div>
-          <span class="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded ">
+          <span class="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded shrink-0">
             Bukan Basis Data Provinsi
           </span>
         </div>
@@ -556,6 +569,19 @@ export class ContextualMap {
 
     // Driver list click events
     this.attachDriverClickEvents();
+
+    // Shortcut A: Buka Katalog Sumber Data (Tab Inventori)
+    const btnGisInventory = this.container.querySelector('#btn-gis-open-inventory');
+    btnGisInventory?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (this.onSwitchToInventory) {
+        this.onSwitchToInventory();
+      } else if (window.__govApp) {
+        window.__govApp.switchMainTab('inventory');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
 
     // Reset map zoom button to Full Archipelago View
     const btnReset = document.getElementById('btn-reset-map-zoom');

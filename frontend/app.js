@@ -119,6 +119,11 @@ class App {
         if (this.chartModule) {
           await this.chartModule.activateSeriesTab(selectedSeriesIdx);
         }
+      }, {
+        onSwitchToInventory: () => {
+          this.switchMainTab('inventory');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       });
 
       // 8. Initialize Chart Module with available indicators & live bidirectional sync
