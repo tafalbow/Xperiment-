@@ -85,17 +85,17 @@ export class HomeView {
         <!-- 2. ACCESS & AUTHENTICATION GATEWAY (FRONTPAGE LOGIN & OTORITAS) -->
         ${isMasterAdmin ? `
           <!-- Active Master Admin Executive Banner -->
-          <div class="bg-[#FDF8F5] border border-[#F0D5BE] rounded-lg p-4 sm:p-5 shadow-2xs font-mono space-y-3" id="home-auth-section">
+          <div class="bg-[#FDF8F5] rounded-lg p-4 sm:p-5 shadow-2xs font-mono space-y-3" id="home-auth-section">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div class="flex items-center gap-3.5">
-                <div class="w-12 h-12 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-2xl shrink-0 shadow-2xs">
+                <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-2xl shrink-0 shadow-2xs">
                   👑
                 </div>
                 <div class="space-y-0.5">
                   <div class="flex items-center gap-2 flex-wrap">
                     <span class="text-xs font-bold uppercase tracking-wider text-[#8C4710]">Sesi Otoritas Master Admin Aktif</span>
-                    <span class="text-[10px] bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-0.5 rounded font-bold">● Terotentikasi</span>
-                    <span class="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded font-bold">Dewan Ekonomi Nasional</span>
+                    <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">● Terotentikasi</span>
+                    <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold">Dewan Ekonomi Nasional</span>
                   </div>
                   <div class="text-sm sm:text-base font-bold text-[#2C2420]">${masterAdminSession.email}</div>
                   <div class="text-[11.5px] text-[#5D4037] font-sans">
@@ -116,23 +116,23 @@ export class HomeView {
           </div>
         ` : `
           <!-- Frontpage Login & Access Module -->
-          <div class="bg-white border border-[#E5DACF] rounded-lg p-4 sm:p-5 shadow-2xs font-mono space-y-3.5" id="home-auth-section">
-            <div class="flex items-center justify-between border-b border-[#E5DACF] pb-2.5 flex-wrap gap-2">
+          <div class="bg-white rounded-lg p-4 sm:p-5 shadow-2xs font-mono space-y-3.5" id="home-auth-section">
+            <div class="flex items-center justify-between pb-2.5 flex-wrap gap-2">
               <div class="flex items-center gap-2">
                 <span class="text-base">🔐</span>
                 <span class="text-xs font-bold uppercase tracking-wider text-[#2C2420]">
                   Akses Masuk & Login Repositori Data Ekonomi Nasional
                 </span>
               </div>
-              <div class="text-[10px] text-[#7D655C] bg-[#FAF7F2] border border-[#E5DACF] px-2.5 py-0.5 rounded font-medium">
+              <div class="text-[10px] text-[#7D655C] bg-[#FAF7F2] px-2.5 py-0.5 rounded font-medium">
                 Otoritas Dewan Ekonomi Nasional & Peneliti Terdaftar
               </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
               <!-- Col 1: Master Admin Quick Login & Password Setup (Span 7) -->
-              <div class="lg:col-span-7 bg-[#FAF7F2] border border-[#E5DACF] rounded-lg p-4 space-y-3">
-                <div class="flex items-center justify-between border-b border-[#E5DACF] pb-2">
+              <div class="lg:col-span-7 bg-[#FAF7F2] rounded-lg p-4 space-y-3">
+                <div class="flex items-center justify-between pb-2">
                   <div class="flex items-center gap-2">
                     <span class="text-lg">👑</span>
                     <div>
@@ -140,7 +140,7 @@ export class HomeView {
                       <p class="text-[10.5px] text-[#7D655C] font-sans">Dewan Ekonomi Nasional • Tata Kelola Penuh</p>
                     </div>
                   </div>
-                  <span class="text-[10px] font-bold text-amber-900 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded">
+                  <span class="text-[10px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">
                     DEN RI
                   </span>
                 </div>
@@ -195,7 +195,7 @@ export class HomeView {
                 </form>
 
                 <!-- Expandable Setup Password Form with Token -->
-                <div id="home-admin-setup-pw-wrapper" class="hidden border-t border-[#E5DACF] pt-3 mt-2 space-y-2.5">
+                <div id="home-admin-setup-pw-wrapper" class="hidden pt-3 mt-2 space-y-2.5">
                   <div class="bg-amber-50 border border-amber-200 rounded p-2.5 text-[10.5px] font-sans text-amber-950 leading-relaxed">
                     <strong>Aktivasi Kata Sandi Baru Master Admin:</strong><br>
                     Gunakan token konfirmasi resmi yang telah diterbitkan untuk menetapkan kata sandi akun Anda.
@@ -260,9 +260,9 @@ export class HomeView {
               </div>
 
               <!-- Col 2: Researcher & Analyst Access (Span 5) -->
-              <div class="lg:col-span-5 bg-[#FAF7F2] border border-[#E5DACF] rounded-lg p-4 flex flex-col justify-between space-y-3">
+              <div class="lg:col-span-5 bg-[#FAF7F2] rounded-lg p-4 flex flex-col justify-between space-y-3">
                 <div class="space-y-2">
-                  <div class="flex items-center justify-between border-b border-[#E5DACF] pb-2">
+                  <div class="flex items-center justify-between pb-2">
                     <div class="flex items-center gap-2">
                       <span class="text-lg">👤</span>
                       <div>
@@ -270,7 +270,7 @@ export class HomeView {
                         <p class="text-[10.5px] text-[#7D655C] font-sans">Kementerian/Lembaga, Universitas & Peneliti</p>
                       </div>
                     </div>
-                    <span class="text-[10px] font-bold text-slate-700 bg-white border border-[#E5DACF] px-2 py-0.5 rounded">
+                    <span class="text-[10px] font-bold text-slate-700 bg-white px-2 py-0.5 rounded">
                       Statutori
                     </span>
                   </div>
@@ -284,7 +284,7 @@ export class HomeView {
                   </p>
                 </div>
 
-                <div class="pt-2 border-t border-[#E5DACF] flex items-center justify-between flex-wrap gap-2">
+                <div class="pt-2 flex items-center justify-between flex-wrap gap-2">
                   <div class="text-[10.5px] text-[#7D655C]">
                     ${registeredUser ? '🟢 Status: <strong>Akses Aktif</strong>' : '⚪ Status: <strong>Tamu (Belum Terdaftar)</strong>'}
                   </div>
