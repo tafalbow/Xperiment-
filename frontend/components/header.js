@@ -216,23 +216,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
         </div>
       </section>
     </div>
-
-    <!-- 3. PERSISTENT DROPDOWN TOGGLE BAR (Rata kiri website dengan margin px-[7px], tanpa garis bidang, tombol putih) -->
-    <div id="dropdown-toggle-bar" class="w-full flex items-center justify-start px-[7px] py-1.5 bg-[#F5EBE1] select-none">
-      <button 
-        id="btn-handle-dropdown-toggle" 
-        type="button" 
-        class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white hover:bg-[#FAF7F2] text-[#0038A8] border border-[#D5C2B1] hover:border-[#0038A8] shadow-2xs hover:shadow-xs text-[11px] font-mono font-bold cursor-pointer transition-all group"
-        title="${isDropdownHidden ? 'Buka Header (Scroll Down)' : 'Tutup Header (Scroll Up)'}"
-        aria-expanded="${!isDropdownHidden}"
-        aria-controls="fix-dropdown-header"
-      >
-        <span id="handle-toggle-text">${isDropdownHidden ? 'Buka Header (Scroll Down)' : 'Tutup Header (Scroll Up)'}</span>
-        <span id="handle-toggle-icon" class="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-[#F5EBE1] text-[#0038A8] text-[9px] font-bold transition-transform duration-200 group-hover:scale-110">
-          ${isDropdownHidden ? '▼' : '▲'}
-        </span>
-      </button>
-    </div>
   `;
 
   // Fix Drop Down Header Toggle Logic & Listeners
@@ -240,10 +223,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
   const toggleBtn = document.getElementById('btn-toggle-fix-dropdown');
   const labelToggle = document.getElementById('label-toggle-fix-dropdown');
   const iconToggle = document.getElementById('icon-toggle-fix-dropdown');
-  
-  const handleToggleBtn = document.getElementById('btn-handle-dropdown-toggle');
-  const handleToggleText = document.getElementById('handle-toggle-text');
-  const handleToggleIcon = document.getElementById('handle-toggle-icon');
 
   function updateDropdownUI(hidden) {
     if (!dropdownSection) return;
@@ -256,12 +235,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
       if (iconToggle) iconToggle.textContent = '▼';
       toggleBtn?.setAttribute('title', 'Buka Header (Scroll Down)');
       toggleBtn?.setAttribute('aria-expanded', 'false');
-
-      // Bottom persistent handle bar button (rata kiri)
-      if (handleToggleText) handleToggleText.textContent = 'Buka Header (Scroll Down)';
-      if (handleToggleIcon) handleToggleIcon.textContent = '▼';
-      handleToggleBtn?.setAttribute('title', 'Buka Header (Scroll Down)');
-      handleToggleBtn?.setAttribute('aria-expanded', 'false');
     } else {
       dropdownSection.classList.remove('is-hidden');
       dropdownSection.classList.add('is-open');
@@ -271,12 +244,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
       if (iconToggle) iconToggle.textContent = '▲';
       toggleBtn?.setAttribute('title', 'Tutup Header (Scroll Up)');
       toggleBtn?.setAttribute('aria-expanded', 'true');
-
-      // Bottom persistent handle bar button (rata kiri)
-      if (handleToggleText) handleToggleText.textContent = 'Tutup Header (Scroll Up)';
-      if (handleToggleIcon) handleToggleIcon.textContent = '▲';
-      handleToggleBtn?.setAttribute('title', 'Tutup Header (Scroll Up)');
-      handleToggleBtn?.setAttribute('aria-expanded', 'true');
     }
   }
 
@@ -289,7 +256,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
   }
 
   toggleBtn?.addEventListener('click', toggleDropdown);
-  handleToggleBtn?.addEventListener('click', toggleDropdown);
 
   document.getElementById('btn-header-crosswalk-doc')?.addEventListener('click', () => {
     ModalManager.showClassificationDocumentModal();

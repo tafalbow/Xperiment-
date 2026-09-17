@@ -483,11 +483,5 @@ footer {
   pointer-events: auto !important;
 }
 
-#dropdown-toggle-bar {
-  background-color: var(--petal-soft-beige);
-  border: none !important;
-  box-shadow: none !important;
-}
-
 
 
