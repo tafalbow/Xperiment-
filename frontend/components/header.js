@@ -70,16 +70,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
 
       <!-- Action Navigation Buttons -->
       <div class="flex items-center gap-2 flex-wrap ml-auto">
-        <button 
-          id="btn-header-toggle-dropdown-alt" 
-          type="button"
-          class="gov-btn text-xs font-semibold bg-white text-[#0038A8] hover:bg-[#EBF1FC] border border-[#BCD0F7] cursor-pointer flex items-center gap-1.5" 
-          title="${isDropdownHidden ? 'Buka Header Observatorium (Scroll Down)' : 'Tutup Header Observatorium (Scroll Up)'}"
-        >
-          <span id="icon-toggle-dropdown-alt">${isDropdownHidden ? '▼' : '▲'}</span>
-          <span id="label-toggle-dropdown-alt">${isDropdownHidden ? 'Header Observatorium (Buka)' : 'Header Observatorium (Tutup)'}</span>
-        </button>
-
         <button id="btn-header-crosswalk-doc" class="gov-btn text-xs font-medium bg-white text-[#0038A8] hover:bg-[#FAF7F2]">
           <span>ℹ️</span>
           <span>Riwayat Klasifikasi APBN</span>
@@ -218,41 +208,27 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
 
           </div>
 
-          <!-- Bottom Bar with Collapse Action and Indicator Icon -->
-          <div class="mt-4 pt-2 border-t border-[#E8DCCF]/80 flex items-center justify-between flex-wrap gap-2 text-[11px] font-mono text-[#7D655C]">
-            <div class="flex items-center gap-2">
-              <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#0038A8]"></span>
-              <span class="font-sans">Observatorium Statutori & Tata Kelola Repositori Data Nasional (Dewan Ekonomi Nasional)</span>
-            </div>
-            <button 
-              type="button" 
-              id="btn-hide-dropdown-bottom" 
-              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white hover:bg-[#FAF7F2] text-[#5D4037] hover:text-[#0038A8] border border-[#D5C2B1] shadow-2xs text-[11px] font-mono font-bold cursor-pointer transition-all group"
-              title="Tutup / Sembunyikan panel drop down ini (Scroll Up)"
-            >
-              <span>Tutup Header (Scroll Up)</span>
-              <span class="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-[#F5EBE1] text-[#0038A8] text-[9px] group-hover:-translate-y-0.5 transition-transform">▲</span>
-            </button>
+          <!-- Bottom Bar Info (Tanpa garis bidang dan tanpa tombol penutup dalam) -->
+          <div class="mt-3 pt-1 flex items-center gap-2 text-[11px] font-mono text-[#7D655C]">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#0038A8]"></span>
+            <span class="font-sans">Observatorium Statutori & Tata Kelola Repositori Data Nasional (Dewan Ekonomi Nasional)</span>
           </div>
         </div>
       </section>
     </div>
 
-    <!-- 3. PERSISTENT DROPDOWN TOGGLE BAR (Visible on every page at the bottom border of the sticky header) -->
-    <div id="dropdown-toggle-bar" class="w-full flex items-center justify-center py-1 bg-[#F5EBE1] border-b border-[#E2D2C3] select-none">
+    <!-- 3. PERSISTENT DROPDOWN TOGGLE BAR (Rata kiri website dengan margin px-[7px], tanpa garis bidang, tombol putih) -->
+    <div id="dropdown-toggle-bar" class="w-full flex items-center justify-start px-[7px] py-1.5 bg-[#F5EBE1] select-none">
       <button 
         id="btn-handle-dropdown-toggle" 
         type="button" 
-        class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white hover:bg-[#FAF7F2] text-[#0038A8] border border-[#BCD0F7] hover:border-[#0038A8] shadow-2xs hover:shadow-xs text-[11px] font-mono font-bold cursor-pointer transition-all group"
-        title="${isDropdownHidden ? 'Klik untuk membuka / Scroll Down Header Observatorium' : 'Klik untuk menutup / Scroll Up Header Observatorium'}"
+        class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white hover:bg-[#FAF7F2] text-[#0038A8] border border-[#D5C2B1] hover:border-[#0038A8] shadow-2xs hover:shadow-xs text-[11px] font-mono font-bold cursor-pointer transition-all group"
+        title="${isDropdownHidden ? 'Buka Header (Scroll Down)' : 'Tutup Header (Scroll Up)'}"
         aria-expanded="${!isDropdownHidden}"
         aria-controls="fix-dropdown-header"
       >
-        <span id="handle-toggle-icon-left" class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#EBF1FC] text-[#0038A8] text-[10px] font-bold group-hover:translate-y-0.5 transition-transform">
-          ${isDropdownHidden ? '▼' : '▲'}
-        </span>
         <span id="handle-toggle-text">${isDropdownHidden ? 'Buka Header (Scroll Down)' : 'Tutup Header (Scroll Up)'}</span>
-        <span id="handle-toggle-icon-right" class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#EBF1FC] text-[#0038A8] text-[10px] font-bold group-hover:translate-y-0.5 transition-transform">
+        <span id="handle-toggle-icon" class="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-[#F5EBE1] text-[#0038A8] text-[9px] font-bold transition-transform duration-200 group-hover:scale-110">
           ${isDropdownHidden ? '▼' : '▲'}
         </span>
       </button>
@@ -267,14 +243,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
   
   const handleToggleBtn = document.getElementById('btn-handle-dropdown-toggle');
   const handleToggleText = document.getElementById('handle-toggle-text');
-  const handleToggleIconLeft = document.getElementById('handle-toggle-icon-left');
-  const handleToggleIconRight = document.getElementById('handle-toggle-icon-right');
-  
-  const altToggleBtn = document.getElementById('btn-header-toggle-dropdown-alt');
-  const altToggleLabel = document.getElementById('label-toggle-dropdown-alt');
-  const altToggleIcon = document.getElementById('icon-toggle-dropdown-alt');
-  
-  const hideBottomBtn = document.getElementById('btn-hide-dropdown-bottom');
+  const handleToggleIcon = document.getElementById('handle-toggle-icon');
 
   function updateDropdownUI(hidden) {
     if (!dropdownSection) return;
@@ -282,46 +251,32 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
       dropdownSection.classList.remove('is-open');
       dropdownSection.classList.add('is-hidden');
       
-      // Top toolbar left button
+      // Top toolbar button
       if (labelToggle) labelToggle.textContent = 'Buka Header (Scroll Down)';
       if (iconToggle) iconToggle.textContent = '▼';
-      toggleBtn?.setAttribute('title', 'Buka Header Observatorium (Scroll Down)');
+      toggleBtn?.setAttribute('title', 'Buka Header (Scroll Down)');
       toggleBtn?.setAttribute('aria-expanded', 'false');
 
-      // Bottom persistent handle bar button
+      // Bottom persistent handle bar button (rata kiri)
       if (handleToggleText) handleToggleText.textContent = 'Buka Header (Scroll Down)';
-      if (handleToggleIconLeft) handleToggleIconLeft.textContent = '▼';
-      if (handleToggleIconRight) handleToggleIconRight.textContent = '▼';
-      handleToggleBtn?.setAttribute('title', 'Buka Header Observatorium (Scroll Down)');
+      if (handleToggleIcon) handleToggleIcon.textContent = '▼';
+      handleToggleBtn?.setAttribute('title', 'Buka Header (Scroll Down)');
       handleToggleBtn?.setAttribute('aria-expanded', 'false');
-
-      // Top toolbar alt button
-      if (altToggleLabel) altToggleLabel.textContent = 'Header Observatorium (Buka)';
-      if (altToggleIcon) altToggleIcon.textContent = '▼';
-      altToggleBtn?.setAttribute('title', 'Buka Header Observatorium (Scroll Down)');
-      altToggleBtn?.setAttribute('aria-expanded', 'false');
     } else {
       dropdownSection.classList.remove('is-hidden');
       dropdownSection.classList.add('is-open');
 
-      // Top toolbar left button
+      // Top toolbar button
       if (labelToggle) labelToggle.textContent = 'Tutup Header (Scroll Up)';
       if (iconToggle) iconToggle.textContent = '▲';
-      toggleBtn?.setAttribute('title', 'Tutup Header Observatorium (Scroll Up)');
+      toggleBtn?.setAttribute('title', 'Tutup Header (Scroll Up)');
       toggleBtn?.setAttribute('aria-expanded', 'true');
 
-      // Bottom persistent handle bar button
+      // Bottom persistent handle bar button (rata kiri)
       if (handleToggleText) handleToggleText.textContent = 'Tutup Header (Scroll Up)';
-      if (handleToggleIconLeft) handleToggleIconLeft.textContent = '▲';
-      if (handleToggleIconRight) handleToggleIconRight.textContent = '▲';
-      handleToggleBtn?.setAttribute('title', 'Tutup Header Observatorium (Scroll Up)');
+      if (handleToggleIcon) handleToggleIcon.textContent = '▲';
+      handleToggleBtn?.setAttribute('title', 'Tutup Header (Scroll Up)');
       handleToggleBtn?.setAttribute('aria-expanded', 'true');
-
-      // Top toolbar alt button
-      if (altToggleLabel) altToggleLabel.textContent = 'Header Observatorium (Tutup)';
-      if (altToggleIcon) altToggleIcon.textContent = '▲';
-      altToggleBtn?.setAttribute('title', 'Tutup Header Observatorium (Scroll Up)');
-      altToggleBtn?.setAttribute('aria-expanded', 'true');
     }
   }
 
@@ -335,12 +290,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
 
   toggleBtn?.addEventListener('click', toggleDropdown);
   handleToggleBtn?.addEventListener('click', toggleDropdown);
-  altToggleBtn?.addEventListener('click', toggleDropdown);
-  hideBottomBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
-    localStorage.setItem('indoekonomi_fix_dropdown_hidden', 'true');
-    updateDropdownUI(true);
-  });
 
   document.getElementById('btn-header-crosswalk-doc')?.addEventListener('click', () => {
     ModalManager.showClassificationDocumentModal();
