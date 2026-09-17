@@ -56,13 +56,13 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
         <button 
           id="btn-toggle-fix-dropdown" 
           type="button"
-          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-[#D5C2B1] bg-white text-[#5D4037] hover:bg-[#FAF7F2] hover:text-[#0038A8] text-[11px] font-mono font-bold shadow-2xs cursor-pointer transition-all ml-1 group"
-          title="${isDropdownHidden ? 'Tampilkan Fix Drop Down Header (Show)' : 'Sembunyikan Fix Drop Down Header (Hide)'}"
+          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#BCD0F7] bg-white text-[#0038A8] hover:bg-[#EBF1FC] hover:border-[#0038A8] text-[11px] font-mono font-bold shadow-2xs cursor-pointer transition-all ml-1 group"
+          title="${isDropdownHidden ? 'Buka Header Observatorium (Scroll Down)' : 'Tutup Header Observatorium (Scroll Up)'}"
           aria-expanded="${!isDropdownHidden}"
           aria-controls="fix-dropdown-header"
         >
-          <span id="label-toggle-fix-dropdown">Info Tata Kelola</span>
-          <span id="icon-toggle-fix-dropdown" class="inline-flex items-center justify-center w-4 h-4 rounded bg-[#F5EBE1] text-[#0038A8] text-[10px] font-bold transition-transform duration-200 group-hover:scale-110">
+          <span id="label-toggle-fix-dropdown">${isDropdownHidden ? 'Buka Header (Scroll Down)' : 'Tutup Header (Scroll Up)'}</span>
+          <span id="icon-toggle-fix-dropdown" class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#EBF1FC] text-[#0038A8] text-[10px] font-bold transition-transform duration-200 group-hover:scale-110">
             ${isDropdownHidden ? '▼' : '▲'}
           </span>
         </button>
@@ -70,6 +70,16 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
 
       <!-- Action Navigation Buttons -->
       <div class="flex items-center gap-2 flex-wrap ml-auto">
+        <button 
+          id="btn-header-toggle-dropdown-alt" 
+          type="button"
+          class="gov-btn text-xs font-semibold bg-white text-[#0038A8] hover:bg-[#EBF1FC] border border-[#BCD0F7] cursor-pointer flex items-center gap-1.5" 
+          title="${isDropdownHidden ? 'Buka Header Observatorium (Scroll Down)' : 'Tutup Header Observatorium (Scroll Up)'}"
+        >
+          <span id="icon-toggle-dropdown-alt">${isDropdownHidden ? '▼' : '▲'}</span>
+          <span id="label-toggle-dropdown-alt">${isDropdownHidden ? 'Header Observatorium (Buka)' : 'Header Observatorium (Tutup)'}</span>
+        </button>
+
         <button id="btn-header-crosswalk-doc" class="gov-btn text-xs font-medium bg-white text-[#0038A8] hover:bg-[#FAF7F2]">
           <span>ℹ️</span>
           <span>Riwayat Klasifikasi APBN</span>
@@ -218,49 +228,114 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
               type="button" 
               id="btn-hide-dropdown-bottom" 
               class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white hover:bg-[#FAF7F2] text-[#5D4037] hover:text-[#0038A8] border border-[#D5C2B1] shadow-2xs text-[11px] font-mono font-bold cursor-pointer transition-all group"
-              title="Sembunyikan panel drop down ini"
+              title="Tutup / Sembunyikan panel drop down ini (Scroll Up)"
             >
-              <span>Sembunyikan Panel (Hide)</span>
+              <span>Tutup Header (Scroll Up)</span>
               <span class="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-[#F5EBE1] text-[#0038A8] text-[9px] group-hover:-translate-y-0.5 transition-transform">▲</span>
             </button>
           </div>
         </div>
       </section>
     </div>
+
+    <!-- 3. PERSISTENT DROPDOWN TOGGLE BAR (Visible on every page at the bottom border of the sticky header) -->
+    <div id="dropdown-toggle-bar" class="w-full flex items-center justify-center py-1 bg-[#F5EBE1] border-b border-[#E2D2C3] select-none">
+      <button 
+        id="btn-handle-dropdown-toggle" 
+        type="button" 
+        class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white hover:bg-[#FAF7F2] text-[#0038A8] border border-[#BCD0F7] hover:border-[#0038A8] shadow-2xs hover:shadow-xs text-[11px] font-mono font-bold cursor-pointer transition-all group"
+        title="${isDropdownHidden ? 'Klik untuk membuka / Scroll Down Header Observatorium' : 'Klik untuk menutup / Scroll Up Header Observatorium'}"
+        aria-expanded="${!isDropdownHidden}"
+        aria-controls="fix-dropdown-header"
+      >
+        <span id="handle-toggle-icon-left" class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#EBF1FC] text-[#0038A8] text-[10px] font-bold group-hover:translate-y-0.5 transition-transform">
+          ${isDropdownHidden ? '▼' : '▲'}
+        </span>
+        <span id="handle-toggle-text">${isDropdownHidden ? 'Buka Header (Scroll Down)' : 'Tutup Header (Scroll Up)'}</span>
+        <span id="handle-toggle-icon-right" class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#EBF1FC] text-[#0038A8] text-[10px] font-bold group-hover:translate-y-0.5 transition-transform">
+          ${isDropdownHidden ? '▼' : '▲'}
+        </span>
+      </button>
+    </div>
   `;
 
   // Fix Drop Down Header Toggle Logic & Listeners
   const dropdownSection = document.getElementById('fix-dropdown-header');
   const toggleBtn = document.getElementById('btn-toggle-fix-dropdown');
-  const hideBottomBtn = document.getElementById('btn-hide-dropdown-bottom');
-  const iconToggle = document.getElementById('icon-toggle-fix-dropdown');
   const labelToggle = document.getElementById('label-toggle-fix-dropdown');
+  const iconToggle = document.getElementById('icon-toggle-fix-dropdown');
+  
+  const handleToggleBtn = document.getElementById('btn-handle-dropdown-toggle');
+  const handleToggleText = document.getElementById('handle-toggle-text');
+  const handleToggleIconLeft = document.getElementById('handle-toggle-icon-left');
+  const handleToggleIconRight = document.getElementById('handle-toggle-icon-right');
+  
+  const altToggleBtn = document.getElementById('btn-header-toggle-dropdown-alt');
+  const altToggleLabel = document.getElementById('label-toggle-dropdown-alt');
+  const altToggleIcon = document.getElementById('icon-toggle-dropdown-alt');
+  
+  const hideBottomBtn = document.getElementById('btn-hide-dropdown-bottom');
 
   function updateDropdownUI(hidden) {
     if (!dropdownSection) return;
     if (hidden) {
       dropdownSection.classList.remove('is-open');
       dropdownSection.classList.add('is-hidden');
+      
+      // Top toolbar left button
+      if (labelToggle) labelToggle.textContent = 'Buka Header (Scroll Down)';
       if (iconToggle) iconToggle.textContent = '▼';
-      toggleBtn?.setAttribute('title', 'Tampilkan Fix Drop Down Header (Show)');
+      toggleBtn?.setAttribute('title', 'Buka Header Observatorium (Scroll Down)');
       toggleBtn?.setAttribute('aria-expanded', 'false');
+
+      // Bottom persistent handle bar button
+      if (handleToggleText) handleToggleText.textContent = 'Buka Header (Scroll Down)';
+      if (handleToggleIconLeft) handleToggleIconLeft.textContent = '▼';
+      if (handleToggleIconRight) handleToggleIconRight.textContent = '▼';
+      handleToggleBtn?.setAttribute('title', 'Buka Header Observatorium (Scroll Down)');
+      handleToggleBtn?.setAttribute('aria-expanded', 'false');
+
+      // Top toolbar alt button
+      if (altToggleLabel) altToggleLabel.textContent = 'Header Observatorium (Buka)';
+      if (altToggleIcon) altToggleIcon.textContent = '▼';
+      altToggleBtn?.setAttribute('title', 'Buka Header Observatorium (Scroll Down)');
+      altToggleBtn?.setAttribute('aria-expanded', 'false');
     } else {
       dropdownSection.classList.remove('is-hidden');
       dropdownSection.classList.add('is-open');
+
+      // Top toolbar left button
+      if (labelToggle) labelToggle.textContent = 'Tutup Header (Scroll Up)';
       if (iconToggle) iconToggle.textContent = '▲';
-      toggleBtn?.setAttribute('title', 'Sembunyikan Fix Drop Down Header (Hide)');
+      toggleBtn?.setAttribute('title', 'Tutup Header Observatorium (Scroll Up)');
       toggleBtn?.setAttribute('aria-expanded', 'true');
+
+      // Bottom persistent handle bar button
+      if (handleToggleText) handleToggleText.textContent = 'Tutup Header (Scroll Up)';
+      if (handleToggleIconLeft) handleToggleIconLeft.textContent = '▲';
+      if (handleToggleIconRight) handleToggleIconRight.textContent = '▲';
+      handleToggleBtn?.setAttribute('title', 'Tutup Header Observatorium (Scroll Up)');
+      handleToggleBtn?.setAttribute('aria-expanded', 'true');
+
+      // Top toolbar alt button
+      if (altToggleLabel) altToggleLabel.textContent = 'Header Observatorium (Tutup)';
+      if (altToggleIcon) altToggleIcon.textContent = '▲';
+      altToggleBtn?.setAttribute('title', 'Tutup Header Observatorium (Scroll Up)');
+      altToggleBtn?.setAttribute('aria-expanded', 'true');
     }
   }
 
-  toggleBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
+  function toggleDropdown(e) {
+    if (e) e.preventDefault();
     const currentlyHidden = dropdownSection?.classList.contains('is-hidden');
     const newStateHidden = !currentlyHidden;
     localStorage.setItem('indoekonomi_fix_dropdown_hidden', newStateHidden ? 'true' : 'false');
     updateDropdownUI(newStateHidden);
-  });
+  }
 
+  toggleBtn?.addEventListener('click', toggleDropdown);
+  handleToggleBtn?.addEventListener('click', toggleDropdown);
+  altToggleBtn?.addEventListener('click', toggleDropdown);
   hideBottomBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.setItem('indoekonomi_fix_dropdown_hidden', 'true');
