@@ -17,6 +17,12 @@ export class ApbnEvalView {
     this.selectedChartItem = 'REV_TOTAL';
     this.searchKeyword = '';
 
+    // Filter Waktu & Komparasi Kustom
+    this.timePreset = 'YTD'; // 'YTD' | 'Q1' | 'S1' | 'Q3' | 'FULL' | 'CUSTOM'
+    this.startMonth = 1;
+    this.endMonth = 3; // Disinkronkan dengan latest published month tahun berjalan
+    this.showYoYComparison = false;
+
     this.yearsList = [];
     this.summaryData = null;
     this.matrixData = null;
@@ -56,6 +62,14 @@ export class ApbnEvalView {
       const yData = await yRes.json();
       this.yearsList = yData.years || [];
 
+      // Tentukan bulan akhir default berdasarkan tahun terpilih
+      const curYrCfg = this.yearsList.find(y => y.year === this.selectedYear);
+      if (curYrCfg && curYrCfg.latest_published_month) {
+        this.endMonth = parseInt(curYrCfg.latest_published_month.replace('M', ''), 10);
+      } else {
+        this.endMonth = 12;
+      }
+
       // 2. Fetch summary, matrix, trajectory concurrently
       await Promise.all([
         this.fetchSummary(),
@@ -77,22 +91,21 @@ export class ApbnEvalView {
   }
 
   async fetchSummary() {
-    const res = await fetch(`/api/apbn-eval/summary?year=${this.selectedYear}&unit=${this.selectedUnit}`);
+    const url = `/api/apbn-eval/summary?year=${this.selectedYear}&unit=${this.selectedUnit}&start_month=${this.startMonth}&end_month=${this.endMonth}`;
+    const res = await fetch(url);
     this.summaryData = await res.json();
   }
 
   async fetchMatrix() {
     const qParam = encodeURIComponent(this.searchKeyword || '');
-    const res = await fetch(
-      `/api/apbn-eval/matrix?year=${this.selectedYear}&category=${this.selectedCategory}&unit=${this.selectedUnit}&q=${qParam}`
-    );
+    const url = `/api/apbn-eval/matrix?year=${this.selectedYear}&category=${this.selectedCategory}&unit=${this.selectedUnit}&q=${qParam}&start_month=${this.startMonth}&end_month=${this.endMonth}`;
+    const res = await fetch(url);
     this.matrixData = await res.json();
   }
 
   async fetchTrajectory() {
-    const res = await fetch(
-      `/api/apbn-eval/trajectory?year=${this.selectedYear}&item_id=${this.selectedChartItem}&unit=${this.selectedUnit}`
-    );
+    const url = `/api/apbn-eval/trajectory?year=${this.selectedYear}&item_id=${this.selectedChartItem}&unit=${this.selectedUnit}`;
+    const res = await fetch(url);
     this.trajectoryData = await res.json();
   }
 
@@ -106,6 +119,29 @@ export class ApbnEvalView {
     const def = kpi.deficit || {};
     const prim = kpi.primary_balance || {};
     const unitLabel = s.unit_label || (this.selectedUnit === 'TRILLION' ? 'Rp Triliun' : 'Rp Miliar');
+
+    const tf = this.matrixData?.time_filter || {};
+    const startMName = tf.start_month_name || 'Januari';
+    const endMName = tf.end_month_name || s.latest_month_name || 'Maret';
+    const isCustomTime = tf.is_custom_period;
+
+    // Quick chart buttons definition
+    const chartQuickItems = [
+      { id: 'REV_TOTAL', label: 'Pendapatan Negara', icon: '🏛️', statusBadge: 'bg-emerald-50 text-emerald-700', badgeText: `${rev.pct_apbn || 0}% APBN` },
+      { id: 'REV_TAX', label: 'Penerimaan Pajak', icon: '🧾', statusBadge: 'bg-emerald-50 text-emerald-700', badgeText: `${kpi.tax?.pct_apbn || 0}% APBN` },
+      { id: 'REV_TAX_CUKAI', label: 'Cukai Hasil Tembakau', icon: '🏷️', statusBadge: 'bg-amber-50 text-amber-700', badgeText: 'Downtrading' },
+      { id: 'REV_PNBP', label: 'Penerimaan PNBP', icon: '🪙', statusBadge: 'bg-emerald-50 text-emerald-700', badgeText: 'Dividen BUMN +' },
+      { id: 'EXP_TOTAL', label: 'Belanja Negara', icon: '📦', statusBadge: 'bg-sky-50 text-sky-700', badgeText: `${exp.pct_apbn || 0}% APBN` },
+      { id: 'EXP_BPP_MODAL', label: 'Belanja Modal K/L', icon: '🏗️', statusBadge: 'bg-amber-50 text-amber-700', badgeText: 'Lelang Dini' },
+      { id: 'EXP_TKD', label: 'Transfer Daerah (TKD)', icon: '🗺️', statusBadge: 'bg-emerald-50 text-emerald-700', badgeText: `${kpi.tkd?.pct_apbn || 0}% APBN` },
+      { id: 'DEFISIT_ANGGARAN', label: 'Defisit Anggaran', icon: '⚖️', statusBadge: 'bg-sky-50 text-sky-700', badgeText: `${def.pct_gdp_ytd || 0}% PDB` }
+    ];
+
+    const currentTrajectoryDrivers = this.trajectoryData?.drivers || {};
+    const posDrivers = currentTrajectoryDrivers.positive || [];
+    const negDrivers = currentTrajectoryDrivers.negative || [];
+    const policyNote = currentTrajectoryDrivers.policy_note || 'Disiplin anggaran dan monitoring serapan secara berkala.';
+    const trajSourceOrg = this.trajectoryData?.source_org || 'Kementerian Keuangan RI';
 
     this.container.innerHTML = `
       <div class="space-y-[6px]">
@@ -122,8 +158,13 @@ export class ApbnEvalView {
                   ${s.status_label || 'Publikasi Kemenkeu RI'}
                 </span>
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono text-[#7D655C] bg-[#FAF7F2]">
-                  Bulan Berjalan: <strong>${s.latest_month_name || 'Maret'}</strong> (${s.latest_month})
+                  Bulan Berjalan Resmi: <strong>${s.latest_month_name || 'Maret'}</strong> (${s.latest_month})
                 </span>
+                ${isCustomTime ? `
+                  <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-bold bg-[#FDF3E9] text-[#A45517]">
+                    ⏳ Filter Periode Kustom: ${startMName} – ${endMName}
+                  </span>
+                ` : ''}
               </div>
               <h1 class="text-base sm:text-lg font-bold text-[#2C2420] tracking-tight">
                 Komparasi Statutori RAPBN vs Target UU APBN vs Realisasi Bulanan & YTD (${this.selectedYear})
@@ -169,7 +210,7 @@ export class ApbnEvalView {
                   type="button" 
                   id="btn-apbn-eval-download-excel" 
                   class="px-3 py-1.5 bg-[#0038A8] hover:bg-[#002B82] text-white font-mono text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
-                  title="Unduh Buku Kerja Excel 3 Sheet Berizin (Data Bulanan + YTD, Target Evaluasi, Provenans)"
+                  title="Unduh Buku Kerja Excel 3 Sheet Berizin (Data Bulanan + YTD, Target Evaluasi, Sumber Instansi)"
                 >
                   <span>📥</span>
                   <span>Excel (.xlsx)</span>
@@ -178,7 +219,7 @@ export class ApbnEvalView {
                   type="button" 
                   id="btn-apbn-eval-download-csv" 
                   class="px-2.5 py-1.5 bg-[#002B82] hover:bg-[#001D5A] text-white font-mono text-[10.5px] font-medium border-l border-[#0038A8]/60 cursor-pointer shadow-2xs"
-                  title="Unduh Data Format CSV RFC-4180"
+                  title="Unduh Data Format CSV RFC-4180 dengan Info Sumber Instansi"
                 >
                   CSV
                 </button>
@@ -187,7 +228,92 @@ export class ApbnEvalView {
           </div>
         </div>
 
-        <!-- 2. EXECUTIVE KPI STRIP (5 BORDERLESS STATUTORY CARDS) -->
+        <!-- 2. BILAH FILTER WAKTU & KUSTOMISASI KOMPARASI (Universal Period Comparison Toolbar) -->
+        <div class="gov-card p-3 sm:p-4 bg-white rounded-lg shadow-2xs space-y-[6px]">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
+            
+            <!-- Left: Preset Buttons (YTD, Q1, S1, Q3, Full Year) -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="text-[11px] font-mono font-bold text-[#2C2420] flex items-center gap-1 pr-1">
+                <span>⏱️</span>
+                <span>Filter Waktu Komparasi:</span>
+              </span>
+              <button 
+                type="button" 
+                data-preset="YTD" 
+                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'YTD' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+                title="Akumulasi hingga bulan rilis resmi terakhir"
+              >
+                s/d Bulan Berjalan (${s.latest_month_name || 'YTD'})
+              </button>
+              <button 
+                type="button" 
+                data-preset="Q1" 
+                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'Q1' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+                title="Triwulan I (Januari s/d Maret)"
+              >
+                Q1 (Jan - Mar)
+              </button>
+              <button 
+                type="button" 
+                data-preset="S1" 
+                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'S1' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+                title="Semester I (Januari s/d Juni)"
+              >
+                Semester 1 (Jan - Jun)
+              </button>
+              <button 
+                type="button" 
+                data-preset="Q3" 
+                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'Q3' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+                title="Hingga Triwulan III (Januari s/d September)"
+              >
+                Q3 (Jan - Sep)
+              </button>
+              <button 
+                type="button" 
+                data-preset="FULL" 
+                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'FULL' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+                title="Satu Tahun Anggaran Penuh (Januari s/d Desember)"
+              >
+                Jan - Des (Full)
+              </button>
+            </div>
+
+            <!-- Right: Custom Month Range Dropdowns -->
+            <div class="flex items-center gap-2 flex-wrap text-xs font-mono">
+              <span class="text-[#7D655C] font-semibold">Rentang Kustom:</span>
+              <div class="flex items-center gap-1 bg-[#FAF7F2] p-0.5 rounded-md">
+                <span class="text-[#7D655C] px-1 text-[11px]">Dari:</span>
+                <select id="apbn-eval-start-month" class="bg-white border-0 text-[#2C2420] font-semibold px-2 py-0.5 rounded text-xs cursor-pointer outline-none">
+                  ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => `
+                    <option value="${m}" ${m === this.startMonth ? 'selected' : ''}>
+                      M${m.toString().padStart(2, '0')} (${this.getMonthName(m)})
+                    </option>
+                  `).join('')}
+                </select>
+                <span class="text-[#7D655C] px-1 text-[11px]">s/d:</span>
+                <select id="apbn-eval-end-month" class="bg-white border-0 text-[#2C2420] font-semibold px-2 py-0.5 rounded text-xs cursor-pointer outline-none">
+                  ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => `
+                    <option value="${m}" ${m === this.endMonth ? 'selected' : ''}>
+                      M${m.toString().padStart(2, '0')} (${this.getMonthName(m)})
+                    </option>
+                  `).join('')}
+                </select>
+                <button 
+                  type="button" 
+                  id="btn-apply-custom-time" 
+                  class="px-2.5 py-0.5 bg-[#0038A8] hover:bg-[#002B82] text-white rounded font-bold text-xs cursor-pointer shadow-2xs ml-0.5"
+                >
+                  Terapkan
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. EXECUTIVE KPI STRIP (5 BORDERLESS STATUTORY CARDS) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 font-mono">
           <!-- KPI 1: Pendapatan Negara -->
           <div class="gov-card p-3.5 bg-white rounded-lg shadow-2xs space-y-1">
@@ -201,7 +327,7 @@ export class ApbnEvalView {
               ${Number(rev.ytd || 0).toLocaleString('id-ID')} <span class="text-xs font-normal text-[#7D655C]">${this.selectedUnit === 'TRILLION' ? 'T' : 'M'}</span>
             </div>
             <div class="text-[10.5px] text-[#5D4037] flex items-center justify-between">
-              <span>Target APBN:</span>
+              <span>Target UU APBN:</span>
               <span class="font-bold">${Number(rev.apbn || 0).toLocaleString('id-ID')}</span>
             </div>
             <div class="text-[10px] text-[#7D655C] flex items-center justify-between pt-0.5 border-t border-[#FAF7F2]">
@@ -222,7 +348,7 @@ export class ApbnEvalView {
               ${Number(exp.ytd || 0).toLocaleString('id-ID')} <span class="text-xs font-normal text-[#7D655C]">${this.selectedUnit === 'TRILLION' ? 'T' : 'M'}</span>
             </div>
             <div class="text-[10.5px] text-[#5D4037] flex items-center justify-between">
-              <span>Pagu APBN:</span>
+              <span>Pagu UU APBN:</span>
               <span class="font-bold">${Number(exp.apbn || 0).toLocaleString('id-ID')}</span>
             </div>
             <div class="text-[10px] text-[#7D655C] flex items-center justify-between pt-0.5 border-t border-[#FAF7F2]">
@@ -236,7 +362,7 @@ export class ApbnEvalView {
             <div class="flex items-center justify-between">
               <span class="text-[10px] text-[#7D655C] uppercase tracking-wider font-bold">Keseimbangan Primer</span>
               <span class="text-[9.5px] px-1.5 py-0.5 rounded font-bold bg-[#FAF7F2] text-[#5D4037]">
-                YTD
+                ${startMName}–${endMName}
               </span>
             </div>
             <div class="text-lg font-bold ${(prim.ytd || 0) >= 0 ? 'text-[#2D684C]' : 'text-[#B76E79]'}">
@@ -278,31 +404,36 @@ export class ApbnEvalView {
             <div class="flex items-center justify-between">
               <span class="text-[10px] text-[#7D655C] uppercase tracking-wider font-bold">Run-Rate Benchmark</span>
               <span class="text-[9.5px] px-1.5 py-0.5 rounded font-bold bg-[#EBF1FC] text-[#0038A8]">
-                Bulan ${s.latest_month}
+                M${this.endMonth.toString().padStart(2, '0')}
               </span>
             </div>
             <div class="text-lg font-bold text-[#2C2420]">
               ${s.benchmark_run_rate || 25.0}% <span class="text-xs font-normal text-[#7D655C]">Linier</span>
             </div>
             <div class="text-[10.5px] text-[#5D4037]">
-              Pencapaian ${s.latest_month_name} vs Benchmark Rata-Rata Linier 8.33% / Bulan
+              Pencapaian vs Standar Ideal Linier 8.33% / Bulan
             </div>
             <div class="text-[10px] text-[#2D684C] font-semibold pt-0.5 border-t border-[#FAF7F2]">
-              Kondisi Fiskal: Terjaga & On-Track
+              Kondisi Fiskal: Terjaga & Disiplin
             </div>
           </div>
         </div>
 
-        <!-- 3. INTERACTIVE TRAJECTORY & S-CURVE SECTION -->
+        <!-- 4. INTERACTIVE TRAJECTORY, S-CURVE & DRIVERS ANALYSIS SECTION -->
         <div class="gov-card p-4 sm:p-5 bg-white rounded-lg shadow-2xs space-y-[6px]">
+          
+          <!-- Chart Header Bar: Title + Item Select -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1 border-b border-[#FAF7F2]">
             <div class="flex items-center gap-2 flex-wrap">
               <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#2C2420] flex items-center gap-1.5">
                 <span>📈</span>
-                <span>TRAJECTORY BULANAN & KURVA S-CURVE AKUMULATIF (JANUARI – DESEMBER)</span>
+                <span>TRAJECTORY BULANAN & S-CURVE CAPAIAN (JANUARI – DESEMBER)</span>
               </span>
               <span class="text-[10px] font-mono bg-[#EBF1FC] text-[#0038A8] px-2 py-0.5 rounded font-semibold">
                 ${this.trajectoryData?.item_name || 'PENDAPATAN NEGARA'}
+              </span>
+              <span class="text-[10px] font-mono bg-[#FAF7F2] text-[#5D4037] px-2 py-0.5 rounded border border-[#E2E8F0]">
+                🏛️ ${trajSourceOrg}
               </span>
             </div>
 
@@ -314,16 +445,99 @@ export class ApbnEvalView {
                 <option value="REV_TAX" ${this.selectedChartItem === 'REV_TAX' ? 'selected' : ''}>Penerimaan Perpajakan</option>
                 <option value="REV_TAX_CUKAI" ${this.selectedChartItem === 'REV_TAX_CUKAI' ? 'selected' : ''}>Cukai (CHT, MMEA, EA)</option>
                 <option value="REV_PNBP" ${this.selectedChartItem === 'REV_PNBP' ? 'selected' : ''}>Penerimaan PNBP</option>
+                <option value="REV_PNBP_SDA" ${this.selectedChartItem === 'REV_PNBP_SDA' ? 'selected' : ''}>PNBP SDA (Migas & Minerba)</option>
                 <option value="EXP_TOTAL" ${this.selectedChartItem === 'EXP_TOTAL' ? 'selected' : ''}>Belanja Negara (Total)</option>
                 <option value="EXP_BPP" ${this.selectedChartItem === 'EXP_BPP' ? 'selected' : ''}>Belanja Pemerintah Pusat (BPP)</option>
+                <option value="EXP_BPP_MODAL" ${this.selectedChartItem === 'EXP_BPP_MODAL' ? 'selected' : ''}>Belanja Modal</option>
                 <option value="EXP_TKD" ${this.selectedChartItem === 'EXP_TKD' ? 'selected' : ''}>Transfer ke Daerah (TKD)</option>
                 <option value="DEFISIT_ANGGARAN" ${this.selectedChartItem === 'DEFISIT_ANGGARAN' ? 'selected' : ''}>Defisit Anggaran</option>
               </select>
             </div>
           </div>
 
+          <!-- Quick Chart Item Buttons (Direct Click with Driver Indicators) -->
+          <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
+            <span class="text-[10px] font-mono text-[#7D655C] font-bold uppercase tracking-wider pr-1">Akses Cepat:</span>
+            ${chartQuickItems.map(item => `
+              <button 
+                type="button" 
+                data-item-id="${item.id}" 
+                class="btn-quick-chart px-2 py-1 rounded text-[11px] font-mono font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${this.selectedChartItem === item.id ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#2C2420] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+              >
+                <span>${item.icon}</span>
+                <span>${item.label}</span>
+                <span class="text-[9px] px-1 py-0.2 rounded font-bold ${this.selectedChartItem === item.id ? 'bg-white/20 text-white' : item.statusBadge}">
+                  ${item.badgeText}
+                </span>
+              </button>
+            `).join('')}
+          </div>
+
+          <!-- KETERANGAN DRIVER PENCAPAIAN (+/-) PANEL (Dedicated Institutional Card) -->
+          <div class="gov-card p-3.5 bg-[#FAF7F2]/70 rounded-lg border-0 space-y-2 font-mono text-xs">
+            <div class="flex items-center justify-between flex-wrap gap-1 border-b border-[#E2E8F0] pb-1.5">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#0038A8] animate-pulse"></span>
+                <span class="font-bold text-[#2C2420] text-xs uppercase tracking-wide">
+                  Analisis Driver Pencapaian (+/-): ${this.trajectoryData?.item_name || 'Pos Anggaran'}
+                </span>
+              </div>
+              <div class="text-[10.5px] text-[#7D655C]">
+                Capaian YTD: <strong class="text-[#0038A8]">${Number(this.trajectoryData?.ytd_total || 0).toLocaleString('id-ID')} ${unitLabel} (${this.trajectoryData?.pct_apbn || 0}% APBN)</strong>
+              </div>
+            </div>
+
+            <!-- Two-column Drivers Grid: Positive (+) vs Negative (-) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-0.5">
+              
+              <!-- Column 1: Faktor Pendorong Positif (+) -->
+              <div class="p-2.5 bg-white rounded-md shadow-2xs space-y-1.5">
+                <div class="flex items-center gap-1.5 text-[#2D684C] font-bold text-[11px] uppercase tracking-wider">
+                  <span>🟢</span>
+                  <span>Faktor Pendorong Capaian Positif (+)</span>
+                </div>
+                <ul class="space-y-1 text-[11px] text-[#2C2420] font-sans leading-relaxed">
+                  ${posDrivers.map(d => `
+                    <li class="flex items-start gap-1.5">
+                      <span class="text-[#2D684C] font-bold mt-0.5">✔</span>
+                      <span>${d}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+
+              <!-- Column 2: Faktor Penekan / Penghambat Negatif (-) -->
+              <div class="p-2.5 bg-white rounded-md shadow-2xs space-y-1.5">
+                <div class="flex items-center gap-1.5 text-[#A45517] font-bold text-[11px] uppercase tracking-wider">
+                  <span>🔴</span>
+                  <span>Faktor Penekan / Kendala Realisasi (-)</span>
+                </div>
+                <ul class="space-y-1 text-[11px] text-[#2C2420] font-sans leading-relaxed">
+                  ${negDrivers.map(d => `
+                    <li class="flex items-start gap-1.5">
+                      <span class="text-[#B76E79] font-bold mt-0.5">✖</span>
+                      <span>${d}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+
+            </div>
+
+            <!-- Bottom Note & Provenance -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-[#E2E8F0] text-[10.5px]">
+              <div class="text-[#5D4037] flex items-center gap-1">
+                <span class="font-bold text-[#0038A8]">💡 Implikasi Kebijakan:</span>
+                <span>${policyNote}</span>
+              </div>
+              <div class="text-[#7D655C] shrink-0 font-mono text-[10px]">
+                Dasar Evaluasi: Laporan Resmi APBN KiTa & Nota Keuangan TA ${this.selectedYear}
+              </div>
+            </div>
+          </div>
+
           <!-- Chart Sub-info & Legend -->
-          <div class="flex items-center justify-between flex-wrap gap-2 text-[10.5px] font-mono text-[#7D655C]">
+          <div class="flex items-center justify-between flex-wrap gap-2 text-[10.5px] font-mono text-[#7D655C] pt-1">
             <div class="flex items-center gap-3 flex-wrap">
               <span class="flex items-center gap-1.5">
                 <span class="w-3 h-3 rounded bg-[#0038A8] inline-block"></span>
@@ -343,20 +557,21 @@ export class ApbnEvalView {
               </span>
             </div>
             <div class="text-[10px] text-[#7D655C]">
-              Pagu APBN: <strong>${Number(this.trajectoryData?.apbn_total || 0).toLocaleString('id-ID')} ${unitLabel}</strong> | YTD: <strong>${Number(this.trajectoryData?.ytd_total || 0).toLocaleString('id-ID')} (${this.trajectoryData?.pct_apbn || 0}%)</strong>
+              Pagu UU APBN: <strong>${Number(this.trajectoryData?.apbn_total || 0).toLocaleString('id-ID')} ${unitLabel}</strong> | YTD: <strong>${Number(this.trajectoryData?.ytd_total || 0).toLocaleString('id-ID')} (${this.trajectoryData?.pct_apbn || 0}%)</strong>
             </div>
           </div>
 
           <!-- Canvas Container -->
-          <div class="relative w-full h-[240px] sm:h-[280px]">
+          <div class="relative w-full h-[250px] sm:h-[290px]">
             <canvas id="apbn-eval-canvas" class="w-full h-full block"></canvas>
-            <div id="apbn-eval-hover-tooltip" class="hidden absolute pointer-events-none bg-white p-2 rounded shadow-md border border-[#BCD0F7] text-xs font-mono text-[#2C2420] z-20"></div>
+            <div id="apbn-eval-hover-tooltip" class="hidden absolute pointer-events-none bg-white p-2.5 rounded shadow-lg border border-[#BCD0F7] text-xs font-mono text-[#2C2420] z-30 max-w-[280px]"></div>
           </div>
         </div>
 
-        <!-- 4. STATUTORY COMPARISON MATRIX TABLE (RAPBN vs UU APBN vs 12 MONTHS vs YTD) -->
+        <!-- 5. STATUTORY COMPARISON MATRIX TABLE (RAPBN vs UU APBN vs 12 MONTHS vs YTD vs SUMBER DATA) -->
         <div class="gov-card p-4 sm:p-5 bg-white rounded-lg shadow-2xs space-y-[6px]">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-1 border-b border-[#FAF7F2]">
+            
             <!-- Category Filter Tabs -->
             <div class="flex items-center gap-1 bg-[#FAF7F2] p-1 rounded-md text-xs font-mono flex-wrap" role="tablist">
               <button data-category="ALL" class="btn-apbn-cat px-2.5 py-1 rounded font-bold transition-all cursor-pointer ${this.selectedCategory === 'ALL' ? 'bg-white text-[#0038A8] shadow-2xs' : 'text-[#7D655C] hover:text-[#2C2420]'}">
@@ -389,33 +604,39 @@ export class ApbnEvalView {
             </div>
           </div>
 
-          <!-- Table Container -->
+          <!-- Table Container (Horizontal Scroll) -->
           <div class="overflow-x-auto scrollbar-thin">
             <table class="w-full text-left border-collapse text-xs font-mono">
               <thead>
                 <tr class="bg-[#FAF7F2] text-[#5D4037] text-[10.5px] uppercase border-b border-[#FAF7F2]">
-                  <th class="py-2.5 px-2.5 font-bold w-12 text-center">Kode</th>
+                  <th class="py-2.5 px-2 font-bold w-12 text-center">Kode</th>
                   <th class="py-2.5 px-2.5 font-bold min-w-[220px]">Pos Anggaran Postur APBN</th>
                   <th class="py-2.5 px-2 font-bold text-right">RAPBN</th>
                   <th class="py-2.5 px-2 font-bold text-right text-[#0038A8]">UU APBN</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Jan</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Feb</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Mar</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Apr</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Mei</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Jun</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Jul</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Agu</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Sep</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Okt</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Nov</th>
-                  <th class="py-2.5 px-1.5 font-medium text-right">Des</th>
-                  <th class="py-2.5 px-2.5 font-bold text-right bg-[#FAF7F2] text-[#0038A8]">YTD (${s.latest_month})</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(1) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Jan</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(2) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Feb</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(3) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Mar</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(4) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Apr</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(5) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Mei</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(6) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Jun</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(7) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Jul</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(8) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Agu</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(9) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Sep</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(10) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Okt</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(11) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Nov</th>
+                  <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(12) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Des</th>
+                  <th class="py-2.5 px-2.5 font-bold text-right bg-[#FAF7F2] text-[#0038A8] whitespace-nowrap">
+                    ${isCustomTime ? `Capaian (M${this.startMonth}-M${this.endMonth})` : `YTD (${s.latest_month})`}
+                  </th>
                   <th class="py-2.5 px-2 font-bold text-center text-[#2D684C]">% APBN</th>
                   <th class="py-2.5 px-2 font-bold text-center text-[#7D655C]">% RAPBN</th>
                   <th class="py-2.5 px-2 font-medium text-right text-[#7D655C]">Sisa Pagu</th>
                   <th class="py-2.5 px-2 font-bold text-center">Status</th>
-                  <th class="py-2.5 px-1.5 text-center">Grafik</th>
+                  <th class="py-2.5 px-1.5 text-center">Grafik & Driver</th>
+                  <!-- KOLOM PALING KANAN: Sumber Data / Instansi Pengampu -->
+                  <th class="py-2.5 px-3 font-bold text-left min-w-[200px] text-[#0038A8] bg-[#FAF7F2]/80">
+                    Sumber Data / Instansi Pengampu
+                  </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-[#FAF7F2]">
@@ -432,12 +653,21 @@ export class ApbnEvalView {
     this.renderChart();
   }
 
+  isMonthInFilter(mIdx) {
+    return mIdx >= this.startMonth && mIdx <= this.endMonth;
+  }
+
+  getMonthName(mIdx) {
+    const names = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    return names[mIdx - 1] || `M${mIdx}`;
+  }
+
   renderTableRows() {
     const rows = this.matrixData?.rows || [];
     if (rows.length === 0) {
       return `
         <tr>
-          <td colspan="22" class="py-8 text-center text-xs font-mono text-[#7D655C]">
+          <td colspan="23" class="py-8 text-center text-xs font-mono text-[#7D655C]">
             Tidak ada pos anggaran yang cocok dengan kata kunci "${this.searchKeyword}".
           </td>
         </tr>
@@ -445,6 +675,7 @@ export class ApbnEvalView {
     }
 
     const latestIdx = parseInt((this.summaryData?.latest_month || 'M03').replace('M', ''), 10);
+    const isCustomTime = this.matrixData?.time_filter?.is_custom_period;
 
     return rows.map(r => {
       const isHdr = r.is_header;
@@ -462,25 +693,34 @@ export class ApbnEvalView {
         const mCode = `M${mIdx.toString().padStart(2, '0')}`;
         const val = r.monthly?.[mCode];
         const isCurrentOrPast = mIdx <= latestIdx;
-        const cellClass = isCurrentOrPast ? 'text-[#2C2420] font-medium' : 'text-[#9E8A82] italic';
+        const inFilter = this.isMonthInFilter(mIdx);
+        let cellClass = isCurrentOrPast ? 'text-[#2C2420] font-medium' : 'text-[#9E8A82] italic';
+        if (inFilter) {
+          cellClass += ' bg-[#EBF1FC]/40 font-bold text-[#0038A8]';
+        }
         return `<td class="py-2 px-1.5 text-right ${cellClass}">${formatNum(val)}</td>`;
       };
+
+      const actualDisplay = isCustomTime ? r.period_actual : r.ytd_actual;
+      const pctApbnDisplay = isCustomTime ? r.period_pct_apbn : r.pct_apbn;
+      const pctRapbnDisplay = isCustomTime ? r.period_pct_rapbn : r.pct_rapbn;
+      const varianceDisplay = isCustomTime ? r.period_variance : r.variance_apbn;
 
       return `
         <tr class="${rowBg} transition-colors">
           <td class="py-2 px-2 text-center text-[10px] text-[#7D655C] font-mono">${r.code}</td>
           <td class="py-2 px-2.5 ${padLeft} ${fontWeight} text-[11.5px]">
-            <span class="cursor-pointer hover:text-[#0038A8] transition-colors btn-row-trajectory" data-item-id="${r.id}">
+            <span class="cursor-pointer hover:text-[#0038A8] transition-colors btn-row-trajectory" data-item-id="${r.id}" title="Klik untuk memvisualisasikan grafik & driver pos ini">
               ${r.name}
             </span>
           </td>
           <td class="py-2 px-2 text-right font-medium text-[#7D655C]">${formatNum(r.rapbn)}</td>
           <td class="py-2 px-2 text-right font-bold text-[#0038A8]">${formatNum(r.apbn)}</td>
           ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => renderMonthCell(i)).join('')}
-          <td class="py-2 px-2.5 text-right font-bold bg-[#FAF7F2]/80 text-[#0038A8]">${formatNum(r.ytd_actual)}</td>
-          <td class="py-2 px-2 text-center font-bold text-[#2D684C]">${r.pct_apbn}%</td>
-          <td class="py-2 px-2 text-center text-[#7D655C]">${r.pct_rapbn}%</td>
-          <td class="py-2 px-2 text-right text-[11px] text-[#7D655C]">${formatNum(r.variance_apbn)}</td>
+          <td class="py-2 px-2.5 text-right font-bold bg-[#FAF7F2]/80 text-[#0038A8]">${formatNum(actualDisplay)}</td>
+          <td class="py-2 px-2 text-center font-bold text-[#2D684C]">${pctApbnDisplay}%</td>
+          <td class="py-2 px-2 text-center text-[#7D655C]">${pctRapbnDisplay}%</td>
+          <td class="py-2 px-2 text-right text-[11px] text-[#7D655C]">${formatNum(varianceDisplay)}</td>
           <td class="py-2 px-2 text-center">
             <span class="text-[9.5px] px-1.5 py-0.5 rounded font-bold ${r.perf_badge}">
               ${r.perf_status}
@@ -489,12 +729,20 @@ export class ApbnEvalView {
           <td class="py-2 px-1.5 text-center">
             <button 
               type="button" 
-              class="btn-row-trajectory text-xs text-[#0038A8] hover:text-[#002B82] p-1 cursor-pointer transition-transform hover:scale-110" 
+              class="btn-row-trajectory px-1.5 py-0.5 rounded bg-[#EBF1FC] hover:bg-[#D2E3FC] text-[#0038A8] text-[11px] font-mono font-bold cursor-pointer transition-transform hover:scale-105 inline-flex items-center gap-1" 
               data-item-id="${r.id}"
-              title="Lihat Kurva Trajectory & S-Curve pos ini"
+              title="Buka Kurva S-Curve dan Analisis Driver (+/-) pos ini"
             >
-              📈
+              <span>📈</span>
+              <span>Driver</span>
             </button>
+          </td>
+          <!-- KOLOM PALING KANAN: Sumber Data / Instansi Pengampu -->
+          <td class="py-2 px-3 text-left text-[10.5px] text-[#5D4037] font-mono whitespace-nowrap bg-[#FAF7F2]/40">
+            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-white border border-[#E2E8F0] shadow-2xs font-medium text-[#2C2420]">
+              <span class="text-[#0038A8]">🏛️</span>
+              <span>${r.source_org || 'Kementerian Keuangan RI'}</span>
+            </span>
           </td>
         </tr>
       `;
@@ -506,6 +754,14 @@ export class ApbnEvalView {
     const selYear = document.getElementById('apbn-eval-year-select');
     selYear?.addEventListener('change', async (e) => {
       this.selectedYear = parseInt(e.target.value, 10);
+      const curYrCfg = this.yearsList.find(y => y.year === this.selectedYear);
+      if (curYrCfg && curYrCfg.latest_published_month) {
+        this.endMonth = parseInt(curYrCfg.latest_published_month.replace('M', ''), 10);
+      } else {
+        this.endMonth = 12;
+      }
+      this.startMonth = 1;
+      this.timePreset = 'YTD';
       await this.refreshAll();
     });
 
@@ -533,6 +789,53 @@ export class ApbnEvalView {
     });
     btnCsv?.addEventListener('click', () => {
       window.location.href = `/api/apbn-eval/export?year=${this.selectedYear}&unit=${this.selectedUnit}&format=csv`;
+    });
+
+    // Time Preset Buttons (YTD, Q1, S1, Q3, FULL)
+    const presetBtns = document.querySelectorAll('.btn-time-preset');
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const preset = e.currentTarget.getAttribute('data-preset');
+        this.timePreset = preset;
+        const curYrCfg = this.yearsList.find(y => y.year === this.selectedYear);
+        const maxM = curYrCfg?.latest_published_month ? parseInt(curYrCfg.latest_published_month.replace('M', ''), 10) : 12;
+
+        if (preset === 'YTD') {
+          this.startMonth = 1;
+          this.endMonth = maxM;
+        } else if (preset === 'Q1') {
+          this.startMonth = 1;
+          this.endMonth = 3;
+        } else if (preset === 'S1') {
+          this.startMonth = 1;
+          this.endMonth = 6;
+        } else if (preset === 'Q3') {
+          this.startMonth = 1;
+          this.endMonth = 9;
+        } else if (preset === 'FULL') {
+          this.startMonth = 1;
+          this.endMonth = 12;
+        }
+
+        await Promise.all([this.fetchSummary(), this.fetchMatrix()]);
+        this.render();
+      });
+    });
+
+    // Custom Month Range Apply Button
+    const btnApplyCustom = document.getElementById('btn-apply-custom-time');
+    btnApplyCustom?.addEventListener('click', async () => {
+      const sM = parseInt(document.getElementById('apbn-eval-start-month')?.value || '1', 10);
+      const eM = parseInt(document.getElementById('apbn-eval-end-month')?.value || '12', 10);
+      if (sM > eM) {
+        alert('Bulan mulai tidak boleh lebih besar dari bulan selesai.');
+        return;
+      }
+      this.startMonth = sM;
+      this.endMonth = eM;
+      this.timePreset = 'CUSTOM';
+      await Promise.all([this.fetchSummary(), this.fetchMatrix()]);
+      this.render();
     });
 
     // Category Filter Pills
@@ -566,7 +869,7 @@ export class ApbnEvalView {
       this.render();
     });
 
-    // Chart Item Selector
+    // Chart Item Dropdown Selector
     const selChartItem = document.getElementById('apbn-eval-chart-item-select');
     selChartItem?.addEventListener('change', async (e) => {
       this.selectedChartItem = e.target.value;
@@ -574,12 +877,25 @@ export class ApbnEvalView {
       this.render();
     });
 
-    // Click on Row / Trajectory icon to chart
+    // Quick Chart Buttons
+    const quickChartBtns = document.querySelectorAll('.btn-quick-chart');
+    quickChartBtns.forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const itemId = e.currentTarget.getAttribute('data-item-id');
+        if (itemId && itemId !== this.selectedChartItem) {
+          this.selectedChartItem = itemId;
+          await this.fetchTrajectory();
+          this.render();
+        }
+      });
+    });
+
+    // Click on Row / Trajectory icon to chart & view drivers
     const rowBtns = document.querySelectorAll('.btn-row-trajectory');
     rowBtns.forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const itemId = e.currentTarget.getAttribute('data-item-id');
-        if (itemId && itemId !== this.selectedChartItem) {
+        if (itemId) {
           this.selectedChartItem = itemId;
           await this.fetchTrajectory();
           this.render();
@@ -672,6 +988,14 @@ export class ApbnEvalView {
       ctx.stroke();
     }
 
+    // Highlight visual untuk rentang waktu bulan yang difilter
+    if (this.startMonth > 1 || this.endMonth < 12) {
+      const xStart = getX(this.startMonth - 1) - 14;
+      const xEnd = getX(this.endMonth - 1) + 14;
+      ctx.fillStyle = 'rgba(235, 241, 252, 0.4)';
+      ctx.fillRect(xStart, padTop, xEnd - xStart, plotH);
+    }
+
     // 2. Render Monthly Actual Bars (Latar Belakang Biru Muda Transparan)
     const barWidth = Math.max(8, (plotW / 12) * 0.45);
     monthlyBars.forEach((bar, idx) => {
@@ -680,12 +1004,17 @@ export class ApbnEvalView {
       const yBase = getY(0);
       const barH = yBase - yTop;
 
-      ctx.fillStyle = bar.is_observed ? 'rgba(147, 181, 225, 0.45)' : 'rgba(229, 231, 235, 0.35)';
+      const inSelectedWindow = this.isMonthInFilter(idx + 1);
+      if (bar.is_observed) {
+        ctx.fillStyle = inSelectedWindow ? 'rgba(0, 56, 168, 0.65)' : 'rgba(147, 181, 225, 0.45)';
+      } else {
+        ctx.fillStyle = inSelectedWindow ? 'rgba(164, 85, 23, 0.35)' : 'rgba(229, 231, 235, 0.35)';
+      }
       ctx.fillRect(bx, yTop, barWidth, barH);
 
       // Label Bulan di Bawah
-      ctx.fillStyle = '#7D655C';
-      ctx.font = "10px 'Tahoma', Geneva, Verdana, sans-serif";
+      ctx.fillStyle = inSelectedWindow ? '#0038A8' : '#7D655C';
+      ctx.font = inSelectedWindow ? "bold 10px 'Tahoma', Geneva, Verdana, sans-serif" : "10px 'Tahoma', Geneva, Verdana, sans-serif";
       ctx.textAlign = 'center';
       ctx.fillText(bar.label, getX(idx), h - 12);
     });
@@ -767,7 +1096,7 @@ export class ApbnEvalView {
       ctx.restore();
     }
 
-    // Interactive Hover Crosshair
+    // Interactive Hover Crosshair & Tooltip with Monthly Driver Note
     const tooltip = document.getElementById('apbn-eval-hover-tooltip');
     canvas.onmousemove = (e) => {
       const cRect = canvas.getBoundingClientRect();
@@ -789,19 +1118,28 @@ export class ApbnEvalView {
         const linPt = linearCurve[nearestIdx];
         const barPt = monthlyBars[nearestIdx];
         const priorPt = priorCurve[nearestIdx];
+        const mDriver = barPt?.monthly_driver || '';
 
         tooltip.classList.remove('hidden');
-        tooltip.style.left = `${Math.min(w - 180, Math.max(10, getX(nearestIdx) + 12))}px`;
-        tooltip.style.top = `${Math.min(h - 90, Math.max(10, my - 20))}px`;
+        tooltip.style.left = `${Math.min(w - 240, Math.max(10, getX(nearestIdx) + 12))}px`;
+        tooltip.style.top = `${Math.min(h - 120, Math.max(10, my - 20))}px`;
 
         tooltip.innerHTML = `
-          <div class="font-bold text-[#0038A8] border-b border-[#FAF7F2] pb-0.5 mb-1">
-            Bulan: ${barPt?.label} (${barPt?.month})
+          <div class="font-bold text-[#0038A8] border-b border-[#FAF7F2] pb-0.5 mb-1 flex items-center justify-between">
+            <span>Bulan: ${barPt?.label} (${barPt?.month})</span>
+            <span class="text-[10px] px-1 py-0.2 rounded ${barPt?.is_observed ? 'bg-[#EBF5EE] text-[#2D684C]' : 'bg-[#FAF7F2] text-[#7D655C]'}">
+              ${barPt?.is_observed ? 'Observed' : 'Prognosa'}
+            </span>
           </div>
-          <div>Realisasi Bulanan: <strong>${Number(barPt?.value || 0).toLocaleString('id-ID')}</strong></div>
+          <div>Realisasi Bulan Ini: <strong>${Number(barPt?.value || 0).toLocaleString('id-ID')}</strong></div>
           <div>Akumulasi YTD: <strong class="text-[#0038A8]">${Number(actPt?.value || 0).toLocaleString('id-ID')}</strong></div>
-          <div>Target Linier: <strong>${Number(linPt?.value || 0).toLocaleString('id-ID')}</strong></div>
-          <div class="text-[#7D655C]">Tahun Lalu YTD: ${Number(priorPt?.value || 0).toLocaleString('id-ID')}</div>
+          <div>Target Linier APBN: <strong>${Number(linPt?.value || 0).toLocaleString('id-ID')}</strong></div>
+          <div class="text-[#7D655C]">Realisasi TA Lalu: ${Number(priorPt?.value || 0).toLocaleString('id-ID')}</div>
+          ${mDriver ? `
+            <div class="mt-1.5 pt-1 border-t border-[#E2E8F0] text-[10px] text-[#2D684C] font-semibold leading-snug">
+              💡 Driver Musiman: ${mDriver}
+            </div>
+          ` : ''}
         `;
       }
     };

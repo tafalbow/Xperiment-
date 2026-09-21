@@ -111,6 +111,472 @@ class ApbnEvalService:
         0.081, 0.083, 0.085, 0.088, 0.092, 0.147
     ]
 
+    MONTHLY_SEASONAL_DRIVERS: Dict[str, str] = {
+        "M01": "Awal TA: Penerbitan DIPA kementerian/lembaga & penarikan awal DAU rutin pemda.",
+        "M02": "Operasional K/L mulai aktif; setoran masa pajak bulan Januari dibukukan ke kas negara.",
+        "M03": "Puncak pelaporan SPT Tahunan PPh Orang Pribadi & pencairan bansos pangan triwulan I.",
+        "M04": "Batas akhir pelaporan SPT Tahunan PPh Badan & dividen emiten BUMN tahap awal.",
+        "M05": "Pencairan Tunjangan Hari Raya (THR) ASN/TNI/Polri & akselerasi proyek kontraktual.",
+        "M06": "Pencairan Gaji ke-13 ASN, pembayaran kupon SBN semesteran & audit semester I.",
+        "M07": "Awal Semester II: Evaluasi APBN Semester I bersama DPR & serapan DAK Fisik tahap II.",
+        "M08": "Penyampaian Nota Keuangan RAPBN tahun berikutnya ke DPR RI & akselerasi belanja modal.",
+        "M09": "Penyelesaian tender fisik proyek kementerian & realisasi penerimaan PPN hari besar.",
+        "M10": "Awal Triwulan IV: Percepatan sertifikasi tagihan pihak ketiga & monitoring target pajak.",
+        "M11": "Pemberian uang muka proyek multi-years & penyaluran sisa transfer DAU/DBH triwulan IV.",
+        "M12": "Puncak pencairan belanja negara penutupan tahun anggaran (closing kas) & rekonsiliasi LKPP."
+    }
+
+    DRIVERS_REGISTRY: Dict[str, Dict[str, Any]] = {
+        "REV_TOTAL": {
+            "source_org": "Kemenkeu RI (DJP, DJBC, DJA) & Nota Keuangan",
+            "positive": [
+                "Pertumbuhan konsumsi rumah tangga dan mobilitas masyarakat menopang PPN Dalam Negeri (+)",
+                "Kinerja laba korporasi sektor perbankan dan telekomunikasi mendorong setoran PPh Badan (+)",
+                "Peningkatan efektivitas penegakan kepatuhan perpajakan dan implementasi sistem CoreTax (+)"
+            ],
+            "negative": [
+                "Normalisasi harga komoditas tambang dan energi global menekan PPh migas dan royalti minerba (-)",
+                "Peningkatan restitusi pajak pertambahan nilai sektor industri pengolahan (-)",
+                "Pelemahan permintaan impor barang modal menekan kepabeanan (-)"
+            ],
+            "policy_note": "Optimalisasi perluasan basis perpajakan tanpa mendisrupsi momentum pemulihan daya beli."
+        },
+        "REV_TAX": {
+            "source_org": "Ditjen Pajak (DJP) & Ditjen Bea Cukai (DJBC)",
+            "positive": [
+                "Realisasi PPh 21 meningkat seiring perbaikan penyerapan tenaga kerja formal dan upah (+)",
+                "Aktivitas transaksi ritel yang stabil menjaga pertumbuhan penerimaan PPN (+)",
+                "Pemanfaatan data intelijen perpajakan bersama melalui Joint Analysis DJP-DJBC (+)"
+            ],
+            "negative": [
+                "Penurunan harga rata-rata komoditas batubara dan CPO menekan setoran PPh korporasi tambang (-)",
+                "Pengajuan restitusi PPN yang dipercepat pada sektor manufaktur ekspor (-)",
+                "Peralihan konsumsi ke rokok berpita cukai lebih murah (fenomena downtrading) (-)"
+            ],
+            "policy_note": "Fokus pengawasan wajib pajak high-wealth individual dan penguatan analitik big-data fiskal."
+        },
+        "REV_TAX_PPH": {
+            "source_org": "Ditjen Pajak (DJP) - Subdit PPh",
+            "positive": [
+                "Kepatuhan penyampaian SPT Tahunan PPh Orang Pribadi dan Badan tumbuh positif (+)",
+                "Penerimaan PPh Pasal 21 stabil didorong formalisasi sektor jasa dan perbankan (+)",
+                "Efektivitas pemotongan PPh final atas transaksi pasar modal dan jasa konstruksi (+)"
+            ],
+            "negative": [
+                "Koreksi harga batubara global menekan setoran PPh Badan sektor pertambangan (-)",
+                "Pemanfaatan kompensasi kerugian fiskal tahun-tahun sebelumnya oleh wajib pajak badan (-)",
+                "Moderasi impor barang modal menurunkan setoran PPh Pasal 22 impor (-)"
+            ],
+            "policy_note": "Penguatan audit transfer pricing multinasional dan kepatuhan perpajakan digital."
+        },
+        "REV_TAX_PPN": {
+            "source_org": "Ditjen Pajak (DJP) - Subdit PPN",
+            "positive": [
+                "Indeks Keyakinan Konsumen (IKK) konsisten di level optimis menopang transaksi PPN DN (+)",
+                "Perluasan pemungut PPN PMSE (perdagangan melalui sistem elektronik / digital) (+)",
+                "Konsumsi domestik saat momentum libur nasional dan hari besar keagamaan (+)"
+            ],
+            "negative": [
+                "Kenaikan pembayaran klaim restitusi PPN ekspor industri hilirisasi (-)",
+                "Perlambatan laju impor bahan baku menekan perolehan PPN Impor (-)",
+                "Daya beli kelompok masyarakat desil menengah mengalami moderasi selektif (-)"
+            ],
+            "policy_note": "Integrasi faktur pajak elektronik otomatis dan pengawasan faktur fiktif lintas sektor."
+        },
+        "REV_TAX_CUKAI": {
+            "source_org": "Ditjen Bea dan Cukai (DJBC) - Subdit Cukai",
+            "positive": [
+                "Penyesuaian tarif rata-rata CHT sebesar 10% menjaga penerimaan unit per batang (+)",
+                "Operasi Gempur Rokok Ilegal secara masif di perbatasan dan sentra distribusi (+)",
+                "Stabilitas setoran cukai MMEA (minuman beralkohol) dan etil alkohol (+)"
+            ],
+            "negative": [
+                "Penurunan volume produksi sigaret golongan I (SKM I & SPM I) akibat kenaikan tarif (-)",
+                "Peralihan konsumsi ke rokok golongan II dan III berpita cukai lebih rendah (downtrading) (-)",
+                "Tantangan peredaran rokok polos tanpa pita cukai di jalur pemasaran informal (-)"
+            ],
+            "policy_note": "Penerapan kebijakan tarif multi-years dan pengawasan fisik pabrikasi hasil tembakau."
+        },
+        "REV_TAX_BEA": {
+            "source_org": "Ditjen Bea dan Cukai (DJBC) - Subdit Kepabeanan",
+            "positive": [
+                "Penerimaan Bea Keluar konsentrat tembaga dan produk mineral mentah tertentu (+)",
+                "Penerapan integrasi sistem CEISA 4.0 mempercepat validasi dokumen dan akurasi bea (+)",
+                "Pertumbuhan volume logistik kargo pelabuhan internasional utama (+)"
+            ],
+            "negative": [
+                "Pemanfaatan skema perjanjian perdagangan bebas (FTA) dengan tarif preferensi 0% (-)",
+                "Harga referensi CPO internasional yang bergerak moderat membatasi tarif bea keluar (-)",
+                "Penurunan impor barang konsumsi non-esensial akibat substitusi produk lokal (-)"
+            ],
+            "policy_note": "Modernisasi sistem National Logistics Ecosystem (NLE) dan post-clearance audit terarah."
+        },
+        "REV_TAX_PBB": {
+            "source_org": "Ditjen Pajak (DJP) - Subdit PBB & P3",
+            "positive": [
+                "Penyelesaian ketetapan PBB sektor pertambangan migas dan panas bumi (+)",
+                "Pemutakhiran data objek pajak sektor perkebunan menggunakan citra satelit (+)",
+                "Tingginya kepatuhan penyetoran PBB sektor perhutanan dan pertambangan minerba (+)"
+            ],
+            "negative": [
+                "Penurunan volume lifting migas menurunkan nilai jual objek pajak (NJOP) tahunan (-)",
+                "Siklus pembayaran PBB P3 yang terpusat di kuartal III dan IV (musiman) (-)",
+                "Pengajuan banding dan sengketa penetapan nilai objek pajak energi terbarukan (-)"
+            ],
+            "policy_note": "Penilaian berkala objek pajak berbasis teknologi geospasial terintegrasi."
+        },
+        "REV_PNBP": {
+            "source_org": "Ditjen Anggaran (DJA) & K/L Terkait",
+            "positive": [
+                "Setoran dividen bagian laba BUMN sektor perbankan dan energi melampaui target APBN (+)",
+                "Peningkatan layanan digital PNBP kementerian/lembaga melalui kanal SIMPONI (+)",
+                "Pendapatan jasa kepelabuhanan, layanan keimigrasian, dan perguruan tinggi BLU meningkat (+)"
+            ],
+            "negative": [
+                "Koreksi harga minyak mentah ICP dan batubara acuan menekan royalti SDA minerba (-)",
+                "Realisasi lifting minyak bumi di bawah asumsi makro APBN (-)",
+                "Peningkatan beban biaya operasional rumah sakit BLU menekan setoran kas (-)"
+            ],
+            "policy_note": "Penyempurnaan tata kelola sistem informasi PNBP dan peningkatan efisiensi dividen BUMN."
+        },
+        "REV_PNBP_SDA": {
+            "source_org": "Kemenkeu (DJA), Ditjen Migas & SKK Migas",
+            "positive": [
+                "Faktor kurs konversi Rupiah terhadap USD memberikan dorongan nominal bagi hasil migas (+)",
+                "Realisasi royalti nikel dan bauksit hilirisasi yang beroperasi komersial (+)",
+                "Penyelesaian penagihan piutang dan denda administratif sektor kehutanan (+)"
+            ],
+            "negative": [
+                "Lifting minyak bumi berada di bawah target asumsi APBN (sekitar 580-600 ribu BOPD) (-)",
+                "Normalisasi harga gas alam dan batubara dunia dari rekor tahun sebelumnya (-)",
+                "Kenaikan biaya pengembalian operasi perminyakan (cost recovery) (-)"
+            ],
+            "policy_note": "Percepatan program reaktivasi sumur tua dan integrasi pengawasan e-PNBP minerba."
+        },
+        "REV_PNBP_KND": {
+            "source_org": "Ditjen Kekayaan Negara (DJKN) & Kementerian BUMN",
+            "positive": [
+                "Laba bersih konsolidasian bank Himbara (BRI, Mandiri, BNI) mencatatkan rekor tertinggi (+)",
+                "Setoran dividen BUMN tambang dan logistik disetorkan tepat waktu pada semester I (+)",
+                "Perbaikan tata kelola dan restrukturisasi operasional sejumlah BUMN karya (+)"
+            ],
+            "negative": [
+                "Kebutuhan laba ditahan untuk penguatan modal BUMN perbankan menghadapi risiko kredit (-)",
+                "Beberapa BUMN infrastruktur masih menunda dividen karena kewajiban restrukturisasi utang (-)",
+                "Konsentrasi sumber dividen hanya bertumpu pada segmen jasa perbankan dan mineral (-)"
+            ],
+            "policy_note": "Penajaman portofolio PMN berbasis return on investment (ROI) terukur."
+        },
+        "REV_PNBP_BLU": {
+            "source_org": "Ditjen Perbendaharaan (DJPb) - Pembina BLU",
+            "positive": [
+                "Peningkatan volume layanan RS BLU dan universitas PTN-BH secara konsisten (+)",
+                "Hasil optimalisasi penempatan kas dan dana kelolaan abadi pendidikan (+)",
+                "Pemanfaatan aset idle BLU melalui kemitraan strategis dengan pihak ketiga (+)"
+            ],
+            "negative": [
+                "Fluktuasi pungutan dana sawit BPDPKS akibat pergerakan harga ekspor CPO global (-)",
+                "Kenaikan biaya obat dan alat kesehatan menekan surplus operasional BLU medis (-)",
+                "Keterbatasan fleksibilitas tarif layanan pada BLU pendidikan vokasi (-)"
+            ],
+            "policy_note": "Penerapan modernisasi cash management system dan standardisasi mutu layanan BLU."
+        },
+        "REV_PNBP_LAIN": {
+            "source_org": "Ditjen Anggaran (DJA) & Kemenkeu",
+            "positive": [
+                "Penerimaan biaya hak penggunaan spektrum frekuensi radio (BHP) telekomunikasi (+)",
+                "Kenaikan permintaan layanan paspor dan visa pasca pemulihan perjalanan internasional (+)",
+                "Optimalisasi pendapatan jasa kepolisian (SIM, STNK, BPKB) sesuai penjualan kendaraan (+)"
+            ],
+            "negative": [
+                "Kebijakan tarif Rp 0 (pembebasan PNBP) untuk sertifikasi izin edar usaha mikro kecil (-)",
+                "Keterlambatan rekonsiliasi data setoran antarsistem perbankan mitra (-)",
+                "Penurunan setoran denda pelanggaran lalu lintas seiring transisi tilang elektronik ETLE (-)"
+            ],
+            "policy_note": "Ekspansi integrasi gateway pembayaran digital terpusat di seluruh K/L."
+        },
+        "REV_HIBAH": {
+            "source_org": "Ditjen Pengelolaan Pembiayaan & Risiko (DJPPR)",
+            "positive": [
+                "Realisasi hibah program transisi energi terbarukan Just Energy Transition Partnership (JETP) (+)",
+                "Bantuan teknis multilateral program penguatan kapasitas kesehatan dan ketahanan pangan (+)",
+                "Pencairan komitmen pendanaan iklim bilateral dari negara-negara mitra strategis (+)"
+            ],
+            "negative": [
+                "Jadwal penarikan hibah luar negeri bergantung pada pemenuhan syarat milestone proyek (-)",
+                "Proses verifikasi dan registrasi hibah langsung di kementerian teknis memakan waktu (-)",
+                "Keterbatasan kapasitas penyerapan kegiatan berbasis hibah di tingkat satuan kerja (-)"
+            ],
+            "policy_note": "Percepatan penyederhanaan birokrasi registrasi hibah melalui modul terintegrasi SIKRI."
+        },
+        "EXP_TOTAL": {
+            "source_org": "Kemenkeu RI (DJA, DJPb, DJPK) & LKPP",
+            "positive": [
+                "Pencairan bantuan sosial dan perlindungan sosial terakselerasi sejak triwulan I (+)",
+                "Penyaluran Transfer ke Daerah (TKD) tepat waktu mendukung likuiditas pemda (+)",
+                "Pembayaran THR dan Gaji ke-13 aparatur sipil negara terdistribusi tepat jadwal (+)"
+            ],
+            "negative": [
+                "Penyerapan belanja modal proyek fisik di awal tahun lambat karena siklus tender/lelang (-)",
+                "Hambatan pengadaan lahan dan koordinasi lintas instansi pada proyek infrastruktur (-)",
+                "Tingginya sisa anggaran lebih (SILPA) di kas pemerintah daerah (-)"
+            ],
+            "policy_note": "Mendorong lelang dini pra-DIPA dan percepatan eksekusi belanja berkualitas (spending better)."
+        },
+        "EXP_BPP": {
+            "source_org": "Ditjen Anggaran (DJA) & Ditjen Perbendaharaan (DJPb)",
+            "positive": [
+                "Pengendalian belanja barang operasional melalui standardisasi biaya masukan (SBM) ketat (+)",
+                "Prioritisasi alokasi untuk ketahanan pangan, transisi energi, dan pengentasan kemiskinan (+)",
+                "Penerapan Kartu Kredit Pemerintah (KKP) mempercepat fleksibilitas perputaran kas satker (+)"
+            ],
+            "negative": [
+                "Pola penyerapan anggaran masih cenderung menumpuk di kuartal IV (back-loaded) (-)",
+                "Frekuensi revisi dokumen petunjuk operasional kegiatan (POK) satker yang tinggi (-)",
+                "Tekanan nilai tukar Rupiah terhadap USD menambah beban pembiayaan subsidi energi impor (-)"
+            ],
+            "policy_note": "Pemantauan berkala deviasi rencana penarikan dana bulanan (RPD) di seluruh KPPN."
+        },
+        "EXP_BPP_PEGAWAI": {
+            "source_org": "DJA / DJPb (Kemenkeu) & BKN",
+            "positive": [
+                "Penyaluran gaji pokok dan tunjangan melekat ASN/TNI/Polri terealisasi 100% tepat waktu (+)",
+                "Pencairan THR dan Gaji ke-13 tepat waktu mendongkrak peredaran uang dan konsumsi (+)",
+                "Alokasi formasi pengangkatan PPPK guru dan tenaga kesehatan tersalurkan tertib (+)"
+            ],
+            "negative": [
+                "Kenaikan beban belanja pensiun seiring bertambahnya jumlah pensiunan abdi negara (-)",
+                "Disparitas penyerapan tunjangan kinerja di kementerian teknis akibat verifikasi capaian (-)",
+                "Porsi belanja pegawai pada APBD daerah tertentu yang masih melampaui batas wajar (-)"
+            ],
+            "policy_note": "Reformasi sistem pensiun fully funded dan audit kebutuhan formasi berbasis beban kerja riil."
+        },
+        "EXP_BPP_BARANG": {
+            "source_org": "DJA / DJPb (Kemenkeu) & Satker K/L",
+            "positive": [
+                "Belanja barang yang diserahkan ke masyarakat (benih, pupuk, bantuan operasional) terakselerasi (+)",
+                "Katalog elektronik (e-Katalog LKPP) mempercepat proses pengadaan barang pemerintah (+)",
+                "Efisiensi belanja perjalanan dinas dan konsolidasi paket pertemuan dinas (+)"
+            ],
+            "negative": [
+                "Pengajuan tagihan kontraktual pihak ketiga menumpuk menjelang penutupan tahun anggaran (-)",
+                "Keterlambatan verifikasi berkas surat perintah membayar (SPM) pada unit verifikasi satker (-)",
+                "Sisa pagu belanja barang non-operasional yang tidak terserap optimal (-)"
+            ],
+            "policy_note": "Pembatasan pengadaan barang non-esensial dan monitoring ketat sisa kontrak tahun berjalan."
+        },
+        "EXP_BPP_MODAL": {
+            "source_org": "DJA, DJPb & Kemen PUPR / Kemenhub / Kemhan",
+            "positive": [
+                "Penyelesaian bendungan pengendali banjir, jalan tol, dan infrastruktur IKN tahap awal (+)",
+                "Pengadaan dan modernisasi alutsista pertahanan TNI dan sistem keamanan navigasi (+)",
+                "Realisasi pembayaran uang muka kontrak multi-years pekerjaan sipil berjalan lancar (+)"
+            ],
+            "negative": [
+                "Tender proyek fisik di semester I terlambat akibat lambatnya penetapan pejabat pembuat komitmen (-)",
+                "Kendala pembebasan lahan dan ganti rugi tanah di sejumlah ruas konektivitas (-)",
+                "Faktor cuaca ekstrem dan anomali iklim menghambat progres pekerjaan fisik di lapangan (-)"
+            ],
+            "policy_note": "Kewajiban lelang dini pra-DIPA sejak kuartal IV tahun sebelum anggaran berjalan."
+        },
+        "EXP_BPP_BUNGA": {
+            "source_org": "Ditjen Pengelolaan Pembiayaan & Risiko (DJPPR)",
+            "positive": [
+                "Pembayaran kupon dan imbalan SBN domestik tepat waktu menjaga peringkat kredit investasi RI (+)",
+                "Pengendalian yield SBN tenor 10 tahun melalui koordinasi solid Kemenkeu dan Bank Indonesia (+)",
+                "Penerbitan obligasi tematik ritel dengan kupon yang kompetitif dan terjangkau (+)"
+            ],
+            "negative": [
+                "Tingginya suku bunga acuan bank sentral global (higher for longer) menekan beban kupon valas (-)",
+                "Pelemahan kurs Rupiah terhadap USD menambah beban pembayaran bunga pinjaman luar negeri (-)",
+                "Akumulasi kupon SBN dari pembiayaan masa penanganan pandemi Covid-19 (-)"
+            ],
+            "policy_note": "Strategi debt reprofiling, diversifikasi portofolio tenor, dan pendalaman pasar obligasi domestik."
+        },
+        "EXP_BPP_SUBSIDI": {
+            "source_org": "DJA (Kemenkeu), ESDM, Pertamina & PLN",
+            "positive": [
+                "Penyaluran subsidi BBM tepat sasaran didukung registrasi digital QR Code MyPertamina (+)",
+                "Stabilitas tarif listrik bagi pelanggan rumah tangga miskin 450 VA dan 900 VA terjaga penuh (+)",
+                "Penyaluran subsidi pupuk berbasis data terintegrasi petani e-Alokasi Kementan (+)"
+            ],
+            "negative": [
+                "Kenaikan harga minyak mentah ICP melampaui asumsi APBN meningkatkan kompensasi energi (-)",
+                "Pelemahan nilai tukar Rupiah menaikkan biaya pokok penyediaan (BPP) listrik dan impor BBM (-)",
+                "Volume konsumsi BBM bersubsidi (Pertalite & Solar) berpotensi melampaui kuota tahunan (-)"
+            ],
+            "policy_note": "Transformasi subsidi energi dari berbasis komoditas terbuka menjadi berbasis orang/keluarga miskin."
+        },
+        "EXP_BPP_BANSOS": {
+            "source_org": "Kemensos, Kemendikbudristek & DJA/DJPb",
+            "positive": [
+                "Penyaluran bansos Program Keluarga Harapan (PKH) dan Sembako/BPNT terdistribusi tepat sasaran (+)",
+                "Cakupan Penerima Bantuan Iuran (PBI) JKN melindungi 96,8 juta jiwa masyarakat miskin (+)",
+                "Pencairan Program Indonesia Pintar (PIP) dan KIP Kuliah berjalan tepat waktu (+)"
+            ],
+            "negative": [
+                "Kebutuhan pemutakhiran data Data Terpadu Kesejahteraan Sosial (DTKS) di tingkat pemda (-)",
+                "Kendala jangkauan logistik penyaluran bantuan di kawasan 3T (Terdepan, Terpencil, Tertinggal) (-)",
+                "Potensi tumpang tindih kepesertaan bansos antar kementerian teknis (-)"
+            ],
+            "policy_note": "Penggunaan data Registrasi Sosial Ekonomi (Regsosek) sebagai referensi tunggal penerima manfaat."
+        },
+        "EXP_BPP_LAIN": {
+            "source_org": "Bagian Anggaran BUN 999 (Kemenkeu)",
+            "positive": [
+                "Kesiapan dana cadangan penanggulangan tanggap darurat bencana alam BNPB (+)",
+                "Cadangan stabilisasi harga pangan dan penanganan gagal panen berfungsi efektif (+)",
+                "Ruang fleksibilitas fiskal BA-BUN dalam meredam shock eksternal tak terduga (+)"
+            ],
+            "negative": [
+                "Kebutuhan pembayaran kewajiban kontinjensi hukum dan arbitrase pemerintah (-)",
+                "Tambahan alokasi dana mendesak untuk agenda prioritas nasional tak terjadwal (-)",
+                "Tingkat realisasi penyerapan yang sangat bergantung pada terjadinya kejadian darurat (-)"
+            ],
+            "policy_note": "Pengetatan tata kelola pencairan dana cadangan BA-BUN dengan persetujuan komite teknis."
+        },
+        "EXP_TKD": {
+            "source_org": "Ditjen Perimbangan Keuangan (DJPK)",
+            "positive": [
+                "Penyaluran DAU dan Dana Desa tepat waktu menjaga likuiditas ekonomi perdesaan (+)",
+                "Pemberian alokasi Insentif Fiskal bagi daerah yang berhasil mengendalikan inflasi (+)",
+                "Implementasi UU HKPD memperkuat harmonisasi kebijakan fiskal pusat dan daerah (+)"
+            ],
+            "negative": [
+                "Keterlambatan penyampaian laporan pertanggungjawaban APBD pemda menunda penyaluran tahap berikutnya (-)",
+                "Tingginya saldo kas pemda yang mengendap di perbankan daerah (belum dibelanjakan) (-)",
+                "Tingkat kemandirian fiskal daerah yang masih rendah (ketergantungan transfer di atas 70%) (-)"
+            ],
+            "policy_note": "Penerapan skema reward & punishment berbasis kepatuhan belanja produktif daerah."
+        },
+        "EXP_TKD_DAU": {
+            "source_org": "Ditjen Perimbangan Keuangan (DJPK)",
+            "positive": [
+                "Penyaluran DAU bagian yang tidak ditentukan penggunaannya secara reguler awal bulan (+)",
+                "DAU yang ditentukan penggunaannya (earmarked) fokus pada bidang pendidikan dan kesehatan (+)",
+                "Pemberian kepastian dana belanja operasional rutin pemerintahan daerah (+)"
+            ],
+            "negative": [
+                "Pemenuhan syarat salur DAU earmarked bidang pekerjaan umum daerah sering terlambat (-)",
+                "Kapasitas aparatur keuangan daerah baru dalam menyusun laporan realisasi terbatas (-)",
+                "Kesenjangan alokasi kapasitas fiskal antar-kabupaten yang belum sepenuhnya seimbang (-)"
+            ],
+            "policy_note": "Penyempurnaan formula alokasi DAU berbasis unit cost layanan publik dasar."
+        },
+        "EXP_TKD_DBH": {
+            "source_org": "DJPK (Kemenkeu) & Kementerian ESDM",
+            "positive": [
+                "Penyaluran DBH SDA Sawit mendukung pendanaan perbaikan jalan perkebunan rakyat (+)",
+                "Realisasi DBH PPh dan PBB dibagikan secara transparan dan proporsional (+)",
+                "Penyaluran berkala DBH migas dan pertambangan minerba setiap triwulan berjalan (+)"
+            ],
+            "negative": [
+                "Volatilitas harga komoditas tambang global menyebabkan fluktuasi nominal DBH SDA (-)",
+                "Keterlambatan rekonsiliasi data lifting migas dan minerba daerah penghasil (-)",
+                "Tuntutan porsi bagi hasil dari daerah pengolah non-penghasil (-)"
+            ],
+            "policy_note": "Penyelesaian rekonsiliasi triwulanan secara digital melalui sistem e-DBH."
+        },
+        "EXP_TKD_DAK": {
+            "source_org": "DJPK (Kemenkeu) & Bappenas",
+            "positive": [
+                "DAK Fisik meningkatkan konektivitas jalan, jembatan, irigasi, dan puskesmas daerah (+)",
+                "DAK Non-Fisik dana Bantuan Operasional Sekolah (BOS) disalurkan langsung ke rekening sekolah (+)",
+                "Alokasi DAK Non-Fisik BOK berkontribusi langsung pada penurunan angka stunting balita (+)"
+            ],
+            "negative": [
+                "Keterlambatan lelang kontrak pekerjaan fisik oleh pemda mengakibatkan DAK hangus (-)",
+                "Proses verifikasi laporan penyerapan tahap sebelumnya di inspektorat daerah lambat (-)",
+                "Kurangnya alokasi pemeliharaan berkala pasca proyek DAK selesai dibangun (-)"
+            ],
+            "policy_note": "Relaksasi batas waktu penyampaian kontrak dan pendampingan teknis bagi daerah 3T."
+        },
+        "EXP_TKD_DESA": {
+            "source_org": "DJPK (Kemenkeu) & Kemendes PDTT",
+            "positive": [
+                "Penyaluran Dana Desa mendukung program Padat Karya Tunai Desa (PKTD) (+)",
+                "Bantuan Langsung Tunai (BLT) Desa meringankan beban ekonomi keluarga miskin ekstrem (+)",
+                "Pembangunan sarana sanitasi, posyandu desa, dan akses air minum perdesaan (+)"
+            ],
+            "negative": [
+                "Keterlambatan penetapan APBDes oleh musyawarah desa menunda pencairan tahap I (-)",
+                "Variasi kapasitas aparat desa dalam menyusun pertanggungjawaban penatausahaan kas (-)",
+                "Potensi penyimpangan pemanfaatan dana desa pada daerah pedalaman (-)"
+            ],
+            "policy_note": "Integrasi menyeluruh sistem keuangan desa (SISKEUDES) dengan portal OMSPAN Kemenkeu."
+        },
+        "BAL_PRIMARY": {
+            "source_org": "Badan Kebijakan Fiskal (BKF) & Ditjen Anggaran",
+            "positive": [
+                "Surplus keseimbangan primer terjaga berkat kinerja penerimaan negara yang melampaui target (+)",
+                "Beban penerbitan utang baru berkurang karena penerimaan mampu menutup belanja non-bunga (+)",
+                "Pemberian apresiasi dari lembaga pemeringkat internasional atas disiplin fiskal RI (+)"
+            ],
+            "negative": [
+                "Risiko pelebaran defisit primer jika terjadi lonjakan beban belanja bunga utang (-)",
+                "Penurunan tajam penerimaan komoditas SDA berpotensi menekan saldo primer (-)",
+                "Tingginya ketergantungan surplus primer pada kesinambungan penerimaan perpajakan (-)"
+            ],
+            "policy_note": "Menjaga keseimbangan primer tetap surplus untuk menjamin penurunan rasio utang jangka panjang."
+        },
+        "DEFISIT_ANGGARAN": {
+            "source_org": "Laporan Realisasi APBN KiTa (Kemenkeu RI)",
+            "positive": [
+                "Defisit anggaran terkendali aman di kisaran 1,6% - 2,3% PDB, jauh di bawah batas hukum 3% PDB (+)",
+                "Pengendalian serapan belanja secara efektif menekan kebutuhan penerbitan utang pembiayaan (+)",
+                "Rasio utang terhadap PDB berada di level 38-39%, salah satu yang terendah di G20 dan ASEAN (+)"
+            ],
+            "negative": [
+                "Potensi pelebaran defisit bila penerimaan perpajakan meleset dari target UU APBN (-)",
+                "Volatilitas kurs Rupiah dan harga minyak dunia dapat mengangkat belanja subsidi energi (-)",
+                "Tuntutan pembiayaan proyek strategis nasional dan perlindungan sosial yang tinggi (-)"
+            ],
+            "policy_note": "Konsolidasi fiskal disiplin dengan mematuhi batas statutori defisit maksimal 3% PDB."
+        },
+        "FIN_TOTAL": {
+            "source_org": "Ditjen Pengelolaan Pembiayaan & Risiko (DJPPR)",
+            "positive": [
+                "Kebutuhan penerbitan SBN neto dapat diturunkan seiring terkendalinya defisit anggaran (+)",
+                "Pemanfaatan Saldo Anggaran Lebih (SAL) sebagai penyangga fiskal mengurangi penerbitan utang (+)",
+                "Tingginya partisipasi investor institusi domestik dan masyarakat ritel pada obligasi negara (+)"
+            ],
+            "negative": [
+                "Kondisi suku bunga global yang tinggi menuntut penetapan kupon penerbitan yang kompetitif (-)",
+                "Risiko pembalikan arus modal asing (capital outflow) dari pasar surat berharga negara (-)",
+                "Tuntutan pembiayaan investasi bagi penugasan BUMN memerlukan seleksi kelayakan ketat (-)"
+            ],
+            "policy_note": "Prioritisasi penerbitan surat utang berdenominasi Rupiah dan optimalisasi kas SAL."
+        },
+        "FIN_UTANG": {
+            "source_org": "Ditjen Pengelolaan Pembiayaan & Risiko (DJPPR)",
+            "positive": [
+                "Penerbitan SBN ritel (ORI, Sukuk Ritel) mencatat oversubscription dari investor generasi muda (+)",
+                "Diversifikasi instrumen utang melalui penerbitan Samurai Bond, Sukuk Hijau, dan SDG Bond (+)",
+                "Porsi kepemilikan asing di SBN berada pada level aman (14-15%) meminimalkan risiko pasar (+)"
+            ],
+            "negative": [
+                "Kenaikan yield obligasi global (US Treasury) memperlebar biaya pinjaman negara berkembang (-)",
+                "Biaya dana utang baru (cost of fund) lebih mahal di era rezim suku bunga tinggi (-)",
+                "Profil jatuh tempo utang yang menumpuk di masa mendatang memerlukan mitigasi refinancing (-)"
+            ],
+            "policy_note": "Pengelolaan portofolio utang secara prudent dengan mengendalikan risiko kurs dan bunga."
+        },
+        "FIN_NON_UTANG": {
+            "source_org": "DJPPR, DJKN & Saldo Anggaran Lebih (SAL)",
+            "positive": [
+                "Alokasi penyertaan modal negara (PMN) hanya diberikan kepada BUMN penugasan strategis (+)",
+                "Pengembalian pinjaman daerah dan pemanfaatan hasil investasi dana abadi pendidikan (+)",
+                "Penggunaan SAL sebagai bantalan kas darurat tanpa menambah beban pokok utang (+)"
+            ],
+            "negative": [
+                "Alokasi pembiayaan investasi tidak langsung memberikan pengembalian dividen seketika (-)",
+                "Keterbatasan ruang serapan modal pada BUMN yang masih menjalani penyehatan keuangan (-)",
+                "Kewajiban penyediaan dana penjaminan infrastruktur dan mitigasi risiko bencana (-)"
+            ],
+            "policy_note": "Penetapan KPI terukur untuk setiap pencairan PMN dan audit berkala efektivitas investasi."
+        }
+    }
+
     @classmethod
     def get_supported_years(cls) -> List[Dict[str, Any]]:
         """Mengembalikan daftar tahun yang didukung beserta status publikasi APBN KiTa."""
@@ -502,6 +968,12 @@ class ApbnEvalService:
                     perf_status = "LAGGING"
                     perf_badge = "bg-rose-50 text-rose-700"
 
+            meta = cls.DRIVERS_REGISTRY.get(item["id"], {})
+            source_org = meta.get("source_org", "Kementerian Keuangan RI")
+            positive_drivers = meta.get("positive", ["Realisasi berjalan sesuai pagu statutori"])
+            negative_drivers = meta.get("negative", ["Tantangan dinamika fiskal dan serapan musiman"])
+            policy_note = meta.get("policy_note", "Disiplin fiskal terpadu.")
+
             rows.append({
                 "id": item["id"],
                 "code": item["code"],
@@ -523,16 +995,30 @@ class ApbnEvalService:
                 "variance_rapbn": variance_rapbn,
                 "benchmark_run_rate": benchmark_run_rate,
                 "perf_status": perf_status,
-                "perf_badge": perf_badge
+                "perf_badge": perf_badge,
+                "source_org": source_org,
+                "drivers": {
+                    "positive": positive_drivers,
+                    "negative": negative_drivers,
+                    "policy_note": policy_note,
+                    "monthly_notes": cls.MONTHLY_SEASONAL_DRIVERS
+                }
             })
 
         return rows
 
     @classmethod
-    def get_evaluation_summary(cls, year: int = 2025, unit: str = "TRILLION") -> Dict[str, Any]:
+    def get_evaluation_summary(
+        cls,
+        year: int = 2025,
+        unit: str = "TRILLION",
+        start_month: int = 1,
+        end_month: Optional[int] = None
+    ) -> Dict[str, Any]:
         """
         Menghasilkan ringkasan eksekutif KPI:
         Total Pendapatan, Total Belanja, Defisit, Keseimbangan Primer, Capaian YTD, dan Benchmark.
+        Mendukung rentang waktu custom (start_month s/d end_month).
         """
         div, unit_label = cls._get_unit_multiplier(unit)
         rows = cls._get_base_dataset(year)
@@ -540,6 +1026,10 @@ class ApbnEvalService:
         latest_m = cfg["latest_published_month"]
         latest_idx = int(latest_m.replace("M", ""))
         gdp = cfg["gdp_nominal"]
+
+        end_m = latest_idx if end_month is None else max(1, min(12, end_month))
+        start_m = max(1, min(end_m, start_month))
+        is_custom_period = not (start_m == 1 and end_m == latest_idx)
 
         def find_row(row_id: str) -> Dict[str, Any]:
             for r in rows:
@@ -555,10 +1045,28 @@ class ApbnEvalService:
         r_bpp = find_row("EXP_BPP")
         r_tkd = find_row("EXP_TKD")
 
+        def calc_custom_actual(row: Dict[str, Any]) -> float:
+            tot = 0.0
+            for m in range(start_m, end_m + 1):
+                tot += row["monthly"].get(f"M{m:02d}", 0.0) or 0.0
+            return round(tot, 2)
+
+        rev_val = calc_custom_actual(r_rev) if is_custom_period else r_rev["ytd_actual"]
+        exp_val = calc_custom_actual(r_exp) if is_custom_period else r_exp["ytd_actual"]
+        def_val = calc_custom_actual(r_def) if is_custom_period else r_def["ytd_actual"]
+        prim_val = calc_custom_actual(r_prim) if is_custom_period else r_prim["ytd_actual"]
+        tax_val = calc_custom_actual(r_tax) if is_custom_period else r_tax["ytd_actual"]
+        bpp_val = calc_custom_actual(r_bpp) if is_custom_period else r_bpp["ytd_actual"]
+        tkd_val = calc_custom_actual(r_tkd) if is_custom_period else r_tkd["ytd_actual"]
+
         def_apbn = r_def["apbn"]
-        def_ytd = r_def["ytd_actual"]
         def_pdb_apbn = round((abs(def_apbn) / gdp) * 100.0, 2)
-        def_pdb_ytd = round((abs(def_ytd) / gdp) * 100.0, 2)
+        def_pdb_ytd = round((abs(def_val) / gdp) * 100.0, 2)
+
+        rev_pct_apbn = round(rev_val / r_rev["apbn"] * 100.0, 2) if r_rev["apbn"] else 0.0
+        rev_pct_rapbn = round(rev_val / r_rev["rapbn"] * 100.0, 2) if r_rev["rapbn"] else 0.0
+        exp_pct_apbn = round(exp_val / r_exp["apbn"] * 100.0, 2) if r_exp["apbn"] else 0.0
+        exp_pct_rapbn = round(exp_val / r_exp["rapbn"] * 100.0, 2) if r_exp["rapbn"] else 0.0
 
         return {
             "status": "SUCCESS",
@@ -569,33 +1077,40 @@ class ApbnEvalService:
             "status_label": cfg["status_label"],
             "latest_month": latest_m,
             "latest_month_name": cls.MONTH_NAMES[latest_idx - 1]["name"],
-            "benchmark_run_rate": round((latest_idx / 12.0) * 100.0, 1),
+            "benchmark_run_rate": round((end_m / 12.0) * 100.0, 1),
+            "time_filter": {
+                "start_month": start_m,
+                "end_month": end_m,
+                "start_month_name": cls.MONTH_NAMES[start_m - 1]["name"],
+                "end_month_name": cls.MONTH_NAMES[end_m - 1]["name"],
+                "is_custom_period": is_custom_period
+            },
             "kpi": {
                 "revenue": {
                     "rapbn": round(r_rev["rapbn"] * div, 2),
                     "apbn": round(r_rev["apbn"] * div, 2),
                     "latest_month": round(r_rev["latest_month_actual"] * div, 2),
-                    "ytd": round(r_rev["ytd_actual"] * div, 2),
-                    "pct_apbn": r_rev["pct_apbn"],
-                    "pct_rapbn": r_rev["pct_rapbn"],
-                    "variance": round(r_rev["variance_apbn"] * div, 2),
+                    "ytd": round(rev_val * div, 2),
+                    "pct_apbn": rev_pct_apbn,
+                    "pct_rapbn": rev_pct_rapbn,
+                    "variance": round((r_rev["apbn"] - rev_val) * div, 2),
                     "status": r_rev["perf_status"]
                 },
                 "expenditure": {
                     "rapbn": round(r_exp["rapbn"] * div, 2),
                     "apbn": round(r_exp["apbn"] * div, 2),
                     "latest_month": round(r_exp["latest_month_actual"] * div, 2),
-                    "ytd": round(r_exp["ytd_actual"] * div, 2),
-                    "pct_apbn": r_exp["pct_apbn"],
-                    "pct_rapbn": r_exp["pct_rapbn"],
-                    "variance": round(r_exp["variance_apbn"] * div, 2),
+                    "ytd": round(exp_val * div, 2),
+                    "pct_apbn": exp_pct_apbn,
+                    "pct_rapbn": exp_pct_rapbn,
+                    "variance": round((r_exp["apbn"] - exp_val) * div, 2),
                     "status": r_exp["perf_status"]
                 },
                 "deficit": {
                     "rapbn": round(r_def["rapbn"] * div, 2),
                     "apbn": round(r_def["apbn"] * div, 2),
                     "latest_month": round(r_def["latest_month_actual"] * div, 2),
-                    "ytd": round(r_def["ytd_actual"] * div, 2),
+                    "ytd": round(def_val * div, 2),
                     "pct_gdp_apbn": def_pdb_apbn,
                     "pct_gdp_ytd": def_pdb_ytd
                 },
@@ -603,22 +1118,22 @@ class ApbnEvalService:
                     "rapbn": round(r_prim["rapbn"] * div, 2),
                     "apbn": round(r_prim["apbn"] * div, 2),
                     "latest_month": round(r_prim["latest_month_actual"] * div, 2),
-                    "ytd": round(r_prim["ytd_actual"] * div, 2)
+                    "ytd": round(prim_val * div, 2)
                 },
                 "tax": {
                     "apbn": round(r_tax["apbn"] * div, 2),
-                    "ytd": round(r_tax["ytd_actual"] * div, 2),
-                    "pct_apbn": r_tax["pct_apbn"]
+                    "ytd": round(tax_val * div, 2),
+                    "pct_apbn": round(tax_val / r_tax["apbn"] * 100.0, 2) if r_tax["apbn"] else 0.0
                 },
                 "bpp": {
                     "apbn": round(r_bpp["apbn"] * div, 2),
-                    "ytd": round(r_bpp["ytd_actual"] * div, 2),
-                    "pct_apbn": r_bpp["pct_apbn"]
+                    "ytd": round(bpp_val * div, 2),
+                    "pct_apbn": round(bpp_val / r_bpp["apbn"] * 100.0, 2) if r_bpp["apbn"] else 0.0
                 },
                 "tkd": {
                     "apbn": round(r_tkd["apbn"] * div, 2),
-                    "ytd": round(r_tkd["ytd_actual"] * div, 2),
-                    "pct_apbn": r_tkd["pct_apbn"]
+                    "ytd": round(tkd_val * div, 2),
+                    "pct_apbn": round(tkd_val / r_tkd["apbn"] * 100.0, 2) if r_tkd["apbn"] else 0.0
                 }
             }
         }
@@ -629,17 +1144,24 @@ class ApbnEvalService:
         year: int = 2025,
         category: str = "ALL",
         unit: str = "TRILLION",
-        search_query: Optional[str] = None
+        search_query: Optional[str] = None,
+        start_month: int = 1,
+        end_month: Optional[int] = None
     ) -> Dict[str, Any]:
         """
         Menghasilkan tabel matriks lengkap:
-        Pos Anggaran, RAPBN, UU APBN, Realisasi M01-M12, YTD, % APBN, % RAPBN, Varian.
+        Pos Anggaran, RAPBN, UU APBN, Realisasi M01-M12, YTD, % APBN, % RAPBN, Varian, dan Sumber Data.
+        Mendukung rentang waktu custom untuk komparasi periode fleksibel.
         """
         div, unit_label = cls._get_unit_multiplier(unit)
         base_rows = cls._get_base_dataset(year)
         cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2025])
         latest_m = cfg["latest_published_month"]
         latest_idx = int(latest_m.replace("M", ""))
+
+        end_m = latest_idx if end_month is None else max(1, min(12, end_month))
+        start_m = max(1, min(end_m, start_month))
+        is_custom_period = not (start_m == 1 and end_m == latest_idx)
 
         clean_cat = category.upper().strip()
         q = (search_query or "").lower().strip()
@@ -653,8 +1175,17 @@ class ApbnEvalService:
                 continue
 
             scaled_monthly = {}
+            period_sum = 0.0
             for m_code, val in r["monthly"].items():
+                m_num = int(m_code.replace("M", ""))
                 scaled_monthly[m_code] = round(val * div, 2) if val is not None else None
+                if start_m <= m_num <= end_m and val is not None:
+                    period_sum = round(period_sum + val, 2)
+
+            custom_actual = round(period_sum * div, 2)
+            custom_pct_apbn = round(period_sum / r["apbn"] * 100.0, 2) if r["apbn"] else 0.0
+            custom_pct_rapbn = round(period_sum / r["rapbn"] * 100.0, 2) if r["rapbn"] else 0.0
+            custom_variance = round((r["apbn"] - period_sum) * div, 2)
 
             row_copy = {
                 "id": r["id"],
@@ -675,7 +1206,14 @@ class ApbnEvalService:
                 "variance_apbn": round(r["variance_apbn"] * div, 2),
                 "variance_rapbn": round(r["variance_rapbn"] * div, 2),
                 "perf_status": r["perf_status"],
-                "perf_badge": r["perf_badge"]
+                "perf_badge": r["perf_badge"],
+                "source_org": r["source_org"],
+                "drivers": r["drivers"],
+                # Custom Period Realization
+                "period_actual": custom_actual,
+                "period_pct_apbn": custom_pct_apbn,
+                "period_pct_rapbn": custom_pct_rapbn,
+                "period_variance": custom_variance
             }
             filtered_rows.append(row_copy)
 
@@ -689,6 +1227,13 @@ class ApbnEvalService:
             "status_label": cfg["status_label"],
             "latest_month": latest_m,
             "latest_month_name": cls.MONTH_NAMES[latest_idx - 1]["name"],
+            "time_filter": {
+                "start_month": start_m,
+                "end_month": end_m,
+                "start_month_name": cls.MONTH_NAMES[start_m - 1]["name"],
+                "end_month_name": cls.MONTH_NAMES[end_m - 1]["name"],
+                "is_custom_period": is_custom_period
+            },
             "months_header": cls.MONTH_NAMES,
             "total_rows": len(filtered_rows),
             "rows": filtered_rows
@@ -707,6 +1252,7 @@ class ApbnEvalService:
         2. Realisasi Aktual YTD Kumulatif
         3. Realisasi Aktual Bulanan (Bar)
         4. Realisasi Kumulatif Tahun Sebelumnya (YoY Benchmark)
+        5. Keterangan Driver Pendorong (+) dan Penekan (-) per Item & per Bulan
         """
         div, unit_label = cls._get_unit_multiplier(unit)
         current_rows = cls._get_base_dataset(year)
@@ -733,12 +1279,14 @@ class ApbnEvalService:
         for m_idx in range(1, 13):
             m_code = f"M{m_idx:02d}"
             m_name = cls.MONTH_NAMES[m_idx - 1]["short"]
+            seasonal_driver = cls.MONTHLY_SEASONAL_DRIVERS.get(m_code, "")
 
             accum_lin = round(accum_lin + linear_step, 2)
             linear_curve.append({
                 "month": m_code,
                 "label": m_name,
-                "value": round(accum_lin * div, 2)
+                "value": round(accum_lin * div, 2),
+                "monthly_driver": seasonal_driver
             })
 
             prior_val = prior_item["monthly"].get(m_code, 0.0) or 0.0
@@ -746,40 +1294,28 @@ class ApbnEvalService:
             prior_curve.append({
                 "month": m_code,
                 "label": m_name,
-                "value": round(accum_prior * div, 2)
+                "value": round(accum_prior * div, 2),
+                "monthly_driver": seasonal_driver
             })
 
             cur_val = cur_item["monthly"].get(m_code, 0.0) or 0.0
             is_observed = m_idx <= latest_idx
 
-            if is_observed:
-                accum_act = round(accum_act + cur_val, 2)
-                actual_curve.append({
-                    "month": m_code,
-                    "label": m_name,
-                    "value": round(accum_act * div, 2),
-                    "is_observed": True
-                })
-                monthly_bars.append({
-                    "month": m_code,
-                    "label": m_name,
-                    "value": round(cur_val * div, 2),
-                    "is_observed": True
-                })
-            else:
-                accum_act = round(accum_act + cur_val, 2)
-                actual_curve.append({
-                    "month": m_code,
-                    "label": m_name,
-                    "value": round(accum_act * div, 2),
-                    "is_observed": False
-                })
-                monthly_bars.append({
-                    "month": m_code,
-                    "label": m_name,
-                    "value": round(cur_val * div, 2),
-                    "is_observed": False
-                })
+            accum_act = round(accum_act + cur_val, 2)
+            actual_curve.append({
+                "month": m_code,
+                "label": m_name,
+                "value": round(accum_act * div, 2),
+                "is_observed": is_observed,
+                "monthly_driver": seasonal_driver
+            })
+            monthly_bars.append({
+                "month": m_code,
+                "label": m_name,
+                "value": round(cur_val * div, 2),
+                "is_observed": is_observed,
+                "monthly_driver": seasonal_driver
+            })
 
         return {
             "status": "SUCCESS",
@@ -797,6 +1333,8 @@ class ApbnEvalService:
             "ytd_total": round(cur_item["ytd_actual"] * div, 2),
             "pct_apbn": cur_item["pct_apbn"],
             "pct_rapbn": cur_item["pct_rapbn"],
+            "source_org": cur_item.get("source_org", "Kementerian Keuangan RI"),
+            "drivers": cur_item.get("drivers", {}),
             "series": {
                 "monthly_bars": monthly_bars,
                 "linear_curve": linear_curve,
@@ -847,7 +1385,8 @@ class ApbnEvalService:
             "Kode", "Pos Anggaran Postur APBN", "RAPBN", "UU APBN",
             "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
             "Jul", "Agu", "Sep", "Okt", "Nov", "Des",
-            f"YTD ({matrix['latest_month_name']})", "% APBN", "% RAPBN", "Sisa Pagu", "Status"
+            f"YTD ({matrix['latest_month_name']})", "% APBN", "% RAPBN", "Sisa Pagu", "Status",
+            "Sumber Data / Instansi"
         ]
         ws1.append([])
         ws1.append(headers)
@@ -873,7 +1412,8 @@ class ApbnEvalService:
                 f"{r['pct_apbn']:.1f}%",
                 f"{r['pct_rapbn']:.1f}%",
                 r["variance_apbn"],
-                r["perf_status"]
+                r["perf_status"],
+                r.get("source_org", "Kementerian Keuangan RI")
             ]
             ws1.append(row_data)
 
@@ -899,16 +1439,18 @@ class ApbnEvalService:
                 ws1.column_dimensions[col_letter].width = 44
             elif col_letter in ["A", "U"]:
                 ws1.column_dimensions[col_letter].width = 12
+            elif col_letter == "V":
+                ws1.column_dimensions[col_letter].width = 34
             else:
                 ws1.column_dimensions[col_letter].width = 11
 
         # Sheet 2: Evaluasi Target
         ws2 = wb.create_sheet(title="Target vs Realisasi")
-        ws2.merge_cells("A1:G1")
+        ws2.merge_cells("A1:H1")
         ws2["A1"] = f"EVALUASI CAPAIAN POSTUR APBN TA {year} (RAPBN vs UU APBN vs REALISASI)"
         ws2["A1"].font = font_title
 
-        s2_headers = ["Kode", "Pos Anggaran", "Target RAPBN", "Target UU APBN", "Realisasi YTD", "Selisih RAPBN-APBN", "% Capaian APBN"]
+        s2_headers = ["Kode", "Pos Anggaran", "Target RAPBN", "Target UU APBN", "Realisasi YTD", "Selisih RAPBN-APBN", "% Capaian APBN", "Sumber Data / Instansi"]
         ws2.append([])
         ws2.append(s2_headers)
         for col_idx in range(1, len(s2_headers) + 1):
@@ -922,7 +1464,8 @@ class ApbnEvalService:
             selisih_rapbn_apbn = round(r["apbn"] - r["rapbn"], 2)
             row_vals = [
                 r["code"], r["name"], r["rapbn"], r["apbn"],
-                r["ytd_actual"], selisih_rapbn_apbn, f"{r['pct_apbn']:.1f}%"
+                r["ytd_actual"], selisih_rapbn_apbn, f"{r['pct_apbn']:.1f}%",
+                r.get("source_org", "Kementerian Keuangan RI")
             ]
             ws2.append(row_vals)
             f_use = font_bold if r["is_header"] else font_cell
@@ -977,7 +1520,8 @@ class ApbnEvalService:
             "Kode", "Pos_Anggaran", "RAPBN", "UU_APBN",
             "M01_Jan", "M02_Feb", "M03_Mar", "M04_Apr", "M05_Mei", "M06_Jun",
             "M07_Jul", "M08_Agu", "M09_Sep", "M10_Okt", "M11_Nov", "M12_Des",
-            "YTD_Actual", "Pct_APBN", "Pct_RAPBN", "Sisa_Pagu", "Status_Kinerja"
+            "YTD_Actual", "Pct_APBN", "Pct_RAPBN", "Sisa_Pagu", "Status_Kinerja",
+            "Sumber_Data_Instansi"
         ]
         writer.writerow(headers)
 
@@ -995,7 +1539,8 @@ class ApbnEvalService:
                 r["pct_apbn"],
                 r["pct_rapbn"],
                 r["variance_apbn"],
-                r["perf_status"]
+                r["perf_status"],
+                r.get("source_org", "Kementerian Keuangan RI")
             ]
             writer.writerow(row_data)
 

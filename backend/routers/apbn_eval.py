@@ -29,14 +29,16 @@ def get_supported_years():
 @router.get("/api/apbn-eval/summary")
 def get_evaluation_summary(
     year: int = Query(2025, ge=2020, le=2026, description="Tahun anggaran (2020 - 2026)"),
-    unit: str = Query("TRILLION", description="Satuan nilai: TRILLION (Rp T) atau BILLION (Rp M)")
+    unit: str = Query("TRILLION", description="Satuan nilai: TRILLION (Rp T) atau BILLION (Rp M)"),
+    start_month: int = Query(1, ge=1, le=12, description="Bulan mulai (1 - 12)"),
+    end_month: Optional[int] = Query(None, ge=1, le=12, description="Bulan selesai (1 - 12)")
 ):
     """
     Mengembalikan ringkasan KPI eksekutif komparasi RAPBN, UU APBN, Realisasi Bulan Berjalan,
-    serta akumulasi realisasi YTD dan % capaian.
+    serta akumulasi realisasi periode/YTD dan % capaian.
     """
     try:
-        return ApbnEvalService.get_evaluation_summary(year, unit)
+        return ApbnEvalService.get_evaluation_summary(year, unit, start_month, end_month)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Gagal memuat ringkasan evaluasi APBN: {str(e)}")
 
@@ -46,14 +48,16 @@ def get_evaluation_matrix(
     year: int = Query(2025, ge=2020, le=2026, description="Tahun anggaran (2020 - 2026)"),
     category: str = Query("ALL", description="Filter kategori: ALL, PENDAPATAN, BELANJA, KESEIMBANGAN, PEMBIAYAAN"),
     unit: str = Query("TRILLION", description="Satuan nilai: TRILLION atau BILLION"),
-    q: Optional[str] = Query(None, description="Pencarian nama pos anggaran atau kode akun")
+    q: Optional[str] = Query(None, description="Pencarian nama pos anggaran atau kode akun"),
+    start_month: int = Query(1, ge=1, le=12, description="Bulan mulai (1 - 12)"),
+    end_month: Optional[int] = Query(None, ge=1, le=12, description="Bulan selesai (1 - 12)")
 ):
     """
     Mengembalikan matriks komparasi lengkap: Pos Anggaran, RAPBN, UU APBN,
-    Realisasi Bulanan M01 s.d. M12, Akumulasi YTD, % APBN, % RAPBN, Sisa Pagu, dan Status Kinerja.
+    Realisasi Bulanan M01 s.d. M12, Akumulasi YTD / Kustom Periode, % APBN, % RAPBN, Sisa Pagu, Status Kinerja, dan Sumber Data.
     """
     try:
-        return ApbnEvalService.get_evaluation_matrix(year, category, unit, q)
+        return ApbnEvalService.get_evaluation_matrix(year, category, unit, q, start_month, end_month)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Gagal memuat matriks evaluasi APBN: {str(e)}")
 
