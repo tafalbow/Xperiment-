@@ -13,9 +13,9 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ["'Calibri Light'", 'Calibri', "'Segoe UI Light'", "'Segoe UI'", 'sans-serif'],
-            mono: ["'Calibri Light'", 'Calibri', "'Segoe UI Light'", "'Segoe UI'", 'sans-serif'],
-            serif: ["'Calibri Light'", 'Calibri', "'Segoe UI Light'", "'Segoe UI'", 'sans-serif'],
+            sans: ["'Tahoma'", 'Geneva', 'Verdana', 'sans-serif'],
+            mono: ["'Tahoma'", 'Geneva', 'Verdana', 'sans-serif'],
+            serif: ["'Tahoma'", 'Geneva', 'Verdana', 'sans-serif'],
           }
         }
       }
@@ -33,7 +33,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
     if (window.Chart) {
-      Chart.defaults.font.family = "'Calibri Light', Calibri, 'Segoe UI Light', 'Segoe UI', sans-serif";
+      Chart.defaults.font.family = "'Tahoma', Geneva, Verdana, sans-serif";
     }
   </script>
 
@@ -41,7 +41,7 @@
   <link rel="icon" type="image/png" href="/static/assets/logo.png">
 
   <!-- Custom GovTech Barely-There UI Stylesheet (Cache-Busted) -->
-  <link rel="stylesheet" href="/static/styles/style.css?v=7.12.0">
+  <link rel="stylesheet" href="/static/styles/style.css?v=7.13.0">
 </head>
 <body class="bg-white text-[#2C2420] min-h-screen flex flex-col antialiased selection:bg-[#EBF1FC] selection:text-[#0038A8]">
 
@@ -49,7 +49,7 @@
   <div id="app-header" class="sticky top-0 z-50 bg-[#F5EBE1] shadow-xs"></div>
 
   <!-- Main Application Container -->
-  <main id="app-main" class="flex-1 w-full max-w-none px-[7px] py-3 space-y-3">
+  <main id="app-main" class="flex-1 w-full max-w-none px-[7px] py-1.5 space-y-[6px]">
 
     <!-- 2. FIX SEARCH BAR: Persistent Full-Width Search & Quick Filter Pills -->
     <div id="global-search-container" class="w-full"></div>
@@ -189,12 +189,12 @@
     </div>
 
     <!-- TAB 1: HOME (Observatory Pulse, Headline Metrics & Quick Discovery) -->
-    <div id="tab-content-home" class="space-y-4">
+    <div id="tab-content-home" class="space-y-[6px]">
       <section id="home-view-container" aria-label="Observatorium Ekonomi Nasional"></section>
     </div>
 
     <!-- TAB 2: DASBOR ANALITIK & TREN INDIKATOR EKONOMI -->
-    <div id="tab-content-analytics" class="hidden space-y-3">
+    <div id="tab-content-analytics" class="hidden space-y-[6px]">
       
       <!-- TOP HEADER (Full Width Blueprint): Judul & Keterangan Tabel + Keterangan Berapa Variabel Bisa Dibandingkan + Download Data (Biru Benhur) -->
       <div id="analytics-chart-header" class="flex items-center justify-between flex-wrap gap-2 pb-1 shrink-0">
@@ -274,15 +274,15 @@
       </div>
 
       <!-- ROW 2: GEO EKONOMI AREA (Contextual Regional Driver & Interactive GIS Map) -->
-      <section id="contextual-map-container" class="pt-1" aria-label="Geo Ekonomi Area"></section>
+      <section id="contextual-map-container" aria-label="Geo Ekonomi Area"></section>
 
       <!-- ROW 3: COMPACT DATA GRID -->
-      <section id="data-grid-container" class="pt-1" aria-label="Data Grid"></section>
+      <section id="data-grid-container" aria-label="Data Grid"></section>
 
     </div>
 
     <!-- TAB 3: PERTANIAN & PETERNAKAN (KOMPILASI TERPADU: NERACA KOMODITAS + KALENDER PERTANIAN) -->
-    <div id="tab-content-agri" class="hidden space-y-4">
+    <div id="tab-content-agri" class="hidden space-y-[6px]">
       
       <!-- Sub-Navigation Header Bar -->
       <div class="gov-card p-3 bg-white rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
@@ -318,55 +318,55 @@
       </div>
 
       <!-- Sub-Content 1: Neraca Komoditas Pertanian & Peternakan -->
-      <div id="agri-subcontent-balance" class="space-y-4">
+      <div id="agri-subcontent-balance" class="space-y-[6px]">
         <!-- Rendered by CommodityTrackerComponent (PERTANIAN_PETERNAKAN) -->
       </div>
 
       <!-- Sub-Content 2: Kalender Pertanian (Musim Tanam, Pola Panen & Peta Spasial Kabupaten) -->
-      <div id="agri-subcontent-calendar" class="hidden space-y-4">
+      <div id="agri-subcontent-calendar" class="hidden space-y-[6px]">
         <section id="agri-calendar-container" aria-label="Kalender Pertanian Nasional"></section>
       </div>
 
     </div>
 
     <!-- TAB 4: PRODUKSI & HASIL BUMI (MINERBA & ENERGI) -->
-    <div id="tab-content-production" class="hidden space-y-4">
+    <div id="tab-content-production" class="hidden space-y-[6px]">
       <div id="production-commodities-container"></div>
     </div>
 
     <!-- TAB: FINANCIAL OBSERVATORY (APBN, RAPBN & LKPP 1990 - 2026) -->
-    <div id="tab-content-lkpp" class="hidden space-y-4">
+    <div id="tab-content-lkpp" class="hidden space-y-[6px]">
       <section id="lkpp-view-container" aria-label="Observatorium Trend Keuangan Negara (APBN, RAPBN & LKPP 1990 - 2026)"></section>
     </div>
 
     <!-- TAB: WEEKLY HIGH-FREQUENCY OBSERVATORY (1990 - 2026) -->
-    <div id="tab-content-weekly" class="hidden space-y-4">
+    <div id="tab-content-weekly" class="hidden space-y-[6px]">
       <section id="weekly-view-container" aria-label="Observatorium Data Mingguan Lembaga & Kementerian"></section>
     </div>
 
     <!-- TAB: CUSTOM CHART STUDIO & CONTEXTUAL DRIVER (1990 - 2026) -->
-    <div id="tab-content-custom-chart" class="hidden space-y-4">
+    <div id="tab-content-custom-chart" class="hidden space-y-[6px]">
       <section id="custom-chart-container" aria-label="Studio Custom Chart & Analisis Driver Kontekstual"></section>
     </div>
 
     <!-- TAB: DATA BPS & ESTIMASI CUKAI (CHT & APBN 1990 - 2026) -->
-    <div id="tab-content-cukai-bps" class="hidden space-y-4">
+    <div id="tab-content-cukai-bps" class="hidden space-y-[6px]">
       <section id="cukai-bps-view-container" aria-label="Data BPS & Formula Estimasi Cukai (CHT & APBN)"></section>
     </div>
 
 
     <!-- TAB 6: KATALOG INVENTORI VARIABEL & JADWAL RILIS -->
-    <div id="tab-content-inventory" class="hidden space-y-4">
+    <div id="tab-content-inventory" class="hidden space-y-[6px]">
       <section id="variables-inventory-container" aria-label="Katalog Variabel & Jadwal Rilis Data"></section>
     </div>
 
     <!-- TAB 7: ABOUT & TATA KELOLA STATUTORI -->
-    <div id="tab-content-about" class="hidden space-y-4">
+    <div id="tab-content-about" class="hidden space-y-[6px]">
       <section id="about-view-container" aria-label="Tentang INDOEKONOMI data"></section>
     </div>
 
     <!-- TAB 11: MASTER ADMIN GOVERNANCE CONSOLE (Hanya muncul jika login) -->
-    <div id="tab-content-admin" class="hidden space-y-4">
+    <div id="tab-content-admin" class="hidden space-y-[6px]">
       <section id="admin-view-container" aria-label="Master Admin Console"></section>
     </div>
 
@@ -374,7 +374,7 @@
   </main>
 
   <!-- Persistent Bottom Footer Bar (Sama untuk Setiap Halaman - Tanpa Garis) -->
-  <footer class="mt-auto px-[7px] pt-3 pb-4 bg-white text-[11px] text-[#7D655C] font-mono space-y-3">
+  <footer class="mt-auto px-[7px] pt-1.5 pb-4 bg-white text-[11px] text-[#7D655C] font-mono space-y-[6px]">
     
     <!-- FOOTNOTE SECTION: Contact Person & Helpdesk (Unit Pengelola Basis Data - Borderless) -->
     <div class="w-full bg-[#FAF7F2] rounded-lg p-3 sm:p-4 space-y-2">
@@ -424,6 +424,6 @@
   </footer>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=11.41.0"></script>
+  <script type="module" src="/static/app.js?v=11.42.0"></script>
 </body>
 </html>

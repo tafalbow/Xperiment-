@@ -93,20 +93,20 @@
   --badge-failed-text: #B76E79;
   --badge-failed-border: #E8B4B8;
 
-  --font-sans: 'Calibri Light', Calibri, 'Segoe UI Light', 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  --font-mono: 'Calibri Light', Calibri, 'Segoe UI Light', 'Segoe UI', Arial, sans-serif;
-  --font-serif: 'Calibri Light', Calibri, 'Segoe UI Light', 'Segoe UI', Arial, sans-serif;
+  --font-sans: 'Tahoma', Geneva, Verdana, sans-serif;
+  --font-mono: 'Tahoma', Geneva, Verdana, sans-serif;
+  --font-serif: 'Tahoma', Geneva, Verdana, sans-serif;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Calibri Light', Calibri, 'Segoe UI Light', 'Segoe UI', Arial, sans-serif !important;
+  font-family: 'Tahoma', Geneva, Verdana, sans-serif !important;
 }
 
 html, body {
-  font-family: 'Calibri Light', Calibri, 'Segoe UI Light', 'Segoe UI', Arial, sans-serif !important;
+  font-family: 'Tahoma', Geneva, Verdana, sans-serif !important;
   background-color: var(--bg-app);
   color: var(--text-primary);
   line-height: 1.5;
@@ -114,18 +114,35 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography Utility: Ensure all font classes and form elements map to Calibri Light */
+/* Typography Utility: Ensure all font classes and form elements map to Tahoma */
 .font-mono, .font-sans, .font-serif,
 [class*="font-mono"], [class*="font-sans"], [class*="font-serif"] {
-  font-family: 'Calibri Light', Calibri, 'Segoe UI Light', 'Segoe UI', Arial, sans-serif !important;
+  font-family: 'Tahoma', Geneva, Verdana, sans-serif !important;
 }
 
 input, button, select, textarea, optgroup, option, table, th, td, pre, code, kbd, samp {
-  font-family: 'Calibri Light', Calibri, 'Segoe UI Light', 'Segoe UI', Arial, sans-serif !important;
+  font-family: 'Tahoma', Geneva, Verdana, sans-serif !important;
 }
 
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* ==============================================================================
+   SECTION SPACING ENFORCEMENT (Strict 6px Vertical Distance)
+   ============================================================================== */
+.space-y-\[6px\] > :not([hidden]) ~ :not([hidden]),
+.space-y-6px > :not([hidden]) ~ :not([hidden]),
+.section-gap-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(6px * calc(1 - var(--tw-space-y-reverse))) !important;
+  margin-bottom: calc(6px * var(--tw-space-y-reverse)) !important;
+}
+
+main#app-main > :not([hidden]) ~ :not([hidden]),
+#tab-content-analytics > :not([hidden]) ~ :not([hidden]),
+#tab-content-home > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 6px !important;
 }
 
 /* Seamless Card Aesthetics (Border-free by default) */

@@ -3173,6 +3173,10 @@ class MacroUserManager {
                 lastActive: new Date().toISOString(),
                 highestStage: 1,
                 totalScore: 0,
+                uniqueCorrect: 0,
+                uniqueWrong: 0,
+                uniqueAccuracy: 0,
+                uniqueAnswers: {},
                 progress: {
                     currentStageId: 1,
                     currentQuestionIdx: 0,
@@ -3180,9 +3184,12 @@ class MacroUserManager {
                     score: 0,
                     combo: 0,
                     lives: 5,
-                    stageResetsRemaining: { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 },
+                    stageResetsRemaining: { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 3, 11: 3 },
                     unlockedStageIds: [1],
-                    advanceUnlocked: { econGames: false, scenarios: false, cockpit: false }
+                    advanceUnlocked: { econGames: false, scenarios: false, cockpit: false },
+                    uniqueAnswers: {},
+                    uniqueCorrect: 0,
+                    uniqueWrong: 0
                 }
             };
 
@@ -3206,6 +3213,24 @@ class MacroUserManager {
         }
     }
 
+    static calculateUniqueStats(uniqueAnswers = {}) {
+        const keys = Object.keys(uniqueAnswers);
+        let correct = 0;
+        let wrong = 0;
+        keys.forEach(k => {
+            if (uniqueAnswers[k] && uniqueAnswers[k].isCorrect) correct++;
+            else wrong++;
+        });
+        const total = correct + wrong;
+        const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+        return {
+            totalAnswered: total,
+            correctCount: correct,
+            wrongCount: wrong,
+            accuracyPct: accuracy
+        };
+    }
+
     static saveProgress(progressData) {
         const email = this.getActiveEmail();
         if (!email) return;
@@ -3220,9 +3245,25 @@ class MacroUserManager {
             user.highestStage = Math.max(user.highestStage, ...progressData.unlockedStageIds.map(Number));
         }
         user.totalScore = Number(progressData.score) || user.totalScore || 0;
+
+        if (progressData.uniqueAnswers && typeof progressData.uniqueAnswers === 'object') {
+            user.uniqueAnswers = {
+                ...(user.uniqueAnswers || {}),
+                ...progressData.uniqueAnswers
+            };
+        }
+        const uStats = MacroUserManager.calculateUniqueStats(user.uniqueAnswers || {});
+        user.uniqueCorrect = uStats.correctCount;
+        user.uniqueWrong = uStats.wrongCount;
+        user.uniqueAccuracy = uStats.accuracyPct;
+
         user.progress = {
             ...(user.progress || {}),
-            ...progressData
+            ...progressData,
+            uniqueAnswers: user.uniqueAnswers,
+            uniqueCorrect: uStats.correctCount,
+            uniqueWrong: uStats.wrongCount,
+            uniqueAccuracy: uStats.accuracyPct
         };
 
         map[email.toLowerCase()] = user;
@@ -3493,8 +3534,8 @@ class MacroActivityLogger {
             const stageNum = engine.currentStageId || 1;
             const qIdx = (engine.currentQuestionIdx || 0) + 1;
             const totalQ = (curStage && curStage.questions) ? curStage.questions.length : 6;
-            const correct = engine.stageCorrectCount || 0;
-            lastQuestion = `Stage ${stageNum} - Soal ${qIdx}/${totalQ} (Benar: ${correct})`;
+            const uStats = engine.getUniqueStats ? engine.getUniqueStats() : { correctCount: 0, wrongCount: 0 };
+            lastQuestion = `Level ${stageNum} - Soal ${qIdx}/${totalQ} (Benar Unik: ${uStats.correctCount})`;
             scoreXp = `${engine.score || 0} XP`;
         } else if (user && user.progress) {
             lastQuestion = `Stage ${user.progress.currentStageId || 1} - Soal ${(user.progress.currentQuestionIdx || 0) + 1}/6`;
@@ -3669,24 +3710,49 @@ class MacroTriviaEngine {
             scenarios: false,
             cockpit: false
         };
+        this.uniqueAnswers = {};
 
         this.loadProgress();
-        // Start active 6-question session from the 36-question pool for current level
+        // Start active 6-question session from the pool for current level
         this.startSessionQuestions(this.getCurrentStage());
     }
 
     startSessionQuestions(stage) {
         if (!stage) return;
         const pool = stage.questionPool || stage.questions || [];
-        // Shuffle the pool and pick exactly 6 questions
-        const shuffledPool = [...pool];
-        for (let i = shuffledPool.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffledPool[i], shuffledPool[j]] = [shuffledPool[j], shuffledPool[i]];
+        const unique = this.uniqueAnswers || {};
+
+        // Separate pool into questions not yet mastered (not answered correctly) vs mastered
+        const unmastered = [];
+        const mastered = [];
+        pool.forEach(q => {
+            const qId = q.id || `s${stage.id}_${q.scenario}`;
+            if (unique[qId] && unique[qId].isCorrect) {
+                mastered.push(q);
+            } else {
+                unmastered.push(q);
+            }
+        });
+
+        const shuffle = (arr) => {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        };
+
+        const shuffledUnmastered = shuffle(unmastered);
+        const shuffledMastered = shuffle(mastered);
+
+        // Pick unmastered questions first, then fill up to 6 from mastered if needed
+        const chosen = [...shuffledUnmastered];
+        if (chosen.length < 6) {
+            chosen.push(...shuffledMastered.slice(0, 6 - chosen.length));
         }
-        // Take 6 questions for this game session
-        stage.questions = shuffledPool.slice(0, 6).map(q => ({ ...q }));
-        // Shuffle options for these 6 questions so correct answer is randomly distributed
+
+        stage.questions = chosen.slice(0, 6).map(q => ({ ...q }));
         this.shuffleAllStageQuestions(stage);
     }
 
@@ -3708,6 +3774,25 @@ class MacroTriviaEngine {
     shuffleAllStageQuestions(stage) {
         if (!stage || !stage.questions) return;
         stage.questions.forEach(q => this.shuffleQuestion(q));
+    }
+
+    getUniqueStats() {
+        const answers = this.uniqueAnswers || {};
+        const keys = Object.keys(answers);
+        let correct = 0;
+        let wrong = 0;
+        keys.forEach(k => {
+            if (answers[k] && answers[k].isCorrect) correct++;
+            else wrong++;
+        });
+        const total = correct + wrong;
+        const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+        return {
+            totalAnswered: total,
+            correctCount: correct,
+            wrongCount: wrong,
+            accuracyPct: accuracy
+        };
     }
 
     loadProgress() {
@@ -3733,14 +3818,44 @@ class MacroTriviaEngine {
                 if (data.stageResetsRemaining && typeof data.stageResetsRemaining === 'object') {
                     this.stageResetsRemaining = { ...this.stageResetsRemaining, ...data.stageResetsRemaining };
                 }
+                this.uniqueAnswers = (data.uniqueAnswers && typeof data.uniqueAnswers === 'object') ? data.uniqueAnswers : {};
+                
+                // Restore session questions if available
+                if (data.sessionQuestions && Array.isArray(data.sessionQuestions) && data.sessionQuestions.length > 0) {
+                    const stage = this.getCurrentStage();
+                    if (stage) {
+                        stage.questions = data.sessionQuestions;
+                    }
+                }
+            } else {
+                this.uniqueAnswers = {};
             }
-        } catch (e) {}
+        } catch (e) {
+            this.uniqueAnswers = {};
+        }
         this.unlockedStageIds = Array.from(new Set((this.unlockedStageIds || [1]).map(Number)));
         if (!this.unlockedStageIds.includes(1)) this.unlockedStageIds.unshift(1);
     }
 
     saveProgress() {
         try {
+            const stage = this.getCurrentStage();
+            const sessionQs = (stage && stage.questions) ? stage.questions.map(q => ({
+                id: q.id,
+                question: q.question,
+                options: q._shuffledOptions || q.options,
+                correct: q._shuffledCorrect !== undefined ? q._shuffledCorrect : q.correct,
+                scenario: q.scenario,
+                debrief: q.debrief,
+                theoryKey: q.theoryKey,
+                theoryTitle: q.theoryTitle,
+                isAnswered: Boolean(q.isAnswered),
+                userAnswer: q.userAnswer !== undefined ? q.userAnswer : null,
+                isCorrect: q.isCorrect !== undefined ? q.isCorrect : null
+            })) : [];
+
+            const uStats = this.getUniqueStats();
+
             const data = {
                 score: this.score,
                 unlockedStageIds: Array.from(new Set(this.unlockedStageIds.map(Number))),
@@ -3751,7 +3866,12 @@ class MacroTriviaEngine {
                 lives: Number(this.lives),
                 combo: Number(this.combo),
                 stageResetsRemaining: this.stageResetsRemaining,
-                isStageComplete: this.isStageComplete()
+                isStageComplete: this.isStageComplete(),
+                uniqueAnswers: this.uniqueAnswers || {},
+                uniqueCorrect: uStats.correctCount,
+                uniqueWrong: uStats.wrongCount,
+                uniqueAccuracy: uStats.accuracyPct,
+                sessionQuestions: sessionQs
             };
             if (typeof MacroUserManager !== 'undefined') {
                 MacroUserManager.saveProgress(data);
@@ -3826,22 +3946,75 @@ class MacroTriviaEngine {
         this.isAnswered = true;
 
         const q = this.getCurrentQuestion();
+        const qId = q.id || `s${this.currentStageId}_q${this.currentQuestionIdx + 1}`;
         const isCorrect = (Number(chosenIdx) === Number(q.correct));
 
+        if (!this.uniqueAnswers) this.uniqueAnswers = {};
+        const prevAnswer = this.uniqueAnswers[qId];
+        const wasAlreadyAnswered = Boolean(prevAnswer);
+        const wasAlreadyCorrect = wasAlreadyAnswered && Boolean(prevAnswer.isCorrect);
+
+        let isDuplicate = false;
+        let isNewUniqueCorrect = false;
+        let isNewUniqueWrong = false;
+
         if (isCorrect) {
+            this.stageCorrectCount = (Number(this.stageCorrectCount) || 0) + 1;
             this.combo = (this.combo || 0) + 1;
             if (this.combo > (this.maxCombo || 0)) this.maxCombo = this.combo;
-            const points = 100 + (this.combo * 20);
-            this.score = (this.score || 0) + points;
-            this.stageCorrectCount = (Number(this.stageCorrectCount) || 0) + 1;
+
+            if (!wasAlreadyCorrect) {
+                // Jawaban Benar Baru / Unik! Tambahkan poin XP
+                isNewUniqueCorrect = true;
+                const points = 100 + (this.combo * 20);
+                this.score = (this.score || 0) + points;
+            } else {
+                // Soal ini sudah pernah dijawab benar pada sesi/kunjungan sebelumnya.
+                // JANGAN hitung dobel ke skor XP atau ke total jawaban benar unik!
+                isDuplicate = true;
+            }
+
+            this.uniqueAnswers[qId] = {
+                id: qId,
+                stageId: Number(this.currentStageId),
+                isCorrect: true,
+                chosenIdx: chosenIdx,
+                answeredAt: new Date().toISOString(),
+                attempts: (prevAnswer ? (prevAnswer.attempts || 1) : 0) + 1
+            };
         } else {
+            // Jawaban salah
             if (this.shieldActive) {
                 this.shieldActive = false;
             } else {
                 this.lives = Math.max(0, (this.lives || 5) - 1);
                 this.combo = 0;
             }
+
+            if (!wasAlreadyAnswered) {
+                isNewUniqueWrong = true;
+            } else {
+                isDuplicate = true;
+            }
+
+            if (!wasAlreadyCorrect) {
+                this.uniqueAnswers[qId] = {
+                    id: qId,
+                    stageId: Number(this.currentStageId),
+                    isCorrect: false,
+                    chosenIdx: chosenIdx,
+                    answeredAt: new Date().toISOString(),
+                    attempts: (prevAnswer ? (prevAnswer.attempts || 1) : 0) + 1
+                };
+            } else {
+                // Pernah benar sebelumnya, namun terpleset di sesi pengulangan ini
+                this.uniqueAnswers[qId].attempts = (this.uniqueAnswers[qId].attempts || 1) + 1;
+            }
         }
+
+        q.isAnswered = true;
+        q.userAnswer = chosenIdx;
+        q.isCorrect = isCorrect;
 
         const stage = this.getCurrentStage();
         const totalQ = (stage && stage.questions) ? stage.questions.length : 6;
@@ -3849,28 +4022,44 @@ class MacroTriviaEngine {
         const currentCorrect = Number(this.stageCorrectCount) || 0;
         const stageScorePct = Math.round((currentCorrect / totalQ) * 100);
 
-        // Syarat kelulusan: Selesai 6 soal, nilai benar minimal 80% (misal 5 dari 6 soal = 83%), dan nyawa > 0
         const isPassed = isStageFinished && (stageScorePct >= 80) && (this.lives > 0);
-
         if (isPassed) {
             this.handleStageCompletion();
         }
 
         this.saveProgress();
 
+        const uStats = this.getUniqueStats();
+
         if (typeof MacroActivityLogger !== 'undefined') {
             const stageNum = this.currentStageId || 1;
             const qNum = this.currentQuestionIdx + 1;
             const stageTitle = stage ? stage.title : `Level ${stageNum}`;
             MacroActivityLogger.updateCurrentPage(`Stage ${stageNum}: ${stageTitle} (Soal ${qNum}/${totalQ})`);
-            MacroActivityLogger.logActivity(
-                'ANSWER_QUESTION',
-                `Soal ${qNum}/${totalQ}: ${isCorrect ? 'Benar (+XP)' : 'Salah (Sisa nyawa: ' + this.lives + ')'}`
-            );
+
+            let logNote = '';
+            if (isCorrect) {
+                logNote = isDuplicate 
+                    ? `Soal ${qNum}/${totalQ} (${qId}): Benar [Duplikat Sesi - Nilai Unik Dipertahankan]` 
+                    : `Soal ${qNum}/${totalQ} (${qId}): Benar (+XP) [Unik Benar ke-${uStats.correctCount}]`;
+            } else {
+                logNote = isDuplicate 
+                    ? `Soal ${qNum}/${totalQ} (${qId}): Salah [Duplikat Sesi] (Sisa nyawa: ${this.lives})` 
+                    : `Soal ${qNum}/${totalQ} (${qId}): Salah [Unik Salah ke-${uStats.wrongCount}] (Sisa nyawa: ${this.lives})`;
+            }
+
+            MacroActivityLogger.logActivity('ANSWER_QUESTION', logNote);
         }
 
         return {
             isCorrect: isCorrect,
+            isDuplicate: isDuplicate,
+            isNewUniqueCorrect: isNewUniqueCorrect,
+            isNewUniqueWrong: isNewUniqueWrong,
+            uniqueCorrectTotal: uStats.correctCount,
+            uniqueWrongTotal: uStats.wrongCount,
+            uniqueTotalAnswered: uStats.totalAnswered,
+            uniqueAccuracyPct: uStats.accuracyPct,
             correctIdx: q.correct,
             chosenIdx: chosenIdx,
             debrief: q.debrief,
@@ -3897,6 +4086,7 @@ class MacroTriviaEngine {
         const curId = Number(this.currentStageId);
         const nextStageId = curId + 1;
         const nextStage = this.stages.find(s => Number(s.id) === nextStageId);
+        const uStats = this.getUniqueStats();
         return {
             stageId: curId,
             stageTitle: stage.title,
@@ -3906,7 +4096,11 @@ class MacroTriviaEngine {
             isPassed: isPassed,
             nextStageId: nextStageId,
             nextStageTitle: nextStage ? nextStage.title : null,
-            isAllStagesCompleted: (curId === this.stages.length) && isPassed
+            isAllStagesCompleted: (curId === this.stages.length) && isPassed,
+            uniqueCorrectTotal: uStats.correctCount,
+            uniqueWrongTotal: uStats.wrongCount,
+            uniqueTotalAnswered: uStats.totalAnswered,
+            uniqueAccuracyPct: uStats.accuracyPct
         };
     }
 
@@ -4033,7 +4227,7 @@ class MacroTriviaEngine {
     }
 
     unlockAllAdvanceModes() {
-        this.unlockedStageIds = [1, 2, 3, 4, 5];
+        this.unlockedStageIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         this.advanceUnlocked = {
             econGames: true,
             scenarios: true,

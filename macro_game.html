@@ -102,6 +102,10 @@
                                     <span class="heart-dot" id="triviaHeart5">♥</span>
                                 </div>
                             </div>
+                            <div class="hud-stat-pill" title="Total Soal Unik yang Dijawab Benar Tanpa Dihitung Ganda">
+                                <span class="hud-stat-label">BENAR UNIK</span>
+                                <span class="hud-stat-val" id="triviaUniqueCorrectText">0</span>
+                            </div>
                             <div class="hud-stat-pill">
                                 <span class="hud-stat-label">SKOR</span>
                                 <span class="hud-stat-val" id="triviaScoreText">0</span>
@@ -178,6 +182,14 @@
                             <div class="summary-score-item">
                                 <span class="summary-score-label">NILAI KELULUSAN</span>
                                 <span class="summary-score-num" id="summaryScoreVal">0%</span>
+                            </div>
+                            <div class="summary-score-item" title="Jumlah seluruh soal unik yang berhasil dijawab benar tanpa duplikasi">
+                                <span class="summary-score-label">BENAR UNIK</span>
+                                <span class="summary-score-num" id="summaryUniqueCorrectVal">0</span>
+                            </div>
+                            <div class="summary-score-item" title="Akurasi jawaban unik keseluruhan level">
+                                <span class="summary-score-label">AKURASI UNIK</span>
+                                <span class="summary-score-num" id="summaryUniqueAccuracyVal">0%</span>
                             </div>
                         </div>
 
@@ -748,6 +760,9 @@
                                     <th>Nama User (Username)</th>
                                     <th>Alamat Email</th>
                                     <th>Capaian Level</th>
+                                    <th>Benar Unik</th>
+                                    <th>Salah Unik</th>
+                                    <th>Akurasi Unik</th>
                                     <th>Total Skor / XP</th>
                                     <th>Aktivitas Terakhir</th>
                                 </tr>
@@ -1355,6 +1370,7 @@
                 const optionsGrid = document.getElementById('triviaOptionsGrid');
                 const progressText = document.getElementById('triviaProgressText');
                 const scoreText = document.getElementById('triviaScoreText');
+                const uniqueCorrectText = document.getElementById('triviaUniqueCorrectText');
                 const debriefBox = document.getElementById('triviaDebriefBox');
                 const debriefTitle = document.getElementById('triviaDebriefTitle');
                 const debriefIcon = document.getElementById('triviaDebriefIcon');
@@ -1379,6 +1395,8 @@
                 const summaryTitle = document.getElementById('summaryTitle');
                 const summaryCorrectVal = document.getElementById('summaryCorrectVal');
                 const summaryScoreVal = document.getElementById('summaryScoreVal');
+                const summaryUniqueCorrectVal = document.getElementById('summaryUniqueCorrectVal');
+                const summaryUniqueAccuracyVal = document.getElementById('summaryUniqueAccuracyVal');
                 const summaryMessage = document.getElementById('summaryMessage');
                 const summaryActions = document.getElementById('summaryActions');
 
@@ -1494,6 +1512,10 @@
                         const answeredSoFar = (typeof trivia.currentQuestionIdx === 'number') ? (trivia.currentQuestionIdx + (trivia.isAnswered ? 1 : 0)) : 0;
                         stageBannerTarget.textContent = `BENAR: ${correctSoFar}/${answeredSoFar} (MIN. 80%)`;
                     }
+                    if (uniqueCorrectText) {
+                        const uStats = (trivia.getUniqueStats) ? trivia.getUniqueStats() : { correctCount: 0 };
+                        uniqueCorrectText.textContent = uStats.correctCount;
+                    }
 
                     // Reset count
                     if (resetCountBadge) {
@@ -1568,6 +1590,10 @@
                     if (questionBox) questionBox.textContent = q.question;
                     if (progressText) progressText.textContent = `${(trivia.currentQuestionIdx + 1) < 10 ? '0' : ''}${trivia.currentQuestionIdx + 1} / 0${stage.questions.length}`;
                     if (scoreText) scoreText.textContent = trivia.score.toLocaleString('id-ID');
+                    if (uniqueCorrectText) {
+                        const uStats = (trivia.getUniqueStats) ? trivia.getUniqueStats() : { correctCount: 0 };
+                        uniqueCorrectText.textContent = uStats.correctCount;
+                    }
 
                     updateHearts();
                     updateStageStepper();
@@ -1638,6 +1664,9 @@
                     updateStageStepper();
                     updateGamerHUD();
                     if (scoreText) scoreText.textContent = res.score.toLocaleString('id-ID');
+                    if (uniqueCorrectText && res.uniqueCorrectTotal !== undefined) {
+                        uniqueCorrectText.textContent = res.uniqueCorrectTotal;
+                    }
 
                     // Check Game Over
                     if (res.isGameOver) {
@@ -1656,11 +1685,28 @@
 
                             if (res.isCorrect) {
                                 if (debriefIcon) debriefIcon.textContent = '✓';
-                                if (debriefTitle) debriefTitle.textContent = res.combo > 1 ? `JAWABAN TEPAT! (COMBO ${res.combo}X 🔥)` : 'JAWABAN TEPAT!';
+                                if (debriefTitle) {
+                                    if (res.isDuplicate) {
+                                        debriefTitle.textContent = 'JAWABAN TEPAT! (DUPLIKAT SESI)';
+                                    } else {
+                                        debriefTitle.textContent = res.combo > 1 ? `JAWABAN TEPAT! (COMBO ${res.combo}X 🔥)` : 'JAWABAN TEPAT!';
+                                    }
+                                }
                             } else {
                                 debriefBox.classList.add('wrong-theme');
                                 if (debriefIcon) debriefIcon.textContent = '✕';
-                                if (debriefTitle) debriefTitle.textContent = 'KURANG TEPAT — SIMAK PEMBAHASAN';
+                                if (debriefTitle) {
+                                    debriefTitle.textContent = res.isDuplicate ? 'KURANG TEPAT (DUPLIKAT SESI)' : 'KURANG TEPAT — SIMAK PEMBAHASAN';
+                                }
+                            }
+
+                            let duplicateNotice = '';
+                            if (res.isDuplicate) {
+                                duplicateNotice = `
+                                    <div style="margin-bottom:12px; padding:8px 12px; background:rgba(2,132,199,0.08); border-left:3px solid #0284c7; border-radius:4px; font-size:0.8rem; color:#0369a1; font-weight:600;">
+                                        ℹ️ Soal ini sudah pernah Anda jawab pada sesi sebelumnya. Nilai unik dan XP tidak dihitung ganda.
+                                    </div>
+                                `;
                             }
 
                             const theoryBadgeHTML = (res.theoryKey && res.theoryTitle) ? `
@@ -1670,7 +1716,7 @@
                                     </button>
                                 </div>
                             ` : '';
-                            if (debriefText) debriefText.innerHTML = theoryBadgeHTML + res.debrief;
+                            if (debriefText) debriefText.innerHTML = duplicateNotice + theoryBadgeHTML + res.debrief;
 
                             if (btnTriviaNext) {
                                 if (res.isStageFinished) {
@@ -1702,6 +1748,18 @@
                         summaryScoreVal.textContent = `${evalRes.scorePct}%`;
                         summaryScoreVal.style.color = evalRes.isPassed ? '#16a34a' : '#dc2626';
                     }
+                    if (summaryUniqueCorrectVal) {
+                        summaryUniqueCorrectVal.textContent = `${evalRes.uniqueCorrectTotal || 0} Soal`;
+                    }
+                    if (summaryUniqueAccuracyVal) {
+                        summaryUniqueAccuracyVal.textContent = `${evalRes.uniqueAccuracyPct || 0}%`;
+                    }
+
+                    const uniqueSummaryBadgeHTML = `
+                        <div style="margin-top:12px; padding:8px 12px; background:var(--bg-subtle); border:1px solid var(--border-hairline); border-radius:6px; font-size:0.8rem; color:var(--text-secondary); text-align:left;">
+                            📊 <strong>Statistik Akumulasi Unik:</strong> <strong>${evalRes.uniqueCorrectTotal || 0}</strong> soal unik benar dari <strong>${evalRes.uniqueTotalAnswered || 0}</strong> soal unik terjawab (Akurasi: <strong>${evalRes.uniqueAccuracyPct || 0}%</strong>). Kunjungan berulang ke level yang sama tidak menghitung dobel jawaban Anda.
+                        </div>
+                    `;
 
                     summaryBox.classList.remove('pass-theme', 'fail-theme');
 
@@ -1719,6 +1777,7 @@
                                     <div style="font-weight:800; font-size:1.05rem; margin-bottom:6px; color:#111111;">👑 KELULUSAN MAHA KARYA TEKNOKRAT MAKROEKONOMI!</div>
                                     Selamat! Anda telah berhasil menuntaskan seluruh <strong>11 Level Tanya Jawab</strong> (termasuk Level 11 Tersusah) dengan nilai kelulusan <strong>${evalRes.scorePct}%</strong> (minimal 80% terpenuhi).<br><br>
                                     Pemahaman analisis moneter, fiskal, valas, dan mitigasi krisis Anda kini setara teknokrat ahli. Gerbang <strong>Level 12: Lab Mekanisme Pasar</strong> kini <strong>RESMI TERBUKA PENUH</strong>!
+                                    ${uniqueSummaryBadgeHTML}
                                 `;
                             }
                             if (summaryActions) {
@@ -1739,6 +1798,7 @@
                             if (summaryMessage) {
                                 summaryMessage.innerHTML = `
                                     Luar biasa! Anda menjawab <strong>${evalRes.correctCount} dari ${evalRes.totalQuestions} soal</strong> dengan tepat (<strong>${evalRes.scorePct}%</strong>). Standar kelulusan min. 80% terpenuhi. Akses menuju <strong>Level ${evalRes.nextStageId}: ${evalRes.nextStageTitle || ''}</strong> resmi TERBUKA!
+                                    ${uniqueSummaryBadgeHTML}
                                 `;
                             }
                             if (summaryActions) {
@@ -1771,6 +1831,7 @@
                                 Anda menjawab <strong>${evalRes.correctCount} dari ${evalRes.totalQuestions} soal</strong> dengan benar (<strong>${evalRes.scorePct}%</strong>).<br>
                                 Untuk dapat naik ke Level berikutnya, Anda membutuhkan nilai <strong>minimal 80%</strong> (minimal 5 jawaban tepat).<br><br>
                                 <strong>Sisa Kesempatan Reset Level ${curId}:</strong> ${rem} dari 3 kali.
+                                ${uniqueSummaryBadgeHTML}
                             `;
                         }
                         if (summaryActions) {
@@ -2531,7 +2592,12 @@
                             <td style="font-size:0.74rem;">${escapeHtml(l.lastQuestion || '-')}</td>
                             <td><strong style="color:#16a34a;">${escapeHtml(l.scoreXp || '-')}</strong></td>
                             <td style="color:#475569;">${escapeHtml(l.sessionDuration || '-')}</td>
-                            <td style="color:#334155; font-size:0.76rem; max-width:260px; white-space:normal;">${escapeHtml(l.details || '-')}</td>
+                            <td style="color:#334155; font-size:0.76rem; max-width:260px; white-space:normal;">
+                                ${(escapeHtml(l.details || '-'))
+                                    .replace('[Duplikat Sesi - Nilai Unik Dipertahankan]', '<span style="display:inline-block; padding:1px 6px; background:#e0f2fe; color:#0369a1; border-radius:4px; font-weight:700; font-size:0.7rem;">[Duplikat Sesi - Unik Tetap]</span>')
+                                    .replace('[Duplikat Sesi]', '<span style="display:inline-block; padding:1px 6px; background:#f1f5f9; color:#475569; border-radius:4px; font-weight:600; font-size:0.7rem;">[Duplikat Sesi]</span>')
+                                }
+                            </td>
                         `;
                         activityLogsTableBody.appendChild(tr);
                     });
@@ -2574,11 +2640,18 @@
                     if (trackRecordTableBody) {
                         trackRecordTableBody.innerHTML = '';
                         const stageNames = {
-                            1: 'Pasar & Warung',
-                            2: 'Bank Sentral',
-                            3: 'Kemenkeu & APBN',
-                            4: 'Valas & Kurs',
-                            5: 'Badai Krisis'
+                            1: 'Prinsip Dasar Ekonomi',
+                            2: 'Kebijakan Moneter & BI',
+                            3: 'Kebijakan Fiskal & APBN',
+                            4: 'Kurs Valas & Eksternal',
+                            5: 'Siklus Bisnis & Krisis',
+                            6: 'Tenaga Kerja & Upah',
+                            7: 'Stabilitas Finansial',
+                            8: 'Neraca Pembayaran (BOP)',
+                            9: 'Inflasi Struktural',
+                            10: 'Hilirisasi & Energi',
+                            11: 'Trilema Makroekonomi',
+                            12: 'Lab Mekanisme Pasar'
                         };
 
                         users.forEach((u, idx) => {
@@ -2591,6 +2664,10 @@
                             }) : '-';
                             const scoreFormatted = (Number(u.totalScore) || 0).toLocaleString('id-ID');
 
+                            const uStats = (window.MacroUserManager && window.MacroUserManager.calculateUniqueStats)
+                                ? window.MacroUserManager.calculateUniqueStats(u.uniqueAnswers || (u.progress && u.progress.uniqueAnswers) || {})
+                                : { correctCount: u.uniqueCorrect || 0, wrongCount: u.uniqueWrong || 0, accuracyPct: u.uniqueAccuracy || 0 };
+
                             tr.innerHTML = `
                                 <td style="font-weight:700; color:#64748b;">${idx + 1}</td>
                                 <td><strong style="color:#0f172a;">${escapeHtml(u.username)}</strong></td>
@@ -2600,6 +2677,9 @@
                                         ⭐ Lv. ${lvl} (${stageName})
                                     </span>
                                 </td>
+                                <td><strong style="color:#16a34a;">${uStats.correctCount}</strong></td>
+                                <td><strong style="color:#dc2626;">${uStats.wrongCount}</strong></td>
+                                <td><span style="font-weight:600; color:#0284c7;">${uStats.accuracyPct}%</span></td>
                                 <td><strong style="color:#16a34a;">${scoreFormatted} XP</strong></td>
                                 <td style="font-size:0.78rem; color:#64748b;">${lastDate}</td>
                             `;
@@ -2641,15 +2721,22 @@
                     }
 
                     const rows = [
-                        ['No', 'Nama User', 'Alamat Email', 'Level Tertinggi', 'Total Skor', 'Waktu Terdaftar', 'Aktivitas Terakhir']
+                        ['No', 'Nama User', 'Alamat Email', 'Level Tertinggi', 'Benar Unik', 'Salah Unik', 'Akurasi Unik (%)', 'Total Skor (XP)', 'Waktu Terdaftar', 'Aktivitas Terakhir']
                     ];
 
                     users.forEach((u, idx) => {
+                        const uStats = (window.MacroUserManager && window.MacroUserManager.calculateUniqueStats)
+                            ? window.MacroUserManager.calculateUniqueStats(u.uniqueAnswers || (u.progress && u.progress.uniqueAnswers) || {})
+                            : { correctCount: u.uniqueCorrect || 0, wrongCount: u.uniqueWrong || 0, accuracyPct: u.uniqueAccuracy || 0 };
+
                         rows.push([
                             idx + 1,
                             `"${(u.username || '').replace(/"/g, '""')}"`,
                             `"${(u.email || '').replace(/"/g, '""')}"`,
                             u.highestStage || 1,
+                            uStats.correctCount,
+                            uStats.wrongCount,
+                            `${uStats.accuracyPct}%`,
                             u.totalScore || 0,
                             `"${u.createdAt || ''}"`,
                             `"${u.lastActive || ''}"`
