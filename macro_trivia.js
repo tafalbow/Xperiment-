@@ -6,10 +6,10 @@
 const MACRO_TRIVIA_STAGES = [
     {
         "id": 1,
-        "title": "Level 1: 🛒 Pasar Kaget & Warung Kopi",
-        "subtitle": "Memahami Uang, Inflasi, dan Daya Beli Belanja Harian",
+        "title": "Level 01: Dasar Pasar & Uang",
+        "subtitle": "Uang Kartal, Inflasi Belanja Harian, dan Daya Beli Rumah Tangga",
         "theme": "market",
-        "unlocks": "Gelar: Pahlawan Belanja Cerdas 🛒",
+        "unlocks": "Gelar: Pahlawan Belanja Cerdas",
         "questionPool": [
             {
                 "id": "s1_q1",
@@ -266,7 +266,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 0,
                 "hint": "Uang berpindah tangan jauh lebih cepat secara elektronik dibanding menunggu kembalian uang fisik!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Pembayaran digital (QRIS, BI-FAST) mempercepat frekuensi perpindahan uang antar-rekening dalam perekonomian, yang secara matematis meningkatkan variabel <em>Velocity of Money (V)</em> dalam persamaan Fisher.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi B:</strong> Efisiensi pembayaran digital justru menurunkan biaya transaksi dan memperluas omzet pasar (mendorong Y).</li><li><strong>Opsi C:</strong> Digitalisasi pembayaran menuntut pengawasan sistem pembayaran dan stabilitas moneter BI yang kian cermat.</li><li><strong>Opsi D:</strong> Uang primer tetap eksis dalam bentuk saldo giro bank umum di bank sentral, tidak pernah hilang.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Level 02: Agregat PDB & Konsumsi",
+        "subtitle": "Pendapatan Nasional, PDB Riil vs Nominal, dan Marginal Propensity to Consume",
+        "theme": "national_income",
+        "unlocks": "Gelar: Analis Agregat Riil",
+        "questionPool": [
             {
                 "id": "s1_q17",
                 "theoryKey": "tabungan_investasi",
@@ -522,7 +531,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 0,
                 "hint": "Gagal panen mengurangi ketersediaan beras di pasar pada tingkat harga yang berlaku!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> El Nino adalah <em>Negative Supply Shock</em> klasik. Kekeringan memicu gagal panen padi dan hortikultura, menggeser kurva penawaran pangan ke kiri, menaikkan harga bahan pangan pokok, dan memicu inflasi harga bergejolak (<em>volatile foods</em>).</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi B:</strong> Kemarau justru menuntut peningkatan belanja darurat APBN untuk pompanisasi dan bantuan sosial pangan.</li><li><strong>Opsi C:</strong> Kebijakan moneter The Fed dipandu oleh inflasi domestik dan pasar tenaga kerja AS, bukan cuaca lokal Asia Tenggara.</li><li><strong>Opsi D:</strong> El Nino menekan sisi penawaran fisik panen, bukan lonjakan nafsu konsumsi masyarakat.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Level 03: Ekuilibrium AD-AS & Pasar",
+        "subtitle": "Keseimbangan Makro, Guncangan Pasokan/Permintaan, dan Efisiensi Pasar",
+        "theme": "equilibrium",
+        "unlocks": "Gelar: Ahli Ekuilibrium Pasar",
+        "questionPool": [
             {
                 "id": "s1_q33",
                 "theoryKey": "kebijakan_penawaran",
@@ -586,16 +604,7 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Pasal 33 UUD 1945: Perekonomian disusun untuk sebesar-besar kemakmuran dan kesejahteraan rakyat!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Sasaran akhir kebijakan makroekonomi bukan sekadar angka statistik pertumbuhan PDB, melainkan perlindungan daya beli riil masyarakat dari erosi inflasi, pembukaan lapangan kerja berkualitas, pengentasan kemiskinan, dan perwujudan kesejahteraan berkeadilan sosial.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Menumpuk kas tanpa belanja publik merugikan ekonomi karena mengabaikan kebutuhan pembangunan infrastruktur dan SDM.</li><li><strong>Opsi C:</strong> Mekanisme pasar tetap menjadi pilar alokasi efisiensi; negara hadir untuk meregulasi dan mengoreksi kegagalan pasar.</li><li><strong>Opsi D:</strong> Suku bunga nol persen permanen dapat memicu gelembung spekulasi aset (*asset bubble*) dan distorsi alokasi modal.</li></ul></div>"
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "title": "Level 2: 🏦 Menara Bank Sentral",
-        "subtitle": "Operasi Moneter, Suku Bunga, dan Stabilitas Nilai Rupiah",
-        "theme": "centralbank",
-        "unlocks": "Gelar: Ahli Strategi Moneter 🏦",
-        "questionPool": [
+            },
             {
                 "id": "s2_q1",
                 "theoryKey": "transmisi_moneter",
@@ -787,7 +796,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Bank yang kekurangan uang tunai sementara (illiquid) harus dibantu, tapi bank yang modalnya sudah bangkrut (insolvent) adalah ranah resolusi/likuidasi!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Aturan klasik Walter Bagehot menyatakan bank sentral harus meminjamkan secara bebas kepada bank yang likuiditasnya tertekan namun memiliki modal sehat (<em>illiquid but solvent</em>) dengan agunan memadai. Membantu bank bangkrut (<em>insolvent</em>) memicu <em>moral hazard</em> dan berisiko merugikan kas publik.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Bank insolven tetap berada di bawah pengawasan ketat OJK dan mekanisme resolusi LPS.</li><li><strong>Opsi C:</strong> Fasilitas likuiditas darurat moneter domestik disalurkan dalam mata uang Rupiah dengan agunan aset berkualitas tinggi.</li><li><strong>Opsi D:</strong> Bank sentral tidak bertindak sebagai pemegang saham ekuitas perbankan komersial dalam skema fasilitas likuiditas.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Level 04: Operasi Bank Sentral",
+        "subtitle": "Mandat Stabilitas BI, Transmisi Suku Bunga, GWM, dan Pengganda Uang",
+        "theme": "centralbank",
+        "unlocks": "Gelar: Inisiator Moneter",
+        "questionPool": [
             {
                 "id": "s2_q13",
                 "theoryKey": "kurs_valas",
@@ -1043,7 +1061,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Uang kartal digital langsung dari bank sentral: liabilitas Bank Indonesia tanpa risiko gagal bayar pihak ketiga!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Saldo e-wallet komersial (GoPay, OVO, dll) adalah uang giral/elektronik yang merupakan liabilitas dari perusahaan penerbit terkait. Sebaliknya, <em>Rupiah Digital (CBDC)</em> adalah uang kartal digital yang merupakan liabilitas langsung Bank Indonesia (<em>risk-free sovereign currency</em>).</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Rupiah Digital beroperasi di dalam jaringan teratur di bawah kepatuhan KYC/AML, bukan aset kripto spekulatif anonim.</li><li><strong>Opsi C:</strong> Uang elektronik komersial dijamin oleh simpanan giro di perbankan, bukan cadangan emas fisik langsung.</li><li><strong>Opsi D:</strong> Rupiah Digital memiliki nilai nominal yang identik paritas 1:1 terhadap uang kartal rupiah kertas dan logam.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Level 05: Pasar Uang & Inflation Targeting",
+        "subtitle": "SRBI, IndONIA, Inflation Targeting Framework (ITF), dan Likuiditas M1/M2",
+        "theme": "money_market",
+        "unlocks": "Gelar: Ahli Strategi Moneter",
+        "questionPool": [
             {
                 "id": "s2_q29",
                 "theoryKey": "kebijakan_makroprudensial",
@@ -1171,16 +1198,7 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Independensi bank sentral diperlukan agar tidak diganggu kepentingan politik jangka pendek, namun tetap berkoordinasi erat dengan kebijakan ekonomi nasional!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Bank sentral modern memerlukan independensi kelembagaan, tujuan, dan instrumen dari intervensi politik jangka pendek agar kredibilitas stabilitas harga terjaga. Namun, efektivitas optimal tercapai bila diselaraskan dengan bauran kebijakan (<em>policy mix</em>) bersama otoritas fiskal dan sektor riil.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Ketundukan bank sentral pada pembiayaan belanja fiskal jangka pendek historically selalu berujung hiperinflasi.</li><li><strong>Opsi C:</strong> Bank sentral tidak bertugas menjamin laba korporasi swasta; pasar bebas menuntut adanya disiplin laba-rugi bisnis.</li><li><strong>Opsi D:</strong> Kebijakan moneter mengatur likuiditas dan bunga makro, tidak memiliki instrumen alokasi redistribusi belanja sosial seperti APBN.</li></ul></div>"
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "title": "Level 3: 🏛️ Gedung Menteri Keuangan",
-        "subtitle": "Arsitektur APBN, Perpajakan, Utang Negara, dan Kebijakan Fiskal",
-        "theme": "finance",
-        "unlocks": "Gelar: Ahli Kebijakan Fiskal 🏛️",
-        "questionPool": [
+            },
             {
                 "id": "s3_q1",
                 "theoryKey": "multiplier_effect",
@@ -1308,7 +1326,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Tax ratio yang rendah membatasi ruang fiskal (fiscal space) untuk belanja pembangunan dan pendidikan!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Tax ratio yang rendah membatasi ruang fiskal (<em>fiscal space</em>) negara. Akibatnya, alokasi anggaran untuk pendidikan berkualitas, kesehatan, infrastruktur, dan riset menjadi terbatas, atau pemerintah terpaksa lebih banyak bergantung pada pembiayaan utang untuk menutupi defisit.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Tax ratio yang rendah justru mencerminkan keterbatasan penerimaan kas negara, bukan surplus berlebih.</li><li><strong>Opsi C:</strong> Fungsi uang rupiah sebagai alat pembayaran sah tidak ditentukan oleh persentase tax ratio terhadap PDB.</li><li><strong>Opsi D:</strong> Aset infrastruktur strategis tetap berada di bawah kedaulatan hukum dan kepemilikan negara Indonesia.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Level 06: Arsitektur Fiskal & APBN",
+        "subtitle": "Batas Defisit 3%, Rasio Utang 60% PDB, Keseimbangan Primer, dan Belanja Modal",
+        "theme": "fiscal",
+        "unlocks": "Gelar: Perancang APBN",
+        "questionPool": [
             {
                 "id": "s3_q9",
                 "theoryKey": "automatic_stabilizers",
@@ -1564,7 +1591,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Memangkas pemborosan belanja operasional mengalihkan uang negara ke proyek produktif yang dirasakan langsung oleh rakyat!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Kebijakan <em>Spending Better</em> bertujuan meningkatkan efisiensi alokasi (<em>allocative efficiency</em>). Menghemat belanja barang seremonial dan operasional birokrasi memperluas ruang fiskal untuk belanja bernilai tambah tinggi seperti penanganan stunting, pendidikan vokasi, dan infrastruktur konektivitas.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Digitalisasi administrasi justru meningkatkan efisiensi birokrasi tanpa mengorbankan kualitas pelayanan publik.</li><li><strong>Opsi C:</strong> Pelaporan akuntabilitas kinerja (LAKIP/SAKIP) tetap menjadi instrumen pengawasan wajib yang diperketat.</li><li><strong>Opsi D:</strong> Pemda dilarang memungut retribusi liar di luar ketentuan yang telah disahkan dalam peraturan perundang-undangan.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "title": "Level 07: Perpajakan & Pembiayaan Negara",
+        "subtitle": "Tax Ratio, Pajak Progresif, PPN, Transfer ke Daerah, dan Dana Abadi",
+        "theme": "taxation",
+        "unlocks": "Gelar: Ahli Kebijakan Fiskal",
+        "questionPool": [
             {
                 "id": "s3_q25",
                 "theoryKey": "sal_apbn",
@@ -1756,16 +1792,7 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "APBN adalah wujud gotong royong seluruh rakyat: yang mampu berkontribusi lebih lewat pajak untuk membangun keadilan sosial dan kemakmuran bersama!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> APBN adalah wujud konkret komitmen kebangsaan dan gotong royong bernegara. Melalui fungsi alokasi, distribusi, dan stabilisasi, APBN mengumpulkan penerimaan secara adil untuk membiayai kemajuan SDM, infrastruktur, perlindungan kaum rentan, dan perwujudan keadilan sosial bagi seluruh rakyat Indonesia.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> APBN bukan brankas penimbunan pasif; dana negara harus dibelanjakan secara produktif untuk utilitas publik.</li><li><strong>Opsi C:</strong> Filosofi perpajakan berkeadilan menuntut sistem progresif di mana kelompok berpenghasilan tinggi memikul tarif lebih besar.</li><li><strong>Opsi D:</strong> Sektor swasta dan koperasi tetap menjadi motor utama pertumbuhan ekonomi; APBN berperan sebagai pemungkin (<em>enabler</em>).</li></ul></div>"
-            }
-        ]
-    },
-    {
-        "id": 4,
-        "title": "Level 4: 🚢 Pelabuhan Valuta Asing",
-        "subtitle": "Perdagangan Internasional, Neraca Pembayaran, dan Arus Modal Global",
-        "theme": "trade",
-        "unlocks": "Gelar: Ahli Devisa & Eksternal 🚢",
-        "questionPool": [
+            },
             {
                 "id": "s4_q1",
                 "theoryKey": "kurs_valas",
@@ -1829,7 +1856,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 0,
                 "hint": "Standar kecukupan internasional umum mematok batas minimal 3 bulan impor; posisi di atas 6 bulan memberikan bantalan penyangga tebal!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Standar internasional kecukupan cadangan devisa (<em>Assessing Reserve Adequacy / ARA IMF</em>) mensyaratkan minimum 3 bulan pembiayaan impor dan pembayaran utang luar negeri jangka pendek. Cadangan di kisaran 6,5 bulan impor memberikan ketahanan yang sangat kuat terhadap gejolak arus modal keluar.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi B:</strong> Cadangan devisa tidak harus sama dengan 100% PDB; rasio cadangan terhadap PDB biasanya berkisar 10%-20%.</li><li><strong>Opsi C:</strong> Cadangan devisa disimpan dalam bentuk aset valuta asing likuid (US Treasury, emas moneter, SDR), bukan uang kartal rupiah.</li><li><strong>Opsi D:</strong> Cadangan devisa justru berfungsi aktif sebagai bantalan likuiditas untuk intervensi stabilitas nilai tukar saat volatilitas ekstrem.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "Level 08: Perdagangan Internasional & BOP",
+        "subtitle": "Neraca Pembayaran, Defisit Transaksi Berjalan (CAD), dan Hilirisasi Ekspor",
+        "theme": "trade",
+        "unlocks": "Gelar: Diplomat Perdagangan Global",
+        "questionPool": [
             {
                 "id": "s4_q5",
                 "theoryKey": "trilema_mundell_fleming",
@@ -2085,7 +2121,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "FDI berwujud pabrik fisik yang tidak gampang kabur saat ada kabar buruk; modal portofolio (hot money) bisa kabur dalam hitungan detik!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> <em>FDI (Foreign Direct Investment)</em> berjangka panjang dan bersifat illikuid karena tertanam dalam aset fisik (pabrik, mesin, infrastruktur) serta menciptakan lapangan kerja. Sebaliknya, modal portofolio (<em>hot money</em>) sangat likuid dan mudah keluar seketika (<em>sudden reversal</em>) saat sentimen global memburuk.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Modal portofolio di pasar saham/obligasi dapat diperjualbelikan setiap detik di jam perdagangan bursa.</li><li><strong>Opsi C:</strong> Perusahaan penanaman modal asing tetap wajib tunduk pada UU Ketenagakerjaan dan AMDAL nasional.</li><li><strong>Opsi D:</strong> Hot money masuk ke instrumen pasar uang, SBN, dan saham emiten bursa, bukan belanja suvenir ritel.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "title": "Level 09: Dinamika Kurs & Valuta Asing",
+        "subtitle": "Trilema Mundell-Fleming, Cadangan Devisa, DHE SDA, Dedolarisasi, dan REER",
+        "theme": "forex",
+        "unlocks": "Gelar: Ahli Devisa & Valas",
+        "questionPool": [
             {
                 "id": "s4_q21",
                 "theoryKey": "perjanjian_fta",
@@ -2341,16 +2386,7 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Kombinasi benteng eksternal: kurs mengambang fleksibel, cadangan devisa tebal, hilirisasi nilai tambah ekspor, dan jaring pengaman swap bilateral!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Ketahanan sektor eksternal modern bersandar pada integrasi pilar tangguh: (1) Rezim kurs fleksibel sebagai <em>shock absorber</em>, (2) Cadangan devisa memadai (&gt;6 bulan impor), (3) Hilirisasi ekspor bernilai tambah, (4) Penggunaan LCT de-dolarisasi, dan (5) Jaring pengaman keuangan regional (BCSA/CMIM).</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Menutup diri dari perdagangan dunia (autarki) menghancurkan produktivitas dan memiskinkan perekonomian nasional.</li><li><strong>Opsi C:</strong> Mematok kurs secara kaku adalah kesalahan fatal yang mengulang kerentanan krisis moneter 1997/1998.</li><li><strong>Opsi D:</strong> Ketergantungan pada utang valas jangka pendek memicu kerentanan rollover risk dan krisis likuiditas eksternal.</li></ul></div>"
-            }
-        ]
-    },
-    {
-        "id": 5,
-        "title": "Level 5: 🌪️ Badai Krisis Ekonomi",
-        "subtitle": "Manajemen Krisis, Resolusi Sistemik, dan Resiliensi Makroekonomi",
-        "theme": "crisis",
-        "unlocks": "Gelar: Teknokrat Dewan Ekonomi Nasional 👑",
-        "questionPool": [
+            },
             {
                 "id": "s5_q1",
                 "theoryKey": "krismon_1998",
@@ -2366,7 +2402,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Tiga kelemahan fatal: kurs dipatok kaku, utang valas swasta membludak tanpa asuransi hedging, dan kredit perbankan disalurkan ke kroni tanpa kehati-hatian!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Krisis 1997/1998 dipicu oleh kerentanan struktural: rezim kurs mengambang terkendali yang menciptakan ilusi stabilitas semu, penumpukan utang luar negeri valas swasta jangka pendek tanpa lindung nilai (<em>currency & maturity mismatch</em>), serta kelemahan pengawasan perbankan yang melanggar BMPK.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Kebijakan perdagangan masa itu tidak mengenakan pajak ekspor manufaktur ekstrem; krisis berakar di sektor moneter-finansial.</li><li><strong>Opsi C:</strong> Sektor riil perikanan tetap beroperasi; krisis meledak di pasar valas dan sektor perbankan perkotaan.</li><li><strong>Opsi D:</strong> Uang kartal beredar luas; masalahnya adalah depresiasi nilai tukar rupiah dan runtuhnya kepercayaan perbankan.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "title": "Level 10: Makroprudensial & Stabilitas Keuangan",
+        "subtitle": "Arsitektur SSK, Rasio LTV, CCyB, Stress Testing, dan Bank Resolusi Bail-In",
+        "theme": "macroprudential",
+        "unlocks": "Gelar: Penjaga Stabilitas Sistem",
+        "questionPool": [
             {
                 "id": "s5_q2",
                 "theoryKey": "policy_mix",
@@ -2638,7 +2683,16 @@ const MACRO_TRIVIA_STAGES = [
                 "correct": 1,
                 "hint": "Saat nilai aset anjlok sementara utang tetap penuh, perusahaan tidak mau berinvestasi melainkan sibuk memakai seluruh kasnya untuk mencicil utang!",
                 "debrief": "<div class='debrief-why-correct'><strong>✅ Mengapa Benar:</strong> Konsep Richard Koo tentang <em>Balance Sheet Recession</em> (seperti di Jepang pasca-1990): saat nilai aset kolaps namun kewajiban utang tetap utuh, pelaku usaha mengubah prioritas dari memaksimalkan laba (<em>profit maximization</em>) menjadi meminimalkan utang (<em>debt minimization</em>), memicu stagnasi berkepanjangan.</div><div class='debrief-traps-block'><strong class='traps-title'>🔍 Mengapa Opsi Lain Kurang Tepat?</strong><ul><li><strong>Opsi A:</strong> Dunia usaha justru menahan diri dari pinjaman baru karena fokus merestrukturisasi utang lama.</li><li><strong>Opsi C:</strong> Unit properti tetap diperdagangkan secara komersial dengan harga yang terkoreksi tajam di pasar.</li><li><strong>Opsi D:</strong> Sistem pembayaran modern tetap menggunakan uang fiat dan perbankan digital.</li></ul></div>"
-            },
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "title": "Level 11: Badai Krisis & Teknokrat Tertinggi",
+        "subtitle": "Stagflasi, Krisis Finansial, Pandemi Double Shock, Burden Sharing, dan Visi 2045",
+        "theme": "crisis",
+        "unlocks": "Gelar: Teknokrat Dewan Ekonomi Nasional 👑",
+        "questionPool": [
             {
                 "id": "s5_q19",
                 "theoryKey": "restrukturisasi_kredit",
@@ -3607,7 +3661,7 @@ class MacroTriviaEngine {
         this.shieldActive = false;
         this.eliminatedOptions = [];
         this.stageCorrectCount = 0;
-        this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+        this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 3, 11: 3 };
 
         this.unlockedStageIds = [1];
         this.advanceUnlocked = {
@@ -3880,19 +3934,16 @@ class MacroTriviaEngine {
             if (!unlockedNums.includes(nextStageId)) {
                 this.unlockedStageIds.push(nextStageId);
             }
-            if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+            if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 3, 11: 3 };
             this.stageResetsRemaining[nextStageId] = 3;
         }
 
-        // Unlocks for Advance Modes
-        if (curId >= 3) {
+        // Unlocks for Level 12: Lab Mekanisme Pasar
+        if (curId >= 11) {
             this.advanceUnlocked.econGames = true;
-        }
-        if (curId >= 4) {
-            this.advanceUnlocked.scenarios = true;
-        }
-        if (curId >= 5) {
-            this.advanceUnlocked.cockpit = true;
+            if (!this.unlockedStageIds.map(Number).includes(12)) {
+                this.unlockedStageIds.push(12);
+            }
         }
 
         this.saveProgress();
@@ -3919,7 +3970,7 @@ class MacroTriviaEngine {
 
         if (remaining > 0) {
             const newRemaining = remaining - 1;
-            if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+            if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 3, 11: 3 };
             this.stageResetsRemaining[curId] = newRemaining;
             this.restartStage();
             this.saveProgress();
@@ -3936,7 +3987,7 @@ class MacroTriviaEngine {
             // Kuota reset sudah habis (0)
             if (curId > 1) {
                 const prevId = curId - 1;
-                if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+                if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 3, 11: 3 };
                 // Pulihkan kuota level ini agar tersedia saat nanti berhasil kembali ke level ini
                 this.stageResetsRemaining[curId] = 3;
                 // Kunci level ini kembali (pemain harus mengulang dan lulus level sebelumnya)
@@ -3955,7 +4006,7 @@ class MacroTriviaEngine {
                 };
             } else {
                 // Level 1: ulang level 1 dari awal dan pulihkan 3 kesempatan
-                if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+                if (!this.stageResetsRemaining) this.stageResetsRemaining = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 3, 11: 3 };
                 this.stageResetsRemaining[1] = 3;
                 this.restartStage();
                 this.saveProgress();
