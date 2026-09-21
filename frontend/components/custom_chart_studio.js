@@ -672,7 +672,7 @@ export class CustomChartStudio {
     const activeSlots = this.slots.filter(s => s.enabled && this.seriesData[s.id]);
     if (activeSlots.length === 0) {
       ctx.fillStyle = '#5F6368';
-      ctx.font = "12px 'Calibri Light', Calibri, sans-serif";
+      ctx.font = "12px 'Tahoma', Geneva, Verdana, sans-serif";
       ctx.textAlign = 'center';
       ctx.fillText('Tidak ada variabel aktif terpilih.', w / 2, h / 2);
       return;
@@ -770,7 +770,7 @@ export class CustomChartStudio {
 
       // Left axis label
       ctx.fillStyle = '#5F6368';
-      ctx.font = "10px 'Calibri Light', Calibri, sans-serif";
+      ctx.font = "10px 'Tahoma', Geneva, Verdana, sans-serif";
       ctx.textAlign = 'right';
       ctx.fillText(Math.round(gVal).toLocaleString('id-ID'), padLeft - 8, y + 3);
 
@@ -796,7 +796,7 @@ export class CustomChartStudio {
 
     // Draw X-axis years
     ctx.fillStyle = '#5F6368';
-    ctx.font = "10px 'Calibri Light', Calibri, sans-serif";
+    ctx.font = "10px 'Tahoma', Geneva, Verdana, sans-serif";
     ctx.textAlign = 'center';
     const stepYear = years.length > 20 ? 4 : (years.length > 10 ? 2 : 1);
     years.forEach((yr, idx) => {

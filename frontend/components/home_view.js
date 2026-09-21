@@ -390,7 +390,7 @@ export class HomeView {
                     <svg class="w-6 h-6 stroke-current fill-none stroke-[1.75]" viewBox="0 0 24 24">
                       <!-- Coin badge with Rupiah Logo -->
                       <circle cx="7.5" cy="7.5" r="5" fill="currentColor" fill-opacity="0.12" stroke-width="1.2" />
-                      <text x="4.3" y="9.8" font-family="'Calibri Light', Calibri, sans-serif" font-size="6.2" font-weight="900" fill="currentColor" stroke="none">Rp</text>
+                      <text x="4.3" y="9.8" font-family="'Tahoma', Geneva, Verdana, sans-serif" font-size="6.2" font-weight="900" fill="currentColor" stroke="none">Rp</text>
                       <!-- Upward Trending Chart Arrow -->
                       <path d="M2.5 20.5L8 15L12.5 18L21.5 8" stroke-linecap="round" stroke-linejoin="round" />
                       <path d="M16 8H21.5V13.5" stroke-linecap="round" stroke-linejoin="round" />

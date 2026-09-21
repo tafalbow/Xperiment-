@@ -23,6 +23,7 @@ import { CustomChartStudio } from './components/custom_chart_studio.js';
 import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.2.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
+import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.43.0';
 
 class App {
   constructor() {
@@ -42,11 +43,12 @@ class App {
     this.agriCalendar = null;
     this.activeAgriSubTab = 'balance'; // 'balance' | 'calendar'
     this.lkppView = null;
+    this.apbnEvalView = null;
     this.weeklyView = null;
     this.customChartStudio = null;
     this.cukaiBpsView = null;
     this.adminView = null;
-    this.activeMainTab = 'home'; // Primary Sections: 'home' | 'analytics' | 'agri' | 'production' | 'lkpp' | 'weekly' | 'custom-chart' | 'cukai-bps' | 'inventory' | 'about' | 'admin'
+    this.activeMainTab = 'home'; // Primary Sections: 'home' | 'analytics' | 'agri' | 'production' | 'lkpp' | 'apbn-eval' | 'weekly' | 'custom-chart' | 'cukai-bps' | 'inventory' | 'about' | 'admin'
 
 
     this.currentQueryState = {
@@ -286,6 +288,7 @@ class App {
     const btnAgri = document.getElementById('tab-btn-agri');
     const btnProduction = document.getElementById('tab-btn-production');
     const btnLkpp = document.getElementById('tab-btn-lkpp');
+    const btnApbnEval = document.getElementById('tab-btn-apbn-eval');
     const btnWeekly = document.getElementById('tab-btn-weekly');
     const btnCustomChart = document.getElementById('tab-btn-custom-chart');
     const btnCukaiBps = document.getElementById('tab-btn-cukai-bps');
@@ -301,6 +304,7 @@ class App {
     btnAgri?.addEventListener('click', () => this.switchMainTab('agri'));
     btnProduction?.addEventListener('click', () => this.switchMainTab('production'));
     btnLkpp?.addEventListener('click', () => this.switchMainTab('lkpp'));
+    btnApbnEval?.addEventListener('click', () => this.switchMainTab('apbn-eval'));
     btnWeekly?.addEventListener('click', () => this.switchMainTab('weekly'));
     btnCustomChart?.addEventListener('click', () => this.switchMainTab('custom-chart'));
     btnCukaiBps?.addEventListener('click', () => this.switchMainTab('cukai-bps'));
@@ -379,6 +383,7 @@ class App {
     const btnAgri = document.getElementById('tab-btn-agri');
     const btnProduction = document.getElementById('tab-btn-production');
     const btnLkpp = document.getElementById('tab-btn-lkpp');
+    const btnApbnEval = document.getElementById('tab-btn-apbn-eval');
     const btnWeekly = document.getElementById('tab-btn-weekly');
     const btnCustomChart = document.getElementById('tab-btn-custom-chart');
     const btnCukaiBps = document.getElementById('tab-btn-cukai-bps');
@@ -391,6 +396,7 @@ class App {
     const contentAgri = document.getElementById('tab-content-agri');
     const contentProduction = document.getElementById('tab-content-production');
     const contentLkpp = document.getElementById('tab-content-lkpp');
+    const contentApbnEval = document.getElementById('tab-content-apbn-eval');
     const contentWeekly = document.getElementById('tab-content-weekly');
     const contentCustomChart = document.getElementById('tab-content-custom-chart');
     const contentCukaiBps = document.getElementById('tab-content-cukai-bps');
@@ -411,8 +417,8 @@ class App {
     };
 
     // Hide all contents and reset all buttons
-    [contentHome, contentAnalytics, contentAgri, contentProduction, contentLkpp, contentWeekly, contentCustomChart, contentCukaiBps, contentInventory, contentAbout, contentAdmin].forEach(c => c?.classList.add('hidden'));
-    [btnHome, btnAnalytics, btnAgri, btnProduction, btnLkpp, btnWeekly, btnCustomChart, btnCukaiBps, btnInventory, btnAbout, btnAdmin].forEach(b => resetBtn(b));
+    [contentHome, contentAnalytics, contentAgri, contentProduction, contentLkpp, contentApbnEval, contentWeekly, contentCustomChart, contentCukaiBps, contentInventory, contentAbout, contentAdmin].forEach(c => c?.classList.add('hidden'));
+    [btnHome, btnAnalytics, btnAgri, btnProduction, btnLkpp, btnApbnEval, btnWeekly, btnCustomChart, btnCukaiBps, btnInventory, btnAbout, btnAdmin].forEach(b => resetBtn(b));
 
     if (tabName === 'home') {
       contentHome?.classList.remove('hidden');
@@ -462,6 +468,15 @@ class App {
         await this.lkppView.init();
       } else {
         await this.lkppView.loadAndRender();
+      }
+    } else if (tabName === 'apbn-eval' || tabName === 'apbn-kita' || tabName === 'rapbn') {
+      contentApbnEval?.classList.remove('hidden');
+      activateBtn(btnApbnEval);
+      if (!this.apbnEvalView) {
+        this.apbnEvalView = new ApbnEvalView('apbn-eval-view-container');
+        await this.apbnEvalView.init();
+      } else {
+        this.apbnEvalView.render();
       }
     } else if (tabName === 'weekly') {
       contentWeekly?.classList.remove('hidden');

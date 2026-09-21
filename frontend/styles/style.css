@@ -140,6 +140,7 @@ input, button, select, textarea, optgroup, option, table, th, td, pre, code, kbd
 }
 
 main#app-main > :not([hidden]) ~ :not([hidden]),
+div[id^="tab-content-"] > :not([hidden]) ~ :not([hidden]),
 #tab-content-analytics > :not([hidden]) ~ :not([hidden]),
 #tab-content-home > :not([hidden]) ~ :not([hidden]) {
   margin-top: 6px !important;

@@ -16,6 +16,7 @@ from backend.routers.audit_export import router as audit_export_router
 from backend.routers.ingestion import router as ingestion_router
 from backend.routers.cukai_bps import router as cukai_bps_router
 from backend.routers.admin import router as admin_router
+from backend.routers.apbn_eval import router as apbn_eval_router
 
 __all__ = [
     "system_router",
@@ -30,6 +31,7 @@ __all__ = [
     "audit_export_router",
     "ingestion_router",
     "cukai_bps_router",
-    "admin_router"
+    "admin_router",
+    "apbn_eval_router"
 ]
 

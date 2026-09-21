@@ -41,7 +41,7 @@
   <link rel="icon" type="image/png" href="/static/assets/logo.png">
 
   <!-- Custom GovTech Barely-There UI Stylesheet (Cache-Busted) -->
-  <link rel="stylesheet" href="/static/styles/style.css?v=7.13.0">
+  <link rel="stylesheet" href="/static/styles/style.css?v=7.14.0">
 </head>
 <body class="bg-white text-[#2C2420] min-h-screen flex flex-col antialiased selection:bg-[#EBF1FC] selection:text-[#0038A8]">
 
@@ -110,6 +110,17 @@
         >
           <span>🏛️</span>
           <span>Keuangan Negara</span>
+        </button>
+
+        <!-- 6. Komparasi RAPBN vs Realisasi APBN Bulanan & YTD -->
+        <button 
+          id="tab-btn-apbn-eval" 
+          role="tab" 
+          aria-selected="false"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
+        >
+          <span>📑</span>
+          <span>RAPBN vs Realisasi APBN</span>
         </button>
 
         <!-- 6. Weekly High-Frequency Observatory (BI, DJPb, OJK, Bapanas) -->
@@ -339,6 +350,11 @@
       <section id="lkpp-view-container" aria-label="Observatorium Trend Keuangan Negara (APBN, RAPBN & LKPP 1990 - 2026)"></section>
     </div>
 
+    <!-- TAB: KOMPARASI RAPBN vs REALISASI APBN BULANAN & YTD -->
+    <div id="tab-content-apbn-eval" class="hidden space-y-[6px]">
+      <section id="apbn-eval-view-container" aria-label="Observatorium Komparasi RAPBN & Realisasi APBN Bulanan / YTD"></section>
+    </div>
+
     <!-- TAB: WEEKLY HIGH-FREQUENCY OBSERVATORY (1990 - 2026) -->
     <div id="tab-content-weekly" class="hidden space-y-[6px]">
       <section id="weekly-view-container" aria-label="Observatorium Data Mingguan Lembaga & Kementerian"></section>
@@ -424,6 +440,6 @@
   </footer>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=11.42.0"></script>
+  <script type="module" src="/static/app.js?v=11.43.0"></script>
 </body>
 </html>

@@ -33,7 +33,8 @@ from backend.routers import (
     audit_export_router,
     ingestion_router,
     cukai_bps_router,
-    admin_router
+    admin_router,
+    apbn_eval_router
 )
 
 # Application Factory
@@ -68,6 +69,7 @@ app.include_router(audit_export_router)
 app.include_router(ingestion_router)
 app.include_router(cukai_bps_router)
 app.include_router(admin_router)
+app.include_router(apbn_eval_router)
 
 
 # ------------------------------------------------------------------------------
