@@ -205,38 +205,39 @@
             <!-- ------------------------------------------------------------
                  VIEW 2: LEVEL 12 LAB MEKANISME PASAR
                  ------------------------------------------------------------ -->
+            <!-- VIEW 2: LEVEL 12 LAB MEKANISME PASAR -->
             <section id="viewEconGames" class="viewport-section">
                 <!-- Locked Screen (Shown when Level 11 is not passed and Sandbox is off) -->
                 <div id="econGamesLockedScreen" class="lab-locked-screen" style="display:none;">
-                    <div class="locked-icon">🔒</div>
-                    <span class="locked-eyebrow">LEVEL 12 — LABORATORIUM KHUSUS</span>
-                    <h2 class="locked-title">LAB MEKANISME PASAR TERKUNCI</h2>
-                    <div class="brand-accent-line"></div>
-                    <p class="locked-desc">
-                        Laboratorium interaktif ini dirancang untuk menguji pembentukan harga aset spekulatif (Vernon Smith), dinamika kapasitas oligopoli, serta respon guncangan kebijakan makro secara langsung.<br><br>
-                        Untuk membuka akses Level 12 ini, tuntaskan terlebih dahulu <strong>Level 11 (Level Tersusah)</strong> dengan standar kelulusan <strong>minimal 80% (5 dari 6 soal benar)</strong>.
-                    </p>
-                    <div class="locked-actions">
-                        <button type="button" id="btnGoBackToLevel11" class="btn-minimal-primary">
-                            <span>←</span> KEMBALI KE LEVEL 11
-                        </button>
-                        <button type="button" id="btnUnlockSandboxFromLab" class="btn-minimal-secondary">
-                            <span>⚡</span> BUKA VIA MODE SANDBOX
-                        </button>
+                    <div class="lab-locked-card">
+                        <div class="lab-lock-icon">🔒</div>
+                        <h2 class="lab-lock-title">LEVEL 12: LAB MEKANISME PASAR TERKUNCI</h2>
+                        <p class="lab-lock-desc">
+                            Untuk memasuki Laboratorium Mekanisme Pasar ini, Anda harus membuktikan pemahaman teknokratik dengan menyelesaikan 
+                            <strong>seluruh 11 Level Tanya Jawab</strong> (Standar kelulusan min. 80% pada Level 11 Puncak Tersusah).
+                        </p>
+                        <div class="lab-lock-action-row">
+                            <button type="button" id="btnGoBackToLevel11" class="btn-minimal-primary">
+                                ← KEMBALI KE LEVEL 11 TERSUSAH
+                            </button>
+                            <button type="button" id="btnUnlockSandboxFromLab" class="btn-minimal-secondary">
+                                ⚡ BUKA VIA SANDBOX (MODE PENGUJI)
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Unlocked Active Screen -->
+                <!-- Active Dashboard Screen (Shown when Level 11 passed or Sandbox activated) -->
                 <div id="econGamesActiveScreen" class="lab-active-dashboard">
                     <div class="lab-header-row">
                         <div>
                             <span class="qa-level-eyebrow">L E V E L  1 2</span>
-                            <h2 class="lab-headline">LAB MEKANISME PASAR & EKSPERIMEN</h2>
+                            <h2 class="lab-headline">LAB MEKANISME PASAR & KEBIJAKAN MAKRO</h2>
                             <p class="lab-subheadline">
-                                Simulasi interaktif pembentukan harga aset, persaingan kapasitas pasar, dan respon guncangan kebijakan makro.
+                                Laboratorium interaktif pengujian teori ekonomi vs eksekusi nyata: Pembentukan harga aset spekulatif, persaingan oligopoli pasar, dan mitigasi guncangan makroekonomi AD-AS.
                             </p>
                         </div>
-                        <div class="lab-mode-pill">ECONOMICS-GAMES MODE</div>
+                        <div class="lab-mode-pill">LAB EKONOMI INTERAKTIF</div>
                     </div>
 
                     <!-- Sub-navigation strip -->
@@ -248,13 +249,46 @@
                             02 · MARKET COMPETITION & CAPACITY
                         </button>
                         <button type="button" class="econ-subtab-btn" data-econgametab="econMacroShock">
-                            03 · MACRO POLICY SHOCK LAB
+                            03 · MACRO POLICY SHOCK LAB (AD-AS)
                         </button>
                     </div>
 
-                    <!-- GAME 1: THE SPECULATIVE ASSET BUBBLE GAME -->
+                    <!-- ========================================================
+                         GAME 1: THE SPECULATIVE ASSET BUBBLE GAME
+                         ======================================================== -->
                     <div id="econBubblePanel" class="econ-game-card">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--border-hairline); padding-bottom:12px;">
+                        <!-- Mission & Theory Briefing Card -->
+                        <div class="lab-mission-card">
+                            <div class="mission-header" id="bubbleMissionHeader">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span style="font-size:1.3rem;">🎯</span>
+                                    <div>
+                                        <div class="mission-headline">PANDUAN MISI & TEORI: VERNON SMITH ASSET BUBBLE (NOBEL 2002)</div>
+                                        <div class="mission-subline">Pahami aturan main sebelum mengambil keputusan Beli, Tahan, atau Jual</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-toggle-mission" id="btnToggleBubbleMission">📖 BUKA ATURAN</button>
+                            </div>
+                            <div id="bubbleMissionDetails" class="mission-content" style="display:none;">
+                                <div class="mission-grid">
+                                    <div class="mission-col">
+                                        <div class="mission-col-title">1. TUJUAN & MODAL AWAL</div>
+                                        <p>Anda memulai dengan <strong>Kas Rp 500.000</strong> dan <strong>5 Lot Saham</strong> (Total Modal Awal: <strong>Rp 800.000</strong>). Misi Anda: <strong>Maksimalkan kekayaan bersih (Net Worth)</strong> dalam 6 putaran pasar.</p>
+                                    </div>
+                                    <div class="mission-col">
+                                        <div class="mission-col-title">2. NILAI FUNDAMENTAL vs HARGA PASAR</div>
+                                        <p>Aset membayar dividen acak tiap putaran (rata-rata Rp 10.000). Nilai fundamental wajar = <em>Sisa Putaran × Rp 10.000</em>. Nilai wajar ini <strong>pasti menyusut</strong> dari Rp 60.000 (putaran 1) menjadi <strong>Rp 0</strong> di putaran 6 saat aset dilikuidasi.</p>
+                                    </div>
+                                    <div class="mission-col">
+                                        <div class="mission-col-title">3. PSIKOLOGI GELEMBUNG (GREATER FOOL)</div>
+                                        <p>Spekulan momentum akan memompa harga pasar melesat jauh di atas nilai wajar (<em>Greater Fool Theory</em>) hingga puncaknya di Putaran 4, lalu <strong>CRASH meletus</strong> di Putaran 5. Kunci sukses: Jual di puncak gelembung sebelum crash, jangan menahan saham saat nilai menuju Rp 0!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Header & Metrics -->
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--border-hairline); padding-bottom:12px; margin-top:14px;">
                             <div>
                                 <h3 style="margin:0; font-size:1.05rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
                                     <span>🫧</span> The Speculative Asset Bubble Game
@@ -283,48 +317,181 @@
                             </div>
                         </div>
 
+                        <!-- Live Valuation & Market Phase Strip -->
+                        <div class="lab-valuation-strip">
+                            <div class="val-item">
+                                <span class="val-label">🎯 Nilai Fundamental:</span>
+                                <strong class="val-num" id="bubbleFundValText">Rp 60.000</strong>
+                            </div>
+                            <div class="val-item">
+                                <span class="val-label">🏷️ Harga Pasar Saat Ini:</span>
+                                <strong class="val-num" id="bubbleMarketValText">Rp 63.000</strong>
+                            </div>
+                            <div class="val-item">
+                                <span class="val-label">📊 Rasio Gelembung:</span>
+                                <span id="bubbleRatioBadge" class="ratio-pill">1.05x</span>
+                            </div>
+                            <div class="val-item">
+                                <span class="val-label">🚦 Status Siklus Pasar:</span>
+                                <span id="bubblePhaseBadge" class="phase-pill" style="background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0;">Nilai Wajar</span>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Chart -->
                         <div class="econ-canvas-box">
                             <canvas id="bubbleChartCanvas" width="760" height="230" style="width:100%; max-width:760px; height:230px; display:block; margin:0 auto;"></canvas>
                         </div>
 
+                        <!-- Control Buttons -->
                         <div class="econ-control-grid">
                             <div>
                                 <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.08em;">Keputusan Putaran Ini:</label>
                                 <div style="display:flex; gap:8px;">
-                                    <button type="button" id="btnBubbleBuy" class="btn-minimal-primary" style="flex:1; padding:8px 10px; font-size:0.78rem; background:#16a34a; border-color:#15803d;">
+                                    <button type="button" id="btnBubbleBuy" class="btn-minimal-primary" style="flex:1; padding:10px; font-size:0.82rem; background:#16a34a; border-color:#15803d;">
                                         <span>🛒</span> Beli (+2)
                                     </button>
-                                    <button type="button" id="btnBubbleHold" class="btn-minimal-primary" style="flex:1; padding:8px 10px; font-size:0.78rem; background:#475569; border-color:#334155;">
+                                    <button type="button" id="btnBubbleHold" class="btn-minimal-primary" style="flex:1; padding:10px; font-size:0.82rem; background:#475569; border-color:#334155;">
                                         <span>⏸️</span> Tahan
                                     </button>
-                                    <button type="button" id="btnBubbleSell" class="btn-minimal-primary" style="flex:1; padding:8px 10px; font-size:0.78rem; background:#dc2626; border-color:#b91c1c;">
+                                    <button type="button" id="btnBubbleSell" class="btn-minimal-primary" style="flex:1; padding:10px; font-size:0.82rem; background:#dc2626; border-color:#b91c1c;">
                                         <span>💰</span> Jual (-2)
                                     </button>
                                 </div>
                             </div>
-                            <div>
-                                <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.08em;">Informasi Penilaian:</label>
-                                <div style="font-size:0.84rem; color:var(--text-primary); line-height:1.5;">
-                                    <div>🎯 Nilai Fundamental: <strong id="bubbleFundValText">Rp 60.000</strong></div>
-                                    <div>🏷️ Estimasi Harga Pasar: <strong id="bubbleMarketValText">Rp 63.000</strong></div>
+                            <div style="display:flex; flex-direction:column; justify-content:center;">
+                                <div style="font-size:0.75rem; color:var(--text-secondary); line-height:1.4;">
+                                    💡 <em>Tips Taktis:</em> Perhatikan selisih Harga Pasar terhadap Nilai Fundamental. Jika rasio > 1.5x, Anda berada di zona gelembung spekulatif!
                                 </div>
                             </div>
                             <div style="display:flex; align-items:flex-end;">
-                                <button type="button" id="btnBubbleReset" class="btn-minimal-secondary" style="width:100%; padding:8px 14px; font-size:0.78rem;" title="Mulai Ulang Eksperimen">
+                                <button type="button" id="btnBubbleReset" class="btn-minimal-secondary" style="width:100%; padding:9px 14px; font-size:0.8rem;" title="Mulai Ulang Eksperimen">
                                     🔄 Reset Permainan Bursa
                                 </button>
                             </div>
                         </div>
 
+                        <!-- Step-by-Step Tactical Clue Box (Teori x Eksekusi Nyata) -->
+                        <div id="bubbleTacticalClueBox" class="lab-tactical-clue-box" style="display:none;">
+                            <div class="clue-header">
+                                <span id="bubbleClueBadge" class="clue-badge">✅ KEPUTUSAN TEPAT</span>
+                                <strong id="bubbleClueTitle" style="font-size:0.92rem; color:var(--text-primary);">Analisis Taktis Putaran</strong>
+                            </div>
+                            <div id="bubbleClueDetail" class="clue-body"></div>
+                            <div class="clue-history-box" id="bubbleClueHistoryBox">
+                                <span style="font-weight:700; color:#0369a1;">🏛️ Studi Kasus Sejarah Nyata:</span>
+                                <span id="bubbleClueRealCase"></span>
+                            </div>
+                        </div>
+
+                        <!-- Transaction Log -->
                         <div id="bubbleLogBox" style="margin-top:12px; background:var(--bg-subtle); border:1px solid var(--border-hairline); border-radius:var(--radius-sm); padding:10px 14px; font-size:0.82rem; max-height:110px; overflow-y:auto;">
                             <div style="font-weight:700; color:var(--text-muted); margin-bottom:4px; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;">📜 Catatan Transaksi Bursa:</div>
                             <div id="bubbleLogContent">Pasar dibuka. Anda memegang modal awal kas Rp 500.000 dan 5 lembar saham. Tentukan keputusan Anda untuk Putaran 1!</div>
                         </div>
+
+                        <!-- Endgame Scorecard Card (Muncul saat putaran 6 selesai) -->
+                        <div id="bubbleEndgameCard" class="lab-endgame-card" style="display:none;">
+                            <div class="endgame-header">
+                                <div>
+                                    <span class="endgame-grade-badge" id="bubbleEndgameGradeBadge">GRADE A</span>
+                                    <h3 class="endgame-title" id="bubbleEndgameTitle">Master Market Timing & Value Investor</h3>
+                                    <p class="endgame-subtitle" id="bubbleEndgameEvalText">Evaluasi performa Anda dalam menavigasi gelembung spekulatif bursa.</p>
+                                </div>
+                                <button type="button" id="btnBubbleReplayEndgame" class="btn-minimal-primary" style="align-self:flex-start; padding:8px 16px;">
+                                    🔄 MAIN LAGI
+                                </button>
+                            </div>
+
+                            <!-- Net Worth Comparison Grid -->
+                            <div class="endgame-stats-grid">
+                                <div class="endgame-stat-box">
+                                    <span class="stat-label">MODAL AWAL</span>
+                                    <span class="stat-val">Rp 800.000</span>
+                                </div>
+                                <div class="endgame-stat-box highlight">
+                                    <span class="stat-label">NET WORTH AKHIR ANDA</span>
+                                    <span class="stat-val" id="bubbleEndgameFinalVal">Rp 1.050.000</span>
+                                    <span class="stat-sub" id="bubbleEndgameReturnSub">+31% Imbal Hasil</span>
+                                </div>
+                                <div class="endgame-stat-box">
+                                    <span class="stat-label">BENCHMARK BUY & HOLD PASIF</span>
+                                    <span class="stat-val">Rp 585.000</span>
+                                    <span class="stat-sub" style="color:#dc2626;">-27% (Terbakar Crash)</span>
+                                </div>
+                            </div>
+
+                            <!-- Round by Round Recap Table -->
+                            <div style="margin-top:16px;">
+                                <div style="font-weight:700; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-secondary); margin-bottom:8px;">
+                                    📋 Rekapitulasi Eksekusi 6 Putaran:
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="lab-recap-table" id="bubbleRecapTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Putaran</th>
+                                                <th>Harga Pasar</th>
+                                                <th>Fundamental</th>
+                                                <th>Rasio</th>
+                                                <th>Aksi Anda</th>
+                                                <th>Kas Akhir</th>
+                                                <th>Net Worth</th>
+                                                <th>Evaluasi Taktis</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bubbleRecapTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Takeaway Teori Vernon Smith Nobel 2002 -->
+                            <div class="endgame-takeaway-box">
+                                <strong>🎓 Refleksi Teori Vernon Smith (Hadiah Nobel Ekonomi 2002):</strong>
+                                <p style="margin:6px 0 0; line-height:1.5; font-size:0.82rem; color:var(--text-secondary);">
+                                    Dalam riset laboratoriumnya, Vernon Smith membuktikan bahwa bahkan para mahasiswa keuangan dan pelaku pasar profesional sekalipun secara konsisten 
+                                    menciptakan gelembung spekulatif ketika likuiditas melimpah. Pelaku pasar cenderung percaya bahwa mereka 'cukup pintar' untuk keluar tepat sebelum gelembung meletus, 
+                                    yang pada akhirnya memicu kepanikan massal (<em>panic selling</em>) dan kebangkrutan modal saat Minsky Moment tiba.
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- GAME 2: THE MARKET COMPETITION & CAPACITY GAME -->
+                    <!-- ========================================================
+                         GAME 2: THE MARKET COMPETITION & CAPACITY GAME
+                         ======================================================== -->
                     <div id="econCompPanel" class="econ-game-card" style="display:none;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--border-hairline); padding-bottom:12px;">
+                        <!-- Mission & Theory Briefing Card -->
+                        <div class="lab-mission-card">
+                            <div class="mission-header" id="compMissionHeader">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span style="font-size:1.3rem;">🏭</span>
+                                    <div>
+                                        <div class="mission-headline">PANDUAN MISI PABRIK: STRATEGI OLIGOPOLI & PERANG HARGA</div>
+                                        <div class="mission-subline">Kalkulasi biaya tetap, marjin impas, dan hindari jebakan perang tarif Bertrand</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-toggle-mission" id="btnToggleCompMission">📖 BUKA ATURAN</button>
+                            </div>
+                            <div id="compMissionDetails" class="mission-content" style="display:none;">
+                                <div class="mission-grid">
+                                    <div class="mission-col">
+                                        <div class="mission-col-title">1. TUJUAN & MODAL PABRIK</div>
+                                        <p>Anda memimpin pabrik manufaktur dengan <strong>Modal Kas Rp 150 Juta</strong>. Bersainglah selama 5 putaran kuartal melawan 3 pabrik rival untuk <strong>memaksimalkan laba bersih dan modal akhir</strong>.</p>
+                                    </div>
+                                    <div class="mission-col">
+                                        <div class="mission-col-title">2. STRUKTUR BIAYA & TITIK IMPAS</div>
+                                        <p>Pabrik memiliki <strong>Biaya Tetap Rp 40 Juta / putaran</strong> (sewa mesin, gaji tetap) dan <strong>Biaya Variabel Rp 35.000 / unit</strong>. Titik Impas: <em>P_BE = 35.000 + (40 Jt / Q)</em>. Menjual di bawah P_BE menjamin pabrik merugi di setiap unit!</p>
+                                    </div>
+                                    <div class="mission-col">
+                                        <div class="mission-col-title">3. PERANG HARGA vs KAPASITAS MUBAZIR</div>
+                                        <p>Jika harga Anda lebih murah dari 3 rival, pangsa pasar Anda naik. Namun jika terlalu murah (<em>Bertrand Paradox</em>), margin tergerus habis. Sebaliknya, jika harga terlalu mahal, produk tidak laku dan kapasitas menumpuk sia-sia (<em>idle capacity</em>).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Header & Metrics -->
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--border-hairline); padding-bottom:12px; margin-top:14px;">
                             <div>
                                 <h3 style="margin:0; font-size:1.05rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
                                     <span>🏭</span> The Market Competition & Capacity Game
@@ -349,10 +516,32 @@
                             </div>
                         </div>
 
+                        <!-- Live Breakeven Calculator Strip -->
+                        <div class="lab-valuation-strip">
+                            <div class="val-item">
+                                <span class="val-label">Biaya Tetap Pabrik:</span>
+                                <strong>Rp 40 Juta</strong>
+                            </div>
+                            <div class="val-item">
+                                <span class="val-label">Biaya Variabel Unit:</span>
+                                <strong>Rp 35.000 / unit</strong>
+                            </div>
+                            <div class="val-item">
+                                <span class="val-label">⚖️ Titik Impas Minimal (P_BE):</span>
+                                <strong id="compBreakevenVal" style="color:#dc2626;">Rp 46.428 / unit</strong>
+                            </div>
+                            <div class="val-item">
+                                <span class="val-label">Status Marjin Harga Anda:</span>
+                                <span id="compMarginSafetyBadge" class="phase-pill" style="background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0;">✅ Marjin Sehat (+40%)</span>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Chart -->
                         <div class="econ-canvas-box">
                             <canvas id="compChartCanvas" width="760" height="210" style="width:100%; max-width:760px; height:210px; display:block; margin:0 auto;"></canvas>
                         </div>
 
+                        <!-- Control Sliders -->
                         <div class="econ-control-grid">
                             <div>
                                 <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
@@ -360,7 +549,7 @@
                                     <span id="compQtyVal">3.500 Unit</span>
                                 </div>
                                 <input type="range" id="compQtyRange" min="1000" max="8000" step="500" value="3500" style="width:100%; margin:6px 0;">
-                                <div style="font-size:0.72rem; color:var(--text-muted);">Biaya variabel: Rp 35.000 / unit. Biaya tetap: Rp 40 Juta.</div>
+                                <div style="font-size:0.72rem; color:var(--text-muted);">Biaya variabel melekat pada jumlah yang Anda putuskan untuk diproduksi.</div>
                             </div>
                             <div>
                                 <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
@@ -368,92 +557,214 @@
                                     <span id="compPriceVal">Rp 65.000</span>
                                 </div>
                                 <input type="range" id="compPriceRange" min="30000" max="95000" step="2500" value="65000" style="width:100%; margin:6px 0;">
-                                <div style="font-size:0.72rem; color:var(--text-muted);">Harga terlalu tinggi membuat konsumen beralih ke kompetitor!</div>
+                                <div style="font-size:0.72rem; color:var(--text-muted);">Pastikan harga di atas Titik Impas agar setiap unit mencetak laba!</div>
                             </div>
                             <div style="display:flex; align-items:center;">
-                                <button type="button" id="btnCompSubmit" class="btn-minimal-primary" style="width:100%; padding:10px 14px; font-size:0.84rem;">
+                                <button type="button" id="btnCompSubmit" class="btn-minimal-primary" style="width:100%; padding:12px 14px; font-size:0.86rem;">
                                     <span>🚀 PRODUKSI & JUAL!</span>
                                 </button>
                             </div>
                         </div>
 
+                        <!-- Step-by-Step Managerial Clue Box (Teori x Eksekusi Nyata) -->
+                        <div id="compTacticalClueBox" class="lab-tactical-clue-box" style="display:none;">
+                            <div class="clue-header">
+                                <span id="compClueBadge" class="clue-badge">✅ MANAJEMEN EFISIEN</span>
+                                <strong id="compClueTitle" style="font-size:0.92rem; color:var(--text-primary);">Laporan Diagnosa Manajerial</strong>
+                            </div>
+                            <div id="compClueDetail" class="clue-body"></div>
+                            <div class="clue-history-box" id="compClueHistoryBox">
+                                <span style="font-weight:700; color:#0369a1;">🏛️ Studi Kasus Industri Nyata:</span>
+                                <span id="compClueRealCase"></span>
+                            </div>
+                        </div>
+
+                        <!-- Log -->
                         <div id="compLogBox" style="margin-top:12px; background:var(--bg-subtle); border:1px solid var(--border-hairline); border-radius:var(--radius-sm); padding:10px 14px; font-size:0.82rem; max-height:110px; overflow-y:auto;">
                             <div style="font-weight:700; color:var(--text-muted); margin-bottom:4px; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;">📊 Laporan Penjualan:</div>
                             <div id="compLogContent">Atur target kapasitas dan harga jual Anda untuk Putaran 1, lalu klik 'PRODUKSI & JUAL!'.</div>
                         </div>
+
+                        <!-- Endgame Scorecard Card -->
+                        <div id="compEndgameCard" class="lab-endgame-card" style="display:none;">
+                            <div class="endgame-header">
+                                <div>
+                                    <span class="endgame-grade-badge" id="compEndgameGradeBadge">GRADE A</span>
+                                    <h3 class="endgame-title" id="compEndgameTitle">Pemimpin Pasar & Pengendali Oligopoli</h3>
+                                    <p class="endgame-subtitle" id="compEndgameEvalText">Evaluasi keberlanjutan bisnis pabrik Anda di hadapan 3 rival oligopoli.</p>
+                                </div>
+                                <button type="button" id="btnCompReplayEndgame" class="btn-minimal-primary" style="align-self:flex-start; padding:8px 16px;">
+                                    🔄 MAIN LAGI
+                                </button>
+                            </div>
+
+                            <div class="endgame-stats-grid">
+                                <div class="endgame-stat-box">
+                                    <span class="stat-label">MODAL AWAL PABRIK</span>
+                                    <span class="stat-val">Rp 150 Juta</span>
+                                </div>
+                                <div class="endgame-stat-box highlight">
+                                    <span class="stat-label">MODAL KAS AKHIR PABRIK</span>
+                                    <span class="stat-val" id="compEndgameFinalVal">Rp 210 Juta</span>
+                                    <span class="stat-sub" id="compEndgameProfitSub">+Rp 60 Juta Laba Bersih</span>
+                                </div>
+                                <div class="endgame-stat-box">
+                                    <span class="stat-label">RATA-RATA PANGSA PASAR</span>
+                                    <span class="stat-val" id="compEndgameShareVal">32%</span>
+                                    <span class="stat-sub">Dari 4 Pabrik Industri</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top:16px;">
+                                <div style="font-weight:700; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-secondary); margin-bottom:8px;">
+                                    📋 Rekapitulasi Kinerja Pabrik 5 Putaran:
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="lab-recap-table" id="compRecapTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Putaran</th>
+                                                <th>Harga Anda</th>
+                                                <th>Rata2 Pasar</th>
+                                                <th>Kapasitas</th>
+                                                <th>Terjual</th>
+                                                <th>Sisa Stok</th>
+                                                <th>Laba Bersih</th>
+                                                <th>Modal Kas</th>
+                                                <th>Diagnosa</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="compRecapTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="endgame-takeaway-box">
+                                <strong>🎓 Refleksi Teori Struktur Pasar Oligopoli & Kebijakan Persaingan Usaha (KPPU):</strong>
+                                <p style="margin:6px 0 0; line-height:1.5; font-size:0.82rem; color:var(--text-secondary);">
+                                    Dalam struktur pasar oligopoli dengan biaya tetap tinggi (seperti maskapai penerbangan, telekomunikasi, semen, atau mobil listrik), 
+                                    perang harga murni (<em>Bertrand price war</em>) selalu berakhir dengan kehancuran modal seluruh industri. Produsen yang bertahan unggul 
+                                    adalah mereka yang mampu menghitung titik impas secara disiplin, mendiferensiasikan nilai tambah produk, dan tidak terpancing ekspansi kapasitas 
+                                    berlebihan yang memicu kapasitas mubazir (<em>idle capacity</em>).
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- GAME 3: THE MACROECONOMIC POLICY SHOCK LAB -->
+                    <!-- ========================================================
+                         GAME 3: THE MACROECONOMIC POLICY SHOCK LAB (AD-AS)
+                         ======================================================== -->
                     <div id="econShockPanel" class="econ-game-card" style="display:none;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--border-hairline); padding-bottom:12px;">
-                            <div>
-                                <h3 style="margin:0; font-size:1.05rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
-                                    <span>⚡</span> Macro Policy Shock Lab (AD-AS)
-                                </h3>
-                                <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
-                                    Eksperimen mitigasi guncangan makro: Seimbangkan inflasi dan pertumbuhan lewat bauran moneter dan fiskal!
-                                </div>
-                            </div>
-                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <!-- Scenario Banner with Eyebrow -->
+                        <div id="shockBannerBox" style="background:#fef2f2; border:1px solid #fecaca; border-radius:var(--radius-sm); padding:14px 18px; margin-bottom:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                                <span class="shock-eyebrow" id="shockEyebrow">GUNCANGAN PENAWARAN AGREGAT (COST-PUSH SHOCK)</span>
                                 <div class="econ-metric-badge">
-                                    <span class="econ-metric-label">Guncangan Skenario</span>
+                                    <span class="econ-metric-label">Skenario</span>
                                     <span class="econ-metric-val" id="shockRoundText">1 / 4</span>
                                 </div>
-                                <div class="econ-metric-badge">
-                                    <span class="econ-metric-label">Evaluasi Bauran</span>
-                                    <span class="econ-metric-val" id="shockGradeText" style="color:#16a34a;">-</span>
-                                </div>
                             </div>
+                            <h3 id="shockTitle" style="margin:6px 0 4px; font-weight:800; color:#991b1b; font-size:1.05rem;">🛢️ Guncangan Pasokan Negatif (Adverse Supply Shock)</h3>
+                            <p id="shockDesc" style="margin:0; font-size:0.86rem; color:#7f1d1d; line-height:1.45;">Harga minyak mentah dunia melonjak 120%. Biaya produksi pabrik dan BBM meroket tajam!</p>
+                            <div style="margin-top:8px; font-size:0.8rem; color:#991b1b; font-weight:600;" id="shockTargetNote">Target: Kendalikan inflasi tanpa memicu kebangkrutan massal sektor riil.</div>
                         </div>
 
-                        <div id="shockBannerBox" style="background:#fef2f2; border:1px solid #fecaca; border-radius:var(--radius-sm); padding:12px 16px; margin:14px 0;">
-                            <div id="shockTitle" style="font-weight:700; color:#991b1b; font-size:0.92rem;">🛢️ Guncangan Pasokan Negatif (Adverse Supply Shock)</div>
-                            <p id="shockDesc" style="margin:4px 0 0; font-size:0.84rem; color:#7f1d1d; line-height:1.45;">Harga minyak mentah dunia melonjak 120%. Biaya produksi pabrik dan logistik membengkak tajam!</p>
-                        </div>
-
+                        <!-- Canvas Chart -->
                         <div class="econ-canvas-box">
                             <canvas id="shockChartCanvas" width="760" height="210" style="width:100%; max-width:760px; height:210px; display:block; margin:0 auto;"></canvas>
                         </div>
 
+                        <!-- Policy Levers -->
                         <div class="econ-control-grid">
                             <div>
                                 <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
                                     <span>Suku Bunga BI-Rate:</span>
-                                    <span id="shockBiRateVal">6.00%</span>
+                                    <span id="shockBiRateVal" style="color:#0284c7;">6.00%</span>
                                 </div>
                                 <input type="range" id="shockBiRateRange" min="3.5" max="10.5" step="0.25" value="6.0" style="width:100%; margin:6px 0;">
+                                <div style="font-size:0.72rem; color:var(--text-muted);">Moneter: Kendalikan ekspektasi inflasi dan stabilitas kurs.</div>
                             </div>
                             <div>
                                 <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
                                     <span>Belanja Negara (G):</span>
-                                    <span id="shockGovVal">Rp 3.200 T</span>
+                                    <span id="shockGovVal" style="color:#16a34a;">Rp 3.200 T</span>
                                 </div>
-                                <input type="range" id="shockGovRange" min="2500" max="4500" step="100" value="3200" style="width:100%; margin:6px 0;">
+                                <input type="range" id="shockGovRange" min="2500" max="4500" step="50" value="3200" style="width:100%; margin:6px 0;">
+                                <div style="font-size:0.72rem; color:var(--text-muted);">Fiskal: Stimulus belanja publik & bantalan subsidi sosial.</div>
                             </div>
                             <div>
                                 <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
-                                    <span>Tarif Pajak (T):</span>
-                                    <span id="shockTaxVal">11.0%</span>
+                                    <span>Tarif Pajak Efektif (T):</span>
+                                    <span id="shockTaxVal" style="color:#7c3aed;">11.0%</span>
                                 </div>
                                 <input type="range" id="shockTaxRange" min="8.0" max="16.0" step="0.5" value="11.0" style="width:100%; margin:6px 0;">
+                                <div style="font-size:0.72rem; color:var(--text-muted);">Fiskal: Penarikan likuiditas vs dorongan konsumsi swasta.</div>
                             </div>
                             <div style="display:flex; align-items:center;">
-                                <button type="button" id="btnShockExecute" class="btn-minimal-primary" style="width:100%; padding:10px; font-size:0.84rem;">
+                                <button type="button" id="btnShockExecute" class="btn-minimal-primary" style="width:100%; padding:12px; font-size:0.86rem;">
                                     <span>⚖️ EKSEKUSI KEBIJAKAN</span>
                                 </button>
                             </div>
                         </div>
 
-                        <div id="shockResultBox" style="margin-top:12px; background:var(--accent-emerald-subtle); border:1px solid #bbf7d0; border-radius:var(--radius-sm); padding:12px 16px; font-size:0.84rem; display:none;">
-                            <div style="font-weight:700; color:#166534; margin-bottom:4px;">🎯 Hasil Evaluasi Bauran Kebijakan:</div>
-                            <div id="shockResultContent" style="line-height:1.5;"></div>
+                        <!-- Pusat Pembelajaran Bauran Kebijakan Teknokratik (Executive Macro Debrief Center) -->
+                        <div id="shockResultBox" class="shock-debrief-center" style="display:none; margin-top:16px;">
+                            <!-- Header Status -->
+                            <div class="shock-debrief-header">
+                                <div>
+                                    <span class="endgame-grade-badge" id="shockGradeBadge" style="background:#16a34a; color:#fff;">GRADE A</span>
+                                    <h3 style="margin:4px 0 2px; font-size:1.05rem;" id="shockGradeLabel">Eksekusi Teknokratik Sempurna</h3>
+                                    <p style="margin:0; font-size:0.84rem; color:var(--text-secondary);" id="shockFeedbackSummary"></p>
+                                </div>
+                                <div style="text-align:right;">
+                                    <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Hasil Proyeksi Makro:</div>
+                                    <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-top:2px;">
+                                        Inflasi: <strong id="shockSimInflation" style="color:#dc2626;">5.5%</strong> | PDB: <strong id="shockSimGrowth" style="color:#16a34a;">5.2%</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4 Pillars of Deep Theory x Execution -->
+                            <div class="shock-pillars-grid">
+                                <!-- Pilar 1: Bauran Anda vs Ideal -->
+                                <div class="shock-pillar-card">
+                                    <div class="pillar-title">📊 PILAR 1: KALIBRASI INSTRUMEN ANDA vs IDEAL</div>
+                                    <div id="shockPillar1Content" class="pillar-body"></div>
+                                </div>
+
+                                <!-- Pilar 2: Bauran Kebijakan Terbaik -->
+                                <div class="shock-pillar-card highlight">
+                                    <div class="pillar-title" style="color:#166534;">🎯 PILAR 2: REKOMENDASI BAURAN TERBAIK (OPTIMAL MIX)</div>
+                                    <div id="shockPillar2Content" class="pillar-body"></div>
+                                </div>
+
+                                <!-- Pilar 3: Mengapa Harus Begitu (Transmisi Teori AD-AS) -->
+                                <div class="shock-pillar-card full-width">
+                                    <div class="pillar-title" style="color:#0369a1;">📐 PILAR 3: MENGAPA HARUS BEGITU? (TRANSMISI TEORI AD-AS & IS-LM)</div>
+                                    <div id="shockPillar3Content" class="pillar-body" style="font-size:0.84rem; line-height:1.55;"></div>
+                                </div>
+
+                                <!-- Pilar 4: Studi Kasus Sejarah Nyata Indonesia & Dunia -->
+                                <div class="shock-pillar-card full-width history-theme">
+                                    <div class="pillar-title" style="color:#92400e;">🏛️ PILAR 4: PELAJARAN STUDI KASUS SEJARAH NYATA (INDONESIA & DUNIA)</div>
+                                    <div id="shockPillar4Content" class="pillar-body" style="font-size:0.84rem; line-height:1.55;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Next Scenario Action Bar -->
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; padding-top:12px; border-top:1px solid var(--border-hairline); flex-wrap:wrap; gap:10px;">
+                                <button type="button" id="btnShockRetryCurrent" class="btn-minimal-secondary" style="padding:8px 16px;">
+                                    🔄 Ulangi Skenario Ini
+                                </button>
+                                <button type="button" id="btnShockNextScenario" class="btn-minimal-primary" style="padding:8px 20px;">
+                                    LANJUT KE SKENARIO BERIKUTNYA →
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
-        </main>
-
-        <!-- ================================================================
+<!-- ================================================================
              4. MODAL: GLOSARIUM ENSIKLOPEDIA TEORI
              ================================================================ -->
         <div id="modalEncyclopedia" class="modal-overlay">
@@ -1020,33 +1331,119 @@
                     });
                 });
 
-                // --- GAME 1: THE ASSET BUBBLE GAME ---
+                // Helper to toggle mission cards
+                window.toggleMissionAccordion = (detailsId, btnId) => {
+                    const el = document.getElementById(detailsId);
+                    const btn = document.getElementById(btnId);
+                    if (!el) return;
+                    const isOpen = el.style.display !== 'none';
+                    el.style.display = isOpen ? 'none' : 'block';
+                    if (btn) btn.textContent = isOpen ? '📖 BUKA ATURAN' : '✕ TUTUP ATURAN';
+                };
+
+                const btnToggleBubbleMission = document.getElementById('btnToggleBubbleMission');
+                const bubbleMissionHeader = document.getElementById('bubbleMissionHeader');
+                if (btnToggleBubbleMission) {
+                    btnToggleBubbleMission.onclick = (e) => {
+                        e.stopPropagation();
+                        window.toggleMissionAccordion('bubbleMissionDetails', 'btnToggleBubbleMission');
+                    };
+                }
+                if (bubbleMissionHeader) {
+                    bubbleMissionHeader.onclick = () => {
+                        window.toggleMissionAccordion('bubbleMissionDetails', 'btnToggleBubbleMission');
+                    };
+                }
+
+                const btnToggleCompMission = document.getElementById('btnToggleCompMission');
+                const compMissionHeader = document.getElementById('compMissionHeader');
+                if (btnToggleCompMission) {
+                    btnToggleCompMission.onclick = (e) => {
+                        e.stopPropagation();
+                        window.toggleMissionAccordion('compMissionDetails', 'btnToggleCompMission');
+                    };
+                }
+                if (compMissionHeader) {
+                    compMissionHeader.onclick = () => {
+                        window.toggleMissionAccordion('compMissionDetails', 'btnToggleCompMission');
+                    };
+                }
+
+                // ==============================================================
+                // GAME 1: THE SPECULATIVE ASSET BUBBLE GAME
+                // ==============================================================
                 const bubbleRoundText = document.getElementById('bubbleRoundText');
                 const bubbleCashText = document.getElementById('bubbleCashText');
                 const bubbleSharesText = document.getElementById('bubbleSharesText');
                 const bubbleNetWorthText = document.getElementById('bubbleNetWorthText');
                 const bubbleFundValText = document.getElementById('bubbleFundValText');
                 const bubbleMarketValText = document.getElementById('bubbleMarketValText');
+                const bubbleRatioBadge = document.getElementById('bubbleRatioBadge');
+                const bubblePhaseBadge = document.getElementById('bubblePhaseBadge');
                 const bubbleLogContent = document.getElementById('bubbleLogContent');
 
                 const btnBubbleBuy = document.getElementById('btnBubbleBuy');
                 const btnBubbleHold = document.getElementById('btnBubbleHold');
                 const btnBubbleSell = document.getElementById('btnBubbleSell');
                 const btnBubbleReset = document.getElementById('btnBubbleReset');
+                const btnBubbleReplayEndgame = document.getElementById('btnBubbleReplayEndgame');
+
+                const bubbleTacticalClueBox = document.getElementById('bubbleTacticalClueBox');
+                const bubbleClueBadge = document.getElementById('bubbleClueBadge');
+                const bubbleClueTitle = document.getElementById('bubbleClueTitle');
+                const bubbleClueDetail = document.getElementById('bubbleClueDetail');
+                const bubbleClueRealCase = document.getElementById('bubbleClueRealCase');
+
+                const bubbleEndgameCard = document.getElementById('bubbleEndgameCard');
+                const bubbleEndgameGradeBadge = document.getElementById('bubbleEndgameGradeBadge');
+                const bubbleEndgameTitle = document.getElementById('bubbleEndgameTitle');
+                const bubbleEndgameEvalText = document.getElementById('bubbleEndgameEvalText');
+                const bubbleEndgameFinalVal = document.getElementById('bubbleEndgameFinalVal');
+                const bubbleEndgameReturnSub = document.getElementById('bubbleEndgameReturnSub');
+                const bubbleRecapTableBody = document.getElementById('bubbleRecapTableBody');
 
                 function updateBubbleHUD() {
                     const s = engine.bubbleState;
                     if (bubbleRoundText) bubbleRoundText.textContent = `${Math.min(s.round, s.maxRounds)} / ${s.maxRounds}`;
                     if (bubbleCashText) bubbleCashText.textContent = `Rp ${s.cash.toLocaleString('id-ID')}`;
                     if (bubbleSharesText) bubbleSharesText.textContent = `${s.shares} Lot`;
-                    const currentPrice = (s.history.length > 0) ? s.history[s.history.length - 1].price : 60000;
+
+                    const currentPrice = engine.getCurrentBubbleMarketPrice(s.round);
                     const netWorth = s.cash + (s.shares * currentPrice);
                     if (bubbleNetWorthText) bubbleNetWorthText.textContent = `Rp ${netWorth.toLocaleString('id-ID')}`;
-                    
-                    const remRounds = Math.max(0, s.maxRounds - s.round + 1);
-                    const fund = remRounds * 10000;
+
+                    const fund = engine.getCurrentBubbleFundamental(s.round);
                     if (bubbleFundValText) bubbleFundValText.textContent = `Rp ${fund.toLocaleString('id-ID')}`;
                     if (bubbleMarketValText) bubbleMarketValText.textContent = `Rp ${currentPrice.toLocaleString('id-ID')}`;
+
+                    const stateInfo = engine.getBubbleMarketStateInfo(s.round);
+                    if (bubbleRatioBadge) {
+                        bubbleRatioBadge.textContent = `${stateInfo.bubbleRatio}x`;
+                        if (stateInfo.bubbleRatio > 1.5) {
+                            bubbleRatioBadge.style.background = '#fee2e2';
+                            bubbleRatioBadge.style.color = '#dc2626';
+                            bubbleRatioBadge.style.borderColor = '#fca5a5';
+                        } else if (stateInfo.bubbleRatio > 1.2) {
+                            bubbleRatioBadge.style.background = '#fef3c7';
+                            bubbleRatioBadge.style.color = '#d97706';
+                            bubbleRatioBadge.style.borderColor = '#fde68a';
+                        } else {
+                            bubbleRatioBadge.style.background = '#f0fdf4';
+                            bubbleRatioBadge.style.color = '#16a34a';
+                            bubbleRatioBadge.style.borderColor = '#bbf7d0';
+                        }
+                    }
+
+                    if (bubblePhaseBadge) {
+                        bubblePhaseBadge.textContent = stateInfo.badge;
+                        bubblePhaseBadge.style.color = stateInfo.color;
+                        bubblePhaseBadge.style.borderColor = stateInfo.color;
+                    }
+
+                    // Button availability
+                    if (btnBubbleBuy) btnBubbleBuy.disabled = s.isFinished || (s.cash < (2 * currentPrice));
+                    if (btnBubbleSell) btnBubbleSell.disabled = s.isFinished || (s.shares <= 0);
+                    if (btnBubbleHold) btnBubbleHold.disabled = s.isFinished;
                 }
 
                 function drawBubbleChart() {
@@ -1055,7 +1452,7 @@
                     const ctx = canvas.getContext('2d');
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                    // Grid
+                    // Background Grid
                     ctx.strokeStyle = '#e5e7eb';
                     ctx.lineWidth = 1;
                     for (let y = 30; y < canvas.height - 20; y += 40) {
@@ -1072,17 +1469,26 @@
                     const getX = (round) => 60 + (round / 6) * (canvas.width - 90);
                     const getY = (val) => canvas.height - 35 - (val / maxPrice) * (canvas.height - 60);
 
+                    // Legend
+                    ctx.font = '11px sans-serif';
+                    ctx.fillStyle = '#d97706';
+                    ctx.fillText('--- Nilai Fundamental (Arus Dividen Tersisa)', 60, 20);
+                    ctx.fillStyle = '#111111';
+                    ctx.fillText('— Harga Pasar (Ekspektasi Spekulan)', 320, 20);
+
                     // Fundamental Line (Gold Dashed)
                     ctx.strokeStyle = '#d97706';
                     ctx.lineWidth = 2;
                     ctx.setLineDash([5, 4]);
                     ctx.beginPath();
-                    history.forEach((h, i) => {
-                        const x = getX(h.round);
-                        const y = getY(h.fundamental);
-                        if (i === 0) ctx.moveTo(x, y);
+                    // Draw full theoretical fundamental curve
+                    for (let r = 1; r <= 6; r++) {
+                        const fund = engine.getCurrentBubbleFundamental(r);
+                        const x = getX(r);
+                        const y = getY(fund);
+                        if (r === 1) ctx.moveTo(x, y);
                         else ctx.lineTo(x, y);
-                    });
+                    }
                     ctx.stroke();
                     ctx.setLineDash([]);
 
@@ -1098,12 +1504,16 @@
                     });
                     ctx.stroke();
 
-                    // Dots
+                    // Dots on history
                     history.forEach(h => {
-                        ctx.fillStyle = '#111111';
+                        ctx.fillStyle = h.isWise ? '#16a34a' : '#dc2626';
+                        if (h.round === 0) ctx.fillStyle = '#111111';
                         ctx.beginPath();
-                        ctx.arc(getX(h.round), getY(h.price), 4, 0, Math.PI * 2);
+                        ctx.arc(getX(h.round), getY(h.price), 5, 0, Math.PI * 2);
                         ctx.fill();
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
                     });
                 }
 
@@ -1115,59 +1525,160 @@
                     updateBubbleHUD();
                     drawBubbleChart();
 
+                    // Show Step-by-Step Tactical Clue
+                    if (bubbleTacticalClueBox) {
+                        bubbleTacticalClueBox.style.display = 'block';
+                        if (bubbleClueBadge) {
+                            bubbleClueBadge.textContent = res.isWise ? '✅ KEPUTUSAN TEPAT' : '⚠️ KEPUTUSAN BERISIKO / KELIRU';
+                            bubbleClueBadge.className = `clue-badge ${res.isWise ? 'wise' : 'risky'}`;
+                        }
+                        if (bubbleClueTitle) bubbleClueTitle.textContent = res.clueTitle;
+                        if (bubbleClueDetail) bubbleClueDetail.textContent = res.clueDetail;
+                        if (bubbleClueRealCase) bubbleClueRealCase.textContent = res.realCase;
+                    }
+
+                    // Update log
                     if (bubbleLogContent) {
                         let crashNotice = res.isCrash ? '<div style="color:#dc2626; font-weight:700; margin-top:4px;">🚨 BUBBLE BURST! Gelembung meletus, harga anjlok drastis ke bawah nilai fundamental!</div>' : '';
                         bubbleLogContent.innerHTML = `
-                            <div><strong>Putaran ${res.round}:</strong> ${res.isCrash ? 'Crash Terjadi!' : 'Perdagangan Berjalan'}. Harga Pasar: <strong>Rp ${res.marketPrice.toLocaleString('id-ID')}</strong> (Dividen: Rp ${res.dividend.toLocaleString('id-ID')}). Total Net Worth Anda: <strong>Rp ${res.totalNetWorth.toLocaleString('id-ID')}</strong>.</div>
+                            <div><strong>Putaran ${res.round}:</strong> ${res.actionNote}. Harga Pasar: <strong>Rp ${res.marketPrice.toLocaleString('id-ID')}</strong> (Dividen Cair: Rp ${res.dividend.toLocaleString('id-ID')}). Net Worth Anda: <strong>Rp ${res.totalNetWorth.toLocaleString('id-ID')}</strong>.</div>
                             ${crashNotice}
                         `;
                     }
 
+                    // Check Finished
                     if (res.isFinished) {
-                        if (btnBubbleBuy) btnBubbleBuy.disabled = true;
-                        if (btnBubbleHold) btnBubbleHold.disabled = true;
-                        if (btnBubbleSell) btnBubbleSell.disabled = true;
-                        alert(`🏁 Eksperimen Asset Bubble Selesai!\n\nTotal Net Worth Akhir: Rp ${res.totalNetWorth.toLocaleString('id-ID')}.\nAmati bagaimana ekspektasi spekulatif sempat mendorong harga jauh di atas nilai fundamental sebelum akhirnya meletus!`);
+                        showBubbleEndgameScorecard(res.endgameSummary);
+                    }
+                }
+
+                function showBubbleEndgameScorecard(summary) {
+                    if (!summary || !bubbleEndgameCard) return;
+                    bubbleEndgameCard.style.display = 'block';
+                    bubbleEndgameCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                    if (bubbleEndgameGradeBadge) {
+                        bubbleEndgameGradeBadge.textContent = `GRADE ${summary.grade}`;
+                        bubbleEndgameGradeBadge.style.background = summary.badgeColor;
+                    }
+                    if (bubbleEndgameTitle) bubbleEndgameTitle.textContent = summary.title;
+                    if (bubbleEndgameEvalText) bubbleEndgameEvalText.textContent = summary.evaluationText;
+                    if (bubbleEndgameFinalVal) bubbleEndgameFinalVal.textContent = `Rp ${summary.finalNetWorth.toLocaleString('id-ID')}`;
+                    if (bubbleEndgameReturnSub) {
+                        const isPos = summary.profit >= 0;
+                        bubbleEndgameReturnSub.textContent = `${isPos ? '+' : ''}${summary.returnPct}% (${isPos ? '+' : ''}Rp ${summary.profit.toLocaleString('id-ID')})`;
+                        bubbleEndgameReturnSub.style.color = isPos ? '#16a34a' : '#dc2626';
+                    }
+
+                    if (bubbleRecapTableBody) {
+                        bubbleRecapTableBody.innerHTML = '';
+                        summary.history.forEach(h => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td><strong>Putaran ${h.round}</strong></td>
+                                <td>Rp ${h.price.toLocaleString('id-ID')}</td>
+                                <td>Rp ${h.fundamental.toLocaleString('id-ID')}</td>
+                                <td><span class="ratio-pill">${h.bubbleRatio}x</span></td>
+                                <td>${escapeHtml(h.playerAction)}</td>
+                                <td style="color:#16a34a;">Rp ${h.cash.toLocaleString('id-ID')}</td>
+                                <td><strong>Rp ${h.netWorth.toLocaleString('id-ID')}</strong></td>
+                                <td><span class="clue-tag ${h.isWise ? 'wise' : 'risky'}">${h.isWise ? '✓ Tepat' : '✕ Berisiko'}</span></td>
+                            `;
+                            bubbleRecapTableBody.appendChild(tr);
+                        });
                     }
                 }
 
                 if (btnBubbleBuy) btnBubbleBuy.onclick = () => handleBubbleAction('buy');
                 if (btnBubbleHold) btnBubbleHold.onclick = () => handleBubbleAction('hold');
                 if (btnBubbleSell) btnBubbleSell.onclick = () => handleBubbleAction('sell');
-                if (btnBubbleReset) {
-                    btnBubbleReset.onclick = () => {
-                        audio.playClick();
-                        engine.initBubbleGame();
-                        if (btnBubbleBuy) btnBubbleBuy.disabled = false;
-                        if (btnBubbleHold) btnBubbleHold.disabled = false;
-                        if (btnBubbleSell) btnBubbleSell.disabled = false;
-                        if (bubbleLogContent) bubbleLogContent.textContent = 'Permainan bursa direset. Tentukan keputusan Anda untuk Putaran 1!';
-                        updateBubbleHUD();
-                        drawBubbleChart();
-                    };
+                
+                function resetBubbleGameUI() {
+                    audio.playClick();
+                    engine.initBubbleGame();
+                    if (bubbleEndgameCard) bubbleEndgameCard.style.display = 'none';
+                    if (bubbleTacticalClueBox) bubbleTacticalClueBox.style.display = 'none';
+                    if (bubbleLogContent) bubbleLogContent.textContent = 'Permainan bursa direset. Tentukan keputusan Anda untuk Putaran 1!';
+                    updateBubbleHUD();
+                    drawBubbleChart();
                 }
 
-                // --- GAME 2: THE MARKET COMPETITION GAME ---
+                if (btnBubbleReset) btnBubbleReset.onclick = resetBubbleGameUI;
+                if (btnBubbleReplayEndgame) btnBubbleReplayEndgame.onclick = resetBubbleGameUI;
+
+                // ==============================================================
+                // GAME 2: THE MARKET COMPETITION & CAPACITY GAME
+                // ==============================================================
                 const compRoundText = document.getElementById('compRoundText');
                 const compCapitalText = document.getElementById('compCapitalText');
                 const compLastProfitText = document.getElementById('compLastProfitText');
+                const compBreakevenVal = document.getElementById('compBreakevenVal');
+                const compMarginSafetyBadge = document.getElementById('compMarginSafetyBadge');
                 const compQtyRange = document.getElementById('compQtyRange');
                 const compQtyVal = document.getElementById('compQtyVal');
                 const compPriceRange = document.getElementById('compPriceRange');
                 const compPriceVal = document.getElementById('compPriceVal');
                 const btnCompSubmit = document.getElementById('btnCompSubmit');
+                const btnCompReplayEndgame = document.getElementById('btnCompReplayEndgame');
                 const compLogContent = document.getElementById('compLogContent');
+
+                const compTacticalClueBox = document.getElementById('compTacticalClueBox');
+                const compClueBadge = document.getElementById('compClueBadge');
+                const compClueTitle = document.getElementById('compClueTitle');
+                const compClueDetail = document.getElementById('compClueDetail');
+                const compClueRealCase = document.getElementById('compClueRealCase');
+
+                const compEndgameCard = document.getElementById('compEndgameCard');
+                const compEndgameGradeBadge = document.getElementById('compEndgameGradeBadge');
+                const compEndgameTitle = document.getElementById('compEndgameTitle');
+                const compEndgameEvalText = document.getElementById('compEndgameEvalText');
+                const compEndgameFinalVal = document.getElementById('compEndgameFinalVal');
+                const compEndgameProfitSub = document.getElementById('compEndgameProfitSub');
+                const compEndgameShareVal = document.getElementById('compEndgameShareVal');
+                const compRecapTableBody = document.getElementById('compRecapTableBody');
+
+                function updateCompBreakevenHUD() {
+                    const q = parseInt(compQtyRange.value, 10);
+                    const p = parseInt(compPriceRange.value, 10);
+                    const bePrice = engine.calculateBreakevenPrice(q);
+
+                    if (compBreakevenVal) compBreakevenVal.textContent = `Rp ${bePrice.toLocaleString('id-ID')} / unit`;
+
+                    if (compMarginSafetyBadge) {
+                        if (p < bePrice) {
+                            compMarginSafetyBadge.textContent = `❌ Di Bawah Titik Impas (Pasti Rugi!)`;
+                            compMarginSafetyBadge.style.background = '#fee2e2';
+                            compMarginSafetyBadge.style.color = '#dc2626';
+                            compMarginSafetyBadge.style.borderColor = '#fca5a5';
+                        } else if (p > bePrice * 1.35) {
+                            const markup = Math.round(((p - bePrice) / bePrice) * 100);
+                            compMarginSafetyBadge.textContent = `⚠️ Terlalu Mahal (+${markup}% vs Impas)`;
+                            compMarginSafetyBadge.style.background = '#fef3c7';
+                            compMarginSafetyBadge.style.color = '#d97706';
+                            compMarginSafetyBadge.style.borderColor = '#fde68a';
+                        } else {
+                            const markup = Math.round(((p - bePrice) / bePrice) * 100);
+                            compMarginSafetyBadge.textContent = `✅ Marjin Sehat (+${markup}% vs Impas)`;
+                            compMarginSafetyBadge.style.background = '#f0fdf4';
+                            compMarginSafetyBadge.style.color = '#16a34a';
+                            compMarginSafetyBadge.style.borderColor = '#bbf7d0';
+                        }
+                    }
+                }
 
                 if (compQtyRange && compQtyVal) {
                     compQtyRange.oninput = () => {
                         compQtyVal.textContent = `${Number(compQtyRange.value).toLocaleString('id-ID')} Unit`;
+                        updateCompBreakevenHUD();
                     };
                 }
                 if (compPriceRange && compPriceVal) {
                     compPriceRange.oninput = () => {
                         compPriceVal.textContent = `Rp ${Number(compPriceRange.value).toLocaleString('id-ID')}`;
+                        updateCompBreakevenHUD();
                     };
                 }
+                updateCompBreakevenHUD();
 
                 function drawCompChart() {
                     const canvas = document.getElementById('compChartCanvas');
@@ -1175,6 +1686,7 @@
                     const ctx = canvas.getContext('2d');
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+                    // Grid
                     ctx.strokeStyle = '#e5e7eb';
                     ctx.lineWidth = 1;
                     for (let y = 30; y < canvas.height - 20; y += 40) {
@@ -1184,22 +1696,50 @@
                         ctx.stroke();
                     }
 
+                    // Legend
+                    ctx.font = '11px sans-serif';
+                    ctx.fillStyle = '#16a34a';
+                    ctx.fillText('— Modal Kas Pabrik (Pertumbuhan Akumulasi)', 60, 20);
+                    ctx.fillStyle = '#475569';
+                    ctx.fillText('--- Modal Awal (Rp 150 Juta)', 340, 20);
+
                     const hist = engine.compState.history || [];
+                    const maxCap = 260000000;
+                    const getX = (round) => 60 + (round / 5) * (canvas.width - 90);
+                    const getY = (val) => canvas.height - 35 - Math.max(0, Math.min(canvas.height - 60, (val / maxCap) * (canvas.height - 60)));
+
+                    // Base 150M Line
+                    ctx.strokeStyle = '#94a3b8';
+                    ctx.lineWidth = 1.5;
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(60, getY(150000000));
+                    ctx.lineTo(canvas.width - 30, getY(150000000));
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
                     if (hist.length === 0) return;
 
-                    const getX = (round) => 60 + (round / 5) * (canvas.width - 90);
-                    const getY = (val) => canvas.height - 35 - Math.max(0, Math.min(canvas.height - 60, (val / 300000000) * (canvas.height - 60)));
-
+                    // Plot history
                     ctx.strokeStyle = '#16a34a';
                     ctx.lineWidth = 2.5;
                     ctx.beginPath();
-                    hist.forEach((h, i) => {
-                        const x = getX(h.round);
-                        const y = getY(h.capital);
-                        if (i === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
+                    ctx.moveTo(getX(0), getY(150000000));
+                    hist.forEach((h) => {
+                        ctx.lineTo(getX(h.round), getY(h.capital));
                     });
                     ctx.stroke();
+
+                    // Dots
+                    hist.forEach((h) => {
+                        ctx.fillStyle = h.isWise ? '#16a34a' : '#dc2626';
+                        ctx.beginPath();
+                        ctx.arc(getX(h.round), getY(h.capital), 5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    });
                 }
 
                 if (btnCompSubmit) {
@@ -1213,11 +1753,24 @@
                         if (compRoundText) compRoundText.textContent = `${Math.min(engine.compState.round, engine.compState.maxRounds)} / ${engine.compState.maxRounds}`;
                         if (compCapitalText) compCapitalText.textContent = `Rp ${Math.round(res.capital / 1000000)} Juta`;
                         if (compLastProfitText) {
-                            compLastProfitText.textContent = `Rp ${Math.round(res.netProfit / 1000000)} Juta`;
-                            compLastProfitText.style.color = res.netProfit >= 0 ? '#16a34a' : '#dc2626';
+                            const isPos = res.netProfit >= 0;
+                            compLastProfitText.textContent = `${isPos ? '+' : ''}Rp ${Math.round(res.netProfit / 1000000)} Juta`;
+                            compLastProfitText.style.color = isPos ? '#16a34a' : '#dc2626';
                         }
 
                         drawCompChart();
+
+                        // Tactical clue box
+                        if (compTacticalClueBox) {
+                            compTacticalClueBox.style.display = 'block';
+                            if (compClueBadge) {
+                                compClueBadge.textContent = res.isWise ? '✅ MANAJEMEN EFISIEN' : '⚠️ KESALAHAN STRATEGI PABRIK';
+                                compClueBadge.className = `clue-badge ${res.isWise ? 'wise' : 'risky'}`;
+                            }
+                            if (compClueTitle) compClueTitle.textContent = res.diagnosisTitle;
+                            if (compClueDetail) compClueDetail.textContent = res.diagnosisDetail;
+                            if (compClueRealCase) compClueRealCase.textContent = res.realCase;
+                        }
 
                         if (compLogContent) {
                             compLogContent.innerHTML = `
@@ -1227,16 +1780,75 @@
 
                         if (res.isFinished) {
                             btnCompSubmit.disabled = true;
-                            alert(`🏁 Simulasi Persaingan Pasar Selesai!\n\nModal Akhir Pabrik: Rp ${Math.round(res.capital / 1000000)} Juta.\nStrategi harga yang kompetitif tanpa perang harga berdarah-darah adalah kunci keberlanjutan industri oligopoli!`);
+                            showCompEndgameScorecard(res.endgameSummary);
                         }
                     };
                 }
 
-                // --- GAME 3: THE MACRO POLICY SHOCK LAB ---
+                function showCompEndgameScorecard(summary) {
+                    if (!summary || !compEndgameCard) return;
+                    compEndgameCard.style.display = 'block';
+                    compEndgameCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                    if (compEndgameGradeBadge) {
+                        compEndgameGradeBadge.textContent = `GRADE ${summary.grade}`;
+                        compEndgameGradeBadge.style.background = summary.badgeColor;
+                    }
+                    if (compEndgameTitle) compEndgameTitle.textContent = summary.title;
+                    if (compEndgameEvalText) compEndgameEvalText.textContent = summary.evaluation;
+                    if (compEndgameFinalVal) compEndgameFinalVal.textContent = `Rp ${Math.round(summary.finalCapital / 1000000)} Juta`;
+                    if (compEndgameProfitSub) {
+                        const isPos = summary.totalProfit >= 0;
+                        compEndgameProfitSub.textContent = `${isPos ? '+' : ''}Rp ${Math.round(summary.totalProfit / 1000000)} Juta Laba Kumulatif`;
+                        compEndgameProfitSub.style.color = isPos ? '#16a34a' : '#dc2626';
+                    }
+                    if (compEndgameShareVal) compEndgameShareVal.textContent = `${summary.avgShare}%`;
+
+                    if (compRecapTableBody) {
+                        compRecapTableBody.innerHTML = '';
+                        summary.history.forEach(h => {
+                            const tr = document.createElement('tr');
+                            const isPos = h.netProfit >= 0;
+                            tr.innerHTML = `
+                                <td><strong>Putaran ${h.round}</strong></td>
+                                <td>Rp ${h.playerPrice.toLocaleString('id-ID')}</td>
+                                <td>Rp ${h.avgMarketPrice.toLocaleString('id-ID')}</td>
+                                <td>${h.playerQty.toLocaleString('id-ID')}</td>
+                                <td>${h.actualSold.toLocaleString('id-ID')}</td>
+                                <td style="color:${h.unsold > 0 ? '#dc2626' : '#16a34a'};">${h.unsold.toLocaleString('id-ID')}</td>
+                                <td style="color:${isPos ? '#16a34a' : '#dc2626'}; font-weight:700;">${isPos ? '+' : ''}Rp ${Math.round(h.netProfit/1000000)} Jt</td>
+                                <td><strong>Rp ${Math.round(h.capital/1000000)} Jt</strong></td>
+                                <td><span class="clue-tag ${h.isWise ? 'wise' : 'risky'}">${h.isWise ? '✓ Untung' : '✕ Tekor'}</span></td>
+                            `;
+                            compRecapTableBody.appendChild(tr);
+                        });
+                    }
+                }
+
+                function resetCompGameUI() {
+                    audio.playClick();
+                    engine.initCompGame();
+                    if (compEndgameCard) compEndgameCard.style.display = 'none';
+                    if (compTacticalClueBox) compTacticalClueBox.style.display = 'none';
+                    if (btnCompSubmit) btnCompSubmit.disabled = false;
+                    if (compRoundText) compRoundText.textContent = `1 / 5`;
+                    if (compCapitalText) compCapitalText.textContent = `Rp 150 Juta`;
+                    if (compLastProfitText) compLastProfitText.textContent = `-`;
+                    if (compLogContent) compLogContent.textContent = 'Atur target kapasitas dan harga jual Anda untuk Putaran 1, lalu klik PRODUKSI & JUAL!';
+                    updateCompBreakevenHUD();
+                    drawCompChart();
+                }
+
+                if (btnCompReplayEndgame) btnCompReplayEndgame.onclick = resetCompGameUI;
+
+                // ==============================================================
+                // GAME 3: THE MACRO POLICY SHOCK LAB (AD-AS)
+                // ==============================================================
                 const shockRoundText = document.getElementById('shockRoundText');
-                const shockGradeText = document.getElementById('shockGradeText');
+                const shockEyebrow = document.getElementById('shockEyebrow');
                 const shockTitle = document.getElementById('shockTitle');
                 const shockDesc = document.getElementById('shockDesc');
+                const shockTargetNote = document.getElementById('shockTargetNote');
                 const shockBiRateRange = document.getElementById('shockBiRateRange');
                 const shockBiRateVal = document.getElementById('shockBiRateVal');
                 const shockGovRange = document.getElementById('shockGovRange');
@@ -1244,8 +1856,19 @@
                 const shockTaxRange = document.getElementById('shockTaxRange');
                 const shockTaxVal = document.getElementById('shockTaxVal');
                 const btnShockExecute = document.getElementById('btnShockExecute');
+
                 const shockResultBox = document.getElementById('shockResultBox');
-                const shockResultContent = document.getElementById('shockResultContent');
+                const shockGradeBadge = document.getElementById('shockGradeBadge');
+                const shockGradeLabel = document.getElementById('shockGradeLabel');
+                const shockFeedbackSummary = document.getElementById('shockFeedbackSummary');
+                const shockSimInflation = document.getElementById('shockSimInflation');
+                const shockSimGrowth = document.getElementById('shockSimGrowth');
+                const shockPillar1Content = document.getElementById('shockPillar1Content');
+                const shockPillar2Content = document.getElementById('shockPillar2Content');
+                const shockPillar3Content = document.getElementById('shockPillar3Content');
+                const shockPillar4Content = document.getElementById('shockPillar4Content');
+                const btnShockRetryCurrent = document.getElementById('btnShockRetryCurrent');
+                const btnShockNextScenario = document.getElementById('btnShockNextScenario');
 
                 if (shockBiRateRange && shockBiRateVal) {
                     shockBiRateRange.oninput = () => shockBiRateVal.textContent = `${Number(shockBiRateRange.value).toFixed(2)}%`;
@@ -1261,18 +1884,31 @@
                     const s = engine.getShockScenario(round);
                     engine.shockState.currentShock = s;
                     if (shockRoundText) shockRoundText.textContent = `${round} / 4`;
+                    if (shockEyebrow) shockEyebrow.textContent = s.eyebrow;
                     if (shockTitle) shockTitle.textContent = s.title;
-                    if (shockDesc) shockDesc.textContent = `${s.desc} Target: ${s.target}`;
+                    if (shockDesc) shockDesc.textContent = s.desc;
+                    if (shockTargetNote) shockTargetNote.textContent = `🎯 Target Teknokratik: ${s.targetNote}`;
+
+                    // Reset controls to baseline
+                    shockBiRateRange.value = 6.0;
+                    shockBiRateVal.textContent = "6.00%";
+                    shockGovRange.value = 3200;
+                    shockGovVal.textContent = "Rp 3.200 T";
+                    shockTaxRange.value = 11.0;
+                    shockTaxVal.textContent = "11.0%";
+
                     if (shockResultBox) shockResultBox.style.display = 'none';
-                    drawShockChart();
+                    if (btnShockExecute) btnShockExecute.disabled = false;
+                    drawShockChart(round);
                 }
 
-                function drawShockChart() {
+                function drawShockChart(scenarioId = 1) {
                     const canvas = document.getElementById('shockChartCanvas');
                     if (!canvas || !canvas.getContext) return;
                     const ctx = canvas.getContext('2d');
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+                    // Grid
                     ctx.strokeStyle = '#e5e7eb';
                     ctx.lineWidth = 1;
                     for (let y = 30; y < canvas.height - 20; y += 40) {
@@ -1282,28 +1918,46 @@
                         ctx.stroke();
                     }
 
-                    // AD-AS Curve representation
+                    // Legend
+                    ctx.font = '11px sans-serif';
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillText('— Kurva AD (Permintaan Agregat)', 60, 20);
+                    ctx.fillStyle = '#0284c7';
+                    ctx.fillText('— Kurva SRAS (Penawaran Agregat)', 270, 20);
+                    ctx.fillStyle = '#16a34a';
+                    ctx.fillText('| LRAS (Output Potensial)', 480, 20);
+
+                    // LRAS Line (Vertical Green)
+                    ctx.strokeStyle = '#16a34a';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(canvas.width * 0.55, 35);
+                    ctx.lineTo(canvas.width * 0.55, canvas.height - 30);
+                    ctx.stroke();
+
+                    // Shift based on scenario
+                    let adShiftX = 0;
+                    let srasShiftY = 0;
+                    if (scenarioId === 1) srasShiftY = -35; // Supply Shock: SRAS shifted up/left
+                    if (scenarioId === 2) adShiftX = -50;   // Demand Shock: AD shifted left
+                    if (scenarioId === 3) srasShiftY = -20; // Fed rate shock: slight imported inflation shift
+                    if (scenarioId === 4) adShiftX = 45;    // Export boom: AD shifted right
+
+                    // AD Curve (Downward Sloping Red)
                     ctx.strokeStyle = '#dc2626';
                     ctx.lineWidth = 2.5;
                     ctx.beginPath();
-                    ctx.moveTo(80, 40);
-                    ctx.lineTo(canvas.width - 80, canvas.height - 40);
+                    ctx.moveTo(80 + adShiftX, 40);
+                    ctx.lineTo(canvas.width - 120 + adShiftX, canvas.height - 40);
                     ctx.stroke();
 
+                    // SRAS Curve (Upward Sloping Blue)
                     ctx.strokeStyle = '#0284c7';
                     ctx.lineWidth = 2.5;
                     ctx.beginPath();
-                    ctx.moveTo(80, canvas.height - 40);
-                    ctx.lineTo(canvas.width - 80, 40);
+                    ctx.moveTo(80, canvas.height - 40 + srasShiftY);
+                    ctx.lineTo(canvas.width - 120, 40 + srasShiftY);
                     ctx.stroke();
-
-                    // Text labels
-                    ctx.fillStyle = '#dc2626';
-                    ctx.font = '11px sans-serif';
-                    ctx.fillText('AD (Permintaan Agregat)', canvas.width - 200, canvas.height - 50);
-
-                    ctx.fillStyle = '#0284c7';
-                    ctx.fillText('SRAS (Penawaran Agregat)', canvas.width - 210, 50);
                 }
 
                 if (btnShockExecute) {
@@ -1317,36 +1971,112 @@
                         const res = engine.evaluatePolicyMix(shock, biRate, gov, tax);
                         if (!res) return;
 
-                        if (shockGradeText) {
-                            shockGradeText.textContent = `Skor: ${res.score} (${res.grade})`;
+                        if (shockResultBox) {
+                            shockResultBox.style.display = 'block';
+                            shockResultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                         }
 
-                        if (shockResultBox && shockResultContent) {
-                            shockResultBox.style.display = 'block';
-                            shockResultContent.innerHTML = `
-                                <strong>${res.grade}:</strong> ${res.feedback}<br>
-                                <span style="font-size:0.8rem; color:#4b5563;">Proyeksi Inflasi Akhir: <strong>${res.inflation.toFixed(2)}%</strong> | Pertumbuhan PDB: <strong>${res.growth.toFixed(2)}%</strong></span>
+                        if (shockGradeBadge) {
+                            shockGradeBadge.textContent = `GRADE ${res.grade}`;
+                            shockGradeBadge.style.background = res.badgeColor;
+                        }
+                        if (shockGradeLabel) shockGradeLabel.textContent = res.gradeLabel;
+                        if (shockFeedbackSummary) shockFeedbackSummary.textContent = res.feedbackSummary;
+                        if (shockSimInflation) shockSimInflation.textContent = `${res.simulatedInflation}%`;
+                        if (shockSimGrowth) shockSimGrowth.textContent = `${res.simulatedGrowth}%`;
+
+                        // Pilar 1 Content: Calibration vs Ideal
+                        if (shockPillar1Content) {
+                            shockPillar1Content.innerHTML = `
+                                <table class="lab-recap-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Instrumen Kebijakan</th>
+                                            <th>Pilihan Anda</th>
+                                            <th>Rekomendasi Ideal</th>
+                                            <th>Status Deviasi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Suku Bunga BI-Rate</strong></td>
+                                            <td style="color:#0284c7; font-weight:700;">${res.userInputs.biRate.toFixed(2)}%</td>
+                                            <td><strong>${res.optimalMix.biRate.toFixed(2)}%</strong></td>
+                                            <td>${Math.abs(res.userInputs.biRate - res.optimalMix.biRate) < 0.3 ? '<span class="clue-tag wise">✓ Presisi</span>' : '<span class="clue-tag risky">Deviasi</span>'}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Belanja Negara (G)</strong></td>
+                                            <td style="color:#16a34a; font-weight:700;">Rp ${res.userInputs.govSpending.toLocaleString('id-ID')} T</td>
+                                            <td><strong>Rp ${res.optimalMix.govSpending.toLocaleString('id-ID')} T</strong></td>
+                                            <td>${Math.abs(res.userInputs.govSpending - res.optimalMix.govSpending) < 150 ? '<span class="clue-tag wise">✓ Presisi</span>' : '<span class="clue-tag risky">Deviasi</span>'}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Tarif Pajak Efektif (T)</strong></td>
+                                            <td style="color:#7c3aed; font-weight:700;">${res.userInputs.taxRate.toFixed(1)}%</td>
+                                            <td><strong>${res.optimalMix.taxRate.toFixed(1)}%</strong></td>
+                                            <td>${Math.abs(res.userInputs.taxRate - res.optimalMix.taxRate) < 0.6 ? '<span class="clue-tag wise">✓ Presisi</span>' : '<span class="clue-tag risky">Deviasi</span>'}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             `;
                         }
 
-                        engine.shockState.round++;
-                        if (engine.shockState.round <= engine.shockState.maxRounds) {
-                            setTimeout(() => {
-                                loadShockScenario(engine.shockState.round);
-                            }, 3000);
-                        } else {
-                            btnShockExecute.disabled = true;
-                            alert('🏁 Seluruh 4 Skenario Guncangan Makroekonomi Telah Selesai Diuji! Bauran kebijakan moneter dan fiskal Anda telah teruji di hadapan guncangan nyata.');
+                        // Pilar 2 Content: Optimal Mix Label
+                        if (shockPillar2Content) {
+                            shockPillar2Content.innerHTML = `
+                                <div style="font-weight:700; font-size:0.92rem; color:#166534; margin-bottom:4px;">
+                                    ${escapeHtml(res.optimalMix.label)}
+                                </div>
+                                <div style="font-size:0.82rem; color:#14532d; line-height:1.45;">
+                                    Kombinasi ideal untuk skenario ini adalah <strong>BI-Rate ${res.optimalMix.biRate.toFixed(2)}%</strong>, 
+                                    <strong>Belanja APBN Rp ${res.optimalMix.govSpending.toLocaleString('id-ID')} Triliun</strong>, dan 
+                                    <strong>Tarif Pajak ${res.optimalMix.taxRate.toFixed(1)}%</strong>.
+                                </div>
+                            `;
+                        }
+
+                        // Pilar 3 Content: Why Theory
+                        if (shockPillar3Content) {
+                            shockPillar3Content.textContent = res.whyTheory;
+                        }
+
+                        // Pilar 4 Content: Historical Case Study
+                        if (shockPillar4Content) {
+                            shockPillar4Content.innerHTML = `
+                                <strong style="color:#92400e; display:block; margin-bottom:4px;">📌 ${escapeHtml(res.historicalCase.title)}</strong>
+                                <div>${escapeHtml(res.historicalCase.detail)}</div>
+                            `;
                         }
                     };
                 }
 
-                // Init subtabs initial render
+                if (btnShockRetryCurrent) {
+                    btnShockRetryCurrent.onclick = () => {
+                        audio.playClick();
+                        if (shockResultBox) shockResultBox.style.display = 'none';
+                        if (btnShockExecute) btnShockExecute.disabled = false;
+                    };
+                }
+
+                if (btnShockNextScenario) {
+                    btnShockNextScenario.onclick = () => {
+                        audio.playClick();
+                        engine.shockState.round++;
+                        if (engine.shockState.round <= engine.shockState.maxRounds) {
+                            loadShockScenario(engine.shockState.round);
+                        } else {
+                            alert('🏁 SELAMAT! Anda telah berhasil menuntaskan seluruh 4 Skenario Guncangan Makroekonomi AD-AS! Anda kini memahami bauran moneter dan fiskal kelas teknokrat.');
+                            engine.shockState.round = 1;
+                            loadShockScenario(1);
+                        }
+                    };
+                }
+
+                // Initial boot
                 loadShockScenario(1);
                 updateBubbleHUD();
                 setTimeout(drawBubbleChart, 150);
             }
-
             // ------------------------------------------------------------------
             // 4. TRIVIA QUEST 11 LEVELS CONTROLLER
             // ------------------------------------------------------------------

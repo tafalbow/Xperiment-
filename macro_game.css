@@ -1479,3 +1479,396 @@ html, body {
     flex-wrap: wrap;
     justify-content: center;
 }
+
+/* --------------------------------------------------------------------------
+ * LEVEL 12: LAB MEKANISME PASAR & EKSPERIMEN RICH STYLES
+ * -------------------------------------------------------------------------- */
+.lab-mission-card {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.mission-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mission-headline {
+    font-weight: 800;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+}
+
+.mission-subline {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.btn-toggle-mission {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-toggle-mission:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.mission-content {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border-hairline);
+}
+
+.mission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.mission-col {
+    background: #ffffff;
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+.mission-col-title {
+    font-weight: 800;
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    color: #0284c7;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #e0f2fe;
+    padding-bottom: 4px;
+}
+
+/* Valuation Strip */
+.lab-valuation-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-sm);
+    margin: 12px 0 10px;
+}
+
+.val-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+}
+
+.val-label {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+}
+
+.val-num {
+    color: var(--text-primary);
+}
+
+.ratio-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.phase-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 0.74rem;
+    background: #ffffff;
+    border: 1px solid var(--border-hairline);
+}
+
+/* Tactical Clue Box (Teori x Eksekusi) */
+.lab-tactical-clue-box {
+    background: #ffffff;
+    border: 1.5px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-top: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.clue-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.clue-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.clue-badge.wise {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.clue-badge.risky {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+.clue-body {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.clue-history-box {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #f0f9ff;
+    border-left: 3px solid #0284c7;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    color: #0c4a6e;
+    line-height: 1.45;
+}
+
+.clue-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+.clue-tag.wise { background: #dcfce7; color: #166534; }
+.clue-tag.risky { background: #fee2e2; color: #991b1b; }
+
+/* Endgame Scorecard Card */
+.lab-endgame-card {
+    background: #ffffff;
+    border: 2px solid var(--border-dark);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    margin-top: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.endgame-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-hairline);
+}
+
+.endgame-grade-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    background: #16a34a;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.endgame-title {
+    margin: 4px 0 2px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.endgame-subtitle {
+    margin: 0;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+}
+
+.endgame-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.endgame-stat-box {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.endgame-stat-box.highlight {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.endgame-stat-box .stat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+}
+
+.endgame-stat-box .stat-val {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 4px 0 2px;
+}
+
+.endgame-stat-box .stat-sub {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.lab-recap-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    text-align: left;
+    white-space: nowrap;
+    margin-top: 4px;
+}
+
+.lab-recap-table th {
+    background: var(--bg-subtle);
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--border-hairline);
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.lab-recap-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border-hairline);
+}
+
+.endgame-takeaway-box {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-sm);
+}
+
+/* Macro Policy Shock Lab Rich Debrief */
+.shock-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #991b1b;
+    text-transform: uppercase;
+}
+
+.shock-debrief-center {
+    background: #ffffff;
+    border: 1.5px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.shock-debrief-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-hairline);
+}
+
+.shock-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+
+@media (max-width: 768px) {
+    .shock-pillars-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.shock-pillar-card {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+}
+
+.shock-pillar-card.highlight {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.shock-pillar-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.shock-pillar-card.history-theme {
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.pillar-title {
+    font-weight: 800;
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding-bottom: 4px;
+}
+
+.pillar-body {
+    color: var(--text-primary);
+}
