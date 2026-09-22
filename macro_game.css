@@ -1649,6 +1649,12 @@ html, body {
     border: 1px solid #fca5a5;
 }
 
+.clue-badge.info {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #7dd3fc;
+}
+
 .clue-body {
     font-size: 0.84rem;
     color: var(--text-secondary);
@@ -1663,6 +1669,18 @@ html, body {
     border-radius: 3px;
     font-size: 0.78rem;
     color: #0c4a6e;
+    line-height: 1.45;
+}
+
+.clue-next-step-hint {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border: 1px solid var(--border-hairline);
+    border-left: 3px solid #0284c7;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    color: var(--text-primary);
     line-height: 1.45;
 }
 

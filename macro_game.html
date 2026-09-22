@@ -371,15 +371,18 @@
                         </div>
 
                         <!-- Step-by-Step Tactical Clue Box (Teori x Eksekusi Nyata) -->
-                        <div id="bubbleTacticalClueBox" class="lab-tactical-clue-box" style="display:none;">
+                        <div id="bubbleTacticalClueBox" class="lab-tactical-clue-box">
                             <div class="clue-header">
-                                <span id="bubbleClueBadge" class="clue-badge">✅ KEPUTUSAN TEPAT</span>
-                                <strong id="bubbleClueTitle" style="font-size:0.92rem; color:var(--text-primary);">Analisis Taktis Putaran</strong>
+                                <span id="bubbleClueBadge" class="clue-badge info">🎯 PANDUAN STRATEGIS PUTARAN 1</span>
+                                <strong id="bubbleClueTitle" style="font-size:0.92rem; color:var(--text-primary);">Fase 1: Akumulasi Nilai Wajar (Fair Value Accumulation)</strong>
                             </div>
-                            <div id="bubbleClueDetail" class="clue-body"></div>
+                            <div id="bubbleClueDetail" class="clue-body">
+                                <div>Harga Pasar saat ini <strong>Rp 63.000</strong> sangat dekat dengan Nilai Fundamental dividen <strong>Rp 60.000</strong> (Rasio: 1.05x). Saham memiliki hak 6 kuartal dividen. Pada fase awal ini, gelembung spekulatif belum terbentuk masif. Mengakumulasi saham (+2 lot) atau menahan (Hold) adalah keputusan rasional untuk mengamankan dividen tunai.</div>
+                                <div style="margin-top:8px; font-weight:600; color:#0284c7;">💡 Rekomendasi Taktis: Beli (+2 Lot) atau Tahan (Hold) untuk menikmati aliran dividen kuartal awal.</div>
+                            </div>
                             <div class="clue-history-box" id="bubbleClueHistoryBox">
                                 <span style="font-weight:700; color:#0369a1;">🏛️ Studi Kasus Sejarah Nyata:</span>
-                                <span id="bubbleClueRealCase"></span>
+                                <span id="bubbleClueRealCase">Teori Pasar Efisien (Eugene Fama, Nobel 2013) & Discounted Cash Flow (DCF): Pada fase pembukaan sebelum euforia spekulan, harga aset didukung penuh oleh estimasi arus kas dividen masa depan.</span>
                             </div>
                         </div>
 
@@ -567,15 +570,17 @@
                         </div>
 
                         <!-- Step-by-Step Managerial Clue Box (Teori x Eksekusi Nyata) -->
-                        <div id="compTacticalClueBox" class="lab-tactical-clue-box" style="display:none;">
+                        <div id="compTacticalClueBox" class="lab-tactical-clue-box">
                             <div class="clue-header">
-                                <span id="compClueBadge" class="clue-badge">✅ MANAJEMEN EFISIEN</span>
-                                <strong id="compClueTitle" style="font-size:0.92rem; color:var(--text-primary);">Laporan Diagnosa Manajerial</strong>
+                                <span id="compClueBadge" class="clue-badge info">🎯 PANDUAN MANAJERIAL PUTARAN 1</span>
+                                <strong id="compClueTitle" style="font-size:0.92rem; color:var(--text-primary);">Kalkulasi Biaya Impas (Break-Even) & Penetapan Harga Awal</strong>
                             </div>
-                            <div id="compClueDetail" class="clue-body"></div>
+                            <div id="compClueDetail" class="clue-body">
+                                <div>Pabrik memikul Biaya Tetap <strong>Rp 40 Juta / kuartal</strong> dan Biaya Variabel <strong>Rp 35.000 / unit</strong>. Jika Anda memproduksi 3.500 unit, Titik Impas (P_BE) adalah <strong>Rp 46.429 / unit</strong>. Menjual di bawah P_BE menjamin kerugian bersih (Bertrand Trap). Tetapkan harga di rentang Rp 55.000 - Rp 68.000 dengan kapasitas 3.000 - 4.500 unit untuk mencetak laba sehat!</div>
+                            </div>
                             <div class="clue-history-box" id="compClueHistoryBox">
                                 <span style="font-weight:700; color:#0369a1;">🏛️ Studi Kasus Industri Nyata:</span>
-                                <span id="compClueRealCase"></span>
+                                <span id="compClueRealCase">Analisis Cost-Volume-Profit (CVP) pada industri manufaktur: Memastikan volume produksi berada di atas margin of safety sebelum bersaing harga.</span>
                             </div>
                         </div>
 
@@ -1517,6 +1522,49 @@
                     });
                 }
 
+                function updateBubbleTacticalClue(round, res = null) {
+                    if (!bubbleTacticalClueBox) return;
+                    bubbleTacticalClueBox.style.display = 'block';
+
+                    if (!res) {
+                        const g = engine.getBubbleRoundGuidance(round || engine.bubbleState.round || 1);
+                        if (bubbleClueBadge) {
+                            bubbleClueBadge.textContent = g.badge;
+                            bubbleClueBadge.className = 'clue-badge info';
+                        }
+                        if (bubbleClueTitle) bubbleClueTitle.textContent = g.title;
+                        if (bubbleClueDetail) {
+                            bubbleClueDetail.innerHTML = `
+                                <div>${g.detail}</div>
+                                <div style="margin-top:8px; font-weight:600; color:#0284c7;">💡 ${g.actionHint}</div>
+                            `;
+                        }
+                        if (bubbleClueRealCase) bubbleClueRealCase.textContent = g.realCase;
+                    } else {
+                        if (bubbleClueBadge) {
+                            bubbleClueBadge.textContent = res.isWise ? '✅ KEPUTUSAN TEPAT' : '⚠️ KEPUTUSAN BERISIKO / KELIRU';
+                            bubbleClueBadge.className = `clue-badge ${res.isWise ? 'wise' : 'risky'}`;
+                        }
+                        if (bubbleClueTitle) bubbleClueTitle.textContent = res.clueTitle;
+
+                        if (bubbleClueDetail) {
+                            let nextHintHtml = '';
+                            if (!res.isFinished) {
+                                const nextR = engine.bubbleState.round;
+                                const nextG = engine.getBubbleRoundGuidance(nextR);
+                                nextHintHtml = `
+                                    <div class="clue-next-step-hint">
+                                        <span style="font-weight:700; color:#0284c7;">👉 Petunjuk Menuju Putaran ${nextR}:</span>
+                                        <strong>${nextG.title}</strong> — ${nextG.detail}
+                                    </div>
+                                `;
+                            }
+                            bubbleClueDetail.innerHTML = `<div>${res.clueDetail}</div>${nextHintHtml}`;
+                        }
+                        if (bubbleClueRealCase) bubbleClueRealCase.textContent = res.realCase;
+                    }
+                }
+
                 function handleBubbleAction(action) {
                     audio.playClick();
                     const res = engine.playBubbleRound(action);
@@ -1525,17 +1573,8 @@
                     updateBubbleHUD();
                     drawBubbleChart();
 
-                    // Show Step-by-Step Tactical Clue
-                    if (bubbleTacticalClueBox) {
-                        bubbleTacticalClueBox.style.display = 'block';
-                        if (bubbleClueBadge) {
-                            bubbleClueBadge.textContent = res.isWise ? '✅ KEPUTUSAN TEPAT' : '⚠️ KEPUTUSAN BERISIKO / KELIRU';
-                            bubbleClueBadge.className = `clue-badge ${res.isWise ? 'wise' : 'risky'}`;
-                        }
-                        if (bubbleClueTitle) bubbleClueTitle.textContent = res.clueTitle;
-                        if (bubbleClueDetail) bubbleClueDetail.textContent = res.clueDetail;
-                        if (bubbleClueRealCase) bubbleClueRealCase.textContent = res.realCase;
-                    }
+                    // Step-by-Step Tactical Clue (Always visible)
+                    updateBubbleTacticalClue(res.round, res);
 
                     // Update log
                     if (bubbleLogContent) {
@@ -1597,8 +1636,9 @@
                     audio.playClick();
                     engine.initBubbleGame();
                     if (bubbleEndgameCard) bubbleEndgameCard.style.display = 'none';
-                    if (bubbleTacticalClueBox) bubbleTacticalClueBox.style.display = 'none';
-                    if (bubbleLogContent) bubbleLogContent.textContent = 'Permainan bursa direset. Tentukan keputusan Anda untuk Putaran 1!';
+                    updateBubbleTacticalClue(1, null);
+                    if (bubbleTacticalClueBox) bubbleTacticalClueBox.style.display = 'block';
+                    if (bubbleLogContent) bubbleLogContent.textContent = 'Permainan bursa direset. Modal kas Rp 500.000 dan 5 lot saham. Amati panduan taktis di atas lalu tentukan keputusan Putaran 1!';
                     updateBubbleHUD();
                     drawBubbleChart();
                 }
@@ -1742,6 +1782,43 @@
                     });
                 }
 
+                function updateCompTacticalClue(round, res = null) {
+                    if (!compTacticalClueBox) return;
+                    compTacticalClueBox.style.display = 'block';
+
+                    if (!res) {
+                        const g = engine.getCompRoundGuidance(round || engine.compState.round || 1);
+                        if (compClueBadge) {
+                            compClueBadge.textContent = g.badge;
+                            compClueBadge.className = 'clue-badge info';
+                        }
+                        if (compClueTitle) compClueTitle.textContent = g.title;
+                        if (compClueDetail) compClueDetail.innerHTML = `<div>${g.detail}</div>`;
+                        if (compClueRealCase) compClueRealCase.textContent = g.realCase;
+                    } else {
+                        if (compClueBadge) {
+                            compClueBadge.textContent = res.isWise ? '✅ MANAJEMEN EFISIEN' : '⚠️ KESALAHAN STRATEGI PABRIK';
+                            compClueBadge.className = `clue-badge ${res.isWise ? 'wise' : 'risky'}`;
+                        }
+                        if (compClueTitle) compClueTitle.textContent = res.diagnosisTitle;
+                        if (compClueDetail) {
+                            let nextHintHtml = '';
+                            if (!res.isFinished) {
+                                const nextR = engine.compState.round;
+                                const nextG = engine.getCompRoundGuidance(nextR);
+                                nextHintHtml = `
+                                    <div class="clue-next-step-hint">
+                                        <span style="font-weight:700; color:#0284c7;">👉 Petunjuk Menuju Putaran ${nextR}:</span>
+                                        <strong>${nextG.title}</strong> — ${nextG.detail}
+                                    </div>
+                                `;
+                            }
+                            compClueDetail.innerHTML = `<div>${res.diagnosisDetail}</div>${nextHintHtml}`;
+                        }
+                        if (compClueRealCase) compClueRealCase.textContent = res.realCase;
+                    }
+                }
+
                 if (btnCompSubmit) {
                     btnCompSubmit.onclick = () => {
                         audio.playClick();
@@ -1760,17 +1837,8 @@
 
                         drawCompChart();
 
-                        // Tactical clue box
-                        if (compTacticalClueBox) {
-                            compTacticalClueBox.style.display = 'block';
-                            if (compClueBadge) {
-                                compClueBadge.textContent = res.isWise ? '✅ MANAJEMEN EFISIEN' : '⚠️ KESALAHAN STRATEGI PABRIK';
-                                compClueBadge.className = `clue-badge ${res.isWise ? 'wise' : 'risky'}`;
-                            }
-                            if (compClueTitle) compClueTitle.textContent = res.diagnosisTitle;
-                            if (compClueDetail) compClueDetail.textContent = res.diagnosisDetail;
-                            if (compClueRealCase) compClueRealCase.textContent = res.realCase;
-                        }
+                        // Tactical clue box (Always visible)
+                        updateCompTacticalClue(res.round, res);
 
                         if (compLogContent) {
                             compLogContent.innerHTML = `
@@ -1829,12 +1897,13 @@
                     audio.playClick();
                     engine.initCompGame();
                     if (compEndgameCard) compEndgameCard.style.display = 'none';
-                    if (compTacticalClueBox) compTacticalClueBox.style.display = 'none';
+                    updateCompTacticalClue(1, null);
+                    if (compTacticalClueBox) compTacticalClueBox.style.display = 'block';
                     if (btnCompSubmit) btnCompSubmit.disabled = false;
                     if (compRoundText) compRoundText.textContent = `1 / 5`;
                     if (compCapitalText) compCapitalText.textContent = `Rp 150 Juta`;
                     if (compLastProfitText) compLastProfitText.textContent = `-`;
-                    if (compLogContent) compLogContent.textContent = 'Atur target kapasitas dan harga jual Anda untuk Putaran 1, lalu klik PRODUKSI & JUAL!';
+                    if (compLogContent) compLogContent.textContent = 'Pabrik siap beroperasi. Atur target kapasitas dan harga jual Anda untuk Putaran 1, lalu klik PRODUKSI & JUAL!';
                     updateCompBreakevenHUD();
                     drawCompChart();
                 }
@@ -2072,9 +2141,25 @@
                     };
                 }
 
+                window.refreshEconGamesDashboard = function() {
+                    updateBubbleHUD();
+                    drawBubbleChart();
+                    if (!engine.bubbleState.history || engine.bubbleState.history.length <= 1) {
+                        updateBubbleTacticalClue(engine.bubbleState.round, null);
+                    }
+                    updateCompBreakevenHUD();
+                    drawCompChart();
+                    if (!engine.compState.history || engine.compState.history.length === 0) {
+                        updateCompTacticalClue(engine.compState.round, null);
+                    }
+                };
+
                 // Initial boot
                 loadShockScenario(1);
                 updateBubbleHUD();
+                updateBubbleTacticalClue(1, null);
+                updateCompBreakevenHUD();
+                updateCompTacticalClue(1, null);
                 setTimeout(drawBubbleChart, 150);
             }
             // ------------------------------------------------------------------
@@ -2271,6 +2356,9 @@
                     if (isLabUnlocked) {
                         if (econGamesActiveScreen) econGamesActiveScreen.style.display = 'block';
                         if (econGamesLockedScreen) econGamesLockedScreen.style.display = 'none';
+                        if (typeof window.refreshEconGamesDashboard === 'function') {
+                            setTimeout(window.refreshEconGamesDashboard, 50);
+                        }
                     } else {
                         if (econGamesActiveScreen) econGamesActiveScreen.style.display = 'none';
                         if (econGamesLockedScreen) econGamesLockedScreen.style.display = 'flex';

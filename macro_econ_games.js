@@ -141,6 +141,69 @@ class EconomicsGamesEngine {
         };
     }
 
+    getBubbleRoundGuidance(round = null) {
+        const r = round !== null ? round : this.bubbleState.round;
+        const fund = this.getCurrentBubbleFundamental(r);
+        const price = this.getCurrentBubbleMarketPrice(r);
+        const ratio = (fund > 0 ? (price / fund) : 1).toFixed(2);
+
+        if (r === 1) {
+            return {
+                round: 1,
+                badge: "🎯 PANDUAN STRATEGIS PUTARAN 1",
+                title: "Fase 1: Akumulasi Nilai Wajar (Fair Value Accumulation)",
+                detail: `Harga Pasar saat ini <strong>Rp ${price.toLocaleString('id-ID')}</strong> sangat dekat dengan Nilai Fundamental dividen <strong>Rp ${fund.toLocaleString('id-ID')}</strong> (Rasio: ${ratio}x). Saham memiliki hak 6 kuartal dividen. Pada fase awal ini, gelembung spekulatif belum terbentuk masif. Mengakumulasi saham (+2 lot) atau menahan (Hold) adalah keputusan rasional untuk mengamankan dividen tunai.`,
+                realCase: "Teori Pasar Efisien (Eugene Fama, Nobel 2013) & Discounted Cash Flow (DCF): Pada fase pembukaan sebelum euforia spekulan, harga aset didukung penuh oleh estimasi arus kas dividen masa depan.",
+                actionHint: "Rekomendasi Taktis: Beli (+2 Lot) atau Tahan (Hold) untuk menikmati aliran dividen kuartal awal."
+            };
+        } else if (r === 2) {
+            return {
+                round: 2,
+                badge: "🎯 PANDUAN STRATEGIS PUTARAN 2",
+                title: "Fase 2: Gelembung Spekulatif Mulai Tumbuh (Incipient Bubble)",
+                detail: `Nilai Fundamental turun ke <strong>Rp ${fund.toLocaleString('id-ID')}</strong> (karena 1 kuartal dividen sudah cair), namun Harga Pasar naik ke <strong>Rp ${price.toLocaleString('id-ID')}</strong> (Rasio: ${ratio}x). Spekulan momentum mulai masuk memompa harga di atas nilai wajar dividen. Mengakumulasi saham masih bisa ditoleransi, namun bersiaplah mengamati pelebaran rasio gelembung!`,
+                realCase: "Minsky Credit Expansion Phase: Aliran likuiditas spekulatif mulai mendistorsi harga di atas kapasitas fundamental riil aset.",
+                actionHint: "Rekomendasi Taktis: Tahan (Hold) atau Beli dengan kewaspadaan tinggi terhadap kenaikan rasio harga."
+            };
+        } else if (r === 3) {
+            return {
+                round: 3,
+                badge: "🎯 PANDUAN STRATEGIS PUTARAN 3",
+                title: "Fase 3: Euforia Spekulasi Menguat (Greater Fool Phenomenon)",
+                detail: `Harga Pasar melonjak ke <strong>Rp ${price.toLocaleString('id-ID')}</strong> sementara Nilai Fundamental menyusut ke <strong>Rp ${fund.toLocaleString('id-ID')}</strong> (Rasio: ${ratio}x!). Pasar kini dikendalikan emosi keserakahan (*greed*). Jangan membeli di fase ini! Ini adalah jendela awal terbaik untuk mengamankan keuntungan (Take Profit) dengan menjual saham!`,
+                realCase: "Greater Fool Theory & Keynesian Beauty Contest: Spekulan membeli bukan karena dividen, melainkan bertaruh ada investor lain yang bersedia membeli lebih mahal esok hari.",
+                actionHint: "Rekomendasi Taktis: Jual (Take Profit) sebagian atau Tahan jika ingin mengincar puncak di putaran 4."
+            };
+        } else if (r === 4) {
+            return {
+                round: 4,
+                badge: "🚨 PANDUAN STRATEGIS PUTARAN 4 (ZONA KRITIS)",
+                title: "Fase 4: Puncak Gelembung Ekstrem (The Bubble Peak / Euphoria Mania)",
+                detail: `Harga Pasar <strong>Rp ${price.toLocaleString('id-ID')}</strong> membumbung tinggi melampaui fundamental <strong>Rp ${fund.toLocaleString('id-ID')}</strong> (Rasio: ${ratio}x!). Ini adalah titik kulminasi bahaya tertinggi! Putaran 5 dipastikan akan mengalami kehancuran harga (CRASH!). Keputusan paling brilian: SEGERA JUAL SELURUH SAHAM (Take Profit) sekarang sebelum modal Anda terbakar!`,
+                realCase: "Puncak Dot-com Bubble Maret 2000 & South Sea Bubble 1720: Investor cerdas mengunci kas tunai (*cash is king*); mereka yang serakah menolak menjual terancam bangkrut total.",
+                actionHint: "Rekomendasi Mutlak: JUAL (-2 Lot)! Kunci kekayaan bersih Anda ke dalam kas tunai sebelum pasar ambruk!"
+            };
+        } else if (r === 5) {
+            return {
+                round: 5,
+                badge: "⚡ PANDUAN STRATEGIS PUTARAN 5 (CRASH / MELETUS)",
+                title: "Fase 5: BUBBLE BURST! (Minsky Moment & Panic Selling)",
+                detail: `Gelembung resmi meletus! Harga pasar anjlok tajam ke <strong>Rp ${price.toLocaleString('id-ID')}</strong>. Kepanikan jual melanda seluruh bursa. Jika Anda masih memegang saham, amankan sisa modal dengan menjual (Cut Loss), jangan pernah mencoba membeli (*menangkap pisau jatuh*) karena putaran 6 adalah fase likuidasi akhir!`,
+                realCase: "Minsky Moment & Black Monday 1987: Likuiditas pasar mengering seketika, harga anjlok drastis, dan penjual panik membuang aset pada harga berapa pun.",
+                actionHint: "Rekomendasi Taktis: JUAL sisa saham Anda untuk menyelamatkan kas, atau Tahan jika sisa sedikit demi dividen sisa."
+            };
+        } else {
+            return {
+                round: 6,
+                badge: "🏁 PANDUAN STRATEGIS PUTARAN 6 (LIKUIDASI AKHIR)",
+                title: "Fase 6: Penutupan Bursa & Likuidasi Aset (Menuju Rp 0)",
+                detail: `Ini adalah putaran terakhir bursa. Setelah dividen putaran ini cair, seluruh saham akan kehilangan nilainya (menjadi <strong>Rp 0</strong>) karena masa edar aset telah berakhir. Jual seluruh sisa saham Anda jika masih ada untuk mengonversi seluruh nilai buku menjadi kas tunai!`,
+                realCase: "Likuidasi Kontrak Derivatif / Aset Berbatas Waktu: Seluruh nilai waktu (*time value*) habis saat masa jatuh tempo tercapai.",
+                actionHint: "Rekomendasi Taktis: Jual seluruh sisa kepemilikan saham Anda sebelum likuidasi aset ditutup."
+            };
+        }
+    }
+
     playBubbleRound(action) {
         if (this.bubbleState.isFinished) return null;
 
@@ -349,6 +412,51 @@ class EconomicsGamesEngine {
         // P_BE = MC + (FC / Q)
         const bePrice = this.compState.marginalCost + Math.round(this.compState.fixedCost / q);
         return bePrice;
+    }
+
+    getCompRoundGuidance(round = null) {
+        const r = round !== null ? round : this.compState.round;
+        if (r === 1) {
+            return {
+                round: 1,
+                badge: "🎯 PANDUAN MANAJERIAL PUTARAN 1",
+                title: "Kalkulasi Biaya Impas (Break-Even) & Penetapan Harga Awal",
+                detail: "Pabrik memikul Biaya Tetap <strong>Rp 40 Juta / kuartal</strong> dan Biaya Variabel <strong>Rp 35.000 / unit</strong>. Jika Anda memproduksi 3.500 unit, Titik Impas (P_BE) adalah <strong>Rp 46.429 / unit</strong>. Menjual di bawah P_BE menjamin kerugian bersih (Bertrand Trap). Tetapkan harga di rentang Rp 55.000 - Rp 68.000 dengan kapasitas 3.000 - 4.500 unit untuk mencetak laba sehat!",
+                realCase: "Analisis Cost-Volume-Profit (CVP) pada industri manufaktur: Memastikan volume produksi berada di atas margin of safety sebelum bersaing harga."
+            };
+        } else if (r === 2) {
+            return {
+                round: 2,
+                badge: "🎯 PANDUAN MANAJERIAL PUTARAN 2",
+                title: "Respons terhadap Gerakan Harga Rival Oligopoli",
+                detail: "Amati rata-rata harga pasar dari 3 kompetitor di putaran lalu. Jika Anda mengalami inventori menumpuk, pertimbangkan sedikit menurunkan harga atau memangkas kapasitas produksi agar biaya variabel tidak terbuang sia-sia.",
+                realCase: "Model Oligopoli Cournot & Bertrand: Penyesuaian kuantitas produksi berdasarkan ekspektasi reaksi pesaing di pasar terkonsentrasi."
+            };
+        } else if (r === 3) {
+            return {
+                round: 3,
+                badge: "🎯 PANDUAN MANAJERIAL PUTARAN 3",
+                title: "Optimalisasi Skala Ekonomi Pabrik",
+                detail: "Menaikkan kuantitas produksi (misal ke 4.000 - 5.000 unit) akan menekan Biaya Tetap per unit (economies of scale), menurunkan Titik Impas. Namun pastikan harga jual cukup kompetitif agar seluruh kapasitas terserap pasar!",
+                realCase: "Skala Ekonomis Manufaktur (Economies of Scale): Menurunkan kurva biaya rata-rata (ATC) untuk menciptakan keunggulan biaya terhadap pesaing."
+            };
+        } else if (r === 4) {
+            return {
+                round: 4,
+                badge: "🎯 PANDUAN MANAJERIAL PUTARAN 4",
+                title: "Pertahanan Pangsa Pasar vs Profitabilitas",
+                detail: "Jangan terpancing perang harga ekstrem jika rival membanting harga di bawah biaya produksi mereka. Pertahankan marjin sehat dan biarkan rival menanggung kerugian kapasitas mereka sendiri.",
+                realCase: "Kedisiplinan Harga Oligopoli: Menghindari *price war* yang saling merugikan (*mutually destructive competition*)."
+            };
+        } else {
+            return {
+                round: 5,
+                badge: "🏁 PANDUAN MANAJERIAL PUTARAN 5",
+                title: "Putaran Final: Maksimalkan Akumulasi Kas & Modal Bersih",
+                detail: "Putaran penutup! Pastikan seluruh unit yang diproduksi habis terjual agar modal kerja tidak membeku. Pasang kombinasi kapasitas dan harga yang paling teruji untuk mengunci Grade A!",
+                realCase: "Manajemen Modal Kerja Akhir Periode: Likuiditas kas dan optimalisasi sirkulasi aset lancar."
+            };
+        }
     }
 
     playCompRound(playerQty, playerPrice) {
