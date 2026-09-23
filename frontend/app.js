@@ -23,7 +23,7 @@ import { CustomChartStudio } from './components/custom_chart_studio.js';
 import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.2.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
-import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.50.0';
+import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.51.0';
 
 class App {
   constructor() {

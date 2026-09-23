@@ -28,7 +28,7 @@ def get_supported_years():
 
 @router.get("/api/apbn-eval/summary")
 def get_evaluation_summary(
-    year: int = Query(2025, ge=2020, le=2026, description="Tahun anggaran (2020 - 2026)"),
+    year: int = Query(2026, ge=2020, le=2026, description="Tahun anggaran (2020 - 2026)"),
     unit: str = Query("TRILLION", description="Satuan nilai: TRILLION (Rp T) atau BILLION (Rp M)"),
     start_month: int = Query(1, ge=1, le=12, description="Bulan mulai (1 - 12)"),
     end_month: Optional[int] = Query(None, ge=1, le=12, description="Bulan selesai (1 - 12)")
@@ -45,7 +45,7 @@ def get_evaluation_summary(
 
 @router.get("/api/apbn-eval/matrix")
 def get_evaluation_matrix(
-    year: int = Query(2025, ge=2020, le=2026, description="Tahun anggaran (2020 - 2026)"),
+    year: int = Query(2026, ge=2020, le=2026, description="Tahun anggaran (2020 - 2026)"),
     category: str = Query("ALL", description="Filter kategori: ALL, PENDAPATAN, BELANJA, KESEIMBANGAN, PEMBIAYAAN"),
     unit: str = Query("TRILLION", description="Satuan nilai: TRILLION atau BILLION"),
     q: Optional[str] = Query(None, description="Pencarian nama pos anggaran atau kode akun"),
@@ -64,7 +64,7 @@ def get_evaluation_matrix(
 
 @router.get("/api/apbn-eval/trajectory")
 def get_trajectory_series(
-    year: int = Query(2025, ge=2020, le=2026, description="Tahun anggaran"),
+    year: int = Query(2026, ge=2020, le=2026, description="Tahun anggaran"),
     item_id: str = Query("REV_TOTAL", description="ID Pos Anggaran (contoh: REV_TOTAL, EXP_TOTAL, REV_TAX, EXP_BPP, DEFISIT_ANGGARAN)"),
     unit: str = Query("TRILLION", description="Satuan nilai: TRILLION atau BILLION")
 ):
@@ -80,7 +80,7 @@ def get_trajectory_series(
 
 @router.get("/api/apbn-eval/export")
 def export_evaluation_data(
-    year: int = Query(2025, ge=2020, le=2026),
+    year: int = Query(2026, ge=2020, le=2026),
     unit: str = Query("TRILLION", description="TRILLION atau BILLION"),
     format: str = Query("xlsx", description="Format unduhan: xlsx atau csv")
 ):

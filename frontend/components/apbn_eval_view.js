@@ -11,7 +11,7 @@ export class ApbnEvalView {
   constructor(containerId = 'apbn-eval-view-container') {
     this.containerId = containerId;
     this.container = document.getElementById(containerId);
-    this.selectedYear = 2025;
+    this.selectedYear = 2026;
     this.selectedUnit = 'TRILLION'; // 'TRILLION' | 'BILLION'
     this.selectedCategory = 'ALL';  // 'ALL' | 'PENDAPATAN' | 'BELANJA' | 'KESEIMBANGAN' | 'PEMBIAYAAN'
     this.selectedChartItem = 'REV_TOTAL';
@@ -20,7 +20,7 @@ export class ApbnEvalView {
     // Filter Waktu & Komparasi Kustom
     this.timePreset = 'YTD'; // 'YTD' | 'Q1' | 'S1' | 'Q3' | 'FULL' | 'CUSTOM'
     this.startMonth = 1;
-    this.endMonth = 3; // Disinkronkan dengan latest published month tahun berjalan
+    this.endMonth = 8; // Disinkronkan dengan latest published month tahun berjalan (Agustus 2026)
     this.showYoYComparison = false;
 
     this.yearsList = [];
@@ -67,7 +67,7 @@ export class ApbnEvalView {
       if (curYrCfg && curYrCfg.latest_published_month) {
         this.endMonth = parseInt(curYrCfg.latest_published_month.replace('M', ''), 10);
       } else {
-        this.endMonth = 12;
+        this.endMonth = 8;
       }
 
       // 2. Fetch summary, matrix, trajectory concurrently
@@ -113,8 +113,8 @@ export class ApbnEvalView {
     const s = this.summaryData || {};
     const tf = this.matrixData?.time_filter || {};
     const curYrCfg = this.yearsList?.find(y => y.year === this.selectedYear);
-    const maxM = curYrCfg?.latest_published_month ? parseInt(curYrCfg.latest_published_month.replace('M', ''), 10) : 3;
-    const latestName = s.latest_month_name || 'Maret';
+    const maxM = curYrCfg?.latest_published_month ? parseInt(curYrCfg.latest_published_month.replace('M', ''), 10) : 8;
+    const latestName = s.latest_month_name || 'Agustus';
 
     return `
       <div class="time-filter-toolbar flex flex-col xl:flex-row xl:items-center justify-between gap-2.5 text-xs font-mono">
@@ -260,11 +260,11 @@ export class ApbnEvalView {
 
     const tf = this.matrixData?.time_filter || {};
     const startMName = tf.start_month_name || 'Januari';
-    const endMName = tf.end_month_name || s.latest_month_name || 'Maret';
+    const endMName = tf.end_month_name || s.latest_month_name || 'Agustus';
     const isCustomTime = tf.is_custom_period;
     const periodLabel = tf.period_label || `${startMName} – ${endMName}`;
     const periodShortLabel = tf.short_period_label || (isCustomTime ? `M${this.startMonth}-M${this.endMonth}` : `YTD (${s.latest_month})`);
-    const linearPct = tf.linear_pct || 25.0;
+    const linearPct = tf.linear_pct || 66.7;
 
     // Quick chart buttons definition
     const chartQuickItems = [

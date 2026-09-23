@@ -49,6 +49,20 @@ def test_evaluation_summary():
     data = res.json()
     assert data["kpi"]["revenue"]["apbn"] == kpi25["revenue"]["apbn"]
 
+    # 2026 (Running year up to August)
+    s26 = ApbnEvalService.get_evaluation_summary(2026, "TRILLION")
+    assert s26["status"] == "SUCCESS"
+    assert s26["year"] == 2026
+    assert s26["latest_month"] == "M08"
+    assert s26["latest_month_name"] == "Agustus"
+    assert s26["time_filter"]["end_month"] == 8
+    assert s26["time_filter"]["num_months"] == 8
+    kpi26 = s26["kpi"]
+    assert kpi26["revenue"]["apbn"] == 3225.0
+    assert kpi26["expenditure"]["apbn"] == 3605.0
+    assert kpi26["revenue"]["pct_apbn"] > 50.0  # ~66% through August
+    assert kpi26["revenue"]["pct_target_period"] > 90.0  # ~99% on track
+
 
 def test_evaluation_matrix_structure():
     """Verify detailed matrix with 12 monthly columns and YTD."""
@@ -56,6 +70,19 @@ def test_evaluation_matrix_structure():
     assert matrix["status"] == "SUCCESS"
     rows = matrix["rows"]
     assert len(rows) >= 20
+
+    # Check 2026 matrix up to August
+    m26 = ApbnEvalService.get_evaluation_matrix(2026, "ALL", "TRILLION")
+    assert m26["latest_month"] == "M08"
+    assert m26["latest_month_name"] == "Agustus"
+    rev26 = next(r for r in m26["rows"] if r["id"] == "REV_TOTAL")
+    # Verify M01 - M08 are OBSERVED and M09 - M12 are PROGNOSA
+    assert rev26["monthly_status"]["M08"] == "OBSERVED"
+    assert rev26["monthly_status"]["M09"] == "PROGNOSA"
+    assert rev26["monthly_status"]["M12"] == "PROGNOSA"
+    # YTD actual should equal sum of M01 through M08
+    sum_m01_m08 = round(sum(rev26["monthly"][f"M{i:02d}"] for i in range(1, 9)), 2)
+    assert abs(rev26["ytd_actual"] - sum_m01_m08) < 0.1
 
     # Check REV_TOTAL row
     rev_row = next(r for r in rows if r["id"] == "REV_TOTAL")

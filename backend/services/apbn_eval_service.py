@@ -75,17 +75,17 @@ class ApbnEvalService:
             "gdp_nominal": 22150.0
         },
         2025: {
-            "status": "provisional",
-            "status_label": "Tahun Berjalan (APBN KiTa)",
-            "legal_doc": "UU No. 62/2024 (APBN 2025) & Laporan Bulanan APBN KiTa Kemenkeu RI 2025",
-            "latest_published_month": "M03", # Published through Q1
+            "status": "audited",
+            "status_label": "Audited BPK RI / APBN KiTa Des",
+            "legal_doc": "UU No. 62/2024 (APBN 2025) & Laporan Bulanan APBN KiTa Edisi Desember 2025",
+            "latest_published_month": "M12",
             "gdp_nominal": 23800.0
         },
         2026: {
-            "status": "budget",
-            "status_label": "Target & Pagu Berjalan (APBN KiTa)",
-            "legal_doc": "Nota Keuangan RAPBN 2026 & RUU APBN TA 2026 Kemenkeu RI",
-            "latest_published_month": "M02", # Published through Feb
+            "status": "provisional",
+            "status_label": "Tahun Berjalan (APBN KiTa)",
+            "legal_doc": "UU No. 18/2025 (APBN 2026) & Laporan Bulanan APBN KiTa Kemenkeu RI Edisi Agustus 2026",
+            "latest_published_month": "M08", # Realisasi resmi sampai bulan Agustus 2026
             "gdp_nominal": 25400.0
         }
     }
@@ -589,7 +589,7 @@ class ApbnEvalService:
                 "status_label": cfg["status_label"],
                 "legal_doc": cfg["legal_doc"],
                 "latest_published_month": cfg["latest_published_month"],
-                "is_running_year": yr in [2025, 2026]
+                "is_running_year": yr == 2026
             })
         return res
 
@@ -600,7 +600,7 @@ class ApbnEvalService:
         Target RAPBN (Nota Keuangan), Target UU APBN, Realisasi Bulanan M01-M12, dan YTD.
         Nilai disimpan dalam basis Triliun Rupiah (Rp T).
         """
-        cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2025])
+        cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2026])
         latest_m = cfg["latest_published_month"]
         latest_idx = int(latest_m.replace("M", ""))
 
@@ -911,7 +911,7 @@ class ApbnEvalService:
         ]
 
         rows: List[Dict[str, Any]] = []
-        is_running_year = year in [2025, 2026]
+        is_running_year = (year == 2026)
 
         for item in raw_items:
             weights = item["weights"]
@@ -1077,7 +1077,7 @@ class ApbnEvalService:
     @classmethod
     def get_evaluation_summary(
         cls,
-        year: int = 2025,
+        year: int = 2026,
         unit: str = "TRILLION",
         start_month: int = 1,
         end_month: Optional[int] = None
@@ -1089,7 +1089,7 @@ class ApbnEvalService:
         """
         div, unit_label = cls._get_unit_multiplier(unit)
         rows = cls._get_base_dataset(year)
-        cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2025])
+        cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2026])
         latest_m = cfg["latest_published_month"]
         latest_idx = int(latest_m.replace("M", ""))
         gdp = cfg["gdp_nominal"]
@@ -1214,7 +1214,7 @@ class ApbnEvalService:
     @classmethod
     def get_evaluation_matrix(
         cls,
-        year: int = 2025,
+        year: int = 2026,
         category: str = "ALL",
         unit: str = "TRILLION",
         search_query: Optional[str] = None,
@@ -1228,7 +1228,7 @@ class ApbnEvalService:
         """
         div, unit_label = cls._get_unit_multiplier(unit)
         base_rows = cls._get_base_dataset(year)
-        cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2025])
+        cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2026])
         latest_m = cfg["latest_published_month"]
         latest_idx = int(latest_m.replace("M", ""))
 
@@ -1347,7 +1347,7 @@ class ApbnEvalService:
     @classmethod
     def get_trajectory_series(
         cls,
-        year: int = 2025,
+        year: int = 2026,
         item_id: str = "REV_TOTAL",
         unit: str = "TRILLION"
     ) -> Dict[str, Any]:
@@ -1364,7 +1364,7 @@ class ApbnEvalService:
         prior_year = max(2020, year - 1)
         prior_rows = cls._get_base_dataset(prior_year)
 
-        cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2025])
+        cfg = cls.YEARS_CONFIG.get(year, cls.YEARS_CONFIG[2026])
         latest_m = cfg["latest_published_month"]
         latest_idx = int(latest_m.replace("M", ""))
 
@@ -1449,7 +1449,7 @@ class ApbnEvalService:
         }
 
     @classmethod
-    def generate_excel_matrix(cls, year: int = 2025, unit: str = "TRILLION") -> bytes:
+    def generate_excel_matrix(cls, year: int = 2026, unit: str = "TRILLION") -> bytes:
         """
         Menghasilkan buku kerja Excel 3-Sheet:
         Sheet 1: Komparasi Bulanan M01-M12 & YTD
@@ -1613,7 +1613,7 @@ class ApbnEvalService:
         return output.getvalue()
 
     @classmethod
-    def generate_csv_matrix(cls, year: int = 2025, unit: str = "TRILLION") -> str:
+    def generate_csv_matrix(cls, year: int = 2026, unit: str = "TRILLION") -> str:
         """Menghasilkan teks CSV RFC-4180 untuk ekspor komparasi APBN."""
         matrix = cls.get_evaluation_matrix(year, "ALL", unit)
         rows = matrix["rows"]
