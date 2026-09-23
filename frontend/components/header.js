@@ -44,7 +44,7 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
           <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-7 w-7 sm:h-8 sm:w-8 object-contain">
         </a>
         <div class="flex items-center gap-2 flex-wrap text-[11px] font-mono uppercase tracking-widest text-[#5D4037] font-bold">
-          <span>STANDAR STATUTORI NASIONAL</span>
+          <span>Kompilasi Data Indonesia</span>
           <span>•</span>
           <span class="inline-flex items-center gap-1.5 text-[#1B4D3E] normal-case font-bold">
             <span class="inline-block w-2 h-2 rounded-full bg-[#1B4D3E] animate-pulse"></span>
