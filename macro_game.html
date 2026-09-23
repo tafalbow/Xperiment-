@@ -447,6 +447,17 @@
                                 </div>
                             </div>
 
+                            <!-- Stage-by-Stage Detailed Review (Kenapa Tepat, Kurang Tepat, Pilihan Ideal & Contoh Nyata) -->
+                            <div style="margin-top:20px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:6px;">
+                                    <div style="font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-primary);">
+                                        🔍 Bedah Evaluasi Keputusan Per Stage (Putaran 1 s/d 6):
+                                    </div>
+                                    <span style="font-size:0.75rem; color:var(--text-muted);">Alasan Tepat, Kurang Tepat, & Contoh Kasus Nyata</span>
+                                </div>
+                                <div id="bubbleEndgameDetailedReviews" class="endgame-stage-reviews-grid"></div>
+                            </div>
+
                             <!-- Takeaway Teori Vernon Smith Nobel 2002 -->
                             <div class="endgame-takeaway-box">
                                 <strong>🎓 Refleksi Teori Vernon Smith (Hadiah Nobel Ekonomi 2002):</strong>
@@ -1573,7 +1584,7 @@
                         if (bubbleClueRealCase) bubbleClueRealCase.textContent = g.realCase;
                     } else {
                         if (bubbleClueBadge) {
-                            bubbleClueBadge.textContent = res.isWise ? '✅ KEPUTUSAN TEPAT' : '⚠️ KEPUTUSAN BERISIKO / KELIRU';
+                            bubbleClueBadge.textContent = res.badge || (res.isWise ? '✅ KEPUTUSAN TEPAT' : '⚠️ KEPUTUSAN BERISIKO / KELIRU');
                             bubbleClueBadge.className = `clue-badge ${res.isWise ? 'wise' : 'risky'}`;
                         }
                         if (bubbleClueTitle) bubbleClueTitle.textContent = res.clueTitle;
@@ -1590,7 +1601,22 @@
                                     </div>
                                 `;
                             }
-                            bubbleClueDetail.innerHTML = `<div>${res.clueDetail}</div>${nextHintHtml}`;
+                            bubbleClueDetail.innerHTML = `
+                                <div class="clue-eval-grid">
+                                    <div class="eval-box wise">
+                                        <div class="eval-box-label green">✅ Kenapa Keputusan Ini Tepat:</div>
+                                        <div>${res.whyWise}</div>
+                                    </div>
+                                    <div class="eval-box unwise">
+                                        <div class="eval-box-label red">⚠️ Kenapa Kurang Tepat / Risiko Utama:</div>
+                                        <div>${res.whyUnwise}</div>
+                                    </div>
+                                </div>
+                                <div class="clue-optimal-box">
+                                    <strong>🎯 Pilihan Paling Ideal di Putaran Ini:</strong> ${res.optimalChoice}
+                                </div>
+                                ${nextHintHtml}
+                            `;
                         }
                         if (bubbleClueRealCase) bubbleClueRealCase.textContent = res.realCase;
                     }
@@ -1657,6 +1683,46 @@
                             bubbleRecapTableBody.appendChild(tr);
                         });
                     }
+
+                    const bubbleEndgameDetailedReviews = document.getElementById('bubbleEndgameDetailedReviews');
+                    if (bubbleEndgameDetailedReviews && summary.history) {
+                        bubbleEndgameDetailedReviews.innerHTML = '';
+                        summary.history.forEach(h => {
+                            const card = document.createElement('div');
+                            card.className = `stage-review-card ${h.isWise ? 'card-wise' : 'card-risky'}`;
+                            card.innerHTML = `
+                                <div class="stage-review-header">
+                                    <div class="stage-review-title-group">
+                                        <span class="clue-badge ${h.isWise ? 'wise' : 'risky'}">${h.badge || (h.isWise ? '✅ TEPAT' : '⚠️ BERISIKO')}</span>
+                                        <strong class="stage-review-round">Putaran ${h.round}: ${escapeHtml(h.playerAction)}</strong>
+                                    </div>
+                                    <div class="stage-review-stats">
+                                        <span>Harga: <strong>Rp ${h.price.toLocaleString('id-ID')}</strong></span>
+                                        <span>Fundamental: <strong>Rp ${h.fundamental.toLocaleString('id-ID')}</strong></span>
+                                        <span class="ratio-pill">${h.bubbleRatio}x</span>
+                                    </div>
+                                </div>
+                                <div class="stage-review-headline">${escapeHtml(h.clueTitle)}</div>
+                                <div class="clue-eval-grid">
+                                    <div class="eval-box wise">
+                                        <div class="eval-box-label green">✅ Kenapa Keputusan Ini Tepat:</div>
+                                        <div>${h.whyWise}</div>
+                                    </div>
+                                    <div class="eval-box unwise">
+                                        <div class="eval-box-label red">⚠️ Kenapa Kurang Tepat / Risiko Utama:</div>
+                                        <div>${h.whyUnwise}</div>
+                                    </div>
+                                </div>
+                                <div class="clue-optimal-box">
+                                    <strong>🎯 Pilihan Paling Ideal di Putaran Ini:</strong> ${h.optimalChoice}
+                                </div>
+                                <div class="clue-history-box" style="margin-top:8px;">
+                                    <span style="font-weight:700; color:#0369a1;">🏛️ Contoh Kasus Sejarah Nyata:</span> ${escapeHtml(h.realCase)}
+                                </div>
+                            `;
+                            bubbleEndgameDetailedReviews.appendChild(card);
+                        });
+                    }
                 }
 
                 if (btnBubbleBuy) btnBubbleBuy.onclick = () => handleBubbleAction('buy');
@@ -1667,6 +1733,8 @@
                     audio.playClick();
                     engine.initBubbleGame();
                     if (bubbleEndgameCard) bubbleEndgameCard.style.display = 'none';
+                    const bubbleEndgameDetailedReviews = document.getElementById('bubbleEndgameDetailedReviews');
+                    if (bubbleEndgameDetailedReviews) bubbleEndgameDetailedReviews.innerHTML = '';
                     updateBubbleTacticalClue(1, null);
                     if (bubbleTacticalClueBox) bubbleTacticalClueBox.style.display = 'block';
                     if (bubbleLogContent) bubbleLogContent.textContent = 'Permainan bursa direset. Modal kas Rp 500.000 dan 5 lot saham. Amati panduan taktis di atas lalu tentukan keputusan Putaran 1!';

@@ -147,3 +147,41 @@ def test_export_excel_and_csv():
     res_xlsx = client.get("/api/apbn-eval/export?year=2025&unit=TRILLION&format=xlsx")
     assert res_xlsx.status_code == 200
     assert "openxmlformats" in res_xlsx.headers["content-type"]
+
+
+def test_custom_time_filter_and_prorata_target():
+    """Verify prorata period targets (e.g. Q1 25%, S1 50%) and custom range comparison."""
+    # Q1 test (Jan - Mar = 3 months, 25%)
+    q1 = ApbnEvalService.get_evaluation_matrix(2025, "ALL", "TRILLION", start_month=1, end_month=3)
+    tf1 = q1["time_filter"]
+    assert tf1["num_months"] == 3
+    assert tf1["linear_pct"] == 25.0
+    assert tf1["period_type"] in ["Q1", "YTD"]
+    rev1 = next(r for r in q1["rows"] if r["id"] == "REV_TOTAL")
+    # Prorata target should be 25% of annual APBN
+    expected_target_q1 = round(rev1["apbn"] * 0.25, 2)
+    assert abs(rev1["prorata_target_apbn"] - expected_target_q1) < 0.1
+    assert "pct_target_period_apbn" in rev1
+    assert rev1["pct_target_period_apbn"] > 50.0  # Typically ~90% for Q1
+
+    # Q2 test (Apr - Jun = 3 months, 25%)
+    q2 = ApbnEvalService.get_evaluation_matrix(2025, "ALL", "TRILLION", start_month=4, end_month=6)
+    assert q2["time_filter"]["period_type"] == "Q2"
+    assert q2["time_filter"]["num_months"] == 3
+
+    # Semester 1 test (Jan - Jun = 6 months, 50%)
+    s1 = ApbnEvalService.get_evaluation_matrix(2025, "ALL", "TRILLION", start_month=1, end_month=6)
+    tf_s1 = s1["time_filter"]
+    assert tf_s1["num_months"] == 6
+    assert tf_s1["linear_pct"] == 50.0
+    assert tf_s1["period_type"] == "S1"
+
+    # API test
+    res = client.get("/api/apbn-eval/matrix?year=2025&start_month=1&end_month=3")
+    assert res.status_code == 200
+    res_data = res.json()
+    assert res_data["time_filter"]["linear_pct"] == 25.0
+    row0 = res_data["rows"][0]
+    assert "pct_target_period_apbn" in row0
+    assert "prorata_target_apbn" in row0
+

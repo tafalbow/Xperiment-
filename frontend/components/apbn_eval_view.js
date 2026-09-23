@@ -109,6 +109,144 @@ export class ApbnEvalView {
     this.trajectoryData = await res.json();
   }
 
+  renderTimeFilterToolbar(prefix = 'top') {
+    const s = this.summaryData || {};
+    const tf = this.matrixData?.time_filter || {};
+    const curYrCfg = this.yearsList?.find(y => y.year === this.selectedYear);
+    const maxM = curYrCfg?.latest_published_month ? parseInt(curYrCfg.latest_published_month.replace('M', ''), 10) : 3;
+    const latestName = s.latest_month_name || 'Maret';
+
+    return `
+      <div class="time-filter-toolbar flex flex-col xl:flex-row xl:items-center justify-between gap-2.5 text-xs font-mono">
+        
+        <!-- Bagian Kiri: Mode Preset Cepat (YTD Berjalan, Kuartal Q1-Q4, Semester S1-S2, Full Year) -->
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="text-[11px] font-bold text-[#2C2420] flex items-center gap-1 pr-1">
+            <span>⏱️</span>
+            <span>Filter Waktu:</span>
+          </span>
+
+          <button 
+            type="button" 
+            data-preset="YTD" 
+            class="btn-time-preset px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${this.timePreset === 'YTD' ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+            title="Akumulasi Januari s/d bulan rilis resmi (${latestName})"
+          >
+            📌 YTD Berjalan (${latestName})
+          </button>
+
+          <span class="text-[#E2E8F0] font-normal px-0.5">|</span>
+          <span class="text-[10px] text-[#7D655C] font-semibold uppercase">By Quarter:</span>
+
+          <button 
+            type="button" 
+            data-preset="Q1" 
+            class="btn-time-preset px-2 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${this.timePreset === 'Q1' ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+            title="Kuartal I: Januari s/d Maret"
+          >
+            Q1 (Jan-Mar)
+          </button>
+
+          <button 
+            type="button" 
+            data-preset="Q2" 
+            class="btn-time-preset px-2 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${this.timePreset === 'Q2' ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+            title="Kuartal II: April s/d Juni"
+          >
+            Q2 (Apr-Jun)
+          </button>
+
+          <button 
+            type="button" 
+            data-preset="Q3" 
+            class="btn-time-preset px-2 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${this.timePreset === 'Q3' ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+            title="Kuartal III: Juli s/d September"
+          >
+            Q3 (Jul-Sep)
+          </button>
+
+          <button 
+            type="button" 
+            data-preset="Q4" 
+            class="btn-time-preset px-2 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${this.timePreset === 'Q4' ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+            title="Kuartal IV: Oktober s/d Desember"
+          >
+            Q4 (Okt-Des)
+          </button>
+
+          <span class="text-[#E2E8F0] font-normal px-0.5">|</span>
+
+          <button 
+            type="button" 
+            data-preset="S1" 
+            class="btn-time-preset px-2 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${this.timePreset === 'S1' ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+            title="Semester I: Januari s/d Juni"
+          >
+            Semester 1
+          </button>
+
+          <button 
+            type="button" 
+            data-preset="S2" 
+            class="btn-time-preset px-2 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${this.timePreset === 'S2' ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+            title="Semester II: Juli s/d Desember"
+          >
+            Semester 2
+          </button>
+
+          <button 
+            type="button" 
+            data-preset="FULL" 
+            class="btn-time-preset px-2 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${this.timePreset === 'FULL' ? 'bg-[#0038A8] text-white shadow-2xs font-bold' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
+            title="Satu Tahun Anggaran Penuh: Januari s/d Desember"
+          >
+            Jan-Des (Full)
+          </button>
+        </div>
+
+        <!-- Bagian Kanan: Mode Kustom YTD & Rentang Bebas -->
+        <div class="flex items-center gap-2 flex-wrap">
+          
+          <!-- Dropdown YTD Kustom -->
+          <div class="flex items-center gap-1 bg-[#FAF7F2] px-2 py-0.5 rounded-md">
+            <span class="text-[#7D655C] text-[10.5px] font-bold">YTD s/d:</span>
+            <select class="sel-ytd-custom bg-white border-0 text-[#0038A8] font-bold px-1.5 py-0.5 rounded text-xs cursor-pointer outline-none shadow-2xs">
+              ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => `
+                <option value="${m}" ${this.startMonth === 1 && this.endMonth === m ? 'selected' : ''}>
+                  M${m.toString().padStart(2, '0')} (${this.getMonthName(m)})
+                </option>
+              `).join('')}
+            </select>
+          </div>
+
+          <!-- Rentang Bebas Dari - S/D -->
+          <div class="flex items-center gap-1 bg-[#FAF7F2] p-0.5 rounded-md custom-range-container">
+            <span class="text-[#7D655C] px-1 text-[10.5px]">Dari:</span>
+            <select class="sel-custom-start bg-white border-0 text-[#2C2420] font-semibold px-1 py-0.5 rounded text-xs cursor-pointer outline-none">
+              ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => `
+                <option value="${m}" ${m === this.startMonth ? 'selected' : ''}>${this.getMonthName(m)}</option>
+              `).join('')}
+            </select>
+            <span class="text-[#7D655C] px-1 text-[10.5px]">s/d:</span>
+            <select class="sel-custom-end bg-white border-0 text-[#2C2420] font-semibold px-1 py-0.5 rounded text-xs cursor-pointer outline-none">
+              ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => `
+                <option value="${m}" ${m === this.endMonth ? 'selected' : ''}>${this.getMonthName(m)}</option>
+              `).join('')}
+            </select>
+            <button 
+              type="button" 
+              class="btn-apply-custom-range px-2 py-0.5 bg-[#0038A8] hover:bg-[#002B82] text-white rounded font-bold text-xs cursor-pointer shadow-2xs ml-0.5"
+            >
+              Terapkan
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  }
+
   render() {
     if (!this.container) return;
 
@@ -124,6 +262,9 @@ export class ApbnEvalView {
     const startMName = tf.start_month_name || 'Januari';
     const endMName = tf.end_month_name || s.latest_month_name || 'Maret';
     const isCustomTime = tf.is_custom_period;
+    const periodLabel = tf.period_label || `${startMName} – ${endMName}`;
+    const periodShortLabel = tf.short_period_label || (isCustomTime ? `M${this.startMonth}-M${this.endMonth}` : `YTD (${s.latest_month})`);
+    const linearPct = tf.linear_pct || 25.0;
 
     // Quick chart buttons definition
     const chartQuickItems = [
@@ -230,87 +371,7 @@ export class ApbnEvalView {
 
         <!-- 2. BILAH FILTER WAKTU & KUSTOMISASI KOMPARASI (Universal Period Comparison Toolbar) -->
         <div class="gov-card p-3 sm:p-4 bg-white rounded-lg shadow-2xs space-y-[6px]">
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
-            
-            <!-- Left: Preset Buttons (YTD, Q1, S1, Q3, Full Year) -->
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <span class="text-[11px] font-mono font-bold text-[#2C2420] flex items-center gap-1 pr-1">
-                <span>⏱️</span>
-                <span>Filter Waktu Komparasi:</span>
-              </span>
-              <button 
-                type="button" 
-                data-preset="YTD" 
-                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'YTD' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
-                title="Akumulasi hingga bulan rilis resmi terakhir"
-              >
-                s/d Bulan Berjalan (${s.latest_month_name || 'YTD'})
-              </button>
-              <button 
-                type="button" 
-                data-preset="Q1" 
-                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'Q1' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
-                title="Triwulan I (Januari s/d Maret)"
-              >
-                Q1 (Jan - Mar)
-              </button>
-              <button 
-                type="button" 
-                data-preset="S1" 
-                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'S1' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
-                title="Semester I (Januari s/d Juni)"
-              >
-                Semester 1 (Jan - Jun)
-              </button>
-              <button 
-                type="button" 
-                data-preset="Q3" 
-                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'Q3' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
-                title="Hingga Triwulan III (Januari s/d September)"
-              >
-                Q3 (Jan - Sep)
-              </button>
-              <button 
-                type="button" 
-                data-preset="FULL" 
-                class="btn-time-preset px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${this.timePreset === 'FULL' ? 'bg-[#0038A8] text-white shadow-2xs' : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EBF1FC] hover:text-[#0038A8]'}"
-                title="Satu Tahun Anggaran Penuh (Januari s/d Desember)"
-              >
-                Jan - Des (Full)
-              </button>
-            </div>
-
-            <!-- Right: Custom Month Range Dropdowns -->
-            <div class="flex items-center gap-2 flex-wrap text-xs font-mono">
-              <span class="text-[#7D655C] font-semibold">Rentang Kustom:</span>
-              <div class="flex items-center gap-1 bg-[#FAF7F2] p-0.5 rounded-md">
-                <span class="text-[#7D655C] px-1 text-[11px]">Dari:</span>
-                <select id="apbn-eval-start-month" class="bg-white border-0 text-[#2C2420] font-semibold px-2 py-0.5 rounded text-xs cursor-pointer outline-none">
-                  ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => `
-                    <option value="${m}" ${m === this.startMonth ? 'selected' : ''}>
-                      M${m.toString().padStart(2, '0')} (${this.getMonthName(m)})
-                    </option>
-                  `).join('')}
-                </select>
-                <span class="text-[#7D655C] px-1 text-[11px]">s/d:</span>
-                <select id="apbn-eval-end-month" class="bg-white border-0 text-[#2C2420] font-semibold px-2 py-0.5 rounded text-xs cursor-pointer outline-none">
-                  ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => `
-                    <option value="${m}" ${m === this.endMonth ? 'selected' : ''}>
-                      M${m.toString().padStart(2, '0')} (${this.getMonthName(m)})
-                    </option>
-                  `).join('')}
-                </select>
-                <button 
-                  type="button" 
-                  id="btn-apply-custom-time" 
-                  class="px-2.5 py-0.5 bg-[#0038A8] hover:bg-[#002B82] text-white rounded font-bold text-xs cursor-pointer shadow-2xs ml-0.5"
-                >
-                  Terapkan
-                </button>
-              </div>
-            </div>
-
-          </div>
+          ${this.renderTimeFilterToolbar('top')}
         </div>
 
         <!-- 3. EXECUTIVE KPI STRIP (5 BORDERLESS STATUTORY CARDS) -->
@@ -570,6 +631,25 @@ export class ApbnEvalView {
 
         <!-- 5. STATUTORY COMPARISON MATRIX TABLE (RAPBN vs UU APBN vs 12 MONTHS vs YTD vs SUMBER DATA) -->
         <div class="gov-card p-4 sm:p-5 bg-white rounded-lg shadow-2xs space-y-[6px]">
+          
+          <!-- Bilah Filter Waktu Tabel (In-Table Comparison Toolbar) -->
+          ${this.renderTimeFilterToolbar('table')}
+
+          <!-- Panduan Indikator Capaian Target -->
+          <div class="flex items-center justify-between flex-wrap gap-2 px-3 py-1.5 bg-[#FAF7F2] rounded text-xs font-mono text-[#5D4037]">
+            <div class="flex items-center gap-2 flex-wrap text-[11px]">
+              <span class="font-bold text-[#2C2420]">📊 Petunjuk Kolom Capaian:</span>
+              <span><strong>% APBN (Tahunan):</strong> Porsi realisasi terhadap pagu 1 tahun penuh (12 bulan)</span>
+              <span class="text-[#CBD5E1]">|</span>
+              <span class="text-[#0038A8]"><strong>% Target Periode (${linearPct}%):</strong> Tingkat pemenuhan terhadap target prorata periode berjalan (${periodShortLabel})</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-[10px]">
+              <span class="px-1.5 py-0.5 rounded font-bold bg-[#EBF5EE] text-[#2D684C]">≥98% On-Track</span>
+              <span class="px-1.5 py-0.5 rounded font-bold bg-[#FDF3E9] text-[#A45517]">90-97.9% Waspada</span>
+              <span class="px-1.5 py-0.5 rounded font-bold bg-[#FDE8E8] text-[#9B1C1C]">&lt;90% Lagging</span>
+            </div>
+          </div>
+
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-1 border-b border-[#FAF7F2]">
             
             <!-- Category Filter Tabs -->
@@ -626,9 +706,12 @@ export class ApbnEvalView {
                   <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(11) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Nov</th>
                   <th class="py-2.5 px-1.5 font-medium text-right ${this.isMonthInFilter(12) ? 'bg-[#EBF1FC] text-[#0038A8] font-bold' : ''}">Des</th>
                   <th class="py-2.5 px-2.5 font-bold text-right bg-[#FAF7F2] text-[#0038A8] whitespace-nowrap">
-                    ${isCustomTime ? `Capaian (M${this.startMonth}-M${this.endMonth})` : `YTD (${s.latest_month})`}
+                    ${isCustomTime ? `Capaian (${periodShortLabel})` : `YTD (${s.latest_month})`}
                   </th>
-                  <th class="py-2.5 px-2 font-bold text-center text-[#2D684C]">% APBN</th>
+                  <th class="py-2.5 px-2 font-bold text-center text-[#2D684C]" title="Realisasi kumulatif terhadap target pagu APBN 1 tahun penuh">% APBN (Tahunan)</th>
+                  <th class="py-2.5 px-2 font-bold text-center text-[#0038A8] bg-[#EBF1FC]/70" title="Persentase capaian terhadap target prorata periode ${periodShortLabel} (${linearPct}% pagu tahunan)">
+                    % Target Periode (${linearPct}%)
+                  </th>
                   <th class="py-2.5 px-2 font-bold text-center text-[#7D655C]">% RAPBN</th>
                   <th class="py-2.5 px-2 font-medium text-right text-[#7D655C]">Sisa Pagu</th>
                   <th class="py-2.5 px-2 font-bold text-center">Status</th>
@@ -667,7 +750,7 @@ export class ApbnEvalView {
     if (rows.length === 0) {
       return `
         <tr>
-          <td colspan="23" class="py-8 text-center text-xs font-mono text-[#7D655C]">
+          <td colspan="24" class="py-8 text-center text-xs font-mono text-[#7D655C]">
             Tidak ada pos anggaran yang cocok dengan kata kunci "${this.searchKeyword}".
           </td>
         </tr>
@@ -706,6 +789,18 @@ export class ApbnEvalView {
       const pctRapbnDisplay = isCustomTime ? r.period_pct_rapbn : r.pct_rapbn;
       const varianceDisplay = isCustomTime ? r.period_variance : r.variance_apbn;
 
+      const pctTargetPeriodDisplay = r.pct_target_period_apbn !== undefined ? r.pct_target_period_apbn : 0.0;
+      let targetBadgeClass = 'bg-[#FAF7F2] text-[#5D4037]';
+      if (r.id === 'DEFISIT_ANGGARAN' || r.id === 'BAL_PRIMARY') {
+        targetBadgeClass = 'bg-[#EBF1FC] text-[#0038A8]';
+      } else if (pctTargetPeriodDisplay >= 98.0) {
+        targetBadgeClass = 'bg-[#EBF5EE] text-[#2D684C]';
+      } else if (pctTargetPeriodDisplay >= 90.0) {
+        targetBadgeClass = 'bg-[#FDF3E9] text-[#A45517]';
+      } else {
+        targetBadgeClass = 'bg-[#FDE8E8] text-[#9B1C1C]';
+      }
+
       return `
         <tr class="${rowBg} transition-colors">
           <td class="py-2 px-2 text-center text-[10px] text-[#7D655C] font-mono">${r.code}</td>
@@ -719,11 +814,16 @@ export class ApbnEvalView {
           ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => renderMonthCell(i)).join('')}
           <td class="py-2 px-2.5 text-right font-bold bg-[#FAF7F2]/80 text-[#0038A8]">${formatNum(actualDisplay)}</td>
           <td class="py-2 px-2 text-center font-bold text-[#2D684C]">${pctApbnDisplay}%</td>
+          <td class="py-2 px-2 text-center bg-[#EBF1FC]/30">
+            <span class="inline-block px-1.5 py-0.5 rounded text-[10.5px] font-bold ${targetBadgeClass}" title="Target prorata periode: ${formatNum(r.prorata_target_apbn)}">
+              ${pctTargetPeriodDisplay}%
+            </span>
+          </td>
           <td class="py-2 px-2 text-center text-[#7D655C]">${pctRapbnDisplay}%</td>
           <td class="py-2 px-2 text-right text-[11px] text-[#7D655C]">${formatNum(varianceDisplay)}</td>
           <td class="py-2 px-2 text-center">
-            <span class="text-[9.5px] px-1.5 py-0.5 rounded font-bold ${r.perf_badge}">
-              ${r.perf_status}
+            <span class="text-[9.5px] px-1.5 py-0.5 rounded font-bold ${r.period_perf_badge || r.perf_badge}">
+              ${r.period_perf_status || r.perf_status}
             </span>
           </td>
           <td class="py-2 px-1.5 text-center">
@@ -791,7 +891,7 @@ export class ApbnEvalView {
       window.location.href = `/api/apbn-eval/export?year=${this.selectedYear}&unit=${this.selectedUnit}&format=csv`;
     });
 
-    // Time Preset Buttons (YTD, Q1, S1, Q3, FULL)
+    // Time Preset Buttons (YTD, Q1, Q2, Q3, Q4, S1, S2, FULL)
     const presetBtns = document.querySelectorAll('.btn-time-preset');
     presetBtns.forEach(btn => {
       btn.addEventListener('click', async (e) => {
@@ -806,12 +906,21 @@ export class ApbnEvalView {
         } else if (preset === 'Q1') {
           this.startMonth = 1;
           this.endMonth = 3;
+        } else if (preset === 'Q2') {
+          this.startMonth = 4;
+          this.endMonth = 6;
+        } else if (preset === 'Q3') {
+          this.startMonth = 7;
+          this.endMonth = 9;
+        } else if (preset === 'Q4') {
+          this.startMonth = 10;
+          this.endMonth = 12;
         } else if (preset === 'S1') {
           this.startMonth = 1;
           this.endMonth = 6;
-        } else if (preset === 'Q3') {
-          this.startMonth = 1;
-          this.endMonth = 9;
+        } else if (preset === 'S2') {
+          this.startMonth = 7;
+          this.endMonth = 12;
         } else if (preset === 'FULL') {
           this.startMonth = 1;
           this.endMonth = 12;
@@ -822,20 +931,40 @@ export class ApbnEvalView {
       });
     });
 
-    // Custom Month Range Apply Button
-    const btnApplyCustom = document.getElementById('btn-apply-custom-time');
-    btnApplyCustom?.addEventListener('click', async () => {
-      const sM = parseInt(document.getElementById('apbn-eval-start-month')?.value || '1', 10);
-      const eM = parseInt(document.getElementById('apbn-eval-end-month')?.value || '12', 10);
-      if (sM > eM) {
-        alert('Bulan mulai tidak boleh lebih besar dari bulan selesai.');
-        return;
-      }
-      this.startMonth = sM;
-      this.endMonth = eM;
-      this.timePreset = 'CUSTOM';
-      await Promise.all([this.fetchSummary(), this.fetchMatrix()]);
-      this.render();
+    // Custom YTD Dropdowns (Jan s/d Bulan X)
+    const selYtdList = document.querySelectorAll('.sel-ytd-custom');
+    selYtdList.forEach(sel => {
+      sel.addEventListener('change', async (e) => {
+        const val = parseInt(e.target.value, 10);
+        this.startMonth = 1;
+        this.endMonth = val;
+        const curYrCfg = this.yearsList.find(y => y.year === this.selectedYear);
+        const maxM = curYrCfg?.latest_published_month ? parseInt(curYrCfg.latest_published_month.replace('M', ''), 10) : 12;
+        this.timePreset = (val === maxM) ? 'YTD' : 'YTD_CUSTOM';
+        await Promise.all([this.fetchSummary(), this.fetchMatrix()]);
+        this.render();
+      });
+    });
+
+    // Custom Month Range Apply Buttons (Dari Bulan - s/d Bulan)
+    const btnApplyList = document.querySelectorAll('.btn-apply-custom-range');
+    btnApplyList.forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const container = e.currentTarget.closest('.custom-range-container');
+        const selStart = container ? container.querySelector('.sel-custom-start') : document.querySelector('.sel-custom-start');
+        const selEnd = container ? container.querySelector('.sel-custom-end') : document.querySelector('.sel-custom-end');
+        const sM = parseInt(selStart?.value || '1', 10);
+        const eM = parseInt(selEnd?.value || '12', 10);
+        if (sM > eM) {
+          alert('Bulan mulai tidak boleh lebih besar dari bulan selesai.');
+          return;
+        }
+        this.startMonth = sM;
+        this.endMonth = eM;
+        this.timePreset = 'CUSTOM';
+        await Promise.all([this.fetchSummary(), this.fetchMatrix()]);
+        this.render();
+      });
     });
 
     // Category Filter Pills

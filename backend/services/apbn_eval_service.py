@@ -1008,6 +1008,73 @@ class ApbnEvalService:
         return rows
 
     @classmethod
+    def _resolve_period_info(cls, start_m: int, end_m: int, latest_idx: int) -> Dict[str, Any]:
+        """Menghitung metadata penamaan, label, dan persentase linier untuk periode terpilih."""
+        num_months = end_m - start_m + 1
+        linear_pct = round((num_months / 12.0) * 100.0, 1)
+        start_name = cls.MONTH_NAMES[start_m - 1]["name"]
+        end_name = cls.MONTH_NAMES[end_m - 1]["name"]
+        is_custom_period = not (start_m == 1 and end_m == latest_idx)
+
+        if start_m == 1 and end_m == latest_idx:
+            p_type = "YTD"
+            p_label = f"Akumulasi YTD (Januari – {end_name})"
+            short_label = f"YTD (M{end_m:02d})"
+        elif start_m == 1 and end_m == 3:
+            p_type = "Q1"
+            p_label = "Triwulan I / Q1 (Januari – Maret)"
+            short_label = "Q1 (Jan–Mar)"
+        elif start_m == 4 and end_m == 6:
+            p_type = "Q2"
+            p_label = "Triwulan II / Q2 (April – Juni)"
+            short_label = "Q2 (Apr–Jun)"
+        elif start_m == 7 and end_m == 9:
+            p_type = "Q3"
+            p_label = "Triwulan III / Q3 (Juli – September)"
+            short_label = "Q3 (Jul–Sep)"
+        elif start_m == 10 and end_m == 12:
+            p_type = "Q4"
+            p_label = "Triwulan IV / Q4 (Oktober – Desember)"
+            short_label = "Q4 (Okt–Des)"
+        elif start_m == 1 and end_m == 6:
+            p_type = "S1"
+            p_label = "Semester I (Januari – Juni)"
+            short_label = "Semester 1 (Jan–Jun)"
+        elif start_m == 7 and end_m == 12:
+            p_type = "S2"
+            p_label = "Semester II (Juli – Desember)"
+            short_label = "Semester 2 (Jul–Des)"
+        elif start_m == 1 and end_m == 12:
+            p_type = "FULL"
+            p_label = "Satu Tahun Anggaran Penuh (Januari – Desember)"
+            short_label = "Jan–Des (Full)"
+        elif start_m == end_m:
+            p_type = "MONTH"
+            p_label = f"Bulan {start_name} (M{start_m:02d})"
+            short_label = f"Bulan {start_name}"
+        elif start_m == 1:
+            p_type = "YTD_CUSTOM"
+            p_label = f"Akumulasi YTD Kustom (Januari – {end_name})"
+            short_label = f"YTD s/d {end_name}"
+        else:
+            p_type = "CUSTOM"
+            p_label = f"Kustom Periode ({start_name} – {end_name})"
+            short_label = f"M{start_m:02d}–M{end_m:02d}"
+
+        return {
+            "start_month": start_m,
+            "end_month": end_m,
+            "start_month_name": start_name,
+            "end_month_name": end_name,
+            "num_months": num_months,
+            "linear_pct": linear_pct,
+            "is_custom_period": is_custom_period,
+            "period_type": p_type,
+            "period_label": p_label,
+            "short_period_label": short_label
+        }
+
+    @classmethod
     def get_evaluation_summary(
         cls,
         year: int = 2025,
@@ -1029,7 +1096,9 @@ class ApbnEvalService:
 
         end_m = latest_idx if end_month is None else max(1, min(12, end_month))
         start_m = max(1, min(end_m, start_month))
-        is_custom_period = not (start_m == 1 and end_m == latest_idx)
+        period_info = cls._resolve_period_info(start_m, end_m, latest_idx)
+        is_custom_period = period_info["is_custom_period"]
+        num_months = period_info["num_months"]
 
         def find_row(row_id: str) -> Dict[str, Any]:
             for r in rows:
@@ -1068,6 +1137,12 @@ class ApbnEvalService:
         exp_pct_apbn = round(exp_val / r_exp["apbn"] * 100.0, 2) if r_exp["apbn"] else 0.0
         exp_pct_rapbn = round(exp_val / r_exp["rapbn"] * 100.0, 2) if r_exp["rapbn"] else 0.0
 
+        # Target proporsional periode berjalan (Pagu * num_months / 12)
+        rev_target_period = round(r_rev["apbn"] * (num_months / 12.0), 2) if r_rev["apbn"] else 0.0
+        exp_target_period = round(r_exp["apbn"] * (num_months / 12.0), 2) if r_exp["apbn"] else 0.0
+        rev_pct_target = round((rev_val / rev_target_period * 100.0), 2) if rev_target_period else 0.0
+        exp_pct_target = round((exp_val / exp_target_period * 100.0), 2) if exp_target_period else 0.0
+
         return {
             "status": "SUCCESS",
             "year": year,
@@ -1078,13 +1153,7 @@ class ApbnEvalService:
             "latest_month": latest_m,
             "latest_month_name": cls.MONTH_NAMES[latest_idx - 1]["name"],
             "benchmark_run_rate": round((end_m / 12.0) * 100.0, 1),
-            "time_filter": {
-                "start_month": start_m,
-                "end_month": end_m,
-                "start_month_name": cls.MONTH_NAMES[start_m - 1]["name"],
-                "end_month_name": cls.MONTH_NAMES[end_m - 1]["name"],
-                "is_custom_period": is_custom_period
-            },
+            "time_filter": period_info,
             "kpi": {
                 "revenue": {
                     "rapbn": round(r_rev["rapbn"] * div, 2),
@@ -1093,6 +1162,8 @@ class ApbnEvalService:
                     "ytd": round(rev_val * div, 2),
                     "pct_apbn": rev_pct_apbn,
                     "pct_rapbn": rev_pct_rapbn,
+                    "target_period": round(rev_target_period * div, 2),
+                    "pct_target_period": rev_pct_target,
                     "variance": round((r_rev["apbn"] - rev_val) * div, 2),
                     "status": r_rev["perf_status"]
                 },
@@ -1103,6 +1174,8 @@ class ApbnEvalService:
                     "ytd": round(exp_val * div, 2),
                     "pct_apbn": exp_pct_apbn,
                     "pct_rapbn": exp_pct_rapbn,
+                    "target_period": round(exp_target_period * div, 2),
+                    "pct_target_period": exp_pct_target,
                     "variance": round((r_exp["apbn"] - exp_val) * div, 2),
                     "status": r_exp["perf_status"]
                 },
@@ -1151,7 +1224,7 @@ class ApbnEvalService:
         """
         Menghasilkan tabel matriks lengkap:
         Pos Anggaran, RAPBN, UU APBN, Realisasi M01-M12, YTD, % APBN, % RAPBN, Varian, dan Sumber Data.
-        Mendukung rentang waktu custom untuk komparasi periode fleksibel.
+        Mendukung rentang waktu custom untuk komparasi periode fleksibel (YTD, Kuartal, Semester, Bulan Kustom).
         """
         div, unit_label = cls._get_unit_multiplier(unit)
         base_rows = cls._get_base_dataset(year)
@@ -1161,7 +1234,8 @@ class ApbnEvalService:
 
         end_m = latest_idx if end_month is None else max(1, min(12, end_month))
         start_m = max(1, min(end_m, start_month))
-        is_custom_period = not (start_m == 1 and end_m == latest_idx)
+        period_info = cls._resolve_period_info(start_m, end_m, latest_idx)
+        num_months = period_info["num_months"]
 
         clean_cat = category.upper().strip()
         q = (search_query or "").lower().strip()
@@ -1187,6 +1261,37 @@ class ApbnEvalService:
             custom_pct_rapbn = round(period_sum / r["rapbn"] * 100.0, 2) if r["rapbn"] else 0.0
             custom_variance = round((r["apbn"] - period_sum) * div, 2)
 
+            # Capaian terhadap target prorata periode berjalan (Pagu * num_months / 12)
+            prorata_target_apbn = round(r["apbn"] * (num_months / 12.0), 2) if r["apbn"] else 0.0
+            prorata_target_rapbn = round(r["rapbn"] * (num_months / 12.0), 2) if r["rapbn"] else 0.0
+            pct_target_period_apbn = round((period_sum / prorata_target_apbn * 100.0), 2) if prorata_target_apbn else 0.0
+            pct_target_period_rapbn = round((period_sum / prorata_target_rapbn * 100.0), 2) if prorata_target_rapbn else 0.0
+
+            # Evaluasi performa spesifik periode
+            if r["id"] in ["DEFISIT_ANGGARAN", "BAL_PRIMARY"]:
+                period_perf_status = "NORMAL"
+                period_perf_badge = "bg-sky-50 text-sky-700"
+            elif r["category"] == "PENDAPATAN":
+                if pct_target_period_apbn >= 98.0:
+                    period_perf_status = "ON_TRACK"
+                    period_perf_badge = "bg-emerald-50 text-emerald-700"
+                elif pct_target_period_apbn >= 90.0:
+                    period_perf_status = "MODERATE"
+                    period_perf_badge = "bg-amber-50 text-amber-700"
+                else:
+                    period_perf_status = "LAGGING"
+                    period_perf_badge = "bg-rose-50 text-rose-700"
+            else:
+                if pct_target_period_apbn >= 95.0:
+                    period_perf_status = "ON_TRACK"
+                    period_perf_badge = "bg-emerald-50 text-emerald-700"
+                elif pct_target_period_apbn >= 88.0:
+                    period_perf_status = "MODERATE"
+                    period_perf_badge = "bg-amber-50 text-amber-700"
+                else:
+                    period_perf_status = "LAGGING"
+                    period_perf_badge = "bg-rose-50 text-rose-700"
+
             row_copy = {
                 "id": r["id"],
                 "code": r["code"],
@@ -1209,11 +1314,17 @@ class ApbnEvalService:
                 "perf_badge": r["perf_badge"],
                 "source_org": r["source_org"],
                 "drivers": r["drivers"],
-                # Custom Period Realization
+                # Custom Period Realization & Targets
                 "period_actual": custom_actual,
                 "period_pct_apbn": custom_pct_apbn,
                 "period_pct_rapbn": custom_pct_rapbn,
-                "period_variance": custom_variance
+                "period_variance": custom_variance,
+                "prorata_target_apbn": round(prorata_target_apbn * div, 2),
+                "prorata_target_rapbn": round(prorata_target_rapbn * div, 2),
+                "pct_target_period_apbn": pct_target_period_apbn,
+                "pct_target_period_rapbn": pct_target_period_rapbn,
+                "period_perf_status": period_perf_status,
+                "period_perf_badge": period_perf_badge
             }
             filtered_rows.append(row_copy)
 
@@ -1227,13 +1338,7 @@ class ApbnEvalService:
             "status_label": cfg["status_label"],
             "latest_month": latest_m,
             "latest_month_name": cls.MONTH_NAMES[latest_idx - 1]["name"],
-            "time_filter": {
-                "start_month": start_m,
-                "end_month": end_m,
-                "start_month_name": cls.MONTH_NAMES[start_m - 1]["name"],
-                "end_month_name": cls.MONTH_NAMES[end_m - 1]["name"],
-                "is_custom_period": is_custom_period
-            },
+            "time_filter": period_info,
             "months_header": cls.MONTH_NAMES,
             "total_rows": len(filtered_rows),
             "rows": filtered_rows

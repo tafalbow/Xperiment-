@@ -204,6 +204,227 @@ class EconomicsGamesEngine {
         }
     }
 
+    evaluateBubbleDecision(r, action, ratio, marketPrice, sharesBefore, cashBefore) {
+        // Special constraint checks
+        if (action === "buy" && cashBefore < (2 * marketPrice)) {
+            return {
+                isWise: false,
+                badge: "⚠️ LIKUIDITAS TIDAK CUKUP",
+                title: "Kendala Likuiditas Kas Tunai",
+                whyWise: "Mencegah spekulasi berlebih secara tidak sengaja karena modal tunai Anda terbatas.",
+                whyUnwise: "Saldo kas tunai Anda tidak mencukupi untuk membeli 2 lot saham di harga pasar saat ini.",
+                optimalChoice: "Pilih Tahan (Hold) atau Jual sebagian saham untuk menambah cadangan kas tunai.",
+                realCase: "Fenomena Liquidity Constraint: Hambatan likuiditas riil yang membatasi kapasitas belanja pelaku pasar."
+            };
+        }
+        if (action === "sell" && sharesBefore <= 0) {
+            return {
+                isWise: true,
+                badge: "✅ 100% KAS TUNAI",
+                title: "Seluruh Posisi Sudah Berupa Kas Murni",
+                whyWise: "Anda sudah memegang 100% kas tunai murni dan sepenuhnya terlindungi dari gejolak bursa.",
+                whyUnwise: "Tidak ada lembar saham yang dapat dijual.",
+                optimalChoice: "Pertahankan kas tunai hingga siklus likuidasi selesai.",
+                realCase: "Cash is King: Sikap investor defensif memegang kas saat pasar saham sedang bergejolak hebat."
+            };
+        }
+
+        if (r === 1) {
+            if (action === "buy") {
+                return {
+                    isWise: true,
+                    badge: "✅ KEPUTUSAN TEPAT",
+                    title: "Akumulasi di Fase Nilai Wajar (Fair Value)",
+                    whyWise: "Harga pasar Rp 63.000 sejalan dengan nilai fundamental Rp 60.000 (rasio 1.05x). Membeli di putaran 1 mengamankan hak atas 6 kuartal dividen tunai penuh dengan margin of safety tinggi.",
+                    whyUnwise: "Risiko penurunan modal (capital loss) sangat minim karena gelembung spekulatif belum mengembang.",
+                    optimalChoice: "Beli (+2 Lot) atau Tahan (Hold) saham awal.",
+                    realCase: "Strategi Value Investing Benjamin Graham & Warren Buffett: Mengoleksi aset saat harga pasar sejalan dengan estimasi discounted cash flow dividen masa depan."
+                };
+            } else if (action === "hold") {
+                return {
+                    isWise: true,
+                    badge: "✅ KEPUTUSAN TEPAT",
+                    title: "Mempertahankan Posisi untuk Dividen Awal",
+                    whyWise: "Menahan 5 lot saham awal menghasilkan pendapatan dividen tunai putaran 1 tanpa mengorbankan saldo kas cadangan Rp 500.000.",
+                    whyUnwise: "Langkah ini cukup konservatif karena Anda tidak menambah kepemilikan saham di saat valuasi masih wajar.",
+                    optimalChoice: "Beli (+2 Lot) atau Tahan (Hold).",
+                    realCase: "Prinsip Core Asset Holding: Menjaga instrumen produktif tetap bekerja di portofolio pada awal fase pertumbuhan ekonomi."
+                };
+            } else {
+                return {
+                    isWise: false,
+                    badge: "⚠️ KURANG TEPAT",
+                    title: "Menjual Terlalu Dini (Premature Exit)",
+                    whyWise: "Mengamankan kas tunai Rp 63.000 per lot dan membebaskan portofolio dari risiko pasar.",
+                    whyUnwise: "Harga pasar Rp 63.000 baru 1.05x fundamental. Menjual di putaran 1 membuang 5 putaran dividen masa depan dan melewatkan potensi keuntungan modal saat gelembung mengembang.",
+                    optimalChoice: "Sebaiknya Akumulasi (Beli) atau Tahan (Hold) saham Anda.",
+                    realCase: "Fenomena Premature Profit Taking: Investor ritel buru-buru melepas saham unggulan di awal ekspansi pasar sehingga kehilangan potensi keuntungan majemuk (compounding yield)."
+                };
+            }
+        } else if (r === 2) {
+            if (action === "buy") {
+                return {
+                    isWise: true,
+                    badge: "✅ CUKUP TEPAT",
+                    title: "Mengikuti Momentum Pertumbuhan Awal",
+                    whyWise: "Harga mulai naik (1.35x), namun sisa dividen masih bernilai Rp 50.000. Membeli masih memberikan hasil dividen yang sehat asalkan Anda disiplin menjual di putaran 3-4.",
+                    whyUnwise: "Rasio gelembung mulai melebar; mulai terdapat premi risiko spekulasi di atas nilai intrinsik.",
+                    optimalChoice: "Tahan (Hold) atau Beli dengan kewaspadaan tinggi.",
+                    realCase: "Strategi GARP (Growth at a Reasonable Price) Peter Lynch: Mengikuti ekspansi momentum sembari mengawasi batas kewajaran valuasi."
+                };
+            } else if (action === "hold") {
+                return {
+                    isWise: true,
+                    badge: "✅ KEPUTUSAN TEPAT",
+                    title: "Menjaga Keseimbangan Kas & Arus Dividen",
+                    whyWise: "Pilihan paling seimbang: portofolio tetap memanen dividen tunai sembari mengamati tren spekulan sebelum memutuskan profit-taking.",
+                    whyUnwise: "Bukan keputusan keliru.",
+                    optimalChoice: "Tahan (Hold).",
+                    realCase: "Disiplin Alokasi Aset Institusional: Mempertahankan posisi berimbang antara kas tunai dan instrumen berdividen produktif."
+                };
+            } else {
+                return {
+                    isWise: false,
+                    badge: "⚠️ KURANG TEPAT",
+                    title: "Likuidasi Terlalu Awal",
+                    whyWise: "Mengamankan kas tunai Rp 67.500 per lot dengan sedikit capital gain.",
+                    whyUnwise: "Harga Rp 67.500 baru permulaan siklus spekulasi. Anda masih memiliki hak 5 kuartal dividen dan melewatkan puncak harga Rp 70.000 di putaran 3-4.",
+                    optimalChoice: "Sebaiknya Tahan (Hold) kepemilikan saham untuk dijual di puncak Putaran 3 atau 4.",
+                    realCase: "Disposition Effect: Kecenderungan psikologis investor menjual aset yang baru untung tipis terlalu cepat, namun menahan aset yang merugi terlalu lama."
+                };
+            }
+        } else if (r === 3) {
+            if (action === "sell") {
+                return {
+                    isWise: true,
+                    badge: "🏆 SANGAT TEPAT",
+                    title: "Awal Smart Profit-Taking yang Brilian!",
+                    whyWise: "Anda mengunci harga puncak Rp 70.000 per lot ke dalam kas tunai saat valuasi sudah mahal 1.75x fundamental. Kas tunai yang diamankan kebal dari badai crash!",
+                    whyUnwise: "Langkah de-risking yang sangat disiplin dan matang.",
+                    optimalChoice: "Jual (-2 Lot) untuk mengamankan keuntungan modal.",
+                    realCase: "Prinsip Bernard Baruch saat Great Crash 1929: 'Saya menjadi kaya karena selalu menjual terlalu cepat sebelum orang lain panik berebut pintu keluar.'"
+                };
+            } else if (action === "hold") {
+                return {
+                    isWise: true,
+                    badge: "✅ CUKUP TEPAT",
+                    title: "Menunggangi Gelembung Menuju Puncak Putaran 4",
+                    whyWise: "Masih dapat ditoleransi jika Anda berencana mengeksekusi aksi jual mutlak di Putaran 4 (puncak tertinggi sebelum crash).",
+                    whyUnwise: "Risiko portofolio meningkat tajam karena mayoritas kekayaan didominasi aset overvalued.",
+                    optimalChoice: "Bersiap mutlak untuk JUAL di Putaran 4!",
+                    realCase: "Taktik spekulan momentum George Soros: Menunggangi gelembung sementara waktu namun memiliki tombol darurat untuk keluar pertama kali."
+                };
+            } else {
+                return {
+                    isWise: false,
+                    badge: "❌ KURANG TEPAT",
+                    title: "Terjebak Spekulasi Greater Fool",
+                    whyWise: "Hanya untung jika ada spekulan momentum lain yang mau membeli lebih mahal di putaran berikutnya.",
+                    whyUnwise: "Harga pasar Rp 70.000 melesat +75% di atas fundamental Rp 40.000. Membeli di harga ini murni bertaruh pada Greater Fool Theory dan menanggung risiko kehancuran modal saat crash tiba.",
+                    optimalChoice: "Jual sebagian (Take Profit) atau Tahan jika mengincar puncak terakhir.",
+                    realCase: "Dot-com Mania 1999: Spekulan terus memborong saham teknologi tanpa pendapatan riil hanya karena harganya terus melambung tiap pekan."
+                };
+            }
+        } else if (r === 4) {
+            if (action === "sell") {
+                return {
+                    isWise: true,
+                    badge: "🏆 MASTERSTROKE",
+                    title: "Penjualan Sempurna di Puncak Gelembung!",
+                    whyWise: "Keputusan paling brilian di seluruh simulasi! Anda melepas saham pada valuasi ekstrem (2.25x fundamental) dan mengonversi seluruh keuntungan menjadi kas tunai sebelum crash di putaran 5.",
+                    whyUnwise: "Keputusan sempurna tanpa cela.",
+                    optimalChoice: "JUAL SELURUH SAHAM SEKARANG!",
+                    realCase: "Langkah Joseph Kennedy pada 1929: Melikuidasi seluruh portofolio saham menjadi kas tunai setelah mendengar tukang semir sepatu memberi tips saham, sebelum bursa Wall Street ambruk."
+                };
+            } else if (action === "hold") {
+                return {
+                    isWise: false,
+                    badge: "⚠️ BERISIKO TINGGI",
+                    title: "Terjebak Keserakahan di Puncak (Greed Trap)",
+                    whyWise: "Hanya menambah 1 kuartal dividen, namun nilai modal saham akan hancur lebur di putaran 5.",
+                    whyUnwise: "Menolak menjual pada valuasi 2.25x adalah jebakan keserakahan (greed). Mempertahankan saham menjamin Anda menelan penurunan modal dahsyat (-75%) di putaran 5 saat bubble burst!",
+                    optimalChoice: "Harusnya JUAL (Take Profit) sekarang!",
+                    realCase: "Sir Isaac Newton dalam South Sea Bubble 1720: Sempat untung 7.000 pound, namun masuk kembali dan menolak menjual hingga akhirnya rugi 20.000 pound saat bursa pecah."
+                };
+            } else {
+                return {
+                    isWise: false,
+                    badge: "❌ KELIRU TOTAL",
+                    title: "Membeli di Puncak Bencana Gelembung (FOMO Ekstrem)",
+                    whyWise: "Tidak ada dasar rasional; membeli aset seharga Rp 67.500 padahal dividen sisa hanya Rp 30.000 menjelang kejatuhan pasar.",
+                    whyUnwise: "Ini adalah zona bahaya tertinggi! Rasio harga mencapai 2.25x fundamental. Putaran 5 dipastikan crash meletus ke Rp 17.000. Membeli di sini membakar modal kas Anda seketika!",
+                    optimalChoice: "JUAL SELURUH SAHAM (Take Profit Mutlak) sekarang!",
+                    realCase: "Investor ritel yang memborong saham Enron atau Lehman Brothers di puncak euforia sebelum pembukuan keuangan terbongkar dan harga runtuh menjadi nol."
+                };
+            }
+        } else if (r === 5) {
+            if (action === "sell") {
+                return {
+                    isWise: true,
+                    badge: "🛡️ KEPUTUSAN TEPAT",
+                    title: "Disiplin Cut Loss & Penyelamatan Modal Kas",
+                    whyWise: "Manajemen risiko yang bijak. Anda menjual sisa saham untuk mengamankan kas tunai Rp 17.000 per lot sebelum aset benar-benar tidak bernilai (Rp 0) di akhir putaran 6.",
+                    whyUnwise: "Anda merealisasikan kerugian modal dibanding puncak, namun kas yang diselamatkan jauh lebih baik daripada terbakar habis.",
+                    optimalChoice: "Jual untuk mengamankan kas tunai (Cash is King).",
+                    realCase: "Manajemen risiko Stop-Loss Paul Tudor Jones saat Black Monday 1987 yang menyelamatkan portofolionya ketika bursa anjlok -22.6% dalam 1 hari."
+                };
+            } else if (action === "hold") {
+                return {
+                    isWise: false,
+                    badge: "⚠️ KURANG TEPAT",
+                    title: "Menjadi Korban Bagholder Pasca-Crash",
+                    whyWise: "Hanya menghasilkan dividen kuartal berjalan.",
+                    whyUnwise: "Menahan aset yang sedang mengalami keruntuhan likuiditas (loss aversion). Anda menolak mengakui kerugian sehingga sisa nilai saham Anda akan tergerus habis menuju Rp 0 di putaran 6.",
+                    optimalChoice: "Jual (Cut Loss) sisa saham untuk menyelamatkan kas tunai.",
+                    realCase: "Fenomena Bagholder: Investor ritel yang memegang saham teknologi pasca pecahnya bubble 2000 selama bertahun-tahun hingga perusahaan bangkrut."
+                };
+            } else {
+                return {
+                    isWise: false,
+                    badge: "❌ KURANG TEPAT",
+                    title: "Menangkap Pisau Jatuh (Falling Knife Trap)",
+                    whyWise: "Harga Rp 17.000 tampak murah dibanding putaran lalu (Rp 67.500).",
+                    whyUnwise: "Meskipun harga di bawah fundamental sesaat, sisa masa hidup saham tinggal 1 putaran lagi sebelum likuidasi ke Rp 0. Arus dividen sisa tidak sebanding dengan risiko modal hangus di putaran 6.",
+                    optimalChoice: "Jual sisa saham (Cut Loss) untuk menyelamatkan kas tunai.",
+                    realCase: "Spekulan yang terus membeli saham properti subprime mortgage AS awal 2008 mengira harga sudah murah, namun krisis makin dalam hingga kebangkrutan massal."
+                };
+            }
+        } else {
+            // Round 6
+            if (action === "sell") {
+                return {
+                    isWise: true,
+                    badge: "✅ SANGAT TEPAT",
+                    title: "Likuidasi Akhir Menjadi Kas Tunai",
+                    whyWise: "Anda menjual seluruh sisa lembar saham seharga Rp 7.000 per lot, mengubah aset yang akan kedaluwarsa menjadi kas tunai murni sebelum nilainya menjadi Rp 0!",
+                    whyUnwise: "Keputusan optimal di garis akhir.",
+                    optimalChoice: "Jual seluruh sisa saham.",
+                    realCase: "Likuidasi posisi akhir kontrak berjangka / derivatif menjelang penyelesaian kas (cash settlement)."
+                };
+            } else if (action === "hold") {
+                return {
+                    isWise: false,
+                    badge: "⚠️ KURANG TEPAT",
+                    title: "Membiarkan Aset Hangus Menjadi Rp 0",
+                    whyWise: "Anda menerima dividen sisa terakhir kuartal 6.",
+                    whyUnwise: "Saham yang Anda pegang hangus menjadi Rp 0. Anda kehilangan peluang mencairkan Rp 7.000 per lot kas tunai tambahan.",
+                    optimalChoice: "Sebaiknya Jual seluruh sisa lembar saham Anda.",
+                    realCase: "Investor yang lupa mengeksekusi hak waran/opsi hingga hangus tak bernilai di tanggal kedaluwarsa."
+                };
+            } else {
+                return {
+                    isWise: false,
+                    badge: "❌ KELIRU TOTAL",
+                    title: "Membeli Aset yang Akan Bernilai Rp 0",
+                    whyWise: "Tidak ada dasar rasional sama sekali.",
+                    whyUnwise: "Saham akan langsung bernilai Rp 0 dan dihapus bukukan setelah putaran ini selesai. Membeli saham di putaran likuidasi adalah pemborosan kas tunai secara sia-sia.",
+                    optimalChoice: "Jual seluruh sisa saham!",
+                    realCase: "Membeli kontrak opsi kedaluwarsa (worthless expiration) di hari jatuh tempo."
+                };
+            }
+        }
+    }
+
     playBubbleRound(action) {
         if (this.bubbleState.isFinished) return null;
 
@@ -215,12 +436,12 @@ class EconomicsGamesEngine {
         // Dividen acak kuartal berjalan (rata-rata 10.000, rentang 7.000 - 13.000)
         const dividend = Math.floor(Math.random() * 6000) + 7000;
 
-        let execShares = 0;
+        const sharesBefore = this.bubbleState.shares;
+        const cashBefore = this.bubbleState.cash;
         let note = "Tahan Aset (Hold)";
-        let isWise = false;
-        let clueTitle = "";
-        let clueDetail = "";
-        let realCase = "";
+
+        // Evaluate decision with deep theory x execution breakdown
+        const evalRes = this.evaluateBubbleDecision(r, action, ratio, marketPrice, sharesBefore, cashBefore);
 
         if (action === "buy") {
             const qtyToBuy = 2;
@@ -228,30 +449,9 @@ class EconomicsGamesEngine {
             if (this.bubbleState.cash >= cost) {
                 this.bubbleState.cash -= cost;
                 this.bubbleState.shares += qtyToBuy;
-                execShares = qtyToBuy;
                 note = `Beli +${qtyToBuy} Saham @ Rp ${marketPrice.toLocaleString('id-ID')}`;
-
-                if (r <= 2) {
-                    isWise = true;
-                    clueTitle = "✅ Langkah Masuk Dini yang Masuk Akal";
-                    clueDetail = `Anda mengakumulasi saham saat rasio harga terhadap fundamental masih terukur (${ratio.toFixed(2)}x). Anda mengamankan arus dividen putaran awal.`;
-                    realCase = "Mirip investor *value investing* yang membeli saham berfundamental sehat pada fase awal ekspansi pasar.";
-                } else if (r >= 3 && r <= 4) {
-                    isWise = false;
-                    clueTitle = "❌ Terjebak FOMO / Greater Fool Trap";
-                    clueDetail = `Anda MEMBELI di puncak gelembung dengan harga ${ratio.toFixed(2)}x lipat di atas nilai wajar fundamental! Secara teori perilaku keuangan, Anda bertaruh akan ada 'orang yang lebih bodoh' yang bersedia membeli lebih mahal sebelum crash.`;
-                    realCase = "Persis jebakan investor ritel pada puncak *Dot-com Bubble 2000* (membeli saham Pets.com) atau *Crypto Frenzy 2021* menjelang pengetatan suku bunga global.";
-                } else {
-                    isWise = false;
-                    clueTitle = "💥 Menangkap Pisau Jatuh (Catching Falling Knife)";
-                    clueDetail = `Anda membeli aset saat gelembung sedang meletus menuju likuidasi putaran 6 di mana nilai intrinsik sisa dividen mendekati Rp 0.`;
-                    realCase = "Mirip spekulan yang terus membeli saham Lehman Brothers atau Enron saat harga terjun bebas menjelang kebangkrutan.";
-                }
             } else {
                 note = "Gagal Beli (Saldo Kas Tidak Mencukupi)";
-                clueTitle = "⚠️ Likuiditas Kas Tidak Cukup";
-                clueDetail = "Anda tidak memiliki cukup uang tunai untuk mengeksekusi pembelian 2 lot saham di harga pasar saat ini.";
-                realCase = "Kendala likuiditas kas (*liquidity constraint*) sering kali menyelamatkan investor dari aksi spekulasi berlebihan.";
             }
         } else if (action === "sell") {
             const qtyToSell = Math.min(2, this.bubbleState.shares);
@@ -259,50 +459,12 @@ class EconomicsGamesEngine {
                 const proceeds = qtyToSell * marketPrice;
                 this.bubbleState.cash += proceeds;
                 this.bubbleState.shares -= qtyToSell;
-                execShares = -qtyToSell;
                 note = `Jual -${qtyToSell} Saham @ Rp ${marketPrice.toLocaleString('id-ID')}`;
-
-                if (r >= 3 && r <= 4) {
-                    isWise = true;
-                    clueTitle = "🏆 Eksekusi Brilian: Smart Profit-Taking!";
-                    clueDetail = `Anda merealisasikan keuntungan (*take profit*) di harga puncak gelembung spekulatif saat harga overvalued ${ratio.toFixed(2)}x lipat. Kas yang Anda kunci aman dari kehancuran crash putaran berikutnya!`;
-                    realCase = "Sama persis dengan strategi investor kawakan Bernard Baruch yang selamat dari *Great Crash 1929* dengan prinsip: 'Saya menjadi kaya karena selalu menjual terlalu cepat.'";
-                } else if (r <= 2) {
-                    isWise = false;
-                    clueTitle = "⚠️ Menjual Terlalu Dini";
-                    clueDetail = "Anda melepas saham saat gelembung baru mulai terbentuk dan membuang hak dividen putaran mendatang saat harga masih mendekati nilai fundamental.";
-                    realCase = "Mirip investor yang melepas aset produktif terlalu awal sebelum siklus pertumbuhan modal terealisasi penuh.";
-                } else {
-                    isWise = true;
-                    clueTitle = "🛡️ Cut Loss / Penyelamatan Likuiditas Terakhir";
-                    clueDetail = "Anda menjual sisa saham saat crash untuk mengamankan kas sebelum seluruh aset kehilangan nilai di akhir putaran 6.";
-                    realCase = "Manajemen risiko disiplin (*stop-loss*) untuk mencegah modal menguap menjadi nol.";
-                }
             } else {
                 note = "Gagal Jual (Tidak Memiliki Saham)";
-                clueTitle = "ℹ️ Anda Sudah Tidak Memiliki Saham";
-                clueDetail = "Seluruh posisi saham Anda sudah terlikuidasi menjadi kas tunai murni.";
-                realCase = "Memegang 100% kas tunai saat pasar saham mengalami badai kehancuran (*cash is king*).";
             }
         } else {
-            // HOLD
             note = "Tahan Posisi (Hold)";
-            if (r >= 3 && r <= 4 && this.bubbleState.shares > 0) {
-                isWise = false;
-                clueTitle = "⚠️ Menunggangi Gelembung (Riding the Bubble)";
-                clueDetail = `Anda memilih menahan ${this.bubbleState.shares} lot saham saat harga pasar sudah ${ratio.toFixed(2)}x di atas fundamental. Anda menikmati dividen, namun menanggung risiko kejatuhan modal (*capital loss*) dahsyat saat crash tiba.`;
-                realCase = "Kondisi fisikawan jenius Sir Isaac Newton dalam *South Sea Bubble 1720*: menolak menjual saat harga mahal hingga akhirnya kehilangan kekayaannya saat gelembung pecah.";
-            } else if (r === 5 && this.bubbleState.shares > 0) {
-                isWise = false;
-                clueTitle = "💥 Terjebak Bagholder!";
-                clueDetail = "Gelembung meletus! Harga pasar anjlok drastis dan Anda menelan penurunan nilai kekayaan bersih secara langsung.";
-                realCase = "Fenomena *bagholder* di mana investor ritel enggan menjual saat rugi (*loss aversion*) hingga nilai aset habis terbakar.";
-            } else {
-                isWise = true;
-                clueTitle = "✅ Bertahan Netral & Disiplin";
-                clueDetail = "Anda mempertahankan posisi yang seimbang antara kas dan kepemilikan saham sesuai fase siklus pasar.";
-                realCase = "Menjaga stabilitas portofolio saat volatilitas jangka pendek meningkat.";
-            }
         }
 
         // Penerimaan dividen putaran berjalan untuk saham yang dipegang
@@ -323,10 +485,14 @@ class EconomicsGamesEngine {
             shares: this.bubbleState.shares,
             cash: this.bubbleState.cash,
             netWorth: totalNetWorth,
-            isWise: isWise,
-            clueTitle: clueTitle,
-            clueDetail: clueDetail,
-            realCase: realCase
+            isWise: evalRes.isWise,
+            badge: evalRes.badge,
+            clueTitle: evalRes.title,
+            clueDetail: evalRes.isWise ? evalRes.whyWise : evalRes.whyUnwise,
+            whyWise: evalRes.whyWise,
+            whyUnwise: evalRes.whyUnwise,
+            optimalChoice: evalRes.optimalChoice,
+            realCase: evalRes.realCase
         });
 
         this.bubbleState.round++;
@@ -343,10 +509,14 @@ class EconomicsGamesEngine {
             bubbleRatio: parseFloat(ratio.toFixed(2)),
             dividend: dividend,
             actionNote: note,
-            isWise: isWise,
-            clueTitle: clueTitle,
-            clueDetail: clueDetail,
-            realCase: realCase,
+            isWise: evalRes.isWise,
+            badge: evalRes.badge,
+            clueTitle: evalRes.title,
+            clueDetail: evalRes.isWise ? evalRes.whyWise : evalRes.whyUnwise,
+            whyWise: evalRes.whyWise,
+            whyUnwise: evalRes.whyUnwise,
+            optimalChoice: evalRes.optimalChoice,
+            realCase: evalRes.realCase,
             totalNetWorth: totalNetWorth,
             isCrash: r === 5,
             isFinished: isFinished,

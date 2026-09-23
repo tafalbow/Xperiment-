@@ -1694,6 +1694,127 @@ html, body {
 .clue-tag.wise { background: #dcfce7; color: #166534; }
 .clue-tag.risky { background: #fee2e2; color: #991b1b; }
 
+/* Stage-by-Stage Rich Evaluation Components */
+.clue-eval-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.eval-box {
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+.eval-box.wise {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.eval-box.unwise {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.eval-box-label {
+    font-weight: 800;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.eval-box-label.green { color: #15803d; }
+.eval-box-label.red { color: #b91c1c; }
+
+.clue-optimal-box {
+    margin-top: 8px;
+    padding: 9px 13px;
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    border-left: 3px solid #9333ea;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #581c87;
+    line-height: 1.45;
+}
+
+.endgame-stage-reviews-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.stage-review-card {
+    background: #ffffff;
+    border: 1.5px solid var(--border-hairline);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    transition: border-color 0.2s ease;
+}
+
+.stage-review-card.card-wise {
+    border-left: 4px solid #16a34a;
+}
+
+.stage-review-card.card-risky {
+    border-left: 4px solid #dc2626;
+}
+
+.stage-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-hairline);
+}
+
+.stage-review-title-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stage-review-round {
+    font-size: 0.88rem;
+    color: var(--text-primary);
+}
+
+.stage-review-stats {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+.stage-review-headline {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    margin: 8px 0 4px;
+}
+
+@media (max-width: 640px) {
+    .clue-eval-grid {
+        grid-template-columns: 1fr;
+    }
+    .stage-review-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+
 /* Endgame Scorecard Card */
 .lab-endgame-card {
     background: #ffffff;
