@@ -131,9 +131,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
               <div class="px-2 py-1 rounded bg-[#EFE3D5] text-[10px] text-[#6D4C41] font-sans leading-tight border-l-2 border-[#0038A8]">
                 <span class="font-bold text-[#2C2420]">Catatan Verifikasi:</span> Data disajikan dari hasil kompilasi sumber resmi. Kendati akurasi diupayakan maksimal, potensi kekeliruan teknis tetap dimungkinkan; pengguna disarankan merujuk sumber asli yang tercantum untuk keperluan formal.
               </div>
-              <div class="text-[10px] text-[#7D655C] font-sans">
-                Kemitraan Data: <strong>Kementerian Keuangan RI • BPS • Bank Indonesia • BPK RI</strong>
-              </div>
             </div>
 
             <!-- Col 2: Otoritas Sumber Data (Span 2) -->

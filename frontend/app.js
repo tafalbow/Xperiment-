@@ -4,7 +4,7 @@
 // ==============================================================================
 
 import { ApiClient } from './services/api_client.js';
-import { renderHeader, openEmailRegistrationModal } from './components/header.js?v=11.47.0';
+import { renderHeader, openEmailRegistrationModal } from './components/header.js?v=11.48.0';
 import { SearchBar } from './components/search_bar.js';
 import { FilterPanel } from './components/filter_panel.js';
 import { SidebarExtras } from './components/sidebar_extras.js';
