@@ -127,9 +127,14 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
                   </div>
                 </div>
               </div>
-              <p class="text-xs text-[#5D4037] font-sans leading-relaxed">
-                Repositori kompilasi dan harmonisasi statistik resmi pergerakan ekonomi Indonesia lintas institusi statutori untuk perumusan kebijakan publik dan riset kredibel.
-              </p>
+              <div class="space-y-2 text-xs text-[#5D4037] font-sans leading-relaxed">
+                <p>
+                  Website ini dibangun untuk meningkatkan akses publik terhadap data pemerintah yang dapat digunakan untuk analisis kebijakan dan analisis publik. DEN-Data menghimpun dan mengompilasi data sekunder yang dipublikasikan oleh berbagai kementerian dan lembaga pemerintah, dengan mencantumkan sumber setiap data untuk mendukung keterlacakan dan verifikasi.
+                </p>
+                <p>
+                  Data yang disajikan merupakan hasil kompilasi dan pengolahan dari berbagai sumber resmi. Meskipun telah dilakukan upaya untuk menjaga akurasi, kesalahan dalam pengumpulan, pengolahan, atau penyajian data tetap mungkin terjadi. Untuk keperluan resmi, pengguna disarankan melakukan verifikasi dengan merujuk pada sumber asli yang tercantum.
+                </p>
+              </div>
               <div class="pt-1 text-[10.5px] text-[#7D655C]">
                 Pengawasan & Kemitraan: <strong>Kementerian Keuangan RI • BPS • Bank Indonesia • BPK RI</strong>
               </div>
