@@ -119,15 +119,11 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
                 <a href="#" class="flex items-center shrink-0 group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
                   <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-16 w-16 sm:h-20 sm:w-20 object-contain">
                 </a>
-                <div class="flex flex-col gap-1.5 justify-center">
+                <div class="flex flex-col justify-center">
                   <div class="px-3.5 py-1 rounded-md bg-white shadow-xs inline-flex items-center">
                     <span class="text-base sm:text-lg font-mono font-black text-[#0038A8] tracking-widest uppercase">
                       INDOEKONOMI.DATA.GO.ID
                     </span>
-                  </div>
-                  <div class="px-2.5 py-0.5 rounded bg-white shadow-2xs text-[10px] font-mono font-semibold inline-flex items-center gap-1 text-[#5D4037] w-fit">
-                    <span class="text-[#7D655C] font-normal lowercase">supported by</span>
-                    <span class="font-bold uppercase text-[#2C2420]">Dewan Ekonomi Nasional</span>
                   </div>
                 </div>
               </div>
@@ -177,9 +173,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
                 </p>
                 <div class="flex items-center gap-1.5 text-[11px] text-[#7D655C]">
                   <span>🕒 Terakhir Diperbarui: <strong class="text-[#2C2420]">28 Januari 2025</strong></span>
-                </div>
-                <div class="text-[11px] text-[#7D655C]">
-                  Helpdesk: <a href="mailto:lubis.tania@dewanekonomi.go.id" class="text-[#0038A8] hover:underline font-bold">lubis.tania@dewanekonomi.go.id</a>
                 </div>
               </div>
 
