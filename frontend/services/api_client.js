@@ -431,6 +431,35 @@ export const ApiClient = {
     return `${API_BASE}/api/cukai-bps/export/csv?${query.toString()}`;
   },
 
+  // --------------------------------------------------------------------------
+  // Official BPS Web API Endpoints (Badan Pusat Statistik RI)
+  // --------------------------------------------------------------------------
+  async fetchBpsStatus(checkLive = false) {
+    const res = await fetch(`${API_BASE}/api/bps/status?check_live=${checkLive}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: Gagal memeriksa status BPS API`);
+    return await res.json();
+  },
+
+  async fetchBpsPressReleases(limit = 10, page = 1, refresh = false) {
+    const res = await fetch(`${API_BASE}/api/bps/press-releases?limit=${limit}&page=${page}&refresh=${refresh}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: Gagal memuat Berita Resmi Statistik (BRS) BPS`);
+    return await res.json();
+  },
+
+  async syncBpsData() {
+    const res = await fetch(`${API_BASE}/api/bps/sync`, { method: 'POST' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: Gagal menyinkronkan data BPS Web API`);
+    return await res.json();
+  },
+
+  async fetchBpsVariableData(varId, years = null, refresh = false) {
+    const query = new URLSearchParams({ refresh });
+    if (years) query.append('years', years);
+    const res = await fetch(`${API_BASE}/api/bps/data/${varId}?${query.toString()}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: Gagal memuat data variabel BPS ${varId}`);
+    return await res.json();
+  },
+
   // ============================================================================
   // MASTER ADMIN & GOVERNANCE METHODS (taniafatimahlubis@gmail.com)
   // ============================================================================

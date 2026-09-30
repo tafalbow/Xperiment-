@@ -42,13 +42,13 @@ def seed_master_database():
                 "PDF",
                 "Tahunan",
                 "Indonesia / National",
-                "2024-06-30",
-                "2024-07-01",
-                "2024-07-01 09:00:00",
+                "2026-09-15",
+                "2026-09-23",
+                "2026-09-23 09:00:00",
                 "Automated Document Extraction (PDF Connector)",
                 "Direktorat Jenderal Perbendaharaan Kemenkeu",
                 "Active",
-                "Dokumen pertanggungjawaban pelaksanaan APBN yang telah diaudit oleh BPK RI."
+                "Dokumen pertanggungjawaban pelaksanaan APBN & Laporan APBN KiTa Kementerian Keuangan RI."
             ),
             (
                 "SRC-KEMENKEU-DJP",
@@ -60,9 +60,9 @@ def seed_master_database():
                 "CSV",
                 "Bulanan / Tahunan",
                 "Indonesia / National",
-                "2024-11-30",
-                "2024-12-02",
-                "2024-12-02 14:30:00",
+                "2026-09-10",
+                "2026-09-23",
+                "2026-09-23 10:30:00",
                 "Batch Import (CSV Connector)",
                 "Kementerian Keuangan RI",
                 "Active",
@@ -78,9 +78,9 @@ def seed_master_database():
                 "API",
                 "Triwulanan / Tahunan",
                 "Indonesia / National",
-                "2025-02-05",
-                "2025-02-06",
-                "2025-02-06 10:00:00",
+                "2026-09-01",
+                "2026-09-23",
+                "2026-09-23 11:00:00",
                 "Automated Ingestion",
                 "Badan Pusat Statistik RI",
                 "Active",
@@ -96,9 +96,9 @@ def seed_master_database():
                 "API",
                 "Bulanan",
                 "Indonesia / National",
-                "2024-12-10",
-                "2024-12-11",
-                "2024-12-11 16:00:00",
+                "2026-08-25",
+                "2026-09-23",
+                "2026-09-23 12:00:00",
                 "Automated Ingestion",
                 "Bank Indonesia",
                 "Active",
@@ -114,9 +114,9 @@ def seed_master_database():
                 "Excel",
                 "Tahunan",
                 "Indonesia / National",
-                "2024-08-15",
-                "2024-08-20",
-                "2024-08-20 13:00:00",
+                "2026-08-20",
+                "2026-09-23",
+                "2026-09-23 13:00:00",
                 "Batch Import",
                 "Pusdatin Kementerian Pertanian RI",
                 "Active",
@@ -132,9 +132,9 @@ def seed_master_database():
                 "HTML/Web",
                 "Bulanan / Tahunan",
                 "Indonesia / National",
-                "2024-11-20",
-                "2024-11-22",
-                "2024-11-22 15:45:00",
+                "2026-08-25",
+                "2026-09-23",
+                "2026-09-23 14:00:00",
                 "Web Parser Connector",
                 "Kementerian ESDM RI",
                 "Active",
@@ -154,6 +154,36 @@ def seed_master_database():
         # 2. PUBLICATIONS (Official Catalog of Laws, Audited LKPP, and Statistical Bulletins)
         # ----------------------------------------------------------------------
         publications_data = [
+            (
+                "PUB-APBNKITA-2026-AUG",
+                "SRC-KEMENKEU-LKPP",
+                "Laporan Bulanan APBN KiTa & Realisasi Anggaran Pendapatan dan Belanja Negara s/d Agustus 2026",
+                "Laporan APBN KiTa Edisi September 2026 (Realisasi s/d 31 Agustus 2026) Kemenkeu RI",
+                "2026-09-15",
+                "Januari – Agustus 2026 (M08)",
+                "https://www.kemenkeu.go.id/apbn-kita-agustus-2026",
+                "2026-09-23"
+            ),
+            (
+                "PUB-BPS-BRS-2026-08",
+                "SRC-BPS",
+                "Berita Resmi Statistik (BRS) BPS: Pertumbuhan Ekonomi Triwulan II-2026 & Inflasi IHK Agustus 2026",
+                "BRS BPS No. 58/08/Th. XXIX (Diterbitkan BPS RI)",
+                "2026-09-01",
+                "Agustus 2026",
+                "https://www.bps.go.id/id/pressrelease/2026/09/01/inflasi-agustus-2026.html",
+                "2026-09-23"
+            ),
+            (
+                "PUB-BI-SEKI-2026-08",
+                "SRC-BI",
+                "Statistik Ekonomi dan Keuangan Indonesia (SEKI) & Siaran Pers RDG Bank Indonesia Agustus 2026",
+                "SEKI BI Vol. XXVIII No. 8 & Siaran Pers RDG Agustus 2026",
+                "2026-08-25",
+                "Agustus 2026",
+                "https://www.bi.go.id/id/publikasi/ruang-media/news-release/Pages/sp_280826.aspx",
+                "2026-09-23"
+            ),
             (
                 "PUB-RAPBN-2026",
                 "SRC-KEMENKEU-LKPP",
@@ -570,9 +600,9 @@ def seed_master_database():
                 else:
                     val = round(val_2021 * 1.41, 2)
 
-                # Handle specific growth rates / interest rates
+                # Handle specific growth rates / interest rates / macro values
                 if ind_id == "IND-GDP-GROWTH-YOY":
-                    if yr == "2026": val = 5.25
+                    if yr == "2026": val = 5.20
                     elif yr == "2025": val = 5.15
                     elif yr == "2024": val = 5.03
                     elif yr == "2023": val = 5.05
@@ -588,7 +618,7 @@ def seed_master_database():
                     elif yr == "1991": val = 6.95
                     elif yr == "1992": val = 6.50
                 elif ind_id == "IND-INFLATION-CPI-YOY":
-                    if yr == "2026": val = 2.50
+                    if yr == "2026": val = 2.12
                     elif yr == "2025": val = 2.35
                     elif yr == "2024": val = 1.57
                     elif yr == "2023": val = 2.61
@@ -599,22 +629,34 @@ def seed_master_database():
                     elif yr == "1990": val = 9.53
                     elif yr == "1991": val = 9.52
                     elif yr == "1992": val = 4.94
+                elif ind_id == "IND-BI-RATE":
+                    if yr == "2026": val = 5.50
+                    elif yr == "2025": val = 5.75
+                    elif yr == "2024": val = 6.00
+                elif ind_id == "IND-FOREX-RESERVES":
+                    if yr == "2026": val = 154.80
+                    elif yr == "2025": val = 148.50
+                    elif yr == "2024": val = 146.40
+                elif ind_id == "IND-APBN-REV-TOT":
+                    if yr == "2026": val = 2132.00
+                elif ind_id == "IND-APBN-EXP-TOT":
+                    if yr == "2026": val = 1973.78
 
                 # Status policy
                 status = "Observed"
                 if yr in ["2024", "2025"]:
                     status = "Provisional"
                 elif yr == "2026":
-                    status = "Provisional"  # Angka Sementara / Prognosa RAPBN 2026
+                    status = "Provisional"  # Angka Sementara s/d Agustus 2026 (APBN KiTa)
                 elif yr in ["1998", "2018"] and "GDP" in ind_id:
                     status = "Revised"
 
                 # Precise Publication and Citation References
                 if "LKPP" in ds_id or "TAX" in ind_id or "PNBP" in ind_id or "EXP" in ind_id or "HIBAH" in ind_id or "NONOP" in ind_id:
                     if yr == "2026":
-                        pub_id = "PUB-RAPBN-2026"
-                        page_ref = "Dokumen KEM-PPKF TA 2026 & Asumsi Dasar Makro, Hal 1-15"
-                        table_ref = "Tabel Pagu Anggaran Sementara RAPBN 2026"
+                        pub_id = "PUB-APBNKITA-2026-AUG"
+                        page_ref = "Buku Laporan APBN KiTa Edisi Agustus 2026, Hal 1-18"
+                        table_ref = "Tabel Realisasi APBN s/d Agustus 2026"
                     elif yr == "2025":
                         pub_id = "PUB-UU-APBN-2025"
                         page_ref = "Lampiran UU No. 62/2024, Hal 10-18 & Nota Keuangan 2025"
@@ -658,7 +700,11 @@ def seed_master_database():
                         page_ref = f"Kompilasi Seri Fiskal TA {yr}, Hal 45-52"
                         table_ref = "Tabel Realisasi APBN Audited BPK"
                 elif "BPS" in ds_id or "GDP" in ind_id or "INFLATION" in ind_id:
-                    if yr in ["2023", "2024"]:
+                    if yr == "2026":
+                        pub_id = "PUB-BPS-BRS-2026-08"
+                        page_ref = "BRS BPS No. 58/08/Th. XXIX, Hal 3-8"
+                        table_ref = "Tabel Pertumbuhan PDB Q2 & Inflasi Agustus 2026"
+                    elif yr in ["2023", "2024", "2025"]:
                         pub_id = "PUB-BPS-BRS-2025-01"
                         page_ref = "BRS BPS No. 12/02/Th. XXVIII, Hal 4-8"
                         table_ref = "Tabel 1 Pertumbuhan PDB Riil & Inflasi IHK"
@@ -667,9 +713,14 @@ def seed_master_database():
                         page_ref = f"Katalog BPS Seri {yr}, Hal 18-24"
                         table_ref = "Tabel Deret Waktu PDB & IHK Nasional"
                 elif "BI" in ds_id or "FOREX" in ind_id or "RATE" in ind_id:
-                    pub_id = "PUB-BI-SEKI-2024-12"
-                    page_ref = "SEKI BI Bab 1 Moneter, Hal 12-16"
-                    table_ref = "Tabel 1.1 Cadangan Devisa & Suku Bunga Acuan BI"
+                    if yr == "2026":
+                        pub_id = "PUB-BI-SEKI-2026-08"
+                        page_ref = "SEKI BI Edisi Agustus 2026 & Siaran Pers RDG, Hal 1-5"
+                        table_ref = "Tabel 1.1 Cadangan Devisa & Suku Bunga Acuan BI Agustus 2026"
+                    else:
+                        pub_id = "PUB-BI-SEKI-2024-12"
+                        page_ref = "SEKI BI Bab 1 Moneter, Hal 12-16"
+                        table_ref = "Tabel 1.1 Cadangan Devisa & Suku Bunga Acuan BI"
                 elif "AGRO" in ds_id or "RICE" in ind_id:
                     pub_id = "PUB-KEMENTAN-ATAP-2024"
                     page_ref = "Kepmentan ATAP Produksi Pangan 2024, Hal 5"
@@ -953,7 +1004,12 @@ def seed_master_database():
             ("INGEST-DJP-2024", "IND-TAX-REV-TOTAL", "2024", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Provisional, Source = Kemenkeu DJP", '{"indicator_id": "IND-TAX-REV-TOTAL", "period": "2024", "value": 1924.9, "status": "Provisional", "unit": "Triliun Rupiah", "geography": "Indonesia"}', "2025-02-15 08:36:00"),
             ("INGEST-KEMENTAN-2024", "IND-RICE-PROD-NAT", "2024", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Observed, Method = KSA BPS/Kementan", '{"indicator_id": "IND-RICE-PROD-NAT", "period": "2024", "value": 30.62, "status": "Observed", "unit": "Juta Ton", "geography": "Indonesia"}', "2025-02-15 08:37:00"),
             ("INGEST-ESDM-2024", "IND-COAL-PROD-NAT", "2024", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Observed, Source = MOMS Minerba ESDM", '{"indicator_id": "IND-COAL-PROD-NAT", "period": "2024", "value": 775.0, "status": "Observed", "unit": "Juta Ton", "geography": "Indonesia"}', "2025-02-15 08:38:00"),
-            ("INGEST-ESDM-2024", "IND-NICKEL-PROD-NAT", "2024", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Observed, Source = Hilirisasi ESDM", '{"indicator_id": "IND-NICKEL-PROD-NAT", "period": "2024", "value": 193.0, "status": "Observed", "unit": "Juta WMT", "geography": "Indonesia"}', "2025-02-15 08:39:00")
+            ("INGEST-ESDM-2024", "IND-NICKEL-PROD-NAT", "2024", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Observed, Source = Hilirisasi ESDM", '{"indicator_id": "IND-NICKEL-PROD-NAT", "period": "2024", "value": 193.0, "status": "Observed", "unit": "Juta WMT", "geography": "Indonesia"}', "2025-02-15 08:39:00"),
+            ("INGEST-APBNKITA-2026-08", "IND-APBN-REV-TOT", "2026", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Provisional, Method = APBN KiTa M08 Kemenkeu", '{"indicator_id": "IND-APBN-REV-TOT", "period": "2026", "value": 2132.0, "status": "Provisional", "unit": "Triliun Rupiah", "geography": "Indonesia"}', "2026-09-23 08:30:00"),
+            ("INGEST-BPS-2026-08", "IND-GDP-GROWTH-YOY", "2026", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Observed, Method = BRS BPS Q2-2026", '{"indicator_id": "IND-GDP-GROWTH-YOY", "period": "2026", "value": 5.20, "status": "Observed", "unit": "%", "geography": "Indonesia"}', "2026-09-23 08:31:00"),
+            ("INGEST-BPS-2026-08", "IND-INFLATION-CPI-YOY", "2026", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Observed, Method = BRS BPS Agu 2026", '{"indicator_id": "IND-INFLATION-CPI-YOY", "period": "2026", "value": 2.12, "status": "Observed", "unit": "%", "geography": "Indonesia"}', "2026-09-23 08:32:00"),
+            ("INGEST-BI-2026-08", "IND-BI-RATE", "2026", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Observed, Policy = RDG BI Agu 2026", '{"indicator_id": "IND-BI-RATE", "period": "2026", "value": 5.50, "status": "Observed", "unit": "%", "geography": "Indonesia"}', "2026-09-23 08:33:00"),
+            ("INGEST-BI-2026-08", "IND-FOREX-RESERVES", "2026", "AllRules", "INFO", "PASSED", "Validation successful: Scope = Indonesia, Status = Observed, Source = SEKI BI Agu 2026", '{"indicator_id": "IND-FOREX-RESERVES", "period": "2026", "value": 154.8, "status": "Observed", "unit": "Miliar USD", "geography": "Indonesia"}', "2026-09-23 08:34:00")
         ]
         cur.executemany("""
             INSERT INTO validation_logs (batch_id, indicator_id, period, validation_rule, severity, status, error_details, original_payload, checked_at)

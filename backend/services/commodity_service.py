@@ -8634,7 +8634,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-AGRI-002-JAGUNG": {
@@ -8757,7 +8757,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-AGRI-003-KEDELAI": {
@@ -8880,7 +8880,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-AGRI-004-GULA": {
@@ -9003,7 +9003,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-AGRI-005-BAWANG-MERAH": {
@@ -9126,7 +9126,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-AGRI-006-SAWIT-CPO": {
@@ -9249,7 +9249,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-LIVE-001-SAPI": {
@@ -9372,7 +9372,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-LIVE-002-AYAM": {
@@ -9495,7 +9495,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-FISH-001-TUNA": {
@@ -9618,7 +9618,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-FISH-002-UDANG": {
@@ -9741,7 +9741,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-MINE-001-BATUBARA": {
@@ -9864,7 +9864,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-MINE-002-NIKEL": {
@@ -9987,7 +9987,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-MINE-003-TEMBAGA": {
@@ -10110,7 +10110,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-MINE-004-MINYAK-MENTAH": {
@@ -10233,7 +10233,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-MINE-005-GAS-ALAM": {
@@ -10356,7 +10356,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-NONMINE-001-KAYU": {
@@ -10479,7 +10479,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-NONMINE-002-RUMPUT-LAUT": {
@@ -10602,7 +10602,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         },
         "COM-NONMINE-003-PANAS-BUMI": {
@@ -10725,7 +10725,7 @@ class CommodityService:
                         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
                         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
                         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-                        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+                        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
                 }
         }
 ,
@@ -11272,7 +11272,7 @@ class CommodityService:
         "2023": "UU No. 28 Thn 2022 (APBN 2023)",
         "2024": "UU No. 19 Thn 2023 (APBN 2024)",
         "2025": "UU No. 62 Thn 2024 (APBN 2025)",
-        "2026": "RAPBN TA 2026 (Pagu Anggaran Sementara KEM-PPKF)"
+        "2026": "UU No. 18/2025 (APBN 2026) & Realisasi s/d Agu 2026"
 }
 
     @classmethod

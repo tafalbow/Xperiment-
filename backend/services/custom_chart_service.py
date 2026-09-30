@@ -148,10 +148,10 @@ class CustomChartService:
             "tags": ["Transisi 2025", "Angka Sementara", "Program Prioritas"]
         },
         2026: {
-            "title": "Target & Alokasi Pagu Statutori UU APBN 2026",
-            "summary": "Pagu anggaran disahkan oleh DPR RI dengan target pendapatan perpajakan >Rp 2.400 Triliun, alokasi transfer ke daerah >Rp 900 Triliun, pembiayaan investasi, dan batas defisit terukur di kisaran 2,5% PDB.",
-            "doc": "Undang-Undang Republik Indonesia tentang Anggaran Pendapatan dan Belanja Negara TA 2026",
-            "tags": ["UU APBN 2026", "Pagu Anggaran", "Target DPR"]
+            "title": "Realisasi Sementara s/d Agustus 2026 (APBN KiTa) & Target UU APBN",
+            "summary": "Realisasi pendapatan negara s/d Agustus 2026 mencapai Rp 2.132,0 Triliun (66,11% APBN), sementara belanja negara terealisasi Rp 1.973,78 Triliun (54,75% APBN) dengan surplus berjalan Rp 158,22 Triliun di tengah inflasi terjaga 2,12% dan pertumbuhan PDB Q2 5,20%.",
+            "doc": "UU No. 18/2025 tentang APBN TA 2026 & Laporan Bulanan APBN KiTa Kemenkeu RI Edisi Agustus 2026",
+            "tags": ["APBN KiTa Agu 2026", "Pendapatan 66.1%", "Surplus Berjalan", "Inflasi 2.12%"]
         }
     }
 

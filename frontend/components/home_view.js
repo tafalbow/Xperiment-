@@ -44,41 +44,41 @@ export class HomeView {
           <!-- 1. PDB Growth -->
           <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pertumbuhan PDB</div>
-            <div class="text-xl font-mono font-bold text-[#3D7B5E]">5.05%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5.05% • QoQ: +0.72%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Kuartal IV-2024 (1 Okt – 31 Des) • BPS</div>
+            <div class="text-xl font-mono font-bold text-[#3D7B5E]">5.20%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5.20% • QoQ: +3.79%</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Kuartal II-2026 (1 Apr – 30 Jun) • BPS</div>
           </div>
 
           <!-- 2. Inflasi IHK -->
           <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Inflasi IHK</div>
-            <div class="text-xl font-mono font-bold text-[#0038A8]">1.55%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 1.55% • MoM: +0.28%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">1 – 31 Jan 2025 • Target BI: 2.5±1%</div>
+            <div class="text-xl font-mono font-bold text-[#0038A8]">2.12%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 2.12% • MoM: -0.03%</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Agustus 2026 • Target BI: 2.5±1%</div>
           </div>
 
           <!-- 3. BI-Rate -->
           <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">BI-Rate (7-Day RR)</div>
-            <div class="text-xl font-mono font-bold text-[#2C2420]">6.00%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 0 bps (Tetap) • MoM: 0 bps</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Posisi 1 – 31 Jan 2025 • RDG BI</div>
+            <div class="text-xl font-mono font-bold text-[#2C2420]">5.50%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: -50 bps • MoM: 0 bps (Tetap)</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • RDG BI</div>
           </div>
 
           <!-- 4. Cadangan Devisa -->
           <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Cadangan Devisa</div>
-            <div class="text-xl font-mono font-bold text-[#2C2420]">USD 150.2 M</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +3.52% • MoM: +0.20%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir 31 Jan 2025 • 6.5 Bln Impor</div>
+            <div class="text-xl font-mono font-bold text-[#2C2420]">USD 154.8 M</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +4.25% • MoM: +0.65%</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • 6.8 Bln Impor</div>
           </div>
 
           <!-- 5. Pendapatan APBN -->
           <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pendapatan APBN 2024</div>
-            <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 3.028 T</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +9.16% • MoM: +12.4%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Akumulasi 1 Jan – 31 Des 2024 (100.8%)</div>
+            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pendapatan APBN 2026</div>
+            <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 2.132,0 T</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Realisasi 66,11% • On-Track (99,16%)</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Akumulasi Jan – Agu 2026 • APBN KiTa</div>
           </div>
         </div>
 
@@ -525,7 +525,7 @@ export class HomeView {
               <p class="text-[11.5px] text-[#1F2937] font-sans leading-relaxed font-medium">
                 Laporan pelaksanaan APBN berbasis kas dari Kementerian Keuangan RI. Menyajikan realisasi pendapatan pajak, bea cukai, PNBP, belanja K/L, dan pembiayaan anggaran.
               </p>
-              <div class="pt-1 text-[10px] text-[#2E4F42] font-medium">Terbit: 15 Januari 2025 • Status: Realisasi Sementara</div>
+              <div class="pt-1 text-[10px] text-[#2E4F42] font-medium">Terbit: September 2026 (Edisi Realisasi s/d Agustus 2026) • Status: Realisasi Sementara</div>
             </div>
 
             <!-- 2. LKPP AUDITED BPK RI (MINT GREEN #B8D8BA) -->

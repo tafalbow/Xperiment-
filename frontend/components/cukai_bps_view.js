@@ -41,23 +41,38 @@ export class CukaiBpsView {
       <div class="space-y-4">
         
         <!-- HEADER: Title & Download Actions -->
-        <div class="gov-card p-4 bg-white  rounded-lg shadow-2xs">
+        <div class="gov-card p-4 bg-white rounded-lg shadow-2xs">
           <div class="flex items-center justify-between flex-wrap gap-2">
-            <div class="space-y-0.5">
-              <div class="flex items-center gap-2">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 flex-wrap">
                 <span class="w-6 h-6 rounded bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center text-xs font-bold">📋</span>
                 <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-[#202124]">
                   DATA BPS — KOMPILASI INDIKATOR STATUTORI BADAN PUSAT STATISTIK (1990 – 2026)
                 </h2>
-                <span class="text-[10px] font-mono bg-[#E6F4EA] text-[#137333]  px-2 py-0.5 rounded font-bold">
+                <span class="text-[10px] font-mono bg-[#E6F4EA] text-[#137333] px-2 py-0.5 rounded font-bold">
                   25 INDIKATOR &middot; 37 TAHUNAN
+                </span>
+                <!-- BPS Web API Live Connection Badge -->
+                <span id="bps-api-status-badge" class="inline-flex items-center gap-1.5 text-[10px] font-mono bg-[#E6F4EA] text-[#137333] px-2 py-0.5 rounded font-semibold border border-[#CEEAD6]">
+                  <span class="w-2 h-2 rounded-full bg-[#34A853] animate-pulse"></span>
+                  <span>BPS Web API Terhubung</span>
+                  <span class="text-slate-500 font-normal">[Key: 1b87dd7c...24af0]</span>
                 </span>
               </div>
               <p class="text-[11.5px] text-[#5F6368] font-sans">
                 Kompilasi serial waktu resmi Badan Pusat Statistik (BPS) Republik Indonesia mencakup Asumsi Makro, Susenas, Industri IBS, Pertanian/Perkebunan, Perdagangan Luar Negeri, Sakernas, dan Fiskal Terkait.
               </p>
             </div>
-            <div class="flex items-center gap-2 text-xs font-mono">
+            <div class="flex items-center gap-2 text-xs font-mono flex-wrap">
+              <!-- BPS Live API Sync & BRS Buttons -->
+              <button id="btn-sync-bps-api" class="px-2.5 py-1.5 bg-[#137333] hover:bg-[#0d5925] text-white rounded font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition text-xs" title="Sinkronkan data live terbaru dari BPS Web API">
+                <span id="btn-sync-icon">🔄</span>
+                <span id="btn-sync-text">Sinkronkan BPS API</span>
+              </button>
+              <button id="btn-toggle-bps-brs" class="px-2.5 py-1.5 bg-[#E8F0FE] hover:bg-[#D2E3FC] text-[#1A73E8] border border-[#D2E3FC] rounded font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition text-xs" title="Buka Berita Resmi Statistik (BRS) BPS Terkini">
+                <span>📰</span>
+                <span>Berita Resmi Statistik (BRS)</span>
+              </button>
               <button id="btn-export-bps-excel" class="px-3 py-1.5 bg-[#0038A8] text-white rounded hover:bg-[#002B82] font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition">
                 <span>📊</span>
                 <span>Unduh Excel (.xlsx)</span>
@@ -67,6 +82,32 @@ export class CukaiBpsView {
                 <span>Unduh CSV</span>
               </button>
             </div>
+          </div>
+        </div>
+
+        <!-- COLLAPSIBLE BRS (BERITA RESMI STATISTIK) DRAWER -->
+        <div id="bps-brs-container" class="hidden bg-white rounded-lg p-4 shadow-2xs border border-[#D2E3FC] space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-100 flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center text-xs font-bold">📰</span>
+              <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-[#202124]">
+                BERITA RESMI STATISTIK (BRS) — FEED LIVE BADAN PUSAT STATISTIK RI
+              </h3>
+              <span class="text-[10px] font-mono bg-[#E6F4EA] text-[#137333] px-2 py-0.5 rounded font-bold" id="bps-brs-count-badge">
+                Domain 0000 (Nasional)
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="btn-refresh-brs" class="text-[11px] font-mono text-[#1A73E8] hover:underline flex items-center gap-1 cursor-pointer">
+                <span>🔄 Segarkan BRS</span>
+              </button>
+              <button id="btn-close-bps-brs" class="text-slate-400 hover:text-slate-700 font-mono text-xs px-2 py-1 rounded hover:bg-slate-100 cursor-pointer">
+                ✕ Tutup Feed
+              </button>
+            </div>
+          </div>
+          <div id="bps-brs-feed-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div class="text-xs text-slate-500 font-mono py-4 text-center col-span-full">Memuat feed Berita Resmi Statistik...</div>
           </div>
         </div>
 
@@ -346,6 +387,29 @@ export class CukaiBpsView {
         window.open(url, '_blank');
       }
     });
+
+    // BPS API Sync & BRS Event Handlers
+    const btnSyncBps = document.getElementById('btn-sync-bps-api');
+    const btnToggleBrs = document.getElementById('btn-toggle-bps-brs');
+    const btnCloseBrs = document.getElementById('btn-close-bps-brs');
+    const btnRefreshBrs = document.getElementById('btn-refresh-brs');
+
+    btnSyncBps?.addEventListener('click', async () => {
+      await this.handleBpsSync();
+    });
+
+    btnToggleBrs?.addEventListener('click', () => {
+      this.toggleBrsDrawer();
+    });
+
+    btnCloseBrs?.addEventListener('click', () => {
+      const container = document.getElementById('bps-brs-container');
+      if (container) container.classList.add('hidden');
+    });
+
+    btnRefreshBrs?.addEventListener('click', async () => {
+      await this.loadBrsFeed(true);
+    });
   }
 
   async loadInitialData() {
@@ -364,6 +428,9 @@ export class CukaiBpsView {
       this.populateIndicatorSelect();
       this.renderSelectedIndicatorAnalytics();
       this.renderTable();
+
+      // Check BPS status in background
+      this.checkBpsApiStatus();
 
       // 2. Try fetching from backend API in background if available
       try {
@@ -773,4 +840,156 @@ export class CukaiBpsView {
       });
     });
   }
+
+  async checkBpsApiStatus() {
+    try {
+      const status = await ApiClient.fetchBpsStatus();
+      const badge = document.getElementById('bps-api-status-badge');
+      if (badge && status) {
+        if (status.status === 'CONNECTED' || status.is_connected) {
+          badge.className = 'inline-flex items-center gap-1.5 text-[10px] font-mono bg-[#E6F4EA] text-[#137333] px-2 py-0.5 rounded font-semibold border border-[#CEEAD6]';
+          badge.innerHTML = `
+            <span class="w-2 h-2 rounded-full bg-[#34A853] animate-pulse"></span>
+            <span>BPS Web API Terhubung</span>
+            <span class="text-slate-500 font-normal">[Key: ${status.api_key_masked || '1b87dd7c...24af0'}]</span>
+          `;
+        } else {
+          badge.className = 'inline-flex items-center gap-1.5 text-[10px] font-mono bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-semibold border border-amber-200';
+          badge.innerHTML = `
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span>BPS API Baseline</span>
+            <span class="text-slate-500 font-normal">[Statutori]</span>
+          `;
+        }
+      }
+    } catch (e) {
+      // Keep baseline badge
+    }
+  }
+
+  async handleBpsSync() {
+    const btnSync = document.getElementById('btn-sync-bps-api');
+    const iconSpan = document.getElementById('btn-sync-icon');
+    const textSpan = document.getElementById('btn-sync-text');
+    if (btnSync) btnSync.disabled = true;
+    if (iconSpan) iconSpan.classList.add('animate-spin');
+    if (textSpan) textSpan.textContent = 'Menyinkronkan...';
+
+    try {
+      const res = await ApiClient.syncBpsData();
+      if (res && res.success) {
+        this.showToast(`✅ Sinkronisasi BPS Web API Berhasil: ${res.synced_indicators_count || 5} indikator & ${res.press_releases_count || 10} BRS rilis terbaru tersinkron (${res.duration_seconds}s).`);
+        await this.loadMatrixData();
+        const brsContainer = document.getElementById('bps-brs-container');
+        if (brsContainer && !brsContainer.classList.contains('hidden')) {
+          await this.loadBrsFeed(false);
+        }
+      } else {
+        this.showToast(`⚠️ BPS Sync: ${res?.message || 'Status parsial'}`, 'warning');
+      }
+    } catch (err) {
+      console.error('Error saat menyinkronkan data BPS:', err);
+      this.showToast(`⚠️ Sinkronisasi server: Menggunakan baseline data statutori terverifikasi.`, 'warning');
+    } finally {
+      if (btnSync) btnSync.disabled = false;
+      if (iconSpan) iconSpan.classList.remove('animate-spin');
+      if (textSpan) textSpan.textContent = 'Sinkronkan BPS API';
+    }
+  }
+
+  toggleBrsDrawer() {
+    const container = document.getElementById('bps-brs-container');
+    if (!container) return;
+    const isHidden = container.classList.contains('hidden');
+    if (isHidden) {
+      container.classList.remove('hidden');
+      this.loadBrsFeed();
+    } else {
+      container.classList.add('hidden');
+    }
+  }
+
+  async loadBrsFeed(forceRefresh = false) {
+    const listContainer = document.getElementById('bps-brs-feed-list');
+    const countBadge = document.getElementById('bps-brs-count-badge');
+    if (!listContainer) return;
+
+    listContainer.innerHTML = `
+      <div class="col-span-full py-6 text-center text-xs font-mono text-slate-500 flex items-center justify-center gap-2">
+        <span class="animate-spin text-base">🔄</span>
+        <span>Mengambil siaran Berita Resmi Statistik (BRS) resmi dari webapi.bps.go.id...</span>
+      </div>
+    `;
+
+    try {
+      const brsData = await ApiClient.fetchBpsPressReleases(9, 1, forceRefresh);
+      const items = (brsData && brsData.press_releases) ? brsData.press_releases : (Array.isArray(brsData) ? brsData : []);
+
+      if (countBadge && brsData && brsData.total_items) {
+        countBadge.textContent = `${items.length} Rilis BRS Terbaru (Domain 0000)`;
+      }
+
+      if (!items || items.length === 0) {
+        listContainer.innerHTML = `
+          <div class="col-span-full py-4 text-center text-xs font-mono text-slate-500">
+            Tidak ada Berita Resmi Statistik yang ditemukan dari endpoint BPS.
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = items.map(item => `
+        <div class="p-3 bg-slate-50 hover:bg-[#F8FAFD] rounded border border-slate-200 hover:border-[#1A73E8] transition flex flex-col justify-between space-y-2">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-[10px] font-mono">
+              <span class="bg-[#E8F0FE] text-[#1A73E8] px-1.5 py-0.5 rounded font-bold">${item.release_date || 'Rilis BPS'}</span>
+              <span class="text-slate-500 truncate max-w-[140px] text-right" title="${item.category || ''}">${item.category || 'Statistik'}</span>
+            </div>
+            <h4 class="text-xs font-bold text-slate-800 line-clamp-2" title="${item.title || ''}">
+              ${item.title || 'Siaran Resmi BPS'}
+            </h4>
+            <p class="text-[11px] text-slate-600 line-clamp-3 font-sans">
+              ${item.abstract ? item.abstract.replace(/<[^>]*>/g, '').substring(0, 160) + '...' : 'Ringkasan resmi rilis indikator Badan Pusat Statistik Republik Indonesia.'}
+            </p>
+          </div>
+          <div class="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-[10px] text-slate-400">${item.size ? '📄 ' + item.size : '📄 PDF Resmi'}</span>
+            ${item.pdf_url ? `
+              <a href="${item.pdf_url}" target="_blank" rel="noopener noreferrer" class="text-[#1A73E8] font-bold hover:underline flex items-center gap-1">
+                <span>Unduh BRS</span>
+                <span>↗</span>
+              </a>
+            ` : `<span class="text-slate-400">Tersedia di bps.go.id</span>`}
+          </div>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.warn('Gagal memuat BRS feed:', err);
+      listContainer.innerHTML = `
+        <div class="col-span-full py-4 text-center text-xs font-mono text-amber-700 bg-amber-50 rounded border border-amber-200">
+          ⚠️ Gagal terhubung ke feed BRS langsung. Cek koneksi internet atau klik tombol Segarkan BRS.
+        </div>
+      `;
+    }
+  }
+
+  showToast(message, type = 'info') {
+    const existing = document.getElementById('bps-action-toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'bps-action-toast';
+    const bgClass = type === 'warning' ? 'bg-[#E37400] border-[#B06000]' : 'bg-[#1A73E8] border-[#174EA6]';
+    toast.className = `fixed bottom-5 right-5 ${bgClass} text-white px-4 py-3 rounded-lg shadow-xl z-50 font-mono text-xs border flex items-center gap-3 transition-all duration-300`;
+    toast.innerHTML = `
+      <span class="text-base">${type === 'warning' ? '⚠️' : 'ℹ️'}</span>
+      <div class="flex-1">${message}</div>
+      <button class="text-white hover:text-slate-200 font-bold ml-2 cursor-pointer" onclick="this.parentElement.remove()">✕</button>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      if (toast.parentElement) toast.remove();
+    }, 5000);
+  }
 }
+

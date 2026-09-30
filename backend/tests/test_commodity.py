@@ -105,7 +105,7 @@ def test_commodity_balance_1990_2026_full_range():
     assert len(data["records"]) == 37
     assert data["records"][0]["period"] == "1990"
     assert data["records"][-1]["period"] == "2026"
-    assert "RAPBN TA 2026" in data["records"][-1]["apbn_statute_law"]
+    assert "2026" in data["records"][-1]["apbn_statute_law"]
 
 def test_commodity_balance_all_pertanian():
     """Verify aggregated multi-commodity balance for ALL_PERTANIAN with breakdowns."""

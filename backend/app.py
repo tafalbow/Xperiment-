@@ -34,7 +34,8 @@ from backend.routers import (
     ingestion_router,
     cukai_bps_router,
     admin_router,
-    apbn_eval_router
+    apbn_eval_router,
+    bps_api_router
 )
 
 # Application Factory
@@ -70,6 +71,7 @@ app.include_router(ingestion_router)
 app.include_router(cukai_bps_router)
 app.include_router(admin_router)
 app.include_router(apbn_eval_router)
+app.include_router(bps_api_router)
 
 
 # ------------------------------------------------------------------------------
@@ -84,6 +86,10 @@ if os.path.exists(STATIC_DIR):
             response.headers["Pragma"] = "no-cache"
             response.headers["Expires"] = "0"
         return response
+
+    TWO_WHEELER_DIR = STATIC_DIR.parent / "two_wheeler"
+    if TWO_WHEELER_DIR.exists():
+        app.mount("/two_wheeler", StaticFiles(directory=str(TWO_WHEELER_DIR), html=True), name="two_wheeler")
 
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 

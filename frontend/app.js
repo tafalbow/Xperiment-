@@ -20,7 +20,7 @@ import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js';
 import { WeeklyView } from './components/weekly_view.js';
 import { CustomChartStudio } from './components/custom_chart_studio.js';
-import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.2.0';
+import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.53.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
 import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.51.0';

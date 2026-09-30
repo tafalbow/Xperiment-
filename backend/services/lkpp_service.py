@@ -84,12 +84,12 @@ class LKPPService:
             else: # 2026
                 cls.YEARS_METADATA[y] = {
                     "year": str(y),
-                    "status": "budget",
-                    "badge_text": "Alokasi UU APBN",
-                    "badge_class": "bg-blue-50 text-blue-700 border-blue-300",
-                    "legal_doc": "Undang-Undang Republik Indonesia tentang Anggaran Pendapatan dan Belanja Negara TA 2026",
-                    "era": "BUDGET",
-                    "era_label": "Target & Alokasi Pagu UU APBN"
+                    "status": "provisional",
+                    "badge_text": "Realisasi Sementara s/d Agustus 2026",
+                    "badge_class": "bg-amber-50 text-amber-700 border-amber-300",
+                    "legal_doc": "UU No. 18/2025 (APBN 2026) & Laporan Bulanan APBN KiTa Kemenkeu RI Edisi Agustus 2026",
+                    "era": "PROVISIONAL",
+                    "era_label": "Realisasi Sementara s/d Agustus 2026 (APBN KiTa)"
                 }
 
     # --------------------------------------------------------------------------
@@ -105,7 +105,7 @@ class LKPPService:
             "statutory_basis": "UU 17/2003, PP 24/2005, PP 71/2010 PSAP 02",
             "accounting_basis": "Basis Kas (Cash Basis Audited BPK RI)",
             "description": "Menyajikan realisasi aktual kas negara selama satu periode pelaporan (Pendapatan Pajak & Cukai, PNBP, Belanja Pemerintah Pusat, TKD, Defisit, dan Pembiayaan Kas).",
-            "coverage_note": "Realisasi final audited BPK RI 1990–2024, angka sementara APBN KiTa 2025, dan target UU APBN 2026."
+            "coverage_note": "Realisasi final audited BPK RI 1990–2024, angka sementara APBN KiTa 2025, dan realisasi sementara s/d Agustus 2026 (APBN KiTa)."
         },
         {
             "id": "APBN",

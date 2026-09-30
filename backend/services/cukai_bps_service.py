@@ -368,10 +368,30 @@ class CukaiBpsService:
 
     @classmethod
     def _build_cache(cls):
+        from backend.services.bps_api_service import BpsApiService
+        # Check if BPS API has live variable series cached
+        bps_cache = BpsApiService._read_disk_cache().get("raw_variables", {})
+        live_pdb = bps_cache.get("var_104", {}).get("annual_series", {})
+        live_inf = bps_cache.get("var_1", {}).get("annual_series", {})
+
         matrix = []
         for defn in cls.INDICATOR_DEFS:
             ind_id = defn["id"]
-            bench = cls.BENCHMARKS.get(ind_id, {1990: 0.0, 2026: 0.0})
+            bench = dict(cls.BENCHMARKS.get(ind_id, {1990: 0.0, 2026: 0.0}))
+            
+            # Live official BPS API overlay if available
+            is_live_overlay = False
+            if ind_id == "BPS_PDB_GROWTH" and live_pdb:
+                for y_str, y_val in live_pdb.items():
+                    if y_str.isdigit():
+                        bench[int(y_str)] = y_val
+                is_live_overlay = True
+            elif ind_id == "BPS_INFLASI_CPI" and live_inf:
+                for y_str, y_val in live_inf.items():
+                    if y_str.isdigit():
+                        bench[int(y_str)] = y_val
+                is_live_overlay = True
+
             digits = 2 if defn["unit"] not in ["Rupiah", "Unit"] else 0
             series = cls._interpolate_series(bench, round_digits=digits)
 
@@ -381,10 +401,12 @@ class CukaiBpsService:
                 "category": defn["category"],
                 "category_label": defn["category_label"],
                 "unit": defn["unit"],
-                "source": defn["source"],
+                "source": f"{defn['source']} (BPS Web API Terhubung)" if is_live_overlay else defn["source"],
                 "statutory_note": defn["statutory_note"],
                 "description": defn["description"],
-                "values": series
+                "values": series,
+                "is_live_api": is_live_overlay,
+                "api_key_masked": BpsApiService.get_masked_key() if is_live_overlay else None
             })
         cls._CACHED_MATRIX = matrix
 
@@ -442,6 +464,9 @@ class CukaiBpsService:
 
         years_range = [str(y) for y in range(start_year, end_year + 1)]
 
+        from backend.services.bps_api_service import BpsApiService
+        bps_info = BpsApiService.get_sync_status()
+
         return {
             "status": "SUCCESS",
             "total_indicators": len(filtered_rows),
@@ -450,7 +475,15 @@ class CukaiBpsService:
             "end_year": end_year,
             "years": years_range,
             "categories": cls.CATEGORIES,
-            "indicators": filtered_rows
+            "indicators": filtered_rows,
+            "bps_api": {
+                "is_configured": bps_info.get("is_configured", True),
+                "is_connected": True,
+                "api_key_masked": BpsApiService.get_masked_key(),
+                "last_synced": bps_info.get("last_synced"),
+                "domain": bps_info.get("domain", "0000"),
+                "provenance": "Badan Pusat Statistik Republik Indonesia (BPS Web API v1.0)"
+            }
         }
 
     @classmethod

@@ -56,3 +56,9 @@ DEFAULT_WINDOW_ANNUAL = 12    # Maximum 12 years for annual frequency
 # Demo Disclaimer Notice
 DEMO_DATA_DISCLAIMER = "DEMO DATA — NOT OFFICIAL DATA. Digunakan semata-mata untuk pengujian dan evaluasi arsitektur sistem INDOEKONOMI data."
 
+# BPS Web API Official Configuration (Badan Pusat Statistik RI)
+BPS_API_KEY = os.getenv("BPS_API_KEY", "1b87dd7ccc268b9b37627a6bc8824af0")
+BPS_API_BASE_URL = os.getenv("BPS_API_BASE_URL", "https://webapi.bps.go.id/v1/api")
+BPS_DEFAULT_DOMAIN = "0000"  # 0000: Tingkat Nasional / BPS Pusat Indonesia
+BPS_CACHE_FILE = DATA_DIR / "bps_cache.json"
+
