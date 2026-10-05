@@ -17,7 +17,7 @@ import { CommodityTrackerComponent } from './components/commodity_tracker.js';
 import { HomeView } from './components/home_view.js?v=11.57.0';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
-import { LKPPView } from './components/lkpp_view.js';
+import { LKPPView } from './components/lkpp_view.js?v=11.58.0';
 import { WeeklyView } from './components/weekly_view.js';
 import { CustomChartStudio } from './components/custom_chart_studio.js';
 import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.53.0';
@@ -488,6 +488,9 @@ class App {
     if (tabName === 'calendar') {
       return this.switchMainTab('agri', null, 'calendar');
     }
+    if (tabName === 'fiscal_health' || tabName === 'fiscal-health') {
+      return this.switchMainTab('lkpp', null, 'fiscal_health');
+    }
 
     // Gatekeeper: If unauthenticated and accessing any tab other than 'home', intercept and prompt
     if (!this.isAuthenticated() && tabName !== 'home') {
@@ -601,6 +604,11 @@ class App {
         await this.lkppView.init();
       } else {
         await this.lkppView.loadAndRender();
+      }
+      if (subTab === 'fiscal_health' || subTab === 'fiscal-health') {
+        await this.lkppView.switchSubTab('fiscal_health');
+      } else if (subTab === 'matrix') {
+        await this.lkppView.switchSubTab('matrix');
       }
     } else if (tabName === 'apbn-eval' || tabName === 'apbn-kita' || tabName === 'rapbn') {
       contentApbnEval?.classList.remove('hidden');

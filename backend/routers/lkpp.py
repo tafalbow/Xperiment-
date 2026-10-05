@@ -94,3 +94,69 @@ def export_lkpp_matrix(
             media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             headers={"Content-Disposition": f'attachment; filename="{filename_base}.xlsx"'}
         )
+
+
+# ==============================================================================
+# FISCAL HEALTH DASHBOARD ENDPOINTS
+# 10 Core KPIs, 3-Variable Comparison Engine, 7 Statutory Dimensions
+# ==============================================================================
+from backend.services.fiscal_health_service import FiscalHealthService
+
+
+@router.get("/api/lkpp/fiscal-health/kpis")
+def get_fiscal_health_core_kpis():
+    """Returns the 10 Core Fiscal KPIs with 2026 figures, YoY, MoM, and policy impact notes."""
+    kpis = FiscalHealthService.get_10_core_kpis()
+    return {
+        "status": "SUCCESS",
+        "period": "APBN 2026 YTD",
+        "total_kpis": len(kpis),
+        "kpis": kpis
+    }
+
+
+@router.get("/api/lkpp/fiscal-health/dimensions")
+def get_fiscal_health_dimensions(
+    start_year: int = Query(1990, ge=1990, le=2026),
+    end_year: int = Query(2026, ge=1990, le=2026)
+):
+    """
+    Returns annual trend data (1990 - 2026 YTD) across all 7 dimensions
+    along with exact calculation sources for on-hover display.
+    """
+    data = FiscalHealthService.get_all_dimensions_detail(start_year, end_year)
+    return {
+        "status": "SUCCESS",
+        "total_dimensions": len(data["dimensions"]),
+        **data
+    }
+
+
+@router.get("/api/lkpp/fiscal-health/comparison-variables")
+def get_comparison_variables():
+    """Returns catalog of all selectable variables for the comparison chart."""
+    variables = FiscalHealthService.get_comparison_variables_list()
+    return {
+        "status": "SUCCESS",
+        "total_variables": len(variables),
+        "variables": variables
+    }
+
+
+@router.get("/api/lkpp/fiscal-health/comparison-data")
+def get_comparison_data(
+    vars: str = Query("fiscal_balance_gdp,debt_gdp,tax_ratio", description="Comma-separated IDs (max 3)"),
+    start_year: int = Query(2014, ge=1990, le=2026),
+    end_year: int = Query(2026, ge=1990, le=2026)
+):
+    """
+    Returns multi-variable comparison chart dataset.
+    Enforces minimum timeline of 12 years.
+    """
+    var_list = [v.strip() for v in vars.split(",") if v.strip()]
+    data = FiscalHealthService.build_comparison_series(var_list, start_year, end_year)
+    return {
+        "status": "SUCCESS",
+        **data
+    }
+

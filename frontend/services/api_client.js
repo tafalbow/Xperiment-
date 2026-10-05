@@ -136,6 +136,32 @@ export const ApiClient = {
     return await res.json();
   },
 
+  // Fiscal Health Dashboard API Methods
+  async fetchFiscalHealthKPIs() {
+    const res = await fetch(`${API_BASE}/api/lkpp/fiscal-health/kpis`);
+    if (!res.ok) throw new Error('Gagal memuat 10 Core Fiscal Health KPIs.');
+    return await res.json();
+  },
+
+  async fetchFiscalHealthDimensions(startYear = 1990, endYear = 2026) {
+    const res = await fetch(`${API_BASE}/api/lkpp/fiscal-health/dimensions?start_year=${startYear}&end_year=${endYear}`);
+    if (!res.ok) throw new Error('Gagal memuat detail 7 dimensi Fiscal Health.');
+    return await res.json();
+  },
+
+  async fetchFiscalHealthComparisonVariables() {
+    const res = await fetch(`${API_BASE}/api/lkpp/fiscal-health/comparison-variables`);
+    if (!res.ok) throw new Error('Gagal memuat variabel komparasi Fiscal Health.');
+    return await res.json();
+  },
+
+  async fetchFiscalHealthComparisonData(varIds = [], startYear = 2014, endYear = 2026) {
+    const varStr = encodeURIComponent(varIds.join(','));
+    const res = await fetch(`${API_BASE}/api/lkpp/fiscal-health/comparison-data?vars=${varStr}&start_year=${startYear}&end_year=${endYear}`);
+    if (!res.ok) throw new Error('Gagal memuat data komparasi grafik fiskal.');
+    return await res.json();
+  },
+
   getLKPPExportUrl(params = {}) {
     const query = new URLSearchParams();
     if (params.table_id) query.append('table_id', params.table_id);

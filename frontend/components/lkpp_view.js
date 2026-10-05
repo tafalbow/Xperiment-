@@ -11,10 +11,14 @@
 
 import { ApiClient } from '../services/api_client.js';
 import { ModalManager } from './modals.js';
+import { FiscalHealthView } from './fiscal_health_view.js';
 
 export class LKPPView {
   constructor(containerId) {
     this.containerId = containerId;
+    this.activeSubTab = 'matrix'; // 'matrix' | 'fiscal_health'
+    this.fiscalHealthView = null;
+
     this.tableId = 'LRA';
     this.startYear = 1990;
     this.endYear = 2026;
@@ -30,6 +34,7 @@ export class LKPPView {
   }
 
   async init() {
+    this.renderLayoutSkeleton();
     try {
       const res = await ApiClient.fetchLKPPTableList();
       this.tableList = res.tables || [];
@@ -39,7 +44,131 @@ export class LKPPView {
     await this.loadAndRender();
   }
 
+  renderLayoutSkeleton() {
+    const root = document.getElementById(this.containerId);
+    if (!root) return;
+
+    if (document.getElementById('lkpp-subtab-btn-matrix')) {
+      return;
+    }
+
+    root.innerHTML = `
+      <div class="space-y-4 font-sans">
+        
+        <!-- Sub-Navigation Header Bar -->
+        <div class="gov-card p-3 bg-white rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-[#E8F0FE] text-[#0038A8] flex items-center justify-center text-sm font-bold shadow-2xs">🏛️</span>
+            <div>
+              <div class="text-xs font-bold text-[#202124] uppercase tracking-wide">OBSERVATORIUM KEUANGAN NEGARA & APBN (1990 – 2026)</div>
+              <div class="text-[11px] text-[#5F6368] font-sans">Kompilasi Laporan Keuangan Pokok (LKPP/LRA/Neraca/LO/LAK/LPSAL) & Dasbor Kesehatan Fiskal Berbasis Standar Internasional</div>
+            </div>
+          </div>
+
+          <!-- Sub-Tab Navigation Pills -->
+          <div class="flex items-center gap-1.5 bg-[#F1F3F4] p-1 rounded-md text-xs shrink-0 shadow-2xs" role="tablist">
+            <button 
+              id="lkpp-subtab-btn-matrix" 
+              role="tab"
+              aria-selected="${this.activeSubTab === 'matrix'}"
+              class="px-3.5 py-1.5 font-bold rounded ${this.activeSubTab === 'matrix' ? 'bg-white text-[#0038A8] shadow-2xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-white/60'} flex items-center gap-1.5 transition cursor-pointer"
+            >
+              <span>🏛️</span>
+              <span>Matriks LKPP & APBN</span>
+            </button>
+            <button 
+              id="lkpp-subtab-btn-fiscal-health" 
+              role="tab"
+              aria-selected="${this.activeSubTab === 'fiscal_health'}"
+              class="px-3.5 py-1.5 font-bold rounded ${this.activeSubTab === 'fiscal_health' ? 'bg-white text-[#0038A8] shadow-2xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-white/60'} flex items-center gap-1.5 transition cursor-pointer"
+            >
+              <span>🩺</span>
+              <span>Fiscal Health Dashboard</span>
+              <span class="text-[9.5px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-mono font-bold">10 Core KPI</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sub-Content 1: Matriks Laporan LKPP -->
+        <div id="lkpp-subcontent-matrix" class="${this.activeSubTab === 'matrix' ? '' : 'hidden'} space-y-4">
+        </div>
+
+        <!-- Sub-Content 2: Fiscal Health Dashboard -->
+        <div id="lkpp-subcontent-fiscal-health" class="${this.activeSubTab === 'fiscal_health' ? '' : 'hidden'} space-y-4">
+        </div>
+
+        <!-- CONTAINER FOR MODALS (TREND & GLOSSARY) -->
+        <div id="lkpp-modal-mount"></div>
+      </div>
+    `;
+
+    this.bindSubTabEvents();
+  }
+
+  bindSubTabEvents() {
+    const btnMatrix = document.getElementById('lkpp-subtab-btn-matrix');
+    const btnFiscalHealth = document.getElementById('lkpp-subtab-btn-fiscal-health');
+
+    btnMatrix?.addEventListener('click', () => this.switchSubTab('matrix'));
+    btnFiscalHealth?.addEventListener('click', () => this.switchSubTab('fiscal_health'));
+  }
+
+  async switchSubTab(subTabName) {
+    this.activeSubTab = subTabName;
+    const btnMatrix = document.getElementById('lkpp-subtab-btn-matrix');
+    const btnFiscalHealth = document.getElementById('lkpp-subtab-btn-fiscal-health');
+    const contentMatrix = document.getElementById('lkpp-subcontent-matrix');
+    const contentFiscalHealth = document.getElementById('lkpp-subcontent-fiscal-health');
+
+    if (subTabName === 'matrix') {
+      btnMatrix?.classList.add('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnMatrix?.classList.remove('text-[#5F6368]', 'font-medium');
+      btnMatrix?.setAttribute('aria-selected', 'true');
+
+      btnFiscalHealth?.classList.remove('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnFiscalHealth?.classList.add('text-[#5F6368]', 'font-medium');
+      btnFiscalHealth?.setAttribute('aria-selected', 'false');
+
+      contentMatrix?.classList.remove('hidden');
+      contentFiscalHealth?.classList.add('hidden');
+
+      if (!this.matrixData) {
+        await this.loadAndRender();
+      }
+    } else if (subTabName === 'fiscal_health') {
+      btnFiscalHealth?.classList.add('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnFiscalHealth?.classList.remove('text-[#5F6368]', 'font-medium');
+      btnFiscalHealth?.setAttribute('aria-selected', 'true');
+
+      btnMatrix?.classList.remove('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnMatrix?.classList.add('text-[#5F6368]', 'font-medium');
+      btnMatrix?.setAttribute('aria-selected', 'false');
+
+      contentFiscalHealth?.classList.remove('hidden');
+      contentMatrix?.classList.add('hidden');
+
+      if (!this.fiscalHealthView) {
+        this.fiscalHealthView = new FiscalHealthView('lkpp-subcontent-fiscal-health');
+        await this.fiscalHealthView.init();
+      } else {
+        this.fiscalHealthView.render();
+      }
+    }
+  }
+
   async loadAndRender() {
+    this.renderLayoutSkeleton();
+
+    if (this.activeSubTab === 'fiscal_health') {
+      if (!this.fiscalHealthView) {
+        this.fiscalHealthView = new FiscalHealthView('lkpp-subcontent-fiscal-health');
+        await this.fiscalHealthView.init();
+      } else {
+        this.fiscalHealthView.render();
+      }
+      return;
+    }
+
     this.isLoading = true;
     this.renderLoading();
 
@@ -62,7 +191,7 @@ export class LKPPView {
   }
 
   renderLoading() {
-    const container = document.getElementById(this.containerId);
+    const container = document.getElementById('lkpp-subcontent-matrix') || document.getElementById(this.containerId);
     if (!container) return;
     container.innerHTML = `
       <div class="gov-card p-12 text-center space-y-3">
@@ -75,7 +204,7 @@ export class LKPPView {
   }
 
   renderError(msg) {
-    const container = document.getElementById(this.containerId);
+    const container = document.getElementById('lkpp-subcontent-matrix') || document.getElementById(this.containerId);
     if (!container) return;
     container.innerHTML = `
       <div class="gov-card p-8 text-center bg-rose-50 border border-rose-200 text-rose-800 space-y-3 font-mono text-xs">
@@ -91,7 +220,8 @@ export class LKPPView {
   }
 
   render() {
-    const container = document.getElementById(this.containerId);
+    this.renderLayoutSkeleton();
+    const container = document.getElementById('lkpp-subcontent-matrix');
     if (!container || !this.matrixData) return;
 
     const meta = this.matrixData.table_meta;
@@ -364,9 +494,6 @@ export class LKPPView {
         </div>
 
       </div>
-
-      <!-- CONTAINER FOR MODALS (TREND & GLOSSARY) -->
-      <div id="lkpp-modal-mount"></div>
     `;
 
     this.bindEvents();

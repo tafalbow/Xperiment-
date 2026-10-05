@@ -96,5 +96,14 @@ def test_index_has_admin_tab():
     assert "tab-content-admin" in response.text
     assert "Master Admin" in response.text
 
+def test_serve_fiscal_health_view_js():
+    response = client.get("/components/fiscal_health_view.js")
+    assert response.status_code == 200
+    assert "class FiscalHealthView" in response.text
+    assert "10 Core KPIs" in response.text
 
-
+def test_lkpp_view_has_fiscal_health_subtab():
+    response = client.get("/components/lkpp_view.js")
+    assert response.status_code == 200
+    assert "FiscalHealthView" in response.text
+    assert "lkpp-subtab-btn-fiscal-health" in response.text
