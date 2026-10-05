@@ -196,6 +196,20 @@ export class SearchBar {
       this.onSearchChange('');
     });
 
+    // Handle Enter key on search input
+    input?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const filtered = this.getFilteredSuggestions();
+        if (filtered.length > 0) {
+          this.isDropdownOpen = false;
+          this.onSelectIndicator(filtered[0].id);
+        } else if (window.__govApp && !window.__govApp.isAuthenticated()) {
+          window.__govApp.showLoginRequiredPrompt('Pencarian Indikator');
+        }
+      }
+    });
+
     // Suggestion item selection
     this.container.querySelectorAll('.search-suggestion-item').forEach(item => {
       item.addEventListener('click', () => {
@@ -210,6 +224,11 @@ export class SearchBar {
     // Quick category buttons
     this.container.querySelectorAll('.btn-quick-cat').forEach(btn => {
       btn.addEventListener('click', () => {
+        if (window.__govApp && !window.__govApp.isAuthenticated()) {
+          const cat = btn.getAttribute('data-cat');
+          window.__govApp.showLoginRequiredPrompt(`Kategori ${cat}`);
+          return;
+        }
         const cat = btn.getAttribute('data-cat');
         this.activeCategory = cat;
         this.render();

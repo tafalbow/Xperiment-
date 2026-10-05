@@ -615,15 +615,22 @@ export class HomeView {
     document.querySelectorAll('.landing-locked-card').forEach(card => {
       card.addEventListener('click', () => {
         const moduleName = card.getAttribute('data-module') || 'Modul Data';
-        const gatewayEl = document.getElementById('landing-gateway-cards');
-        if (gatewayEl) {
-          gatewayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          gatewayEl.classList.add('ring-4', 'ring-[#0038A8]', 'ring-offset-2');
-          setTimeout(() => {
-            gatewayEl.classList.remove('ring-4', 'ring-[#0038A8]', 'ring-offset-2');
-          }, 1500);
+        if (window.__govApp) {
+          window.__govApp.showLoginRequiredPrompt(moduleName);
+        } else {
+          const gatewayEl = document.getElementById('landing-gateway-cards');
+          if (gatewayEl) {
+            gatewayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            gatewayEl.classList.add('ring-4', 'ring-[#0038A8]', 'ring-offset-2');
+            setTimeout(() => {
+              gatewayEl.classList.remove('ring-4', 'ring-[#0038A8]', 'ring-offset-2');
+            }, 1500);
+            setTimeout(() => {
+              document.getElementById('landing-unified-email')?.focus();
+            }, 350);
+          }
+          this.showToast(`🔒 Akses Dibatasi: Segera Login untuk membuka modul ${moduleName}`);
         }
-        this.showToast(`🔒 Modul ${moduleName} terkunci. Silakan masukkan email Anda pada kotak akses di atas.`);
       });
     });
   }

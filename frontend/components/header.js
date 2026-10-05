@@ -205,33 +205,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
                   <span>🕒 Terakhir Diperbarui: <strong class="text-[#2C2420]">28 Januari 2025</strong></span>
                 </div>
               </div>
-
-              <div class="pt-1">
-                <button 
-                  type="button" 
-                  id="btn-statutory-register" 
-                  class="w-full sm:w-auto px-4 py-1.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] font-bold shadow-xs' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] shadow-xs font-semibold' : (isGuest ? 'bg-[#EBF1FC] hover:bg-[#DCE7F9] text-[#0038A8] shadow-xs font-semibold' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white shadow-xs'))} text-xs font-mono font-medium tracking-wide transition-all flex items-center justify-center gap-1.5 cursor-pointer group"
-                  title="${isMasterAdmin ? 'Sesi Master Admin Aktif' : (registeredUser ? 'Akses Terdaftar' : (isGuest ? 'Sesi Tamu Terbuka' : 'Registrasi Akses Data atau Login Master Admin'))}"
-                >
-                  ${isMasterAdmin ? `
-                    <span>👑</span>
-                    <span>Master Admin: <strong class="truncate max-w-[150px] inline-block align-bottom text-amber-950">${masterAdminSession.email}</strong></span>
-                    <span id="btn-admin-statutory-logout" class="ml-1 text-[10px] underline text-amber-800 hover:text-rose-700" title="Keluar dari Master Admin">[Keluar]</span>
-                  ` : (registeredUser ? `
-                    <span>🟢</span>
-                    <span>Akses Terdaftar: <strong class="truncate max-w-[140px] inline-block align-bottom">${registeredUser.email}</strong></span>
-                    <span id="btn-admin-statutory-logout" class="ml-1 text-[10px] underline text-teal-800 hover:text-rose-700" title="Keluar dari akun">[Keluar]</span>
-                  ` : isGuest ? `
-                    <span>🌐</span>
-                    <span>Sesi Tamu Publik</span>
-                    <span id="btn-admin-statutory-logout" class="ml-1 text-[10px] underline text-blue-800 hover:text-rose-700" title="Keluar / Ganti Akun">[Ganti / Keluar]</span>
-                  ` : `
-                    <span>🔑</span>
-                    <span>Masuk / Registrasi Akses</span>
-                    <span class="group-hover:translate-x-0.5 transition-transform">→</span>
-                  `)}
-                </button>
-              </div>
             </div>
 
           </div>
@@ -286,11 +259,44 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
   toggleBtn?.addEventListener('click', toggleDropdown);
 
   document.getElementById('btn-header-crosswalk-doc')?.addEventListener('click', () => {
+    if (!isAuthenticated) {
+      if (window.__govApp) {
+        window.__govApp.showLoginRequiredPrompt('Riwayat Klasifikasi APBN');
+      }
+      return;
+    }
     ModalManager.showClassificationDocumentModal();
   });
-  document.getElementById('btn-header-dict')?.addEventListener('click', onOpenDictionary);
-  document.getElementById('btn-header-registry')?.addEventListener('click', onOpenRegistry);
-  document.getElementById('btn-header-crosswalk')?.addEventListener('click', onOpenCrosswalk);
+
+  document.getElementById('btn-header-dict')?.addEventListener('click', () => {
+    if (!isAuthenticated) {
+      if (window.__govApp) {
+        window.__govApp.showLoginRequiredPrompt('Kamus Metadata');
+      }
+      return;
+    }
+    if (onOpenDictionary) onOpenDictionary();
+  });
+
+  document.getElementById('btn-header-registry')?.addEventListener('click', () => {
+    if (!isAuthenticated) {
+      if (window.__govApp) {
+        window.__govApp.showLoginRequiredPrompt('Source Registry');
+      }
+      return;
+    }
+    if (onOpenRegistry) onOpenRegistry();
+  });
+
+  document.getElementById('btn-header-crosswalk')?.addEventListener('click', () => {
+    if (!isAuthenticated) {
+      if (window.__govApp) {
+        window.__govApp.showLoginRequiredPrompt('Tabel Crosswalk');
+      }
+      return;
+    }
+    if (onOpenCrosswalk) onOpenCrosswalk();
+  });
 
   // Direct login / admin quick trigger in top toolbar
   document.getElementById('btn-header-login-quick')?.addEventListener('click', () => {
@@ -301,53 +307,18 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
         adminTabBtn.click();
       }
     } else if (registeredUser && registeredUser.email) {
-      openEmailRegistrationModal(() => {
-        renderHeader(containerId, { onOpenDictionary, onOpenRegistry, onOpenCrosswalk, onOpenIngestion });
-      }, null, 'researcher');
-    } else if (isGuest) {
-      // Prompt user to upgrade to researcher or admin
       const homeTabBtn = document.getElementById('tab-btn-home');
       if (homeTabBtn) homeTabBtn.click();
-      setTimeout(() => {
-        const gateway = document.getElementById('landing-gateway-cards');
-        if (gateway) gateway.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
     } else {
-      // Unauthenticated: Go to home landing gateway
-      const homeTabBtn = document.getElementById('tab-btn-home');
-      if (homeTabBtn) homeTabBtn.click();
-      setTimeout(() => {
-        const gateway = document.getElementById('landing-gateway-cards');
-        if (gateway) gateway.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
+      // Unauthenticated or Guest: Scroll to landing single gateway (NO POPUP)
+      if (window.__govApp) {
+        window.__govApp.showLoginRequiredPrompt('Akses Masuk Repositori');
+      }
     }
   });
 
   // Direct logout trigger in top toolbar
   document.getElementById('btn-header-logout-quick')?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (confirm('Apakah Anda ingin keluar dari sesi saat ini dan kembali ke Halaman Pintu Masuk?')) {
-      localStorage.removeItem('master_admin_session');
-      localStorage.removeItem('registered_researcher_access');
-      localStorage.removeItem('app_guest_session');
-      window.dispatchEvent(new CustomEvent('master-admin-logout'));
-      window.dispatchEvent(new CustomEvent('auth-updated'));
-      const homeTabBtn = document.getElementById('tab-btn-home');
-      if (homeTabBtn) homeTabBtn.click();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  });
-
-  // Single registration button trigger in Statutory Section
-  document.getElementById('btn-statutory-register')?.addEventListener('click', (e) => {
-    if (e.target.closest('#btn-admin-statutory-logout')) return;
-    openEmailRegistrationModal(() => {
-      renderHeader(containerId, { onOpenDictionary, onOpenRegistry, onOpenCrosswalk, onOpenIngestion });
-    });
-  });
-
-  // Statutory section logout trigger
-  document.getElementById('btn-admin-statutory-logout')?.addEventListener('click', (e) => {
     e.stopPropagation();
     if (confirm('Apakah Anda ingin keluar dari sesi saat ini dan kembali ke Halaman Pintu Masuk?')) {
       localStorage.removeItem('master_admin_session');

@@ -4,8 +4,8 @@
 // ==============================================================================
 
 import { ApiClient } from './services/api_client.js';
-import { renderHeader, openEmailRegistrationModal, isAdminEmail } from './components/header.js?v=11.56.0';
-import { SearchBar } from './components/search_bar.js';
+import { renderHeader, openEmailRegistrationModal, isAdminEmail } from './components/header.js?v=11.57.0';
+import { SearchBar } from './components/search_bar.js?v=11.57.0';
 import { FilterPanel } from './components/filter_panel.js';
 import { SidebarExtras } from './components/sidebar_extras.js';
 import { renderKPICards } from './components/kpi_cards.js';
@@ -14,7 +14,7 @@ import { DataGrid } from './components/data_grid.js';
 import { ContextualMap } from './components/contextual_map.js';
 import { VariablesInventory } from './components/variables_inventory.js';
 import { CommodityTrackerComponent } from './components/commodity_tracker.js';
-import { HomeView } from './components/home_view.js?v=11.56.0';
+import { HomeView } from './components/home_view.js?v=11.57.0';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js';
@@ -199,6 +199,10 @@ class App {
       window.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
           e.preventDefault();
+          if (!this.isAuthenticated()) {
+            this.showLoginRequiredPrompt('search');
+            return;
+          }
           ModalManager.showGlobalSearchModal();
         }
       });
@@ -234,11 +238,6 @@ class App {
 
       // 17. Persistent Statutory Section & Footer Listeners
       window.openEmailRegistrationModal = openEmailRegistrationModal;
-      document.getElementById('btn-statutory-register')?.addEventListener('click', () => {
-        openEmailRegistrationModal(() => {
-          // Success callback
-        });
-      });
       document.getElementById('footer-link-about')?.addEventListener('click', (e) => {
         e.preventDefault();
         this.switchMainTab('about');
@@ -323,16 +322,21 @@ class App {
       'cukai-bps': 'Data BPS',
       'inventory': 'Katalog Data',
       'about': 'Tentang Observatorium',
-      'admin': 'Master Admin'
+      'admin': 'Master Admin',
+      'crosswalk': 'Tabel Crosswalk',
+      'crosswalk-doc': 'Riwayat Klasifikasi APBN',
+      'dictionary': 'Kamus Metadata',
+      'registry': 'Source Registry',
+      'search': 'Pencarian Indikator (Ctrl+K)'
     };
-    const label = tabLabels[targetTabName] || 'Modul Data';
+    const label = tabLabels[targetTabName] || targetTabName || 'Modul Data';
 
     // If not currently on home, switch to home first
     if (this.activeMainTab !== 'home') {
       this.switchMainTab('home');
     }
 
-    // Scroll to landing gateway cards
+    // Scroll to landing gateway cards and focus email input
     const gatewayEl = document.getElementById('landing-gateway-cards');
     if (gatewayEl) {
       gatewayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -340,9 +344,12 @@ class App {
       setTimeout(() => {
         gatewayEl.classList.remove('ring-4', 'ring-[#0038A8]', 'ring-offset-2');
       }, 1600);
+      setTimeout(() => {
+        document.getElementById('landing-unified-email')?.focus();
+      }, 350);
     }
 
-    // Toast banner
+    // Toast banner: Segera Login notice
     let toast = document.getElementById('auth-gate-toast');
     if (!toast) {
       toast = document.createElement('div');
@@ -353,9 +360,11 @@ class App {
     toast.innerHTML = `
       <div class="text-2xl shrink-0">🔒</div>
       <div class="space-y-1">
-        <div class="font-bold text-amber-300 text-sm">Akses Masuk Diperlukan</div>
+        <div class="font-bold text-amber-300 text-sm flex items-center gap-1.5">
+          <span>⚠️ Akses Dibatasi: Segera Login</span>
+        </div>
         <div class="text-[11.5px] text-slate-200 font-sans leading-relaxed">
-          Modul <strong>${label}</strong> dibatasi. Silakan pilih salah satu jalur akses (<strong>Master Admin</strong>, <strong>Pengguna Terdaftar</strong>, atau <strong>Akses Tamu 1-Klik</strong>) pada Halaman Pertama di atas untuk membukanya.
+          Halaman / shortcut <strong>${label}</strong> dibatasi. Silakan <strong>segera login</strong> dengan memasukkan email Anda pada kotak login di atas untuk membuka seluruh halaman repositori.
         </div>
       </div>
       <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white font-bold ml-auto cursor-pointer text-base">✕</button>
@@ -364,7 +373,7 @@ class App {
       if (toast && toast.parentElement) {
         toast.remove();
       }
-    }, 4500);
+    }, 5000);
   }
 
   checkAdminVisibility() {
