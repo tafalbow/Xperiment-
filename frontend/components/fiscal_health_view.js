@@ -227,17 +227,11 @@ export class FiscalHealthView {
               <!-- Presets -->
               <div class="flex items-center gap-1.5 flex-wrap">
                 <span class="text-slate-500 text-[11px]">Preset:</span>
-                <button type="button" class="btn-timeline-preset px-2 py-0.5 rounded bg-white hover:bg-slate-200 border border-slate-300 text-[10.5px] font-semibold cursor-pointer" data-start="2015" data-end="2026">
-                  12 Thn Terakhir (2015–2026)
+                <button type="button" class="btn-timeline-preset px-2.5 py-1 rounded bg-white hover:bg-slate-200 border border-slate-300 text-[10.5px] font-semibold cursor-pointer" data-start="2015" data-end="2026">
+                  12 tahun (11 tahun sebelum YTD)
                 </button>
-                <button type="button" class="btn-timeline-preset px-2 py-0.5 rounded bg-white hover:bg-slate-200 border border-slate-300 text-[10.5px] font-semibold cursor-pointer" data-start="2007" data-end="2026">
-                  20 Thn (2007–2026)
-                </button>
-                <button type="button" class="btn-timeline-preset px-2 py-0.5 rounded bg-white hover:bg-slate-200 border border-slate-300 text-[10.5px] font-semibold cursor-pointer" data-start="1998" data-end="2026">
-                  Reformasi (1998–2026)
-                </button>
-                <button type="button" class="btn-timeline-preset px-2 py-0.5 rounded bg-white hover:bg-slate-200 border border-slate-300 text-[10.5px] font-semibold cursor-pointer" data-start="1990" data-end="2026">
-                  Semua (1990–2026)
+                <button type="button" class="btn-timeline-preset px-2.5 py-1 rounded bg-white hover:bg-slate-200 border border-slate-300 text-[10.5px] font-semibold cursor-pointer" data-start="1990" data-end="2026">
+                  Semua
                 </button>
               </div>
             </div>
@@ -353,11 +347,11 @@ export class FiscalHealthView {
           </div>
         </div>
 
-        <!-- 1 Point Economic Impact Contekan Makna -->
+        <!-- Catatan -->
         <div class="p-2.5 rounded-lg bg-amber-50/70 border border-amber-200/90 text-xs space-y-1">
           <div class="text-[10.5px] font-mono font-bold text-amber-950 flex items-center gap-1">
             <span>💡</span>
-            <span>Contekan Makna & Dampak bagi Indonesia:</span>
+            <span>Catatan:</span>
           </div>
           <p class="text-[11.5px] text-slate-800 font-sans leading-relaxed">
             ${k.impact_point}

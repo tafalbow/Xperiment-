@@ -11,7 +11,7 @@
 
 import { ApiClient } from '../services/api_client.js';
 import { ModalManager } from './modals.js';
-import { FiscalHealthView } from './fiscal_health_view.js';
+import { FiscalHealthView } from './fiscal_health_view.js?v=11.59.0';
 
 export class LKPPView {
   constructor(containerId) {
