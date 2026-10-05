@@ -4,7 +4,7 @@
 // ==============================================================================
 
 import { ApiClient } from './services/api_client.js';
-import { renderHeader, openEmailRegistrationModal } from './components/header.js?v=11.55.0';
+import { renderHeader, openEmailRegistrationModal, isAdminEmail } from './components/header.js?v=11.56.0';
 import { SearchBar } from './components/search_bar.js';
 import { FilterPanel } from './components/filter_panel.js';
 import { SidebarExtras } from './components/sidebar_extras.js';
@@ -14,7 +14,7 @@ import { DataGrid } from './components/data_grid.js';
 import { ContextualMap } from './components/contextual_map.js';
 import { VariablesInventory } from './components/variables_inventory.js';
 import { CommodityTrackerComponent } from './components/commodity_tracker.js';
-import { HomeView } from './components/home_view.js?v=11.55.0';
+import { HomeView } from './components/home_view.js?v=11.56.0';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js';
@@ -275,7 +275,8 @@ class App {
 
     const isMasterAdmin = Boolean(
       masterAdminSession && 
-      ['taniafatimahlubis@gmail.com', 'lubistaniafatimah@gmail.com', 'lubis.tania@dewanekonomi.go.id'].includes(masterAdminSession.email?.toLowerCase())
+      masterAdminSession.token &&
+      isAdminEmail(masterAdminSession.email)
     );
 
     return Boolean(isMasterAdmin || (registeredUser && registeredUser.email) || isGuest);
@@ -372,8 +373,7 @@ class App {
     let isMaster = false;
     try {
       const sess = JSON.parse(localStorage.getItem('master_admin_session') || '{}');
-      const email = sess.email?.trim().toLowerCase();
-      if (email === 'taniafatimahlubis@gmail.com' || email === 'lubistaniafatimah@gmail.com' || email === 'lubis.tania@dewanekonomi.go.id') {
+      if (sess.token && isAdminEmail(sess.email)) {
         isMaster = true;
       }
     } catch (e) {}
@@ -484,6 +484,21 @@ class App {
     if (!this.isAuthenticated() && tabName !== 'home') {
       this.showLoginRequiredPrompt(tabName);
       return;
+    }
+
+    // Admin Gatekeeper: Normal users/guests cannot access admin tab
+    if (tabName === 'admin') {
+      let isMaster = false;
+      try {
+        const sess = JSON.parse(localStorage.getItem('master_admin_session') || '{}');
+        if (sess.token && isAdminEmail(sess.email)) {
+          isMaster = true;
+        }
+      } catch (e) {}
+      if (!isMaster) {
+        this.switchMainTab('home');
+        return;
+      }
     }
 
     this.activeMainTab = tabName;

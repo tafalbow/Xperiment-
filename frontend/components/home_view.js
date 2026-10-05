@@ -1,11 +1,11 @@
 // ==============================================================================
 // HOME VIEW COMPONENT: INDONESIA ECONOMIC DATA OBSERVATORY
-// Platform Overview, Macroeconomic Pulse, Headline Chart & Unified Access Gateway
+// Platform Overview, Macroeconomic Pulse, Headline Chart & Single Login Gateway
 // ==============================================================================
 
 import { ApiClient } from '../services/api_client.js';
 import { INDONESIA_ARCHIPELAGO_PATH } from '../data/map_asset.js';
-import { MASTER_ADMIN_EMAIL, ALL_ADMIN_EMAILS, openEmailRegistrationModal } from './header.js';
+import { MASTER_ADMIN_EMAIL, ALL_ADMIN_EMAILS, isAdminEmail, openEmailRegistrationModal } from './header.js';
 
 export class HomeView {
   constructor(containerId, options = {}) {
@@ -50,7 +50,7 @@ export class HomeView {
   }
 
   // ============================================================================
-  // 1. UNIFIED GATEWAY LANDING PAGE (BEFORE LOGIN / UNAUTHENTICATED)
+  // 1. SINGLE UNIFIED GATEWAY LANDING PAGE (BEFORE LOGIN / UNAUTHENTICATED)
   // ============================================================================
   renderLandingPage(pendingToken) {
     this.container.innerHTML = `
@@ -73,7 +73,7 @@ export class HomeView {
               <span>•</span>
               <span>Realisasi Audited & BRS s/d Agustus 2026</span>
               <span>•</span>
-              <span>Akses Terbuka untuk Publik & Peneliti</span>
+              <span>Akses Terpadu Satu Pintu Masuk</span>
             </div>
           </div>
         </div>
@@ -81,289 +81,127 @@ export class HomeView {
         <!-- B. GATEWAY TITLE & CALL TO ACTION -->
         <div class="text-center space-y-1.5 py-1">
           <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#0038A8] bg-[#EBF1FC] px-3.5 py-1 rounded-full border border-[#BCD0F7] inline-block">
-            🔐 PINTU GERBANG AKSES MASUK (GATEWAY)
+            🔐 PINTU GERBANG AKSES MASUK TERPADU
           </span>
           <h2 class="text-xl sm:text-2xl font-serif font-bold text-[#2C2420]">
-            Pilih Salah Satu Jalur Akses untuk Membuka Seluruh Repositori
+            Akses Masuk Repositori Data Ekonomi Nasional
           </h2>
-          <p class="text-xs text-[#5D4037] max-w-2xl mx-auto font-sans">
-            Untuk membuka navigasi dan mengakses 10 modul dasbor analitik, silakan masuk sesuai kategori Anda:
+          <p class="text-xs text-[#5D4037] max-w-xl mx-auto font-sans">
+            Cukup masukkan alamat email Anda di bawah ini untuk membuka seluruh repositori data. Sistem otomatis menampilkan menu admin jika Anda menggunakan email Dewan Ekonomi Nasional.
           </p>
         </div>
 
-        <!-- C. 3-COLUMN UNIFIED ACCESS GATEWAY -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch" id="landing-gateway-cards">
-          
-          <!-- OPTION 1: 👑 MASTER ADMIN (DEN RI) -->
-          <div class="bg-[#FFFDF9] border-2 border-amber-300 rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
-            <div class="space-y-3">
-              <div class="flex items-center justify-between pb-2 border-b border-amber-100">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-9 h-9 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center text-lg font-bold shadow-2xs">
-                    👑
-                  </div>
-                  <div>
-                    <h3 class="text-sm font-mono font-bold text-amber-950 uppercase tracking-wide">Master Admin</h3>
-                    <div class="text-[10px] text-amber-800 font-mono">Dewan Ekonomi Nasional</div>
-                  </div>
-                </div>
-                <span class="bg-amber-100 text-amber-900 text-[10px] font-mono font-bold px-2 py-0.5 rounded shadow-2xs">
-                  Otoritas Penuh
-                </span>
+        <!-- C. SINGLE UNIFIED ACCESS GATEWAY (1 GATEWAY FOR ALL) -->
+        <div class="max-w-xl mx-auto w-full" id="landing-gateway-cards">
+          <div class="bg-white rounded-xl shadow-md border-2 border-[#BCD0F7] p-6 sm:p-7 space-y-4">
+            
+            <form id="landing-unified-login-form" class="space-y-3.5 font-mono">
+              
+              <!-- 1. Email Input -->
+              <div>
+                <label class="block text-xs font-mono font-bold text-slate-700 mb-1">
+                  Alamat Email <span class="text-rose-600">*</span>
+                </label>
+                <input 
+                  type="email" 
+                  id="landing-unified-email" 
+                  required 
+                  placeholder="nama@instansi.go.id atau email admin..."
+                  class="w-full px-3.5 py-2.5 text-xs font-mono border border-slate-300 rounded-lg bg-white focus:outline-none focus:border-[#0038A8] focus:ring-2 focus:ring-[#BCD0F7]"
+                  autofocus
+                />
+                <!-- Dynamic Role Hint -->
+                <div id="landing-email-role-hint" class="mt-1.5 text-[10.5px] font-mono hidden"></div>
               </div>
 
-              <p class="text-[11.5px] text-[#5D4037] font-sans leading-relaxed">
-                Khusus Dewan Ekonomi Nasional untuk tata kelola repositori, kontrol ingestion pipeline BPS/APBN, audit trail statutori, dan bypass kuota unduh tak terbatas.
-              </p>
-
-              <!-- Master Admin Login Form -->
-              <form id="landing-form-admin-login" class="space-y-2.5 pt-1">
-                <div>
-                  <label class="block text-[11px] font-mono font-bold text-slate-700 mb-1">Email Master Admin</label>
-                  <input 
-                    type="email" 
-                    id="landing-admin-email" 
-                    value="${MASTER_ADMIN_EMAIL}" 
-                    required 
-                    class="w-full px-2.5 py-1.5 text-xs font-mono border border-slate-300 rounded bg-white focus:outline-none focus:border-[#0038A8]"
-                  >
+              <!-- 2. Password Field (Dynamic: appears for admin email) -->
+              <div id="landing-password-wrapper" class="space-y-1.5 hidden p-3 bg-amber-50/70 border border-amber-200 rounded-lg">
+                <div class="flex items-center justify-between">
+                  <label class="block text-xs font-mono font-bold text-amber-900">
+                    Kata Sandi Master Admin <span class="text-rose-600">*</span>
+                  </label>
+                  <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold font-mono">Khusus Otoritas</span>
                 </div>
-                <div>
-                  <label class="block text-[11px] font-mono font-bold text-slate-700 mb-1">Kata Sandi</label>
-                  <input 
-                    type="password" 
-                    id="landing-admin-password" 
-                    placeholder="Masukkan kata sandi..." 
-                    required 
-                    class="w-full px-2.5 py-1.5 text-xs font-mono border border-slate-300 rounded bg-white focus:outline-none focus:border-[#0038A8]"
-                  >
-                </div>
+                <input 
+                  type="password" 
+                  id="landing-unified-password" 
+                  placeholder="Masukkan kata sandi Master Admin..."
+                  class="w-full px-3.5 py-2 text-xs font-mono border border-amber-300 rounded-lg bg-white focus:outline-none focus:border-[#0038A8]"
+                />
+                
+                <!-- Toggle Setup Password with Token for Admin -->
+                <div class="pt-1">
+                  <button type="button" id="landing-btn-toggle-setup-pw" class="text-[10.5px] text-[#0038A8] hover:underline font-mono cursor-pointer">
+                    <span id="landing-toggle-pw-text">Belum buat password? Masukkan token otoritas ▼</span>
+                  </button>
 
-                <button 
-                  type="submit" 
-                  id="landing-btn-submit-admin"
-                  class="w-full py-2 bg-[#8C4710] hover:bg-[#6D3409] text-white font-mono font-bold text-xs rounded shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <span>🔐</span>
-                  <span>Masuk Master Admin</span>
-                </button>
-              </form>
-
-              <div id="landing-admin-msg" class="hidden text-[11px] font-mono rounded p-2"></div>
-
-              <!-- Setup Password Collapsible Trigger -->
-              <div class="pt-1">
-                <button 
-                  type="button" 
-                  id="landing-btn-toggle-setup-pw" 
-                  class="text-[11px] text-[#0038A8] hover:underline font-mono cursor-pointer flex items-center gap-1"
-                >
-                  <span id="landing-toggle-pw-text">Belum buat password? Buat Sandi & Masukkan Token ▼</span>
-                </button>
-
-                <!-- Hidden Setup PW Box -->
-                <div id="landing-admin-setup-pw-wrapper" class="hidden mt-2 p-3 bg-amber-50/70 rounded-lg border border-amber-200 space-y-2">
-                  <div class="text-[10.5px] font-mono text-amber-950 font-semibold">Aktivasi Sandi dengan Token Otoritas</div>
-                  <form id="landing-form-admin-setup-pw" class="space-y-2">
-                    <div>
-                      <input 
-                        type="text" 
-                        id="landing-admin-token-input" 
-                        value="${pendingToken}" 
-                        placeholder="Token konfirmasi..." 
-                        required 
-                        class="w-full px-2 py-1 text-[11px] font-mono border border-amber-300 rounded bg-white"
-                      >
+                  <!-- Hidden Token Setup Form -->
+                  <div id="landing-admin-setup-pw-wrapper" class="hidden mt-2 p-2.5 bg-white border border-amber-200 rounded space-y-2 text-xs font-mono">
+                    <div class="text-[10px] font-bold text-amber-950">Aktivasi Kata Sandi Baru</div>
+                    <input type="text" id="landing-admin-token-input" value="${pendingToken}" placeholder="Token konfirmasi..." class="w-full px-2.5 py-1.5 text-xs font-mono border border-amber-300 rounded bg-white" />
+                    <div class="grid grid-cols-2 gap-2">
+                      <input type="password" id="landing-admin-new-pw" placeholder="Sandi baru..." class="w-full px-2.5 py-1.5 text-xs font-mono border border-amber-300 rounded bg-white" />
+                      <input type="password" id="landing-admin-confirm-pw" placeholder="Ulangi sandi..." class="w-full px-2.5 py-1.5 text-xs font-mono border border-amber-300 rounded bg-white" />
                     </div>
-                    <div>
-                      <input 
-                        type="password" 
-                        id="landing-admin-new-pw" 
-                        placeholder="Kata sandi baru..." 
-                        required 
-                        class="w-full px-2 py-1 text-[11px] font-mono border border-amber-300 rounded bg-white"
-                      >
+                    <div class="flex items-center gap-2 pt-1">
+                      <button type="button" id="landing-btn-save-token-pw" class="flex-1 py-1.5 bg-amber-800 hover:bg-amber-900 text-white font-bold rounded cursor-pointer text-[10.5px]">Simpan & Masuk</button>
+                      <button type="button" id="landing-btn-request-token" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 rounded cursor-pointer text-[10px]">Minta Token</button>
                     </div>
-                    <div>
-                      <input 
-                        type="password" 
-                        id="landing-admin-confirm-pw" 
-                        placeholder="Ulangi kata sandi..." 
-                        required 
-                        class="w-full px-2 py-1 text-[11px] font-mono border border-amber-300 rounded bg-white"
-                      >
-                    </div>
-                    <div class="flex items-center gap-1.5 pt-1">
-                      <button 
-                        type="submit" 
-                        id="landing-btn-save-pw"
-                        class="flex-1 py-1.5 bg-amber-800 hover:bg-amber-900 text-white font-mono font-bold text-[10.5px] rounded cursor-pointer"
-                      >
-                        Simpan & Masuk
-                      </button>
-                      <button 
-                        type="button" 
-                        id="landing-btn-request-token"
-                        class="px-2 py-1.5 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 font-mono text-[10px] rounded cursor-pointer"
-                        title="Terbitkan token baru jika token kedaluwarsa"
-                      >
-                        Token Baru
-                      </button>
-                    </div>
-                  </form>
-                  <div id="landing-admin-setup-msg" class="hidden text-[10.5px] font-mono rounded p-1.5"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="pt-2 border-t border-amber-100 text-[10px] text-amber-800 font-mono">
-              Terverifikasi untuk: <strong>${MASTER_ADMIN_EMAIL}</strong>
-            </div>
-          </div>
-
-          <!-- OPTION 2: 👤 PENGGUNA TERDAFTAR (PENELITI & ANALIS) -->
-          <div class="bg-[#F7FBFB] border-2 border-teal-300 rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
-            <div class="space-y-3">
-              <div class="flex items-center justify-between pb-2 border-b border-teal-100">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-900 flex items-center justify-center text-lg font-bold shadow-2xs">
-                    👤
-                  </div>
-                  <div>
-                    <h3 class="text-sm font-mono font-bold text-teal-950 uppercase tracking-wide">Pengguna Terdaftar</h3>
-                    <div class="text-[10px] text-teal-800 font-mono">Peneliti & Analis Kebijakan</div>
+                    <div id="landing-admin-setup-msg" class="hidden text-[10.5px] p-1.5 rounded"></div>
                   </div>
                 </div>
-                <span class="bg-teal-100 text-teal-900 text-[10px] font-mono font-bold px-2 py-0.5 rounded shadow-2xs">
-                  Akses Statutori
-                </span>
               </div>
 
-              <p class="text-[11.5px] text-[#5D4037] font-sans leading-relaxed">
-                Untuk kementerian/lembaga pemerintah, periset, analis kebijakan, akademisi, dan mahasiswa. Dapatkan kuota unduh data format Excel (.xlsx) dan CSV resmi tanpa batas.
-              </p>
+              <!-- 3. Nama Lengkap & Instansi (Opsional) -->
+              <div>
+                <label class="block text-xs font-mono font-bold text-slate-700 mb-1">
+                  Nama Lengkap & Instansi / Lembaga <span class="text-slate-400 font-normal lowercase">(opsional)</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="landing-unified-name" 
+                  placeholder="Contoh: Dr. Budi Santoso — Bappenas / Universitas"
+                  class="w-full px-3.5 py-2 text-xs font-mono border border-slate-300 rounded-lg bg-white focus:outline-none focus:border-[#0038A8]"
+                />
+              </div>
 
-              <!-- Quick Researcher Login / Identifikasi Form -->
-              <form id="landing-form-user-login" class="space-y-2.5 pt-1">
-                <div>
-                  <label class="block text-[11px] font-mono font-bold text-slate-700 mb-1">Email Peneliti / Pengguna</label>
-                  <input 
-                    type="email" 
-                    id="landing-user-email" 
-                    placeholder="nama@instansi.go.id / email..." 
-                    required 
-                    class="w-full px-2.5 py-1.5 text-xs font-mono border border-slate-300 rounded bg-white focus:outline-none focus:border-teal-600"
-                  >
-                </div>
-                <div>
-                  <label class="block text-[11px] font-mono font-bold text-slate-700 mb-1">Nama Lengkap & Institusi</label>
-                  <input 
-                    type="text" 
-                    id="landing-user-name" 
-                    placeholder="Contoh: Dr. Budi Santoso (Bappenas / UI)" 
-                    class="w-full px-2.5 py-1.5 text-xs font-mono border border-slate-300 rounded bg-white focus:outline-none focus:border-teal-600"
-                  >
-                </div>
+              <!-- Message container -->
+              <div id="landing-unified-msg" class="hidden text-xs font-mono rounded-lg p-2.5"></div>
 
-                <button 
-                  type="submit" 
-                  id="landing-btn-submit-user"
-                  class="w-full py-2 bg-[#006874] hover:bg-[#004F58] text-white font-mono font-bold text-xs rounded shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <span>👤</span>
-                  <span>Masuk Sebagai Pengguna</span>
-                </button>
-              </form>
+              <!-- Submit Button -->
+              <button 
+                type="submit" 
+                id="landing-btn-submit-unified"
+                class="w-full py-2.5 px-4 bg-[#0038A8] hover:bg-[#002B82] text-white text-xs sm:text-sm font-mono font-bold rounded-lg shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>🚀</span>
+                <span>Masuk ke Repositori</span>
+                <span>→</span>
+              </button>
+            </form>
 
-              <div id="landing-user-msg" class="hidden text-[11px] font-mono rounded p-2"></div>
-
+            <!-- Alternative: Guest Login -->
+            <div class="pt-1">
               <div class="relative flex py-1 items-center">
-                <div class="flex-grow border-t border-teal-200"></div>
-                <span class="flex-shrink mx-2 text-[10px] font-mono text-teal-700 uppercase">atau formulir penuh</span>
-                <div class="flex-grow border-t border-teal-200"></div>
+                <div class="flex-grow border-t border-slate-200"></div>
+                <span class="flex-shrink mx-3 text-[10px] font-mono text-slate-500 uppercase">atau tanpa email</span>
+                <div class="flex-grow border-t border-slate-200"></div>
               </div>
-
               <button 
                 type="button" 
-                id="landing-btn-open-researcher-reg"
-                class="w-full py-2 bg-white hover:bg-teal-50 border border-teal-300 text-teal-900 text-xs font-mono font-semibold rounded shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                id="landing-btn-login-guest" 
+                class="w-full py-2 px-3 rounded bg-white hover:bg-slate-100 border border-slate-300 text-[#2C2420] font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
               >
-                <span>📋</span>
-                <span>Buka Formulir Registrasi Lengkap</span>
+                <span>🌐</span>
+                <span>Masuk Sebagai Tamu (Akses Publik Langsung)</span>
               </button>
             </div>
 
-            <div class="pt-2 border-t border-teal-100 text-[10px] text-teal-800 font-mono space-y-0.5">
-              <div>✓ Lisensi sitasi formal publikasi kebijakan</div>
-              <div>✓ Kuota unduh data Excel (.xlsx) resmi tak terbatas</div>
+            <div class="pt-1 text-center text-[10.5px] font-mono text-slate-500">
+              🔒 Halaman Master Admin hanya ditampilkan secara otomatis jika login menggunakan email resmi DEN RI.
             </div>
+
           </div>
-
-          <!-- OPTION 3: 🌐 AKSES TAMU (PUBLIK / 1-KLIK LANGSUNG) -->
-          <div class="bg-[#F6F9FE] border-2 border-blue-300 rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
-            <div class="space-y-3">
-              <div class="flex items-center justify-between pb-2 border-b border-blue-100">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-900 flex items-center justify-center text-lg font-bold shadow-2xs">
-                    🌐
-                  </div>
-                  <div>
-                    <h3 class="text-sm font-mono font-bold text-blue-950 uppercase tracking-wide">Akses Tamu (Publik)</h3>
-                    <div class="text-[10px] text-blue-800 font-mono">Pengunjung Umum & Publik</div>
-                  </div>
-                </div>
-                <span class="bg-blue-100 text-blue-900 text-[10px] font-mono font-bold px-2 py-0.5 rounded shadow-2xs">
-                  1-Klik Masuk
-                </span>
-              </div>
-
-              <p class="text-[11.5px] text-[#5D4037] font-sans leading-relaxed">
-                Masuk secara instan tanpa perlu mendaftar, verifikasi email, maupun kata sandi. Akses terbuka penuh untuk masyarakat umum, media massa, dan mahasiswa guna eksplorasi data sekunder.
-              </p>
-
-              <!-- Feature Highlights for Guest -->
-              <div class="bg-white/80 rounded-lg p-3 border border-blue-100 space-y-1.5 text-[11px] font-mono text-slate-700">
-                <div class="flex items-center gap-2 text-emerald-700 font-semibold">
-                  <span>✓</span>
-                  <span>1-Klik langsung masuk tanpa sandi</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-blue-600">✓</span>
-                  <span>Seluruh 10 modul dasbor analitik terbuka</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-blue-600">✓</span>
-                  <span>Grafik interaktif & peta spasial GIS aktif</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-blue-600">✓</span>
-                  <span>Pratinjau data BPS, APBN KiTa, & LKPP</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-blue-600">✓</span>
-                  <span>Kuota unduh data publik format CSV</span>
-                </div>
-              </div>
-
-              <!-- Big Direct 1-Click Guest Access Button -->
-              <div class="pt-2">
-                <button 
-                  type="button" 
-                  id="landing-btn-login-guest"
-                  class="w-full py-3 px-4 bg-[#0038A8] hover:bg-[#002B82] text-white text-xs sm:text-sm font-mono font-bold rounded-lg shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-                >
-                  <span>🌐</span>
-                  <span>Masuk Sebagai Tamu (Akses Terbuka)</span>
-                  <span>→</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="pt-2 border-t border-blue-100 text-[10px] text-blue-800 font-mono">
-              💡 Anda dapat berpindah ke akun Peneliti atau Master Admin kapan saja.
-            </div>
-          </div>
-
         </div>
 
         <!-- D. MACROECONOMIC PULSE 5 KPI CARDS (PREVIEW) -->
@@ -426,7 +264,7 @@ export class HomeView {
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase text-[#2C2420] flex items-center gap-1.5">
               <span>🔒</span>
-              <span>MODUL DATA ANALITIK TERSEDIA (PILIH SALAH SATU AKSES DI ATAS UNTUK MEMBUKA)</span>
+              <span>MODUL DATA ANALITIK TERSEDIA (MASUKKAN EMAIL DI ATAS UNTUK MEMBUKA)</span>
             </span>
             <span class="text-[10px] font-mono text-[#0038A8] font-bold">10 Modul Siap Digunakan</span>
           </div>
@@ -547,75 +385,160 @@ export class HomeView {
   }
 
   // ============================================================================
-  // 2. BIND LANDING PAGE GATEWAY EVENTS
+  // 2. BIND LANDING PAGE GATEWAY EVENTS (SINGLE GATEWAY LOGIC)
   // ============================================================================
   bindLandingEvents() {
-    // 1. Master Admin Login Form Submit
-    const formAdminLogin = document.getElementById('landing-form-admin-login');
-    formAdminLogin?.addEventListener('submit', async (e) => {
+    const emailInput = document.getElementById('landing-unified-email');
+    const roleHint = document.getElementById('landing-email-role-hint');
+    const pwWrapper = document.getElementById('landing-password-wrapper');
+    const pwInput = document.getElementById('landing-unified-password');
+    const msgDiv = document.getElementById('landing-unified-msg');
+    const submitBtn = document.getElementById('landing-btn-submit-unified');
+
+    // Dynamic role hint as user types email
+    const checkEmailRole = () => {
+      const val = emailInput?.value?.trim() || '';
+      if (!val) {
+        if (roleHint) roleHint.classList.add('hidden');
+        if (pwWrapper) pwWrapper.classList.add('hidden');
+        return;
+      }
+      if (isAdminEmail(val)) {
+        if (roleHint) {
+          roleHint.className = 'mt-1.5 p-2 bg-amber-50 border border-amber-300 text-amber-900 rounded text-[10.5px] font-mono font-semibold flex items-center gap-1.5';
+          roleHint.innerHTML = '<span>👑</span><span>Email Master Admin (DEN RI) terdeteksi. Silakan masukkan kata sandi otoritas di bawah:</span>';
+          roleHint.classList.remove('hidden');
+        }
+        if (pwWrapper) pwWrapper.classList.remove('hidden');
+      } else {
+        if (roleHint) {
+          roleHint.className = 'mt-1.5 p-2 bg-teal-50 border border-teal-200 text-teal-900 rounded text-[10.5px] font-mono flex items-center gap-1.5';
+          roleHint.innerHTML = '<span>👤</span><span>Email Pengguna / Peneliti Terdaftar. Halaman admin tidak akan tampil.</span>';
+          roleHint.classList.remove('hidden');
+        }
+        if (pwWrapper) pwWrapper.classList.add('hidden');
+      }
+    };
+
+    emailInput?.addEventListener('input', checkEmailRole);
+    emailInput?.addEventListener('change', checkEmailRole);
+    checkEmailRole();
+
+    // Unified Form Submit
+    document.getElementById('landing-unified-login-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('landing-admin-email')?.value?.trim();
-      const password = document.getElementById('landing-admin-password')?.value;
-      const msgDiv = document.getElementById('landing-admin-msg');
-      const submitBtn = document.getElementById('landing-btn-submit-admin');
+      const email = emailInput?.value?.trim();
+      const name = document.getElementById('landing-unified-name')?.value?.trim();
+      const password = pwInput?.value;
 
-      if (msgDiv) {
-        msgDiv.className = 'hidden';
-        msgDiv.textContent = '';
-      }
+      if (!email) return;
 
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>⏳</span><span>Memverifikasi Otoritas...</span>';
-      }
-
-      try {
-        const res = await ApiClient.adminLogin(email, password);
-        if (res.success) {
-          const sessionPayload = {
-            email: res.email || MASTER_ADMIN_EMAIL,
-            role: 'MASTER_ADMIN',
-            token: res.token,
-            logged_in_at: new Date().toISOString()
-          };
-          localStorage.setItem('master_admin_session', JSON.stringify(sessionPayload));
-          localStorage.setItem('registered_researcher_access', JSON.stringify({
-            email: sessionPayload.email,
-            name: 'Tania Fatimah Lubis, S.E., M.P.P.',
-            organization: 'Dewan Ekonomi Nasional (DEN RI)',
-            purpose: 'Otoritas Tata Kelola & Evaluasi Kebijakan Fiskal',
-            registered_at: new Date().toISOString(),
-            registered_at_formatted: new Date().toLocaleString('id-ID') + ' WIB'
-          }));
-
-          window.dispatchEvent(new CustomEvent('master-admin-login', { detail: sessionPayload }));
-          window.dispatchEvent(new CustomEvent('auth-updated', { detail: sessionPayload }));
-
+      if (isAdminEmail(email)) {
+        // MASTER ADMIN LOGIN
+        if (!password) {
+          if (pwWrapper) pwWrapper.classList.remove('hidden');
+          if (pwInput) pwInput.focus();
           if (msgDiv) {
-            msgDiv.className = 'text-[11px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 rounded p-2';
-            msgDiv.textContent = '✓ Login Master Admin berhasil! Membuka seluruh repositori...';
+            msgDiv.className = 'text-[11px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-2';
+            msgDiv.textContent = 'Kata sandi diperlukan untuk akun Master Admin.';
             msgDiv.classList.remove('hidden');
           }
-
-          setTimeout(() => {
-            this.render();
-          }, 400);
+          return;
         }
-      } catch (err) {
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span>⏳</span><span>Memverifikasi Otoritas...</span>';
+        }
+
+        try {
+          const res = await ApiClient.adminLogin(email, password);
+          if (res.success) {
+            const sessionPayload = {
+              email: res.email || email,
+              role: 'MASTER_ADMIN',
+              token: res.token,
+              logged_in_at: new Date().toISOString()
+            };
+            localStorage.setItem('master_admin_session', JSON.stringify(sessionPayload));
+            localStorage.setItem('registered_researcher_access', JSON.stringify({
+              email: sessionPayload.email,
+              name: name || 'Tania Fatimah Lubis, S.E., M.P.P.',
+              organization: 'Dewan Ekonomi Nasional (DEN RI)',
+              purpose: 'Otoritas Tata Kelola & Evaluasi Kebijakan Fiskal',
+              registered_at: new Date().toISOString(),
+              registered_at_formatted: new Date().toLocaleString('id-ID') + ' WIB'
+            }));
+            localStorage.removeItem('app_guest_session');
+
+            window.dispatchEvent(new CustomEvent('master-admin-login', { detail: sessionPayload }));
+            window.dispatchEvent(new CustomEvent('auth-updated', { detail: sessionPayload }));
+
+            if (msgDiv) {
+              msgDiv.className = 'text-[11px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 rounded p-2';
+              msgDiv.textContent = '✓ Login Master Admin berhasil! Membuka halaman admin...';
+              msgDiv.classList.remove('hidden');
+            }
+
+            setTimeout(() => {
+              if (this.options.onNavigate) {
+                this.options.onNavigate('admin');
+              } else {
+                this.render();
+              }
+            }, 300);
+          }
+        } catch (err) {
+          if (msgDiv) {
+            msgDiv.className = 'text-[11px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-2';
+            msgDiv.textContent = err.message || 'Login Master Admin gagal. Periksa kembali kata sandi Anda.';
+            msgDiv.classList.remove('hidden');
+          }
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>🚀</span><span>Masuk ke Repositori</span><span>→</span>';
+          }
+        }
+      } else {
+        // NORMAL USER LOGIN (PAGE ADMIN TIDAK AKAN TAMPIL)
+        localStorage.removeItem('master_admin_session');
+        localStorage.removeItem('app_guest_session');
+
+        const payload = {
+          email: email,
+          name: name || 'Peneliti Terdaftar',
+          organization: name || 'Institusi Riset / Pengguna',
+          purpose: 'Analisis Kebijakan & Riset Data Sekunder',
+          registered_at: new Date().toISOString(),
+          registered_at_formatted: new Date().toLocaleString('id-ID') + ' WIB'
+        };
+
+        localStorage.setItem('registered_researcher_access', JSON.stringify(payload));
+        window.dispatchEvent(new CustomEvent('auth-updated', { detail: payload }));
+
         if (msgDiv) {
-          msgDiv.className = 'text-[11px] font-mono text-rose-800 bg-rose-50 border border-rose-200 rounded p-2';
-          msgDiv.textContent = err.message || 'Login gagal. Periksa kembali email dan kata sandi Anda.';
+          msgDiv.className = 'text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 rounded p-2';
+          msgDiv.textContent = `✓ Selamat datang, ${payload.name}! Membuka repositori...`;
           msgDiv.classList.remove('hidden');
         }
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span>🔐</span><span>Masuk Master Admin</span>';
-        }
+
+        setTimeout(() => {
+          this.render();
+        }, 300);
       }
     });
 
-    // 2. Toggle Setup Password for Master Admin
+    // Guest login direct
+    document.getElementById('landing-btn-login-guest')?.addEventListener('click', () => {
+      localStorage.removeItem('master_admin_session');
+      localStorage.removeItem('registered_researcher_access');
+      localStorage.setItem('app_guest_session', 'true');
+      window.dispatchEvent(new CustomEvent('auth-updated'));
+      this.render();
+    });
+
+    // Toggle setup pw for admin
     const btnToggleSetup = document.getElementById('landing-btn-toggle-setup-pw');
     const setupWrapper = document.getElementById('landing-admin-setup-pw-wrapper');
     const toggleText = document.getElementById('landing-toggle-pw-text');
@@ -624,27 +547,24 @@ export class HomeView {
       const isHidden = setupWrapper.classList.contains('hidden');
       if (isHidden) {
         setupWrapper.classList.remove('hidden');
-        if (toggleText) toggleText.textContent = 'Tutup Formulir Buat Sandi ▲';
+        if (toggleText) toggleText.textContent = 'Tutup Formulir Sandi Baru ▲';
       } else {
         setupWrapper.classList.add('hidden');
-        if (toggleText) toggleText.textContent = 'Belum buat password? Buat Sandi & Masukkan Token ▼';
+        if (toggleText) toggleText.textContent = 'Belum buat password? Masukkan token otoritas ▼';
       }
     });
 
-    // 3. Save New Password & Token for Master Admin
-    const formSetupPw = document.getElementById('landing-form-admin-setup-pw');
-    formSetupPw?.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // Save token password for admin
+    document.getElementById('landing-btn-save-token-pw')?.addEventListener('click', async () => {
       const token = document.getElementById('landing-admin-token-input')?.value?.trim();
       const newPw = document.getElementById('landing-admin-new-pw')?.value;
       const confirmPw = document.getElementById('landing-admin-confirm-pw')?.value;
-      const targetEmail = document.getElementById('landing-admin-email')?.value?.trim() || MASTER_ADMIN_EMAIL;
+      const targetEmail = emailInput?.value?.trim() || MASTER_ADMIN_EMAIL;
       const msgDiv = document.getElementById('landing-admin-setup-msg');
 
       if (!msgDiv) return;
-
       if (newPw !== confirmPw) {
-        msgDiv.className = 'text-[10.5px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-1.5';
+        msgDiv.className = 'text-[10px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-1';
         msgDiv.textContent = 'Konfirmasi kata sandi tidak cocok.';
         msgDiv.classList.remove('hidden');
         return;
@@ -653,125 +573,45 @@ export class HomeView {
       try {
         const res = await ApiClient.setAdminPassword(token, newPw, targetEmail);
         if (res.success) {
-          msgDiv.className = 'text-[10.5px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 rounded p-1.5';
+          msgDiv.className = 'text-[10px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 rounded p-1';
           msgDiv.textContent = '✓ Sandi berhasil disimpan! Masuk otomatis...';
           msgDiv.classList.remove('hidden');
 
-          // Auto-login immediately
-          const loginRes = await ApiClient.adminLogin(targetEmail, newPw);
-          if (loginRes.success) {
-            const sessionPayload = {
-              email: loginRes.email || targetEmail,
-              role: 'MASTER_ADMIN',
-              token: loginRes.token,
-              logged_in_at: new Date().toISOString()
-            };
-            localStorage.setItem('master_admin_session', JSON.stringify(sessionPayload));
-            localStorage.setItem('registered_researcher_access', JSON.stringify({
-              email: sessionPayload.email,
-              name: 'Tania Fatimah Lubis, S.E., M.P.P.',
-              organization: 'Dewan Ekonomi Nasional (DEN RI)',
-              purpose: 'Otoritas Tata Kelola & Evaluasi Kebijakan Fiskal',
-              registered_at: new Date().toISOString(),
-              registered_at_formatted: new Date().toLocaleString('id-ID') + ' WIB'
-            }));
-
-            window.dispatchEvent(new CustomEvent('master-admin-login', { detail: sessionPayload }));
-            window.dispatchEvent(new CustomEvent('auth-updated', { detail: sessionPayload }));
-
-            setTimeout(() => {
-              this.render();
-            }, 400);
-          }
+          if (pwInput) pwInput.value = newPw;
+          document.getElementById('landing-unified-login-form')?.requestSubmit();
         }
       } catch (err) {
-        msgDiv.className = 'text-[10.5px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-1.5';
-        msgDiv.textContent = err.message || 'Gagal menyimpan sandi. Periksa kembali token.';
+        msgDiv.className = 'text-[10px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-1';
+        msgDiv.textContent = err.message || 'Gagal menyimpan sandi.';
         msgDiv.classList.remove('hidden');
       }
     });
 
-    // 4. Request New Token for Master Admin
+    // Request new token
     document.getElementById('landing-btn-request-token')?.addEventListener('click', async () => {
-      const targetEmail = document.getElementById('landing-admin-email')?.value?.trim() || MASTER_ADMIN_EMAIL;
+      const targetEmail = emailInput?.value?.trim() || MASTER_ADMIN_EMAIL;
       const msgDiv = document.getElementById('landing-admin-setup-msg');
       try {
         const res = await ApiClient.sendAdminConfirmation(targetEmail);
         if (res.success) {
           const tokenInput = document.getElementById('landing-admin-token-input');
           if (tokenInput) tokenInput.value = res.token;
-          localStorage.setItem('master_admin_pending_token', res.token);
           if (msgDiv) {
-            msgDiv.className = 'text-[10.5px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 rounded p-1.5';
-            msgDiv.textContent = `✓ Token baru (${res.token}) telah diisikan ke kolom token.`;
+            msgDiv.className = 'text-[10px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 rounded p-1';
+            msgDiv.textContent = `✓ Token baru (${res.token}) telah diisikan.`;
             msgDiv.classList.remove('hidden');
           }
         }
       } catch (err) {
         if (msgDiv) {
-          msgDiv.className = 'text-[10.5px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-1.5';
+          msgDiv.className = 'text-[10px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-1';
           msgDiv.textContent = err.message || 'Gagal menerbitkan token.';
           msgDiv.classList.remove('hidden');
         }
       }
     });
 
-    // 5. Researcher / User Login Form Submit
-    const formUserLogin = document.getElementById('landing-form-user-login');
-    formUserLogin?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('landing-user-email')?.value?.trim();
-      const name = document.getElementById('landing-user-name')?.value?.trim();
-      const instansi = document.getElementById('landing-user-instansi')?.value?.trim();
-      const msgDiv = document.getElementById('landing-user-msg');
-
-      if (!email || !email.includes('@')) {
-        if (msgDiv) {
-          msgDiv.className = 'text-[11px] font-mono text-rose-700 bg-rose-50 border border-rose-200 rounded p-2';
-          msgDiv.textContent = 'Silakan masukkan alamat email yang valid.';
-          msgDiv.classList.remove('hidden');
-        }
-        return;
-      }
-
-      const payload = {
-        email: email,
-        name: name || 'Peneliti Terdaftar',
-        organization: instansi || 'Institusi Riset / Pengguna',
-        purpose: 'Analisis Kebijakan & Riset Data Sekunder',
-        registered_at: new Date().toISOString(),
-        registered_at_formatted: new Date().toLocaleString('id-ID') + ' WIB'
-      };
-
-      localStorage.setItem('registered_researcher_access', JSON.stringify(payload));
-      window.dispatchEvent(new CustomEvent('auth-updated', { detail: payload }));
-
-      if (msgDiv) {
-        msgDiv.className = 'text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 rounded p-2';
-        msgDiv.textContent = `✓ Selamat datang, ${payload.name}! Akses repositori terbuka.`;
-        msgDiv.classList.remove('hidden');
-      }
-
-      setTimeout(() => {
-        this.render();
-      }, 350);
-    });
-
-    // 6. Open Full Researcher Registration Modal
-    document.getElementById('landing-btn-open-researcher-reg')?.addEventListener('click', () => {
-      openEmailRegistrationModal(() => {
-        this.render();
-      }, null, 'researcher');
-    });
-
-    // 7. Direct 1-Click Guest Login
-    document.getElementById('landing-btn-login-guest')?.addEventListener('click', () => {
-      localStorage.setItem('app_guest_session', 'true');
-      window.dispatchEvent(new CustomEvent('auth-updated'));
-      this.render();
-    });
-
-    // 8. Locked Card Clicks: Smooth scroll to gateway cards + pulse effect
+    // Locked Card Clicks
     document.querySelectorAll('.landing-locked-card').forEach(card => {
       card.addEventListener('click', () => {
         const moduleName = card.getAttribute('data-module') || 'Modul Data';
@@ -783,8 +623,7 @@ export class HomeView {
             gatewayEl.classList.remove('ring-4', 'ring-[#0038A8]', 'ring-offset-2');
           }, 1500);
         }
-        // Show brief toast
-        this.showToast(`🔒 Modul ${moduleName} terkunci. Silakan pilih salah satu jalur akses (Admin, Pengguna, atau Tamu) di atas.`);
+        this.showToast(`🔒 Modul ${moduleName} terkunci. Silakan masukkan email Anda pada kotak akses di atas.`);
       });
     });
   }
@@ -843,7 +682,7 @@ export class HomeView {
                   </div>
                   <div class="text-sm sm:text-base font-bold text-[#2C2420]">${registeredUser.name || 'Peneliti'} (${registeredUser.email})</div>
                   <div class="text-[11.5px] text-[#5D4037] font-sans">
-                    Hak Akses: Seluruh modul analitik, data LKPP, RAPBN vs Realisasi APBN, BPS, dan kuota unduh format Excel (.xlsx) / CSV resmi.
+                    Hak Akses: Seluruh modul analitik, data LKPP, RAPBN vs Realisasi APBN, BPS, dan kuota unduh format Excel (.xlsx) / CSV resmi. Halaman admin tidak ditampilkan.
                   </div>
                 </div>
               </div>
@@ -872,13 +711,13 @@ export class HomeView {
                   </div>
                   <div class="text-sm sm:text-base font-bold text-[#2C2420]">Pengunjung Publik / Peninjau Data</div>
                   <div class="text-[11.5px] text-[#5D4037] font-sans">
-                    Seluruh modul data dan dasbor analitik telah terbuka. Ingin kuota unduh tak terbatas atau akses tata kelola? Silakan masuk sebagai Peneliti atau Master Admin.
+                    Seluruh modul data dan dasbor analitik telah terbuka. Ingin kuota unduh tak terbatas atau akses tata kelola? Silakan masuk dengan email terdaftar.
                   </div>
                 </div>
               </div>
               <div class="flex items-center gap-2 w-full md:w-auto shrink-0 flex-wrap">
                 <button id="home-btn-switch-account" class="px-3.5 py-2 bg-[#0038A8] hover:bg-[#002B82] text-white text-xs font-bold rounded shadow-xs flex items-center gap-1.5 transition-all cursor-pointer">
-                  <span>🔑 Login Admin / Pengguna</span>
+                  <span>🔑 Login dengan Email</span>
                 </button>
                 <button id="home-btn-logout-session" class="px-3 py-2 bg-white hover:bg-rose-50 border border-rose-300 text-rose-700 text-xs font-semibold rounded shadow-2xs transition-all cursor-pointer" title="Keluar dari sesi Tamu">
                   <span>Keluar Sesi</span>
@@ -1118,53 +957,6 @@ export class HomeView {
             </div>
           </div>
         </div>
-
-        <!-- 5. RECENT STATUTORY PUBLICATIONS & DOCUMENT SERIES -->
-        <div class="space-y-3 pt-1">
-          <div class="flex items-center justify-between pb-2">
-            <span class="text-xs font-mono font-bold uppercase text-[#2C2420] flex items-center gap-1.5">
-              <span>📚</span>
-              <span>PUBLIKASI RESMI TERBARU & SERI DOKUMEN APBN / LKPP / BRS</span>
-            </span>
-            <span class="text-[10px] font-mono bg-white text-[#7D655C] border border-[#E5DACF] px-2 py-0.5 rounded">
-              Pembaruan Tgl 8, 17, 28 Bulanan
-            </span>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-            <!-- 1. APBN KITA -->
-            <div class="p-4 rounded-lg bg-[#B8D8BA] space-y-2 transition-all shadow-2xs">
-              <div class="flex items-center justify-between">
-                <span class="font-bold text-[#1B4D3E] text-[13px]">APBN KITA (Realisasi Bulanan APBN)</span>
-                <span class="text-[10px] bg-white/90 text-[#1B4D3E] px-2 py-0.5 rounded font-bold shadow-2xs">Bulanan</span>
-              </div>
-              <p class="text-[11.5px] text-[#1F2937] font-sans leading-relaxed font-medium">
-                Laporan pelaksanaan APBN berbasis kas dari Kementerian Keuangan RI. Menyajikan realisasi pendapatan pajak, bea cukai, PNBP, belanja K/L, dan pembiayaan anggaran.
-              </p>
-              <div class="pt-1 text-[10px] text-[#2E4F42] font-medium">Terbit: September 2026 (Edisi Realisasi s/d Agustus 2026) • Status: Realisasi Sementara</div>
-            </div>
-
-            <!-- 2. LKPP AUDITED BPK RI -->
-            <div class="p-4 rounded-lg bg-[#B8D8BA] space-y-2 transition-all shadow-2xs flex flex-col justify-between">
-              <div class="space-y-2">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-[#1B4D3E] text-[13px]">LKPP AUDITED BPK RI (Laporan Keuangan)</span>
-                  <span class="text-[10px] bg-white/90 text-[#1B4D3E] px-2 py-0.5 rounded font-bold shadow-2xs">Tahunan Audited</span>
-                </div>
-                <p class="text-[11.5px] text-[#1F2937] font-sans leading-relaxed font-medium">
-                  Dokumen pertanggungjawaban APBN final yang diaudit oleh BPK RI. Mencakup LRA, Neraca, Laporan Arus Kas (LAK), dan Catatan atas Laporan Keuangan (CaLK).
-                </p>
-              </div>
-              <div class="pt-2 flex items-center justify-between border-t border-[#9FC5A1]">
-                <div class="text-[10px] text-[#2E4F42] font-medium">Terbit: Juni 2024 • Status: Realisasi Final Audited</div>
-                <button id="home-btn-lkpp-card" class="px-3 py-1 text-[11px] font-mono rounded bg-[#1B4D3E] hover:bg-[#123B2E] text-white font-semibold flex items-center gap-1.5 cursor-pointer transition-all shadow-2xs">
-                  <span>🏛️ Buka Matriks LKPP</span>
-                  <span>→</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     `;
   }
@@ -1210,7 +1002,7 @@ export class HomeView {
     document.getElementById('home-btn-open-researcher-reg')?.addEventListener('click', () => {
       openEmailRegistrationModal(() => {
         this.render();
-      }, null, 'researcher');
+      }, null);
     });
 
     document.getElementById('home-btn-switch-account')?.addEventListener('click', () => {
