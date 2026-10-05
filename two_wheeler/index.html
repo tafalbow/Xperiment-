@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Intelijen & Basis Data Industri Sepeda Motor Indonesia (1990 - Sekarang) | I2W-DIS</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js CDN for robust responsive data visualisations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Custom GovTech Stylesheet -->
+  <link rel="stylesheet" href="css/i2w_style.css">
+</head>
+<body>
+
+  <!-- 1. TOP GOVTECH NAVIGATION BAR -->
+  <header class="top-gov-bar">
+    <div class="top-gov-left">
+      <span class="gov-flag">🇮🇩</span>
+      <span class="gov-org-title">REPUBLIK INDONESIA &middot; KEMENTERIAN KOORDINATOR BIDANG PEREKONOMIAN / KEMENPERIN</span>
+    </div>
+    <div class="top-gov-right">
+      <div class="sync-indicator">
+        <span class="pulse-dot"></span>
+        <span>Basis Data Terintegrasi (1990 - 2026)</span>
+      </div>
+      <span>Standar Kemenperin &bull; AISI &bull; Korlantas &bull; BPS</span>
+    </div>
+  </header>
+
+  <!-- 2. MAIN APPLICATION HERO HEADER -->
+  <section class="app-header">
+    <div class="header-inner">
+      <div class="brand-badge">
+        <span>🏛️ INDONESIA 2-WHEELER DATA & INTELLIGENCE SYSTEM (I2W-DIS)</span>
+      </div>
+      <div class="header-title-row">
+        <div class="header-title-box">
+          <h1>Pusat Intelijen & Basis Data Industri Sepeda Motor Indonesia</h1>
+          <p class="header-subtitle">
+            Observatorium data sekunder komprehensif industri roda dua (R2) nasional: Regulasi lintas kementerian/lembaga, deret waktu penjualan domestik & ekspor 1990–2026, direktori manufaktur & investor, serta matriks pemodelan profil konsumen seluruh segmen (ICE & EV).
+          </p>
+        </div>
+        <div class="header-actions">
+          <button id="btnExportCSV" class="btn-header-export" title="Unduh CSV">
+            <span>📥</span> Unduh CSV
+          </button>
+          <button id="btnExportExcel" class="btn-header-secondary" title="Ekspor format Excel">
+            <span>📊</span> Ekspor Excel
+          </button>
+          <button id="btnExportJSON" class="btn-header-secondary" title="JSON API Schema">
+            <span>💻</span> JSON Data
+          </button>
+          <button id="btnPrintReport" class="btn-header-secondary" title="Cetak Ringkasan">
+            <span>🖨️</span> Cetak Laporan
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. TOP METRICS KPI STRIP -->
+  <section class="metrics-strip">
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-title">Total Populasi Terdaftar</span>
+        <span class="metric-badge blue">Nasional</span>
+      </div>
+      <div id="metricTotalPop" class="metric-value">142.100.000 Unit</div>
+      <div class="metric-sub">
+        <span>Registrasi Aktif Samsat</span>
+        <span class="metric-source">Korlantas Polri & BPS</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-title">Penjualan Domestik Tahunan</span>
+        <span id="metricSalesGrowth" class="metric-badge green">+2,3% YoY</span>
+      </div>
+      <div id="metricSalesLatest" class="metric-value">6.680.000 Unit</div>
+      <div class="metric-sub">
+        <span>Distribusi Wholesales Pabrikan</span>
+        <span class="metric-source">AISI Laporan Resmi</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-title">Ekspor Unit Utuh (CBU)</span>
+        <span class="metric-badge amber">>50 Negara</span>
+      </div>
+      <div id="metricExportLatest" class="metric-value">560.000 Unit</div>
+      <div class="metric-sub">
+        <span>ASEAN, LatAm, Afrika, Eropa</span>
+        <span class="metric-source">AISI & Bea Cukai</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-title">Penetrasi Motor Listrik (E2W)</span>
+        <span class="metric-badge green">Subsidi Rp 7 Jt</span>
+      </div>
+      <div id="metricEvLatest" class="metric-value">120.000 Unit</div>
+      <div class="metric-sub">
+        <span>Verifikasi SISAPIRa Kemenperin</span>
+        <span class="metric-source">AISMOLI & P3DN</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-title">Dominasi Segmen Skutik</span>
+        <span class="metric-badge blue">Matic</span>
+      </div>
+      <div id="metricScooterShare" class="metric-value">90,2%</div>
+      <div class="metric-sub">
+        <span>Pangsa Terhadap Total Pasar</span>
+        <span class="metric-source">AISI Stat</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. MAIN CONTAINER & WORKSPACE -->
+  <main class="main-container">
+    
+    <!-- NAVIGATION TAB SELECTOR -->
+    <nav class="nav-tabs-wrapper">
+      <button class="nav-tab-btn active" data-tab="overview">
+        <span class="tab-icon">📊</span> Ringkasan Visual & KPI
+      </button>
+      <button class="nav-tab-btn" data-tab="timeseries">
+        <span class="tab-icon">📈</span> Basis Data Deret Waktu (1990 - 2026)
+      </button>
+      <button class="nav-tab-btn" data-tab="regulations">
+        <span class="tab-icon">📜</span> Observatorium Regulasi & Kebijakan
+      </button>
+      <button class="nav-tab-btn" data-tab="manufacturers">
+        <span class="tab-icon">🏭</span> Investor & Manufaktur
+      </button>
+      <button class="nav-tab-btn" data-tab="consumers">
+        <span class="tab-icon">👥</span> Profil Konsumen & Biaya TCO
+      </button>
+      <button class="nav-tab-btn" data-tab="spasial">
+        <span class="tab-icon">🗺️</span> Distribusi 38 Wilayah
+      </button>
+      <button class="nav-tab-btn" data-tab="subsidy">
+        <span class="tab-icon">⚡</span> Pelacak Subsidi SISAPIRa
+      </button>
+      <button class="nav-tab-btn" data-tab="media">
+        <span class="tab-icon">📰</span> Arsip Media (1990 - 2026)
+      </button>
+      <button class="nav-tab-btn" data-tab="dictionary">
+        <span class="tab-icon">📖</span> Kamus Data & Metodologi
+      </button>
+    </nav>
+
+    <!-- MULTIDIMENSIONAL QUERY & FILTER TOOLBAR -->
+    <section class="filter-toolbar">
+      <div class="filter-row-top">
+        <div class="search-box-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Cari tahun, nama regulasi, pabrikan, konteks krisis, atau kata kunci...">
+        </div>
+
+        <select id="yearRangeSelect" class="filter-select">
+          <option value="all">Semua Era (1990 - 2026)</option>
+          <option value="1990-1999">Era 90-an: Deregulasi & Krismon 1998 (1990-1999)</option>
+          <option value="2000-2010">Era 2000-an: Serbuan Mocin & Revolusi Skutik (2000-2010)</option>
+          <option value="2011-2019">Era 2010-an: Rekor 8 Juta & Lahirnya Maxi (2011-2019)</option>
+          <option value="2020-2026">Era 2020-an: Pandemi & Transisi Elektrifikasi (2020-2026)</option>
+        </select>
+
+        <select id="institutionSelect" class="filter-select">
+          <option value="all">Semua Lembaga Penerbit Regulasi</option>
+          <option value="Kementerian Perindustrian">Kementerian Perindustrian (Kemenperin)</option>
+          <option value="Kementerian Perhubungan">Kementerian Perhubungan (Kemenhub)</option>
+          <option value="Kementerian Energi dan Sumber Daya Mineral">Kementerian ESDM</option>
+          <option value="Presiden Republik Indonesia">Presiden RI (Perpres / Inpres)</option>
+          <option value="Kementerian Keuangan">Kementerian Keuangan / BI</option>
+          <option value="Kepolisian Negara Republik Indonesia">Korlantas Polri</option>
+        </select>
+
+        <button id="btnResetFilter" class="btn-reset-filter">
+          🔄 Reset Filter
+        </button>
+      </div>
+
+      <div class="filter-summary-row">
+        <span>Status Mesin Query: <strong style="color:var(--accent-emerald);">Aktif (Client-Side In-Memory)</strong></span>
+        <span id="recordCountBadge" class="record-count-badge">37 deret tahun ditemukan</span>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 1: RINGKASAN EKSEKUTIF & VISUALISASI ANALITIK                     -->
+    <!-- ==================================================================== -->
+    <div id="tab-overview" class="tab-panel-content">
+      <div class="section-header-block">
+        <div class="section-tag">Analisis Makro & Transformasi Industri</div>
+        <h2>Dinamika Penjualan, Ekspor & Pergeseran Selera Konsumen (1990 - 2026)</h2>
+        <p class="section-desc">
+          Perjalanan lebih dari tiga dekade industri otomotif roda dua Indonesia: Dari krisis moneter 1998, disrupsi motor Tiongkok (mocin), pergeseran dramatis dari bebek (cub) ke skutik matik, hingga pencapaian rekor all-time high 8,04 juta unit (2011) dan akselerasi era kendaraan listrik berbasis baterai.
+        </p>
+      </div>
+
+      <div class="charts-grid-two">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Tren Penjualan Domestik, Ekspor CBU & Motor Listrik (1990 - 2026)</div>
+              <div class="chart-subtitle">Satuan: Unit per Tahun &middot; Sumber Data: Rekonsiliasi AISI & Kemenperin</div>
+            </div>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chartSalesTrendCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Evolusi Pergeseran Pangsa Segmen Pasar (% Share)</div>
+              <div class="chart-subtitle">Transformasi Bebek (Cub) &rarr; Skutik (Matic) &rarr; Elektrifikasi (EV)</div>
+            </div>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chartSegmentShiftCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-grid-two">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Pangsa Pasar Pabrikan Mesin Konvensional (ICE)</div>
+              <div class="chart-subtitle">Dominasi Astra Honda Motor (AHM) & Yamaha Indonesia (YIMM)</div>
+            </div>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chartBrandShareCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Komparasi Total Biaya Kepemilikan (TCO 10.000 Km/Tahun)</div>
+              <div class="chart-subtitle">Perbandingan Biaya Bensin vs Biaya Swap & Direct Charging Listrik</div>
+            </div>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chartTcoCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 2: BASIS DATA DERET WAKTU STATISTIK TABULAR                       -->
+    <!-- ==================================================================== -->
+    <div id="tab-timeseries" class="tab-panel-content" style="display: none;">
+      <div class="section-header-block">
+        <div class="section-tag">Data Grid Sekunder Terverifikasi</div>
+        <h2>Deret Waktu Statistik Penjualan, Segmen & Konteks Makro (1990 - 2026)</h2>
+        <p class="section-desc">
+          Klik pada judul kolom untuk melakukan pengurutan data (*sorting*). Klik pada baris manapun untuk membuka jendela telaah analitis mendalam (*deep-dive modal*) tahun terkait.
+        </p>
+      </div>
+
+      <div class="data-table-card">
+        <div class="table-toolbar">
+          <div class="table-title">
+            <span>📋 Matriks Deret Waktu Sepeda Motor Indonesia</span>
+          </div>
+          <div class="table-actions">
+            <select id="pageSizeSelect" class="btn-table-action">
+              <option value="10">Tampilkan 10 baris</option>
+              <option value="25">Tampilkan 25 baris</option>
+              <option value="50">Tampilkan 50 baris</option>
+              <option value="all">Tampilkan Semua</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive-wrapper">
+          <table class="i2w-table">
+            <thead>
+              <tr>
+                <th data-sort="year">Tahun ↕</th>
+                <th data-sort="domesticSales">Penjualan Domestik (Unit) ↕</th>
+                <th data-sort="exportSales">Ekspor CBU (Unit) ↕</th>
+                <th data-sort="growthYoY">Pertumbuhan YoY ↕</th>
+                <th data-sort="shareScooter">Skutik (%) ↕</th>
+                <th data-sort="shareCub">Bebek (%) ↕</th>
+                <th data-sort="shareSport">Sport (%) ↕</th>
+                <th data-sort="evSalesVolume">Motor Listrik (EV) ↕</th>
+                <th>Konteks Makroekonomi & Industri</th>
+                <th data-sort="status">Status Data ↕</th>
+              </tr>
+            </thead>
+            <tbody id="timeSeriesTableBody">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-pagination-bar">
+          <div id="paginationInfo">Menampilkan 1 - 10 dari 37 baris data</div>
+          <div id="paginationControls" class="pagination-controls">
+            <!-- Buttons injected by engine -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 3: OBSERVATORIUM REGULASI & KEBIJAKAN                              -->
+    <!-- ==================================================================== -->
+    <div id="tab-regulations" class="tab-panel-content" style="display: none;">
+      <div class="section-header-block">
+        <div class="section-tag">Repositori Yuridis & Kebijakan Publik</div>
+        <h2>Observatorium Regulasi Industri Sepeda Motor & Elektrifikasi</h2>
+        <p class="section-desc">
+          Dokumentasi yuridis mencakup peraturan perundang-undangan, keputusan menteri, serta instruksi presiden dari era lokalisasi 1990-an, standar emisi Euro 2/3, hingga program bantuan subsidi Rp 7 juta (Permenperin 21/2023) dan konversi motor listrik (Permen ESDM 1/2023).
+        </p>
+      </div>
+
+      <div id="regulationsGridContainer" class="regulations-grid">
+        <!-- Injected by JavaScript -->
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 4: DIREKTORI INVESTOR, MANUFAKTUR & EKOSISTEM BATERAI              -->
+    <!-- ==================================================================== -->
+    <div id="tab-manufacturers" class="tab-panel-content" style="display: none;">
+      <div class="section-header-block">
+        <div class="section-tag">Pemetaan Prinsipal, Pabrik & Rantai Pasok</div>
+        <h2>Direktori Manufaktur Roda Dua & Konsorsium Baterai EV</h2>
+        <p class="section-desc">
+          Profil kapabilitas industri manufaktur roda dua Indonesia: Fasilitas perakitan Karawang, Cikarang, Pulo Gadung, dan Kudus, status modal (PMA vs PMDN), struktur kepemilikan saham, tenaga kerja, serta pencapaian sertifikasi Tingkat Komponen Dalam Negeri (TKDN).
+        </p>
+      </div>
+
+      <div id="manufacturersGridContainer" class="mfg-grid">
+        <!-- Injected by JavaScript -->
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 5: PROFIL KONSUMEN & TOTAL COST OF OWNERSHIP (TCO)                -->
+    <!-- ==================================================================== -->
+    <div id="tab-consumers" class="tab-panel-content" style="display: none;">
+      <div class="section-header-block">
+        <div class="section-tag">Pemodelan Perilaku & Segmentasi Pasar</div>
+        <h2>Profil Konsumen Roda Dua Indonesia & Analisis Biaya Operasional (TCO)</h2>
+        <p class="section-desc">
+          Hasil sintesis riset survei LPEM FEB UI, PwC Indonesia, dan statistik OJK: 5 persona pembeli utama di Indonesia, sensitivitas kredit multifinance (DP & tenor), faktor pendorong pembelian, serta perbandingan kalkulasi riil Total Cost of Ownership antara mesin bensin dan motor listrik.
+        </p>
+      </div>
+
+      <div class="charts-grid-two">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Radar Preferensi Keputusan Pembelian Konsumen</div>
+              <div class="chart-subtitle">Komparasi faktor penentu: Urban Commuter vs Ojek Online vs Gen Z</div>
+            </div>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chartConsumerRadarCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Struktur Pembiayaan & Karakteristik Pasar</div>
+              <div class="chart-subtitle">Dominasi Multifinance & Sensitivitas Konsumen Indonesia</div>
+            </div>
+          </div>
+          <div style="font-size: 13px; color: #334155; line-height: 1.6; padding-top: 10px;">
+            <div style="background:#F8FAFC; border-left:4px solid var(--accent-bright-blue); padding:12px; margin-bottom:12px; border-radius: 0 6px 6px 0;">
+              <strong>Ketergantungan Kredit Multifinance (>75% Transaksi):</strong>
+              <p style="margin-top:2px;">Mayoritas pembelian sepeda motor baru di Indonesia dilakukan melalui skema pembiayaan (leasing FIFGroup, Adira, BAF, OTO). Konsumen sangat sensitif terhadap besaran uang muka (DP) dan cicilan bulanan dibanding harga total motor.</p>
+            </div>
+            <div style="background:#F8FAFC; border-left:4px solid var(--accent-emerald); padding:12px; border-radius: 0 6px 6px 0;">
+              <strong>Faktor Kunci Penerimaan Motor Listrik (EV):</strong>
+              <p style="margin-top:2px;">Kesiapan konsumen beralih ke motor listrik didorong oleh kepastian penghematan biaya bahan bakar harian (turun hingga 70%) dan skema tukar baterai (battery swap) yang menghilangkan kekhawatiran depresiasi harga baterai.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="personasGridContainer" class="persona-grid">
+        <!-- Injected by JavaScript -->
+      </div>
+
+      <!-- INTERACTIVE TCO SIMULATOR -->
+      <div class="sim-box">
+        <div class="sim-header">
+          <div class="sim-title">⚡ Kalkulator Simulasi Penghematan Finansial: Bensin vs Motor Listrik</div>
+          <div class="sim-subtitle">Sesuaikan jarak tempuh harian Anda untuk menghitung estimasi penghematan kas bulanan dan tahunan secara riil di Indonesia.</div>
+        </div>
+        <div class="sim-grid">
+          <div class="sim-control-group">
+            <div class="sim-label">
+              <span>Jarak Tempuh Harian:</span>
+              <strong id="simDailyKmVal">45 km/hari</strong>
+            </div>
+            <input type="range" id="simDailyKmInput" class="sim-slider" min="10" max="150" step="5" value="45">
+
+            <div class="sim-label" style="margin-top:8px;">
+              <span>Jenis Bahan Bakar Acuan:</span>
+              <strong id="simFuelTypeVal">Pertalite (Rp 10.000/L)</strong>
+            </div>
+            <select id="simFuelSelect" class="filter-select" style="background:#0F172A; color:#FFFFFF; border-color:rgba(255,255,255,0.2);">
+              <option value="10000">Pertalite (RON 90) - Rp 10.000 / Liter</option>
+              <option value="13400">Pertamax (RON 92) - Rp 13.400 / Liter</option>
+              <option value="14200">Pertamax Turbo (RON 98) - Rp 14.200 / Liter</option>
+            </select>
+          </div>
+
+          <div class="sim-results-card">
+            <div class="sim-saving-label">Estimasi Penghematan Finansial Pengendara</div>
+            <div id="simAnnualSavingText" class="sim-saving-amount">Rp 2.450.000 / Thn</div>
+            <div id="simMonthlySavingText" class="sim-saving-sub">Hemat ~Rp 204.000 setiap bulan</div>
+            <div style="font-size:11px; color:#93C5FD; margin-top:8px;">*Dibandingkan biaya motor listrik baterai swap (Rp 160/km) atau direct charging PLN (Rp 45/km).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tco-card">
+        <div class="section-header-block" style="margin-bottom: 14px;">
+          <div class="section-tag">Kalkulasi Finansial Riil</div>
+          <h3 style="font-size:16px; font-weight:800; color:var(--primary-navy);">Tabel Komparasi Total Cost of Ownership (Jarak Tempuh 10.000 Km/Tahun)</h3>
+          <p style="font-size:12px; color:var(--text-muted);">
+            Menghitung harga beli, biaya bahan bakar Pertalite/Pertamax vs tarif listrik PLN/kuota baterai swap, servis berkala, pajak/SWDKLLJ, dan depresiasi nilai tahun pertama.
+          </p>
+        </div>
+
+        <div class="table-responsive-wrapper">
+          <table class="i2w-table">
+            <thead>
+              <tr>
+                <th>Tipe Kendaraan</th>
+                <th>Harga OTR Unit</th>
+                <th>Biaya Bahan Bakar / Listrik</th>
+                <th>Biaya Servis & Perawatan</th>
+                <th>Pajak & SWDKLLJ</th>
+                <th>Depresiasi Nilai Thn 1</th>
+                <th>Total Biaya Tahun 1</th>
+                <th>Biaya Riil per Km</th>
+              </tr>
+            </thead>
+            <tbody id="tcoTableBody">
+              <!-- Injected by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6-TYPES COMPARISON MATRIX -->
+      <div class="data-table-card" style="margin-top: 24px;">
+        <div class="table-toolbar">
+          <div class="table-title">
+            <span>🔍 Matriks Komparasi 6 Tipe Sepeda Motor di Indonesia</span>
+          </div>
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="i2w-table">
+            <thead>
+              <tr>
+                <th>Kategori & Tipe</th>
+                <th>Spesifikasi Mesin / Penggerak</th>
+                <th>Konsumsi Energi & Jarak</th>
+                <th>Rentang Harga OTR</th>
+                <th>Kelebihan Utama</th>
+                <th>Kelemahan & Tantangan</th>
+                <th>Profil Pembeli Ideal</th>
+              </tr>
+            </thead>
+            <tbody id="typesComparisonTableBody">
+              <!-- Injected by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB: DISTRIBUSI SPASIAL REGIONAL (38 PROVINSI)                        -->
+    <!-- ==================================================================== -->
+    <div id="tab-spasial" class="tab-panel-content" style="display: none;">
+      <div class="section-header-block">
+        <div class="section-tag">Analisis Wilayah & Kepulauan</div>
+        <h2>Distribusi Populasi Sepeda Motor di 38 Provinsi Indonesia</h2>
+        <p class="section-desc">
+          Konsentrasi populasi kendaraan bermotor roda dua menurut pulau dan provinsi berdasarkan data resmi Electronic Registration and Identification (ERI) Korlantas Polri dan Badan Pusat Statistik (BPS), lengkap dengan status insentif pajak daerah (BBNKB EV).
+        </p>
+      </div>
+
+      <div class="island-btn-group">
+        <button class="island-filter-btn active" data-island="all">Semua Pulau (38 Provinsi)</button>
+        <button class="island-filter-btn" data-island="Jawa">Pulau Jawa (~62%)</button>
+        <button class="island-filter-btn" data-island="Sumatera">Sumatera (~19%)</button>
+        <button class="island-filter-btn" data-island="Kalimantan">Kalimantan (~7%)</button>
+        <button class="island-filter-btn" data-island="Sulawesi">Sulawesi (~7%)</button>
+        <button class="island-filter-btn" data-island="Bali & Nusa Tenggara">Bali & Nusra (~4%)</button>
+        <button class="island-filter-btn" data-island="Maluku & Papua">Maluku & Papua (~2%)</button>
+      </div>
+
+      <div class="charts-grid-two">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Porsi Pangsa Populasi R2 per Gugus Kepulauan</div>
+              <div class="chart-subtitle">Dominasi Pulau Jawa vs Luar Jawa (Sumber: Korlantas ERI & BPS)</div>
+            </div>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chartSpasialCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Wawasan Disparitas Wilayah & Logistik</div>
+              <div class="chart-subtitle">Karakteristik Pasar Perkotaan vs Perkebunan & Tambang</div>
+            </div>
+          </div>
+          <div style="font-size: 13px; color: #334155; line-height: 1.6; padding-top: 10px;">
+            <div style="background:#F8FAFC; border-left:4px solid var(--accent-bright-blue); padding:12px; margin-bottom:12px; border-radius: 0 6px 6px 0;">
+              <strong>Pusat Konsentrasi Penjualan (Jawa 62%):</strong>
+              <p style="margin-top:2px;">Jawa Timur, Jawa Barat, DKI Jakarta, dan Jawa Tengah menyerap lebih dari 6 dari setiap 10 unit motor baru di Indonesia. Kepadatan kota mendorong pangsa matik skutik mencapai >92% di pulau ini.</p>
+            </div>
+            <div style="background:#F8FAFC; border-left:4px solid var(--accent-emerald); padding:12px; border-radius: 0 6px 6px 0;">
+              <strong>Korelasi Komoditas (Sumatera, Kalimantan, Sulawesi):</strong>
+              <p style="margin-top:2px;">Permintaan motor di luar Jawa berfluktuasi kuat mengikuti harga sawit (CPO), karet, dan batu bara. Varian motor trail (dual-purpose) dan cub perkebunan mencatatkan pangsa tertinggi di pulau-pulau ini.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-table-card">
+        <div class="table-toolbar">
+          <div class="table-title">
+            <span>🗺️ Data Populasi Roda Dua Terdaftar di 38 Provinsi</span>
+          </div>
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="i2w-table">
+            <thead>
+              <tr>
+                <th>Kode</th>
+                <th>Provinsi</th>
+                <th>Gugus Wilayah / Pulau</th>
+                <th>Populasi Motor Terdaftar</th>
+                <th>Porsi Nasional (%)</th>
+                <th>Tipe Motor Paling Dominan</th>
+                <th>Kebijakan Insentif BBNKB EV Daerah</th>
+              </tr>
+            </thead>
+            <tbody id="provincialTableBody">
+              <!-- Injected by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB: PELACAK SUBSIDI KBLBB SISAPIRa (PERMENPERIN 21/2023)             -->
+    <!-- ==================================================================== -->
+    <div id="tab-subsidy" class="tab-panel-content" style="display: none;">
+      <div class="section-header-block">
+        <div class="section-tag">Pemantauan Program Bantuan Pemerintah</div>
+        <h2>Pelacak Realisasi Subsidi Motor Listrik Rp 7 Juta (SISAPIRa)</h2>
+        <p class="section-desc">
+          Monitoring penyaluran insentif potongan harga Rp 7.000.000 per 1 NIK KTP berdasarkan Permenperin No. 21/2023, diverifikasi melalui platform terpusat SISAPIRa dengan syarat kepatuhan Tingkat Komponen Dalam Negeri (TKDN) minimal 40%.
+        </p>
+      </div>
+
+      <div class="subsidy-stats-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Alokasi Target Kuota Statutori Pemerintah</div>
+            <div style="font-family:var(--font-mono); font-size:26px; font-weight:800; color:var(--primary-navy);">200.000 Unit</div>
+          </div>
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Besaran Potongan per Unit</div>
+            <div style="font-family:var(--font-mono); font-size:26px; font-weight:800; color:var(--accent-emerald);">Rp 7.000.000</div>
+          </div>
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Persyaratan Penerima</div>
+            <div style="font-size:14px; font-weight:700; color:var(--accent-cobalt);">1 NIK KTP WNI (Seluruh Warga)</div>
+          </div>
+        </div>
+
+        <div class="subsidy-progress-bar-wrap">
+          <div class="subsidy-progress-bar">
+            <div class="subsidy-progress-fill" style="width: 58%;"></div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted);">
+          <span>Total Unit Tersalurkan & Terverifikasi: <strong>~116.000 Unit</strong></span>
+          <span>Progres Penyerapan: <strong>58,0% Kuota</strong></span>
+        </div>
+      </div>
+
+      <div class="data-table-card">
+        <div class="table-toolbar">
+          <div class="table-title">
+            <span>⚡ Model Motor Listrik Penerima Subsidi Terbanyak (TKDN &ge; 40%)</span>
+          </div>
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="i2w-table">
+            <thead>
+              <tr>
+                <th>Merek Pabrikan</th>
+                <th>Model Motor Listrik</th>
+                <th>Sertifikasi TKDN (%)</th>
+                <th>Estimasi Unit Terverifikasi</th>
+                <th>Harga OTR Setelah Subsidi Rp 7 Juta</th>
+              </tr>
+            </thead>
+            <tbody id="subsidyTableBody">
+              <!-- Injected by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB: ARSIP REKAM JEJAK MEDIA BEREPUTASI (1990 - 2026)                 -->
+    <!-- ==================================================================== -->
+    <div id="tab-media" class="tab-panel-content" style="display: none;">
+      <div class="section-header-block">
+        <div class="section-tag">Kliping & Catatan Sejarah Industri</div>
+        <h2>Arsip Rekam Jejak Media Ekonomi & Otomotif Bereputasi Baik</h2>
+        <p class="section-desc">
+          Dokumentasi peristiwa besar dan tonggak bersejarah industri sepeda motor Indonesia sebagaimana dilaporkan oleh media terkemuka: Harian Kompas, Bisnis Indonesia, Kontan, Majalah Tempo, CNBC Indonesia, Bloomberg Technoz, dan DetikOto dari tahun 1990 hingga 2026.
+        </p>
+      </div>
+
+      <div id="mediaGridContainer" class="media-grid">
+        <!-- Injected by JavaScript -->
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 6: KAMUS DATA & METODOLOGI (DATA DICTIONARY)                      -->
+    <!-- ==================================================================== -->
+    <div id="tab-dictionary" class="tab-panel-content" style="display: none;">
+      <div class="section-header-block">
+        <div class="section-tag">Metadata & Standar Kualitas Data</div>
+        <h2>Kamus Data Sekunder, Definisi Operasional & Metodologi Silsilah</h2>
+        <p class="section-desc">
+          Menyediakan definisi operasional, satuan ukuran baku, lembaga pemilik data primer, metodologi pengumpulan, dan skor keandalan (*reliability score*) setiap variabel statistik yang disajikan dalam platform ini.
+        </p>
+      </div>
+
+      <div id="dictionaryGridContainer" class="dict-grid">
+        <!-- Injected by JavaScript -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 5. DEEP DIVE MODAL DIALOG -->
+  <div id="detailModalOverlay" class="modal-overlay">
+    <div class="modal-container">
+      <button id="modalCloseBtn" class="modal-close-btn">&times;</button>
+      <h3 id="modalTitle" style="font-size:18px; font-weight:800; color:var(--primary-navy); margin-bottom:12px; padding-right:24px;"></h3>
+      <div id="modalBody">
+        <!-- Dynamic deep-dive details -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. GOVTECH FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="../index.html" class="footer-link">🏛️ Portal Utama INDOEKONOMI Data</a>
+        <a href="#tab-timeseries" class="footer-link">📈 Deret Waktu 1990-2026</a>
+        <a href="#tab-regulations" class="footer-link">📜 Observatorium Regulasi</a>
+        <a href="#tab-manufacturers" class="footer-link">🏭 Direktori Manufaktur</a>
+        <a href="#tab-dictionary" class="footer-link">📖 Kamus Data</a>
+      </div>
+      <p style="margin-bottom:6px;">
+        <strong>Sistem Intelijen Basis Data Industri Sepeda Motor Indonesia (I2W-DIS)</strong> &middot; Dirancang untuk Lembaga Kebijakan, Peneliti, Analis Industri & Publik.
+      </p>
+      <p style="font-size:11px; color:#64748B;">
+        Rekonsiliasi Data Sekunder: AISI, Kementerian Perindustrian, Kementerian Perhubungan, Kementerian ESDM, BPS, Korlantas Polri, LPEM FEB UI, dan Kompas/Bisnis Indonesia.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Core Data & Engine Scripts -->
+  <script src="data/i2w_datasets.js"></script>
+  <script src="js/i2w_engine.js"></script>
+
+</body>
+</html>
