@@ -32,6 +32,8 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
     ALL_ADMIN_EMAILS.map(e => e.toLowerCase()).includes(masterAdminSession.email?.toLowerCase())
   );
 
+  const isGuest = localStorage.getItem('app_guest_session') === 'true';
+
   // Retrieve saved collapse state for fix drop down header (default: expanded / visible)
   const isDropdownHidden = localStorage.getItem('indoekonomi_fix_dropdown_hidden') === 'true';
 
@@ -92,12 +94,37 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
 
         <!-- Direct Login / Admin Access Button in Top Toolbar -->
         ${isMasterAdmin ? `
-          <button id="btn-header-login-quick" class="gov-btn text-xs font-bold bg-[#FDF3E9] text-[#8C4710] hover:bg-[#FBE8D5] border border-[#F0D5BE] shadow-xs flex items-center gap-1.5 cursor-pointer" title="Sesi Master Admin Aktif: ${masterAdminSession.email}">
-            <span>👑</span>
-            <span class="truncate max-w-[140px]">Master Admin</span>
-          </button>
+          <div class="flex items-center gap-1.5">
+            <button id="btn-header-login-quick" class="gov-btn text-xs font-bold bg-[#FDF3E9] text-[#8C4710] hover:bg-[#FBE8D5] border border-[#F0D5BE] shadow-xs flex items-center gap-1.5 cursor-pointer" title="Sesi Master Admin Aktif: ${masterAdminSession.email}">
+              <span>👑</span>
+              <span class="truncate max-w-[130px]">Master Admin</span>
+            </button>
+            <button id="btn-header-logout-quick" class="px-2 py-1 text-[11px] font-mono rounded bg-white hover:bg-rose-50 text-rose-700 border border-rose-300 font-bold cursor-pointer shadow-2xs transition-all" title="Keluar dari akun">
+              Keluar
+            </button>
+          </div>
+        ` : (registeredUser && registeredUser.email) ? `
+          <div class="flex items-center gap-1.5">
+            <button id="btn-header-login-quick" class="gov-btn text-xs font-bold bg-[#F0F7F6] text-[#006874] hover:bg-[#E0EFEF] border border-[#B8D8D8] shadow-xs flex items-center gap-1.5 cursor-pointer" title="Sesi Peneliti: ${registeredUser.email}">
+              <span>👤</span>
+              <span class="truncate max-w-[130px]">${registeredUser.name || registeredUser.email}</span>
+            </button>
+            <button id="btn-header-logout-quick" class="px-2 py-1 text-[11px] font-mono rounded bg-white hover:bg-rose-50 text-rose-700 border border-rose-300 font-bold cursor-pointer shadow-2xs transition-all" title="Keluar dari akun">
+              Keluar
+            </button>
+          </div>
+        ` : isGuest ? `
+          <div class="flex items-center gap-1.5">
+            <button id="btn-header-login-quick" class="gov-btn text-xs font-bold bg-[#EBF1FC] text-[#0038A8] hover:bg-[#DCE7F9] border border-[#BCD0F7] shadow-xs flex items-center gap-1.5 cursor-pointer" title="Mode Tamu Terbuka">
+              <span>🌐</span>
+              <span>Tamu (Publik)</span>
+            </button>
+            <button id="btn-header-logout-quick" class="px-2 py-1 text-[11px] font-mono rounded bg-white hover:bg-rose-50 text-rose-700 border border-rose-300 font-bold cursor-pointer shadow-2xs transition-all" title="Keluar / Ganti Akun">
+              Keluar
+            </button>
+          </div>
         ` : `
-          <button id="btn-header-login-quick" class="gov-btn text-xs font-bold bg-[#0038A8] text-white hover:bg-[#002B82] shadow-xs flex items-center gap-1.5 cursor-pointer" title="Masuk sebagai Master Admin atau Registrasi Peneliti">
+          <button id="btn-header-login-quick" class="gov-btn text-xs font-bold bg-[#0038A8] text-white hover:bg-[#002B82] shadow-xs flex items-center gap-1.5 cursor-pointer" title="Masuk / Login (Admin, Pengguna, atau Tamu)">
             <span>🔐</span>
             <span>Masuk / Login</span>
           </button>
@@ -178,8 +205,8 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
                 <button 
                   type="button" 
                   id="btn-statutory-register" 
-                  class="w-full sm:w-auto px-4 py-1.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] font-bold shadow-xs' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] shadow-xs font-semibold' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white shadow-xs')} text-xs font-mono font-medium tracking-wide transition-all flex items-center justify-center gap-1.5 cursor-pointer group"
-                  title="${isMasterAdmin ? 'Sesi Master Admin Aktif' : (registeredUser ? 'Akses Terdaftar' : 'Registrasi Akses Data atau Login Master Admin')}"
+                  class="w-full sm:w-auto px-4 py-1.5 rounded-full ${isMasterAdmin ? 'bg-[#FDF3E9] hover:bg-[#FBE8D5] text-[#8C4710] font-bold shadow-xs' : (registeredUser ? 'bg-[#EBF5EE] hover:bg-[#D8EEDE] text-[#2D684C] shadow-xs font-semibold' : (isGuest ? 'bg-[#EBF1FC] hover:bg-[#DCE7F9] text-[#0038A8] shadow-xs font-semibold' : 'bg-[#1A202C] hover:bg-[#0038A8] text-white shadow-xs'))} text-xs font-mono font-medium tracking-wide transition-all flex items-center justify-center gap-1.5 cursor-pointer group"
+                  title="${isMasterAdmin ? 'Sesi Master Admin Aktif' : (registeredUser ? 'Akses Terdaftar' : (isGuest ? 'Sesi Tamu Terbuka' : 'Registrasi Akses Data atau Login Master Admin'))}"
                 >
                   ${isMasterAdmin ? `
                     <span>👑</span>
@@ -188,6 +215,11 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
                   ` : (registeredUser ? `
                     <span>🟢</span>
                     <span>Akses Terdaftar: <strong class="truncate max-w-[140px] inline-block align-bottom">${registeredUser.email}</strong></span>
+                    <span id="btn-admin-statutory-logout" class="ml-1 text-[10px] underline text-teal-800 hover:text-rose-700" title="Keluar dari akun">[Keluar]</span>
+                  ` : isGuest ? `
+                    <span>🌐</span>
+                    <span>Sesi Tamu Publik</span>
+                    <span id="btn-admin-statutory-logout" class="ml-1 text-[10px] underline text-blue-800 hover:text-rose-700" title="Keluar / Ganti Akun">[Ganti / Keluar]</span>
                   ` : `
                     <span>🔑</span>
                     <span>Masuk / Registrasi Akses</span>
@@ -263,10 +295,41 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
         adminTabBtn.classList.remove('hidden');
         adminTabBtn.click();
       }
-    } else {
+    } else if (registeredUser && registeredUser.email) {
       openEmailRegistrationModal(() => {
         renderHeader(containerId, { onOpenDictionary, onOpenRegistry, onOpenCrosswalk, onOpenIngestion });
-      }, null, 'admin');
+      }, null, 'researcher');
+    } else if (isGuest) {
+      // Prompt user to upgrade to researcher or admin
+      const homeTabBtn = document.getElementById('tab-btn-home');
+      if (homeTabBtn) homeTabBtn.click();
+      setTimeout(() => {
+        const gateway = document.getElementById('landing-gateway-cards');
+        if (gateway) gateway.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    } else {
+      // Unauthenticated: Go to home landing gateway
+      const homeTabBtn = document.getElementById('tab-btn-home');
+      if (homeTabBtn) homeTabBtn.click();
+      setTimeout(() => {
+        const gateway = document.getElementById('landing-gateway-cards');
+        if (gateway) gateway.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  });
+
+  // Direct logout trigger in top toolbar
+  document.getElementById('btn-header-logout-quick')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (confirm('Apakah Anda ingin keluar dari sesi saat ini dan kembali ke Halaman Pintu Masuk?')) {
+      localStorage.removeItem('master_admin_session');
+      localStorage.removeItem('registered_researcher_access');
+      localStorage.removeItem('app_guest_session');
+      window.dispatchEvent(new CustomEvent('master-admin-logout'));
+      window.dispatchEvent(new CustomEvent('auth-updated'));
+      const homeTabBtn = document.getElementById('tab-btn-home');
+      if (homeTabBtn) homeTabBtn.click();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   });
 
@@ -278,14 +341,18 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
     });
   });
 
-  // Master Admin logout trigger
+  // Statutory section logout trigger
   document.getElementById('btn-admin-statutory-logout')?.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (confirm('Apakah Anda ingin keluar dari akun Master Admin?')) {
+    if (confirm('Apakah Anda ingin keluar dari sesi saat ini dan kembali ke Halaman Pintu Masuk?')) {
       localStorage.removeItem('master_admin_session');
+      localStorage.removeItem('registered_researcher_access');
+      localStorage.removeItem('app_guest_session');
       window.dispatchEvent(new CustomEvent('master-admin-logout'));
       window.dispatchEvent(new CustomEvent('auth-updated'));
-      window.location.reload();
+      const homeTabBtn = document.getElementById('tab-btn-home');
+      if (homeTabBtn) homeTabBtn.click();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   });
 

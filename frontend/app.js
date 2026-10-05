@@ -4,7 +4,7 @@
 // ==============================================================================
 
 import { ApiClient } from './services/api_client.js';
-import { renderHeader, openEmailRegistrationModal } from './components/header.js?v=11.49.0';
+import { renderHeader, openEmailRegistrationModal } from './components/header.js?v=11.55.0';
 import { SearchBar } from './components/search_bar.js';
 import { FilterPanel } from './components/filter_panel.js';
 import { SidebarExtras } from './components/sidebar_extras.js';
@@ -14,7 +14,7 @@ import { DataGrid } from './components/data_grid.js';
 import { ContextualMap } from './components/contextual_map.js';
 import { VariablesInventory } from './components/variables_inventory.js';
 import { CommodityTrackerComponent } from './components/commodity_tracker.js';
-import { HomeView } from './components/home_view.js';
+import { HomeView } from './components/home_view.js?v=11.55.0';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js';
@@ -208,27 +208,23 @@ class App {
 
       // 16. Check Master Admin Session & Setup Reactive Listeners
       this.checkAdminVisibility();
+      this.updateTabLockState();
+
       window.addEventListener('master-admin-login', () => {
         this.checkAdminVisibility();
+        this.updateTabLockState();
         this.switchMainTab('admin');
       });
+
       window.addEventListener('master-admin-logout', () => {
         this.checkAdminVisibility();
+        this.updateTabLockState();
         this.switchMainTab('home');
       });
 
-      // Set default landing tab to Home and check Master Admin visibility
-      this.checkAdminVisibility();
-
       window.addEventListener('auth-updated', () => {
         this.checkAdminVisibility();
-        if (this.activeMainTab === 'home' && this.homeView) {
-          this.homeView.render();
-        }
-      });
-
-      window.addEventListener('master-admin-login', () => {
-        this.checkAdminVisibility();
+        this.updateTabLockState();
         if (this.activeMainTab === 'home' && this.homeView) {
           this.homeView.render();
         }
@@ -261,6 +257,113 @@ class App {
         `;
       }
     }
+  }
+
+  isAuthenticated() {
+    const isGuest = localStorage.getItem('app_guest_session') === 'true';
+    let registeredUser = null;
+    try {
+      const raw = localStorage.getItem('registered_researcher_access');
+      if (raw) registeredUser = JSON.parse(raw);
+    } catch (e) {}
+
+    let masterAdminSession = null;
+    try {
+      const rawSess = localStorage.getItem('master_admin_session');
+      if (rawSess) masterAdminSession = JSON.parse(rawSess);
+    } catch (e) {}
+
+    const isMasterAdmin = Boolean(
+      masterAdminSession && 
+      ['taniafatimahlubis@gmail.com', 'lubistaniafatimah@gmail.com', 'lubis.tania@dewanekonomi.go.id'].includes(masterAdminSession.email?.toLowerCase())
+    );
+
+    return Boolean(isMasterAdmin || (registeredUser && registeredUser.email) || isGuest);
+  }
+
+  updateTabLockState() {
+    const isAuthed = this.isAuthenticated();
+    const tabKeys = [
+      'analytics', 'agri', 'production', 'lkpp', 'apbn-eval',
+      'weekly', 'custom-chart', 'cukai-bps', 'inventory', 'about'
+    ];
+
+    tabKeys.forEach(key => {
+      const btn = document.getElementById(`tab-btn-${key}`);
+      if (!btn) return;
+
+      const existingBadge = btn.querySelector('.tab-lock-badge');
+      if (!isAuthed) {
+        if (!existingBadge) {
+          const badge = document.createElement('span');
+          badge.className = 'tab-lock-badge text-[10px] text-amber-600 font-bold ml-0.5 select-none';
+          badge.textContent = '🔒';
+          btn.appendChild(badge);
+        }
+        btn.setAttribute('title', 'Terkunci: Silakan pilih akses masuk (Admin, Pengguna, atau Tamu) pada Halaman Pertama');
+      } else {
+        if (existingBadge) {
+          existingBadge.remove();
+        }
+        btn.removeAttribute('title');
+      }
+    });
+  }
+
+  showLoginRequiredPrompt(targetTabName) {
+    const tabLabels = {
+      'analytics': 'Indikator Makroekonomi',
+      'agri': 'Pertanian & Peternakan',
+      'production': 'Produksi & Hasil Bumi',
+      'lkpp': 'Keuangan Negara (LKPP)',
+      'apbn-eval': 'RAPBN vs Realisasi APBN',
+      'weekly': 'Data Mingguan Lembaga',
+      'custom-chart': 'Custom Chart Studio',
+      'cukai-bps': 'Data BPS',
+      'inventory': 'Katalog Data',
+      'about': 'Tentang Observatorium',
+      'admin': 'Master Admin'
+    };
+    const label = tabLabels[targetTabName] || 'Modul Data';
+
+    // If not currently on home, switch to home first
+    if (this.activeMainTab !== 'home') {
+      this.switchMainTab('home');
+    }
+
+    // Scroll to landing gateway cards
+    const gatewayEl = document.getElementById('landing-gateway-cards');
+    if (gatewayEl) {
+      gatewayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      gatewayEl.classList.add('ring-4', 'ring-[#0038A8]', 'ring-offset-2');
+      setTimeout(() => {
+        gatewayEl.classList.remove('ring-4', 'ring-[#0038A8]', 'ring-offset-2');
+      }, 1600);
+    }
+
+    // Toast banner
+    let toast = document.getElementById('auth-gate-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'auth-gate-toast';
+      toast.className = 'fixed bottom-5 right-5 z-50 max-w-md bg-[#1E293B] text-white p-4 rounded-xl shadow-2xl border-2 border-amber-400 font-mono text-xs flex items-start gap-3 transition-all duration-300';
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = `
+      <div class="text-2xl shrink-0">🔒</div>
+      <div class="space-y-1">
+        <div class="font-bold text-amber-300 text-sm">Akses Masuk Diperlukan</div>
+        <div class="text-[11.5px] text-slate-200 font-sans leading-relaxed">
+          Modul <strong>${label}</strong> dibatasi. Silakan pilih salah satu jalur akses (<strong>Master Admin</strong>, <strong>Pengguna Terdaftar</strong>, atau <strong>Akses Tamu 1-Klik</strong>) pada Halaman Pertama di atas untuk membukanya.
+        </div>
+      </div>
+      <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white font-bold ml-auto cursor-pointer text-base">✕</button>
+    `;
+    setTimeout(() => {
+      if (toast && toast.parentElement) {
+        toast.remove();
+      }
+    }, 4500);
   }
 
   checkAdminVisibility() {
@@ -375,6 +478,12 @@ class App {
     // Backward compatibility: If 'calendar' is requested, redirect to 'agri' with 'calendar' subtab
     if (tabName === 'calendar') {
       return this.switchMainTab('agri', null, 'calendar');
+    }
+
+    // Gatekeeper: If unauthenticated and accessing any tab other than 'home', intercept and prompt
+    if (!this.isAuthenticated() && tabName !== 'home') {
+      this.showLoginRequiredPrompt(tabName);
+      return;
     }
 
     this.activeMainTab = tabName;
@@ -530,6 +639,11 @@ class App {
   }
 
   async selectVariableAndSwitchToDashboard(indId) {
+    if (!this.isAuthenticated()) {
+      this.showLoginRequiredPrompt('analytics');
+      return;
+    }
+
     // 1. Switch back to Dasbor Analitik
     this.switchMainTab('analytics');
 
