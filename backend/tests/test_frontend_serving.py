@@ -25,6 +25,7 @@ def test_serve_home_view_js():
     response = client.get("/components/home_view.js")
     assert response.status_code == 200
     assert "class HomeView" in response.text
+    assert "renderRollingKPISection" in response.text
 
 def test_serve_agri_calendar_js():
     response = client.get("/components/agri_calendar.js")

@@ -13,6 +13,7 @@ from backend.config import (
     DEMO_DATA_DISCLAIMER,
 )
 from backend.services.search_service import SearchService
+from backend.services.rolling_kpi_service import RollingKPIService
 
 router = APIRouter(tags=["System"])
 
@@ -35,3 +36,9 @@ def health_check():
         "total_datasets": metrics["total_datasets"],
         "disclaimer": DEMO_DATA_DISCLAIMER
     }
+
+
+@router.get("/api/rolling-kpi")
+def get_rolling_kpis():
+    """Returns 8 key high-frequency indicators updated every 3 days."""
+    return RollingKPIService.get_rolling_kpis()

@@ -62,6 +62,12 @@ export const ApiClient = {
     return await res.json();
   },
 
+  async fetchRollingKPIs() {
+    const res = await fetch(`${API_BASE}/api/rolling-kpi`);
+    if (!res.ok) throw new Error('Gagal memuat data indikator berkala 3 harian.');
+    return await res.json();
+  },
+
   async fetchProvenanceTrace(observationId) {
     const res = await fetch(`${API_BASE}/api/provenance/${observationId}`);
     if (!res.ok) throw new Error('Gagal menelusuri data provenance / asal-usul data.');

@@ -12,10 +12,23 @@ export class HomeView {
     this.container = document.getElementById(containerId);
     this.options = options;
     this.pulseData = null;
+    this.rollingKpis = null;
+    this.rollingKpisMeta = null;
   }
 
   async render() {
     if (!this.container) return;
+
+    // Load 3-Day Rolling KPIs every time web is accessed
+    if (!this.rollingKpis) {
+      try {
+        const res = await ApiClient.fetchRollingKPIs();
+        this.rollingKpis = res.kpis || [];
+        this.rollingKpisMeta = res;
+      } catch (e) {
+        console.warn('Gagal memuat rolling KPIs:', e);
+      }
+    }
 
     // Check existing researcher & master admin sessions
     let registeredUser = null;
@@ -50,6 +63,242 @@ export class HomeView {
   }
 
   // ============================================================================
+  // ROLLING 3-DAY UPDATE KPI SECTION (RADAR INDIKATOR HARIAN & PEKANAN)
+  // ============================================================================
+  renderRollingKPISection() {
+    const defaultKpis = [
+      {
+        id: "bi_rate",
+        title: "BI Rate Today",
+        icon: "🏛️",
+        period: "Posisi Hari Ini / RDG BI",
+        value: "6.00%",
+        unit: "%",
+        movement_summary: "Tetap (0 bps) vs LM • -25 bps vs LY",
+        status_badge: "🟢 Kondusif",
+        status_verdict: "Kondusif",
+        status_type: "good",
+        situation_note: "Siklus pelonggaran moneter terukur; menjaga stabilitas nilai tukar Rupiah sekaligus mendorong ruang likuiditas perbankan.",
+        source: "Bank Indonesia (Rapat Dewan Gubernur)"
+      },
+      {
+        id: "inflasi",
+        title: "Inflasi Agu 2026",
+        icon: "📊",
+        period: "Realisasi BPS Agu 2026",
+        value: "2.12%",
+        unit: "% YoY",
+        movement_summary: "-0.03% MoM • -0.45% vs LY (2025: 2.57%)",
+        status_badge: "🟢 Sangat Baik",
+        status_verdict: "Sangat Baik",
+        status_type: "good",
+        situation_note: "Terkendali kuat dalam koridor sasaran 2.5% ± 1% Bank Indonesia. Pasokan pangan melimpah dan daya beli masyarakat terlindungi.",
+        source: "Badan Pusat Statistik (BRS Inflasi Bulanan)"
+      },
+      {
+        id: "ikk",
+        title: "IKK (Keyakinan Konsumen)",
+        icon: "🛍️",
+        period: "Survei Konsumen BI",
+        value: "123.8 Poin",
+        unit: "Poin",
+        movement_summary: "+1.2 poin vs LM • +2.1 poin vs LY",
+        status_badge: "🟢 Zona Optimis",
+        status_verdict: "Optimis",
+        status_type: "good",
+        situation_note: "Solid di atas ambang batas 100 (zona optimis). Ekspektasi masyarakat terhadap penghasilan dan ketersediaan lapangan kerja menguat.",
+        source: "Bank Indonesia (Survei Konsumen)"
+      },
+      {
+        id: "pmi_manufaktur",
+        title: "PMI Manufaktur",
+        icon: "🏭",
+        period: "S&P Global Rilis Terakhir",
+        value: "51.2 Poin",
+        unit: "Poin",
+        movement_summary: "+0.8 poin vs LM • Rebound vs LY (49.8)",
+        status_badge: "🟢 Zona Ekspansi",
+        status_verdict: "Ekspansif",
+        status_type: "good",
+        situation_note: "Bertahan konsisten di atas batas 50 (fase ekspansi). Pesanan baru domestik menguat dan utilisasi kapasitas pabrik meningkat.",
+        source: "S&P Global Indonesia PMI"
+      },
+      {
+        id: "rupiah",
+        title: "Rupiah (USD/IDR)",
+        icon: "💵",
+        period: "JISDOR / Spot Hari Ini",
+        value: "Rp 15.680",
+        unit: "/ USD",
+        movement_summary: "Menguat Rp 55 vs LM • +1.20% vs LY",
+        status_badge: "🟢 Terkendali",
+        status_verdict: "Terkendali",
+        status_type: "good",
+        situation_note: "Volatilitas rendah dan nilai tukar menguat; ditopang cadangan devisa kuat (USD 154,8 M) dan arus modal masuk portofolio SBN.",
+        source: "Bank Indonesia (JISDOR) & Pasar Spot"
+      },
+      {
+        id: "ihsg",
+        title: "IHSG (Pasar Saham)",
+        icon: "📈",
+        period: "Bursa Efek Indonesia",
+        value: "7.742 Poin",
+        unit: "Poin",
+        movement_summary: "+1.45% vs LM • +7.80% vs LY",
+        status_badge: "🟢 Positif",
+        status_verdict: "Positif",
+        status_type: "good",
+        situation_note: "Sentimen pasar modal kondusif dengan net foreign buy. Kinerja laba emiten perbankan dan infrastruktur menopang indeks.",
+        source: "PT Bursa Efek Indonesia (IDX)"
+      },
+      {
+        id: "emas_antam",
+        title: "Emas Antam /gram",
+        icon: "🪙",
+        period: "Per 22 Sep 2026",
+        value: "Rp 1.485.000",
+        unit: "/ gram",
+        movement_summary: "+Rp 12.000 vs LM • +28.5% vs LY",
+        status_badge: "🟢 Safe Haven Kuat",
+        status_verdict: "Kuat / Safe Haven",
+        status_type: "good",
+        situation_note: "Menguat searah harga emas spot global (XAU/USD). Berfungsi sebagai instrumen lindung nilai (hedging) aset ritel terpercaya.",
+        source: "PT Aneka Tambang Tbk (Logam Mulia)"
+      },
+      {
+        id: "emas_buyback",
+        title: "Emas Buyback /gram",
+        icon: "🔄",
+        period: "Beli Kembali Antam",
+        value: "Rp 1.332.000",
+        unit: "/ gram",
+        movement_summary: "+Rp 10.000 vs LM • +27.8% vs LY",
+        status_badge: "🟢 Menarik",
+        status_verdict: "Menarik",
+        status_type: "good",
+        situation_note: "Likuiditas penebusan buyback optimal dengan spread wajar (~10,3%), memberi potensi keuntungan menarik bagi investor berjangka.",
+        source: "PT Aneka Tambang Tbk (Logam Mulia)"
+      }
+    ];
+
+    const kpis = (this.rollingKpis && this.rollingKpis.length > 0) ? this.rollingKpis : defaultKpis;
+    const noteText = this.rollingKpisMeta?.edition_note || "Angka kunci pekan ini · harga emas Antam mengacu rilis Logam Mulia 22 September 2026; harga 23 September belum dirilis saat edisi ini disusun.";
+
+    return `
+      <!-- SECTION: RADAR INDIKATOR HARIAN & HARGA PASAR (UPDATE SETIAP 3 HARI SEKALI) -->
+      <div class="gov-card p-5 sm:p-6 bg-white border border-[#BCD0F7]/90 rounded-xl shadow-xs space-y-4">
+        
+        <!-- Header Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 font-mono">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded text-[10.5px] font-bold bg-[#EBF1FC] text-[#0038A8] border border-[#BCD0F7] flex items-center gap-1.5 shadow-2xs">
+                <span>⚡</span>
+                <span>RADAR INDIKATOR BERKALA · UPDATE 3 HARI SEKALI</span>
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Aktif Dipantau</span>
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-700">
+                Pemerintah & Bursa Keuangan
+              </span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold font-serif text-[#2C2420] tracking-tight">
+              8 Indikator Kunci Pekanan & Harian Ekonomi Indonesia
+            </h3>
+            <p class="text-xs text-[#5D4037] font-sans">
+              Metrik frekuensi tinggi resmi pemerintah dan bursa: suku bunga BI, inflasi, keyakinan konsumen, manufaktur, kurs rupiah, pasar saham, dan emas Antam.
+            </p>
+          </div>
+
+          <!-- Rolling Badge Right -->
+          <div class="sm:text-right shrink-0 font-mono text-[11px] text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-200/80 space-y-0.5">
+            <div class="font-bold text-[#0038A8] flex sm:justify-end items-center gap-1">
+              <span>🕒</span>
+              <span>Siklus: 3 Hari Sekali</span>
+            </div>
+            <div class="text-[10px] text-slate-500">
+              Pembaruan Awal Akses Web
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 KPI Cards Grid (4x2 on desktop) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          ${kpis.map(k => `
+            <div class="bg-white hover:bg-slate-50/70 border border-slate-200 hover:border-[#0038A8] rounded-xl p-3.5 shadow-2xs hover:shadow-xs transition-all flex flex-col justify-between space-y-2.5 group">
+              
+              <!-- Card Top -->
+              <div class="flex items-start justify-between gap-1.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-base">${k.icon || '📌'}</span>
+                  <div>
+                    <div class="text-xs font-mono font-bold text-slate-900 group-hover:text-[#0038A8] transition-colors leading-tight">
+                      ${k.title}
+                    </div>
+                    <div class="text-[9.5px] font-mono text-slate-500">${k.period}</div>
+                  </div>
+                </div>
+                <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  ${k.status_verdict || 'Kondusif'}
+                </span>
+              </div>
+
+              <!-- Card Value -->
+              <div class="py-0.5 border-t border-slate-100 flex items-baseline justify-between">
+                <div class="text-2xl font-mono font-black text-[#0038A8] tracking-tight">
+                  ${k.value}
+                </div>
+                <div class="text-[10px] font-mono text-slate-500 font-medium">
+                  ${k.unit}
+                </div>
+              </div>
+
+              <!-- Info Pergerakan vs LY, vs LM / last status (Font Lebih Kecil) -->
+              <div class="p-1.5 rounded bg-slate-50 border border-slate-200/80 font-mono text-[10px] text-slate-700 leading-tight space-y-0.5">
+                <div class="text-slate-500 font-bold uppercase text-[9px] flex items-center gap-1">
+                  <span>📊</span>
+                  <span>Pergerakan:</span>
+                </div>
+                <div class="text-slate-900 font-semibold">
+                  ${k.movement_summary || `${k.movement_vs_lm} • ${k.movement_vs_ly}`}
+                </div>
+              </div>
+
+              <!-- Info Singkat Situasi Saat Ini Bagus/Tidak -->
+              <div class="p-2 rounded-lg bg-amber-50/60 border border-amber-200/70 text-[10.5px] font-sans leading-relaxed text-slate-800 space-y-0.5">
+                <div class="font-mono font-bold text-amber-950 text-[10px] flex items-center gap-1">
+                  <span>${k.status_badge?.includes('🟢') ? '🟢' : '🔵'}</span>
+                  <span>Situasi: ${k.status_verdict || 'Kondusif'}</span>
+                </div>
+                <p class="text-[10.5px] text-slate-700 leading-snug">
+                  ${k.situation_note}
+                </p>
+              </div>
+
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Section Footnote Note (User Specified) -->
+        <div class="p-3 bg-amber-50/70 border border-amber-200/90 rounded-lg text-xs font-mono text-amber-950 flex items-start gap-2 leading-relaxed">
+          <span class="text-base shrink-0">💡</span>
+          <div class="space-y-0.5">
+            <div class="font-bold text-[11px] text-amber-900">
+              Catatan Edisi Pekan Ini:
+            </div>
+            <p class="text-[11px] text-slate-800 font-sans">
+              ${noteText}
+            </p>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
+  // ============================================================================
   // 1. SINGLE UNIFIED GATEWAY LANDING PAGE (BEFORE LOGIN / UNAUTHENTICATED)
   // ============================================================================
   renderLandingPage(pendingToken) {
@@ -77,6 +326,9 @@ export class HomeView {
             </div>
           </div>
         </div>
+
+        <!-- 3-DAY ROLLING UPDATE: 8 KEY GOVERNMENT & MARKET KPIS -->
+        ${this.renderRollingKPISection()}
 
         <!-- B. GATEWAY TITLE & CALL TO ACTION -->
         <div class="text-center space-y-1.5 py-1">
@@ -733,6 +985,9 @@ export class HomeView {
             </div>
           </div>
         `}
+
+        <!-- 3-DAY ROLLING UPDATE: 8 KEY GOVERNMENT & MARKET KPIS -->
+        ${this.renderRollingKPISection()}
 
         <!-- 2. MACROECONOMIC PULSE 5 KPI CARDS -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3" id="home-pulse-cards">
