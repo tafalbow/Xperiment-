@@ -299,6 +299,120 @@ export class HomeView {
   }
 
   // ============================================================================
+  // MACROECONOMIC PULSE 5 KPI CARDS WITH SITUATION VERDICT & ASSESSMENT
+  // ============================================================================
+  renderMacroPulseCards() {
+    return `
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3" id="home-pulse-cards">
+        <!-- 1. PDB Growth -->
+        <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
+          <div class="space-y-1 w-full flex flex-col items-center">
+            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Pertumbuhan PDB</div>
+            <div class="text-xl font-mono font-bold text-[#3D7B5E]">5.20%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5.20% • QoQ: +3.79%</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Kuartal II-2026 (1 Apr – 30 Jun) • BPS</div>
+            <div class="pt-0.5">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
+                <span>🟢</span>
+                <span>Situasi Bagus</span>
+              </span>
+            </div>
+          </div>
+          <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
+            <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
+              <span class="font-bold text-emerald-800">Situasi: Bagus</span> • Tumbuh solid di atas rata-rata global, didorong konsumsi domestik & investasi yang tangguh.
+            </p>
+          </div>
+        </div>
+
+        <!-- 2. Inflasi IHK -->
+        <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
+          <div class="space-y-1 w-full flex flex-col items-center">
+            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Inflasi IHK</div>
+            <div class="text-xl font-mono font-bold text-[#0038A8]">2.12%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 2.12% • MoM: -0.03%</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Agustus 2026 • Target BI: 2.5±1%</div>
+            <div class="pt-0.5">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
+                <span>🟢</span>
+                <span>Situasi Sangat Baik</span>
+              </span>
+            </div>
+          </div>
+          <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
+            <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
+              <span class="font-bold text-emerald-800">Situasi: Sangat Baik</span> • Sangat terkendali di koridor sasaran BI (2,5±1%), pasokan pangan aman dan daya beli terjaga.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3. BI-Rate -->
+        <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
+          <div class="space-y-1 w-full flex flex-col items-center">
+            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">BI-Rate (7-Day RR)</div>
+            <div class="text-xl font-mono font-bold text-[#2C2420]">5.50%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: -50 bps • MoM: 0 bps (Tetap)</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • RDG BI</div>
+            <div class="pt-0.5">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
+                <span>🟢</span>
+                <span>Situasi Kondusif</span>
+              </span>
+            </div>
+          </div>
+          <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
+            <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
+              <span class="font-bold text-emerald-800">Situasi: Kondusif</span> • Suku bunga kondusif membuka ruang ekspansi kredit perbankan seraya menjaga stabilitas rupiah.
+            </p>
+          </div>
+        </div>
+
+        <!-- 4. Cadangan Devisa -->
+        <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
+          <div class="space-y-1 w-full flex flex-col items-center">
+            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Cadangan Devisa</div>
+            <div class="text-xl font-mono font-bold text-[#2C2420]">USD 154.8 M</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +4.25% • MoM: +0.65%</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • 6.8 Bln Impor</div>
+            <div class="pt-0.5">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
+                <span>🟢</span>
+                <span>Situasi Sangat Kuat</span>
+              </span>
+            </div>
+          </div>
+          <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
+            <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
+              <span class="font-bold text-emerald-800">Situasi: Sangat Kuat</span> • Cadangan devisa tinggi setara 6,8 bulan impor, jauh melampaui batas kecukupan internasional (3 bulan).
+            </p>
+          </div>
+        </div>
+
+        <!-- 5. Pendapatan APBN -->
+        <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
+          <div class="space-y-1 w-full flex flex-col items-center">
+            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Pendapatan APBN 2026</div>
+            <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 2.132,0 T</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Realisasi 66,11% • On-Track (99,16%)</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Akumulasi Jan – Agu 2026 • APBN KiTa</div>
+            <div class="pt-0.5">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
+                <span>🟢</span>
+                <span>Situasi On-Track</span>
+              </span>
+            </div>
+          </div>
+          <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
+            <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
+              <span class="font-bold text-emerald-800">Situasi: On-Track</span> • Realisasi penerimaan 66,11% on-track target tahunan, memberi daya dukung fiskal yang sehat bagi belanja.
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ============================================================================
   // 1. SINGLE UNIFIED GATEWAY LANDING PAGE (BEFORE LOGIN / UNAUTHENTICATED)
   // ============================================================================
   renderLandingPage(pendingToken) {
@@ -468,47 +582,7 @@ export class HomeView {
             </span>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-            <!-- 1. PDB Growth -->
-            <div class="bg-white p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs border border-[#E8DCCF]">
-              <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pertumbuhan PDB</div>
-              <div class="text-xl font-mono font-bold text-[#3D7B5E]">5.20%</div>
-              <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5.20% • QoQ: +3.79%</div>
-              <div class="text-[10px] font-mono text-[#7D655C]">Kuartal II-2026 • BPS</div>
-            </div>
-
-            <!-- 2. Inflasi IHK -->
-            <div class="bg-white p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs border border-[#E8DCCF]">
-              <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Inflasi IHK</div>
-              <div class="text-xl font-mono font-bold text-[#0038A8]">2.12%</div>
-              <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 2.12% • MoM: -0.03%</div>
-              <div class="text-[10px] font-mono text-[#7D655C]">Agustus 2026 • Target BI: 2.5±1%</div>
-            </div>
-
-            <!-- 3. BI-Rate -->
-            <div class="bg-white p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs border border-[#E8DCCF]">
-              <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">BI-Rate (7-Day RR)</div>
-              <div class="text-xl font-mono font-bold text-[#2C2420]">5.50%</div>
-              <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: -50 bps • MoM: 0 bps (Tetap)</div>
-              <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • RDG BI</div>
-            </div>
-
-            <!-- 4. Cadangan Devisa -->
-            <div class="bg-white p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs border border-[#E8DCCF]">
-              <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Cadangan Devisa</div>
-              <div class="text-xl font-mono font-bold text-[#2C2420]">USD 154.8 M</div>
-              <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +4.25% • MoM: +0.65%</div>
-              <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • 6.8 Bln Impor</div>
-            </div>
-
-            <!-- 5. Pendapatan APBN -->
-            <div class="bg-white p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs border border-[#E8DCCF]">
-              <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pendapatan APBN 2026</div>
-              <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 2.132,0 T</div>
-              <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Realisasi 66,11% • On-Track (99,16%)</div>
-              <div class="text-[10px] font-mono text-[#7D655C]">Akumulasi Jan – Agu 2026 • APBN KiTa</div>
-            </div>
-          </div>
+          ${this.renderMacroPulseCards()}
         </div>
 
         <!-- E. PREVIEW OF AVAILABLE MODULES (LOCKED BEFORE LOGIN) -->
@@ -990,46 +1064,17 @@ export class HomeView {
         ${this.renderRollingKPISection()}
 
         <!-- 2. MACROECONOMIC PULSE 5 KPI CARDS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3" id="home-pulse-cards">
-          <!-- 1. PDB Growth -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors border border-[#E8DCCF]/60">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pertumbuhan PDB</div>
-            <div class="text-xl font-mono font-bold text-[#3D7B5E]">5.20%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5.20% • QoQ: +3.79%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Kuartal II-2026 (1 Apr – 30 Jun) • BPS</div>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-bold uppercase text-[#2C2420] flex items-center gap-1.5">
+              <span>📈</span>
+              <span>Denyut Makroekonomi Nasional (Posisi Rilis s/d Agustus 2026)</span>
+            </span>
+            <span class="text-[10px] font-mono bg-white text-[#7D655C] border border-[#E5DACF] px-2 py-0.5 rounded">
+              5 Indikator Pokok BPS & Bank Indonesia
+            </span>
           </div>
-
-          <!-- 2. Inflasi IHK -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors border border-[#E8DCCF]/60">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Inflasi IHK</div>
-            <div class="text-xl font-mono font-bold text-[#0038A8]">2.12%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 2.12% • MoM: -0.03%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Agustus 2026 • Target BI: 2.5±1%</div>
-          </div>
-
-          <!-- 3. BI-Rate -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors border border-[#E8DCCF]/60">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">BI-Rate (7-Day RR)</div>
-            <div class="text-xl font-mono font-bold text-[#2C2420]">5.50%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: -50 bps • MoM: 0 bps (Tetap)</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • RDG BI</div>
-          </div>
-
-          <!-- 4. Cadangan Devisa -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors border border-[#E8DCCF]/60">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Cadangan Devisa</div>
-            <div class="text-xl font-mono font-bold text-[#2C2420]">USD 154.8 M</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +4.25% • MoM: +0.65%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • 6.8 Bln Impor</div>
-          </div>
-
-          <!-- 5. Pendapatan APBN -->
-          <div class="bg-white hover:bg-[#F8F9FA] p-3.5 rounded-lg space-y-1 text-center flex flex-col items-center justify-center shadow-2xs transition-colors border border-[#E8DCCF]/60">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider">Pendapatan APBN 2026</div>
-            <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 2.132,0 T</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Realisasi 66,11% • On-Track (99,16%)</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Akumulasi Jan – Agu 2026 • APBN KiTa</div>
-          </div>
+          ${this.renderMacroPulseCards()}
         </div>
 
         <!-- 3. EXPLORATION & DATA SERVICES STRIP (OCEAN TEAL #4E878C) -->

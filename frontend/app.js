@@ -14,7 +14,7 @@ import { DataGrid } from './components/data_grid.js';
 import { ContextualMap } from './components/contextual_map.js';
 import { VariablesInventory } from './components/variables_inventory.js';
 import { CommodityTrackerComponent } from './components/commodity_tracker.js';
-import { HomeView } from './components/home_view.js?v=11.61.0';
+import { HomeView } from './components/home_view.js?v=11.62.0';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js?v=11.59.0';
