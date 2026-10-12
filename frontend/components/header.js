@@ -146,17 +146,6 @@ export function renderHeader(containerId, { onOpenDictionary, onOpenRegistry, on
             
             <!-- Col 1: Brand, Misi Data & Catatan Verifikasi (Span 5) -->
             <div class="lg:col-span-5 space-y-1.5">
-              <div class="flex items-center gap-2.5">
-                <!-- Website Monogram Logo Icon -->
-                <a href="#" class="flex items-center shrink-0 group cursor-pointer" title="INDOEKONOMI data" aria-label="INDOEKONOMI data">
-                  <img src="/static/assets/logo.png" alt="INDOEKONOMI Logo" class="h-9 w-9 sm:h-10 sm:w-10 object-contain">
-                </a>
-                <div class="px-2.5 py-0.5 rounded bg-white shadow-2xs inline-flex items-center">
-                  <span class="text-sm sm:text-base font-mono font-black text-[#0038A8] tracking-wider uppercase">
-                    INDOEKONOMI.DATA.GO.ID
-                  </span>
-                </div>
-              </div>
               <p class="text-[11px] text-[#5D4037] font-sans leading-[1.4] text-justify">
                 Website ini dibangun untuk meningkatkan akses publik terhadap data pemerintah guna analisis kebijakan dan kebutuhan publik. <strong>DEN-Data</strong> menghimpun dan mengompilasi data sekunder resmi dari kementerian dan lembaga pemerintah dengan mencantumkan sumber rujukan demi menjamin keterlacakan dan verifikasi.
               </p>
