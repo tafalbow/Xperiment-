@@ -109,3 +109,17 @@ def test_lkpp_view_has_fiscal_health_subtab():
     assert response.status_code == 200
     assert "FiscalHealthView" in response.text
     assert "lkpp-subtab-btn-fiscal-health" in response.text
+
+def test_serve_news_theory_view_js():
+    response = client.get("/components/news_theory_view.js")
+    assert response.status_code == 200
+    assert "class NewsTheoryView" in response.text
+    assert "Teori Ekonomi Terkait" in response.text
+
+def test_index_has_news_tab():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "tab-btn-news" in response.text
+    assert "tab-content-news" in response.text
+    assert "Berita & Teori Ekonomi" in response.text
+

@@ -167,7 +167,18 @@
           <span>Katalog Data</span>
         </button>
 
-        <!-- 10. About -->
+        <!-- 10. Berita & Teori Ekonomi (9 Kategori Strategis) -->
+        <button 
+          id="tab-btn-news" 
+          role="tab" 
+          aria-selected="false"
+          class="px-2.5 py-1 text-xs font-mono font-medium rounded-t border-b-2 border-transparent text-[#5F6368] hover:text-[#202124] hover:bg-[#F1F3F4] flex items-center gap-1 transition-all cursor-pointer outline-none focus:outline-none focus:ring-1 focus:ring-[#D2E3FC]"
+        >
+          <span>📰</span>
+          <span>Berita & Teori Ekonomi</span>
+        </button>
+
+        <!-- 11. About -->
         <button 
           id="tab-btn-about" 
           role="tab" 
@@ -178,7 +189,7 @@
           <span>Tentang</span>
         </button>
 
-        <!-- 11. Master Admin (Hanya muncul jika Master Admin login) -->
+        <!-- 12. Master Admin (Hanya muncul jika Master Admin login) -->
         <button 
           id="tab-btn-admin" 
           role="tab" 
@@ -376,6 +387,11 @@
       <section id="variables-inventory-container" aria-label="Katalog Variabel & Jadwal Rilis Data"></section>
     </div>
 
+    <!-- TAB: BERITA STRATEGIS & KAJIAN TEORI EKONOMI (9 KATEGORI) -->
+    <div id="tab-content-news" class="hidden space-y-[6px]">
+      <section id="news-view-container" aria-label="Kompilasi Top 3 Berita Strategis & Kajian Teori Ekonomi Terkait"></section>
+    </div>
+
     <!-- TAB 7: ABOUT & TATA KELOLA STATUTORI -->
     <div id="tab-content-about" class="hidden space-y-[6px]">
       <section id="about-view-container" aria-label="Tentang INDOEKONOMI data"></section>
@@ -435,6 +451,6 @@
   </footer>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=11.62.0"></script>
+  <script type="module" src="/static/app.js?v=11.63.0"></script>
 </body>
 </html>

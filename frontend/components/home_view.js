@@ -1218,6 +1218,31 @@ export class HomeView {
           </div>
         </div>
 
+        <!-- 3B. SHORTCUT STRIP: BERITA STRATEGIS & KAJIAN TEORI EKONOMI -->
+        <div class="bg-gradient-to-r from-[#0F3D56] to-[#125B78] rounded-xl p-4 sm:p-5 text-white shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-[#125B78]">
+          <div class="space-y-1">
+            <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-400/20 border border-amber-300/40 text-amber-200 font-mono text-[10px] font-bold">
+              <span>📰</span>
+              <span>MODUL BARU • 9 KATEGORI STRATEGIS</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-serif font-bold tracking-tight">
+              Kompilasi Top 3 Berita Utama & Kajian Teori Ekonomi Terkait
+            </h3>
+            <p class="text-xs text-slate-100 font-sans leading-relaxed max-w-3xl">
+              Cakupan 9 sektor (Ekonomi & Politik Internasional/Nasional, Teknologi, Investasi, Industri Rokok & Tembakau, Sustainable Energi, dan Sosial) lengkap dengan tautan resmi dan penjelasan teori ekonomi di sisi kanan setiap berita.
+            </p>
+          </div>
+          <button
+            id="home-btn-goto-news"
+            type="button"
+            class="px-4 py-2.5 rounded-lg bg-white hover:bg-amber-50 text-[#125B78] font-mono text-xs font-bold shadow-xs transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
+          >
+            <span>📰</span>
+            <span>Buka Halaman Berita & Teori</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <!-- 4. PLATFORM CORE PILLARS -->
         <div class="py-6 border-t border-[#E8DCCF]/60">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -1299,6 +1324,10 @@ export class HomeView {
 
     document.getElementById('home-btn-lkpp-card')?.addEventListener('click', () => {
       if (this.options.onNavigate) this.options.onNavigate('lkpp');
+    });
+
+    document.getElementById('home-btn-goto-news')?.addEventListener('click', () => {
+      if (this.options.onNavigate) this.options.onNavigate('news');
     });
 
     // Executive Banner Action Buttons

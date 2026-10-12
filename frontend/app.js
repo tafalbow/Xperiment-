@@ -14,7 +14,7 @@ import { DataGrid } from './components/data_grid.js';
 import { ContextualMap } from './components/contextual_map.js';
 import { VariablesInventory } from './components/variables_inventory.js';
 import { CommodityTrackerComponent } from './components/commodity_tracker.js';
-import { HomeView } from './components/home_view.js?v=11.62.0';
+import { HomeView } from './components/home_view.js?v=11.63.0';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js?v=11.59.0';
@@ -24,6 +24,7 @@ import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.53.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
 import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.51.0';
+import { NewsTheoryView } from './components/news_theory_view.js?v=11.63.0';
 
 class App {
   constructor() {
@@ -47,8 +48,9 @@ class App {
     this.weeklyView = null;
     this.customChartStudio = null;
     this.cukaiBpsView = null;
+    this.newsView = null;
     this.adminView = null;
-    this.activeMainTab = 'home'; // Primary Sections: 'home' | 'analytics' | 'agri' | 'production' | 'lkpp' | 'apbn-eval' | 'weekly' | 'custom-chart' | 'cukai-bps' | 'inventory' | 'about' | 'admin'
+    this.activeMainTab = 'home'; // Primary Sections: 'home' | 'analytics' | 'agri' | 'production' | 'lkpp' | 'apbn-eval' | 'weekly' | 'custom-chart' | 'cukai-bps' | 'inventory' | 'news' | 'about' | 'admin'
 
 
     this.currentQueryState = {
@@ -285,7 +287,7 @@ class App {
     const isAuthed = this.isAuthenticated();
     const tabKeys = [
       'analytics', 'agri', 'production', 'lkpp', 'apbn-eval',
-      'weekly', 'custom-chart', 'cukai-bps', 'inventory', 'about'
+      'weekly', 'custom-chart', 'cukai-bps', 'inventory', 'news', 'about'
     ];
 
     tabKeys.forEach(key => {
@@ -321,6 +323,7 @@ class App {
       'custom-chart': 'Custom Chart Studio',
       'cukai-bps': 'Data BPS',
       'inventory': 'Katalog Data',
+      'news': 'Berita & Teori Ekonomi',
       'about': 'Tentang Observatorium',
       'admin': 'Master Admin',
       'crosswalk': 'Tabel Crosswalk',
@@ -405,6 +408,7 @@ class App {
     const btnCustomChart = document.getElementById('tab-btn-custom-chart');
     const btnCukaiBps = document.getElementById('tab-btn-cukai-bps');
     const btnInventory = document.getElementById('tab-btn-inventory');
+    const btnNews = document.getElementById('tab-btn-news');
     const btnAbout = document.getElementById('tab-btn-about');
 
     // Sub-tab buttons inside Pertanian & Peternakan
@@ -421,6 +425,7 @@ class App {
     btnCustomChart?.addEventListener('click', () => this.switchMainTab('custom-chart'));
     btnCukaiBps?.addEventListener('click', () => this.switchMainTab('cukai-bps'));
     btnInventory?.addEventListener('click', () => this.switchMainTab('inventory'));
+    btnNews?.addEventListener('click', () => this.switchMainTab('news'));
     btnAbout?.addEventListener('click', () => this.switchMainTab('about'));
 
     const btnAdmin = document.getElementById('tab-btn-admin');
@@ -524,6 +529,7 @@ class App {
     const btnCustomChart = document.getElementById('tab-btn-custom-chart');
     const btnCukaiBps = document.getElementById('tab-btn-cukai-bps');
     const btnInventory = document.getElementById('tab-btn-inventory');
+    const btnNews = document.getElementById('tab-btn-news');
     const btnAbout = document.getElementById('tab-btn-about');
     const btnAdmin = document.getElementById('tab-btn-admin');
 
@@ -537,6 +543,7 @@ class App {
     const contentCustomChart = document.getElementById('tab-content-custom-chart');
     const contentCukaiBps = document.getElementById('tab-content-cukai-bps');
     const contentInventory = document.getElementById('tab-content-inventory');
+    const contentNews = document.getElementById('tab-content-news');
     const contentAbout = document.getElementById('tab-content-about');
     const contentAdmin = document.getElementById('tab-content-admin');
 
@@ -553,8 +560,8 @@ class App {
     };
 
     // Hide all contents and reset all buttons
-    [contentHome, contentAnalytics, contentAgri, contentProduction, contentLkpp, contentApbnEval, contentWeekly, contentCustomChart, contentCukaiBps, contentInventory, contentAbout, contentAdmin].forEach(c => c?.classList.add('hidden'));
-    [btnHome, btnAnalytics, btnAgri, btnProduction, btnLkpp, btnApbnEval, btnWeekly, btnCustomChart, btnCukaiBps, btnInventory, btnAbout, btnAdmin].forEach(b => resetBtn(b));
+    [contentHome, contentAnalytics, contentAgri, contentProduction, contentLkpp, contentApbnEval, contentWeekly, contentCustomChart, contentCukaiBps, contentInventory, contentNews, contentAbout, contentAdmin].forEach(c => c?.classList.add('hidden'));
+    [btnHome, btnAnalytics, btnAgri, btnProduction, btnLkpp, btnApbnEval, btnWeekly, btnCustomChart, btnCukaiBps, btnInventory, btnNews, btnAbout, btnAdmin].forEach(b => resetBtn(b));
 
     if (tabName === 'home') {
       contentHome?.classList.remove('hidden');
@@ -647,6 +654,15 @@ class App {
     } else if (tabName === 'inventory' || tabName === 'catalog') {
       contentInventory?.classList.remove('hidden');
       activateBtn(btnInventory);
+    } else if (tabName === 'news' || tabName === 'news-theory') {
+      contentNews?.classList.remove('hidden');
+      activateBtn(btnNews);
+      if (!this.newsView) {
+        this.newsView = new NewsTheoryView('news-view-container');
+        await this.newsView.init();
+      } else {
+        await this.newsView.loadAndRender();
+      }
     } else if (tabName === 'about') {
       contentAbout?.classList.remove('hidden');
       activateBtn(btnAbout);

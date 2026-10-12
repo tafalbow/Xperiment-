@@ -2,7 +2,8 @@
 System Health & Status Router
 """
 
-from fastapi import APIRouter
+from typing import Optional
+from fastapi import APIRouter, Query
 from backend.config import (
     APP_BRAND,
     APP_WEB_IDENTIFIER,
@@ -14,6 +15,7 @@ from backend.config import (
 )
 from backend.services.search_service import SearchService
 from backend.services.rolling_kpi_service import RollingKPIService
+from backend.services.news_theory_service import NewsTheoryService
 
 router = APIRouter(tags=["System"])
 
@@ -42,3 +44,13 @@ def health_check():
 def get_rolling_kpis():
     """Returns 8 key high-frequency indicators updated every 3 days."""
     return RollingKPIService.get_rolling_kpis()
+
+
+@router.get("/api/news-theory")
+def get_news_and_theories(
+    category_id: Optional[str] = Query(None, description="Filter kategori berita"),
+    search: Optional[str] = Query(None, description="Kata kunci pencarian berita atau teori ekonomi")
+):
+    """Returns Top 3 News across 9 categories with official links and related economic theories."""
+    return NewsTheoryService.get_news_and_theories(category_id=category_id, search=search)
+

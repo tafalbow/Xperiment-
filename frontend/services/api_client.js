@@ -758,7 +758,21 @@ export const ApiClient = {
         body: JSON.stringify(payload)
       });
     } catch (e) {}
+  },
+
+  async fetchNewsTheory(params = {}) {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && v !== '') {
+        query.append(k, v);
+      }
+    });
+    const qs = query.toString() ? `?${query.toString()}` : '';
+    const res = await fetch(`${API_BASE}/api/news-theory${qs}`);
+    if (!res.ok) throw new Error('Gagal memuat kompilasi berita dan teori ekonomi.');
+    return await res.json();
   }
 };
+
 
 
