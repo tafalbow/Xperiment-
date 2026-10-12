@@ -24,7 +24,7 @@ import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.53.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
 import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.51.0';
-import { NewsTheoryView } from './components/news_theory_view.js?v=11.64.0';
+import { NewsTheoryView } from './components/news_theory_view.js?v=11.65.0';
 
 class App {
   constructor() {
@@ -184,7 +184,11 @@ class App {
         }
       });
 
-      // 11. Initialize Home View
+      // 11. Auto-Update Berita & Teori Ekonomi (7 Hari Kebelakang) Setiap Pertama Kali Masuk Web
+      this.newsView = new NewsTheoryView('news-view-container');
+      await this.newsView.syncInitial7Days();
+
+      // 11b. Initialize Home View
       this.homeView = new HomeView('home-view-container', {
         onNavigate: (targetTab) => this.switchMainTab(targetTab),
         onOpenCrosswalk: () => ModalManager.showClassificationDocumentModal()
@@ -236,7 +240,12 @@ class App {
         }
       });
 
-      this.switchMainTab('home');
+      const initialHash = (window.location.hash || '').replace('#', '').trim().toLowerCase();
+      if (initialHash === 'news' && this.isAuthenticated()) {
+        await this.switchMainTab('news');
+      } else {
+        this.switchMainTab('home');
+      }
 
       // 17. Persistent Statutory Section & Footer Listeners
       window.openEmailRegistrationModal = openEmailRegistrationModal;

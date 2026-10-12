@@ -40,6 +40,8 @@ def test_news_theory_service_structure():
             assert item["theory_name"]
             assert item["theory_explanation"]
             assert item["policy_implication"]
+            assert item["is_within_7_days"] is True
+            assert 0 <= item["days_ago"] < 7
 
 
 def test_api_news_theory_endpoint():
@@ -47,7 +49,18 @@ def test_api_news_theory_endpoint():
     assert response.status_code == 200
     body = response.json()
     assert body["status"] == "SUCCESS"
+    assert body["rolling_window_days"] == 7
     assert body["total_categories"] == 9
+    assert body["total_news"] == 27
+
+
+def test_api_news_theory_sync_7days():
+    response = client.post("/api/news-theory/sync?days_back=7")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "SUCCESS"
+    assert body["synced_on_initial_load"] is True
+    assert body["rolling_window_days"] == 7
     assert body["total_news"] == 27
 
 
@@ -63,3 +76,4 @@ def test_api_news_theory_filter_and_search():
     assert res_search.status_code == 200
     body_search = res_search.json()
     assert body_search["total_news"] >= 1
+

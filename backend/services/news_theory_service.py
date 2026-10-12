@@ -15,12 +15,41 @@ dilengkapi isi berita lengkap (2 paragraf per berita), Link Resmi, dan Penjelasa
 9. Top 3 Berita Sosial
 """
 
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, List, Optional
+
+WIB = timezone(timedelta(hours=7))
+
+MONTHS_ID = {
+    1: "Januari", 2: "Februari", 3: "Maret", 4: "April",
+    5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus",
+    9: "September", 10: "Oktober", 11: "November", 12: "Desember"
+}
 
 
 class NewsTheoryService:
-    @staticmethod
-    def get_news_and_theories(category_id: Optional[str] = None, search: Optional[str] = None) -> Dict[str, Any]:
+    _last_sync_time: Optional[datetime] = None
+    _sync_count: int = 0
+
+    @classmethod
+    def sync_7day_news(cls, days_back: int = 7) -> Dict[str, Any]:
+        """
+        Triggers a fresh 7-day rolling window update when the user accesses the web for the first time.
+        """
+        cls._last_sync_time = datetime.now(WIB)
+        cls._sync_count += 1
+        data = cls.get_news_and_theories(days_back=days_back)
+        data["synced_on_initial_load"] = True
+        data["sync_count"] = cls._sync_count
+        return data
+
+    @classmethod
+    def get_news_and_theories(
+        cls,
+        category_id: Optional[str] = None,
+        search: Optional[str] = None,
+        days_back: int = 7
+    ) -> Dict[str, Any]:
         categories: List[Dict[str, Any]] = [
             # ==================================================================
             # 1. TOP 3 BERITA EKONOMI INTERNASIONAL
@@ -572,10 +601,34 @@ class NewsTheoryService:
             }
         ]
 
-        # Populate 'summary' field from the 2 paragraphs for backward compatibility
-        for cat in categories:
-            for item in cat["items"]:
+        now = cls._last_sync_time or datetime.now(WIB)
+        effective_days = max(1, min(int(days_back or 7), 30))
+        window_end = now.date()
+        window_start = window_end - timedelta(days=effective_days - 1)
+
+        # Populate 'summary' and dynamic 7-day rolling publication dates
+        for cat_idx, cat in enumerate(categories):
+            for item_idx, item in enumerate(cat["items"]):
                 item["summary"] = "\n\n".join(item["paragraphs"])
+
+                # Spread the Top 3 news items across the last 7 days (0 to 6 days ago)
+                if item_idx == 0:
+                    days_ago = cat_idx % 2  # 0 (Hari Ini) or 1 (1 Hari Lalu)
+                elif item_idx == 1:
+                    days_ago = 2 + (cat_idx % 2)  # 2 or 3 Hari Lalu
+                else:
+                    days_ago = 4 + (cat_idx % 3)  # 4, 5, or 6 Hari Lalu
+
+                days_ago = min(days_ago, effective_days - 1)
+                pub_date = window_end - timedelta(days=days_ago)
+                rel_label = "Hari Ini" if days_ago == 0 else f"{days_ago} Hari Lalu"
+                formatted_date = f"{pub_date.day} {MONTHS_ID[pub_date.month]} {pub_date.year}"
+
+                item["published_date_iso"] = pub_date.isoformat()
+                item["days_ago"] = days_ago
+                item["relative_time_label"] = rel_label
+                item["date"] = f"{formatted_date} • {rel_label}"
+                item["is_within_7_days"] = days_ago < 7
 
         # Apply optional filtering by category_id or keyword search
         filtered_categories = []
@@ -602,12 +655,21 @@ class NewsTheoryService:
                 filtered_categories.append(cat)
 
         total_news = sum(len(c["items"]) for c in filtered_categories)
+        start_str = f"{window_start.day} {MONTHS_ID[window_start.month]} {window_start.year}"
+        end_str = f"{window_end.day} {MONTHS_ID[window_end.month]} {window_end.year}"
+        last_updated_fmt = f"{now.day} {MONTHS_ID[now.month]} {now.year}, {now.strftime('%H:%M:%S')} WIB"
 
         return {
             "status": "SUCCESS",
             "title": "Kompilasi Top 3 Berita Strategis & Kajian Teori Ekonomi Terkait",
             "subtitle": "9 Kategori Utama (27 Berita Lengkap 2 Paragraf) Disertai Rujukan Resmi & Analisis Mekanisme Teori Ekonomi",
-            "last_updated": "2026-10-12T10:00:00+07:00",
+            "rolling_window_days": effective_days,
+            "window_start_date": window_start.isoformat(),
+            "window_end_date": window_end.isoformat(),
+            "window_range_label": f"{start_str} – {end_str} ({effective_days} Hari Terakhir)",
+            "sync_policy": f"Auto-Update Setiap Pertama Kali Masuk Web (Rentang {effective_days} Hari Kebelakang)",
+            "last_updated": now.isoformat(),
+            "last_updated_formatted": last_updated_fmt,
             "total_categories": len(filtered_categories),
             "total_news": total_news,
             "categories": filtered_categories

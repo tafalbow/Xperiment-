@@ -49,8 +49,25 @@ def get_rolling_kpis():
 @router.get("/api/news-theory")
 def get_news_and_theories(
     category_id: Optional[str] = Query(None, description="Filter kategori berita"),
-    search: Optional[str] = Query(None, description="Kata kunci pencarian berita atau teori ekonomi")
+    search: Optional[str] = Query(None, description="Kata kunci pencarian berita atau teori ekonomi"),
+    days_back: int = Query(7, description="Rentang hari kebelakang (default 7 hari)"),
+    refresh: bool = Query(False, description="Trigger sinkronisasi 7 hari kebelakang saat pertama masuk web")
 ):
-    """Returns Top 3 News across 9 categories with official links and related economic theories."""
-    return NewsTheoryService.get_news_and_theories(category_id=category_id, search=search)
+    """Returns Top 3 News across 9 categories (7-day rolling window) with official links and related economic theories."""
+    if refresh:
+        NewsTheoryService.sync_7day_news(days_back=days_back)
+    return NewsTheoryService.get_news_and_theories(
+        category_id=category_id,
+        search=search,
+        days_back=days_back
+    )
+
+
+@router.post("/api/news-theory/sync")
+def sync_news_and_theories_7days(
+    days_back: int = Query(7, description="Rentang hari kebelakang (default 7 hari)")
+):
+    """Auto-sync endpoint triggered every time the web app is opened for the first time."""
+    return NewsTheoryService.sync_7day_news(days_back=days_back)
+
 

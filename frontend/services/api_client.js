@@ -762,7 +762,8 @@ export const ApiClient = {
 
   async fetchNewsTheory(params = {}) {
     const query = new URLSearchParams();
-    Object.entries(params).forEach(([k, v]) => {
+    const mergedParams = { days_back: 7, ...params };
+    Object.entries(mergedParams).forEach(([k, v]) => {
       if (v !== undefined && v !== null && v !== '') {
         query.append(k, v);
       }
@@ -771,8 +772,17 @@ export const ApiClient = {
     const res = await fetch(`${API_BASE}/api/news-theory${qs}`);
     if (!res.ok) throw new Error('Gagal memuat kompilasi berita dan teori ekonomi.');
     return await res.json();
+  },
+
+  async syncNewsTheory7Days(daysBack = 7) {
+    const res = await fetch(`${API_BASE}/api/news-theory/sync?days_back=${daysBack}`, {
+      method: 'POST'
+    });
+    if (!res.ok) throw new Error('Gagal memperbarui kompilasi berita dan teori ekonomi 7 hari terakhir.');
+    return await res.json();
   }
 };
+
 
 
 

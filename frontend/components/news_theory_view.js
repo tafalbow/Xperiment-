@@ -12,25 +12,59 @@ export class NewsTheoryView {
     this.data = null;
     this.activeCategory = 'all';
     this.searchKeyword = '';
+    this.isSyncing = false;
   }
 
   async init() {
     this.container = document.getElementById(this.containerId);
     if (!this.container) return;
+    if (this.data && this.data.categories) {
+      this.render();
+      return;
+    }
     await this.loadAndRender();
   }
 
-  async loadAndRender() {
+  /**
+   * Dipanggil otomatis setiap pertama kali masuk web (initial web load)
+   * untuk mengupdate halaman Berita & Teori selama 7 hari kebelakang.
+   */
+  async syncInitial7Days() {
+    this.container = document.getElementById(this.containerId);
+    this.isSyncing = true;
+    try {
+      const response = await ApiClient.syncNewsTheory7Days(7);
+      if (response && response.categories) {
+        this.data = response;
+        window.__latestNewsTheory7Days = response;
+      }
+    } catch (e) {
+      try {
+        const fallbackRes = await ApiClient.fetchNewsTheory({ days_back: 7, refresh: true });
+        if (fallbackRes && fallbackRes.categories) {
+          this.data = fallbackRes;
+          window.__latestNewsTheory7Days = fallbackRes;
+        }
+      } catch (innerErr) {
+        console.warn('Fallback to embedded NewsTheory 7-day data:', innerErr);
+      }
+    } finally {
+      this.isSyncing = false;
+    }
+
+    if (this.container) {
+      this.render();
+    }
+    return this.data;
+  }
+
+  async loadAndRender(forceSync = false) {
     this.container = document.getElementById(this.containerId);
     if (!this.container) return;
 
-    try {
-      const response = await ApiClient.fetchNewsTheory();
-      if (response && response.categories) {
-        this.data = response;
-      }
-    } catch (e) {
-      console.warn('Fallback to embedded NewsTheory data:', e);
+    if (forceSync || !this.data) {
+      await this.syncInitial7Days();
+      return;
     }
 
     this.render();
@@ -66,6 +100,8 @@ export class NewsTheoryView {
     const allCategories = this.data?.categories || [];
     const filteredCategories = this.getFilteredCategories();
     const totalNewsCount = filteredCategories.reduce((acc, c) => acc + (c.items?.length || 0), 0);
+    const windowRangeLabel = this.data?.window_range_label || '7 Hari Terakhir (H-7 s.d. Hari Ini)';
+    const lastUpdatedFmt = this.data?.last_updated_formatted || 'Baru Saja (Saat Web Diakses)';
 
     this.container.innerHTML = `
       <div class="space-y-4">
@@ -73,30 +109,47 @@ export class NewsTheoryView {
         <!-- 1. HEADER BANNER -->
         <div class="gov-card p-5 sm:p-6 bg-gradient-to-r from-[#0F3D56] via-[#125B78] to-[#0038A8] text-white rounded-xl shadow-xs">
           <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div class="space-y-1.5 max-w-4xl">
-              <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white/15 border border-white/25 text-[11px] font-mono font-bold text-amber-300">
-                <span>📰</span>
-                <span>OBSERVATORIUM BERITA STRATEGIS & KAJIAN TEORI EKONOMI</span>
+            <div class="space-y-2 max-w-4xl">
+              <div class="flex flex-wrap items-center gap-2">
+                <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white/15 border border-white/25 text-[11px] font-mono font-bold text-amber-300">
+                  <span>📰</span>
+                  <span>OBSERVATORIUM BERITA STRATEGIS & KAJIAN TEORI EKONOMI</span>
+                </div>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/25 border border-emerald-300/40 text-[10.5px] font-mono font-bold text-emerald-200">
+                  <span>🟢</span>
+                  <span>Auto-Update Saat Masuk Web: 7 Hari Kebelakang</span>
+                </div>
               </div>
               <h1 class="text-xl sm:text-2xl font-serif font-bold tracking-tight">
                 Kompilasi Top 3 Berita Utama (9 Sektor Strategis) & Landasan Teori Ekonomi
               </h1>
               <p class="text-xs sm:text-sm text-slate-100 font-sans leading-relaxed">
-                Menyajikan masing-masing <strong>Top 3 Berita</strong> pada 9 kategori strategis internasional dan nasional lengkap dengan <strong>isi berita (2 paragraf)</strong> dan <strong>tautan rujukan resmi</strong> di sisi kiri (<em>Berita</em>), serta <strong>teori ekonomi terkait beserta penjelasannya</strong> di sisi kanan (<em>Penjelasan</em>).
+                Diperbarui secara otomatis setiap pertama kali mengakses web untuk rentang <strong>7 hari kebelakang (${windowRangeLabel})</strong>. Menyajikan masing-masing <strong>Top 3 Berita</strong> pada 9 kategori strategis lengkap dengan <strong>isi berita (2 paragraf)</strong> dan <strong>tautan rujukan resmi</strong> di sisi kiri (<em>Berita</em>), serta <strong>teori ekonomi terkait beserta penjelasannya</strong> di sisi kanan (<em>Penjelasan</em>).
               </p>
             </div>
 
             <!-- Summary Pill Right -->
-            <div class="bg-white/10 backdrop-blur-xs border border-white/20 rounded-xl p-3.5 font-mono text-xs shrink-0 space-y-1">
+            <div class="bg-white/10 backdrop-blur-xs border border-white/20 rounded-xl p-3.5 font-mono text-xs shrink-0 space-y-1.5">
               <div class="text-amber-300 font-bold flex items-center gap-1.5">
-                <span>📊</span>
-                <span>Cakupan Kurasi: 9 Kategori</span>
+                <span>📅</span>
+                <span>Rentang: ${windowRangeLabel}</span>
               </div>
               <div class="text-white font-bold text-sm">
-                27 Berita Lengkap & 27 Teori Ekonomi
+                27 Berita Lengkap (7 Hari Terakhir)
               </div>
-              <div class="text-[10.5px] text-slate-200">
-                2 Paragraf per Berita + Link Resmi
+              <div class="text-[10.5px] text-emerald-200 flex items-center gap-1">
+                <span>⏱️</span>
+                <span>Diperbarui: ${lastUpdatedFmt}</span>
+              </div>
+              <div class="pt-1">
+                <button
+                  type="button"
+                  id="news-theory-sync-7days-btn"
+                  class="w-full px-2.5 py-1 rounded bg-white/20 hover:bg-white/30 text-white font-mono text-[10.5px] font-bold border border-white/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <span>🔄</span>
+                  <span>${this.isSyncing ? 'Mengupdate 7 Hari Kebelakang...' : 'Update Ulang (7 Hari Kebelakang)'}</span>
+                </button>
               </div>
             </div>
           </div>
@@ -105,10 +158,13 @@ export class NewsTheoryView {
         <!-- 2. FILTER BAR (9 KATEGORI + PENCARIAN) -->
         <div class="gov-card p-4 bg-white border border-[#E8DCCF] rounded-xl shadow-2xs space-y-3">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 flex-wrap">
               <span class="text-xs font-mono font-bold uppercase text-[#2C2420]">Filter Kategori Berita:</span>
               <span class="px-2 py-0.5 rounded bg-[#EBF1FC] text-[#0038A8] font-mono text-[10.5px] font-bold">
                 Menampilkan ${filteredCategories.length} Kategori (${totalNewsCount} Berita)
+              </span>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono text-[10.5px] font-semibold">
+                ⚡ Siklus Aktif: 7 Hari Kebelakang (${windowRangeLabel})
               </span>
             </div>
 
@@ -232,7 +288,7 @@ export class NewsTheoryView {
                         <span class="px-2 py-0.5 rounded bg-white/90 text-[#1E293B] font-mono text-[10.5px] font-bold border border-slate-300/80">
                           🏛️ ${item.source_name}
                         </span>
-                        <span class="text-[10.5px] font-mono text-slate-600 font-medium">
+                        <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-900 border border-emerald-300/80 text-[10.5px] font-mono font-bold">
                           📅 ${item.date}
                         </span>
                       </div>
@@ -329,6 +385,11 @@ export class NewsTheoryView {
         this.activeCategory = btn.getAttribute('data-cat') || 'all';
         this.render();
       });
+    });
+
+    // Manual 7-day re-sync button
+    document.getElementById('news-theory-sync-7days-btn')?.addEventListener('click', async () => {
+      await this.syncInitial7Days();
     });
 
     // Search input
