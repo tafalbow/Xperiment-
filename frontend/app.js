@@ -307,7 +307,7 @@ class App {
       if (!isAuthed) {
         if (!existingBadge) {
           const badge = document.createElement('span');
-          badge.className = 'tab-lock-badge text-[10px] text-amber-600 font-bold ml-0.5 select-none';
+          badge.className = 'tab-lock-badge text-[10px] text-amber-600 font-bold ml-auto pl-1 select-none shrink-0';
           badge.textContent = '🔒';
           btn.appendChild(badge);
         }
@@ -557,15 +557,21 @@ class App {
     const contentAdmin = document.getElementById('tab-content-admin');
 
     const resetBtn = (btn) => {
-      btn?.classList.remove('border-[#1A73E8]', 'border-[#0038A8]', 'border-slate-900', 'bg-white', 'text-[#1A73E8]', 'text-[#0038A8]', 'text-slate-900', 'font-bold', 'shadow-2xs');
-      btn?.classList.add('border-transparent', 'text-[#5D4037]', 'font-medium');
-      btn?.setAttribute('aria-selected', 'false');
+      if (!btn) return;
+      btn.classList.remove('border-[#1A73E8]', 'border-[#0038A8]', 'border-slate-900', 'bg-white', 'text-[#1A73E8]', 'text-[#0038A8]', 'text-slate-900', 'font-bold', 'shadow-2xs');
+      if (btn.id === 'tab-btn-admin') {
+        btn.classList.add('border-transparent', 'text-amber-950', 'font-bold');
+      } else {
+        btn.classList.add('border-transparent', 'text-[#4A3E38]', 'font-medium');
+      }
+      btn.setAttribute('aria-selected', 'false');
     };
 
     const activateBtn = (btn) => {
-      btn?.classList.add('border-[#0038A8]', 'bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs', 'outline-none');
-      btn?.classList.remove('border-transparent', 'text-[#5D4037]', 'text-[#5F6368]', 'text-slate-600', 'font-medium');
-      btn?.setAttribute('aria-selected', 'true');
+      if (!btn) return;
+      btn.classList.add('border-[#0038A8]', 'bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs', 'outline-none');
+      btn.classList.remove('border-transparent', 'text-[#4A3E38]', 'text-[#5D4037]', 'text-[#5F6368]', 'text-slate-600', 'font-medium');
+      btn.setAttribute('aria-selected', 'true');
     };
 
     // Hide all contents and reset all buttons
