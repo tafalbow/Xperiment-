@@ -43,14 +43,18 @@ export class NewsTheoryView {
       .map(cat => {
         if (!this.searchKeyword.trim()) return cat;
         const kw = this.searchKeyword.trim().toLowerCase();
-        const matchedItems = (cat.items || []).filter(item =>
-          item.title.toLowerCase().includes(kw) ||
-          item.summary.toLowerCase().includes(kw) ||
-          item.theory_name.toLowerCase().includes(kw) ||
-          item.theory_explanation.toLowerCase().includes(kw) ||
-          item.source_name.toLowerCase().includes(kw) ||
-          cat.category_title.toLowerCase().includes(kw)
-        );
+        const matchedItems = (cat.items || []).filter(item => {
+          const paraText = Array.isArray(item.paragraphs) ? item.paragraphs.join(' ').toLowerCase() : '';
+          return (
+            item.title.toLowerCase().includes(kw) ||
+            (item.summary || '').toLowerCase().includes(kw) ||
+            paraText.includes(kw) ||
+            item.theory_name.toLowerCase().includes(kw) ||
+            item.theory_explanation.toLowerCase().includes(kw) ||
+            item.source_name.toLowerCase().includes(kw) ||
+            cat.category_title.toLowerCase().includes(kw)
+          );
+        });
         return { ...cat, items: matchedItems };
       })
       .filter(cat => (cat.items || []).length > 0);
@@ -78,7 +82,7 @@ export class NewsTheoryView {
                 Kompilasi Top 3 Berita Utama (9 Sektor Strategis) & Landasan Teori Ekonomi
               </h1>
               <p class="text-xs sm:text-sm text-slate-100 font-sans leading-relaxed">
-                Menyajikan masing-masing <strong>Top 3 Berita</strong> pada 9 kategori strategis internasional dan nasional lengkap dengan <strong>tautan rujukan resmi</strong> di sisi kiri (<em>Berita</em>) serta <strong>teori ekonomi terkait beserta penjelasannya</strong> di sisi kanan (<em>Penjelasan</em>).
+                Menyajikan masing-masing <strong>Top 3 Berita</strong> pada 9 kategori strategis internasional dan nasional lengkap dengan <strong>isi berita (2 paragraf)</strong> dan <strong>tautan rujukan resmi</strong> di sisi kiri (<em>Berita</em>), serta <strong>teori ekonomi terkait beserta penjelasannya</strong> di sisi kanan (<em>Penjelasan</em>).
               </p>
             </div>
 
@@ -89,10 +93,10 @@ export class NewsTheoryView {
                 <span>Cakupan Kurasi: 9 Kategori</span>
               </div>
               <div class="text-white font-bold text-sm">
-                27 Berita Utama & 27 Teori Ekonomi
+                27 Berita Lengkap & 27 Teori Ekonomi
               </div>
               <div class="text-[10.5px] text-slate-200">
-                Dilengkapi Tautan Lembaga Resmi
+                2 Paragraf per Berita + Link Resmi
               </div>
             </div>
           </div>
@@ -199,7 +203,7 @@ export class NewsTheoryView {
             <div class="grid grid-cols-12 bg-[#125B78] text-white font-sans font-bold text-sm sm:text-base">
               <div class="col-span-7 lg:col-span-8 px-4 py-3 border-r-2 border-white flex items-center justify-between">
                 <span>Berita</span>
-                <span class="text-[11px] font-mono font-normal text-sky-100">Ringkasan Eksekutif & Tautan Resmi</span>
+                <span class="text-[11px] font-mono font-normal text-sky-100">Headline, Isi Berita (2 Paragraf) & Link Resmi</span>
               </div>
               <div class="col-span-5 lg:col-span-4 px-4 py-3 flex items-center justify-between">
                 <span>Penjelasan</span>
@@ -210,12 +214,16 @@ export class NewsTheoryView {
             <!-- BODY ROWS: Alternating Slate-Grey (#CFD5E2) and Light Grey-Blue (#E9ECF2) with White Borders -->
             ${cat.items.map((item, idx) => {
               const rowBg = idx % 2 === 0 ? 'bg-[#CFD5E2]/85' : 'bg-[#E9ECF2]';
+              const paragraphs = (Array.isArray(item.paragraphs) && item.paragraphs.length > 0)
+                ? item.paragraphs.slice(0, 2)
+                : (item.summary ? item.summary.split('\n\n').slice(0, 2) : []);
+
               return `
                 <div class="grid grid-cols-12 ${rowBg} border-t-2 border-white transition-colors hover:bg-[#C5CEE0]/90">
                   
-                  <!-- LEFT COLUMN: BERITA + LINK RESMI -->
+                  <!-- LEFT COLUMN: BERITA (HEADLINE + 2 PARAGRAF ISI BERITA + LINK RESMI) -->
                   <div class="col-span-7 lg:col-span-8 p-4 sm:p-5 border-r-2 border-white flex flex-col justify-between space-y-3">
-                    <div class="space-y-2">
+                    <div class="space-y-2.5">
                       <!-- Metadata Badges -->
                       <div class="flex flex-wrap items-center gap-2">
                         <span class="px-2 py-0.5 rounded bg-[#125B78] text-white font-mono text-[10px] font-bold">
@@ -230,14 +238,18 @@ export class NewsTheoryView {
                       </div>
 
                       <!-- Headline -->
-                      <h3 class="text-sm sm:text-[15px] font-bold text-[#0F172A] font-sans leading-snug">
+                      <h3 class="text-sm sm:text-[15.5px] font-bold text-[#0F172A] font-serif leading-snug">
                         ${item.title}
                       </h3>
 
-                      <!-- Summary -->
-                      <p class="text-xs sm:text-[13px] text-slate-800 font-sans leading-relaxed text-justify">
-                        ${item.summary}
-                      </p>
+                      <!-- Isi Berita Lengkap (Maksimal 2 Paragraf) -->
+                      <div class="bg-white/80 p-3 sm:p-3.5 rounded-lg border border-white space-y-2.5 shadow-2xs">
+                        ${paragraphs.map(para => `
+                          <p class="text-xs sm:text-[13px] text-slate-800 font-sans leading-relaxed text-justify">
+                            ${para}
+                          </p>
+                        `).join('')}
+                      </div>
                     </div>
 
                     <!-- Official Link Box (Link Resmi) -->

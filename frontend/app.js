@@ -24,7 +24,7 @@ import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.53.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
 import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.51.0';
-import { NewsTheoryView } from './components/news_theory_view.js?v=11.63.0';
+import { NewsTheoryView } from './components/news_theory_view.js?v=11.64.0';
 
 class App {
   constructor() {

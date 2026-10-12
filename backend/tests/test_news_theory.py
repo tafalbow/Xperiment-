@@ -33,6 +33,9 @@ def test_news_theory_service_structure():
         assert len(cat["items"]) == 3
         for item in cat["items"]:
             assert item["title"]
+            assert isinstance(item.get("paragraphs"), list)
+            assert len(item["paragraphs"]) == 2
+            assert all(len(p.strip()) > 30 for p in item["paragraphs"])
             assert item["official_url"].startswith("https://")
             assert item["theory_name"]
             assert item["theory_explanation"]
