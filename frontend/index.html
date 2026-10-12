@@ -43,25 +43,19 @@
   <!-- Custom GovTech Barely-There UI Stylesheet (Cache-Busted) -->
   <link rel="stylesheet" href="/static/styles/style.css?v=7.14.0">
 </head>
-<body class="bg-white text-[#2C2420] min-h-screen flex flex-col antialiased selection:bg-[#EBF1FC] selection:text-[#0038A8]">
+<body class="bg-white text-[#2C2420] lg:h-screen lg:overflow-hidden min-h-screen flex flex-col antialiased selection:bg-[#EBF1FC] selection:text-[#0038A8]">
 
-  <!-- 1. @FIXHEADER & FIX DROP DOWN HEADER: Persistent at top of every page with toggle icon -->
-  <div id="app-header" class="sticky top-0 z-50 bg-[#F5EBE1] shadow-xs"></div>
+  <!-- 1. STATIC TOP AREA: @FIXHEADER & FIX DROP DOWN HEADER (Persistent at top of every page) -->
+  <div id="app-header" class="shrink-0 z-50 bg-[#F5EBE1] shadow-xs"></div>
 
-  <!-- Main Application Container -->
-  <main id="app-main" class="flex-1 w-full max-w-none px-2 sm:px-3 py-2 space-y-2">
+  <!-- Main Application Shell (Split into Static Left Menu + Right Column) -->
+  <main id="app-main" class="flex-1 min-h-0 w-full max-w-none flex flex-col lg:flex-row lg:overflow-hidden">
 
-    <!-- 2. FIX SEARCH BAR: Persistent Full-Width Search & Quick Filter Pills -->
-    <div id="global-search-container" class="w-full"></div>
-
-    <!-- 3. TWO-COLUMN SHELL: LEFT VERTICAL NAVIGATION MENU + RIGHT PAGE CONTENT -->
-    <div class="flex flex-col lg:flex-row items-start gap-3.5 w-full pt-0.5">
-
-      <!-- LEFT SIDEBAR MENU: Clean Vertical List (Persistent on Every Page) -->
+      <!-- 2. STATIC LEFT AREA: LEFT VERTICAL SIDEBAR MENU (Persistent on Every Page) -->
       <aside
         id="main-left-sidebar-nav"
         aria-label="Menu Navigasi Utama"
-        class="w-full lg:w-[228px] xl:w-[242px] shrink-0 lg:sticky lg:top-[52px] z-30"
+        class="w-full lg:w-[228px] xl:w-[242px] shrink-0 lg:h-full lg:overflow-y-auto p-2 bg-white border-b lg:border-b-0 lg:border-r border-[#E8DFD5] z-40"
       >
         <div class="bg-[#FAF8F5] border border-[#E8DFD5] rounded-xl p-2 shadow-2xs space-y-1.5">
           <!-- Menu Header -->
@@ -226,8 +220,15 @@
         </div>
       </aside>
 
-      <!-- RIGHT COLUMN: MAIN PAGE CONTENT AREA -->
-      <div id="main-page-content" class="flex-1 min-w-0 w-full space-y-[6px]">
+      <!-- RIGHT COLUMN: STATIC TOP SEARCH BAR + SCROLLABLE DYNAMIC PAGE CONTENT -->
+      <div id="main-right-column" class="flex-1 min-w-0 min-h-0 flex flex-col lg:h-full lg:overflow-hidden">
+
+        <!-- 3. STATIC TOP-RIGHT AREA: Persistent Search & Quick Filter Pills (Aligned beside Menu Utama) -->
+        <div id="global-search-container" class="w-full shrink-0 z-30 bg-white px-2.5 pt-2 pb-1.5 border-b border-slate-200/70"></div>
+
+        <!-- 4. NON-STATIC (SCROLLABLE) DYNAMIC CONTENT AREA -->
+        <div id="main-scroll-container" class="flex-1 min-h-0 lg:overflow-y-auto px-2.5 py-2 space-y-2 flex flex-col">
+          <div id="main-page-content" class="flex-1 min-w-0 w-full space-y-[6px]">
 
         <!-- TAB 1: HOME (Observatory Pulse, Headline Metrics & Quick Discovery) -->
         <div id="tab-content-home" class="space-y-[6px]">
@@ -421,56 +422,58 @@
       <section id="admin-view-container" aria-label="Master Admin Console"></section>
     </div>
 
+          </div>
+
+          <!-- Persistent Bottom Footer Bar (Scrollable at the bottom of the non-static content area) -->
+          <footer class="mt-auto pt-2 pb-4 bg-white text-[11px] text-[#7D655C] font-mono space-y-[6px]">
+            
+            <!-- FOOTNOTE SECTION: Contact Person & Helpdesk (Unit Pengelola Basis Data - Borderless) -->
+            <div class="w-full bg-[#FAF7F2] rounded-lg p-3 sm:p-4 space-y-2 text-left">
+              <div class="flex items-center gap-2 pb-1">
+                <span class="text-sm">👤</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-[#2C2420]">Contact Person & Helpdesk</span>
+                <span class="text-[9px] bg-[#E8F0FE] text-[#1A73E8] px-2 py-0.5 rounded font-bold">
+                  Resmi
+                </span>
+              </div>
+
+              <div class="space-y-1.5 pt-1 text-left">
+                <div class="space-y-0.5">
+                  <span class="text-[#5F6368] text-[10px] uppercase font-bold block">Unit Pengelola Basis Data:</span>
+                  <div class="text-xs font-bold text-[#2C2420] font-sans">Tim Tata Kelola & Analisis Data Makroekonomi Nasional</div>
+                  <div class="text-[10.5px] text-[#7D655C]">Dewan Ekonomi Nasional Republik Indonesia</div>
+                </div>
+
+                <div class="flex items-center pt-1">
+                  <div class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded shadow-2xs border border-slate-200/60">
+                    <span class="text-xs">📧</span>
+                    <a href="mailto:lubis.tania@dewanekonomi.go.id" class="text-[#1A73E8] hover:text-[#002B82] hover:underline font-mono text-[11px] font-bold">
+                      lubis.tania@dewanekonomi.go.id
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tulisan Hak Cipta -->
+            <div class="w-full flex flex-wrap items-center gap-x-3 gap-y-1 text-left pt-1 text-[11px] text-[#7D655C]">
+              <span>Hak Cipta © 2026 Pemerintah Republik Indonesia</span>
+              <span>•</span>
+              <span>Pusat Basis Data Data Sekunder</span>
+              <span>•</span>
+              <span class="text-[#B76E79] font-semibold">DEMO DATA — PROTOTYPE EVALUATION</span>
+              <span>•</span>
+              <span class="font-medium text-[#5D4037]">Dewan Ekonomi Nasional RI</span>
+              <span>•</span>
+              <a href="#about" id="footer-link-about" class="text-[#0038A8] hover:underline">Statutori & Metadata ↗</a>
+            </div>
+          </footer>
+
+        </div>
       </div>
-    </div>
   </main>
 
-  <!-- Persistent Bottom Footer Bar (Sama untuk Setiap Halaman - Tanpa Garis) -->
-  <footer class="mt-auto px-[7px] pt-1.5 pb-4 bg-white text-[11px] text-[#7D655C] font-mono space-y-[6px]">
-    
-    <!-- FOOTNOTE SECTION: Contact Person & Helpdesk (Unit Pengelola Basis Data - Borderless) -->
-    <div class="w-full bg-[#FAF7F2] rounded-lg p-3 sm:p-4 space-y-2 text-left">
-      <div class="flex items-center gap-2 pb-1">
-        <span class="text-sm">👤</span>
-        <span class="text-xs font-bold uppercase tracking-wider text-[#2C2420]">Contact Person & Helpdesk</span>
-        <span class="text-[9px] bg-[#E8F0FE] text-[#1A73E8] px-2 py-0.5 rounded font-bold">
-          Resmi
-        </span>
-      </div>
-
-      <div class="space-y-1.5 pt-1 text-left">
-        <div class="space-y-0.5">
-          <span class="text-[#5F6368] text-[10px] uppercase font-bold block">Unit Pengelola Basis Data:</span>
-          <div class="text-xs font-bold text-[#2C2420] font-sans">Tim Tata Kelola & Analisis Data Makroekonomi Nasional</div>
-          <div class="text-[10.5px] text-[#7D655C]">Dewan Ekonomi Nasional Republik Indonesia</div>
-        </div>
-
-        <div class="flex items-center pt-1">
-          <div class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded shadow-2xs border border-slate-200/60">
-            <span class="text-xs">📧</span>
-            <a href="mailto:lubis.tania@dewanekonomi.go.id" class="text-[#1A73E8] hover:text-[#002B82] hover:underline font-mono text-[11px] font-bold">
-              lubis.tania@dewanekonomi.go.id
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tulisan Hak Cipta -->
-    <div class="w-full flex flex-wrap items-center gap-x-3 gap-y-1 text-left pt-1 text-[11px] text-[#7D655C]">
-      <span>Hak Cipta © 2026 Pemerintah Republik Indonesia</span>
-      <span>•</span>
-      <span>Pusat Basis Data Data Sekunder</span>
-      <span>•</span>
-      <span class="text-[#B76E79] font-semibold">DEMO DATA — PROTOTYPE EVALUATION</span>
-      <span>•</span>
-      <span class="font-medium text-[#5D4037]">Dewan Ekonomi Nasional RI</span>
-      <span>•</span>
-      <a href="#about" id="footer-link-about" class="text-[#0038A8] hover:underline">Statutori & Metadata ↗</a>
-    </div>
-  </footer>
-
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=11.66.0"></script>
+  <script type="module" src="/static/app.js?v=11.67.0"></script>
 </body>
 </html>

@@ -698,6 +698,7 @@ class App {
     // Telemetry logging
     ApiClient.logTraffic(tabName);
 
+    document.getElementById('main-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -731,6 +732,7 @@ class App {
 
     // 5. Reload Data
     await this.loadData();
+    document.getElementById('main-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
