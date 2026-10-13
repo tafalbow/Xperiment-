@@ -201,50 +201,16 @@ export class WeeklyView {
 
               <!-- Timeframe with Start and End Controls (5 cols) -->
               <div class="lg:col-span-5 space-y-1">
-                <div class="flex items-center justify-between">
-                  <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
-                    Timeframe
-                  </label>
-                  <div class="inline-flex rounded shadow-2xs overflow-hidden border border-slate-300 text-[10.5px] font-mono">
-                    <button 
-                      type="button"
-                      id="btn-mode-annual" 
-                      class="px-2.5 py-0.5 ${this.viewMode === 'annual' ? 'bg-[#0038A8] text-white font-bold' : 'bg-white text-slate-700 hover:bg-slate-100'} cursor-pointer transition-all"
-                    >
-                      📅 Tahunan
-                    </button>
-                    <button 
-                      type="button"
-                      id="btn-mode-weekly" 
-                      class="px-2.5 py-0.5 border-l border-slate-300 ${this.viewMode === 'weekly' ? 'bg-[#0038A8] text-white font-bold' : 'bg-white text-slate-700 hover:bg-slate-100'} cursor-pointer transition-all"
-                    >
-                      ⏱️ Mingguan
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Annual Controls: Start Year s/d End Year -->
-                <div id="weekly-timeframe-annual-controls" class="${this.viewMode === 'annual' ? 'flex' : 'hidden'} items-center gap-2">
-                  <select id="sel-weekly-start-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
+                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
+                  Timeframe
+                </label>
+                <div class="flex items-center gap-2">
+                  <select id="sel-weekly-start-year" class="w-1/2 text-xs font-mono px-2.5 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
                     ${this.generateYearOptions(1990, 2026, this.startYear)}
                   </select>
                   <span class="text-xs font-mono text-slate-500 font-semibold shrink-0">s/d</span>
-                  <select id="sel-weekly-end-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
+                  <select id="sel-weekly-end-year" class="w-1/2 text-xs font-mono px-2.5 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
                     ${this.generateYearOptions(1990, 2026, this.endYear)}
-                  </select>
-                </div>
-
-                <!-- Weekly Controls: Target Year & WTD Week -->
-                <div id="weekly-timeframe-weekly-controls" class="${this.viewMode === 'weekly' ? 'flex' : 'hidden'} items-center gap-2">
-                  <select id="sel-weekly-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
-                    ${this.generateYearOptions(1990, 2026, this.year)}
-                  </select>
-                  <span class="text-xs font-mono text-slate-500 font-semibold shrink-0">Pekan:</span>
-                  <select id="sel-weekly-wtd-week" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
-                    ${Array.from({ length: 52 }, (_, i) => {
-                      const wStr = `W${String(i + 1).padStart(2, '0')}`;
-                      return `<option value="${wStr}" ${wStr === this.wtdWeek ? 'selected' : ''}>${wStr} (Minggu ${i + 1})</option>`;
-                    }).join('')}
                   </select>
                 </div>
               </div>
@@ -278,53 +244,23 @@ export class WeeklyView {
           <div class="overflow-x-auto max-h-[640px] relative scrollbar-thin">
             <table class="w-full text-xs text-left border-collapse">
               
-              <!-- Sticky Table Header (Kode Removed, Compact Lembaga/Satuan/Tren, Added WTD, WoW, MoM, YoY) -->
+              <!-- Sticky Table Header (Merged Lembaga/Satuan/Tren -> Col 1; Unified WTD & Pergerakan -> Col 2) -->
               <thead class="bg-[#F1F3F4] text-[#202124] font-mono text-[11px] sticky top-0 z-30 shadow-xs">
                 <tr>
-                  <!-- Sticky Col 1: Indikator -->
-                  <th scope="col" class="py-2.5 px-3 font-bold sticky left-0 bg-[#F1F3F4] z-40 min-w-[270px]">
+                  <!-- Sticky Col 1: Indikator + Lembaga + Satuan + Tren (Matching Image 2) -->
+                  <th scope="col" class="py-2.5 px-3 font-bold sticky left-0 bg-[#F1F3F4] z-40 min-w-[340px] border-r border-slate-300">
                     NAMA INDIKATOR MINGGUAN
                   </th>
-                  <!-- Sticky Col 2: Lembaga (Compact) -->
-                  <th scope="col" class="py-2.5 px-2 font-bold text-center sticky left-[270px] bg-[#F1F3F4] z-40 min-w-[95px]">
-                    LEMBAGA
-                  </th>
-                  <!-- Sticky Col 3: Satuan (Compact) -->
-                  <th scope="col" class="py-2.5 px-2 font-bold text-center sticky left-[365px] bg-[#F1F3F4] z-40 min-w-[70px]">
-                    SATUAN
-                  </th>
-                  <!-- Sticky Col 4: Tren (Compact) -->
-                  <th scope="col" class="py-2.5 px-2 font-bold text-center sticky left-[435px] bg-[#F1F3F4] z-40 min-w-[65px]">
-                    TREN
+
+                  <!-- Summary Col 2: Week to Date (WTD) & Pergerakan (Matching Image 3) -->
+                  <th scope="col" class="py-2.5 px-3 text-right font-mono min-w-[240px] bg-[#E8F0FE]/70 border-r border-[#BCD0F7]">
+                    <div class="font-bold text-xs text-[#0038A8]">${wtdLabel} (Week-to-Date)</div>
+                    <div class="text-[9px] text-[#1A73E8] font-semibold">WoW (1 Pekan) • MoM (4 Pekan) • YoY (52 Pekan)</div>
                   </th>
 
-                  <!-- Summary Col 5: Week to Date (WTD) -->
-                  <th scope="col" class="py-2.5 px-3 text-right font-mono min-w-[110px] bg-[#E8F0FE]/70 border-l border-[#BCD0F7]">
-                    <div class="font-bold text-xs text-[#0038A8]">${wtdLabel}</div>
-                    <div class="text-[9px] text-[#1A73E8] font-semibold">Week-to-Date</div>
-                  </th>
-
-                  <!-- Summary Col 6: Week on Week (WoW %) -->
-                  <th scope="col" class="py-2.5 px-2.5 text-right font-mono min-w-[85px] bg-[#F8F9FA]">
-                    <div class="font-bold text-xs text-[#202124]">WoW %</div>
-                    <div class="text-[9px] text-[#5F6368]">1 Pekan</div>
-                  </th>
-
-                  <!-- Summary Col 7: Month on Month (MoM %) -->
-                  <th scope="col" class="py-2.5 px-2.5 text-right font-mono min-w-[85px] bg-[#F8F9FA]">
-                    <div class="font-bold text-xs text-[#202124]">MoM %</div>
-                    <div class="text-[9px] text-[#5F6368]">4 Pekan</div>
-                  </th>
-
-                  <!-- Summary Col 8: Year on Year (YoY %) -->
-                  <th scope="col" class="py-2.5 px-2.5 text-right font-mono min-w-[85px] bg-[#F8F9FA] border-r border-slate-300">
-                    <div class="font-bold text-xs text-[#202124]">YoY %</div>
-                    <div class="text-[9px] text-[#5F6368]">52 Pekan</div>
-                  </th>
-
-                  <!-- Dynamic Timeframe Columns (Years or Weeks) -->
+                  <!-- Dynamic Timeframe Columns (Years) -->
                   ${cols.map(c => `
-                    <th scope="col" class="py-2 px-3 text-right font-mono min-w-[95px]">
+                    <th scope="col" class="py-2 px-3 text-right font-mono min-w-[95px] border-r border-slate-200">
                       <div class="font-bold text-xs text-[#202124]">${c.label}</div>
                       <div class="text-[9px] font-normal text-[#5F6368] truncate">${c.sublabel}</div>
                     </th>
@@ -336,7 +272,7 @@ export class WeeklyView {
               <tbody class="divide-y divide-[#E8EAED] font-mono">
                 ${rows.length === 0 ? `
                   <tr>
-                    <td colspan="${cols.length + 8}" class="p-8 text-center text-[#5F6368]">
+                    <td colspan="${cols.length + 2}" class="p-8 text-center text-[#5F6368]">
                       Tidak ada indikator mingguan yang cocok dengan pencarian "<strong>${this.searchKeyword}</strong>".
                     </td>
                   </tr>
@@ -356,7 +292,7 @@ export class WeeklyView {
               <a href="https://badanpangan.go.id/" target="_blank" class="text-[#1A73E8] hover:underline">Bapanas SPHT</a>
             </div>
             <div>
-              Timeframe: <strong class="text-[#202124]">${isWeekly ? `52 Minggu Kalender Tahun ${this.year}` : `Deret Rata-rata ${this.startYear}–${this.endYear}`}</strong>
+              Timeframe: <strong class="text-[#202124]">Deret Rata-rata ${this.startYear}–${this.endYear}</strong>
             </div>
           </div>
         </div>
@@ -370,76 +306,131 @@ export class WeeklyView {
     this.bindEvents();
   }
 
-  renderTableRow(row, cols) {
-    const formatPct = (val) => {
-      if (val === null || val === undefined) return '-';
+  formatCellValue(val, row) {
+    if (val === null || val === undefined) return '<span class="text-slate-400 font-normal">N/A</span>';
+    const num = Number(val);
+    const unit = (row.unit || row.unit_short || '').toLowerCase();
+    
+    // Percentage format
+    if (unit.includes('%') || unit.includes('persen')) {
+      return `${num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+    }
+    
+    // Rupiah / Kg format
+    if (unit.includes('/ kg') || unit.includes('/ liter')) {
+      return `Rp ${Math.round(num).toLocaleString('id-ID')}`;
+    }
+
+    // Default numeric with id-ID locale
+    return num.toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+  }
+
+  formatWtdValue(val, row) {
+    if (val === null || val === undefined) return '—';
+    const num = Number(val);
+    const unit = (row.unit || row.unit_short || '').toLowerCase();
+    
+    if (unit.includes('%') || unit.includes('persen')) {
+      return `${num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+    }
+    
+    if (unit.includes('/ kg') || unit.includes('/ liter')) {
+      return `Rp ${Math.round(num).toLocaleString('id-ID')}`;
+    }
+
+    return num.toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+  }
+
+  getUnitLabel(row) {
+    const unit = (row.unit || row.unit_short || '').toLowerCase();
+    if (unit.includes('%') || unit.includes('persen')) return '% YoY';
+    if (unit.includes('triliun')) return 'Rp T';
+    if (unit.includes('miliar')) return 'Rp M';
+    if (unit.includes('usd')) return 'Juta USD';
+    if (unit.includes('/ kg')) return '/ Kg';
+    if (unit.includes('/ liter')) return '/ Liter';
+    if (unit.includes('poin')) return 'Poin';
+    return row.unit_short || row.unit || '';
+  }
+
+  formatMovementSummary(row) {
+    const wow = row.wow_percent;
+    const mom = row.mom_percent;
+    const yoy = row.yoy_percent;
+    const prevYear = row.prev_year || (this.endYear - 1);
+    const prevVal = row.prev_year_val !== undefined && row.prev_year_val !== null ? this.formatWtdValue(row.prev_year_val, row) : '—';
+
+    const fmtSign = (val) => {
+      if (val === null || val === undefined) return '0.00%';
       const num = Number(val);
-      if (num > 0) return `<span class="text-emerald-700 font-bold">▲ +${num.toFixed(1)}%</span>`;
-      if (num < 0) return `<span class="text-rose-700 font-bold">▼ ${num.toFixed(1)}%</span>`;
-      return `<span class="text-slate-600">0.0%</span>`;
+      const sign = num > 0 ? '+' : '';
+      return `${sign}${num.toFixed(2)}%`;
     };
 
-    const formattedWtd = row.wtd_value !== null && row.wtd_value !== undefined
-      ? Number(row.wtd_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })
-      : '-';
+    const wowStr = `${fmtSign(wow)} WoW`;
+    const momStr = `${fmtSign(mom)} MoM`;
+    const yoyStr = `${fmtSign(yoy)} vs LY (${prevYear}: ${prevVal})`;
+
+    return `${wowStr} • ${momStr} • ${yoyStr}`;
+  }
+
+  renderTableRow(row, cols) {
+    const formattedWtdValue = this.formatWtdValue(row.wtd_value, row);
+    const unitLabel = this.getUnitLabel(row);
+    const movementSummary = this.formatMovementSummary(row);
 
     return `
-      <tr class="hover:bg-[#F8F9FA] cursor-pointer transition-colors group weekly-table-row" data-ind-id="${row.id}">
-        <!-- Sticky Col 1: Nama Indikator (Kode dipindah ke popup chart) -->
-        <td class="py-2 px-3 sticky left-0 bg-white group-hover:bg-[#F8F9FA] z-20">
-          <div class="font-bold text-[#202124] group-hover:text-[#0038A8] transition-colors leading-snug">
-            ${row.name}
+      <tr class="hover:bg-[#F8F9FA] cursor-pointer transition-colors group weekly-table-row" data-ind-id="${row.id}" data-code="${row.code}">
+        <!-- Sticky Col 1: Nama Indikator + Lembaga + Satuan + Tren (Image 2) -->
+        <td class="py-2.5 px-3 sticky left-0 bg-white group-hover:bg-[#F8F9FA] z-20 border-r border-slate-200">
+          <div class="flex items-start justify-between gap-2">
+            <div class="space-y-0.5">
+              <div class="font-bold text-[#111827] group-hover:text-[#0038A8] transition-colors leading-tight text-xs">
+                ${row.name}
+              </div>
+              <div class="text-[10px] text-slate-500 font-sans">
+                ${row.category}
+              </div>
+              <div class="font-bold text-[10.5px] text-slate-900 font-sans pt-0.5">
+                Source : ${row.institution_id} - Satuan : ${row.unit || row.unit_short}
+              </div>
+            </div>
+            <button class="btn-view-weekly-trend px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#0038A8] hover:bg-[#0038A8] hover:text-white transition-colors cursor-pointer shadow-2xs shrink-0 mt-0.5" title="Lihat Grafik Tren & Metodologi Lengkap">
+              📈 Tren
+            </button>
           </div>
-          <div class="text-[10px] text-[#5F6368] font-normal truncate max-w-[260px] pt-0.5">
-            ${row.category}
+        </td>
+
+        <!-- Col 2: Week to Date & Pergerakan (Image 3) -->
+        <td class="py-2 px-3 text-right font-mono bg-[#F1F5FD]/50 border-r border-[#BCD0F7]">
+          <div class="space-y-1">
+            <!-- Value & Unit matching Top of Image 3 -->
+            <div class="flex items-baseline justify-end gap-1.5 font-mono">
+              <span class="text-base font-black text-[#0038A8] tracking-tight">
+                ${formattedWtdValue}
+              </span>
+              <span class="text-[10px] text-slate-500 font-medium font-mono">
+                ${unitLabel}
+              </span>
+            </div>
+
+            <!-- Movement Box matching Bottom of Image 3 -->
+            <div class="p-1.5 rounded bg-slate-50 border border-slate-200/80 font-mono text-[9.5px] text-slate-700 leading-tight space-y-0.5 text-right shadow-2xs">
+              <div class="text-slate-500 font-bold uppercase text-[8.5px] flex items-center justify-end gap-1">
+                <span>📊</span>
+                <span>PERGERAKAN:</span>
+              </div>
+              <div class="text-slate-900 font-semibold text-[9.5px]">
+                ${movementSummary}
+              </div>
+            </div>
           </div>
         </td>
 
-        <!-- Sticky Col 2: Lembaga (Compact) -->
-        <td class="py-2 px-2 text-center sticky left-[270px] bg-white group-hover:bg-[#F8F9FA] z-20">
-          <span class="px-1.5 py-0.5 rounded text-[9.5px] font-mono font-bold ${row.institution_id === 'BI' ? 'bg-[#E8F0FE] text-[#1A73E8]' : (row.institution_id === 'DJPB' ? 'bg-[#E6F4EA] text-[#137333]' : (row.institution_id === 'OJK' ? 'bg-[#FCE8E6] text-[#C5221F]' : 'bg-[#FEF7E0] text-[#B06000]'))}">
-            ${row.institution_id}
-          </span>
-        </td>
-
-        <!-- Sticky Col 3: Satuan (Compact) -->
-        <td class="py-2 px-2 text-center text-[#5F6368] text-[10.5px] sticky left-[365px] bg-white group-hover:bg-[#F8F9FA] z-20">
-          ${row.unit_short}
-        </td>
-
-        <!-- Sticky Col 4: Aksi Grafik (Compact) -->
-        <td class="py-2 px-2 text-center sticky left-[435px] bg-white group-hover:bg-[#F8F9FA] z-20">
-          <button class="btn-view-weekly-trend px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#0038A8] hover:bg-[#0038A8] hover:text-white transition-colors cursor-pointer shadow-2xs" title="Lihat Grafik Tren Mingguan & Kode Data">
-            📈 Tren
-          </button>
-        </td>
-
-        <!-- Summary Col 5: Week to Date (WTD) -->
-        <td class="py-2 px-3 text-right font-mono font-bold text-[#0038A8] bg-[#F1F5FD]/50 border-l border-[#BCD0F7]">
-          ${formattedWtd}
-        </td>
-
-        <!-- Summary Col 6: Week on Week (WoW %) -->
-        <td class="py-2 px-2.5 text-right font-mono text-[11px]">
-          ${formatPct(row.wow_percent)}
-        </td>
-
-        <!-- Summary Col 7: Month on Month (MoM %) -->
-        <td class="py-2 px-2.5 text-right font-mono text-[11px]">
-          ${formatPct(row.mom_percent)}
-        </td>
-
-        <!-- Summary Col 8: Year on Year (YoY %) -->
-        <td class="py-2 px-2.5 text-right font-mono text-[11px] border-r border-slate-300">
-          ${formatPct(row.yoy_percent)}
-        </td>
-
-        <!-- Dynamic Value Columns -->
+        <!-- Dynamic Value Columns (Years) formatted with Economic Indicators rules -->
         ${cols.map(c => {
           const val = row.values ? row.values[c.key] : null;
-          const formatted = val !== null && val !== undefined
-            ? Number(val).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })
-            : '-';
+          const formatted = this.formatCellValue(val, row);
           return `
             <td class="py-2 px-3 text-right font-mono border-r border-[#E8EAED] text-[#202124] group-hover:bg-[#F1F3F4]/50">
               ${formatted}
@@ -455,21 +446,6 @@ export class WeeklyView {
     document.getElementById('sel-weekly-inst')?.addEventListener('change', (e) => {
       this.institutionId = e.target.value;
       this.loadAndRender();
-    });
-
-    // 2. View Mode Buttons inside Timeframe
-    document.getElementById('btn-mode-annual')?.addEventListener('click', () => {
-      if (this.viewMode !== 'annual') {
-        this.viewMode = 'annual';
-        this.loadAndRender();
-      }
-    });
-
-    document.getElementById('btn-mode-weekly')?.addEventListener('click', () => {
-      if (this.viewMode !== 'weekly') {
-        this.viewMode = 'weekly';
-        this.loadAndRender();
-      }
     });
 
     // 3. Timeframe Start & End Year dropdowns
