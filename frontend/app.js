@@ -3,7 +3,7 @@
 // Pusat Basis Data Data Sekunder: Pergerakan Ekonomi Indonesia
 // ==============================================================================
 
-import { ApiClient } from './services/api_client.js';
+import { ApiClient } from './services/api_client.js?v=11.71.0';
 import { renderHeader, openEmailRegistrationModal, isAdminEmail } from './components/header.js?v=11.68.0';
 import { SearchBar } from './components/search_bar.js?v=11.69.0';
 import { FilterPanel } from './components/filter_panel.js';
@@ -18,7 +18,7 @@ import { HomeView } from './components/home_view.js?v=11.63.0';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
 import { LKPPView } from './components/lkpp_view.js?v=11.59.0';
-import { WeeklyView } from './components/weekly_view.js';
+import { WeeklyView } from './components/weekly_view.js?v=11.71.0';
 import { CustomChartStudio } from './components/custom_chart_studio.js';
 import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.53.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';

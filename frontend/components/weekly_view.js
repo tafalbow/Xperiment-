@@ -7,13 +7,17 @@
 // ==============================================================================
 
 import { ApiClient } from '../services/api_client.js';
+import { openEmailRegistrationModal } from './header.js';
 
 export class WeeklyView {
   constructor(containerId) {
     this.containerId = containerId;
     this.institutionId = 'ALL'; // ALL | BI | DJPB | OJK | BAPANAS
-    this.viewMode = 'annual'; // 'annual' (1990-2026) | 'weekly' (W01-W52)
+    this.viewMode = 'annual'; // 'annual' (startYear - endYear) | 'weekly' (W01 - W52)
+    this.startYear = 1990;
+    this.endYear = 2026;
     this.year = 2026;
+    this.wtdWeek = 'W12'; // Default Week-to-Date e.g. "W12 2026"
     this.searchKeyword = '';
 
     this.institutions = [];
@@ -42,6 +46,9 @@ export class WeeklyView {
         institution_id: this.institutionId,
         view_mode: this.viewMode,
         year: this.year,
+        start_year: this.startYear,
+        end_year: this.endYear,
+        wtd_week: this.wtdWeek,
         q: this.searchKeyword
       });
     } catch (err) {
@@ -54,6 +61,30 @@ export class WeeklyView {
     this.render();
   }
 
+  generateYearOptions(minY, maxY, selectedY) {
+    let opts = '';
+    for (let y = maxY; y >= minY; y--) {
+      opts += `<option value="${y}" ${y === selectedY ? 'selected' : ''}>${y}</option>`;
+    }
+    return opts;
+  }
+
+  isUserLoggedIn() {
+    let registeredUser = null;
+    try {
+      const raw = localStorage.getItem('registered_researcher_access');
+      if (raw) registeredUser = JSON.parse(raw);
+    } catch (e) {}
+
+    let masterAdminSession = null;
+    try {
+      const rawSess = localStorage.getItem('master_admin_session');
+      if (rawSess) masterAdminSession = JSON.parse(rawSess);
+    } catch (e) {}
+
+    return Boolean((masterAdminSession && masterAdminSession.token) || (registeredUser && registeredUser.email));
+  }
+
   renderLoading() {
     const container = document.getElementById(this.containerId);
     if (!container) return;
@@ -61,7 +92,7 @@ export class WeeklyView {
       <div class="gov-card p-12 text-center space-y-3">
         <div class="inline-block w-8 h-8 border-3 border-[#1A73E8] border-t-transparent rounded-full animate-spin"></div>
         <div class="text-xs font-mono font-medium text-[#5F6368]">
-          Mengompilasi Data Mingguan Lembaga (${this.institutionId} • Mode: ${this.viewMode.toUpperCase()})...
+          Mengompilasi Data Mingguan Lembaga (${this.institutionId} • Timeframe: ${this.viewMode.toUpperCase()})...
         </div>
       </div>
     `;
@@ -90,12 +121,13 @@ export class WeeklyView {
     const cols = this.matrixData.columns || [];
     const rows = this.matrixData.rows || [];
     const isWeekly = this.viewMode === 'weekly';
+    const wtdLabel = this.matrixData.wtd_label || `${this.wtdWeek} ${isWeekly ? this.year : this.endYear}`;
 
     container.innerHTML = `
       <div class="space-y-4 font-sans">
         
         <!-- 1. HEADER BANNER & ACTION TOOLBAR -->
-        <div class="gov-card p-5 bg-white  shadow-2xs space-y-4">
+        <div class="gov-card p-5 bg-white shadow-2xs space-y-4">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="space-y-1">
               <div class="flex items-center gap-2 flex-wrap">
@@ -105,7 +137,7 @@ export class WeeklyView {
                 <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]">
                   Tracking 37 Tahun (1990 – 2026)
                 </span>
-                <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E6F4EA] text-[#137333] ">
+                <span class="px-2 py-0.5 rounded text-[10.5px] font-mono font-medium bg-[#E6F4EA] text-[#137333]">
                   4 Kementerian & Lembaga
                 </span>
               </div>
@@ -124,7 +156,7 @@ export class WeeklyView {
               <button 
                 id="btn-weekly-export-excel"
                 class="px-3 py-1.5 text-xs font-mono font-bold rounded bg-[#0038A8] hover:bg-[#002B82] text-white flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
-                title="Unduh data tabel dalam format Excel (.xlsx)"
+                title="Unduh data tabel dalam format Excel (.xlsx) - Maks. 24 Tahun"
               >
                 <span>📥</span>
                 <span>Excel (.xlsx)</span>
@@ -133,7 +165,7 @@ export class WeeklyView {
               <button 
                 id="btn-weekly-export-csv"
                 class="px-3 py-1.5 text-xs font-mono font-medium rounded bg-[#002B82] hover:bg-[#001D5A] text-white flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all"
-                title="Unduh data tabel dalam format CSV"
+                title="Unduh data tabel dalam format CSV - Maks. 24 Tahun"
               >
                 <span>📄</span>
                 <span>CSV</span>
@@ -141,7 +173,7 @@ export class WeeklyView {
 
               <button 
                 id="btn-weekly-refresh"
-                class="p-1.5 text-xs rounded  bg-white hover:bg-[#F8F9FA] text-[#5F6368] cursor-pointer"
+                class="p-1.5 text-xs rounded bg-white hover:bg-[#F8F9FA] text-[#5F6368] border border-slate-200 cursor-pointer shadow-2xs"
                 title="Muat Ulang"
               >
                 🔄
@@ -149,16 +181,16 @@ export class WeeklyView {
             </div>
           </div>
 
-          <!-- 2. FILTER CONTROLS BAR (White background) -->
-          <div class="p-3.5 bg-white rounded-lg shadow-sm space-y-3">
+          <!-- 2. FILTER CONTROLS BAR (Clean & Unnumbered, with Start-End Timeframe) -->
+          <div class="p-3.5 bg-[#FAF8F5] border border-[#E8DFD5] rounded-lg shadow-2xs space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
               
               <!-- Institution Selector (4 cols) -->
               <div class="lg:col-span-4 space-y-1">
                 <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
-                  1. Lembaga / Sumber Data
+                  Lembaga / Sumber Data
                 </label>
-                <select id="sel-weekly-inst" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-slate-200 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
+                <select id="sel-weekly-inst" class="w-full text-xs font-sans px-2.5 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
                   ${this.institutions.map(inst => `
                     <option value="${inst.id}" ${inst.id === this.institutionId ? 'selected' : ''}>
                       ${inst.short_name} ${inst.frequency ? `(${inst.frequency})` : ''}
@@ -167,43 +199,60 @@ export class WeeklyView {
                 </select>
               </div>
 
-              <!-- View Mode (Annual vs 52 Weeks) (3 cols) -->
-              <div class="lg:col-span-3 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
-                  2. Mode Tampilan
-                </label>
-                <div class="flex items-center gap-1.5">
-                  <button 
-                    id="btn-mode-annual" 
-                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'annual' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-slate-100 text-slate-700 hover:bg-slate-200'} cursor-pointer transition-all text-center"
-                  >
-                    📅 37 Thn (1990–2026)
-                  </button>
-                  <button 
-                    id="btn-mode-weekly" 
-                    class="flex-1 px-2.5 py-1.5 text-xs font-mono rounded border ${this.viewMode === 'weekly' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold shadow-2xs' : ' bg-slate-100 text-slate-700 hover:bg-slate-200'} cursor-pointer transition-all text-center"
-                  >
-                    ⏱️ 52 Minggu (Per Tahun)
-                  </button>
+              <!-- Timeframe with Start and End Controls (5 cols) -->
+              <div class="lg:col-span-5 space-y-1">
+                <div class="flex items-center justify-between">
+                  <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
+                    Timeframe
+                  </label>
+                  <div class="inline-flex rounded shadow-2xs overflow-hidden border border-slate-300 text-[10.5px] font-mono">
+                    <button 
+                      type="button"
+                      id="btn-mode-annual" 
+                      class="px-2.5 py-0.5 ${this.viewMode === 'annual' ? 'bg-[#0038A8] text-white font-bold' : 'bg-white text-slate-700 hover:bg-slate-100'} cursor-pointer transition-all"
+                    >
+                      📅 Tahunan
+                    </button>
+                    <button 
+                      type="button"
+                      id="btn-mode-weekly" 
+                      class="px-2.5 py-0.5 border-l border-slate-300 ${this.viewMode === 'weekly' ? 'bg-[#0038A8] text-white font-bold' : 'bg-white text-slate-700 hover:bg-slate-100'} cursor-pointer transition-all"
+                    >
+                      ⏱️ Mingguan
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Target Year for Weekly Mode (2 cols) -->
-              <div class="lg:col-span-2 space-y-1">
-                <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
-                  3. Tahun Observasi
-                </label>
-                <select id="sel-weekly-year" class="w-full text-xs font-mono px-2 py-1.5 rounded border border-slate-200 bg-white text-[#202124] ${this.viewMode === 'annual' ? 'opacity-50 cursor-not-allowed' : ''}" ${this.viewMode === 'annual' ? 'disabled' : ''}>
-                  ${Array.from({ length: 37 }, (_, i) => 2026 - i).map(y => `
-                    <option value="${y}" ${y === this.year ? 'selected' : ''}>${y}</option>
-                  `).join('')}
-                </select>
+                <!-- Annual Controls: Start Year s/d End Year -->
+                <div id="weekly-timeframe-annual-controls" class="${this.viewMode === 'annual' ? 'flex' : 'hidden'} items-center gap-2">
+                  <select id="sel-weekly-start-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
+                    ${this.generateYearOptions(1990, 2026, this.startYear)}
+                  </select>
+                  <span class="text-xs font-mono text-slate-500 font-semibold shrink-0">s/d</span>
+                  <select id="sel-weekly-end-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
+                    ${this.generateYearOptions(1990, 2026, this.endYear)}
+                  </select>
+                </div>
+
+                <!-- Weekly Controls: Target Year & WTD Week -->
+                <div id="weekly-timeframe-weekly-controls" class="${this.viewMode === 'weekly' ? 'flex' : 'hidden'} items-center gap-2">
+                  <select id="sel-weekly-year" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
+                    ${this.generateYearOptions(1990, 2026, this.year)}
+                  </select>
+                  <span class="text-xs font-mono text-slate-500 font-semibold shrink-0">Pekan:</span>
+                  <select id="sel-weekly-wtd-week" class="w-1/2 text-xs font-mono px-2 py-1.5 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs">
+                    ${Array.from({ length: 52 }, (_, i) => {
+                      const wStr = `W${String(i + 1).padStart(2, '0')}`;
+                      return `<option value="${wStr}" ${wStr === this.wtdWeek ? 'selected' : ''}>${wStr} (Minggu ${i + 1})</option>`;
+                    }).join('')}
+                  </select>
+                </div>
               </div>
 
               <!-- Quick Search Input (3 cols) -->
               <div class="lg:col-span-3 space-y-1">
                 <label class="block text-[11px] font-mono font-bold text-slate-800 uppercase tracking-wider">
-                  4. Cari Indikator
+                  Cari Indikator
                 </label>
                 <div class="relative">
                   <input 
@@ -211,70 +260,71 @@ export class WeeklyView {
                     id="input-weekly-search" 
                     value="${this.searchKeyword}" 
                     placeholder="Misal: RTGS, M0, Beras, IHSG, SBN..."
-                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded border border-slate-200 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8]"
+                    class="w-full text-xs px-2.5 py-1.5 pl-7 rounded border border-slate-300 bg-white text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#0038A8] shadow-2xs"
                   />
                   <span class="absolute left-2.5 top-2 text-[11px] text-[#7D655C]">🔍</span>
                   ${this.searchKeyword ? `
-                    <button id="btn-weekly-clear-search" class="absolute right-2 top-1.5 text-xs text-slate-500 hover:text-slate-800">✕</button>
+                    <button id="btn-weekly-clear-search" class="absolute right-2 top-1.5 text-xs text-slate-500 hover:text-slate-800 cursor-pointer">✕</button>
                   ` : ''}
                 </div>
               </div>
 
             </div>
-
-            <!-- Quick Preset Badges for 4 Institutions -->
-            <div class="flex items-center gap-2 flex-wrap pt-2 text-[11px] font-mono ">
-              <span class="text-slate-800 font-bold">Pilihan Cepat Lembaga:</span>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'ALL' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="ALL">
-                🌐 Semua Lembaga (29 Indikator)
-              </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BI' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="BI">
-                🏛️ Bank Indonesia (ITEMs Moneter & RTGS)
-              </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'DJPB' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="DJPB">
-                💰 Kemenkeu DJPb (Kinerja APBN & SBN)
-              </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'OJK' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="OJK">
-                📈 OJK (Pasar Modal & IHSG)
-              </button>
-              <button class="btn-inst-preset px-2.5 py-0.5 rounded border ${this.institutionId === 'BAPANAS' ? 'border-[#0038A8] bg-[#0038A8] text-white font-bold' : ' bg-slate-100 hover:bg-slate-200 text-slate-700'} cursor-pointer transition-all" data-inst="BAPANAS">
-                🌾 Bapanas (Harga Pangan Strategis)
-              </button>
-            </div>
           </div>
+        </div>
 
-        <!-- 3. MAIN DATA TABLE MATRIKS (Google Analytics & Financial Terminal Style) -->
-        <div class="gov-card bg-white  rounded-lg shadow-2xs overflow-hidden">
+        <!-- 3. MAIN DATA TABLE MATRIKS (Compact Sticky Columns + WTD + WoW/MoM/YoY) -->
+        <div class="gov-card bg-white rounded-lg shadow-2xs overflow-hidden">
           <div class="overflow-x-auto max-h-[640px] relative scrollbar-thin">
             <table class="w-full text-xs text-left border-collapse">
               
-              <!-- Sticky Table Header -->
+              <!-- Sticky Table Header (Kode Removed, Compact Lembaga/Satuan/Tren, Added WTD, WoW, MoM, YoY) -->
               <thead class="bg-[#F1F3F4] text-[#202124] font-mono text-[11px] sticky top-0 z-30 shadow-xs">
-                <tr class="">
-                  <!-- Sticky Column 1: Kode -->
-                  <th scope="col" class="py-2.5 px-3 font-bold text-center  sticky left-0 bg-[#F1F3F4] z-40 min-w-[90px]">
-                    KODE
-                  </th>
-                  <!-- Sticky Column 2: Indikator -->
-                  <th scope="col" class="py-2.5 px-3 font-bold  sticky left-[90px] bg-[#F1F3F4] z-40 min-w-[280px]">
+                <tr>
+                  <!-- Sticky Col 1: Indikator -->
+                  <th scope="col" class="py-2.5 px-3 font-bold sticky left-0 bg-[#F1F3F4] z-40 min-w-[270px]">
                     NAMA INDIKATOR MINGGUAN
                   </th>
-                  <!-- Sticky Column 3: Lembaga -->
-                  <th scope="col" class="py-2.5 px-3 font-bold  sticky left-[370px] bg-[#F1F3F4] z-40 min-w-[150px]">
+                  <!-- Sticky Col 2: Lembaga (Compact) -->
+                  <th scope="col" class="py-2.5 px-2 font-bold text-center sticky left-[270px] bg-[#F1F3F4] z-40 min-w-[95px]">
                     LEMBAGA
                   </th>
-                  <!-- Sticky Column 4: Satuan -->
-                  <th scope="col" class="py-2.5 px-2 font-bold text-center  sticky left-[520px] bg-[#F1F3F4] z-40 min-w-[90px]">
+                  <!-- Sticky Col 3: Satuan (Compact) -->
+                  <th scope="col" class="py-2.5 px-2 font-bold text-center sticky left-[365px] bg-[#F1F3F4] z-40 min-w-[70px]">
                     SATUAN
                   </th>
-                  <!-- Sticky Column 5: Aksi Tren -->
-                  <th scope="col" class="py-2.5 px-2 font-bold text-center  sticky left-[610px] bg-[#F1F3F4] z-40 min-w-[70px]">
+                  <!-- Sticky Col 4: Tren (Compact) -->
+                  <th scope="col" class="py-2.5 px-2 font-bold text-center sticky left-[435px] bg-[#F1F3F4] z-40 min-w-[65px]">
                     TREN
                   </th>
 
-                  <!-- Dynamic Columns (Years or Weeks) -->
+                  <!-- Summary Col 5: Week to Date (WTD) -->
+                  <th scope="col" class="py-2.5 px-3 text-right font-mono min-w-[110px] bg-[#E8F0FE]/70 border-l border-[#BCD0F7]">
+                    <div class="font-bold text-xs text-[#0038A8]">${wtdLabel}</div>
+                    <div class="text-[9px] text-[#1A73E8] font-semibold">Week-to-Date</div>
+                  </th>
+
+                  <!-- Summary Col 6: Week on Week (WoW %) -->
+                  <th scope="col" class="py-2.5 px-2.5 text-right font-mono min-w-[85px] bg-[#F8F9FA]">
+                    <div class="font-bold text-xs text-[#202124]">WoW %</div>
+                    <div class="text-[9px] text-[#5F6368]">1 Pekan</div>
+                  </th>
+
+                  <!-- Summary Col 7: Month on Month (MoM %) -->
+                  <th scope="col" class="py-2.5 px-2.5 text-right font-mono min-w-[85px] bg-[#F8F9FA]">
+                    <div class="font-bold text-xs text-[#202124]">MoM %</div>
+                    <div class="text-[9px] text-[#5F6368]">4 Pekan</div>
+                  </th>
+
+                  <!-- Summary Col 8: Year on Year (YoY %) -->
+                  <th scope="col" class="py-2.5 px-2.5 text-right font-mono min-w-[85px] bg-[#F8F9FA] border-r border-slate-300">
+                    <div class="font-bold text-xs text-[#202124]">YoY %</div>
+                    <div class="text-[9px] text-[#5F6368]">52 Pekan</div>
+                  </th>
+
+                  <!-- Dynamic Timeframe Columns (Years or Weeks) -->
                   ${cols.map(c => `
-                    <th scope="col" class="py-2 px-3 text-right font-mono  min-w-[100px]">
+                    <th scope="col" class="py-2 px-3 text-right font-mono min-w-[95px]">
                       <div class="font-bold text-xs text-[#202124]">${c.label}</div>
                       <div class="text-[9px] font-normal text-[#5F6368] truncate">${c.sublabel}</div>
                     </th>
@@ -286,7 +336,7 @@ export class WeeklyView {
               <tbody class="divide-y divide-[#E8EAED] font-mono">
                 ${rows.length === 0 ? `
                   <tr>
-                    <td colspan="${cols.length + 5}" class="p-8 text-center text-[#5F6368]">
+                    <td colspan="${cols.length + 8}" class="p-8 text-center text-[#5F6368]">
                       Tidak ada indikator mingguan yang cocok dengan pencarian "<strong>${this.searchKeyword}</strong>".
                     </td>
                   </tr>
@@ -297,7 +347,7 @@ export class WeeklyView {
           </div>
 
           <!-- Table Footer Strip -->
-          <div class="p-3 bg-[#F8F9FA]  flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#5F6368] gap-2">
+          <div class="p-3 bg-[#F8F9FA] flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#5F6368] gap-2">
             <div>
               Sumber Resmi: 
               <a href="https://www.bi.go.id/id/statistik/ekonomi-keuangan/items/default.aspx" target="_blank" class="text-[#1A73E8] hover:underline">BI ITEMs</a> • 
@@ -306,7 +356,7 @@ export class WeeklyView {
               <a href="https://badanpangan.go.id/" target="_blank" class="text-[#1A73E8] hover:underline">Bapanas SPHT</a>
             </div>
             <div>
-              Mode Aktif: <strong class="text-[#202124]">${isWeekly ? `52 Minggu Kalender Tahun ${this.year}` : 'Deret Rata-rata 37 Tahun (1990–2026)'}</strong>
+              Timeframe: <strong class="text-[#202124]">${isWeekly ? `52 Minggu Kalender Tahun ${this.year}` : `Deret Rata-rata ${this.startYear}–${this.endYear}`}</strong>
             </div>
           </div>
         </div>
@@ -321,40 +371,67 @@ export class WeeklyView {
   }
 
   renderTableRow(row, cols) {
+    const formatPct = (val) => {
+      if (val === null || val === undefined) return '-';
+      const num = Number(val);
+      if (num > 0) return `<span class="text-emerald-700 font-bold">▲ +${num.toFixed(1)}%</span>`;
+      if (num < 0) return `<span class="text-rose-700 font-bold">▼ ${num.toFixed(1)}%</span>`;
+      return `<span class="text-slate-600">0.0%</span>`;
+    };
+
+    const formattedWtd = row.wtd_value !== null && row.wtd_value !== undefined
+      ? Number(row.wtd_value).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })
+      : '-';
+
     return `
       <tr class="hover:bg-[#F8F9FA] cursor-pointer transition-colors group weekly-table-row" data-ind-id="${row.id}">
-        <!-- Sticky Col 1: Kode -->
-        <td class="py-2 px-3 text-center font-bold text-[#5F6368] group-hover:text-[#1A73E8]  sticky left-0 bg-white group-hover:bg-[#F8F9FA] z-20">
-          ${row.code}
-        </td>
-
-        <!-- Sticky Col 2: Nama Indikator -->
-        <td class="py-2 px-3  sticky left-[90px] bg-white group-hover:bg-[#F8F9FA] z-20">
-          <div class="font-bold text-[#202124] group-hover:text-[#1A73E8] transition-colors">
+        <!-- Sticky Col 1: Nama Indikator (Kode dipindah ke popup chart) -->
+        <td class="py-2 px-3 sticky left-0 bg-white group-hover:bg-[#F8F9FA] z-20">
+          <div class="font-bold text-[#202124] group-hover:text-[#0038A8] transition-colors leading-snug">
             ${row.name}
           </div>
-          <div class="text-[10px] text-[#5F6368] font-normal truncate max-w-[270px]">
+          <div class="text-[10px] text-[#5F6368] font-normal truncate max-w-[260px] pt-0.5">
             ${row.category}
           </div>
         </td>
 
-        <!-- Sticky Col 3: Lembaga -->
-        <td class="py-2 px-3  sticky left-[370px] bg-white group-hover:bg-[#F8F9FA] z-20">
-          <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium ${row.institution_id === 'BI' ? 'bg-[#E8F0FE] text-[#1A73E8] border border-[#D2E3FC]' : (row.institution_id === 'DJPB' ? 'bg-[#E6F4EA] text-[#137333] ' : (row.institution_id === 'OJK' ? 'bg-[#FCE8E6] text-[#C5221F] border border-[#FAD2CF]' : 'bg-[#FEF7E0] text-[#B06000] border border-[#FEEFC3]'))}">
-            ${row.institution_name}
+        <!-- Sticky Col 2: Lembaga (Compact) -->
+        <td class="py-2 px-2 text-center sticky left-[270px] bg-white group-hover:bg-[#F8F9FA] z-20">
+          <span class="px-1.5 py-0.5 rounded text-[9.5px] font-mono font-bold ${row.institution_id === 'BI' ? 'bg-[#E8F0FE] text-[#1A73E8]' : (row.institution_id === 'DJPB' ? 'bg-[#E6F4EA] text-[#137333]' : (row.institution_id === 'OJK' ? 'bg-[#FCE8E6] text-[#C5221F]' : 'bg-[#FEF7E0] text-[#B06000]'))}">
+            ${row.institution_id}
           </span>
         </td>
 
-        <!-- Sticky Col 4: Satuan -->
-        <td class="py-2 px-2 text-center text-[#5F6368] text-[11px]  sticky left-[520px] bg-white group-hover:bg-[#F8F9FA] z-20">
+        <!-- Sticky Col 3: Satuan (Compact) -->
+        <td class="py-2 px-2 text-center text-[#5F6368] text-[10.5px] sticky left-[365px] bg-white group-hover:bg-[#F8F9FA] z-20">
           ${row.unit_short}
         </td>
 
-        <!-- Sticky Col 5: Aksi Grafik -->
-        <td class="py-2 px-2 text-center  sticky left-[610px] bg-white group-hover:bg-[#F8F9FA] z-20">
-          <button class="btn-view-weekly-trend px-2 py-0.5 rounded text-[10.5px] bg-[#E8F0FE] text-[#1A73E8] hover:bg-[#1A73E8] hover:text-white transition-colors cursor-pointer" title="Lihat Grafik Tren Mingguan">
+        <!-- Sticky Col 4: Aksi Grafik (Compact) -->
+        <td class="py-2 px-2 text-center sticky left-[435px] bg-white group-hover:bg-[#F8F9FA] z-20">
+          <button class="btn-view-weekly-trend px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#0038A8] hover:bg-[#0038A8] hover:text-white transition-colors cursor-pointer shadow-2xs" title="Lihat Grafik Tren Mingguan & Kode Data">
             📈 Tren
           </button>
+        </td>
+
+        <!-- Summary Col 5: Week to Date (WTD) -->
+        <td class="py-2 px-3 text-right font-mono font-bold text-[#0038A8] bg-[#F1F5FD]/50 border-l border-[#BCD0F7]">
+          ${formattedWtd}
+        </td>
+
+        <!-- Summary Col 6: Week on Week (WoW %) -->
+        <td class="py-2 px-2.5 text-right font-mono text-[11px]">
+          ${formatPct(row.wow_percent)}
+        </td>
+
+        <!-- Summary Col 7: Month on Month (MoM %) -->
+        <td class="py-2 px-2.5 text-right font-mono text-[11px]">
+          ${formatPct(row.mom_percent)}
+        </td>
+
+        <!-- Summary Col 8: Year on Year (YoY %) -->
+        <td class="py-2 px-2.5 text-right font-mono text-[11px] border-r border-slate-300">
+          ${formatPct(row.yoy_percent)}
         </td>
 
         <!-- Dynamic Value Columns -->
@@ -380,7 +457,7 @@ export class WeeklyView {
       this.loadAndRender();
     });
 
-    // 2. View Mode Buttons
+    // 2. View Mode Buttons inside Timeframe
     document.getElementById('btn-mode-annual')?.addEventListener('click', () => {
       if (this.viewMode !== 'annual') {
         this.viewMode = 'annual';
@@ -395,24 +472,35 @@ export class WeeklyView {
       }
     });
 
-    // 3. Year dropdown
+    // 3. Timeframe Start & End Year dropdowns
+    document.getElementById('sel-weekly-start-year')?.addEventListener('change', (e) => {
+      this.startYear = parseInt(e.target.value, 10);
+      if (this.startYear > this.endYear) {
+        this.endYear = this.startYear;
+      }
+      this.loadAndRender();
+    });
+
+    document.getElementById('sel-weekly-end-year')?.addEventListener('change', (e) => {
+      this.endYear = parseInt(e.target.value, 10);
+      if (this.endYear < this.startYear) {
+        this.startYear = this.endYear;
+      }
+      this.loadAndRender();
+    });
+
+    // 4. Target Year & WTD Week for Weekly Mode
     document.getElementById('sel-weekly-year')?.addEventListener('change', (e) => {
       this.year = parseInt(e.target.value, 10);
       this.loadAndRender();
     });
 
-    // 4. Institution preset buttons
-    document.querySelectorAll('.btn-inst-preset').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const inst = btn.dataset.inst;
-        if (inst && inst !== this.institutionId) {
-          this.institutionId = inst;
-          this.loadAndRender();
-        }
-      });
+    document.getElementById('sel-weekly-wtd-week')?.addEventListener('change', (e) => {
+      this.wtdWeek = e.target.value;
+      this.loadAndRender();
     });
 
-    // 5. Search input
+    // 5. Search input with live debounce
     const searchInput = document.getElementById('input-weekly-search');
     let searchTimeout = null;
     searchInput?.addEventListener('input', (e) => {
@@ -433,26 +521,14 @@ export class WeeklyView {
       this.loadAndRender();
     });
 
-    // 7. Export Excel
+    // 7. Export Excel with Login Check and 24-Year Limit
     document.getElementById('btn-weekly-export-excel')?.addEventListener('click', () => {
-      const url = ApiClient.getWeeklyExportUrl({
-        institution_id: this.institutionId,
-        view_mode: this.viewMode,
-        year: this.year,
-        format: 'xlsx'
-      });
-      window.open(url, '_blank');
+      this.handleExport('xlsx');
     });
 
-    // 8. Export CSV
+    // 8. Export CSV with Login Check and 24-Year Limit
     document.getElementById('btn-weekly-export-csv')?.addEventListener('click', () => {
-      const url = ApiClient.getWeeklyExportUrl({
-        institution_id: this.institutionId,
-        view_mode: this.viewMode,
-        year: this.year,
-        format: 'csv'
-      });
-      window.open(url, '_blank');
+      this.handleExport('csv');
     });
 
     // 9. Row Click -> Trend Modal
@@ -464,6 +540,118 @@ export class WeeklyView {
         }
       });
     });
+  }
+
+  handleExport(format) {
+    // 1. Cek login: jika belum login, tampilkan modal arahan login / daftar
+    if (!this.isUserLoggedIn()) {
+      this.showAuthRequiredModal();
+      return;
+    }
+
+    // 2. Cek kuota rentang data: tidak boleh ambil total data dalam 1 tabel, max 24 tahun
+    if (this.viewMode === 'annual') {
+      const spanYears = this.endYear - this.startYear + 1;
+      if (spanYears > 24) {
+        this.showMax24YearsModal(format);
+        return;
+      }
+    }
+
+    // 3. User sudah login dan rentang <= 24 tahun: unduh langsung
+    this.executeDownload(format, this.startYear, this.endYear);
+  }
+
+  showAuthRequiredModal() {
+    const mount = document.getElementById('weekly-modal-mount');
+    if (!mount) return;
+
+    mount.innerHTML = `
+      <div class="gov-modal-overlay">
+        <div class="gov-modal-content max-w-md p-6 bg-white rounded-xl shadow-2xl space-y-4 font-sans text-xs">
+          <div class="flex items-center gap-2 text-amber-600 font-mono font-bold text-sm">
+            <span class="text-xl">🔒</span>
+            <span>Akses Unduh Data Dibatasi</span>
+          </div>
+          <p class="text-slate-700 leading-relaxed font-mono">
+            Unduh data hanya bisa dilakukan setelah login. Silakan masuk atau daftar akun terlebih dahulu untuk mendapatkan akses pengunduhan berkas data resmi (.xlsx / .csv).
+          </p>
+          <div class="flex items-center justify-end gap-2 pt-2">
+            <button id="btn-cancel-auth-download" class="px-3.5 py-1.5 rounded border border-slate-300 text-slate-700 hover:bg-slate-100 font-mono font-bold cursor-pointer">
+              Batal
+            </button>
+            <button id="btn-proceed-auth-login" class="px-4 py-1.5 rounded bg-[#0038A8] hover:bg-[#002B82] text-white font-mono font-bold cursor-pointer shadow-2xs">
+              Masuk / Daftar Akun ↗
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('btn-cancel-auth-download')?.addEventListener('click', () => { mount.innerHTML = ''; });
+    document.getElementById('btn-proceed-auth-login')?.addEventListener('click', () => {
+      mount.innerHTML = '';
+      if (typeof openEmailRegistrationModal === 'function') {
+        openEmailRegistrationModal();
+      } else if (window.openEmailRegistrationModal) {
+        window.openEmailRegistrationModal();
+      } else if (window.__govApp) {
+        window.__govApp.showLoginRequiredPrompt('weekly');
+      }
+    });
+  }
+
+  showMax24YearsModal(format) {
+    const mount = document.getElementById('weekly-modal-mount');
+    if (!mount) return;
+
+    const spanYears = this.endYear - this.startYear + 1;
+    const clampedStart = Math.max(1990, this.endYear - 23);
+
+    mount.innerHTML = `
+      <div class="gov-modal-overlay">
+        <div class="gov-modal-content max-w-lg p-6 bg-white rounded-xl shadow-2xl space-y-4 font-sans text-xs">
+          <div class="flex items-center gap-2 text-[#0038A8] font-mono font-bold text-sm">
+            <span class="text-xl">⚠️</span>
+            <span>Batas Rentang Unduh: Maksimal 24 Tahun</span>
+          </div>
+          <div class="p-3.5 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 leading-relaxed font-mono text-[11.5px] space-y-2">
+            <div>
+              Sesuai ketentuan tata kelola data observatorium, Anda <strong>tidak boleh mengambil total data dalam 1 tabel</strong> sekaligus. Pengunduhan dibatasi <strong>maksimal 24 tahun</strong> per berkas.
+            </div>
+            <div class="text-slate-700">
+              Rentang aktif yang dipilih saat ini: <strong>${this.startYear} – ${this.endYear} (${spanYears} tahun)</strong>.
+            </div>
+          </div>
+          <div class="flex items-center justify-end gap-2 pt-2">
+            <button id="btn-close-24y-modal" class="px-3.5 py-1.5 rounded border border-slate-300 text-slate-700 hover:bg-slate-100 font-mono font-bold cursor-pointer">
+              Atur Kurun Waktu
+            </button>
+            <button id="btn-download-24y-clamped" class="px-4 py-1.5 rounded bg-[#0038A8] hover:bg-[#002B82] text-white font-mono font-bold cursor-pointer shadow-2xs">
+              Unduh 24 Thn Terakhir (${clampedStart}–${this.endYear}) 📥
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('btn-close-24y-modal')?.addEventListener('click', () => { mount.innerHTML = ''; });
+    document.getElementById('btn-download-24y-clamped')?.addEventListener('click', () => {
+      mount.innerHTML = '';
+      this.executeDownload(format, clampedStart, this.endYear);
+    });
+  }
+
+  executeDownload(format, startY, endY) {
+    const url = ApiClient.getWeeklyExportUrl({
+      institution_id: this.institutionId,
+      view_mode: this.viewMode,
+      year: this.year,
+      start_year: startY,
+      end_year: endY,
+      format: format
+    });
+    window.open(url, '_blank');
   }
 
   // --------------------------------------------------------------------------

@@ -568,11 +568,21 @@ class WeeklyService:
         return cls.INSTITUTIONS
 
     @classmethod
-    def get_weekly_matrix(cls, institution_id: str = "ALL", view_mode: str = "annual", year: int = 2026, q: str = "") -> Dict[str, Any]:
+    def get_weekly_matrix(
+        cls,
+        institution_id: str = "ALL",
+        view_mode: str = "annual",
+        year: int = 2026,
+        start_year: Optional[int] = None,
+        end_year: Optional[int] = None,
+        wtd_week: str = "W12",
+        q: str = ""
+    ) -> Dict[str, Any]:
         """
         Builds matrix table data for the weekly observatory.
-        - view_mode='annual': columns are years 2014-2026 (shows yearly average)
+        - view_mode='annual': columns are years between start_year and end_year (default 1990-2026)
         - view_mode='weekly': columns are weeks W01-W52 for the requested year
+        - adds Week to Date (WTD e.g. W12 2026), WoW %, MoM %, and YoY % summary metrics.
         """
         indicators = cls._init_indicators()
         institution_id = (institution_id or "ALL").upper().strip()
@@ -587,6 +597,18 @@ class WeeklyService:
                 ind for ind in indicators
                 if kw in ind["name"].lower() or kw in ind["code"].lower() or kw in ind["category"].lower() or kw in ind["institution_name"].lower()
             ]
+
+        # Calculate WTD (Week to Date), WoW, MoM, YoY metrics
+        # Default target week is W12 (e.g. "W12 2026" as requested)
+        wtd_w_num = 12
+        if wtd_week and wtd_week.upper().startswith("W"):
+            try:
+                wtd_w_num = max(1, min(52, int(wtd_week.upper().replace("W", ""))))
+            except ValueError:
+                wtd_w_num = 12
+        wtd_week_key = f"W{wtd_w_num:02d}"
+        metric_year = year if view_mode == "weekly" else (end_year if end_year else 2026)
+        wtd_label_str = f"{wtd_week_key} {metric_year}"
 
         if view_mode == "weekly":
             target_year = max(1990, min(2026, year))
@@ -604,6 +626,17 @@ class WeeklyService:
             for ind in indicators:
                 year_data = ind["series"].get(str(target_year), {})
                 row_vals = {w: year_data.get(w, 0.0) for w in cls.WEEKS}
+
+                # Compute WTD & WoW, MoM, YoY
+                wtd_val = year_data.get(wtd_week_key, 0.0)
+                prev_w_val = year_data.get(f"W{wtd_w_num-1:02d}", 0.0) if wtd_w_num > 1 else ind["series"].get(str(target_year - 1), {}).get("W52", 0.0)
+                prev_m_val = year_data.get(f"W{wtd_w_num-4:02d}", 0.0) if wtd_w_num > 4 else ind["series"].get(str(target_year - 1), {}).get(f"W{52 + (wtd_w_num-4):02d}", 0.0)
+                prev_y_val = ind["series"].get(str(target_year - 1), {}).get(wtd_week_key, 0.0)
+
+                wow_pct = round(((wtd_val - prev_w_val) / abs(prev_w_val)) * 100.0, 2) if prev_w_val != 0 else 0.0
+                mom_pct = round(((wtd_val - prev_m_val) / abs(prev_m_val)) * 100.0, 2) if prev_m_val != 0 else 0.0
+                yoy_pct = round(((wtd_val - prev_y_val) / abs(prev_y_val)) * 100.0, 2) if prev_y_val != 0 else 0.0
+
                 rows.append({
                     "id": ind["id"],
                     "code": ind["code"],
@@ -615,6 +648,11 @@ class WeeklyService:
                     "unit_short": ind["unit_short"],
                     "source_doc": ind["source_doc"],
                     "source_url": ind.get("source_url", ""),
+                    "wtd_label": wtd_label_str,
+                    "wtd_value": wtd_val,
+                    "wow_percent": wow_pct,
+                    "mom_percent": mom_pct,
+                    "yoy_percent": yoy_pct,
                     "values": row_vals
                 })
                 
@@ -622,12 +660,19 @@ class WeeklyService:
                 "institution_id": institution_id,
                 "view_mode": "weekly",
                 "year": target_year,
+                "wtd_label": wtd_label_str,
                 "columns": columns,
                 "total_columns": len(columns),
                 "total_rows": len(rows),
                 "rows": rows
             }
         else:
+            sy = max(1990, min(2026, start_year)) if start_year else 1990
+            ey = max(1990, min(2026, end_year)) if end_year else 2026
+            if sy > ey:
+                sy, ey = ey, sy
+            active_years = [y for y in cls.YEARS if sy <= y <= ey]
+
             columns = [
                 {
                     "id": str(y),
@@ -635,19 +680,30 @@ class WeeklyService:
                     "sublabel": "Rata-rata Mingguan",
                     "key": str(y)
                 }
-                for y in cls.YEARS
+                for y in active_years
             ]
             
             rows = []
             for ind in indicators:
                 row_vals = {}
-                for y in cls.YEARS:
+                for y in active_years:
                     y_str = str(y)
                     year_data = ind["series"].get(y_str, {})
                     vals = list(year_data.values())
                     avg_val = round(sum(vals) / len(vals), 2) if vals else 0.0
                     row_vals[y_str] = avg_val
-                    
+
+                # Compute WTD & WoW, MoM, YoY based on metric_year (ey) and wtd_week_key
+                ey_data = ind["series"].get(str(ey), {})
+                wtd_val = ey_data.get(wtd_week_key, 0.0)
+                prev_w_val = ey_data.get(f"W{wtd_w_num-1:02d}", 0.0) if wtd_w_num > 1 else ind["series"].get(str(ey - 1), {}).get("W52", 0.0)
+                prev_m_val = ey_data.get(f"W{wtd_w_num-4:02d}", 0.0) if wtd_w_num > 4 else ind["series"].get(str(ey - 1), {}).get(f"W{52 + (wtd_w_num-4):02d}", 0.0)
+                prev_y_val = ind["series"].get(str(ey - 1), {}).get(wtd_week_key, 0.0)
+
+                wow_pct = round(((wtd_val - prev_w_val) / abs(prev_w_val)) * 100.0, 2) if prev_w_val != 0 else 0.0
+                mom_pct = round(((wtd_val - prev_m_val) / abs(prev_m_val)) * 100.0, 2) if prev_m_val != 0 else 0.0
+                yoy_pct = round(((wtd_val - prev_y_val) / abs(prev_y_val)) * 100.0, 2) if prev_y_val != 0 else 0.0
+
                 rows.append({
                     "id": ind["id"],
                     "code": ind["code"],
@@ -659,13 +715,21 @@ class WeeklyService:
                     "unit_short": ind["unit_short"],
                     "source_doc": ind["source_doc"],
                     "source_url": ind.get("source_url", ""),
+                    "wtd_label": f"{wtd_week_key} {ey}",
+                    "wtd_value": wtd_val,
+                    "wow_percent": wow_pct,
+                    "mom_percent": mom_pct,
+                    "yoy_percent": yoy_pct,
                     "values": row_vals
                 })
                 
             return {
                 "institution_id": institution_id,
                 "view_mode": "annual",
-                "year_range": "1990–2026",
+                "start_year": sy,
+                "end_year": ey,
+                "year_range": f"{sy}–{ey}",
+                "wtd_label": f"{wtd_week_key} {ey}",
                 "columns": columns,
                 "total_columns": len(columns),
                 "total_rows": len(rows),
@@ -786,16 +850,34 @@ class WeeklyService:
         }
 
     @classmethod
-    def export_excel(cls, institution_id: str = "ALL", view_mode: str = "annual", year: int = 2026) -> bytes:
-        """Exports weekly matrix to formatted Excel (.xlsx)."""
-        matrix = cls.get_weekly_matrix(institution_id=institution_id, view_mode=view_mode, year=year)
+    def export_excel(
+        cls,
+        institution_id: str = "ALL",
+        view_mode: str = "annual",
+        year: int = 2026,
+        start_year: Optional[int] = None,
+        end_year: Optional[int] = None
+    ) -> bytes:
+        """Exports weekly matrix to formatted Excel (.xlsx) with maximum 24 years per sheet limit."""
+        if view_mode == "annual":
+            ey = max(1990, min(2026, end_year)) if end_year else 2026
+            sy = max(1990, min(2026, start_year)) if start_year else max(1990, ey - 23)
+            # Enforce strict policy: max 24 years per table download
+            if (ey - sy + 1) > 24:
+                sy = max(1990, ey - 23)
+            matrix = cls.get_weekly_matrix(institution_id=institution_id, view_mode="annual", start_year=sy, end_year=ey)
+            mode_text = f"Rentang {sy}–{ey} (Maks. 24 Tahun)"
+        else:
+            matrix = cls.get_weekly_matrix(institution_id=institution_id, view_mode="weekly", year=year)
+            mode_text = f"TA {year} (52 Minggu)"
+
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.title = f"Weekly_{view_mode.upper()}"
         ws.views.sheetView[0].showGridLines = True
 
         header_font = Font(name="Calibri", size=11, bold=True, color="FFFFFF")
-        header_fill = PatternFill(start_color="1A73E8", end_color="1A73E8", fill_type="solid")
+        header_fill = PatternFill(start_color="0038A8", end_color="0038A8", fill_type="solid")
         title_font = Font(name="Calibri", size=13, bold=True, color="202124")
         bold_font = Font(name="Calibri", size=10, bold=True)
         regular_font = Font(name="Calibri", size=10)
@@ -808,29 +890,53 @@ class WeeklyService:
 
         ws["A1"] = "INDOEKONOMI data — OBSERVATORIUM DATA MINGGUAN (WEEKLY HIGH-FREQUENCY)"
         ws["A1"].font = title_font
-        mode_text = f"TA {year}" if view_mode == "weekly" else "1990–2026"
-        ws["A2"] = f"Lembaga: {institution_id} • Mode: {view_mode.upper()} ({mode_text})"
+        ws["A2"] = f"Lembaga: {institution_id} • Mode: {view_mode.upper()} • {mode_text}"
         ws["A2"].font = bold_font
+        ws["A3"] = "Ketentuan Ekspor: Maksimum 24 Tahun per Berkas Data. Kode data dan rincian metodologi tercantum dalam portal resmi."
+        ws["A3"].font = Font(name="Calibri", size=9, italic=True, color="5F6368")
 
         cols = matrix["columns"]
-        headers = ["KODE", "NAMA INDIKATOR", "LEMBAGA", "KATEGORI", "SATUAN"] + [c["label"] for c in cols]
+        headers = ["NAMA INDIKATOR", "LEMBAGA", "SATUAN", f"WTD ({matrix.get('wtd_label', 'W12')})", "WoW %", "MoM %", "YoY %"] + [c["label"] for c in cols]
         
         for col_idx, h in enumerate(headers, start=1):
-            cell = ws.cell(row=4, column=col_idx, value=h)
+            cell = ws.cell(row=5, column=col_idx, value=h)
             cell.font = header_font
             cell.fill = header_fill
-            cell.alignment = Alignment(horizontal="center" if col_idx > 5 or col_idx == 1 else "left", vertical="center")
+            cell.alignment = Alignment(horizontal="center" if col_idx > 3 else "left", vertical="center")
             cell.border = thin_border
             
-        current_row = 5
+        current_row = 6
         for r in matrix["rows"]:
-            ws.cell(row=current_row, column=1, value=r["code"]).font = bold_font
-            ws.cell(row=current_row, column=2, value=r["name"]).font = bold_font
-            ws.cell(row=current_row, column=3, value=r["institution_name"]).font = regular_font
-            ws.cell(row=current_row, column=4, value=r["category"]).font = regular_font
-            ws.cell(row=current_row, column=5, value=r["unit_short"]).font = regular_font
+            ws.cell(row=current_row, column=1, value=r["name"]).font = bold_font
+            ws.cell(row=current_row, column=2, value=r["institution_name"]).font = regular_font
+            ws.cell(row=current_row, column=3, value=r["unit_short"]).font = regular_font
             
-            for c_idx, c in enumerate(cols, start=6):
+            # WTD & growth columns
+            c4 = ws.cell(row=current_row, column=4, value=r.get("wtd_value", 0.0))
+            c4.font = bold_font
+            c4.alignment = Alignment(horizontal="right")
+            c4.number_format = "#,##0.00"
+            c4.border = thin_border
+
+            c5 = ws.cell(row=current_row, column=5, value=r.get("wow_percent", 0.0))
+            c5.font = regular_font
+            c5.alignment = Alignment(horizontal="right")
+            c5.number_format = "+0.00%;-0.00%;0.00%"
+            c5.border = thin_border
+
+            c6 = ws.cell(row=current_row, column=6, value=r.get("mom_percent", 0.0))
+            c6.font = regular_font
+            c6.alignment = Alignment(horizontal="right")
+            c6.number_format = "+0.00%;-0.00%;0.00%"
+            c6.border = thin_border
+
+            c7 = ws.cell(row=current_row, column=7, value=r.get("yoy_percent", 0.0))
+            c7.font = regular_font
+            c7.alignment = Alignment(horizontal="right")
+            c7.number_format = "+0.00%;-0.00%;0.00%"
+            c7.border = thin_border
+
+            for c_idx, c in enumerate(cols, start=8):
                 val = r["values"].get(c["key"], 0.0)
                 val_cell = ws.cell(row=current_row, column=c_idx, value=val)
                 val_cell.font = regular_font
@@ -838,7 +944,7 @@ class WeeklyService:
                 val_cell.number_format = "#,##0.00"
                 val_cell.border = thin_border
                 
-            for i in range(1, 6):
+            for i in range(1, 4):
                 ws.cell(row=current_row, column=i).border = thin_border
             current_row += 1
 
@@ -852,23 +958,41 @@ class WeeklyService:
         return output.getvalue()
 
     @classmethod
-    def export_csv(cls, institution_id: str = "ALL", view_mode: str = "annual", year: int = 2026) -> str:
-        """Exports weekly matrix to CSV string."""
-        matrix = cls.get_weekly_matrix(institution_id=institution_id, view_mode=view_mode, year=year)
+    def export_csv(
+        cls,
+        institution_id: str = "ALL",
+        view_mode: str = "annual",
+        year: int = 2026,
+        start_year: Optional[int] = None,
+        end_year: Optional[int] = None
+    ) -> str:
+        """Exports weekly matrix to CSV string with maximum 24 years per sheet limit."""
+        if view_mode == "annual":
+            ey = max(1990, min(2026, end_year)) if end_year else 2026
+            sy = max(1990, min(2026, start_year)) if start_year else max(1990, ey - 23)
+            if (ey - sy + 1) > 24:
+                sy = max(1990, ey - 23)
+            matrix = cls.get_weekly_matrix(institution_id=institution_id, view_mode="annual", start_year=sy, end_year=ey)
+        else:
+            matrix = cls.get_weekly_matrix(institution_id=institution_id, view_mode="weekly", year=year)
+
         output = io.StringIO()
         writer = csv.writer(output)
         
         cols = matrix["columns"]
-        headers = ["KODE", "NAMA_INDIKATOR", "LEMBAGA", "KATEGORI", "SATUAN"] + [c["key"] for c in cols]
+        headers = ["NAMA_INDIKATOR", "LEMBAGA", "SATUAN", "WTD_LABEL", "WTD_VALUE", "WOW_PERCENT", "MOM_PERCENT", "YOY_PERCENT"] + [c["key"] for c in cols]
         writer.writerow(headers)
         
         for r in matrix["rows"]:
             row_data = [
-                r["code"],
                 r["name"],
                 r["institution_name"],
-                r["category"],
-                r["unit_short"]
+                r["unit_short"],
+                r.get("wtd_label", ""),
+                r.get("wtd_value", ""),
+                r.get("wow_percent", ""),
+                r.get("mom_percent", ""),
+                r.get("yoy_percent", "")
             ] + [r["values"].get(c["key"], "") for c in cols]
             writer.writerow(row_data)
             

@@ -189,6 +189,9 @@ export const ApiClient = {
     if (params.institution_id) query.append('institution_id', params.institution_id);
     if (params.view_mode) query.append('view_mode', params.view_mode);
     if (params.year) query.append('year', params.year);
+    if (params.start_year) query.append('start_year', params.start_year);
+    if (params.end_year) query.append('end_year', params.end_year);
+    if (params.wtd_week) query.append('wtd_week', params.wtd_week);
     if (params.q) query.append('q', params.q);
     const res = await fetch(`${API_BASE}/api/weekly/matrix?${query.toString()}`);
     if (!res.ok) {
@@ -215,6 +218,8 @@ export const ApiClient = {
     if (params.institution_id) query.append('institution_id', params.institution_id);
     if (params.view_mode) query.append('view_mode', params.view_mode);
     if (params.year) query.append('year', params.year);
+    if (params.start_year) query.append('start_year', params.start_year);
+    if (params.end_year) query.append('end_year', params.end_year);
     query.append('format', params.format || 'xlsx');
     return `${API_BASE}/api/weekly/export?${query.toString()}`;
   },
