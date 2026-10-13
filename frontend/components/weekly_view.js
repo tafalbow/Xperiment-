@@ -406,16 +406,18 @@ export class WeeklyView {
               <div class="text-[10px] text-slate-500 font-sans">
                 ${row.category}
               </div>
-              <div class="font-bold text-[10.5px] text-slate-900 font-sans pt-0.5 flex items-center gap-1.5 flex-wrap">
-                <span>Source : ${row.institution_id} - Satuan : ${row.unit || row.unit_short} - Tren :</span>
-                <span class="px-1.5 py-0.2 rounded text-[9.5px] font-mono font-bold ${this.getFrequencyBadgeClass(freq)}">
-                  ${freq}
-                </span>
+              <div class="font-bold text-[10.5px] text-slate-900 font-sans pt-0.5">
+                Source : ${row.institution_id} - Satuan : ${row.unit || row.unit_short}
               </div>
             </div>
-            <button class="btn-view-weekly-trend px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#0038A8] hover:bg-[#0038A8] hover:text-white transition-colors cursor-pointer shadow-2xs shrink-0 mt-0.5" title="Lihat Grafik Tren & Metodologi Lengkap">
-              📈 Tren
-            </button>
+            <div class="flex flex-col items-center gap-1 shrink-0 mt-0.5">
+              <button class="btn-view-weekly-trend px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#0038A8] hover:bg-[#0038A8] hover:text-white transition-colors cursor-pointer shadow-2xs" title="Lihat Grafik Tren & Metodologi Lengkap">
+                📈 Tren
+              </button>
+              <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold ${this.getFrequencyBadgeClass(freq)} text-center tracking-tight" title="Frekuensi Pengamatan: ${freq}">
+                ${freq}
+              </span>
+            </div>
           </div>
         </td>
 
