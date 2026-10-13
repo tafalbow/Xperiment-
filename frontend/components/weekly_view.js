@@ -353,6 +353,20 @@ export class WeeklyView {
     return row.unit_short || row.unit || '';
   }
 
+  getFrequencyBadgeClass(freq) {
+    const f = (freq || '').toLowerCase();
+    if (f.includes('daily') || f.includes('harian')) {
+      return 'bg-amber-100/90 text-amber-900 border border-amber-300';
+    }
+    if (f.includes('monthly') || f.includes('bulanan')) {
+      return 'bg-emerald-100 text-emerald-900 border border-emerald-300';
+    }
+    if (f.includes('yearly') || f.includes('tahunan')) {
+      return 'bg-purple-100 text-purple-900 border border-purple-300';
+    }
+    return 'bg-sky-100 text-[#0038A8] border border-sky-300';
+  }
+
   formatMovementSummary(row) {
     const wow = row.wow_percent;
     const mom = row.mom_percent;
@@ -378,10 +392,11 @@ export class WeeklyView {
     const formattedWtdValue = this.formatWtdValue(row.wtd_value, row);
     const unitLabel = this.getUnitLabel(row);
     const movementSummary = this.formatMovementSummary(row);
+    const freq = row.frequency || 'Weekly';
 
     return `
       <tr class="hover:bg-[#F8F9FA] cursor-pointer transition-colors group weekly-table-row" data-ind-id="${row.id}" data-code="${row.code}">
-        <!-- Sticky Col 1: Nama Indikator + Lembaga + Satuan + Tren (Image 2) -->
+        <!-- Sticky Col 1: Nama Indikator + Lembaga + Satuan + Tren Frekuensi (Image 2 + Trend Info) -->
         <td class="py-2.5 px-3 sticky left-0 bg-white group-hover:bg-[#F8F9FA] z-20 border-r border-slate-200">
           <div class="flex items-start justify-between gap-2">
             <div class="space-y-0.5">
@@ -391,8 +406,11 @@ export class WeeklyView {
               <div class="text-[10px] text-slate-500 font-sans">
                 ${row.category}
               </div>
-              <div class="font-bold text-[10.5px] text-slate-900 font-sans pt-0.5">
-                Source : ${row.institution_id} - Satuan : ${row.unit || row.unit_short}
+              <div class="font-bold text-[10.5px] text-slate-900 font-sans pt-0.5 flex items-center gap-1.5 flex-wrap">
+                <span>Source : ${row.institution_id} - Satuan : ${row.unit || row.unit_short} - Tren :</span>
+                <span class="px-1.5 py-0.2 rounded text-[9.5px] font-mono font-bold ${this.getFrequencyBadgeClass(freq)}">
+                  ${freq}
+                </span>
               </div>
             </div>
             <button class="btn-view-weekly-trend px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#0038A8] hover:bg-[#0038A8] hover:text-white transition-colors cursor-pointer shadow-2xs shrink-0 mt-0.5" title="Lihat Grafik Tren & Metodologi Lengkap">
@@ -677,11 +695,14 @@ export class WeeklyView {
           <!-- Modal Header -->
           <div class="px-6 py-4 bg-[#F8F9FA]  flex items-center justify-between">
             <div class="space-y-0.5">
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#1A73E8]">
                   KODE: ${ind.code}
                 </span>
-                <span class="text-xs text-[#5F6368] font-mono font-medium">${ind.institution_name} • ${ind.category}</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${this.getFrequencyBadgeClass(ind.frequency)}">
+                  TREN: ${(ind.frequency || 'Weekly').toUpperCase()}
+                </span>
+                <span class="text-xs text-[#5F6368] font-mono font-medium">Source : ${ind.institution_id || ind.institution_name} - Satuan : ${ind.unit || ind.unit_short}</span>
               </div>
               <h2 class="text-base font-bold text-[#202124]">
                 ${ind.name}

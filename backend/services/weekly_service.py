@@ -559,6 +559,18 @@ class WeeklyService:
             }
         ]
 
+        for ind in indicators:
+            if "frequency" not in ind:
+                iid = ind.get("institution_id", "")
+                if iid == "BAPANAS":
+                    ind["frequency"] = "Daily"
+                elif ind.get("id") in ["BI_RTGS_NOMINAL", "BI_RTGS_VOLUME", "DJPB_KAS_BUN", "OJK_IHSG_CLOSE", "OJK_RNTH_VALUE", "OJK_FOREIGN_FLOW"]:
+                    ind["frequency"] = "Daily"
+                elif ind.get("id") in ["OJK_SID_INVESTOR"]:
+                    ind["frequency"] = "Monthly"
+                else:
+                    ind["frequency"] = "Weekly"
+
         cls._DATA_CACHE = indicators
         return cls._DATA_CACHE
 
@@ -644,6 +656,7 @@ class WeeklyService:
                     "category": ind["category"],
                     "institution_id": ind["institution_id"],
                     "institution_name": ind["institution_name"],
+                    "frequency": ind.get("frequency", "Weekly"),
                     "unit": ind["unit"],
                     "unit_short": ind["unit_short"],
                     "source_doc": ind["source_doc"],
@@ -711,6 +724,7 @@ class WeeklyService:
                     "category": ind["category"],
                     "institution_id": ind["institution_id"],
                     "institution_name": ind["institution_name"],
+                    "frequency": ind.get("frequency", "Weekly"),
                     "unit": ind["unit"],
                     "unit_short": ind["unit_short"],
                     "source_doc": ind["source_doc"],
@@ -825,6 +839,7 @@ class WeeklyService:
                 "institution_id": ind["institution_id"],
                 "institution_name": ind["institution_name"],
                 "category": ind["category"],
+                "frequency": ind.get("frequency", "Weekly"),
                 "unit": ind["unit"],
                 "unit_short": ind["unit_short"],
                 "description": ind["description"],
