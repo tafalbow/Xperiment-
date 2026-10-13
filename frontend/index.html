@@ -51,19 +51,43 @@
   <!-- Main Application Shell (Split into Static Left Menu + Right Column) -->
   <main id="app-main" class="flex-1 min-h-0 w-full max-w-none flex flex-col lg:flex-row lg:overflow-hidden">
 
-      <!-- 2. STATIC LEFT AREA: LEFT VERTICAL SIDEBAR MENU (Persistent on Every Page) -->
+      <!-- 2. STATIC LEFT AREA: LEFT VERTICAL SIDEBAR MENU (Persistent on Every Page, Collapsible on Non-Landing Pages) -->
       <aside
         id="main-left-sidebar-nav"
         aria-label="Menu Navigasi Utama"
-        class="w-full lg:w-[228px] xl:w-[242px] shrink-0 lg:h-full lg:overflow-y-auto p-2 bg-white border-b lg:border-b-0 lg:border-r border-[#E8DFD5] z-40"
+        class="relative w-full lg:w-[228px] xl:w-[242px] shrink-0 lg:h-full p-2 bg-white border-b lg:border-b-0 lg:border-r border-[#E8DFD5] z-40 transition-all duration-200"
       >
-        <div class="bg-[#FAF8F5] border border-[#E8DFD5] rounded-xl p-2 shadow-2xs space-y-1.5">
+        <!-- Edge Handle Button (Visible on Non-Landing Pages to Store/Open Menu Utama) -->
+        <button
+          type="button"
+          id="btn-edge-toggle-sidebar"
+          title="Simpan Menu Utama ke Samping Kiri"
+          aria-label="Simpan atau Buka Menu Utama"
+          class="hidden items-center justify-center absolute top-1/2 -right-3 -translate-y-1/2 w-5 h-12 rounded-r-md bg-[#0038A8] hover:bg-[#002B82] text-white text-[11px] font-mono font-bold shadow-md border border-white/60 cursor-pointer z-50 transition-all"
+        >
+          <span id="edge-toggle-sidebar-icon">‹</span>
+        </button>
+
+        <!-- EXPANDED MENU UTAMA CARD -->
+        <div id="sidebar-expanded-card" class="bg-[#FAF8F5] border border-[#E8DFD5] rounded-xl p-2 shadow-2xs space-y-1.5 lg:max-h-full lg:overflow-y-auto">
           <!-- Menu Header -->
-          <div class="px-2.5 pt-1 pb-1.5 border-b border-[#EDE4DA] flex items-center justify-between">
-            <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7D655C]">
-              Menu Utama
-            </span>
-            <span class="w-1.5 h-1.5 rounded-full bg-[#1E8E3E]" title="Observatorium Aktif"></span>
+          <div class="px-2 pt-1 pb-1.5 border-b border-[#EDE4DA] flex items-center justify-between gap-1.5">
+            <div class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#1E8E3E] shrink-0" title="Observatorium Aktif"></span>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7D655C]">
+                Menu Utama
+              </span>
+            </div>
+            <!-- Tombol Simpan ke Samping Kiri (Hanya muncul di halaman selain Landing Page / Home) -->
+            <button
+              type="button"
+              id="btn-collapse-sidebar"
+              title="Simpan Menu Utama ke Samping Kiri"
+              class="hidden px-2 py-0.5 rounded bg-[#E8F0FE] hover:bg-[#0038A8] text-[#0038A8] hover:text-white text-[10px] font-mono font-bold items-center gap-1 transition-all cursor-pointer shadow-2xs"
+            >
+              <span>«</span>
+              <span>Simpan</span>
+            </button>
           </div>
 
           <!-- Vertical Menu List (List Ke Bawah di Sebelah Kiri) -->
@@ -190,6 +214,29 @@
             <span class="w-1.5 h-1.5 rounded-full bg-[#1E8E3E] animate-pulse shrink-0"></span>
             <span class="leading-tight">Siklus Rilis: <strong class="text-[#202124]">Tgl 8, 17, 28 Bulanan</strong></span>
           </div>
+        </div>
+
+        <!-- COLLAPSED LEFT RAIL (Tampil saat Menu Utama Disimpan ke Samping Kiri pada Halaman Selain Landing Page) -->
+        <div id="sidebar-collapsed-rail" class="hidden bg-[#FAF8F5] border border-[#E8DFD5] rounded-xl p-1.5 shadow-2xs flex-col items-center gap-1">
+          <button
+            type="button"
+            id="btn-expand-sidebar"
+            title="Buka Menu Utama"
+            class="w-8 h-8 rounded-lg bg-[#0038A8] hover:bg-[#002B82] text-white font-mono text-xs font-bold flex items-center justify-center shadow-2xs cursor-pointer transition-all"
+          >
+            »
+          </button>
+          <div class="w-6 border-b border-[#EDE4DA] my-0.5"></div>
+          <button type="button" data-rail-tab="home" title="1. Home" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">🏠</button>
+          <button type="button" data-rail-tab="news" title="2. Berita Terkini" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">📰</button>
+          <button type="button" data-rail-tab="analytics" title="3. Indikator Ekonomi" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">📊</button>
+          <button type="button" data-rail-tab="lkpp" title="4. Keuangan Negara" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">🏛️</button>
+          <button type="button" data-rail-tab="apbn-eval" title="5. RAPBN vs Realisasi APBN" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">📑</button>
+          <button type="button" data-rail-tab="agri" title="6. Pertanian & Peternakan" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">🌾</button>
+          <button type="button" data-rail-tab="production" title="7. Produksi & Hasil Bumi" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">⛏️</button>
+          <button type="button" data-rail-tab="weekly" title="8. Data Mingguan" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">⚡</button>
+          <button type="button" data-rail-tab="custom-chart" title="9. Custom Chart" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:bg-white hover:shadow-2xs transition-all cursor-pointer">🎨</button>
+          <button type="button" id="rail-btn-admin" data-rail-tab="admin" title="10. Master Admin" class="hidden w-8 h-8 rounded-lg items-center justify-center text-sm bg-amber-100/90 hover:bg-amber-200 transition-all cursor-pointer">🔐</button>
         </div>
       </aside>
 
@@ -447,6 +494,6 @@
   </main>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=11.69.0"></script>
+  <script type="module" src="/static/app.js?v=11.70.0"></script>
 </body>
 </html>

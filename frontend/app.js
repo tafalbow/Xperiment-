@@ -51,6 +51,7 @@ class App {
     this.newsView = null;
     this.adminView = null;
     this.activeMainTab = 'home'; // Primary Sections: 'home' | 'analytics' | 'agri' | 'production' | 'lkpp' | 'apbn-eval' | 'weekly' | 'custom-chart' | 'cukai-bps' | 'inventory' | 'news' | 'about' | 'admin'
+    this.isSidebarCollapsed = false;
 
 
     this.currentQueryState = {
@@ -400,6 +401,7 @@ class App {
 
   checkAdminVisibility() {
     const btnAdmin = document.getElementById('tab-btn-admin');
+    const railBtnAdmin = document.getElementById('rail-btn-admin');
     if (!btnAdmin) return;
     let isMaster = false;
     try {
@@ -411,8 +413,12 @@ class App {
 
     if (isMaster) {
       btnAdmin.classList.remove('hidden');
+      railBtnAdmin?.classList.remove('hidden');
+      railBtnAdmin?.classList.add('flex');
     } else {
       btnAdmin.classList.add('hidden');
+      railBtnAdmin?.classList.add('hidden');
+      railBtnAdmin?.classList.remove('flex');
     }
   }
 
@@ -452,6 +458,111 @@ class App {
 
     btnAgriBalance?.addEventListener('click', () => this.switchAgriSubTab('balance'));
     btnAgriCalendar?.addEventListener('click', () => this.switchAgriSubTab('calendar'));
+
+    // Collapsible Left Sidebar Controls (Active on pages other than Landing Page / Home)
+    const btnCollapseSidebar = document.getElementById('btn-collapse-sidebar');
+    const btnExpandSidebar = document.getElementById('btn-expand-sidebar');
+    const btnEdgeToggleSidebar = document.getElementById('btn-edge-toggle-sidebar');
+
+    btnCollapseSidebar?.addEventListener('click', () => this.setSidebarCollapsed(true));
+    btnExpandSidebar?.addEventListener('click', () => this.setSidebarCollapsed(false));
+    btnEdgeToggleSidebar?.addEventListener('click', () => this.setSidebarCollapsed(!this.isSidebarCollapsed));
+
+    document.querySelectorAll('#sidebar-collapsed-rail [data-rail-tab]').forEach((railBtn) => {
+      railBtn.addEventListener('click', () => {
+        const targetTab = railBtn.getAttribute('data-rail-tab');
+        if (targetTab) {
+          this.switchMainTab(targetTab);
+        }
+      });
+    });
+  }
+
+  setSidebarCollapsed(collapsed) {
+    // Only collapsible on pages other than the Landing Page ('home')
+    if (this.activeMainTab === 'home') {
+      this.isSidebarCollapsed = false;
+    } else {
+      this.isSidebarCollapsed = Boolean(collapsed);
+    }
+    this.syncSidebarLayout(this.activeMainTab);
+
+    // Resize charts and maps after sidebar width transition
+    setTimeout(() => {
+      this.chartModule?.drawChart();
+      this.contextualMap?.mapInstance?.invalidateSize();
+      this.agriCommodityTracker?.drawChart();
+      this.agriCommodityTracker?.invalidateMapSize();
+      this.productionCommodityTracker?.drawChart();
+      this.productionCommodityTracker?.invalidateMapSize();
+      this.agriCalendar?.mapInstance?.invalidateSize();
+      window.dispatchEvent(new Event('resize'));
+    }, 180);
+  }
+
+  syncSidebarLayout(tabName) {
+    const aside = document.getElementById('main-left-sidebar-nav');
+    const expandedCard = document.getElementById('sidebar-expanded-card');
+    const collapsedRail = document.getElementById('sidebar-collapsed-rail');
+    const btnCollapse = document.getElementById('btn-collapse-sidebar');
+    const btnEdgeToggle = document.getElementById('btn-edge-toggle-sidebar');
+    const edgeToggleIcon = document.getElementById('edge-toggle-sidebar-icon');
+    if (!aside || !expandedCard || !collapsedRail) return;
+
+    const isLandingPage = tabName === 'home';
+
+    if (isLandingPage) {
+      // On Landing Page (Home): Menu Utama is always expanded and collapse buttons are hidden
+      btnCollapse?.classList.add('hidden');
+      btnCollapse?.classList.remove('inline-flex');
+      btnEdgeToggle?.classList.add('hidden');
+      btnEdgeToggle?.classList.remove('lg:flex');
+
+      expandedCard.classList.remove('hidden');
+      collapsedRail.classList.add('hidden');
+      collapsedRail.classList.remove('flex');
+
+      aside.classList.remove('lg:w-[54px]', 'xl:w-[56px]', 'p-1.5');
+      aside.classList.add('lg:w-[228px]', 'xl:w-[242px]', 'p-2');
+    } else {
+      // On pages other than Landing Page: Menu Utama can be stored to the left
+      btnCollapse?.classList.remove('hidden');
+      btnCollapse?.classList.add('inline-flex');
+      btnEdgeToggle?.classList.remove('hidden');
+      btnEdgeToggle?.classList.add('lg:flex');
+
+      if (this.isSidebarCollapsed) {
+        expandedCard.classList.add('hidden');
+        collapsedRail.classList.remove('hidden');
+        collapsedRail.classList.add('flex');
+
+        aside.classList.remove('lg:w-[228px]', 'xl:w-[242px]', 'p-2');
+        aside.classList.add('lg:w-[54px]', 'xl:w-[56px]', 'p-1.5');
+
+        if (edgeToggleIcon) edgeToggleIcon.textContent = '›';
+        btnEdgeToggle?.setAttribute('title', 'Buka Menu Utama');
+      } else {
+        expandedCard.classList.remove('hidden');
+        collapsedRail.classList.add('hidden');
+        collapsedRail.classList.remove('flex');
+
+        aside.classList.remove('lg:w-[54px]', 'xl:w-[56px]', 'p-1.5');
+        aside.classList.add('lg:w-[228px]', 'xl:w-[242px]', 'p-2');
+
+        if (edgeToggleIcon) edgeToggleIcon.textContent = '‹';
+        btnEdgeToggle?.setAttribute('title', 'Simpan Menu Utama ke Samping Kiri');
+      }
+    }
+
+    // Highlight active tab icon in collapsed rail
+    document.querySelectorAll('#sidebar-collapsed-rail [data-rail-tab]').forEach((railBtn) => {
+      const rTab = railBtn.getAttribute('data-rail-tab');
+      if (rTab === tabName) {
+        railBtn.classList.add('bg-white', 'ring-2', 'ring-[#0038A8]', 'shadow-2xs');
+      } else {
+        railBtn.classList.remove('bg-white', 'ring-2', 'ring-[#0038A8]', 'shadow-2xs');
+      }
+    });
   }
 
   async switchAgriSubTab(subTabName) {
@@ -538,6 +649,7 @@ class App {
     }
 
     this.activeMainTab = tabName;
+    this.syncSidebarLayout(tabName);
     if (this.searchBar && typeof this.searchBar.setMode === 'function') {
       const isNewsTab = tabName === 'news' || tabName === 'news-theory';
       this.searchBar.setMode(isNewsTab ? 'news' : 'default', this.newsView?.activeCategory || 'all');
