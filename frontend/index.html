@@ -79,7 +79,19 @@
               <span class="truncate">Home</span>
             </button>
 
-            <!-- 2. Economic Indicators -->
+            <!-- 2. Berita Terkini (sebelumnya Berita & Teori Ekonomi) -->
+            <button 
+              id="tab-btn-news" 
+              role="tab" 
+              aria-selected="false"
+              title="Berita Terkini (Berita & Teori Ekonomi)"
+              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
+            >
+              <span class="w-4 text-center shrink-0">📰</span>
+              <span class="truncate">Berita Terkini</span>
+            </button>
+
+            <!-- 3. Indikator Ekonomi -->
             <button 
               id="tab-btn-analytics" 
               role="tab" 
@@ -90,29 +102,7 @@
               <span class="truncate">Indikator Ekonomi</span>
             </button>
 
-            <!-- 3. Agriculture / Plantation / Livestock -->
-            <button 
-              id="tab-btn-agri" 
-              role="tab" 
-              aria-selected="false"
-              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
-            >
-              <span class="w-4 text-center shrink-0">🌾</span>
-              <span class="truncate">Pertanian & Peternakan</span>
-            </button>
-
-            <!-- 4. Production / Output -->
-            <button 
-              id="tab-btn-production" 
-              role="tab" 
-              aria-selected="false"
-              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
-            >
-              <span class="w-4 text-center shrink-0">⛏️</span>
-              <span class="truncate">Produksi & Hasil Bumi</span>
-            </button>
-
-            <!-- 5. LKPP Financial Statements Observatory (1990 - 2026) -->
+            <!-- 4. Keuangan Negara -->
             <button 
               id="tab-btn-lkpp" 
               role="tab" 
@@ -123,7 +113,7 @@
               <span class="truncate">Keuangan Negara</span>
             </button>
 
-            <!-- 6. Komparasi RAPBN vs Realisasi APBN Bulanan & YTD -->
+            <!-- 5. RAPBN vs Realisasi APBN -->
             <button 
               id="tab-btn-apbn-eval" 
               role="tab" 
@@ -134,7 +124,29 @@
               <span class="truncate">RAPBN vs Realisasi APBN</span>
             </button>
 
-            <!-- 7. Weekly High-Frequency Observatory (BI, DJPb, OJK, Bapanas) -->
+            <!-- 6. Pertanian & Peternakan -->
+            <button 
+              id="tab-btn-agri" 
+              role="tab" 
+              aria-selected="false"
+              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
+            >
+              <span class="w-4 text-center shrink-0">🌾</span>
+              <span class="truncate">Pertanian & Peternakan</span>
+            </button>
+
+            <!-- 7. Produksi & Hasil Bumi -->
+            <button 
+              id="tab-btn-production" 
+              role="tab" 
+              aria-selected="false"
+              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
+            >
+              <span class="w-4 text-center shrink-0">⛏️</span>
+              <span class="truncate">Produksi & Hasil Bumi</span>
+            </button>
+
+            <!-- 8. Data Mingguan -->
             <button 
               id="tab-btn-weekly" 
               role="tab" 
@@ -145,7 +157,7 @@
               <span class="truncate">Data Mingguan</span>
             </button>
 
-            <!-- 8. Custom Chart Studio & Contextual Driver -->
+            <!-- 9. Custom Chart -->
             <button 
               id="tab-btn-custom-chart" 
               role="tab" 
@@ -156,51 +168,7 @@
               <span class="truncate">Custom Chart</span>
             </button>
 
-            <!-- 9. Data BPS -->
-            <button 
-              id="tab-btn-cukai-bps" 
-              role="tab" 
-              aria-selected="false"
-              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
-            >
-              <span class="w-4 text-center shrink-0">📋</span>
-              <span class="truncate">Data BPS</span>
-            </button>
-
-            <!-- 10. Data Source Catalog -->
-            <button 
-              id="tab-btn-inventory" 
-              role="tab" 
-              aria-selected="false"
-              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
-            >
-              <span class="w-4 text-center shrink-0">📑</span>
-              <span class="truncate">Katalog Data</span>
-            </button>
-
-            <!-- 11. Berita & Teori Ekonomi (9 Kategori Strategis) -->
-            <button 
-              id="tab-btn-news" 
-              role="tab" 
-              aria-selected="false"
-              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
-            >
-              <span class="w-4 text-center shrink-0">📰</span>
-              <span class="truncate">Berita & Teori Ekonomi</span>
-            </button>
-
-            <!-- 12. About -->
-            <button 
-              id="tab-btn-about" 
-              role="tab" 
-              aria-selected="false"
-              class="w-full px-2.5 py-2 text-xs font-mono font-medium rounded-lg border-l-4 border-transparent text-[#4A3E38] hover:text-[#0038A8] hover:bg-white/80 flex items-center gap-2.5 text-left transition-all cursor-pointer outline-none focus:outline-none"
-            >
-              <span class="w-4 text-center shrink-0">ℹ️</span>
-              <span class="truncate">Tentang</span>
-            </button>
-
-            <!-- 13. Master Admin (Hanya muncul jika Master Admin login) -->
+            <!-- 10. Master Admin (Hanya muncul jika Master Admin login) -->
             <button 
               id="tab-btn-admin" 
               role="tab" 
@@ -210,6 +178,11 @@
               <span class="w-4 text-center shrink-0">🔐</span>
               <span class="truncate">Master Admin</span>
             </button>
+
+            <!-- Hidden Auxiliary Tabs (Preserved for Direct Links & Compatibility) -->
+            <button id="tab-btn-cukai-bps" role="tab" aria-selected="false" class="hidden"><span>📋</span><span>Data BPS</span></button>
+            <button id="tab-btn-inventory" role="tab" aria-selected="false" class="hidden"><span>📑</span><span>Katalog Data</span></button>
+            <button id="tab-btn-about" role="tab" aria-selected="false" class="hidden"><span>ℹ️</span><span>Tentang</span></button>
           </nav>
 
           <!-- Sync Status Pill inside Sidebar -->
@@ -474,6 +447,6 @@
   </main>
 
   <!-- Main ES Module Script (Cache-Busted) -->
-  <script type="module" src="/static/app.js?v=11.68.0"></script>
+  <script type="module" src="/static/app.js?v=11.69.0"></script>
 </body>
 </html>

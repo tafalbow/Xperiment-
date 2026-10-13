@@ -1,9 +1,22 @@
 // ==============================================================================
-// NEWS & ECONOMIC THEORY OBSERVATORY VIEW
-// Kompilasi Top 3 Berita pada 9 Kategori Strategis + Link Resmi + Teori Ekonomi
+// BERITA TERKINI & TEORI EKONOMI TERKAIT VIEW
+// Kompilasi Top 3 Berita pada 9 Kategori Strategis + Judul Berupa Link Resmi + Teori Ekonomi
 // ==============================================================================
 
 import { ApiClient } from '../services/api_client.js';
+
+// Palet warna harmonis (Slate-Blue / Cool Coastal) untuk membedakan antar section tematik berita
+const SECTION_BG_PALETTE = [
+  'bg-[#CFD8E6]', // 1. Ekonomi Internasional
+  'bg-[#E4E9F2]', // 2. Politik Internasional
+  'bg-[#C6D2E2]', // 3. Ekonomi Nasional
+  'bg-[#E8EDF5]', // 4. Politik Nasional
+  'bg-[#CDD8E7]', // 5. Teknologi Nasional
+  'bg-[#E1E7F0]', // 6. Investasi Nasional
+  'bg-[#C5D1E1]', // 7. Industri Rokok + Tembakau
+  'bg-[#E6EBF3]', // 8. Sustainable Energi
+  'bg-[#CFD9E7]'  // 9. Sosial
+];
 
 export class NewsTheoryView {
   constructor(containerId) {
@@ -27,7 +40,7 @@ export class NewsTheoryView {
 
   /**
    * Dipanggil otomatis setiap pertama kali masuk web (initial web load)
-   * untuk mengupdate halaman Berita & Teori selama 7 hari kebelakang.
+   * untuk mengupdate halaman Berita Terkini selama 7 hari kebelakang.
    */
   async syncInitial7Days() {
     this.container = document.getElementById(this.containerId);
@@ -70,6 +83,16 @@ export class NewsTheoryView {
     this.render();
   }
 
+  setCategoryFilter(catId) {
+    this.activeCategory = catId || 'all';
+    this.render();
+  }
+
+  setSearchKeyword(kw) {
+    this.searchKeyword = kw || '';
+    this.render();
+  }
+
   getFilteredCategories() {
     const allCategories = this.data?.categories || [];
     return allCategories
@@ -97,209 +120,95 @@ export class NewsTheoryView {
   render() {
     if (!this.container) return;
 
-    const allCategories = this.data?.categories || [];
     const filteredCategories = this.getFilteredCategories();
-    const totalNewsCount = filteredCategories.reduce((acc, c) => acc + (c.items?.length || 0), 0);
-    const windowRangeLabel = this.data?.window_range_label || '7 Hari Terakhir (H-7 s.d. Hari Ini)';
-    const lastUpdatedFmt = this.data?.last_updated_formatted || 'Baru Saja (Saat Web Diakses)';
 
     this.container.innerHTML = `
-      <div class="space-y-4">
-        
-        <!-- 1. HEADER BANNER -->
-        <div class="gov-card p-5 sm:p-6 bg-gradient-to-r from-[#0F3D56] via-[#125B78] to-[#0038A8] text-white rounded-xl shadow-xs">
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div class="space-y-2 max-w-4xl">
-              <div class="flex flex-wrap items-center gap-2">
-                <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white/15 border border-white/25 text-[11px] font-mono font-bold text-amber-300">
-                  <span>📰</span>
-                  <span>OBSERVATORIUM BERITA STRATEGIS & KAJIAN TEORI EKONOMI</span>
-                </div>
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/25 border border-emerald-300/40 text-[10.5px] font-mono font-bold text-emerald-200">
-                  <span>🟢</span>
-                  <span>Auto-Update Saat Masuk Web: 7 Hari Kebelakang</span>
-                </div>
-              </div>
-              <h1 class="text-xl sm:text-2xl font-serif font-bold tracking-tight">
-                Kompilasi Top 3 Berita Utama (9 Sektor Strategis) & Landasan Teori Ekonomi
-              </h1>
-              <p class="text-xs sm:text-sm text-slate-100 font-sans leading-relaxed">
-                Diperbarui secara otomatis setiap pertama kali mengakses web untuk rentang <strong>7 hari kebelakang (${windowRangeLabel})</strong>. Menyajikan masing-masing <strong>Top 3 Berita</strong> pada 9 kategori strategis lengkap dengan <strong>isi berita (2 paragraf)</strong> dan <strong>tautan rujukan resmi</strong> di sisi kiri (<em>Berita</em>), serta <strong>teori ekonomi terkait beserta penjelasannya</strong> di sisi kanan (<em>Penjelasan</em>).
-              </p>
-            </div>
-
-            <!-- Summary Pill Right -->
-            <div class="bg-white/10 backdrop-blur-xs border border-white/20 rounded-xl p-3.5 font-mono text-xs shrink-0 space-y-1.5">
-              <div class="text-amber-300 font-bold flex items-center gap-1.5">
-                <span>📅</span>
-                <span>Rentang: ${windowRangeLabel}</span>
-              </div>
-              <div class="text-white font-bold text-sm">
-                27 Berita Lengkap (7 Hari Terakhir)
-              </div>
-              <div class="text-[10.5px] text-emerald-200 flex items-center gap-1">
-                <span>⏱️</span>
-                <span>Diperbarui: ${lastUpdatedFmt}</span>
-              </div>
-              <div class="pt-1">
-                <button
-                  type="button"
-                  id="news-theory-sync-7days-btn"
-                  class="w-full px-2.5 py-1 rounded bg-white/20 hover:bg-white/30 text-white font-mono text-[10.5px] font-bold border border-white/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                >
-                  <span>🔄</span>
-                  <span>${this.isSyncing ? 'Mengupdate 7 Hari Kebelakang...' : 'Update Ulang (7 Hari Kebelakang)'}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2. FILTER BAR (9 KATEGORI + PENCARIAN) -->
-        <div class="gov-card p-4 bg-white border border-[#E8DCCF] rounded-xl shadow-2xs space-y-3">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div class="flex items-center gap-2 flex-wrap">
-              <span class="text-xs font-mono font-bold uppercase text-[#2C2420]">Filter Kategori Berita:</span>
-              <span class="px-2 py-0.5 rounded bg-[#EBF1FC] text-[#0038A8] font-mono text-[10.5px] font-bold">
-                Menampilkan ${filteredCategories.length} Kategori (${totalNewsCount} Berita)
-              </span>
-              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono text-[10.5px] font-semibold">
-                ⚡ Siklus Aktif: 7 Hari Kebelakang (${windowRangeLabel})
-              </span>
-            </div>
-
-            <!-- Search Box -->
-            <div class="relative w-full md:w-80">
-              <input
-                type="text"
-                id="news-theory-search-input"
-                value="${this.searchKeyword}"
-                placeholder="Cari berita, teori ekonomi, atau sumber..."
-                class="w-full pl-8 pr-7 py-1.5 text-xs font-sans bg-[#FAF7F2] border border-[#D8C8B8] rounded-lg focus:outline-none focus:border-[#125B78] focus:bg-white text-[#2C2420]"
-              />
-              <span class="absolute left-2.5 top-2 text-xs text-slate-400">🔍</span>
-              ${this.searchKeyword ? `
-                <button id="news-theory-clear-search" class="absolute right-2 top-1.5 text-xs text-slate-400 hover:text-slate-700 font-bold cursor-pointer">✕</button>
-              ` : ''}
-            </div>
-          </div>
-
-          <!-- Category Pills -->
-          <div class="flex items-center gap-1.5 flex-wrap pt-1">
-            <button
-              type="button"
-              data-cat="all"
-              class="news-cat-pill px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
-                this.activeCategory === 'all'
-                  ? 'bg-[#125B78] text-white font-bold shadow-2xs'
-                  : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EFE6DC] border border-[#E5DACF] font-medium'
-              }"
-            >
-              Semua Kategori (9)
-            </button>
-            ${allCategories.map(cat => `
-              <button
-                type="button"
-                data-cat="${cat.category_id}"
-                class="news-cat-pill px-2.5 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer flex items-center gap-1 ${
-                  this.activeCategory === cat.category_id
-                    ? 'bg-[#125B78] text-white font-bold shadow-2xs'
-                    : 'bg-[#FAF7F2] text-[#5D4037] hover:bg-[#EFE6DC] border border-[#E5DACF] font-medium'
-                }"
-              >
-                <span>${cat.icon}</span>
-                <span>${cat.category_number}. ${cat.category_title.replace('Top 3 Berita ', '')}</span>
-              </button>
-            `).join('')}
-          </div>
-        </div>
-
-        <!-- 3. CATEGORIES & TWO-COLUMN TABLE SECTIONS (BERITA | PENJELASAN) -->
+      <div class="w-full">
         ${filteredCategories.length === 0 ? `
-          <div class="gov-card p-8 text-center bg-white border border-slate-200 rounded-xl space-y-2">
+          <div class="p-8 text-center bg-[#E4E9F2] rounded-xl space-y-2">
             <div class="text-2xl">🔎</div>
-            <div class="text-sm font-bold text-slate-800 font-mono">Tidak ada berita atau teori ekonomi yang cocok dengan kata kunci "${this.searchKeyword}"</div>
+            <div class="text-sm font-bold text-slate-800 font-mono">Tidak ada berita atau teori ekonomi yang cocok dengan pencarian "${this.searchKeyword}"</div>
             <button id="news-theory-reset-btn" class="px-3 py-1.5 rounded bg-[#125B78] text-white text-xs font-mono font-bold cursor-pointer">
               Reset Filter & Pencarian
             </button>
           </div>
-        ` : filteredCategories.map(cat => this.renderCategorySection(cat)).join('')}
-
+        ` : `
+          <div class="rounded-xl overflow-hidden">
+            ${filteredCategories.map((cat, sectionIdx) => this.renderCategorySection(cat, sectionIdx)).join('')}
+          </div>
+        `}
       </div>
     `;
 
     this.bindEvents();
   }
 
-  renderCategorySection(cat) {
+  renderCategorySection(cat, sectionIdx) {
+    const paletteIndex = ((cat.category_number || (sectionIdx + 1)) - 1) % SECTION_BG_PALETTE.length;
+    const sectionBg = SECTION_BG_PALETTE[paletteIndex];
+
     return `
-      <div class="gov-card bg-white border border-[#D5DCE6] rounded-xl shadow-xs overflow-hidden space-y-0">
+      <section class="${sectionBg} px-4 sm:px-5 py-4 transition-colors" aria-label="${cat.category_title}">
         
-        <!-- Category Title Bar -->
-        <div class="px-4 py-3 bg-[#F8FAFC] border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+        <!-- Thematic Label (Tanpa Header Row Tabel) -->
+        <div class="pb-2.5 flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center gap-2">
-            <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#125B78] text-white font-mono text-xs font-bold">
+            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#125B78] text-white font-mono text-[11px] font-bold">
               ${cat.category_number}
             </span>
-            <span class="text-base">${cat.icon}</span>
-            <h2 class="text-sm sm:text-base font-serif font-bold text-[#1E293B] tracking-tight">
+            <span class="text-sm">${cat.icon}</span>
+            <h2 class="text-sm sm:text-base font-serif font-bold text-[#0F2942] tracking-tight">
               ${cat.category_title}
             </h2>
           </div>
-          <span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-semibold bg-[#E6F0F5] text-[#125B78] border border-[#B8D4E3]">
-            ${cat.category_badge} • Top ${cat.items.length} Berita
+          <span class="text-[10.5px] font-mono font-semibold text-[#125B78]">
+            ${cat.category_badge}
           </span>
         </div>
 
-        <!-- Table Structure Matching User Attached Image: Header [Berita | Penjelasan] + Alternating Rows -->
+        <!-- News & Theory Items (Tanpa Header Row [Berita | Penjelasan]) -->
         <div class="w-full overflow-x-auto">
-          <div class="min-w-[680px]">
-            
-            <!-- HEADER ROW: Deep Teal (#125B78) with White Text & Vertical Divider -->
-            <div class="grid grid-cols-12 bg-[#125B78] text-white font-sans font-bold text-sm sm:text-base">
-              <div class="col-span-7 lg:col-span-8 px-4 py-3 border-r-2 border-white flex items-center justify-between">
-                <span>Berita</span>
-                <span class="text-[11px] font-mono font-normal text-sky-100">Headline, Isi Berita (2 Paragraf) & Link Resmi</span>
-              </div>
-              <div class="col-span-5 lg:col-span-4 px-4 py-3 flex items-center justify-between">
-                <span>Penjelasan</span>
-                <span class="text-[11px] font-mono font-normal text-sky-100">Teori Ekonomi Terkait</span>
-              </div>
-            </div>
-
-            <!-- BODY ROWS: Alternating Slate-Grey (#CFD5E2) and Light Grey-Blue (#E9ECF2) with White Borders -->
-            ${cat.items.map((item, idx) => {
-              const rowBg = idx % 2 === 0 ? 'bg-[#CFD5E2]/85' : 'bg-[#E9ECF2]';
+          <div class="min-w-[680px] space-y-2">
+            ${cat.items.map((item) => {
               const paragraphs = (Array.isArray(item.paragraphs) && item.paragraphs.length > 0)
                 ? item.paragraphs.slice(0, 2)
                 : (item.summary ? item.summary.split('\n\n').slice(0, 2) : []);
 
               return `
-                <div class="grid grid-cols-12 ${rowBg} border-t-2 border-white transition-colors hover:bg-[#C5CEE0]/90">
+                <div class="grid grid-cols-12 bg-white/45 hover:bg-white/65 rounded-lg transition-colors">
                   
-                  <!-- LEFT COLUMN: BERITA (HEADLINE + 2 PARAGRAF ISI BERITA + LINK RESMI) -->
-                  <div class="col-span-7 lg:col-span-8 p-4 sm:p-5 border-r-2 border-white flex flex-col justify-between space-y-3">
-                    <div class="space-y-2.5">
+                  <!-- KOLOM KIRI: BERITA (JUDUL SEBAGAI LINK RESMI + 2 PARAGRAF ISI BERITA) -->
+                  <div class="col-span-7 lg:col-span-8 p-4 flex flex-col justify-between space-y-2.5">
+                    <div class="space-y-2">
                       <!-- Metadata Badges -->
                       <div class="flex flex-wrap items-center gap-2">
                         <span class="px-2 py-0.5 rounded bg-[#125B78] text-white font-mono text-[10px] font-bold">
                           Berita #${item.rank}
                         </span>
-                        <span class="px-2 py-0.5 rounded bg-white/90 text-[#1E293B] font-mono text-[10.5px] font-bold border border-slate-300/80">
+                        <span class="px-2 py-0.5 rounded bg-white/80 text-[#1E293B] font-mono text-[10.5px] font-bold">
                           🏛️ ${item.source_name}
                         </span>
-                        <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-900 border border-emerald-300/80 text-[10.5px] font-mono font-bold">
+                        <span class="px-2 py-0.5 rounded bg-white/80 text-[#0F3D56] text-[10.5px] font-mono font-semibold">
                           📅 ${item.date}
                         </span>
                       </div>
 
-                      <!-- Headline -->
-                      <h3 class="text-sm sm:text-[15.5px] font-bold text-[#0F172A] font-serif leading-snug">
-                        ${item.title}
+                      <!-- Judul Artikel sebagai Link Resmi Berita (Tanpa Tombol Link Terpisah) -->
+                      <h3 class="text-sm sm:text-[15.5px] font-bold font-serif leading-snug">
+                        <a
+                          href="${item.official_url}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-[#0F3D56] hover:text-[#0038A8] underline decoration-[#125B78]/50 hover:decoration-[#0038A8] underline-offset-2 transition-colors inline-flex items-start gap-1.5 group cursor-pointer"
+                          title="Buka artikel resmi di ${item.source_name}"
+                        >
+                          <span>${item.title}</span>
+                          <span class="text-xs text-[#0038A8] shrink-0 mt-0.5">↗</span>
+                        </a>
                       </h3>
 
                       <!-- Isi Berita Lengkap (Maksimal 2 Paragraf) -->
-                      <div class="bg-white/80 p-3 sm:p-3.5 rounded-lg border border-white space-y-2.5 shadow-2xs">
+                      <div class="bg-white/75 p-3 sm:p-3.5 rounded-lg space-y-2">
                         ${paragraphs.map(para => `
                           <p class="text-xs sm:text-[13px] text-slate-800 font-sans leading-relaxed text-justify">
                             ${para}
@@ -307,39 +216,14 @@ export class NewsTheoryView {
                         `).join('')}
                       </div>
                     </div>
-
-                    <!-- Official Link Box (Link Resmi) -->
-                    <div class="pt-2 border-t border-slate-400/30 flex flex-wrap items-center justify-between gap-2">
-                      <div class="flex items-center gap-2 flex-wrap">
-                        <a
-                          href="${item.official_url}"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#125B78] hover:bg-[#0B3F54] text-white font-mono text-[11px] font-bold shadow-2xs transition-all cursor-pointer"
-                          title="Buka portal sumber resmi di tab baru"
-                        >
-                          <span>🔗</span>
-                          <span>Link Resmi Sumber</span>
-                          <span>↗</span>
-                        </a>
-                        <a
-                          href="${item.official_url}"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="text-[11px] font-mono text-[#0038A8] hover:underline font-semibold break-all"
-                        >
-                          ${item.official_url}
-                        </a>
-                      </div>
-                    </div>
                   </div>
 
-                  <!-- RIGHT COLUMN: PENJELASAN TEORI EKONOMI TERKAIT -->
-                  <div class="col-span-5 lg:col-span-4 p-4 sm:p-5 flex flex-col justify-between space-y-2.5">
+                  <!-- KOLOM KANAN: PENJELASAN TEORI EKONOMI TERKAIT -->
+                  <div class="col-span-5 lg:col-span-4 p-4 flex flex-col justify-between space-y-2.5 bg-white/25 rounded-r-lg">
                     <div class="space-y-2">
                       <!-- Theory Badge & Name -->
                       <div class="space-y-1">
-                        <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100/90 text-amber-950 border border-amber-300 font-mono text-[9.5px] font-bold uppercase tracking-wider">
+                        <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#125B78]/15 text-[#0F3D56] font-mono text-[9.5px] font-bold uppercase tracking-wider">
                           <span>📚</span>
                           <span>Teori Ekonomi Terkait</span>
                         </div>
@@ -352,13 +236,13 @@ export class NewsTheoryView {
                       </div>
 
                       <!-- Theory Explanation -->
-                      <div class="text-xs text-slate-800 font-sans leading-relaxed text-justify bg-white/75 p-2.5 rounded-lg border border-white">
+                      <div class="text-xs text-slate-800 font-sans leading-relaxed text-justify bg-white/75 p-2.5 rounded-lg">
                         ${item.theory_explanation}
                       </div>
                     </div>
 
                     <!-- Policy Implication for Indonesia -->
-                    <div class="p-2 rounded-lg bg-[#125B78]/10 border border-[#125B78]/25 text-[11px] font-sans text-[#0F172A] leading-snug">
+                    <div class="p-2.5 rounded-lg bg-[#125B78]/10 text-[11px] font-sans text-[#0F172A] leading-snug">
                       <span class="font-mono font-bold text-[#125B78] uppercase text-[10px] block mb-0.5">
                         💡 Makna & Implikasi Kebijakan:
                       </span>
@@ -369,55 +253,23 @@ export class NewsTheoryView {
                 </div>
               `;
             }).join('')}
-
           </div>
         </div>
 
-      </div>
+      </section>
     `;
   }
 
   bindEvents() {
-    // Category pills
-    const catBtns = this.container.querySelectorAll('.news-cat-pill');
-    catBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.activeCategory = btn.getAttribute('data-cat') || 'all';
-        this.render();
-      });
-    });
-
-    // Manual 7-day re-sync button
-    document.getElementById('news-theory-sync-7days-btn')?.addEventListener('click', async () => {
-      await this.syncInitial7Days();
-    });
-
-    // Search input
-    const searchInput = document.getElementById('news-theory-search-input');
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        this.searchKeyword = e.target.value;
-        const cursorPosition = e.target.selectionStart;
-        this.render();
-        const newInput = document.getElementById('news-theory-search-input');
-        if (newInput) {
-          newInput.focus();
-          newInput.setSelectionRange(cursorPosition, cursorPosition);
-        }
-      });
-    }
-
-    // Clear search
-    document.getElementById('news-theory-clear-search')?.addEventListener('click', () => {
-      this.searchKeyword = '';
-      this.render();
-    });
-
-    // Reset button
+    // Reset button when search returns 0 items
     document.getElementById('news-theory-reset-btn')?.addEventListener('click', () => {
       this.activeCategory = 'all';
       this.searchKeyword = '';
+      if (window.__govApp && window.__govApp.searchBar) {
+        window.__govApp.searchBar.setMode('news', 'all');
+      }
       this.render();
     });
   }
 }
+

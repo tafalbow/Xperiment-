@@ -5,7 +5,7 @@
 
 import { ApiClient } from './services/api_client.js';
 import { renderHeader, openEmailRegistrationModal, isAdminEmail } from './components/header.js?v=11.68.0';
-import { SearchBar } from './components/search_bar.js?v=11.57.0';
+import { SearchBar } from './components/search_bar.js?v=11.69.0';
 import { FilterPanel } from './components/filter_panel.js';
 import { SidebarExtras } from './components/sidebar_extras.js';
 import { renderKPICards } from './components/kpi_cards.js';
@@ -24,7 +24,7 @@ import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.53.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
 import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.51.0';
-import { NewsTheoryView } from './components/news_theory_view.js?v=11.65.0';
+import { NewsTheoryView } from './components/news_theory_view.js?v=11.69.0';
 
 class App {
   constructor() {
@@ -98,6 +98,16 @@ class App {
         },
         onSearchChange: (kw) => {
           // Live search sync
+        },
+        onNewsCategoryChange: (catId) => {
+          if (this.newsView) {
+            this.newsView.setCategoryFilter(catId);
+          }
+        },
+        onNewsSearchChange: (kw) => {
+          if (this.newsView) {
+            this.newsView.setSearchKeyword(kw);
+          }
         }
       });
       if (this.allIndicators.length > 0) {
@@ -332,7 +342,7 @@ class App {
       'custom-chart': 'Custom Chart Studio',
       'cukai-bps': 'Data BPS',
       'inventory': 'Katalog Data',
-      'news': 'Berita & Teori Ekonomi',
+      'news': 'Berita Terkini',
       'about': 'Tentang Observatorium',
       'admin': 'Master Admin',
       'crosswalk': 'Tabel Crosswalk',
@@ -528,6 +538,10 @@ class App {
     }
 
     this.activeMainTab = tabName;
+    if (this.searchBar && typeof this.searchBar.setMode === 'function') {
+      const isNewsTab = tabName === 'news' || tabName === 'news-theory';
+      this.searchBar.setMode(isNewsTab ? 'news' : 'default', this.newsView?.activeCategory || 'all');
+    }
     const btnHome = document.getElementById('tab-btn-home');
     const btnAnalytics = document.getElementById('tab-btn-analytics');
     const btnAgri = document.getElementById('tab-btn-agri');
