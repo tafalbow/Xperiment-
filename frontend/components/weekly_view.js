@@ -353,18 +353,67 @@ export class WeeklyView {
     return row.unit_short || row.unit || '';
   }
 
-  getFrequencyBadgeClass(freq) {
+  getTrendStyle(freq) {
     const f = (freq || '').toLowerCase();
     if (f.includes('daily') || f.includes('harian')) {
-      return 'bg-amber-100/90 text-amber-900 border border-amber-300';
+      return {
+        key: 'daily',
+        label: 'Daily',
+        boxClasses: 'bg-amber-50 hover:bg-amber-100/90 text-amber-900 border border-amber-300 ring-1 ring-amber-200/50 shadow-2xs',
+        btnTextClasses: 'text-amber-900 font-bold',
+        badgeClasses: 'bg-amber-500 text-white font-black',
+        modalHeaderBadge: 'bg-amber-500 text-white border border-amber-600',
+        panelBg: 'bg-gradient-to-br from-amber-50/90 to-orange-50/50',
+        panelBorder: 'border-amber-200/90',
+        panelTitleColor: 'text-amber-900',
+        panelBadge: 'bg-amber-600 text-white'
+      };
     }
     if (f.includes('monthly') || f.includes('bulanan')) {
-      return 'bg-emerald-100 text-emerald-900 border border-emerald-300';
+      return {
+        key: 'monthly',
+        label: 'Monthly',
+        boxClasses: 'bg-emerald-50 hover:bg-emerald-100/90 text-emerald-900 border border-emerald-300 ring-1 ring-emerald-200/50 shadow-2xs',
+        btnTextClasses: 'text-emerald-900 font-bold',
+        badgeClasses: 'bg-emerald-600 text-white font-black',
+        modalHeaderBadge: 'bg-emerald-600 text-white border border-emerald-700',
+        panelBg: 'bg-gradient-to-br from-emerald-50/90 to-teal-50/50',
+        panelBorder: 'border-emerald-200/90',
+        panelTitleColor: 'text-emerald-900',
+        panelBadge: 'bg-emerald-700 text-white'
+      };
     }
     if (f.includes('yearly') || f.includes('tahunan')) {
-      return 'bg-purple-100 text-purple-900 border border-purple-300';
+      return {
+        key: 'yearly',
+        label: 'Yearly',
+        boxClasses: 'bg-purple-50 hover:bg-purple-100/90 text-purple-900 border border-purple-300 ring-1 ring-purple-200/50 shadow-2xs',
+        btnTextClasses: 'text-purple-900 font-bold',
+        badgeClasses: 'bg-purple-600 text-white font-black',
+        modalHeaderBadge: 'bg-purple-600 text-white border border-purple-700',
+        panelBg: 'bg-gradient-to-br from-purple-50/90 to-fuchsia-50/50',
+        panelBorder: 'border-purple-200/90',
+        panelTitleColor: 'text-purple-900',
+        panelBadge: 'bg-purple-700 text-white'
+      };
     }
-    return 'bg-sky-100 text-[#0038A8] border border-sky-300';
+    // Default: Weekly
+    return {
+      key: 'weekly',
+      label: 'Weekly',
+      boxClasses: 'bg-sky-50 hover:bg-sky-100/90 text-[#0038A8] border border-sky-300 ring-1 ring-sky-200/50 shadow-2xs',
+      btnTextClasses: 'text-[#0038A8] font-bold',
+      badgeClasses: 'bg-[#0038A8] text-white font-black',
+      modalHeaderBadge: 'bg-[#0038A8] text-white border border-[#002B82]',
+      panelBg: 'bg-gradient-to-br from-sky-50/90 to-blue-50/50',
+      panelBorder: 'border-sky-200/90',
+      panelTitleColor: 'text-[#0038A8]',
+      panelBadge: 'bg-[#0038A8] text-white'
+    };
+  }
+
+  getFrequencyBadgeClass(freq) {
+    return this.getTrendStyle(freq).badgeClasses;
   }
 
   formatMovementSummary(row) {
@@ -393,10 +442,11 @@ export class WeeklyView {
     const unitLabel = this.getUnitLabel(row);
     const movementSummary = this.formatMovementSummary(row);
     const freq = row.frequency || 'Weekly';
+    const trendStyle = this.getTrendStyle(freq);
 
     return `
       <tr class="hover:bg-[#F8F9FA] cursor-pointer transition-colors group weekly-table-row" data-ind-id="${row.id}" data-code="${row.code}">
-        <!-- Sticky Col 1: Nama Indikator + Lembaga + Satuan + Tren Frekuensi (Image 2 + Trend Info) -->
+        <!-- Sticky Col 1: Nama Indikator + Lembaga + Satuan + Tren Frekuensi (Warna Khusus per Tren) -->
         <td class="py-2.5 px-3 sticky left-0 bg-white group-hover:bg-[#F8F9FA] z-20 border-r border-slate-200">
           <div class="flex items-start justify-between gap-2">
             <div class="space-y-0.5">
@@ -410,13 +460,21 @@ export class WeeklyView {
                 Source : ${row.institution_id} - Satuan : ${row.unit || row.unit_short}
               </div>
             </div>
-            <div class="flex flex-col items-center gap-1 shrink-0 mt-0.5">
-              <button class="btn-view-weekly-trend px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#0038A8] hover:bg-[#0038A8] hover:text-white transition-colors cursor-pointer shadow-2xs" title="Lihat Grafik Tren & Metodologi Lengkap">
-                📈 Tren
+            
+            <!-- Kotak Trend Frekuensi dengan Warna Berbeda untuk Daily, Weekly, Monthly, Yearly -->
+            <div class="flex flex-col items-center shrink-0 mt-0.5">
+              <button 
+                class="btn-view-weekly-trend flex flex-col items-center justify-center min-w-[58px] px-2 py-1 rounded-md border ${trendStyle.boxClasses} transition-all cursor-pointer shadow-2xs group/btn hover:scale-105 active:scale-95" 
+                title="Lihat Grafik Tren & Penjelasan Lengkap (${freq})"
+              >
+                <span class="text-[10px] font-mono font-bold flex items-center gap-1 ${trendStyle.btnTextClasses}">
+                  <span>📈</span>
+                  <span>Tren</span>
+                </span>
+                <span class="mt-0.5 px-1.5 py-0.2 rounded text-[8.5px] font-mono font-extrabold uppercase tracking-wider ${trendStyle.badgeClasses}">
+                  ${freq}
+                </span>
               </button>
-              <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold ${this.getFrequencyBadgeClass(freq)} text-center tracking-tight" title="Frekuensi Pengamatan: ${freq}">
-                ${freq}
-              </span>
             </div>
           </div>
         </td>
@@ -689,24 +747,25 @@ export class WeeklyView {
     const ind = tData.indicator;
     const stats = tData.statistics;
     const series = tData.series;
+    const trendStyle = this.getTrendStyle(ind.frequency);
 
     mount.innerHTML = `
       <div class="gov-modal-overlay" id="weekly-trend-modal-overlay">
         <div class="gov-modal-content max-w-4xl w-full bg-white rounded-lg shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
           
           <!-- Modal Header -->
-          <div class="px-6 py-4 bg-[#F8F9FA]  flex items-center justify-between">
-            <div class="space-y-0.5">
+          <div class="px-6 py-4 bg-[#F8F9FA] flex items-center justify-between border-b border-slate-200">
+            <div class="space-y-1">
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#E8F0FE] text-[#1A73E8]">
                   KODE: ${ind.code}
                 </span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${this.getFrequencyBadgeClass(ind.frequency)}">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${trendStyle.modalHeaderBadge}">
                   TREN: ${(ind.frequency || 'Weekly').toUpperCase()}
                 </span>
                 <span class="text-xs text-[#5F6368] font-mono font-medium">Source : ${ind.institution_id || ind.institution_name} - Satuan : ${ind.unit || ind.unit_short}</span>
               </div>
-              <h2 class="text-base font-bold text-[#202124]">
+              <h2 class="text-base sm:text-lg font-bold text-[#202124]">
                 ${ind.name}
               </h2>
             </div>
@@ -718,7 +777,46 @@ export class WeeklyView {
           <!-- Modal Body Scrollable -->
           <div class="p-6 overflow-y-auto space-y-5">
             
-            <!-- KPI Summary Cards (5 Kotak Refined) -->
+            <!-- 1. Dedicated Variable Explanation & Economic Context Panel (Penjelasan Singkat Variabel) -->
+            <div class="p-4 rounded-xl border ${trendStyle.panelBorder} ${trendStyle.panelBg} space-y-2.5 font-mono shadow-2xs">
+              <div class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center gap-2 font-bold ${trendStyle.panelTitleColor} text-xs">
+                  <span class="text-base">📘</span>
+                  <span class="tracking-tight uppercase">Penjelasan Singkat Variabel & Signifikansi Ekonomi</span>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase ${trendStyle.panelBadge}">
+                  Frekuensi: ${(ind.frequency || 'Weekly')}
+                </span>
+              </div>
+
+              <div class="text-xs font-sans text-slate-800 leading-relaxed space-y-2">
+                <div>
+                  <strong class="text-slate-900 font-semibold">Definisi Variabel:</strong>
+                  <span class="text-slate-800">${ind.description || 'Tidak ada deskripsi tersedia.'}</span>
+                </div>
+                
+                ${ind.economic_significance ? `
+                  <div class="p-3 rounded-lg bg-white/85 border border-slate-200/80 text-[11.5px] text-slate-700 leading-relaxed shadow-2xs">
+                    <strong class="text-slate-900 block mb-1">💡 Signifikansi & Dampak terhadap Perekonomian:</strong>
+                    <span>${ind.economic_significance}</span>
+                  </div>
+                ` : ''}
+              </div>
+
+              <div class="flex items-center justify-between text-[10.5px] text-slate-600 pt-1.5 border-t border-slate-200/60 flex-wrap gap-2">
+                <div>
+                  <span><strong>Rujukan Dokumen:</strong> ${ind.source_doc}</span>
+                  <span class="mx-1.5">•</span>
+                  <span><strong>Satuan:</strong> ${ind.unit || ind.unit_short}</span>
+                </div>
+                <a href="${ind.source_url}" target="_blank" class="text-[#0038A8] hover:underline font-bold flex items-center gap-1">
+                  <span>Portal Resmi ${ind.institution_id || ''}</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- 2. KPI Summary Cards (5 Kotak Refined) -->
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 font-mono">
               
               <!-- Kotak 1: Nilai Terkini -->
@@ -817,26 +915,6 @@ export class WeeklyView {
                 <span>${series[0]?.period_label || '1990-W01'}</span>
                 <span>Total ${stats.total_observations} Pekan Observasi</span>
                 <span>${series[series.length - 1]?.period_label || '2026-W52'}</span>
-              </div>
-            </div>
-
-            <!-- Contextual Source & Methodology Box -->
-            <div class="p-3.5 bg-[#E8F0FE] rounded-lg border border-[#D2E3FC] text-xs font-mono text-[#174EA6] space-y-1.5">
-              <div class="font-bold flex items-center justify-between">
-                <span class="flex items-center gap-1">
-                  <span>🏛️</span>
-                  <span>Metodologi & Sumber Diseminasi Resmi:</span>
-                </span>
-                <a href="${ind.source_url}" target="_blank" class="text-[#1A73E8] hover:underline font-bold flex items-center gap-1 text-[11px]">
-                  <span>Buka Portal Resmi</span>
-                  <span>↗</span>
-                </a>
-              </div>
-              <p class="leading-relaxed text-[11.5px] text-[#202124]">
-                ${ind.description}
-              </p>
-              <div class="text-[10.5px] text-[#5F6368]">
-                <strong>Dokumen Rujukan:</strong> ${ind.source_doc}
               </div>
             </div>
 
