@@ -42,7 +42,8 @@ class RollingKPIService:
                     "status_verdict": "Kondusif",
                     "status_type": "good",
                     "situation_note": "Suku bunga acuan BI-Rate ditetapkan 5,75% pada RDG 23 September 2026, memangkas 25 bps guna memperluas ruang likuiditas dan pembiayaan perbankan dengan tetap menjaga stabilitas Rupiah.",
-                    "source": "Bank Indonesia (Rapat Dewan Gubernur 23 Sep 2026)"
+                    "source": "Bank Indonesia (Rapat Dewan Gubernur 23 Sep 2026)",
+                    "source_url": "https://www.bi.go.id/id/statistik/indikator/bi-rate.aspx"
                 },
                 {
                     "id": "inflasi",
@@ -59,7 +60,8 @@ class RollingKPIService:
                     "status_verdict": "Terkendali",
                     "status_type": "good",
                     "situation_note": "Inflasi tahunan IHK berada di level 3,19% (yoy), konsisten terjaga di dalam koridor rentang sasaran nasional Bank Indonesia 2,5% ± 1% dengan ekspektasi inflasi yang stabil.",
-                    "source": "Bank Indonesia & BPS (Panel Indikator Resmi)"
+                    "source": "Bank Indonesia & BPS (Panel Indikator Resmi)",
+                    "source_url": "https://www.bi.go.id/id/statistik/indikator/target-inflasi.aspx"
                 },
                 {
                     "id": "ikk",
@@ -76,7 +78,8 @@ class RollingKPIService:
                     "status_verdict": "Optimis",
                     "status_type": "good",
                     "situation_note": "Bertahan kokoh di zona optimis (>100) pada level 118,1. Indeks Ekspektasi Konsumen (IEK) meningkat ke 128,7 ditopang keyakinan positif terhadap penghasilan dan ketersediaan lapangan kerja.",
-                    "source": "Bank Indonesia (Survei Konsumen Sep 2026)"
+                    "source": "Bank Indonesia (Survei Konsumen Sep 2026)",
+                    "source_url": "https://www.bi.go.id/id/statistik/ekonomi-keuangan/sk/default.aspx"
                 },
                 {
                     "id": "pmi_manufaktur",
@@ -93,7 +96,8 @@ class RollingKPIService:
                     "status_verdict": "Ekspansif",
                     "status_type": "good",
                     "situation_note": "Melompat tajam ke 52,4 (level tertinggi sejak Februari 2026); didorong oleh akselerasi pesanan baru, peningkatan produksi pabrik, dan perluasan serapan tenaga kerja industri.",
-                    "source": "S&P Global Indonesia PMI (Rilis Sep 2026)"
+                    "source": "S&P Global Indonesia PMI (Rilis Sep 2026)",
+                    "source_url": "https://www.pmi.spglobal.com/Public/Release/PressReleases?language=en"
                 },
                 {
                     "id": "rupiah",
@@ -110,7 +114,8 @@ class RollingKPIService:
                     "status_verdict": "Perhatian Khusus",
                     "status_type": "warning",
                     "situation_note": "Kurs JISDOR berada di Rp18.052 per USD; stabilitas ditopang cadangan devisa kuat $146.320 juta (6,5 bulan impor) serta intervensi pasar terkoordinasi Bank Indonesia (spot, DNDF, dan SBN).",
-                    "source": "Bank Indonesia (JISDOR & Moneter 16 Okt 2026)"
+                    "source": "Bank Indonesia (JISDOR & Moneter 16 Okt 2026)",
+                    "source_url": "https://www.bi.go.id/id/statistik/informasi-kurs/jisdor/default.aspx"
                 },
                 {
                     "id": "ihsg",
@@ -127,7 +132,8 @@ class RollingKPIService:
                     "status_verdict": "Fase Volatilitas",
                     "status_type": "warning",
                     "situation_note": "Indeks terkoreksi tajam dipicu sentimen wacana reklasifikasi indeks pasar modal global; BEI dan OJK memperkuat protokol pemantauan stabilitas pasar dan likuiditas bursa.",
-                    "source": "PT Bursa Efek Indonesia (IDX Penutupan 16 Okt 2026)"
+                    "source": "PT Bursa Efek Indonesia (IDX Penutupan 16 Okt 2026)",
+                    "source_url": "https://www.idx.co.id/id/market-data/stocks/stock-index/"
                 },
                 {
                     "id": "emas_antam",
@@ -144,7 +150,8 @@ class RollingKPIService:
                     "status_verdict": "Kuat / Safe Haven",
                     "status_type": "good",
                     "situation_note": "Harga dasar emas batangan Antam 1 gram resmi mencetak level Rp2.574.000 per gram, bergerak searah lonjakan harga emas spot dunia di tengah tingginya permintaan lindung nilai global.",
-                    "source": "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)"
+                    "source": "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)",
+                    "source_url": "https://www.logammulia.com/id/harga-emas-hari-ini"
                 },
                 {
                     "id": "emas_buyback",
@@ -161,7 +168,8 @@ class RollingKPIService:
                     "status_verdict": "Sangat Menarik",
                     "status_type": "good",
                     "situation_note": "Harga buyback (pembelian kembali) Antam mencapai Rp2.389.000 per gram dengan spread efisien, memberikan realisasi keuntungan optimal bagi investor emas ritel.",
-                    "source": "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)"
+                    "source": "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)",
+                    "source_url": "https://www.logammulia.com/id/harga-emas-hari-ini"
                 }
             ]
         }

@@ -29,13 +29,14 @@ def test_rolling_kpi_service_data():
     for eid in expected_ids:
         assert eid in kpi_ids
 
-    # Validate each KPI has required movement & diagnostic verdict
+    # Validate each KPI has required movement & diagnostic verdict & source_url
     for k in res["kpis"]:
         assert "value" in k and k["value"]
         assert "movement_vs_ly" in k
         assert "movement_vs_lm" in k
         assert "status_verdict" in k
         assert "situation_note" in k
+        assert "source_url" in k and k["source_url"].startswith("http")
 
 
 def test_api_rolling_kpi_endpoint():
@@ -44,6 +45,8 @@ def test_api_rolling_kpi_endpoint():
     data = response.json()
     assert data["status"] == "SUCCESS"
     assert len(data["kpis"]) == 8
+    for k in data["kpis"]:
+        assert "source_url" in k and k["source_url"].startswith("http")
     titles = [k["title"] for k in data["kpis"]]
     assert any("BI Rate" in t or "BI-Rate" in t for t in titles)
     assert any("Inflasi" in t for t in titles)

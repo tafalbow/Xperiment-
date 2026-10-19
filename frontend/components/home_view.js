@@ -79,7 +79,8 @@ export class HomeView {
         status_verdict: "Kondusif",
         status_type: "good",
         situation_note: "Suku bunga acuan BI-Rate ditetapkan 5,75% pada RDG 23 September 2026, memangkas 25 bps guna memperluas likuiditas pembiayaan seraya menjaga stabilitas Rupiah.",
-        source: "Bank Indonesia (Rapat Dewan Gubernur 23 Sep 2026)"
+        source: "Bank Indonesia (Rapat Dewan Gubernur 23 Sep 2026)",
+        source_url: "https://www.bi.go.id/id/statistik/indikator/bi-rate.aspx"
       },
       {
         id: "inflasi",
@@ -93,7 +94,8 @@ export class HomeView {
         status_verdict: "Terkendali",
         status_type: "good",
         situation_note: "Inflasi tahunan IHK berada di level 3,19% (yoy), konsisten terjaga di dalam koridor rentang sasaran nasional Bank Indonesia 2,5% ± 1%.",
-        source: "Bank Indonesia & BPS (Panel Indikator Resmi)"
+        source: "Bank Indonesia & BPS (Panel Indikator Resmi)",
+        source_url: "https://www.bi.go.id/id/statistik/indikator/target-inflasi.aspx"
       },
       {
         id: "ikk",
@@ -107,7 +109,8 @@ export class HomeView {
         status_verdict: "Optimis",
         status_type: "good",
         situation_note: "Bertahan kokoh di zona optimis (>100) pada level 118,1. Ekspektasi konsumen terhadap penghasilan dan lapangan kerja menguat.",
-        source: "Bank Indonesia (Survei Konsumen Sep 2026)"
+        source: "Bank Indonesia (Survei Konsumen Sep 2026)",
+        source_url: "https://www.bi.go.id/id/statistik/ekonomi-keuangan/sk/default.aspx"
       },
       {
         id: "pmi_manufaktur",
@@ -121,7 +124,8 @@ export class HomeView {
         status_verdict: "Ekspansif",
         status_type: "good",
         situation_note: "Melompat tajam ke level 52,4 (tertinggi sejak Feb 2026) didorong kenaikan pesanan baru, produksi pabrik, dan perluasan tenaga kerja.",
-        source: "S&P Global Indonesia PMI (Sep 2026)"
+        source: "S&P Global Indonesia PMI (Sep 2026)",
+        source_url: "https://www.pmi.spglobal.com/Public/Release/PressReleases?language=en"
       },
       {
         id: "rupiah",
@@ -135,7 +139,8 @@ export class HomeView {
         status_verdict: "Perhatian Khusus",
         status_type: "warning",
         situation_note: "Kurs JISDOR berada di Rp18.052/USD; stabilitas ditopang cadangan devisa kuat $146.320 juta serta intervensi pasar Bank Indonesia.",
-        source: "Bank Indonesia (JISDOR 16 Okt 2026)"
+        source: "Bank Indonesia (JISDOR 16 Okt 2026)",
+        source_url: "https://www.bi.go.id/id/statistik/informasi-kurs/jisdor/default.aspx"
       },
       {
         id: "ihsg",
@@ -149,7 +154,8 @@ export class HomeView {
         status_verdict: "Fase Volatilitas",
         status_type: "warning",
         situation_note: "Indeks bursa terkoreksi sentimen konsultasi indeks global; BEI dan OJK memperkuat pengawasan stabilitas dan likuiditas perdagangan.",
-        source: "PT Bursa Efek Indonesia (IDX Penutupan 16 Okt 2026)"
+        source: "PT Bursa Efek Indonesia (IDX Penutupan 16 Okt 2026)",
+        source_url: "https://www.idx.co.id/id/market-data/stocks/stock-index/"
       },
       {
         id: "emas_antam",
@@ -163,7 +169,8 @@ export class HomeView {
         status_verdict: "Kuat / Safe Haven",
         status_type: "good",
         situation_note: "Harga dasar emas batangan Antam 1 gram resmi mencetak level Rp2.574.000/gram di tengah tingginya permintaan lindung nilai global.",
-        source: "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)"
+        source: "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)",
+        source_url: "https://www.logammulia.com/id/harga-emas-hari-ini"
       },
       {
         id: "emas_buyback",
@@ -177,7 +184,8 @@ export class HomeView {
         status_verdict: "Sangat Menarik",
         status_type: "good",
         situation_note: "Harga buyback Antam berada di Rp2.389.000/gram dengan spread efisien, memberikan realisasi imbal hasil optimal bagi investor emas ritel.",
-        source: "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)"
+        source: "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)",
+        source_url: "https://www.logammulia.com/id/harga-emas-hari-ini"
       }
     ];
 
@@ -234,9 +242,16 @@ export class HomeView {
                 <div class="flex items-center gap-1.5">
                   <span class="text-base">${k.icon || '📌'}</span>
                   <div>
-                    <div class="text-xs font-mono font-bold text-slate-900 group-hover:text-[#0038A8] transition-colors leading-tight">
-                      ${k.title}
-                    </div>
+                    <a 
+                      href="${k.source_url || '#'}" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      title="Buka data resmi sumber asli: ${k.source} (Tab Baru) ↗" 
+                      class="text-xs font-mono font-bold text-slate-900 group-hover:text-[#0038A8] hover:underline transition-colors leading-tight inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>${k.title}</span>
+                      <span class="text-[10px] text-[#0038A8] font-bold opacity-75 group-hover:opacity-100">↗</span>
+                    </a>
                     <div class="text-[9.5px] font-mono text-slate-500">${k.period}</div>
                   </div>
                 </div>
@@ -277,6 +292,21 @@ export class HomeView {
                 </p>
               </div>
 
+              <!-- Clickable Official Source Footer -->
+              <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[9.5px] font-mono">
+                <span class="text-slate-500 truncate" title="${k.source}">Sumber: ${k.source}</span>
+                <a 
+                  href="${k.source_url || '#'}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="text-[#0038A8] hover:underline font-bold shrink-0 ml-1 inline-flex items-center gap-0.5 cursor-pointer"
+                  title="Kunjungi website data resmi ${k.source} (Tab Baru)"
+                >
+                  <span>Data Resmi</span>
+                  <span>↗</span>
+                </a>
+              </div>
+
             </div>
           `).join('')}
         </div>
@@ -307,10 +337,27 @@ export class HomeView {
         <!-- 1. PDB Growth -->
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Pertumbuhan PDB</div>
+            <a 
+              href="https://www.bps.go.id/id/statistics-table/2/MTE1IzI=/produk-domestik-bruto--pdb-.html" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Buka publikasi resmi PDB di Badan Pusat Statistik (BPS RI) ↗"
+              class="text-[10.5px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline uppercase tracking-wider font-semibold inline-flex items-center gap-1 cursor-pointer"
+            >
+              <span>Pertumbuhan PDB</span>
+              <span class="text-[9.5px] text-[#0038A8] font-bold">↗</span>
+            </a>
             <div class="text-xl font-mono font-bold text-[#3D7B5E]">5,29%</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5,29% • QoQ: +3,73%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Triwulan II-2026 • PDB Rp6.552,1 T • BPS</div>
+            <a 
+              href="https://www.bps.go.id/id/statistics-table/2/MTE1IzI=/produk-domestik-bruto--pdb-.html" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-[10px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline cursor-pointer block"
+              title="Kunjungi tabel statistik PDB resmi BPS RI"
+            >
+              Triwulan II-2026 • PDB Rp6.552,1 T • BPS ↗
+            </a>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
@@ -328,10 +375,27 @@ export class HomeView {
         <!-- 2. Inflasi IHK -->
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Inflasi IHK (yoy)</div>
+            <a 
+              href="https://www.bi.go.id/id/statistik/indikator/target-inflasi.aspx" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Buka data resmi sasaran & realisasi inflasi di Bank Indonesia ↗"
+              class="text-[10.5px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline uppercase tracking-wider font-semibold inline-flex items-center gap-1 cursor-pointer"
+            >
+              <span>Inflasi IHK (yoy)</span>
+              <span class="text-[9.5px] text-[#0038A8] font-bold">↗</span>
+            </a>
             <div class="text-xl font-mono font-bold text-[#0038A8]">3,19%</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Target BI: 2,5±1% • MoM: +0,08%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Agustus 2026 • Rilis Bank Indonesia & BPS</div>
+            <a 
+              href="https://www.bi.go.id/id/statistik/indikator/target-inflasi.aspx" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-[10px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline cursor-pointer block"
+              title="Kunjungi halaman indikator inflasi resmi Bank Indonesia"
+            >
+              Agustus 2026 • Rilis Bank Indonesia & BPS ↗
+            </a>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
@@ -349,10 +413,27 @@ export class HomeView {
         <!-- 3. BI-Rate -->
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">BI-Rate (7-Day RR)</div>
+            <a 
+              href="https://www.bi.go.id/id/statistik/indikator/bi-rate.aspx" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Buka rilis resmi suku bunga acuan BI-Rate di Bank Indonesia ↗"
+              class="text-[10.5px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline uppercase tracking-wider font-semibold inline-flex items-center gap-1 cursor-pointer"
+            >
+              <span>BI-Rate (7-Day RR)</span>
+              <span class="text-[9.5px] text-[#0038A8] font-bold">↗</span>
+            </a>
             <div class="text-xl font-mono font-bold text-[#2C2420]">5,75%</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">RDG 23 Sep 2026 • Turun -25 bps</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Hari Ini • Bank Indonesia</div>
+            <a 
+              href="https://www.bi.go.id/id/statistik/indikator/bi-rate.aspx" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-[10px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline cursor-pointer block"
+              title="Kunjungi tabel BI-Rate resmi Bank Indonesia"
+            >
+              Posisi Hari Ini • Bank Indonesia ↗
+            </a>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
@@ -370,10 +451,27 @@ export class HomeView {
         <!-- 4. Cadangan Devisa -->
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Cadangan Devisa</div>
+            <a 
+              href="https://www.bi.go.id/id/statistik/indikator/cadangan-devisa.aspx" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Buka rilis resmi Cadangan Devisa di Bank Indonesia ↗"
+              class="text-[10.5px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline uppercase tracking-wider font-semibold inline-flex items-center gap-1 cursor-pointer"
+            >
+              <span>Cadangan Devisa</span>
+              <span class="text-[9.5px] text-[#0038A8] font-bold">↗</span>
+            </a>
             <div class="text-xl font-mono font-bold text-[#2C2420]">$ 146.320 Jt</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">USD 146,32 Miliar • 6,5 Bln Impor</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Posisi 30 Sep 2026 • Bank Indonesia</div>
+            <a 
+              href="https://www.bi.go.id/id/statistik/indikator/cadangan-devisa.aspx" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-[10px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline cursor-pointer block"
+              title="Kunjungi publikasi resmi cadangan devisa Bank Indonesia"
+            >
+              Posisi 30 Sep 2026 • Bank Indonesia ↗
+            </a>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
@@ -391,10 +489,27 @@ export class HomeView {
         <!-- 5. Pendapatan APBN -->
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Pendapatan APBN 2026</div>
+            <a 
+              href="https://www.kemenkeu.go.id/apbnkita" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Buka laporan resmi APBN KiTa di Kementerian Keuangan RI ↗"
+              class="text-[10.5px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline uppercase tracking-wider font-semibold inline-flex items-center gap-1 cursor-pointer"
+            >
+              <span>Pendapatan APBN 2026</span>
+              <span class="text-[9.5px] text-[#0038A8] font-bold">↗</span>
+            </a>
             <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 2.341,5 T</div>
             <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Realisasi 74,2% • On-Track APBN 2026</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Akumulasi Jan – Sep 2026 • APBN KiTa</div>
+            <a 
+              href="https://www.kemenkeu.go.id/apbnkita" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-[10px] font-mono text-[#7D655C] hover:text-[#0038A8] hover:underline cursor-pointer block"
+              title="Kunjungi publikasi resmi APBN KiTa Kementerian Keuangan RI"
+            >
+              Akumulasi Jan – Sep 2026 • APBN KiTa ↗
+            </a>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
