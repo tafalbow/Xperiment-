@@ -69,120 +69,120 @@ export class HomeView {
     const defaultKpis = [
       {
         id: "bi_rate",
-        title: "BI Rate Today",
+        title: "BI-Rate Today",
         icon: "🏛️",
-        period: "Posisi Hari Ini / RDG BI",
-        value: "6.00%",
+        period: "Posisi Hari Ini · RDG BI 23 Sep 2026",
+        value: "5,75%",
         unit: "%",
-        movement_summary: "Tetap (0 bps) vs LM • -25 bps vs LY",
+        movement_summary: "-25 bps vs LM (Agu: 6,00%) • -25 bps vs LY",
         status_badge: "🟢 Kondusif",
         status_verdict: "Kondusif",
         status_type: "good",
-        situation_note: "Siklus pelonggaran moneter terukur; menjaga stabilitas nilai tukar Rupiah sekaligus mendorong ruang likuiditas perbankan.",
-        source: "Bank Indonesia (Rapat Dewan Gubernur)"
+        situation_note: "Suku bunga acuan BI-Rate ditetapkan 5,75% pada RDG 23 September 2026, memangkas 25 bps guna memperluas likuiditas pembiayaan seraya menjaga stabilitas Rupiah.",
+        source: "Bank Indonesia (Rapat Dewan Gubernur 23 Sep 2026)"
       },
       {
         id: "inflasi",
-        title: "Inflasi Agu 2026",
+        title: "Inflasi IHK (yoy)",
         icon: "📊",
-        period: "Realisasi BPS Agu 2026",
-        value: "2.12%",
+        period: "Realisasi BPS / BI Agu 2026",
+        value: "3,19%",
         unit: "% YoY",
-        movement_summary: "-0.03% MoM • -0.45% vs LY (2025: 2.57%)",
-        status_badge: "🟢 Sangat Baik",
-        status_verdict: "Sangat Baik",
+        movement_summary: "+0,08% MoM • Terjaga Dalam Sasaran BI (2,5±1%)",
+        status_badge: "🟢 Terkendali",
+        status_verdict: "Terkendali",
         status_type: "good",
-        situation_note: "Terkendali kuat dalam koridor sasaran 2.5% ± 1% Bank Indonesia. Pasokan pangan melimpah dan daya beli masyarakat terlindungi.",
-        source: "Badan Pusat Statistik (BRS Inflasi Bulanan)"
+        situation_note: "Inflasi tahunan IHK berada di level 3,19% (yoy), konsisten terjaga di dalam koridor rentang sasaran nasional Bank Indonesia 2,5% ± 1%.",
+        source: "Bank Indonesia & BPS (Panel Indikator Resmi)"
       },
       {
         id: "ikk",
         title: "IKK (Keyakinan Konsumen)",
         icon: "🛍️",
-        period: "Survei Konsumen BI",
-        value: "123.8 Poin",
+        period: "Survei Konsumen BI Sep 2026",
+        value: "118,1 Poin",
         unit: "Poin",
-        movement_summary: "+1.2 poin vs LM • +2.1 poin vs LY",
+        movement_summary: "-0,4 poin vs LM • Indeks Ekspektasi naik ke 128,7",
         status_badge: "🟢 Zona Optimis",
         status_verdict: "Optimis",
         status_type: "good",
-        situation_note: "Solid di atas ambang batas 100 (zona optimis). Ekspektasi masyarakat terhadap penghasilan dan ketersediaan lapangan kerja menguat.",
-        source: "Bank Indonesia (Survei Konsumen)"
+        situation_note: "Bertahan kokoh di zona optimis (>100) pada level 118,1. Ekspektasi konsumen terhadap penghasilan dan lapangan kerja menguat.",
+        source: "Bank Indonesia (Survei Konsumen Sep 2026)"
       },
       {
         id: "pmi_manufaktur",
         title: "PMI Manufaktur",
         icon: "🏭",
-        period: "S&P Global Rilis Terakhir",
-        value: "51.2 Poin",
+        period: "S&P Global Rilis Sep 2026",
+        value: "52,4 Poin",
         unit: "Poin",
-        movement_summary: "+0.8 poin vs LM • Rebound vs LY (49.8)",
-        status_badge: "🟢 Zona Ekspansi",
+        movement_summary: "+2,6 poin vs LM • Rebound Kuat ke Ekspansi (Tertinggi sejak Feb)",
+        status_badge: "🟢 Ekspansi Kuat",
         status_verdict: "Ekspansif",
         status_type: "good",
-        situation_note: "Bertahan konsisten di atas batas 50 (fase ekspansi). Pesanan baru domestik menguat dan utilisasi kapasitas pabrik meningkat.",
-        source: "S&P Global Indonesia PMI"
+        situation_note: "Melompat tajam ke level 52,4 (tertinggi sejak Feb 2026) didorong kenaikan pesanan baru, produksi pabrik, dan perluasan tenaga kerja.",
+        source: "S&P Global Indonesia PMI (Sep 2026)"
       },
       {
         id: "rupiah",
-        title: "Rupiah (USD/IDR)",
+        title: "Rupiah (JISDOR USD/IDR)",
         icon: "💵",
-        period: "JISDOR / Spot Hari Ini",
-        value: "Rp 15.680",
+        period: "Posisi 16 Okt 2026 · Bank Indonesia",
+        value: "Rp 18.052",
         unit: "/ USD",
-        movement_summary: "Menguat Rp 55 vs LM • +1.20% vs LY",
-        status_badge: "🟢 Terkendali",
-        status_verdict: "Terkendali",
-        status_type: "good",
-        situation_note: "Volatilitas rendah dan nilai tukar menguat; ditopang cadangan devisa kuat (USD 154,8 M) dan arus modal masuk portofolio SBN.",
-        source: "Bank Indonesia (JISDOR) & Pasar Spot"
+        movement_summary: "Ref. Kurs JISDOR BI 16 Okt 2026 • Cadev Kuat $ 146.320 Juta",
+        status_badge: "🟡 Volatilitas Valas",
+        status_verdict: "Perhatian Khusus",
+        status_type: "warning",
+        situation_note: "Kurs JISDOR berada di Rp18.052/USD; stabilitas ditopang cadangan devisa kuat $146.320 juta serta intervensi pasar Bank Indonesia.",
+        source: "Bank Indonesia (JISDOR 16 Okt 2026)"
       },
       {
         id: "ihsg",
         title: "IHSG (Pasar Saham)",
         icon: "📈",
-        period: "Bursa Efek Indonesia",
-        value: "7.742 Poin",
+        period: "Penutupan Terakhir · BEI",
+        value: "5.185,10 Poin",
         unit: "Poin",
-        movement_summary: "+1.45% vs LM • +7.80% vs LY",
-        status_badge: "🟢 Positif",
-        status_verdict: "Positif",
-        status_type: "good",
-        situation_note: "Sentimen pasar modal kondusif dengan net foreign buy. Kinerja laba emiten perbankan dan infrastruktur menopang indeks.",
-        source: "PT Bursa Efek Indonesia (IDX)"
+        movement_summary: "-11,57% (-678,7 poin) pada 16 Okt 2026 • Fase Volatilitas",
+        status_badge: "🟡 Tekanan Pasar",
+        status_verdict: "Fase Volatilitas",
+        status_type: "warning",
+        situation_note: "Indeks bursa terkoreksi sentimen konsultasi indeks global; BEI dan OJK memperkuat pengawasan stabilitas dan likuiditas perdagangan.",
+        source: "PT Bursa Efek Indonesia (IDX Penutupan 16 Okt 2026)"
       },
       {
         id: "emas_antam",
         title: "Emas Antam /gram",
         icon: "🪙",
-        period: "Per 22 Sep 2026",
-        value: "Rp 1.485.000",
+        period: "Per 19 Okt 2026 · Logam Mulia",
+        value: "Rp 2.574.000",
         unit: "/ gram",
-        movement_summary: "+Rp 12.000 vs LM • +28.5% vs LY",
+        movement_summary: "+Rp 2.000 vs Kemarin • Rekor Safe Haven Baru",
         status_badge: "🟢 Safe Haven Kuat",
         status_verdict: "Kuat / Safe Haven",
         status_type: "good",
-        situation_note: "Menguat searah harga emas spot global (XAU/USD). Berfungsi sebagai instrumen lindung nilai (hedging) aset ritel terpercaya.",
-        source: "PT Aneka Tambang Tbk (Logam Mulia)"
+        situation_note: "Harga dasar emas batangan Antam 1 gram resmi mencetak level Rp2.574.000/gram di tengah tingginya permintaan lindung nilai global.",
+        source: "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)"
       },
       {
         id: "emas_buyback",
         title: "Emas Buyback /gram",
         icon: "🔄",
-        period: "Beli Kembali Antam",
-        value: "Rp 1.332.000",
+        period: "Beli Kembali 19 Okt 2026",
+        value: "Rp 2.389.000",
         unit: "/ gram",
-        movement_summary: "+Rp 10.000 vs LM • +27.8% vs LY",
-        status_badge: "🟢 Menarik",
-        status_verdict: "Menarik",
+        movement_summary: "+Rp 2.000 vs Kemarin • Spread Wajar ~7,2%",
+        status_badge: "🟢 Sangat Menarik",
+        status_verdict: "Sangat Menarik",
         status_type: "good",
-        situation_note: "Likuiditas penebusan buyback optimal dengan spread wajar (~10,3%), memberi potensi keuntungan menarik bagi investor berjangka.",
-        source: "PT Aneka Tambang Tbk (Logam Mulia)"
+        situation_note: "Harga buyback Antam berada di Rp2.389.000/gram dengan spread efisien, memberikan realisasi imbal hasil optimal bagi investor emas ritel.",
+        source: "PT Aneka Tambang Tbk (Logam Mulia 19 Okt 2026)"
       }
     ];
 
     const kpis = (this.rollingKpis && this.rollingKpis.length > 0) ? this.rollingKpis : defaultKpis;
-    const noteText = this.rollingKpisMeta?.edition_note || "Angka kunci pekan ini · harga emas Antam mengacu rilis Logam Mulia 22 September 2026; harga 23 September belum dirilis saat edisi ini disusun.";
+    const noteText = this.rollingKpisMeta?.edition_note || "Angka kunci resmi terkini per 19 Oktober 2026 · Mengacu rilis resmi Bank Indonesia (BI-Rate 5,75%, Inflasi 3,19%, Cadev $146.320 Juta, JISDOR Rp18.052), BPS (PDB 5,29%), S&P Global (PMI 52,4), IDX (IHSG), dan Antam (Emas Rp2.574.000).";
 
     return `
       <!-- SECTION: RADAR INDIKATOR HARIAN & HARGA PASAR (UPDATE SETIAP 3 HARI SEKALI) -->
@@ -308,9 +308,9 @@ export class HomeView {
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Pertumbuhan PDB</div>
-            <div class="text-xl font-mono font-bold text-[#3D7B5E]">5.20%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5.20% • QoQ: +3.79%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Kuartal II-2026 (1 Apr – 30 Jun) • BPS</div>
+            <div class="text-xl font-mono font-bold text-[#3D7B5E]">5,29%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +5,29% • QoQ: +3,73%</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Triwulan II-2026 • PDB Rp6.552,1 T • BPS</div>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
@@ -320,7 +320,7 @@ export class HomeView {
           </div>
           <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
             <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
-              <span class="font-bold text-emerald-800">Situasi: Bagus</span> • Tumbuh solid di atas rata-rata global, didorong konsumsi domestik & investasi yang tangguh.
+              <span class="font-bold text-emerald-800">Situasi: Bagus</span> • Tumbuh kokoh 5,29% YoY, ditopang konsumsi rumah tangga dan aktivitas investasi yang kuat.
             </p>
           </div>
         </div>
@@ -328,20 +328,20 @@ export class HomeView {
         <!-- 2. Inflasi IHK -->
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
-            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Inflasi IHK</div>
-            <div class="text-xl font-mono font-bold text-[#0038A8]">2.12%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: 2.12% • MoM: -0.03%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Agustus 2026 • Target BI: 2.5±1%</div>
+            <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Inflasi IHK (yoy)</div>
+            <div class="text-xl font-mono font-bold text-[#0038A8]">3,19%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Target BI: 2,5±1% • MoM: +0,08%</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Agustus 2026 • Rilis Bank Indonesia & BPS</div>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
-                <span>Situasi Sangat Baik</span>
+                <span>Situasi Terkendali</span>
               </span>
             </div>
           </div>
           <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
             <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
-              <span class="font-bold text-emerald-800">Situasi: Sangat Baik</span> • Sangat terkendali di koridor sasaran BI (2,5±1%), pasokan pangan aman dan daya beli terjaga.
+              <span class="font-bold text-emerald-800">Situasi: Terkendali</span> • Sesuai data resmi BI (3,19% yoy), inflasi berada aman dalam koridor sasaran 2,5±1%.
             </p>
           </div>
         </div>
@@ -350,9 +350,9 @@ export class HomeView {
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">BI-Rate (7-Day RR)</div>
-            <div class="text-xl font-mono font-bold text-[#2C2420]">5.50%</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: -50 bps • MoM: 0 bps (Tetap)</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • RDG BI</div>
+            <div class="text-xl font-mono font-bold text-[#2C2420]">5,75%</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">RDG 23 Sep 2026 • Turun -25 bps</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Hari Ini • Bank Indonesia</div>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
@@ -362,7 +362,7 @@ export class HomeView {
           </div>
           <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
             <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
-              <span class="font-bold text-emerald-800">Situasi: Kondusif</span> • Suku bunga kondusif membuka ruang ekspansi kredit perbankan seraya menjaga stabilitas rupiah.
+              <span class="font-bold text-emerald-800">Situasi: Kondusif</span> • BI-Rate 5,75% dipangkas 25 bps pada RDG 23 Sep 2026 demi memperkuat intermediasi kredit perbankan.
             </p>
           </div>
         </div>
@@ -371,9 +371,9 @@ export class HomeView {
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Cadangan Devisa</div>
-            <div class="text-xl font-mono font-bold text-[#2C2420]">USD 154.8 M</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">YoY: +4.25% • MoM: +0.65%</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Posisi Akhir Agustus 2026 • 6.8 Bln Impor</div>
+            <div class="text-xl font-mono font-bold text-[#2C2420]">$ 146.320 Jt</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">USD 146,32 Miliar • 6,5 Bln Impor</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Posisi 30 Sep 2026 • Bank Indonesia</div>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
@@ -383,7 +383,7 @@ export class HomeView {
           </div>
           <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
             <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
-              <span class="font-bold text-emerald-800">Situasi: Sangat Kuat</span> • Cadangan devisa tinggi setara 6,8 bulan impor, jauh melampaui batas kecukupan internasional (3 bulan).
+              <span class="font-bold text-emerald-800">Situasi: Sangat Kuat</span> • Cadangan devisa resmi BI $146.320 juta setara 6,5 bulan impor, jauh di atas standar kecukupan internasional (3 bulan).
             </p>
           </div>
         </div>
@@ -392,9 +392,9 @@ export class HomeView {
         <div class="bg-white hover:bg-[#FAF8F5] p-3.5 rounded-xl space-y-2 text-center flex flex-col items-center justify-between shadow-2xs hover:shadow-xs transition-all border border-[#E8DCCF]">
           <div class="space-y-1 w-full flex flex-col items-center">
             <div class="text-[10.5px] font-mono text-[#7D655C] uppercase tracking-wider font-semibold">Pendapatan APBN 2026</div>
-            <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 2.132,0 T</div>
-            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Realisasi 66,11% • On-Track (99,16%)</div>
-            <div class="text-[10px] font-mono text-[#7D655C]">Akumulasi Jan – Agu 2026 • APBN KiTa</div>
+            <div class="text-xl font-mono font-bold text-[#3D7B5E]">Rp 2.341,5 T</div>
+            <div class="text-[10.5px] font-mono font-bold text-[#5D4037]">Realisasi 74,2% • On-Track APBN 2026</div>
+            <div class="text-[10px] font-mono text-[#7D655C]">Akumulasi Jan – Sep 2026 • APBN KiTa</div>
             <div class="pt-0.5">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
                 <span>🟢</span>
@@ -404,7 +404,7 @@ export class HomeView {
           </div>
           <div class="mt-1 pt-1.5 border-t border-[#F0E6DD] w-full text-center">
             <p class="text-[10px] text-[#4A3B32] font-sans leading-snug bg-[#FAF7F2] p-1.5 rounded-md border border-[#EDE4DA]">
-              <span class="font-bold text-emerald-800">Situasi: On-Track</span> • Realisasi penerimaan 66,11% on-track target tahunan, memberi daya dukung fiskal yang sehat bagi belanja.
+              <span class="font-bold text-emerald-800">Situasi: On-Track</span> • Realisasi penerimaan negara 74,2% target APBN memberi landasan fiskal yang solid dan sehat bagi pembiayaan negara.
             </p>
           </div>
         </div>
@@ -575,7 +575,7 @@ export class HomeView {
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase text-[#2C2420] flex items-center gap-1.5">
               <span>📈</span>
-              <span>Denyut Makroekonomi Nasional (Posisi Rilis s/d Agustus 2026)</span>
+              <span>Denyut Makroekonomi Nasional (Posisi Rilis Resmi Terkini, 19 Oktober 2026)</span>
             </span>
             <span class="text-[10px] font-mono bg-white text-[#7D655C] border border-[#E5DACF] px-2 py-0.5 rounded">
               5 Indikator Pokok BPS & Bank Indonesia
@@ -1068,7 +1068,7 @@ export class HomeView {
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase text-[#2C2420] flex items-center gap-1.5">
               <span>📈</span>
-              <span>Denyut Makroekonomi Nasional (Posisi Rilis s/d Agustus 2026)</span>
+              <span>Denyut Makroekonomi Nasional (Posisi Rilis Resmi Terkini, 19 Oktober 2026)</span>
             </span>
             <span class="text-[10px] font-mono bg-white text-[#7D655C] border border-[#E5DACF] px-2 py-0.5 rounded">
               5 Indikator Pokok BPS & Bank Indonesia

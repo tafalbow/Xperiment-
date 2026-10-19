@@ -12,7 +12,7 @@ def test_rolling_kpi_service_data():
     res = RollingKPIService.get_rolling_kpis()
     assert res["status"] == "SUCCESS"
     assert "Update Setiap 3 Hari Sekali" in res["cycle_label"]
-    assert "22 September 2026" in res["edition_note"]
+    assert "19 Oktober 2026" in res["edition_note"]
     assert len(res["kpis"]) == 8
 
     kpi_ids = [k["id"] for k in res["kpis"]]
@@ -45,7 +45,7 @@ def test_api_rolling_kpi_endpoint():
     assert data["status"] == "SUCCESS"
     assert len(data["kpis"]) == 8
     titles = [k["title"] for k in data["kpis"]]
-    assert any("BI Rate" in t for t in titles)
+    assert any("BI Rate" in t or "BI-Rate" in t for t in titles)
     assert any("Inflasi" in t for t in titles)
     assert any("IKK" in t for t in titles)
     assert any("PMI Manufaktur" in t for t in titles)
