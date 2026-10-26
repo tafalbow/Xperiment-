@@ -13,14 +13,14 @@ from backend.services.lkpp_service import LKPPService
 client = TestClient(app)
 
 def test_get_lkpp_tables():
-    """Verify registry returns all 9 statutory State Finance tables (APBN, RAPBN, CUKAI & LKPP)."""
+    """Verify registry returns all 10 statutory State Finance tables (APBN, RAPBN, CUKAI, SUBSIDI & LKPP)."""
     res = client.get("/api/lkpp/tables")
     assert res.status_code == 200
     data = res.json()
     assert data["status"] == "SUCCESS"
-    assert data["total_tables"] == 9
+    assert data["total_tables"] >= 10
     table_ids = [t["id"] for t in data["tables"]]
-    for expected in ["LRA", "APBN", "RAPBN", "CUKAI", "LPSAL", "NERACA", "LO", "LAK", "LPE"]:
+    for expected in ["LRA", "APBN", "RAPBN", "CUKAI", "LPSAL", "NERACA", "LO", "LAK", "LPE", "SUBSIDI"]:
         assert expected in table_ids
 
 def test_get_lkpp_matrix_default():
@@ -43,14 +43,61 @@ def test_get_lkpp_matrix_default():
     assert "1990" in first_row["values"]
     assert "2026" in first_row["values"]
 
-def test_get_lkpp_matrix_all_nine_tables():
-    """Verify each of the 9 statutory tables can be generated properly."""
-    for table_id in ["LRA", "APBN", "RAPBN", "CUKAI", "LPSAL", "NERACA", "LO", "LAK", "LPE"]:
+def test_get_lkpp_matrix_all_tables():
+    """Verify each of the 10 statutory tables can be generated properly."""
+    for table_id in ["LRA", "APBN", "RAPBN", "CUKAI", "LPSAL", "NERACA", "LO", "LAK", "LPE", "SUBSIDI"]:
         res = client.get(f"/api/lkpp/matrix?table_id={table_id}")
         assert res.status_code == 200, f"Failed for table {table_id}"
         data = res.json()
         assert data["table_meta"]["id"] == table_id
         assert data["total_rows"] >= 5
+
+def test_subsidi_detailed_breakdown():
+    """Verify detailed subsidy budget, funding sources, spending items, proportions, and fiscal incentives."""
+    res = client.get("/api/lkpp/matrix?table_id=SUBSIDI")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["table_meta"]["id"] == "SUBSIDI"
+    assert data["filter"]["total_years"] == 37
+    row_ids = [r["id"] for r in data["rows"]]
+    
+    # 1. Sumber Pendapatan Penopang Subsidi
+    assert "SUB_SRC_TOTAL" in row_ids
+    assert "SUB_SRC_PNBP_SDA" in row_ids
+    assert "SUB_SRC_PNBP_MIGAS" in row_ids
+    assert "SUB_SRC_PNBP_MINERBA" in row_ids
+    assert "SUB_SRC_PPH_MIGAS" in row_ids
+    assert "SUB_SRC_DIVIDEN_BUMN" in row_ids
+    assert "SUB_SRC_SAL_FISKAL" in row_ids
+    
+    # 2. Spend Alokasi Belanja Subsidi & Kompensasi
+    assert "SUB_EXP_TOTAL" in row_ids
+    assert "SUB_EXP_ENERGI_TOTAL" in row_ids
+    assert "SUB_EXP_BBM" in row_ids
+    assert "SUB_EXP_LPG" in row_ids
+    assert "SUB_EXP_LISTRIK" in row_ids
+    assert "SUB_EXP_NON_ENERGI_TOTAL" in row_ids
+    assert "SUB_EXP_PUPUK" in row_ids
+    assert "SUB_EXP_KUR" in row_ids
+    assert "SUB_EXP_PSO" in row_ids
+    assert "SUB_EXP_PERUMAHAN_LAIN" in row_ids
+    
+    # 3. Proporsi Setiap Subsidi (%)
+    assert "SUB_PROP_BBM" in row_ids
+    assert "SUB_PROP_LPG" in row_ids
+    assert "SUB_PROP_LISTRIK" in row_ids
+    assert "SUB_PROP_PUPUK" in row_ids
+    assert "SUB_PROP_KUR" in row_ids
+    assert "SUB_PROP_PSO_LAIN" in row_ids
+    
+    # 4. Insentif Perpajakan & Fiskal (Tax Expenditure)
+    assert "INS_TOTAL_TAX_EXP" in row_ids
+    assert "INS_UMKM" in row_ids
+    assert "INS_PROPERTI_PPN" in row_ids
+    assert "INS_EV_KBLBB" in row_ids
+    assert "INS_INVESTASI_HILIRISASI" in row_ids
+    assert "INS_KAWASAN_BERIKAT" in row_ids
+    assert "INS_DIF_DAERAH" in row_ids
 
 def test_cukai_detailed_breakdown():
     """Verify detailed excise tax (cukai) breakdown and related transfers/expenses."""

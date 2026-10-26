@@ -86,11 +86,21 @@ export class LKPPView {
               <span>Fiscal Health Dashboard</span>
               <span class="text-[9.5px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-mono font-bold">10 Core KPI</span>
             </button>
+            <button 
+              id="lkpp-subtab-btn-subsidi" 
+              role="tab"
+              aria-selected="${this.activeSubTab === 'subsidi'}"
+              class="px-3.5 py-1.5 font-bold rounded ${this.activeSubTab === 'subsidi' ? 'bg-white text-[#0038A8] shadow-2xs' : 'text-[#5F6368] hover:text-[#202124] hover:bg-white/60'} flex items-center gap-1.5 transition cursor-pointer"
+            >
+              <span>⚡</span>
+              <span>Subsidi & Insentif Fiskal</span>
+              <span class="text-[9.5px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 font-mono font-bold">Pagu, Sumber & Proporsi</span>
+            </button>
           </div>
         </div>
 
         <!-- Sub-Content 1: Matriks Laporan LKPP -->
-        <div id="lkpp-subcontent-matrix" class="${this.activeSubTab === 'matrix' ? '' : 'hidden'} space-y-4">
+        <div id="lkpp-subcontent-matrix" class="${this.activeSubTab === 'matrix' || this.activeSubTab === 'subsidi' ? '' : 'hidden'} space-y-4">
         </div>
 
         <!-- Sub-Content 2: Fiscal Health Dashboard -->
@@ -108,41 +118,44 @@ export class LKPPView {
   bindSubTabEvents() {
     const btnMatrix = document.getElementById('lkpp-subtab-btn-matrix');
     const btnFiscalHealth = document.getElementById('lkpp-subtab-btn-fiscal-health');
+    const btnSubsidi = document.getElementById('lkpp-subtab-btn-subsidi');
 
     btnMatrix?.addEventListener('click', () => this.switchSubTab('matrix'));
     btnFiscalHealth?.addEventListener('click', () => this.switchSubTab('fiscal_health'));
+    btnSubsidi?.addEventListener('click', () => this.switchSubTab('subsidi'));
   }
 
   async switchSubTab(subTabName) {
     this.activeSubTab = subTabName;
     const btnMatrix = document.getElementById('lkpp-subtab-btn-matrix');
     const btnFiscalHealth = document.getElementById('lkpp-subtab-btn-fiscal-health');
+    const btnSubsidi = document.getElementById('lkpp-subtab-btn-subsidi');
     const contentMatrix = document.getElementById('lkpp-subcontent-matrix');
     const contentFiscalHealth = document.getElementById('lkpp-subcontent-fiscal-health');
+
+    // Reset styles
+    [btnMatrix, btnFiscalHealth, btnSubsidi].forEach(b => {
+      b?.classList.remove('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      b?.classList.add('text-[#5F6368]', 'font-medium');
+      b?.setAttribute('aria-selected', 'false');
+    });
 
     if (subTabName === 'matrix') {
       btnMatrix?.classList.add('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
       btnMatrix?.classList.remove('text-[#5F6368]', 'font-medium');
       btnMatrix?.setAttribute('aria-selected', 'true');
 
-      btnFiscalHealth?.classList.remove('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
-      btnFiscalHealth?.classList.add('text-[#5F6368]', 'font-medium');
-      btnFiscalHealth?.setAttribute('aria-selected', 'false');
-
       contentMatrix?.classList.remove('hidden');
       contentFiscalHealth?.classList.add('hidden');
 
-      if (!this.matrixData) {
-        await this.loadAndRender();
+      if (this.tableId === 'SUBSIDI') {
+        this.tableId = 'LRA';
       }
+      await this.loadAndRender();
     } else if (subTabName === 'fiscal_health') {
       btnFiscalHealth?.classList.add('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
       btnFiscalHealth?.classList.remove('text-[#5F6368]', 'font-medium');
       btnFiscalHealth?.setAttribute('aria-selected', 'true');
-
-      btnMatrix?.classList.remove('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
-      btnMatrix?.classList.add('text-[#5F6368]', 'font-medium');
-      btnMatrix?.setAttribute('aria-selected', 'false');
 
       contentFiscalHealth?.classList.remove('hidden');
       contentMatrix?.classList.add('hidden');
@@ -153,6 +166,16 @@ export class LKPPView {
       } else {
         this.fiscalHealthView.render();
       }
+    } else if (subTabName === 'subsidi') {
+      btnSubsidi?.classList.add('bg-white', 'text-[#0038A8]', 'font-bold', 'shadow-2xs');
+      btnSubsidi?.classList.remove('text-[#5F6368]', 'font-medium');
+      btnSubsidi?.setAttribute('aria-selected', 'true');
+
+      contentMatrix?.classList.remove('hidden');
+      contentFiscalHealth?.classList.add('hidden');
+
+      this.tableId = 'SUBSIDI';
+      await this.loadAndRender();
     }
   }
 
@@ -421,6 +444,8 @@ export class LKPPView {
           </div>
         </div>
 
+        ${this.tableId === 'SUBSIDI' ? this.renderSubsidiVisualDashboard() : ''}
+
         <!-- 4. PIVOT MATRIX DATA TABLE (HORIZONTAL SCROLL) -->
         <div class="gov-card bg-white  shadow-2xs overflow-hidden">
           <div class="p-3 bg-[#F8F9FA]  flex items-center justify-between text-xs font-mono">
@@ -499,10 +524,427 @@ export class LKPPView {
     this.bindEvents();
   }
 
+  renderSubsidiVisualDashboard() {
+    return `
+      <!-- SPECIAL EXECUTIVE DASHBOARD: SUBSIDI, SUMBER DANA, PROPORSI & INSENTIF FISKAL -->
+      <div class="space-y-4">
+        
+        <!-- 1. HIGHLIGHT KPI CARDS (4 TILES) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          
+          <!-- Card 1: Total Anggaran & Realisasi Belanja Subsidi -->
+          <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-500">
+              <span class="font-bold text-slate-700">BELANJA SUBSIDI 2026</span>
+              <span class="px-1.5 py-0.5 rounded bg-blue-50 text-[#0038A8] font-bold text-[10px]">APBN 2026</span>
+            </div>
+            <div class="text-2xl font-bold font-mono text-[#0038A8]">Rp 315,00 T</div>
+            <div class="text-[11px] text-slate-600 space-y-0.5">
+              <div class="flex justify-between"><span>• Subsidi Energi (BBM/LPG/PLN):</span> <strong class="font-mono text-slate-800">Rp 204,5 T (64.9%)</strong></div>
+              <div class="flex justify-between"><span>• Non-Energi (Pupuk/KUR/PSO):</span> <strong class="font-mono text-slate-800">Rp 110,5 T (35.1%)</strong></div>
+            </div>
+          </div>
+
+          <!-- Card 2: Sumber Dana Penopang Subsidi -->
+          <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-500">
+              <span class="font-bold text-slate-700">SUMBER FISKAL PENOPANG</span>
+              <span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold text-[10px]">Buffer 148.8%</span>
+            </div>
+            <div class="text-2xl font-bold font-mono text-emerald-700">Rp 468,80 T</div>
+            <div class="text-[11px] text-slate-600 space-y-0.5">
+              <div class="flex justify-between"><span>• PNBP Minerba & Batubara:</span> <strong class="font-mono text-slate-800">Rp 148,5 T</strong></div>
+              <div class="flex justify-between"><span>• PNBP SDA Migas + PPh Migas:</span> <strong class="font-mono text-slate-800">Rp 193,5 T</strong></div>
+              <div class="flex justify-between"><span>• Dividen BUMN & Saldo SAL:</span> <strong class="font-mono text-slate-800">Rp 125,0 T</strong></div>
+            </div>
+          </div>
+
+          <!-- Card 3: Proporsi Terbesar -->
+          <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-500">
+              <span class="font-bold text-slate-700">PROPORSI SUBSIDI TERBESAR</span>
+              <span class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 font-bold text-[10px]">Pangsa %</span>
+            </div>
+            <div class="text-2xl font-bold font-mono text-amber-700">55.9%</div>
+            <div class="text-[11px] text-slate-600 space-y-0.5">
+              <div class="flex justify-between"><span>• Listrik 450/900 VA:</span> <strong class="font-mono text-slate-800">28.3% (Rp 89,0 T)</strong></div>
+              <div class="flex justify-between"><span>• LPG Tabung 3 Kg:</span> <strong class="font-mono text-slate-800">27.6% (Rp 87,0 T)</strong></div>
+              <div class="flex justify-between"><span>• Pupuk Petani & KUR:</span> <strong class="font-mono text-slate-800">26.2% (Rp 82,5 T)</strong></div>
+            </div>
+          </div>
+
+          <!-- Card 4: Insentif Perpajakan & Fiskal -->
+          <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-500">
+              <span class="font-bold text-slate-700">INSENTIF PERPAJAKAN (TAX EXP)</span>
+              <span class="px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-bold text-[10px]">Stimulus Riil</span>
+            </div>
+            <div class="text-2xl font-bold font-mono text-purple-700">Rp 418,00 T</div>
+            <div class="text-[11px] text-slate-600 space-y-0.5">
+              <div class="flex justify-between"><span>• PPh Final UMKM & Omzet Bebas:</span> <strong class="font-mono text-slate-800">Rp 12,0 T</strong></div>
+              <div class="flex justify-between"><span>• PPN DTP Properti & EV/KBLBB:</span> <strong class="font-mono text-slate-800">Rp 12,0 T</strong></div>
+              <div class="flex justify-between"><span>• Tax Holiday, KEK & DIF Daerah:</span> <strong class="font-mono text-slate-800">Rp 114,5 T</strong></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2. DETAIL SUMBER BUDGET VS ALOKASI SPEND SUBSIDI -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          
+          <!-- Panel Kiri: DARI MANA BUDGET SUBSIDI DIDAPATKAN? -->
+          <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3 font-mono">
+            <div class="flex items-center gap-2 border-b border-slate-100 pb-2.5">
+              <span class="w-7 h-7 rounded-md bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">📥</span>
+              <div>
+                <h3 class="text-xs font-bold text-[#202124] uppercase">Dari Mana Saja Budget Subsidi Didapatkan?</h3>
+                <p class="text-[11px] text-slate-500 font-sans">Sumber pendapatan negara dan bantalan kas yang menopang belanja subsidi tahunan</p>
+              </div>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-100 space-y-1">
+                <div class="flex items-center justify-between font-bold text-slate-800">
+                  <span>1. PNBP Mineral dan Batubara (Royalti Tambang)</span>
+                  <span class="text-emerald-700 font-mono">Rp 148,5 T (31.7%)</span>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-600 h-full rounded-full" style="width: 31.7%"></div>
+                </div>
+                <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                  Iuran produksi royalti batubara, nikel, dan tembaga. Menjadi windfall buffer utama saat lonjakan harga komoditas global.
+                </p>
+              </div>
+
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-100 space-y-1">
+                <div class="flex items-center justify-between font-bold text-slate-800">
+                  <span>2. PNBP Sumber Daya Alam Minyak & Gas Bumi</span>
+                  <span class="text-emerald-700 font-mono">Rp 122,5 T (26.1%)</span>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-600 h-full rounded-full" style="width: 26.1%"></div>
+                </div>
+                <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                  Bagian pemerintah atas lifting minyak bumi (~600-605 ribu bopd) dan gas bumi Kontraktor Kontrak Kerja Sama (KKKS).
+                </p>
+              </div>
+
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-100 space-y-1">
+                <div class="flex items-center justify-between font-bold text-slate-800">
+                  <span>3. Bagian Laba / Dividen BUMN Sektor Terkait</span>
+                  <span class="text-emerald-700 font-mono">Rp 90,0 T (19.2%)</span>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-600 h-full rounded-full" style="width: 19.2%"></div>
+                </div>
+                <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                  Setoran dividen PT Pertamina (Persero), PT PLN (Persero), PT Pupuk Indonesia, dan Himbara (penyalur KUR) ke kas negara.
+                </p>
+              </div>
+
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-100 space-y-1">
+                <div class="flex items-center justify-between font-bold text-slate-800">
+                  <span>4. Pajak Penghasilan (PPh) Migas (Akun 41111)</span>
+                  <span class="text-emerald-700 font-mono">Rp 71,0 T (15.1%)</span>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-600 h-full rounded-full" style="width: 15.1%"></div>
+                </div>
+                <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                  Pajak penghasilan atas kontraktor migas hulu yang memiliki korelasi searah dengan tren harga minyak mentah ICP.
+                </p>
+              </div>
+
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-100 space-y-1">
+                <div class="flex items-center justify-between font-bold text-slate-800">
+                  <span>5. Cadangan Fiskal & Saldo Anggaran Lebih (SAL)</span>
+                  <span class="text-emerald-700 font-mono">Rp 35,0 T (7.5%)</span>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-600 h-full rounded-full" style="width: 7.5%"></div>
+                </div>
+                <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                  Penggunaan cadangan kas SiLPA tahun-tahun sebelumnya untuk menyerap selisih kompensasi tanpa mendisrupsi pagu belanja prioritas lainnya.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel Kanan: SPEND UNTUK SUBSIDI APA SAJA? -->
+          <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3 font-mono">
+            <div class="flex items-center gap-2 border-b border-slate-100 pb-2.5">
+              <span class="w-7 h-7 rounded-md bg-blue-50 text-[#0038A8] flex items-center justify-center font-bold text-sm">📤</span>
+              <div>
+                <h3 class="text-xs font-bold text-[#202124] uppercase">Spend untuk Subsidi Apa Saja?</h3>
+                <p class="text-[11px] text-slate-500 font-sans">Alokasi anggaran belanja per komoditas, sektor riil, dan penerima manfaat</p>
+              </div>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+              <!-- Energi Group -->
+              <div class="p-2.5 rounded bg-blue-50/50 border border-blue-100 space-y-1.5">
+                <div class="flex items-center justify-between font-bold text-[#0038A8]">
+                  <span>A. SUBSIDI & KOMPENSASI ENERGI</span>
+                  <span class="font-mono">Rp 204,5 T (64.9%)</span>
+                </div>
+                <div class="space-y-1 pl-2 text-[11px] font-sans">
+                  <div class="flex justify-between items-center text-slate-800">
+                    <span>⚡ <strong>Subsidi Listrik & Kompensasi PLN:</strong></span>
+                    <span class="font-mono font-bold text-blue-900">Rp 89,0 T (28.3%)</span>
+                  </div>
+                  <p class="text-[10.5px] text-slate-600">
+                    Menjamin tarif terjangkau bagi 24,5 jt pelanggan R-1 450 VA & 8,6 jt pelanggan 900 VA miskin DTKS, sosial, dan bisnis kecil.
+                  </p>
+                  
+                  <div class="flex justify-between items-center text-slate-800 pt-1">
+                    <span>🟢 <strong>Subsidi LPG Tabung 3 Kg:</strong></span>
+                    <span class="font-mono font-bold text-blue-900">Rp 87,0 T (27.6%)</span>
+                  </div>
+                  <p class="text-[10.5px] text-slate-600">
+                    Penyaluran 8,2 juta metrik ton gas melon bersubsidi berbasis KTP/NIK untuk keluarga prasejahtera & usaha mikro kuliner.
+                  </p>
+
+                  <div class="flex justify-between items-center text-slate-800 pt-1">
+                    <span>⛽ <strong>Subsidi BBM Tertentu & Kompensasi:</strong></span>
+                    <span class="font-mono font-bold text-blue-900">Rp 28,5 T (9.0%)</span>
+                  </div>
+                  <p class="text-[10.5px] text-slate-600">
+                    Subsidi tetap Solar Rp 1.000/liter, Minyak Tanah nelayan/3T, dan kompensasi JBKP Pertalite untuk logistik sembako.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Non-Energi Group -->
+              <div class="p-2.5 rounded bg-emerald-50/50 border border-emerald-100 space-y-1.5">
+                <div class="flex items-center justify-between font-bold text-emerald-800">
+                  <span>B. SUBSIDI NON-ENERGI SEKTOR RIIL</span>
+                  <span class="font-mono">Rp 110,5 T (35.1%)</span>
+                </div>
+                <div class="space-y-1 pl-2 text-[11px] font-sans">
+                  <div class="flex justify-between items-center text-slate-800">
+                    <span>🌾 <strong>Subsidi Pupuk Pertanian:</strong></span>
+                    <span class="font-mono font-bold text-emerald-900">Rp 44,0 T (14.0%)</span>
+                  </div>
+                  <p class="text-[10.5px] text-slate-600">
+                    Alokasi 9,55 juta ton pupuk (Urea, NPK) e-Alokasi untuk petani pangan, hortikultura, dan perkebunan rakyat.
+                  </p>
+
+                  <div class="flex justify-between items-center text-slate-800 pt-1">
+                    <span>💼 <strong>Subsidi Bunga KUR & Bunga KPR:</strong></span>
+                    <span class="font-mono font-bold text-emerald-900">Rp 38,5 T (12.2%)</span>
+                  </div>
+                  <p class="text-[10.5px] text-slate-600">
+                    Bantuan marjin bunga kredit usaha rakyat (suku bunga efektif 3%-6%) bagi 4+ juta debitur mikro dan kecil.
+                  </p>
+
+                  <div class="flex justify-between items-center text-slate-800 pt-1">
+                    <span>🏠 <strong>Perumahan MBR (FLPP & SBUM) & Benih:</strong></span>
+                    <span class="font-mono font-bold text-emerald-900">Rp 20,5 T (6.5%)</span>
+                  </div>
+                  <p class="text-[10.5px] text-slate-600">
+                    Bantuan uang muka perumahan bagi pekerja informal MBR serta cadangan stabilisasi pasokan benih pangan nasional.
+                  </p>
+
+                  <div class="flex justify-between items-center text-slate-800 pt-1">
+                    <span>🚆 <strong>Subsidi Kewajiban Pelayanan Publik (PSO):</strong></span>
+                    <span class="font-mono font-bold text-emerald-900">Rp 7,5 T (2.4%)</span>
+                  </div>
+                  <p class="text-[10.5px] text-slate-600">
+                    Tiket terjangkau KRL Commuter Line Jabodetabek, KA Ekonomi Jarak Jauh (KAI), Kapal Perintis Pelni, dan ASDP.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. PROPORSI SETIAP SUBSIDI & REFORMASI STRUKTURAL -->
+        <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3 font-mono">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-7 h-7 rounded-md bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-sm">📊</span>
+              <div>
+                <h3 class="text-xs font-bold text-[#202124] uppercase">Proporsi Setiap Subsidi & Pergeseran Struktural</h3>
+                <p class="text-[11px] text-slate-500 font-sans">Evolusi transformasi belanja subsidi dari komoditas terbuka (BBM) menuju subsidi tertarget</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded text-[10.5px] bg-slate-100 text-slate-700 font-bold">1990 – 2026</span>
+          </div>
+
+          <!-- Progress Bars Comparison -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+            <div class="p-3 rounded border border-slate-100 bg-slate-50 space-y-1.5">
+              <div class="flex justify-between font-bold text-slate-800">
+                <span>⚡ Listrik 450/900 VA & Kompensasi PLN</span>
+                <span class="text-[#0038A8]">28.3%</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-[#0038A8] h-full rounded-full" style="width: 28.3%"></div>
+              </div>
+              <div class="text-[10.5px] text-slate-500 flex justify-between">
+                <span>Rp 89,0 T / Rp 315,0 T</span>
+                <span>Prioritas Utama</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded border border-slate-100 bg-slate-50 space-y-1.5">
+              <div class="flex justify-between font-bold text-slate-800">
+                <span>🟢 LPG Tabung 3 Kg (Usaha Mikro & Miskin)</span>
+                <span class="text-emerald-700">27.6%</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-emerald-600 h-full rounded-full" style="width: 27.6%"></div>
+              </div>
+              <div class="text-[10.5px] text-slate-500 flex justify-between">
+                <span>Rp 87,0 T / Rp 315,0 T</span>
+                <span>Targeted NIK</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded border border-slate-100 bg-slate-50 space-y-1.5">
+              <div class="flex justify-between font-bold text-slate-800">
+                <span>🌾 Pupuk Bersubsidi (Urea & NPK)</span>
+                <span class="text-amber-700">14.0%</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-amber-600 h-full rounded-full" style="width: 14.0%"></div>
+              </div>
+              <div class="text-[10.5px] text-slate-500 flex justify-between">
+                <span>Rp 44,0 T / Rp 315,0 T</span>
+                <span>Kedaulatan Pangan</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded border border-slate-100 bg-slate-50 space-y-1.5">
+              <div class="flex justify-between font-bold text-slate-800">
+                <span>💼 Subsidi Bunga Kredit Usaha Rakyat (KUR)</span>
+                <span class="text-purple-700">12.2%</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-purple-600 h-full rounded-full" style="width: 12.2%"></div>
+              </div>
+              <div class="text-[10.5px] text-slate-500 flex justify-between">
+                <span>Rp 38,5 T / Rp 315,0 T</span>
+                <span>Inklusi Finansial</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded border border-slate-100 bg-slate-50 space-y-1.5">
+              <div class="flex justify-between font-bold text-slate-800">
+                <span>⛽ BBM Tertentu (Solar JBT) & JBKP Pertalite</span>
+                <span class="text-rose-700">9.0%</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-rose-600 h-full rounded-full" style="width: 9.0%"></div>
+              </div>
+              <div class="text-[10.5px] text-slate-500 flex justify-between">
+                <span>Rp 28,5 T / Rp 315,0 T</span>
+                <span>Diturunkan dari 62.9% (2014)</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded border border-slate-100 bg-slate-50 space-y-1.5">
+              <div class="flex justify-between font-bold text-slate-800">
+                <span>🚆 PSO Transportasi Umum, Perumahan & Lainnya</span>
+                <span class="text-indigo-700">8.9%</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-indigo-600 h-full rounded-full" style="width: 8.9%"></div>
+              </div>
+              <div class="text-[10.5px] text-slate-500 flex justify-between">
+                <span>Rp 28,0 T / Rp 315,0 T</span>
+                <span>Mobilitas Rakyat & MBR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. FASILITAS INSENTIF FISKAL & BELANJA PERPAJAKAN (TAX EXPENDITURE) -->
+        <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-3 font-mono">
+          <div class="flex items-center gap-2 border-b border-slate-100 pb-2.5">
+            <span class="w-7 h-7 rounded-md bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-sm">🎁</span>
+            <div>
+              <h3 class="text-xs font-bold text-[#202124] uppercase">Fasilitas Insentif Perpajakan & Fiskal Daerah (Tax Expenditure)</h3>
+              <p class="text-[11px] text-slate-500 font-sans">Stimulus fiskal non-tunai berupa pembebasan pajak dan reward transfer kinerja daerah</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+            
+            <div class="p-3 rounded border border-purple-100 bg-purple-50/40 space-y-1">
+              <div class="flex items-center justify-between font-bold text-purple-900">
+                <span>🏷️ Insentif PPh Final UMKM 0,5%</span>
+                <span class="font-mono">Rp 12,0 T</span>
+              </div>
+              <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                Pembebasan pajak bagi omzet s.d. Rp 500 juta/tahun untuk Wajib Pajak Orang Pribadi UMKM sesuai UU No. 7/2021 (HPP).
+              </p>
+            </div>
+
+            <div class="p-3 rounded border border-blue-100 bg-blue-50/40 space-y-1">
+              <div class="flex items-center justify-between font-bold text-blue-900">
+                <span>🏠 PPN DTP Perumahan Rakyat</span>
+                <span class="font-mono">Rp 5,8 T</span>
+              </div>
+              <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                Pajak Pertambahan Nilai Ditanggung Pemerintah (PPN DTP) hingga 100% untuk pembelian rumah siap huni s.d. harga Rp 5 Miliar.
+              </p>
+            </div>
+
+            <div class="p-3 rounded border border-emerald-100 bg-emerald-50/40 space-y-1">
+              <div class="flex items-center justify-between font-bold text-emerald-900">
+                <span>⚡ Insentif Kendaraan Listrik (KBLBB)</span>
+                <span class="font-mono">Rp 6,2 T</span>
+              </div>
+              <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                PPN DTP mobil & bus listrik TKDN >= 40% (PPN hanya 1%) serta pembebasan Bea Masuk mobil listrik untuk percepatan dekarbonisasi.
+              </p>
+            </div>
+
+            <div class="p-3 rounded border border-amber-100 bg-amber-50/40 space-y-1">
+              <div class="flex items-center justify-between font-bold text-amber-900">
+                <span>🏭 Tax Holiday & Allowance Hilirisasi</span>
+                <span class="font-mono">Rp 46,5 T</span>
+              </div>
+              <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                Pembebasan PPh Badan selama 5-20 tahun untuk investasi smelter mineral dan rantai industri strategis bernilai tambah tinggi.
+              </p>
+            </div>
+
+            <div class="p-3 rounded border border-slate-200 bg-slate-50 space-y-1">
+              <div class="flex items-center justify-between font-bold text-slate-800">
+                <span>🚢 Fasilitas Kawasan Berikat & KEK</span>
+                <span class="font-mono">Rp 58,0 T</span>
+              </div>
+              <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                Penangguhan bea masuk, pembebasan cukai, dan tidak dipungut PPN bagi industri berorientasi ekspor manufaktur nasional.
+              </p>
+            </div>
+
+            <div class="p-3 rounded border border-indigo-100 bg-indigo-50/40 space-y-1">
+              <div class="flex items-center justify-between font-bold text-indigo-900">
+                <span>🏛️ Dana Insentif Fiskal (DIF) Pemda</span>
+                <span class="font-mono">Rp 10,0 T</span>
+              </div>
+              <p class="text-[10.5px] text-slate-600 font-sans leading-relaxed">
+                Transfer ke daerah berupa bonus fiskal bagi pemerintah daerah yang sukses mengendalikan inflasi lokal dan menuntaskan kemiskinan.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
   renderTableRow(row, years, unitSymbol) {
     const isHdr = row.is_header;
     const isL1 = row.level === 1;
     const isL2 = row.level === 2;
+    const isPct = row.is_percent;
 
     const rowBg = isHdr 
       ? 'bg-[#F1F3F4] hover:bg-[#E8EAED] font-bold text-[#202124]' 
@@ -511,7 +953,7 @@ export class LKPPView {
     const stickyBg = isHdr ? 'bg-[#F1F3F4]' : 'bg-white';
 
     // Indentation for sub-items
-    const indentClass = row.level === 2 ? 'pl-5' : (row.level >= 3 ? 'pl-8' : 'pl-3');
+    const indentClass = row.level === 2 ? 'pl-5' : (row.level === 3 ? 'pl-8' : (row.level >= 4 ? 'pl-11' : 'pl-3'));
 
     return `
       <tr class="${rowBg} cursor-pointer transition-colors group lkpp-table-row" data-item-id="${row.id}">
@@ -550,7 +992,9 @@ export class LKPPView {
           const val = row.values[y.year_str];
           const isNegative = val < 0;
           const valStr = val !== undefined && val !== null
-            ? Number(val).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            ? (isPct
+                ? Number(val).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%'
+                : Number(val).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
             : '-';
 
           const numColor = isNegative ? 'text-rose-600 font-semibold' : (isHdr ? 'text-[#202124]' : 'text-[#3C4043]');

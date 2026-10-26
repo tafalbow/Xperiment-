@@ -273,8 +273,11 @@ export class ApbnEvalView {
       { id: 'REV_TAX_CUKAI', label: 'Cukai Hasil Tembakau', icon: '🏷️', statusBadge: 'bg-amber-50 text-amber-700', badgeText: 'Downtrading' },
       { id: 'REV_PNBP', label: 'Penerimaan PNBP', icon: '🪙', statusBadge: 'bg-emerald-50 text-emerald-700', badgeText: 'Dividen BUMN +' },
       { id: 'EXP_TOTAL', label: 'Belanja Negara', icon: '📦', statusBadge: 'bg-sky-50 text-sky-700', badgeText: `${exp.pct_apbn || 0}% APBN` },
+      { id: 'EXP_BPP_SUBSIDI', label: 'Belanja Subsidi & Kompensasi', icon: '⚡', statusBadge: 'bg-amber-50 text-amber-700', badgeText: 'Pagu & Realisasi' },
+      { id: 'EXP_SUB_ENERGI', label: 'Subsidi Energi (BBM/LPG/PLN)', icon: '🔥', statusBadge: 'bg-blue-50 text-blue-700', badgeText: 'Targeted NIK' },
       { id: 'EXP_BPP_MODAL', label: 'Belanja Modal K/L', icon: '🏗️', statusBadge: 'bg-amber-50 text-amber-700', badgeText: 'Lelang Dini' },
       { id: 'EXP_TKD', label: 'Transfer Daerah (TKD)', icon: '🗺️', statusBadge: 'bg-emerald-50 text-emerald-700', badgeText: `${kpi.tkd?.pct_apbn || 0}% APBN` },
+      { id: 'EXP_TKD_INSENTIF', label: 'Dana Insentif Fiskal (DIF)', icon: '🎁', statusBadge: 'bg-purple-50 text-purple-700', badgeText: 'Reward Pemda' },
       { id: 'DEFISIT_ANGGARAN', label: 'Defisit Anggaran', icon: '⚖️', statusBadge: 'bg-sky-50 text-sky-700', badgeText: `${def.pct_gdp_ytd || 0}% PDB` }
     ];
 
@@ -763,8 +766,8 @@ export class ApbnEvalView {
     return rows.map(r => {
       const isHdr = r.is_header;
       const isTopLvl = r.level === 1;
-      const padLeft = r.level === 1 ? 'pl-2' : (r.level === 2 ? 'pl-4' : 'pl-7');
-      const fontWeight = isTopLvl ? 'font-bold text-[#2C2420]' : (isHdr ? 'font-semibold text-[#2C2420]' : 'text-[#5D4037]');
+      const padLeft = r.level === 1 ? 'pl-2' : (r.level === 2 ? 'pl-4' : (r.level === 3 ? 'pl-6' : (r.level === 4 ? 'pl-9' : 'pl-12')));
+      const fontWeight = isTopLvl ? 'font-bold text-[#2C2420]' : (isHdr ? 'font-semibold text-[#2C2420]' : (r.level >= 5 ? 'text-slate-600 font-normal text-[11px]' : 'text-[#5D4037]'));
       const rowBg = isTopLvl ? 'bg-[#FAF7F2]/50 hover:bg-[#FAF7F2]' : 'hover:bg-[#FAF7F2]/30';
 
       const formatNum = (v) => {

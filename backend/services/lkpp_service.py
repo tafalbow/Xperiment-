@@ -194,6 +194,17 @@ class LKPPService:
             "accounting_basis": "Basis Akrual Penuh",
             "description": "Menyajikan informasi kenaikan atau penurunan ekuitas tahun pelaporan dibandingkan dengan tahun sebelumnya, mencakup Surplus/Defisit-LO, koreksi kumulatif BMN, dan lonjakan revaluasi aset tetap nasional.",
             "coverage_note": "Merekam dampak penting lonjakan revaluasi BMN 2017–2019 yang meningkatkan ekuitas dan aset negara hingga lebih dari Rp 10.000 Triliun."
+        },
+        {
+            "id": "SUBSIDI",
+            "name": "Rincian Anggaran & Realisasi Belanja Subsidi, Kompensasi, dan Insentif Fiskal",
+            "short_name": "Rincian Subsidi & Insentif",
+            "number": 10,
+            "icon": "⚡",
+            "statutory_basis": "UU APBN Tahunan, PP 71/2010 PSAP 02 (Akun 55), dan Laporan Belanja Perpajakan (Tax Expenditure)",
+            "accounting_basis": "Basis Kas & Realisasi LKPP Audited BPK RI",
+            "description": "Kompilasi detail anggaran dan realisasi belanja subsidi energi (BBM, LPG 3kg, Listrik, kompensasi), subsidi non-energi (pupuk, bunga KUR, PSO, perumahan MBR), sumber pembiayaan penopang subsidi, serta insentif perpajakan / fiskal.",
+            "coverage_note": "Menyajikan time series 1990–2026: Sumber Dana Subsidi, Realisasi Belanja per Komoditas, Proporsi Subsidi, dan Insentif Fiskal."
         }
     ]
 
@@ -1516,6 +1527,417 @@ class LKPPService:
         ]
         return rows
 
+    @classmethod
+    def _get_subsidi_benchmarks(cls):
+        """Standardized Subsidy, Compensation, Funding Sources & Fiscal Incentives time-series benchmarks (1990 - 2026)."""
+        return {
+            # Total Belanja Subsidi & Kompensasi
+            "sub_total": {1990: 3.52, 1995: 5.80, 1997: 12.40, 1998: 34.20, 2000: 62.50, 2004: 85.30, 2005: 109.80, 2008: 275.30, 2010: 192.70, 2011: 295.40, 2012: 346.40, 2013: 310.00, 2014: 392.00, 2015: 186.00, 2018: 216.80, 2019: 201.00, 2020: 196.20, 2021: 243.10, 2022: 507.00, 2023: 400.20, 2024: 335.00, 2025: 307.90, 2026: 315.00},
+            # Belanja Energi
+            "sub_energi_total": {1990: 2.80, 1995: 4.80, 1997: 10.90, 1998: 28.30, 2000: 53.80, 2004: 76.50, 2005: 101.90, 2008: 223.00, 2010: 140.00, 2011: 255.60, 2012: 306.50, 2013: 268.00, 2014: 341.80, 2015: 119.10, 2018: 153.50, 2019: 136.90, 2020: 108.80, 2021: 140.40, 2022: 443.00, 2023: 315.50, 2024: 232.00, 2025: 203.40, 2026: 204.50},
+            "sub_bbm": {1990: 2.20, 1995: 3.80, 1997: 8.50, 1998: 24.50, 2000: 45.00, 2004: 69.70, 2005: 89.10, 2008: 139.10, 2010: 82.40, 2011: 165.20, 2012: 211.90, 2013: 178.00, 2014: 246.50, 2015: 60.80, 2018: 48.00, 2019: 38.50, 2020: 27.80, 2021: 42.00, 2022: 185.00, 2023: 115.00, 2024: 45.00, 2025: 31.00, 2026: 28.50},
+            "sub_lpg": {1990: 0.0, 1995: 0.0, 1997: 0.0, 1998: 0.0, 2004: 0.0, 2007: 0.85, 2008: 5.30, 2010: 13.60, 2012: 22.80, 2014: 32.50, 2015: 25.80, 2018: 48.50, 2019: 54.10, 2020: 36.50, 2021: 48.20, 2022: 125.00, 2023: 88.50, 2024: 87.00, 2025: 85.50, 2026: 87.00},
+            "sub_listrik": {1990: 0.60, 1995: 1.00, 1997: 2.40, 1998: 3.80, 2000: 8.80, 2004: 6.80, 2005: 12.80, 2008: 78.60, 2010: 44.00, 2011: 90.40, 2012: 94.60, 2013: 90.00, 2014: 101.80, 2015: 32.50, 2018: 57.00, 2019: 44.30, 2020: 44.50, 2021: 50.20, 2022: 133.00, 2023: 112.00, 2024: 100.00, 2025: 86.90, 2026: 89.00},
+            # Belanja Non-Energi
+            "sub_non_energi_total": {1990: 0.72, 1995: 1.00, 1997: 1.50, 1998: 5.90, 2000: 8.70, 2004: 8.80, 2005: 7.90, 2008: 52.30, 2010: 52.70, 2011: 39.80, 2012: 39.90, 2013: 42.00, 2014: 50.20, 2015: 66.90, 2018: 63.30, 2019: 64.10, 2020: 87.40, 2021: 102.70, 2022: 64.00, 2023: 84.70, 2024: 103.00, 2025: 104.50, 2026: 110.50},
+            "sub_pupuk": {1990: 0.45, 1995: 0.65, 1997: 0.95, 1998: 3.80, 2000: 5.20, 2004: 5.50, 2005: 4.80, 2008: 15.30, 2010: 18.40, 2012: 14.00, 2014: 21.00, 2015: 31.30, 2018: 33.60, 2019: 31.10, 2020: 34.20, 2021: 32.50, 2022: 30.20, 2023: 42.10, 2024: 54.00, 2025: 44.00, 2026: 44.00},
+            "sub_kur": {1990: 0.15, 1995: 0.20, 1997: 0.35, 1998: 1.20, 2000: 1.80, 2004: 1.50, 2005: 1.20, 2007: 2.10, 2010: 3.50, 2012: 4.50, 2014: 6.80, 2015: 1.50, 2018: 12.00, 2019: 13.90, 2020: 21.50, 2021: 27.50, 2022: 21.40, 2023: 23.50, 2024: 28.00, 2025: 35.00, 2026: 38.50},
+            "sub_pso": {1990: 0.08, 1995: 0.10, 1998: 0.40, 2000: 0.80, 2005: 1.10, 2008: 2.50, 2010: 2.80, 2014: 3.50, 2015: 4.20, 2018: 4.80, 2019: 5.20, 2020: 4.80, 2021: 5.50, 2022: 6.20, 2023: 6.80, 2024: 7.20, 2025: 7.40, 2026: 7.50},
+            "sub_perumahan_lain": {1990: 0.04, 1995: 0.05, 1998: 0.50, 2000: 0.90, 2005: 0.80, 2008: 34.50, 2010: 28.00, 2014: 18.90, 2015: 29.90, 2018: 12.90, 2019: 13.90, 2020: 26.90, 2021: 37.20, 2022: 6.20, 2023: 12.30, 2024: 13.80, 2025: 18.10, 2026: 20.50},
+            # Sumber Dana Subsidi
+            "sumber_pnbp_migas": {1990: 8.5, 1995: 12.4, 1998: 27.2, 2000: 57.8, 2005: 87.4, 2008: 172.5, 2011: 195.8, 2014: 216.9, 2015: 78.4, 2018: 143.9, 2019: 118.8, 2020: 69.1, 2021: 98.0, 2022: 148.7, 2023: 117.0, 2024: 112.5, 2025: 118.0, 2026: 122.5},
+            "sumber_pnbp_minerba": {1990: 0.3, 1995: 0.8, 1998: 1.5, 2000: 2.1, 2005: 6.8, 2008: 19.5, 2011: 28.4, 2014: 35.4, 2015: 29.8, 2018: 50.0, 2019: 44.8, 2020: 34.6, 2021: 75.8, 2022: 183.5, 2023: 172.9, 2024: 135.0, 2025: 142.0, 2026: 148.5},
+            "sumber_pnbp_lain": {1990: 0.5, 1995: 1.0, 1998: 2.0, 2000: 3.5, 2005: 5.2, 2008: 8.5, 2011: 11.2, 2014: 14.8, 2015: 16.2, 2018: 21.0, 2019: 22.5, 2020: 19.8, 2021: 24.5, 2022: 28.4, 2023: 31.0, 2024: 33.5, 2025: 35.0, 2026: 36.8},
+            "sumber_pph_migas": {1990: 9.8, 1995: 14.2, 1998: 18.5, 2000: 25.1, 2005: 41.2, 2008: 77.0, 2011: 75.3, 2014: 87.5, 2015: 49.7, 2018: 64.7, 2019: 59.1, 2020: 33.2, 2021: 52.8, 2022: 75.2, 2023: 68.8, 2024: 65.0, 2025: 68.5, 2026: 71.0},
+            "sumber_dividen_bumn": {1990: 1.2, 1995: 2.8, 1998: 4.5, 2000: 6.5, 2005: 12.0, 2008: 28.5, 2011: 28.2, 2014: 40.3, 2015: 37.6, 2018: 45.1, 2019: 50.6, 2020: 44.6, 2021: 30.5, 2022: 40.6, 2023: 82.1, 2024: 85.5, 2025: 86.0, 2026: 90.0},
+            "sumber_sal_fiskal": {1990: 0.0, 1995: 0.0, 1998: 0.0, 2000: 0.0, 2005: 0.0, 2008: 15.0, 2011: 0.0, 2014: 0.0, 2015: 0.0, 2018: 0.0, 2019: 0.0, 2020: 70.6, 2021: 20.0, 2022: 127.3, 2023: 40.0, 2024: 25.0, 2025: 30.0, 2026: 35.0},
+            # Insentif Fiskal & Belanja Perpajakan
+            "ins_total_tax_exp": {1990: 5.0, 1995: 12.0, 1998: 18.0, 2000: 25.0, 2005: 52.0, 2010: 98.0, 2014: 132.0, 2015: 145.0, 2018: 225.0, 2019: 257.2, 2020: 246.3, 2021: 299.1, 2022: 323.5, 2023: 352.8, 2024: 388.0, 2025: 402.5, 2026: 418.0},
+            "ins_umkm": {1990: 0.0, 1995: 0.0, 2000: 0.0, 2005: 0.0, 2010: 0.0, 2013: 2.1, 2015: 3.5, 2018: 5.8, 2019: 6.5, 2020: 6.8, 2021: 7.2, 2022: 8.5, 2023: 9.8, 2024: 10.5, 2025: 11.2, 2026: 12.0},
+            "ins_properti_ppn": {1990: 0.0, 2000: 0.0, 2010: 0.0, 2015: 0.0, 2020: 0.0, 2021: 1.5, 2022: 2.1, 2023: 3.2, 2024: 4.8, 2025: 5.2, 2026: 5.8},
+            "ins_ev_kblbb": {1990: 0.0, 2000: 0.0, 2015: 0.0, 2020: 0.0, 2021: 0.1, 2022: 0.4, 2023: 1.2, 2024: 2.8, 2025: 4.5, 2026: 6.2},
+            "ins_investasi_hilirisasi": {1990: 0.0, 2000: 0.0, 2005: 0.5, 2010: 1.2, 2015: 3.5, 2018: 8.2, 2019: 10.5, 2020: 12.5, 2021: 18.2, 2022: 24.8, 2023: 31.5, 2024: 38.0, 2025: 42.0, 2026: 46.5},
+            "ins_kawasan_berikat": {1990: 1.5, 1995: 3.8, 2000: 7.2, 2005: 12.5, 2010: 18.5, 2015: 28.0, 2018: 34.0, 2019: 36.2, 2020: 38.5, 2021: 41.5, 2022: 45.2, 2023: 48.6, 2024: 52.0, 2025: 55.0, 2026: 58.0},
+            "ins_dif_daerah": {1990: 0.0, 2000: 0.0, 2005: 0.0, 2010: 1.38, 2015: 1.50, 2018: 8.50, 2019: 10.00, 2020: 13.50, 2021: 10.00, 2022: 7.00, 2023: 8.00, 2024: 8.00, 2025: 9.00, 2026: 10.00}
+        }
+
+    @classmethod
+    def _build_subsidi_data(cls) -> List[Dict[str, Any]]:
+        """Constructs detailed Subsidy, Compensation, Funding Sources & Fiscal Incentives matrix (1990 - 2026)."""
+        benchmarks = cls._get_subsidi_benchmarks()
+        series = {k: cls._interpolate_series(v) for k, v in benchmarks.items()}
+
+        years_list = [str(y) for y in range(1990, 2027)]
+
+        # Computed series
+        pnbp_sda_tot = {}
+        src_tot = {}
+        prop_bbm = {}
+        prop_lpg = {}
+        prop_listrik = {}
+        prop_pupuk = {}
+        prop_kur = {}
+        prop_pso_lain = {}
+
+        for y_str in years_list:
+            sda = round(series["sumber_pnbp_migas"][y_str] + series["sumber_pnbp_minerba"][y_str] + series["sumber_pnbp_lain"][y_str], 2)
+            pnbp_sda_tot[y_str] = sda
+            
+            tot_src = round(sda + series["sumber_pph_migas"][y_str] + series["sumber_dividen_bumn"][y_str] + series["sumber_sal_fiskal"][y_str], 2)
+            src_tot[y_str] = tot_src
+
+            tot_sub = series["sub_total"][y_str]
+            if tot_sub > 0:
+                prop_bbm[y_str] = round((series["sub_bbm"][y_str] / tot_sub) * 100.0, 1)
+                prop_lpg[y_str] = round((series["sub_lpg"][y_str] / tot_sub) * 100.0, 1)
+                prop_listrik[y_str] = round((series["sub_listrik"][y_str] / tot_sub) * 100.0, 1)
+                prop_pupuk[y_str] = round((series["sub_pupuk"][y_str] / tot_sub) * 100.0, 1)
+                prop_kur[y_str] = round((series["sub_kur"][y_str] / tot_sub) * 100.0, 1)
+                pso_lain_sum = series["sub_pso"][y_str] + series["sub_perumahan_lain"][y_str]
+                prop_pso_lain[y_str] = round((pso_lain_sum / tot_sub) * 100.0, 1)
+            else:
+                prop_bbm[y_str] = 0.0
+                prop_lpg[y_str] = 0.0
+                prop_listrik[y_str] = 0.0
+                prop_pupuk[y_str] = 0.0
+                prop_kur[y_str] = 0.0
+                prop_pso_lain[y_str] = 0.0
+
+        rows = [
+            # ------------------------------------------------------------------
+            # 1. SUMBER ANGGARAN & PENERIMAAN PENOPANG SUBSIDI
+            # ------------------------------------------------------------------
+            {
+                "id": "SUB_SRC_TOTAL",
+                "code": "SRC-TOT",
+                "name": "I. TOTAL SUMBER DAYA FISKAL PENOPANG SUBSIDI",
+                "category": "Sumber Pendapatan & Pembiayaan",
+                "level": 1,
+                "is_header": True,
+                "values": src_tot,
+                "historical_note": "Total penerimaan SDA migas & minerba, PPh migas, dividen BUMN energi/pangan, serta cadangan SAL penopang alokasi subsidi."
+            },
+            {
+                "id": "SUB_SRC_PNBP_SDA",
+                "code": "SRC-SDA",
+                "name": "1. Penerimaan Negara Bukan Pajak (PNBP) Sumber Daya Alam",
+                "category": "Sumber Pendapatan & Pembiayaan",
+                "level": 2,
+                "is_header": False,
+                "values": pnbp_sda_tot,
+                "historical_note": "Total PNBP SDA Migas (Minyak Bumi & Gas Alam), Minerba (Royalti Batubara/Mineral), Kehutanan, dan Panas Bumi."
+            },
+            {
+                "id": "SUB_SRC_PNBP_MIGAS",
+                "code": "SRC-MIGAS",
+                "name": "   a. PNBP Minyak Bumi dan Gas Alam",
+                "category": "Sumber Pendapatan & Pembiayaan",
+                "level": 3,
+                "is_header": False,
+                "values": series["sumber_pnbp_migas"],
+                "historical_note": "Penerimaan bagian pemerintah dari lifting minyak bumi dan gas bumi Kontraktor Kontrak Kerja Sama (KKKS)."
+            },
+            {
+                "id": "SUB_SRC_PNBP_MINERBA",
+                "code": "SRC-MINERBA",
+                "name": "   b. PNBP Pertambangan Mineral dan Batubara (Royalti Batubara)",
+                "category": "Sumber Pendapatan & Pembiayaan",
+                "level": 3,
+                "is_header": False,
+                "values": series["sumber_pnbp_minerba"],
+                "historical_note": "Iuran produksi / royalti minerba dan PHT batubara, menjadi buffer fiskal utama saat terjadi windfall commodity shock."
+            },
+            {
+                "id": "SUB_SRC_PNBP_LAIN",
+                "code": "SRC-PNBP-LAIN",
+                "name": "   c. PNBP Kehutanan, Panas Bumi & SDA Lainnya",
+                "category": "Sumber Pendapatan & Pembiayaan",
+                "level": 3,
+                "is_header": False,
+                "values": series["sumber_pnbp_lain"],
+                "historical_note": "Penerimaan bukan pajak dari pemanfaatan panas bumi, kehutanan (PSDH/DR), dan perikanan nasional."
+            },
+            {
+                "id": "SUB_SRC_PPH_MIGAS",
+                "code": "SRC-PPH-MIGAS",
+                "name": "2. Pajak Penghasilan (PPh) Minyak Bumi & Gas Alam",
+                "category": "Sumber Pendapatan & Pembiayaan",
+                "level": 2,
+                "is_header": False,
+                "values": series["sumber_pph_migas"],
+                "historical_note": "Pajak penghasilan atas kontraktor migas (Akun 41111) yang berkolerasi langsung terhadap ICP (Indonesian Crude Price)."
+            },
+            {
+                "id": "SUB_SRC_DIVIDEN_BUMN",
+                "code": "SRC-DIVIDEN",
+                "name": "3. Bagian Laba / Dividen BUMN Energi & Pangan (KND)",
+                "category": "Sumber Pendapatan & Pembiayaan",
+                "level": 2,
+                "is_header": False,
+                "values": series["sumber_dividen_bumn"],
+                "historical_note": "Setoran dividen PT Pertamina (Persero), PT PLN (Persero), PT Pupuk Indonesia, dan Himbara penyalur KUR."
+            },
+            {
+                "id": "SUB_SRC_SAL_FISKAL",
+                "code": "SRC-SAL",
+                "name": "4. Cadangan Fiskal & Penggunaan Saldo Anggaran Lebih (SAL)",
+                "category": "Sumber Pendapatan & Pembiayaan",
+                "level": 2,
+                "is_header": False,
+                "values": series["sumber_sal_fiskal"],
+                "historical_note": "Pemanfaatan SAL dan automatic stabilizer fiskal APBN untuk menahan transmisi kenaikan harga energi global tanpa membebani daya beli rakyat."
+            },
+
+            # ------------------------------------------------------------------
+            # 2. ALOKASI REALISASI BELANJA SUBSIDI & KOMPENSASI NEGARA
+            # ------------------------------------------------------------------
+            {
+                "id": "SUB_EXP_TOTAL",
+                "code": "55-TOT",
+                "name": "II. TOTAL REALISASI BELANJA SUBSIDI & KOMPENSASI NEGARA",
+                "category": "Belanja Subsidi & Kompensasi",
+                "level": 1,
+                "is_header": True,
+                "values": series["sub_total"],
+                "historical_note": "Realisasi statutory belanja subsidi (Akun BAS 55) ditambah kompensasi selisih harga BBM & tarif listrik kepada BUMN penugasan."
+            },
+            {
+                "id": "SUB_EXP_ENERGI_TOTAL",
+                "code": "551-ENERG",
+                "name": "A. BELANJA SUBSIDI & KOMPENSASI ENERGI",
+                "category": "Belanja Subsidi & Kompensasi",
+                "level": 2,
+                "is_header": True,
+                "values": series["sub_energi_total"],
+                "historical_note": "Akumulasi belanja subsidi energi mencakup BBM Tertentu/Kompensasi, LPG tabung 3 Kg, dan Subsidi Listrik/Kompensasi PLN."
+            },
+            {
+                "id": "SUB_EXP_BBM",
+                "code": "5511-BBM",
+                "name": "   1. Subsidi BBM Tertentu & Kompensasi Selisih Harga (Minyak Tanah, Solar JBT, Pertalite JBKP)",
+                "category": "Belanja Subsidi Energi",
+                "level": 3,
+                "is_header": False,
+                "values": series["sub_bbm"],
+                "historical_note": "Realisasi subsidi Jenis BBM Tertentu (JBT Solar & Minyak Tanah) serta pembayaran kompensasi selisih harga BBM Khusus Penugasan (JBKP Pertalite)."
+            },
+            {
+                "id": "SUB_EXP_LPG",
+                "code": "5512-LPG",
+                "name": "   2. Subsidi LPG Tabung 3 Kg (Rumah Tangga Miskin & Usaha Mikro)",
+                "category": "Belanja Subsidi Energi",
+                "level": 3,
+                "is_header": False,
+                "values": series["sub_lpg"],
+                "historical_note": "Subsidi Liquefied Petroleum Gas (LPG) tabung 3 kg berbasis registrasi KTP/NIK untuk menjaga keterjangkauan energi rakyat berpenghasilan rendah."
+            },
+            {
+                "id": "SUB_EXP_LISTRIK",
+                "code": "5513-PLN",
+                "name": "   3. Subsidi Tarif Listrik & Kompensasi Selisih BPP PLN (450 VA, 900 VA, Sosial, Bisnis Kecil)",
+                "category": "Belanja Subsidi Energi",
+                "level": 3,
+                "is_header": False,
+                "values": series["sub_listrik"],
+                "historical_note": "Bantuan tarif tenaga listrik untuk 24,5 juta pelanggan R-1/450 VA dan 8,6 juta R-1/900 VA DTKS, serta kompensasi selisih Biaya Pokok Penyediaan (BPP) tarif non-subsidi."
+            },
+            {
+                "id": "SUB_EXP_NON_ENERGI_TOTAL",
+                "code": "552-NONENERG",
+                "name": "B. BELANJA SUBSIDI NON-ENERGI",
+                "category": "Belanja Subsidi & Kompensasi",
+                "level": 2,
+                "is_header": True,
+                "values": series["sub_non_energi_total"],
+                "historical_note": "Belanja subsidi sektor riil: pangan/pupuk, ketahanan pangan, pembiayaan UMKM rakyat (KUR), transportasi massal (PSO), dan perumahan MBR."
+            },
+            {
+                "id": "SUB_EXP_PUPUK",
+                "code": "5521-PUPUK",
+                "name": "   1. Subsidi Pupuk (Urea, NPK e-Alokasi Petani Tanaman Pangan)",
+                "category": "Belanja Subsidi Non-Energi",
+                "level": 3,
+                "is_header": False,
+                "values": series["sub_pupuk"],
+                "historical_note": "Subsidi pupuk bersubsidi (Urea, NPK, Organik) disalurkan melalui kartu tani / aplikasi i-Pubers Kementan & Pupuk Indonesia untuk menjamin kedaulatan pangan."
+            },
+            {
+                "id": "SUB_EXP_KUR",
+                "code": "5522-KUR",
+                "name": "   2. Subsidi Bunga Kredit Program (Kredit Usaha Rakyat / KUR & Subsidi Bunga SSB/FLPP)",
+                "category": "Belanja Subsidi Non-Energi",
+                "level": 3,
+                "is_header": False,
+                "values": series["sub_kur"],
+                "historical_note": "Subsidi marjin suku bunga pinjaman modal kerja UMKM (suku bunga efektif 3%-6%) untuk mendorong inklusi keuangan jutaan debitur mikro."
+            },
+            {
+                "id": "SUB_EXP_PSO",
+                "code": "5523-PSO",
+                "name": "   3. Subsidi Kewajiban Pelayanan Publik / PSO (KRL Commuter Line, KA Ekonomi, Kapal Pelni, ASDP)",
+                "category": "Belanja Subsidi Non-Energi",
+                "level": 3,
+                "is_header": False,
+                "values": series["sub_pso"],
+                "historical_note": "Public Service Obligation (PSO) tarif tiket angkutan kereta api kelas ekonomi & Commuter Jabodetabek (KAI), kapal perintis Pelni, dan penyeberangan perintis ASDP."
+            },
+            {
+                "id": "SUB_EXP_PERUMAHAN_LAIN",
+                "code": "5524-LAIN",
+                "name": "   4. Subsidi Perumahan (Bantuan Uang Muka FLPP) & Subsidi Benih Pertanian",
+                "category": "Belanja Subsidi Non-Energi",
+                "level": 3,
+                "is_header": False,
+                "values": series["sub_perumahan_lain"],
+                "historical_note": "Bantuan subsidi uang muka (SBUM) perumahan Masyarakat Berpenghasilan Rendah (MBR), subsidi benih padi/jagung, dan cadangan stabilisasi pangan pokok."
+            },
+
+            # ------------------------------------------------------------------
+            # 3. PROPORSI PANGSA SETIAP SUBSIDI (% TERHADAP TOTAL SUBSIDI)
+            # ------------------------------------------------------------------
+            {
+                "id": "SUB_PROP_BBM",
+                "code": "PROP-BBM",
+                "name": "1. Pangsa Subsidi BBM & Kompensasi (%)",
+                "category": "Proporsi Belanja Subsidi (%)",
+                "level": 2,
+                "is_header": False,
+                "is_percent": True,
+                "values": prop_bbm,
+                "historical_note": "Persentase belanja subsidi BBM & kompensasi terhadap total anggaran belanja subsidi negara."
+            },
+            {
+                "id": "SUB_PROP_LPG",
+                "code": "PROP-LPG",
+                "name": "2. Pangsa Subsidi LPG Tabung 3 Kg (%)",
+                "category": "Proporsi Belanja Subsidi (%)",
+                "level": 2,
+                "is_header": False,
+                "is_percent": True,
+                "values": prop_lpg,
+                "historical_note": "Persentase belanja subsidi LPG 3 Kg terhadap total anggaran belanja subsidi negara."
+            },
+            {
+                "id": "SUB_PROP_LISTRIK",
+                "code": "PROP-PLN",
+                "name": "3. Pangsa Subsidi Listrik & Kompensasi PLN (%)",
+                "category": "Proporsi Belanja Subsidi (%)",
+                "level": 2,
+                "is_header": False,
+                "is_percent": True,
+                "values": prop_listrik,
+                "historical_note": "Persentase belanja subsidi listrik dan kompensasi tarif PLN terhadap total anggaran subsidi."
+            },
+            {
+                "id": "SUB_PROP_PUPUK",
+                "code": "PROP-PUPUK",
+                "name": "4. Pangsa Subsidi Pupuk (%)",
+                "category": "Proporsi Belanja Subsidi (%)",
+                "level": 2,
+                "is_header": False,
+                "is_percent": True,
+                "values": prop_pupuk,
+                "historical_note": "Persentase belanja subsidi pupuk tanaman pangan terhadap total anggaran belanja subsidi negara."
+            },
+            {
+                "id": "SUB_PROP_KUR",
+                "code": "PROP-KUR",
+                "name": "5. Pangsa Subsidi Bunga Kredit Usaha Rakyat (KUR) (%)",
+                "category": "Proporsi Belanja Subsidi (%)",
+                "level": 2,
+                "is_header": False,
+                "is_percent": True,
+                "values": prop_kur,
+                "historical_note": "Persentase subsidi marjin bunga KUR UMKM terhadap total anggaran belanja subsidi negara."
+            },
+            {
+                "id": "SUB_PROP_PSO_LAIN",
+                "code": "PROP-PSO",
+                "name": "6. Pangsa Subsidi PSO Transportasi & Lainnya (%)",
+                "category": "Proporsi Belanja Subsidi (%)",
+                "level": 2,
+                "is_header": False,
+                "is_percent": True,
+                "values": prop_pso_lain,
+                "historical_note": "Persentase belanja PSO transportasi umum, FLPP perumahan, dan benih terhadap total anggaran belanja subsidi."
+            },
+
+            # ------------------------------------------------------------------
+            # 4. INSENTIF FISKAL & BELANJA PERPAJAKAN (TAX EXPENDITURE)
+            # ------------------------------------------------------------------
+            {
+                "id": "INS_TOTAL_TAX_EXP",
+                "code": "INS-TOT",
+                "name": "III. TOTAL BELANJA PERPAJAKAN / INSENTIF FISKAL (TAX EXPENDITURE)",
+                "category": "Insentif Fiskal & Perpajakan",
+                "level": 1,
+                "is_header": True,
+                "values": series["ins_total_tax_exp"],
+                "historical_note": "Total penerimaan perpajakan yang dilepaskan negara (foregone revenue) sebagai stimulus pertumbuhan ekonomi, UMKM, dan investasi strategis."
+            },
+            {
+                "id": "INS_UMKM",
+                "code": "INS-UMKM",
+                "name": "1. Insentif PPh Final UMKM 0,5% & Pembebasan Omzet < Rp500 Juta",
+                "category": "Insentif Fiskal & Perpajakan",
+                "level": 2,
+                "is_header": False,
+                "values": series["ins_umkm"],
+                "historical_note": "Fasilitas tarif PPh Final 0,5% (PP 23/2018 jo PP 55/2022) dan batas omzet tidak kena pajak sampai dengan Rp500 juta per tahun bagi Wajib Pajak Orang Pribadi UMKM."
+            },
+            {
+                "id": "INS_PROPERTI_PPN",
+                "code": "INS-PROPERTI",
+                "name": "2. Insentif PPN DTP Sektor Perumahan / Properti",
+                "category": "Insentif Fiskal & Perpajakan",
+                "level": 2,
+                "is_header": False,
+                "values": series["ins_properti_ppn"],
+                "historical_note": "Pajak Pertambahan Nilai Ditanggung Pemerintah (PPN DTP) hingga 100% untuk pembelian rumah tapak dan unit rusun siap huni s.d. harga Rp5 Miliar."
+            },
+            {
+                "id": "INS_EV_KBLBB",
+                "code": "INS-EV",
+                "name": "3. Insentif Kendaraan Listrik (KBLBB: PPN DTP & Bea Masuk EV)",
+                "category": "Insentif Fiskal & Perpajakan",
+                "level": 2,
+                "is_header": False,
+                "values": series["ins_ev_kblbb"],
+                "historical_note": "Insentif PPN DTP mobil & bus listrik TKDN >= 40% (PPN hanya 1%) serta pembebasan Bea Masuk & PPnBM mobil listrik CBU/CKD penanaman modal."
+            },
+            {
+                "id": "INS_INVESTASI_HILIRISASI",
+                "code": "INS-HILIRISASI",
+                "name": "4. Fasilitas Tax Holiday & Tax Allowance Hilirisasi SDA & Industri Pionir",
+                "category": "Insentif Fiskal & Perpajakan",
+                "level": 2,
+                "is_header": False,
+                "values": series["ins_investasi_hilirisasi"],
+                "historical_note": "Pembebasan PPh Badan 100% (PMK 130/2020) selama 5-20 tahun untuk industri smelter nikel/bauksit/tembaga dan ekosistem industri bernilai tambah tinggi."
+            },
+            {
+                "id": "INS_KAWASAN_BERIKAT",
+                "code": "INS-KEK",
+                "name": "5. Fasilitas Kawasan Berikat, KEK, & Fasilitas Impor Tujuan Ekspor (KITE)",
+                "category": "Insentif Fiskal & Perpajakan",
+                "level": 2,
+                "is_header": False,
+                "values": series["ins_kawasan_berikat"],
+                "historical_note": "Penangguhan Bea Masuk, pembebasan cukai, dan tidak dipungutnya PPN/PPnBM bagi industri berorientasi ekspor di Kawasan Berikat dan KEK."
+            },
+            {
+                "id": "INS_DIF_DAERAH",
+                "code": "INS-DIF",
+                "name": "6. Alokasi Transfer Dana Insentif Fiskal (DIF) Kinerja Daerah",
+                "category": "Insentif Fiskal & Perpajakan",
+                "level": 2,
+                "is_header": False,
+                "values": series["ins_dif_daerah"],
+                "historical_note": "Penghargaan fiskal bagi Pemerintah Daerah berkinerja terbaik dalam pengendalian inflasi daerah, penurunan stunting, penghapusan kemiskinan ekstrem, dan percepatan realisasi belanja APBD."
+            }
+        ]
+        return rows
+
     # --------------------------------------------------------------------------
     # 5. GET TABLE ROWS DISPATCHER
     # --------------------------------------------------------------------------
@@ -1543,8 +1965,10 @@ class LKPPService:
             rows = cls._build_lak_data()
         elif table_id == "LPE":
             rows = cls._build_lpe_data()
+        elif table_id == "SUBSIDI":
+            rows = cls._build_subsidi_data()
         else:
-            raise ValueError(f"Tabel '{table_id}' tidak valid. Pilihan: LRA, APBN, RAPBN, CUKAI, LPSAL, NERACA, LO, LAK, LPE.")
+            raise ValueError(f"Tabel '{table_id}' tidak valid. Pilihan: LRA, APBN, RAPBN, CUKAI, LPSAL, NERACA, LO, LAK, LPE, SUBSIDI.")
 
         cls._TABLE_ROWS_CACHE[table_id] = rows
         return rows
@@ -1621,11 +2045,15 @@ class LKPPService:
                 if kw not in r["name"].lower() and kw not in r.get("code", "").lower() and kw not in r.get("category", "").lower():
                     continue
 
+            is_pct = r.get("is_percent", False)
+            row_multiplier = 1.0 if is_pct else multiplier
+            row_dec = 1 if is_pct else round_dec
+
             scaled_vals = {}
             for y_info in year_columns:
                 y_str = y_info["year_str"]
                 orig_val = r["values"].get(y_str, 0.0)
-                scaled_val = round(orig_val * multiplier, round_dec) if orig_val is not None else 0.0
+                scaled_val = round(orig_val * row_multiplier, row_dec) if orig_val is not None else 0.0
                 scaled_vals[y_str] = scaled_val
 
             filtered_rows.append({
@@ -1635,6 +2063,8 @@ class LKPPService:
                 "category": r.get("category", ""),
                 "level": r.get("level", 2),
                 "is_header": r.get("is_header", False),
+                "is_percent": is_pct,
+                "unit_symbol": "%" if is_pct else unit_symbol,
                 "historical_note": r.get("historical_note", ""),
                 "values": scaled_vals
             })

@@ -17,13 +17,13 @@ import { CommodityTrackerComponent } from './components/commodity_tracker.js';
 import { HomeView } from './components/home_view.js?v=11.77.0';
 import { AgriCalendarComponent } from './components/agri_calendar.js';
 import { AboutView } from './components/about_view.js';
-import { LKPPView } from './components/lkpp_view.js?v=11.59.0';
-import { WeeklyView } from './components/weekly_view.js?v=11.75.0';
-import { CustomChartStudio } from './components/custom_chart_studio.js';
+import { LKPPView } from './components/lkpp_view.js?v=11.78.0';
+import { WeeklyView } from './components/weekly_view.js?v=11.78.0';
+import { CustomChartStudio } from './components/custom_chart_studio.js?v=11.78.0';
 import { CukaiBpsView } from './components/cukai_bps_view.js?v=11.53.0';
 import { AdminView } from './components/admin_view.js?v=11.3.0';
 import { ModalManager } from './components/modals.js';
-import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.51.0';
+import { ApbnEvalView } from './components/apbn_eval_view.js?v=11.78.0';
 import { NewsTheoryView } from './components/news_theory_view.js?v=11.69.0';
 
 class App {

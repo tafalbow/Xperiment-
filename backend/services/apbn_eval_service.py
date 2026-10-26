@@ -407,6 +407,108 @@ class ApbnEvalService:
             ],
             "policy_note": "Transformasi subsidi energi dari berbasis komoditas terbuka menjadi berbasis orang/keluarga miskin."
         },
+        "EXP_SUB_ENERGI": {
+            "source_org": "Ditjen Anggaran & Kementerian ESDM",
+            "positive": [
+                "Realisasi subsidi energi melindungi daya beli 150+ juta penduduk berpendapatan menengah-bawah (+)",
+                "Digitalisasi nozzle SPBU dan verifikasi QR Code mencegah rembesan Solar subsidi ke industri tambang/sawit (+)",
+                "Pagu subsidi dan kompensasi menjaga stabilitas tarif dasar listrik di tengah gejolak pasar komoditas (+)"
+            ],
+            "negative": [
+                "Ketergantungan impor minyak mentah dan LPG meningkatkan sensitivitas terhadap depresiasi kurs Rupiah (-)",
+                "Beban kompensasi selisih tarif ke Pertamina dan PLN membebani kas fleksibilitas fiskal (-)"
+            ],
+            "policy_note": "Penyaluran subsidi LPG 3 kg berbasis data NIK KTP dan transisi energi bersih."
+        },
+        "EXP_SUB_BBM": {
+            "source_org": "BPH Migas, Pertamina & Ditjen Anggaran",
+            "positive": [
+                "Harga BBM JBT Minyak Tanah dan Solar bersubsidi terjaga stabil untuk angkutan umum dan logistik pangan (+)",
+                "Pengawasan BPH Migas atas kuota BBM daerah berjalan ketat (+)"
+            ],
+            "negative": [
+                "Disparitas harga keekonomian BBM nonsubsidi memicu migrasi konsumsi ke Pertalite/Solar subsidi (-)"
+            ],
+            "policy_note": "Revisi Perpres penetapan kriteria konsumen pengguna kendaraan bermotor berhak BBM bersubsidi."
+        },
+        "EXP_SUB_LPG": {
+            "source_org": "Kemen ESDM & Pertamina Patra Niaga",
+            "positive": [
+                "Penyaluran tabung LPG 3 Kg menjamin keterjangkauan energi memasak bagi usaha mikro dan rumah tangga miskin (+)",
+                "Program registrasi pangkalan resmi menjamin keteraturan harga eceran tertinggi (HET) (+)"
+            ],
+            "negative": [
+                "Sekitar 75-80% pasokan LPG nasional berasal dari impor, rentan gejolak Aramco CP (-)",
+                "Penggunaan LPG 3 kg oleh sektor usaha non-mikro restoran/laundry komersial (-)"
+            ],
+            "policy_note": "Transformasi subsidi tertutup LPG 3 kg terintegrasi bansos kartu sembako terpadu."
+        },
+        "EXP_SUB_LISTRIK": {
+            "source_org": "Kementerian ESDM & PT PLN (Persero)",
+            "positive": [
+                "Pelanggan 450 VA dan 900 VA miskin terlindungi dari penyesuaian tarif listrik otomatis (tariff adjustment) (+)",
+                "Kompensasi tarif listrik BPP tepat waktu menjaga solvabilitas dan investasi kelistrikan PT PLN (+)"
+            ],
+            "negative": [
+                "Peningkatan konsumsi listrik golongan bersubsidi saat gelombang cuaca panas menaikkan tagihan subsidi (-)"
+            ],
+            "policy_note": "Sinkronisasi berkala data ID Pelanggan PLN dengan DTKS Kemenkes dan P3KE."
+        },
+        "EXP_SUB_NON_ENERGI": {
+            "source_org": "Kementan, Kemenkop UKM & Kemenkeu",
+            "positive": [
+                "Subsidi pupuk dan marjin bunga KUR mendongkrak ketahanan pangan dan omzet jutaan pelaku UMKM (+)",
+                "Tiket angkutan massal kereta api ekonomi dan kapal laut terjaga sangat terjangkau bagi rakyat (+)"
+            ],
+            "negative": [
+                "Kenaikan harga gas alam bahan baku urea global menaikkan biaya produksi pupuk nasional (-)"
+            ],
+            "policy_note": "Penyaluran pupuk bersubsidi melalui aplikasi i-Pubers berbasis penebusan KTP petani terdaftar."
+        },
+        "EXP_SUB_PUPUK": {
+            "source_org": "Kementan & PT Pupuk Indonesia (Persero)",
+            "positive": [
+                "Peningkatan kuota pupuk bersubsidi menjadi 9,55 juta ton menjamin kepastian musim tanam petani (+)",
+                "Penyederhanaan regulasi penebusan pupuk cukup dengan membawa KTP petani terdaftar e-Alokasi (+)"
+            ],
+            "negative": [
+                "Distribusi logistik pupuk antarpulau dan potensi keterlambatan pasokan saat puncak musim tanam (-)"
+            ],
+            "policy_note": "Digitalisasi rantai pasok distributor dan kios resmi pupuk lengkap se-Indonesia."
+        },
+        "EXP_SUB_KUR": {
+            "source_org": "Kemenko Perekonomian & Himbara / Bank Penyalur",
+            "positive": [
+                "Suku bunga pinjaman mikro terjangkau 3%-6% mendorong graduation debitur ultra-mikro menjadi mandiri (+)",
+                "Penyaluran KUR ke sektor produksi pertanian, perikanan, dan manufaktur terus meningkat (+)"
+            ],
+            "negative": [
+                "Kebutuhan verifikasi berkala agar tidak terjadi duplikasi kredit komersial dengan debitur subsidi (-)"
+            ],
+            "policy_note": "Penguatan credit scoring alternatif berbasis transaksi digital UMKM."
+        },
+        "EXP_SUB_PSO": {
+            "source_org": "Kementerian Perhubungan, PT KAI & PT Pelni",
+            "positive": [
+                "Tarif KRL Commuter Line Jabodetabek/Yogya dan kapal penumpang Pelni tetap terjangkau ribuan rute kepulauan (+)",
+                "Mendorong peralihan pengguna kendaraan pribadi ke transportasi umum ramah lingkungan (+)"
+            ],
+            "negative": [
+                "Kenaikan biaya operasional suku cadang dan pemeliharaan armada angkutan massal (-)"
+            ],
+            "policy_note": "Standarisasi service level agreement dan keselamatan armada PSO perintis."
+        },
+        "EXP_TKD_INSENTIF": {
+            "source_org": "Ditjen Perimbangan Keuangan (DJPK)",
+            "positive": [
+                "Memberikan reward fiskal bagi Pemda yang sukses menekan inflasi pangan dan mempercepat belanja modal (+)",
+                "Mendorong tata kelola keuangan daerah transparan dan opini WTP atas LKPD pemda (+)"
+            ],
+            "negative": [
+                "Perbedaan kapasitas fiskal dan kapabilitas birokrasi pemda di daerah terpencil (-)"
+            ],
+            "policy_note": "Penetapan indikator kinerja terukur berbasis data BPS dan kepatuhan pelaporan APBD."
+        },
         "EXP_BPP_BANSOS": {
             "source_org": "Kemensos, Kemendikbudristek & DJA/DJPb",
             "positive": [
@@ -816,10 +918,66 @@ class ApbnEvalService:
                 "weights": [0.080, 0.082, 0.085, 0.082, 0.084, 0.086, 0.082, 0.084, 0.085, 0.086, 0.088, 0.086]
             },
             {
-                "id": "EXP_BPP_SUBSIDI", "code": "55", "name": "5. Belanja Subsidi (BBM, Listrik, LPG & Pupuk)",
-                "category": "BELANJA", "level": 3, "is_header": False,
+                "id": "EXP_BPP_SUBSIDI", "code": "55", "name": "5. Belanja Subsidi & Kompensasi (Total)",
+                "category": "BELANJA", "level": 3, "is_header": True,
                 "rapbn": round(b["rapbn_bpp"] * 0.11, 2), "apbn": round(b["apbn_bpp"] * 0.112, 2),
                 "annual_real": round(b["real_bpp"] * 0.115, 2),
+                "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
+            },
+            {
+                "id": "EXP_SUB_ENERGI", "code": "551", "name": "   a. Subsidi & Kompensasi Energi",
+                "category": "BELANJA", "level": 4, "is_header": True,
+                "rapbn": round(b["rapbn_bpp"] * 0.072, 2), "apbn": round(b["apbn_bpp"] * 0.073, 2),
+                "annual_real": round(b["real_bpp"] * 0.076, 2),
+                "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
+            },
+            {
+                "id": "EXP_SUB_BBM", "code": "5511", "name": "      - BBM Tertentu & Kompensasi Pertalite/Solar",
+                "category": "BELANJA", "level": 5, "is_header": False,
+                "rapbn": round(b["rapbn_bpp"] * 0.018, 2), "apbn": round(b["apbn_bpp"] * 0.017, 2),
+                "annual_real": round(b["real_bpp"] * 0.019, 2),
+                "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
+            },
+            {
+                "id": "EXP_SUB_LPG", "code": "5512", "name": "      - Subsidi LPG Tabung 3 Kg",
+                "category": "BELANJA", "level": 5, "is_header": False,
+                "rapbn": round(b["rapbn_bpp"] * 0.026, 2), "apbn": round(b["apbn_bpp"] * 0.027, 2),
+                "annual_real": round(b["real_bpp"] * 0.027, 2),
+                "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
+            },
+            {
+                "id": "EXP_SUB_LISTRIK", "code": "5513", "name": "      - Subsidi Listrik & Kompensasi PLN",
+                "category": "BELANJA", "level": 5, "is_header": False,
+                "rapbn": round(b["rapbn_bpp"] * 0.028, 2), "apbn": round(b["apbn_bpp"] * 0.029, 2),
+                "annual_real": round(b["real_bpp"] * 0.030, 2),
+                "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
+            },
+            {
+                "id": "EXP_SUB_NON_ENERGI", "code": "552", "name": "   b. Subsidi Non-Energi",
+                "category": "BELANJA", "level": 4, "is_header": True,
+                "rapbn": round(b["rapbn_bpp"] * 0.038, 2), "apbn": round(b["apbn_bpp"] * 0.039, 2),
+                "annual_real": round(b["real_bpp"] * 0.039, 2),
+                "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
+            },
+            {
+                "id": "EXP_SUB_PUPUK", "code": "5521", "name": "      - Subsidi Pupuk Pertanian",
+                "category": "BELANJA", "level": 5, "is_header": False,
+                "rapbn": round(b["rapbn_bpp"] * 0.016, 2), "apbn": round(b["apbn_bpp"] * 0.016, 2),
+                "annual_real": round(b["real_bpp"] * 0.017, 2),
+                "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
+            },
+            {
+                "id": "EXP_SUB_KUR", "code": "5522", "name": "      - Subsidi Bunga KUR UMKM & Perumahan",
+                "category": "BELANJA", "level": 5, "is_header": False,
+                "rapbn": round(b["rapbn_bpp"] * 0.014, 2), "apbn": round(b["apbn_bpp"] * 0.015, 2),
+                "annual_real": round(b["real_bpp"] * 0.014, 2),
+                "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
+            },
+            {
+                "id": "EXP_SUB_PSO", "code": "5523", "name": "      - Subsidi PSO Transportasi & Lainnya",
+                "category": "BELANJA", "level": 5, "is_header": False,
+                "rapbn": round(b["rapbn_bpp"] * 0.008, 2), "apbn": round(b["apbn_bpp"] * 0.008, 2),
+                "annual_real": round(b["real_bpp"] * 0.008, 2),
                 "weights": [0.070, 0.075, 0.080, 0.082, 0.085, 0.086, 0.082, 0.085, 0.088, 0.090, 0.095, 0.082]
             },
             {
@@ -864,11 +1022,18 @@ class ApbnEvalService:
                 "weights": [0.030, 0.040, 0.100, 0.060, 0.070, 0.140, 0.080, 0.090, 0.150, 0.100, 0.070, 0.070]
             },
             {
-                "id": "EXP_TKD_DESA", "code": "64", "name": "4. Dana Desa & Insentif Fiskal",
+                "id": "EXP_TKD_DESA", "code": "64", "name": "4. Dana Desa",
                 "category": "BELANJA", "level": 3, "is_header": False,
-                "rapbn": round(b["rapbn_tkd"] * 0.15, 2), "apbn": round(b["apbn_tkd"] * 0.15, 2),
-                "annual_real": round(b["real_tkd"] * 0.145, 2),
+                "rapbn": round(b["rapbn_tkd"] * 0.135, 2), "apbn": round(b["apbn_tkd"] * 0.135, 2),
+                "annual_real": round(b["real_tkd"] * 0.13, 2),
                 "weights": [0.050, 0.150, 0.150, 0.080, 0.120, 0.120, 0.080, 0.080, 0.070, 0.050, 0.030, 0.020]
+            },
+            {
+                "id": "EXP_TKD_INSENTIF", "code": "65", "name": "5. Dana Insentif Fiskal (DIF) Kinerja Daerah",
+                "category": "BELANJA", "level": 3, "is_header": False,
+                "rapbn": round(b["rapbn_tkd"] * 0.015, 2), "apbn": round(b["apbn_tkd"] * 0.015, 2),
+                "annual_real": round(b["real_tkd"] * 0.015, 2),
+                "weights": [0.020, 0.030, 0.150, 0.040, 0.050, 0.200, 0.040, 0.050, 0.220, 0.040, 0.050, 0.110]
             },
 
             # 3. KESEIMBANGAN PRIMER & DEFISIT

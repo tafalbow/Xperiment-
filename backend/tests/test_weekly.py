@@ -31,7 +31,7 @@ def test_get_weekly_matrix_annual_mode():
     assert data["total_columns"] == 37
     assert data["columns"][0]["id"] == "1990"
     assert data["columns"][-1]["id"] == "2026"
-    assert data["total_rows"] == 29
+    assert data["total_rows"] == 33
     
     first_row = data["rows"][0]
     assert "id" in first_row
@@ -50,7 +50,7 @@ def test_get_weekly_matrix_weekly_mode():
     assert data["total_columns"] == 52
     assert data["columns"][0]["id"] == "W01"
     assert data["columns"][-1]["id"] == "W52"
-    assert data["total_rows"] == 29
+    assert data["total_rows"] == 33
 
 def test_get_weekly_matrix_by_institution():
     """Verify institution filtering returns exact indicator counts."""
@@ -62,7 +62,7 @@ def test_get_weekly_matrix_by_institution():
     # Kemenkeu DJPb (5 indicators)
     res_djpb = client.get("/api/weekly/matrix?institution_id=DJPB&view_mode=annual")
     assert res_djpb.status_code == 200
-    assert res_djpb.json()["total_rows"] == 5
+    assert res_djpb.json()["total_rows"] == 9
     
     # OJK Pasar Modal (5 indicators)
     res_ojk = client.get("/api/weekly/matrix?institution_id=OJK&view_mode=annual")

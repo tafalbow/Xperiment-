@@ -162,6 +162,12 @@ export class CustomChartStudio {
       this.slots[2] = { id: 3, enabled: true, variable_id: 'NERACA__EKU_TOTAL', transformation: 'RAW', chart_type: 'bar', axis: 'left', color: '#137333' };
       this.slots[3] = { id: 4, enabled: false, variable_id: 'LRA__REV_TOTAL', transformation: 'AVG_3Y', chart_type: 'line', axis: 'left', color: '#E37400' };
       this.slots[4] = { id: 5, enabled: false, variable_id: 'LRA__EXP_TOTAL', transformation: 'AVG_3Y', chart_type: 'line', axis: 'left', color: '#9334E6' };
+    } else if (presetKey === 'SUBSIDI_VS_INSENTIF') {
+      this.slots[0] = { id: 1, enabled: true, variable_id: 'SUBSIDI__SUB_EXP_ENERGI_TOTAL', transformation: 'RAW', chart_type: 'stacked_bar', axis: 'left', color: '#E37400' };
+      this.slots[1] = { id: 2, enabled: true, variable_id: 'SUBSIDI__SUB_EXP_NON_ENERGI_TOTAL', transformation: 'RAW', chart_type: 'stacked_bar', axis: 'left', color: '#137333' };
+      this.slots[2] = { id: 3, enabled: true, variable_id: 'SUBSIDI__SUB_SRC_TOTAL', transformation: 'RAW', chart_type: 'line', axis: 'left', color: '#0038A8' };
+      this.slots[3] = { id: 4, enabled: true, variable_id: 'SUBSIDI__INS_TOTAL_TAX_EXP', transformation: 'RAW', chart_type: 'line', axis: 'right', color: '#9334E6' };
+      this.slots[4] = { id: 5, enabled: false, variable_id: 'SUBSIDI__SUB_PROP_BBM', transformation: 'RAW', chart_type: 'line', axis: 'right', color: '#D93025' };
     } else if (presetKey === 'FISKAL_MONETER') {
       this.slots[0] = { id: 1, enabled: true, variable_id: 'LRA__EXP_MODAL', transformation: 'RAW', chart_type: 'bar', axis: 'left', color: '#1A73E8' };
       this.slots[1] = { id: 2, enabled: true, variable_id: 'WEEKLY__BI_M0', transformation: 'RAW', chart_type: 'line', axis: 'left', color: '#E37400' };
@@ -248,6 +254,7 @@ export class CustomChartStudio {
               <button data-preset="NERACA_SOLVABILITAS" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8]  rounded font-medium transition cursor-pointer">
                 Neraca Negara
               </button>
+              <button data-preset="SUBSIDI_VS_INSENTIF" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#EBF1FC] text-[#0038A8] border border-[#BCD0F7] rounded font-bold transition cursor-pointer">⚡ Subsidi vs Insentif</button>
               <button data-preset="FISKAL_MONETER" class="btn-preset px-2.5 py-1 text-[11px] font-mono bg-[#F8F9FA] hover:bg-[#E8F0FE] hover:text-[#1A73E8]  rounded font-medium transition cursor-pointer">
                 Fiskal + Moneter
               </button>

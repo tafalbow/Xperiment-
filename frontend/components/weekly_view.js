@@ -555,6 +555,16 @@ export class WeeklyView {
     });
 
     // 5. Search input with live debounce
+    document.querySelectorAll('.btn-weekly-chip').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const kw = e.currentTarget.getAttribute('data-kw') || '';
+        this.searchKeyword = kw;
+        const input = document.getElementById('input-weekly-search');
+        if (input) input.value = kw;
+        this.render();
+      });
+    });
+
     const searchInput = document.getElementById('input-weekly-search');
     let searchTimeout = null;
     searchInput?.addEventListener('input', (e) => {
